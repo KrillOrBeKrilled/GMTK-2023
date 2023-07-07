@@ -1,8 +1,7 @@
-# This .gitignore file should be placed at the root of your Unity project 
-directory
+# This .gitignore file should be placed at the root of your Unity project directory
 #
-# Get latest from 
-https://github.com/github/gitignore/blob/main/Unity.gitignore
+directory
+# Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
 /[Ll]ibrary/
 /[Tt]emp/
@@ -27,6 +26,7 @@ https://github.com/github/gitignore/blob/main/Unity.gitignore
 
 # Visual Studio cache directory
 .vs/
+.idea/
 
 # Gradle cache directory
 .gradle/
@@ -73,4 +73,62 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-.idea/
+
+## ---------------- ##
+##   WWise stuff    ##
+## ---------------- ##
+
+# project stuff
+GMTK-2023_WWiseProject/.cache/
+GMTK-2023_WWiseProject/*.prof
+GMTK-2023_WwiseProject/*_WwiseProject.*.validationcache
+GMTK-2023_WwiseProject/*_WwiseProject.*.wsettings
+GMTK-2023_WwiseProject/**/*.akd
+
+# build stuff (unsure?)
+# Assets/Wwise/Deployment/Plugins/Windows/**/*.meta
+
+# WWise Picker (editor)
+# from https://www.audiokinetic.com/library/edge/?source=Unity&id=unity__troubleshooting.html
+# >> Do not keep AkWwiseProjectData.asset under version control! 
+# >> This is a temporary cache file for the Wwise project data, 
+# >> so as to avoid having the Wwise Picker continuously parse the Work Unit files.
+Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset*
+
+# notes:
+# 1) if any other files go in Assets/Wwise/Editor/ProjectData/ besides AkWwiseProjectData.asset*,
+#    then don't ignore Assets/Wwise/Editor/ProjectData.meta. If AkWwiseProjectData.asset is the only item in there,
+#    then, it's OK to ignore this file.
+# 
+# Assets/Wwise/Editor/ProjectData.meta
+
+## --------------- ##
+## End WWise Stuff ##
+## --------------- ##
+
+# temp install files
+WwiseUnityIntegration_*_Src.zip
+
+# Mac stuff
+.DS_store
+
+# Jetbrains Rider IDE (C# IDE), adds a plugin to Unity
+Assets/Plugins/Editor.meta
+Assets/Plugins/Editor/Jetbrains.meta
+Assets/Plugins/Editor/Jetbrains/
+.idea/.idea.GMTK-2023.dir/.idea
+.idea/.idea.GMTK-2023.dir/.idea/workspace.xml
+ 
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/contentModel.xml
+/.idea.GMTK-2023.iml
+/modules.xml
+/projectSettingsUpdater.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml

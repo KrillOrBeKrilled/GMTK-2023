@@ -7,17 +7,7 @@ namespace Input {
     /// </summary>
     public class IdleState : IPlayerState
     {
-        // TODO: Adjust multiplier values here
-        private readonly float _stateSpeed;
-        private readonly float _stateSpeedBlendDuration;
-
-        private float _currentSpeed, _t;
-
-        public IdleState(float stateSpeed, float stateSpeedBlendDuration)
-        {
-            _stateSpeedBlendDuration = stateSpeedBlendDuration;
-            _currentSpeed = stateSpeed;
-        }
+        public IdleState() {}
         
         public void OnEnter(IPlayerState prevState)
         {
@@ -30,10 +20,9 @@ namespace Input {
             return 0f;
         }
         
-        public void Act(Transform player, Rigidbody2D rBody, float direction)
+        public void Act(Rigidbody2D rBody, float direction, Action enterIdle)
         {
-            // Don't move when the player is idle
-            // Probably just rely on Unity's built-in physics system for handling the jumping and falling
+            rBody.velocity = new Vector2(0f, rBody.velocity.y);
         }
         
         public void OnExit(IPlayerState newState)

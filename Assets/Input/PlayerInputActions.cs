@@ -56,13 +56,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""id"": ""e46362e4-df9e-47f5-9ac3-ca18a3dd3154"",
             ""actions"": [
                 {
-                    ""name"": ""Move Backwards"",
-                    ""type"": ""Button"",
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
                     ""id"": ""9a008c45-096e-4cba-866c-c9cad56d3083"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Jump"",
@@ -81,28 +81,41 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Move Forward"",
-                    ""type"": ""Button"",
-                    ""id"": ""78932af9-b41e-43ee-9143-30dd56998f95"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
-                    ""name"": """",
-                    ""id"": ""c6121554-9598-4bcb-94c8-c14159bd2ae8"",
+                    ""name"": ""1D Axis"",
+                    ""id"": ""eba80a05-b2f3-45fd-89bf-c6afacb1bacb"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""dbcd96df-39e9-4d3a-81e9-c1cfa05f8b47"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move Backwards"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""a8a3d484-7d87-4845-8990-82792412cf28"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -125,17 +138,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Place Trap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e09ab312-8470-4446-a02c-3035de990f85"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move Forward"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -147,10 +149,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Pause_PauseAction = m_Pause.FindAction("PauseAction", throwIfNotFound: true);
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_MoveBackwards = m_Player.FindAction("Move Backwards", throwIfNotFound: true);
+        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_PlaceTrap = m_Player.FindAction("Place Trap", throwIfNotFound: true);
-        m_Player_MoveForward = m_Player.FindAction("Move Forward", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -258,18 +259,16 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_MoveBackwards;
+    private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_PlaceTrap;
-    private readonly InputAction m_Player_MoveForward;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @MoveBackwards => m_Wrapper.m_Player_MoveBackwards;
+        public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @PlaceTrap => m_Wrapper.m_Player_PlaceTrap;
-        public InputAction @MoveForward => m_Wrapper.m_Player_MoveForward;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -279,34 +278,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-            @MoveBackwards.started += instance.OnMoveBackwards;
-            @MoveBackwards.performed += instance.OnMoveBackwards;
-            @MoveBackwards.canceled += instance.OnMoveBackwards;
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
             @PlaceTrap.started += instance.OnPlaceTrap;
             @PlaceTrap.performed += instance.OnPlaceTrap;
             @PlaceTrap.canceled += instance.OnPlaceTrap;
-            @MoveForward.started += instance.OnMoveForward;
-            @MoveForward.performed += instance.OnMoveForward;
-            @MoveForward.canceled += instance.OnMoveForward;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
         {
-            @MoveBackwards.started -= instance.OnMoveBackwards;
-            @MoveBackwards.performed -= instance.OnMoveBackwards;
-            @MoveBackwards.canceled -= instance.OnMoveBackwards;
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
             @PlaceTrap.started -= instance.OnPlaceTrap;
             @PlaceTrap.performed -= instance.OnPlaceTrap;
             @PlaceTrap.canceled -= instance.OnPlaceTrap;
-            @MoveForward.started -= instance.OnMoveForward;
-            @MoveForward.performed -= instance.OnMoveForward;
-            @MoveForward.canceled -= instance.OnMoveForward;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -330,9 +323,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     }
     public interface IPlayerActions
     {
-        void OnMoveBackwards(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnPlaceTrap(InputAction.CallbackContext context);
-        void OnMoveForward(InputAction.CallbackContext context);
     }
 }

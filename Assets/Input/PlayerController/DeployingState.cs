@@ -23,7 +23,7 @@ namespace Input {
             return 0f;
         }
         
-        public void Act(Transform player, Rigidbody2D rBody, float direction)
+        public void Act(Rigidbody2D rBody, float direction, Action enterIdle)
         {
             // Deploy a trap at the highlighted/selected tile(s)
         }

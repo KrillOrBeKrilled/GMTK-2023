@@ -23,6 +23,6 @@ namespace Input {
         /// Jumping: Player can jump as many times in the air
         /// Deploying: Player is placing a trap on a given tile space
         /// </summary>
-        abstract void Act(Transform player, Rigidbody2D rBody, float direction);
+        abstract void Act(Rigidbody2D rBody, float direction, Action enterIdle);
     }
 }

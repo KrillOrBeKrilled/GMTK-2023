@@ -22,7 +22,7 @@ namespace Input {
             return 0f;
         }
         
-        public void Act(Transform player, Rigidbody2D rBody, float direction)
+        public void Act(Rigidbody2D rBody, float direction, Action enterIdle)
         {
             // The game is over! Maybe the player shouldn't do anything anymore and some UI opens or something
         }

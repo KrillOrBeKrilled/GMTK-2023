@@ -9,14 +9,10 @@ namespace Input {
     {
         // TODO: Adjust multiplier values here
         private readonly float _stateSpeed;
-        private readonly float _stateSpeedBlendDuration;
 
-        private float _currentSpeed, _t;
-
-        public MovingState(float stateSpeed, float stateSpeedBlendDuration)
+        public MovingState(float stateSpeed)
         {
-            _stateSpeedBlendDuration = stateSpeedBlendDuration;
-            _currentSpeed = stateSpeed;
+            _stateSpeed = stateSpeed;
         }
         
         public void OnEnter(IPlayerState prevState)
@@ -27,12 +23,12 @@ namespace Input {
 
         public float GetMovementSpeed()
         {
-            return 0f;
+            return _stateSpeed;
         }
         
-        public void Act(Transform player, Rigidbody2D rBody, float direction)
+        public void Act(Rigidbody2D rBody, float direction, Action enterIdle)
         {
-            
+            rBody.velocity = new Vector2(direction * _stateSpeed, rBody.velocity.y);
         }
         
         public void OnExit(IPlayerState newState)

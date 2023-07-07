@@ -9,12 +9,12 @@ namespace Input
     /// Class to handle character controls
     /// TODO: Make note of any music plugins we need here...
     /// </summary>
+    [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerController : MonoBehaviour
     {
         // --------------- Player State --------------
         private static IdleState _idle;
         private static MovingState _moving;
-        private static JumpingState _jumping;
         private static DeployingState _deploying;
         private static GameOverState _gameOver;
         private IPlayerState _state;
@@ -23,8 +23,6 @@ namespace Input
         // For movement testing, allow speeds to be set through the editor
         [Header("State speed parameters")]
         [SerializeField] private float _speed, _jumpingForce;
-        [SerializeField] private float _idleToMoveBlendDuration, _moveToIdleBlendDuration;
-        private float _direction;
 
         // ----------------- Health ------------------
         // BRAINSTORMING: Do we want to simulate player health?
@@ -32,7 +30,6 @@ namespace Input
         // --------------- Bookkeeping ---------------
         private Rigidbody2D _rBody;
         public Animator _animator;
-        private float _startXPos;
 
         private PlayerInputActions _playerInputActions;
 
@@ -40,15 +37,12 @@ namespace Input
         {
             _rBody = GetComponent<Rigidbody2D>();
 
-            _idle = new IdleState(_speed, _moveToIdleBlendDuration);
-            _moving = new MovingState(_speed, _idleToMoveBlendDuration);
-            _jumping = new JumpingState(_jumpingForce);
+            _idle = new IdleState();
+            _moving = new MovingState(_speed);
             _deploying = new DeployingState();
             _gameOver = new GameOverState();
 
             _state = _idle;
-
-            _startXPos = transform.position.x;
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState>();
         }
 
@@ -61,7 +55,7 @@ namespace Input
         void FixedUpdate()
         {
             // Delegate movement behaviour to state classes
-            _state.Act(transform, _rBody, _direction);
+            _state.Act(_rBody, _playerInputActions.Player.Move.ReadValue<float>(), EnterIdleState);
 
             // Set animation values
             SetAnimatorValues();
@@ -90,30 +84,19 @@ namespace Input
             this.OnPlayerStateChanged?.Invoke(this._state);
         }
         
-        void MoveForward(InputAction.CallbackContext obj)
-        {
-            _direction = 1f;
-            
-            // Cache previous state and call OnExit and OnEnter
-            ChangeToMoveState();
-        }
-        
-        void MoveBack(InputAction.CallbackContext obj)
-        {
-            _direction = -1f;
-            
-            // Cache previous state and call OnExit and OnEnter
-            ChangeToMoveState();
-        }
-        
-        void Jump(InputAction.CallbackContext obj)
+        void Move(InputAction.CallbackContext obj)
         {
             // Cache previous state and call OnExit and OnEnter
             var prevState = _state;
-            _state.OnExit(_jumping);
-            _state = _jumping;
+            _state.OnExit(_moving);
+            _state = _moving;
             _state.OnEnter(prevState);
             this.OnPlayerStateChanged?.Invoke(this._state);
+        }
+
+        void Jump(InputAction.CallbackContext obj)
+        {
+            _rBody.AddForce(Vector2.up * _jumpingForce);
         }
         
         void DeployTrap(InputAction.CallbackContext obj)
@@ -124,6 +107,14 @@ namespace Input
             _state = _deploying;
             _state.OnEnter(prevState);
             this.OnPlayerStateChanged?.Invoke(this._state);
+        }
+        
+        public void EnterIdleState()
+        {
+            var prevState = _state;
+            _state.OnExit(_idle);
+            _state = _idle;
+            _state.OnEnter(prevState);
         }
 
         public void GameOver()
@@ -136,15 +127,6 @@ namespace Input
             this.OnPlayerStateChanged?.Invoke(this._state);
             GameManager.Instance.OnGameOver?.Invoke();
         }
-        
-        private void ChangeToMoveState()
-        {
-            var prevState = _state;
-            _state.OnExit(_moving);
-            _state = _moving;
-            _state.OnEnter(prevState);
-            this.OnPlayerStateChanged?.Invoke(this._state);
-        }
 
         private void OnEnable() {
             // OnEnable called before Start
@@ -154,21 +136,17 @@ namespace Input
             if (this._playerInputActions == null)
                 return;
 
-            this._playerInputActions.Player.MoveBackwards.performed += MoveBack;
-            this._playerInputActions.Player.MoveForward.performed += MoveForward;
+            this._playerInputActions.Player.Move.performed += Move;
+            this._playerInputActions.Player.Move.canceled += Idle;
             this._playerInputActions.Player.Jump.performed += Jump;
             this._playerInputActions.Player.PlaceTrap.performed += DeployTrap;
-            this._playerInputActions.Player.MoveBackwards.canceled += Idle;
-            this._playerInputActions.Player.MoveForward.canceled += Idle;
         }
 
         private void OnDisable() {
-            this._playerInputActions.Player.MoveBackwards.performed -= MoveBack;
-            this._playerInputActions.Player.MoveForward.performed -= MoveForward;
+            this._playerInputActions.Player.Move.performed -= Move;
+            this._playerInputActions.Player.Move.canceled -= Idle;
             this._playerInputActions.Player.Jump.performed -= Jump;
             this._playerInputActions.Player.PlaceTrap.performed -= DeployTrap;
-            this._playerInputActions.Player.MoveBackwards.canceled -= Idle;
-            this._playerInputActions.Player.MoveForward.canceled -= Idle;
         }
     }
 }

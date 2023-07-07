@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour{
   [SerializeField] private Image _foregroundImage;
-  [SerializeField] private Image _sceneCover;
   [SerializeField] private GameObject _pauseUI;
+
+  private const float FadeDuration = 0.5f;
 
   public void Initialize(GameManager gameManager) {
     gameManager.OnSetupComplete.AddListener(this.OnGameSetupComplete);
@@ -14,9 +15,9 @@ public class GameUI : MonoBehaviour{
   }
 
   public void FadeInSceneCover(UnityAction onComplete) {
-    this._sceneCover.gameObject.SetActive(true);
-    this._sceneCover
-      .DOFade(1, 0.5f)
+    this._foregroundImage.gameObject.SetActive(true);
+    this._foregroundImage
+      .DOFade(1, FadeDuration)
       .OnComplete(() => onComplete?.Invoke());
   }
 
@@ -30,8 +31,10 @@ public class GameUI : MonoBehaviour{
 
   private void OnGameSetupComplete() {
     this._foregroundImage
-      .DOFade(0, 1f)
-      .OnComplete(() => this._foregroundImage.gameObject.SetActive(false));
+      .DOFade(0, FadeDuration)
+      .OnComplete(() => {
+        this._foregroundImage.gameObject.SetActive(false);
+      });
   }
 
   private void OnPauseToggled(bool isPaused) {

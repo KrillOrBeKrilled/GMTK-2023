@@ -10,7 +10,6 @@ public class HeroHealthBarUI : MonoBehaviour {
   private Camera _mainCamera;
   private RectTransform _rectTransform;
   private Slider _healthBar;
-  private int _maxHealth;
 
   private void Awake() {
     this._mainCamera = Camera.main;
@@ -23,7 +22,6 @@ public class HeroHealthBarUI : MonoBehaviour {
     this._healthBar.maxValue = Hero.MaxHealth;
     this._healthBar.value = Hero.MaxHealth;
     this._healthBar.minValue = 0;
-    this._maxHealth = Hero.MaxHealth;
 
     this.RepositionHealthBar();
   }

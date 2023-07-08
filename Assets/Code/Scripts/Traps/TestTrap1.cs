@@ -11,11 +11,11 @@ namespace Traps
 
         protected  override void OnEnteredTrap(Hero hero)
         {
-            print("Triggering Trap");
+
         }
 
         protected override void OnExitedTrap(Hero hero) {
-            print("Left Trap");
+
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Traps {
 
     protected  override void OnEnteredTrap(Hero hero) {
       hero.TakeDamage(this._damageAmount);
-      hero.HeroMovement.SetSpeedPenalty(0.8f);
+      hero.HeroMovement.SetSpeedPenalty(0.3f);
     }
 
     protected override void OnExitedTrap(Hero hero) {

@@ -15,7 +15,10 @@ namespace Yarn.Unity.Example
         [Tooltip("if true, then apply messageBubbleOffset relative to this transform's rotation and scale")]
         public bool offsetUsesRotation = false;
 
+        // bwaaaah ugly ugly ugly 
         private Vector3 _prevPosition;
+        private Vector3 _prevPrevPosition;
+        private Vector3 _prevPrevPrevPosition;
         private Vector3 _dampenedPosition;
 
         public Vector3 positionWithOffset
@@ -44,7 +47,10 @@ namespace Yarn.Unity.Example
 
             YarnCharacterView.instance.RegisterYarnCharacter(this);
 
-            _prevPosition = transform.position;
+            var position = transform.position;
+            _prevPosition = position;
+            _prevPrevPosition = position;
+            _prevPrevPrevPosition = position;
         }
         
         
@@ -52,8 +58,10 @@ namespace Yarn.Unity.Example
         {
             var position = transform.position;
             
-            _dampenedPosition = (position + _prevPosition) / 2f;
-            
+            _dampenedPosition = (position + _prevPosition + _prevPrevPosition + _prevPrevPrevPosition) / 4f;
+
+            _prevPrevPrevPosition = _prevPrevPosition;
+            _prevPrevPosition = _prevPosition;
             _prevPosition = position;
         }
 

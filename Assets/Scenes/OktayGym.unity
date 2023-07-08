@@ -207,18 +207,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3741743097333894304, guid: 8d6c09a6f35ab93498a17f1a2b9375a9, type: 3}
-      propertyPath: m_AdditionalShaderChannelsFlag
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 5203182437719251029, guid: 8d6c09a6f35ab93498a17f1a2b9375a9, type: 3}
-      propertyPath: m_ReferenceResolution.x
-      value: 1920
-      objectReference: {fileID: 0}
-    - target: {fileID: 5203182437719251029, guid: 8d6c09a6f35ab93498a17f1a2b9375a9, type: 3}
-      propertyPath: m_ReferenceResolution.y
-      value: 1080
-      objectReference: {fileID: 0}
     - target: {fileID: 6483160512696918098, guid: 8d6c09a6f35ab93498a17f1a2b9375a9, type: 3}
       propertyPath: m_Name
       value: Dialogue System
@@ -235,6 +223,30 @@ PrefabInstance:
       propertyPath: allCharacters.Array.data[1]
       value: 
       objectReference: {fileID: 1919713179}
+    - target: {fileID: 8033589538404948243, guid: 8d6c09a6f35ab93498a17f1a2b9375a9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8033589538404948243, guid: 8d6c09a6f35ab93498a17f1a2b9375a9, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8033589538404948243, guid: 8d6c09a6f35ab93498a17f1a2b9375a9, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8033589538404948243, guid: 8d6c09a6f35ab93498a17f1a2b9375a9, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8033589538404948243, guid: 8d6c09a6f35ab93498a17f1a2b9375a9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8033589538404948243, guid: 8d6c09a6f35ab93498a17f1a2b9375a9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -465,47 +477,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &559138106 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4971154355172940305, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
-  m_PrefabInstance: {fileID: 1894424789173954887}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &559138111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 559138106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d627140a7b5764eb9941ed0b3159b570, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDefaultListener: 1
-  listenerId: 0
---- !u!114 &559138112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 559138106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62319f021aefe42d584c3648a857872f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_listeners:
-    initialListenerList: []
-    useDefaultListeners: 1
-  isEnvironmentAware: 0
-  isStaticObject: 0
-  m_positionOffsetData:
-    KeepMe: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-  m_posOffsetData: {fileID: 0}
-  listenerMask: 1
 --- !u!1 &601719845
 GameObject:
   m_ObjectHideFlags: 0
@@ -30029,25 +30000,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 681108859637803226, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 3.7999997
-      objectReference: {fileID: 0}
-    - target: {fileID: 2613767614020428336, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
-      propertyPath: m_UpdateMethod
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2617567567799712141, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
       propertyPath: m_Name
       value: HeroParent
-      objectReference: {fileID: 0}
-    - target: {fileID: 3750995938603144835, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 3.7999997
-      objectReference: {fileID: 0}
-    - target: {fileID: 6782170434197870571, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
-      propertyPath: MessageBubbleMoveSpeed
-      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7748770393677785153, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
       propertyPath: m_RootOrder
@@ -30096,13 +30051,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4971154355172940305, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 559138112}
-    - targetCorrespondingSourceObject: {fileID: 4971154355172940305, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 559138111}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
 --- !u!114 &1894424789173954889 stripped
 MonoBehaviour:

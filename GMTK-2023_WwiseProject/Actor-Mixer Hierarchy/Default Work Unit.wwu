@@ -155,6 +155,28 @@
 										</Sound>
 									</ChildrenList>
 								</RandomSequenceContainer>
+								<Sound Name="sfx_hen_build" ID="{72B171E5-1E1B-4513-9326-11B3AC4A6C53}" ShortID="983116777">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EB546B91-8D58-4470-8021-567389FBC3C0}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{81856265-C603-4AF0-93DD-E73657EF8752}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="sfx_hen_build" ID="{2766D9B9-7549-44B4-BDDB-3ECB7C9C600C}">
+											<Language>SFX</Language>
+											<AudioFile>sfx_hen_build.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1004793538"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="sfx_hen_build" ID="{2766D9B9-7549-44B4-BDDB-3ECB7C9C600C}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
 							</ChildrenList>
 						</Folder>
 						<Folder Name="hero" ID="{91997951-6C27-4DDD-8127-49C7CDED61AE}" ShortID="807239587">

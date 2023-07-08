@@ -193,6 +193,17 @@
 										</Action>
 									</ChildrenList>
 								</Event>
+								<Event Name="Play_sfx_hen_build" ID="{E3C302D9-5022-49BB-8C82-F359B7A17E92}">
+									<ChildrenList>
+										<Action Name="" ID="{EEC0950A-509A-46E7-A78F-242BB32C2893}" ShortID="943111101">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_hen_build" ID="{72B171E5-1E1B-4513-9326-11B3AC4A6C53}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
 							</ChildrenList>
 						</Folder>
 					</ChildrenList>

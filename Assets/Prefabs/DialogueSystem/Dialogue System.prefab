@@ -201,7 +201,7 @@ MonoBehaviour:
   m_XRTrackingOrigin: {fileID: 0}
   m_ActionsAsset: {fileID: -944628639613478452, guid: 32fda2c4537e443bfa27c9abc099ba97, type: 3}
   m_PointAction: {fileID: 0}
-  m_MoveAction: {fileID: 8189847613648813456, guid: 32fda2c4537e443bfa27c9abc099ba97, type: 3}
+  m_MoveAction: {fileID: 0}
   m_SubmitAction: {fileID: 0}
   m_CancelAction: {fileID: 0}
   m_LeftClickAction: {fileID: 0}
@@ -1021,7 +1021,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allCharacters:
   - {fileID: 0}
-  playerCharacter: {fileID: 3104913905976222486}
+  playerCharacter: {fileID: 0}
   canvas: {fileID: 3741743097333894304}
   canvasScaler: {fileID: 5203182437719251029}
   dialogueBubbleRect: {fileID: 3741743096415219988}

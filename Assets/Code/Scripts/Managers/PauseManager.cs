@@ -9,7 +9,7 @@ public class PauseManager: Singleton<PauseManager> {
   private bool _isPausable;
   private bool _isPaused;
 
-  private PauseInputActions _playerInputActions;
+  private PlayerInputActions _playerInputActions;
 
   public void SetIsPausable(bool isPausable) {
     this._isPausable = isPausable;
@@ -24,7 +24,7 @@ public class PauseManager: Singleton<PauseManager> {
   protected override void Awake() {
     base.Awake();
 
-    this._playerInputActions = new PauseInputActions();
+    this._playerInputActions = new PlayerInputActions();
     this.OnPauseToggled = new UnityEvent<bool>();
   }
 

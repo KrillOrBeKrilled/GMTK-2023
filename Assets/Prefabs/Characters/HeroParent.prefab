@@ -118,7 +118,7 @@ Transform:
   - {fileID: 681108859637803226}
   - {fileID: 6247357146538272756}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4971154355172940305
 GameObject:
@@ -341,7 +341,7 @@ MonoBehaviour:
   data:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 1ba6ba8765b4b7844bb4d47d2eb0fd99, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: 248436b2931044b21a89384c7e07d83f, type: 2}
   decodeBank: 0
   loadAsynchronous: 0
   saveDecodedBank: 0
@@ -368,7 +368,7 @@ MonoBehaviour:
   data:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: a931d7a7b4b72dc4bbb011c661e3cc6e, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: 98f5633e890ad47a88ed31b005229da4, type: 2}
   useCallbacks: 0
   Callbacks: []
   playingId: 0
@@ -397,7 +397,7 @@ MonoBehaviour:
   data:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: f80fcea65df19d94fb35986cfa527e7d, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: 344f593a9d5ae47b5a3418055546391d, type: 2}
   useCallbacks: 0
   Callbacks: []
   playingId: 0
@@ -601,7 +601,7 @@ MonoBehaviour:
   HeroHurtEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 991b92c1014d1bf42b0c6fbef4c9fe2c, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: 5ac2bf606307a47b2a29782958c7db68, type: 2}
 --- !u!114 &157904434152629821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -619,7 +619,7 @@ MonoBehaviour:
   HeroJumpEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 1664297ad56420e4b93c8f6d950485af, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: 3cdda45bcab2f4f738df1bc1039774d7, type: 2}
 --- !u!114 &6782170434197870571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -652,7 +652,7 @@ MonoBehaviour:
   data:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: b79f10956852904409ef80fa11d80516, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: 7ea2bebabe0af4a0e9444341024be355, type: 2}
   decodeBank: 0
   loadAsynchronous: 0
   saveDecodedBank: 0

@@ -148,3 +148,6 @@ MonoBehaviour:
   _rightGridPoints:
   - {x: 0, y: 0, z: 0}
   _validationScore: 1
+  _spawnOffset: {x: 0.5, y: 0.5, z: 0}
+  _leftSpawnOffset: {x: 0.5, y: 0.5, z: 0}
+  _rightSpawnOffset: {x: 0.5, y: 0.5, z: 0}

@@ -85,6 +85,7 @@ namespace Input
         {
             if (_isGrounded)
             {
+                // Check whether to deploy left or right
                 var deployPosition = _direction < 0 ? _leftDeployTransform.position : _rightDeployTransform.position;
                 var deploymentOrigin = _tileMap.WorldToCell(deployPosition);
 
@@ -199,9 +200,21 @@ namespace Input
         private void DeployTrap(InputAction.CallbackContext obj)
         {
             // Left out of State pattern to allow this during movement
-            if(_canDeploy) Debug.Log("Deployed trap!");
+            if(!_canDeploy || _previousTilePositions.Count < 1) return;
+
+            var trapToSpawn = _trapPrefabs[_currentTrapIndex];
+
+            // Convert the origin tile position to world space
+            var deploymentOrigin = _tileMap.CellToWorld(_previousTilePositions[0]);
+            var spawnPosition = _direction < 0
+                ? trapToSpawn.GetComponent<Traps.Trap>().GetLeftSpawnPoint(deploymentOrigin)
+                : trapToSpawn.GetComponent<Traps.Trap>().GetRightSpawnPoint(deploymentOrigin);
+            
+            GameObject trap = Instantiate(trapToSpawn.gameObject);
+            trap.transform.position = spawnPosition;
         }
         
+        // Test functions to switch between test traps
         private void SetTrap1(InputAction.CallbackContext obj)
         {
             _currentTrapIndex = 0;

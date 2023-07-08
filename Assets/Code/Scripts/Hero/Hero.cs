@@ -3,26 +3,26 @@ using UnityEngine.Events;
 
 public class Hero : MonoBehaviour {
   public HeroMovement HeroMovement => this._heroMovement;
+  public int Health { get; private set; }
 
   public UnityEvent<int> OnHealthChanged;
   public UnityEvent OnHeroDied;
   public const int MaxHealth = 100;
 
-  private int _health;
   private HeroMovement _heroMovement;
 
   public void TakeDamage(int amount) {
-    this._health -= amount;
+    this.Health -= amount;
 
-    if (this._health <= 0) {
+    if (this.Health <= 0) {
       this.Die();
     }
 
-    this.OnHealthChanged?.Invoke(this._health);
+    this.OnHealthChanged?.Invoke(this.Health);
   }
 
   private void Awake() {
-    this._health = MaxHealth;
+    this.Health = MaxHealth;
     this.OnHeroDied = new UnityEvent();
     this.TryGetComponent(out this._heroMovement);
   }

@@ -26,9 +26,10 @@ namespace Traps
             return score >= _validationScore;
         }
         
-        // Adjusts the trap spawn position relative to an origin in local space and returns the world space coordinate
+        // Adjusts the trap spawn position relative to an origin
         public abstract Vector3 GetLeftSpawnPoint(Vector3 origin);
         public abstract Vector3 GetRightSpawnPoint(Vector3 origin);
+        
         public abstract void Detonate();
     }
 }

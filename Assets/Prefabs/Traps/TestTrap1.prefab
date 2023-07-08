@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6806971051270531681}
   m_Layer: 0
   m_Name: TestTrap1
-  m_TagString: Untagged
+  m_TagString: Trap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &242171671378228480
 SpriteRenderer:
@@ -118,7 +118,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0016589165, y: -0.00068971515}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -129,7 +129,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.0091486, y: 1.0027528}
   m_EdgeRadius: 0
 --- !u!114 &6806971051270531681
 MonoBehaviour:
@@ -148,6 +148,5 @@ MonoBehaviour:
   _rightGridPoints:
   - {x: 0, y: 0, z: 0}
   _validationScore: 1
-  _spawnOffset: {x: 0.5, y: 0.5, z: 0}
   _leftSpawnOffset: {x: 0.5, y: 0.5, z: 0}
   _rightSpawnOffset: {x: 0.5, y: 0.5, z: 0}

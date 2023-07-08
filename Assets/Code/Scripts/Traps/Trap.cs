@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,10 +9,10 @@ namespace Traps
         [SerializeField] protected List<Transform> _gridPoints;
 
         public abstract void AdjustSpawnPoint();
-        protected abstract void Detonate(Collider2D target);
+        protected abstract void TriggerTrap(Hero hero);
 
         private void OnTriggerEnter2D(Collider2D other) {
-            this.Detonate(other);
+            this.TriggerTrap(other.GetComponent<Hero>());
         }
     }
 }

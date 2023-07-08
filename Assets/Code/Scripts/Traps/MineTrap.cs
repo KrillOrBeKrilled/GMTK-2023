@@ -6,7 +6,7 @@ namespace Traps {
     public override void AdjustSpawnPoint() {
       throw new System.NotImplementedException();
     }
-    protected override void Detonate(Collider2D target) {
+    protected override void TriggerTrap(Hero hero) {
       print("Hit Mine, BOOM!");
     }
   }

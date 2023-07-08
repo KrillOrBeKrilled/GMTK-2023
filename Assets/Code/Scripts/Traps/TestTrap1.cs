@@ -9,7 +9,7 @@ namespace Traps
 
         }
 
-        protected  override void Detonate(Collider2D target)
+        protected  override void TriggerTrap(Hero hero)
         {
             print("Detonating!");
         }

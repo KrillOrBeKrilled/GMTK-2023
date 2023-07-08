@@ -134,8 +134,9 @@ namespace Yarn.Unity.Example
 
             return screenPos;
         }
-
-        void Update()
+        
+        
+        void FixedUpdate()
         {
             // this all in Update instead of RunLine because characters might walk around or move during the dialogue
             if (dialogueBubbleRect.gameObject.activeInHierarchy)

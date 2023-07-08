@@ -45,6 +45,12 @@ public class HeroMovement : MonoBehaviour
         this._stunCoroutine = this.StartCoroutine(this.StunCoroutine(duration));
     }
 
+    public void ThrowHeroBack(float stunDuration, float throwForce) {
+        this.Stun(stunDuration);
+        Vector2 explosionVector = new Vector2(-1f, 0.7f) * throwForce;
+        this._rigidbody.AddForce(explosionVector, ForceMode2D.Impulse);
+    }
+
     private void Awake()
     {
         TryGetComponent(out _rigidbody);

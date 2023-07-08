@@ -10,13 +10,8 @@ namespace Traps {
     }
 
     protected override void OnEnteredTrap(Hero hero) {
-      hero.HeroMovement.Stun(2f);
       hero.TakeDamage(this._damageAmount);
-
-      Rigidbody2D heroRigidbody2D = hero.GetComponent<Rigidbody2D>();
-
-      Vector2 explosionVector = new Vector2(-1f, 0.7f) * this._explosionForce;
-      heroRigidbody2D.AddForce(explosionVector, ForceMode2D.Impulse);
+      hero.HeroMovement.ThrowHeroBack(2f, this._explosionForce);
       Destroy(this.gameObject);
     }
 

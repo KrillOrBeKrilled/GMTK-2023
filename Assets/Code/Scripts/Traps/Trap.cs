@@ -13,11 +13,6 @@ namespace Traps
         public abstract void Detonate();
 
         private void OnTriggerEnter2D(Collider2D other) {
-            print("Triggered!");
-            if (!other.CompareTag("Player"))
-                return;
-
-            print("Triggered by player!");
             this.Detonate();
         }
     }

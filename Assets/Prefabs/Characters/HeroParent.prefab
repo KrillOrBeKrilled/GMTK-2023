@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3750995938603144835}
   - component: {fileID: 2874242344441455694}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Virtual Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,7 +81,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7748770393677785153}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HeroParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ Transform:
   - {fileID: 681108859637803226}
   - {fileID: 6247357146538272756}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4971154355172940305
 GameObject:
@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 2613767614020428336}
   - component: {fileID: 7392192078593308335}
   - component: {fileID: 5776745590884987164}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CinemachineBrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 157904434152629821}
   - component: {fileID: 8506578459566230541}
   - component: {fileID: 524431350219916328}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hero
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -465,7 +465,7 @@ GameObject:
   - component: {fileID: 2747399215457254415}
   - component: {fileID: 7568232103265915473}
   - component: {fileID: 4525243019249083210}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}

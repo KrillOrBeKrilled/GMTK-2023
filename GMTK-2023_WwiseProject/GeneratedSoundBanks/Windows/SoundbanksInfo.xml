@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="16" SoundBankVersion="145">
+	<RootPaths>
+		<ProjectRoot>../../</ProjectRoot>
+		<SourceFilesRoot>../../.cache/Windows/</SourceFilesRoot>
+		<SoundBanksRoot>.</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>.</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DialogueEvents/>
+	<SoundBanks>
+		<SoundBank Id="393239870" Type="User" Language="SFX" Hash="{C135D6CB-5592-33F5-7A8A-11C6F335C95E}">
+			<ShortName>sfx</ShortName>
+			<Path>sfx.bnk</Path>
+			<Media>
+				<File Id="141881" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\UI\sfx_UI_tileSelect_move_1.wav</ShortName>
+					<CachePath>SFX/sfx/UI/sfx_UI_tileSelect_move_1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="9371666" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\hen\sfx_hen_dialogue_1.wav</ShortName>
+					<CachePath>SFX/sfx/hen/sfx_hen_dialogue_1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="49825002" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\hero\sfx_hero_dialogue_3.wav</ShortName>
+					<CachePath>SFX/sfx/hero/sfx_hero_dialogue_3_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="113705924" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\hero\sfx_hero_dialogue_1.wav</ShortName>
+					<CachePath>SFX/sfx/hero/sfx_hero_dialogue_1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="118916711" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\hero\sfx_hero_hurt_2.wav</ShortName>
+					<CachePath>SFX/sfx/hero/sfx_hero_hurt_2_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="127723183" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\hen\sfx_hen_dialogue_2.wav</ShortName>
+					<CachePath>SFX/sfx/hen/sfx_hen_dialogue_2_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="156592918" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\hero\sfx_hero_hurt_1.wav</ShortName>
+					<CachePath>SFX/sfx/hero/sfx_hero_hurt_1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="269605014" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\UI\sfx_UI_tileSelect_move_2.wav</ShortName>
+					<CachePath>SFX/sfx/UI/sfx_UI_tileSelect_move_2_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="304749164" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\hero\sfx_hero_hurt_3.wav</ShortName>
+					<CachePath>SFX/sfx/hero/sfx_hero_hurt_3_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="308526368" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\hero\sfx_hero_jump_2.wav</ShortName>
+					<CachePath>SFX/sfx/hero/sfx_hero_jump_2_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="341105674" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\hen\sfx_hen_dialogue_4.wav</ShortName>
+					<CachePath>SFX/sfx/hen/sfx_hen_dialogue_4_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="343882944" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\UI\sfx_UI_select.wav</ShortName>
+					<CachePath>SFX/sfx/UI/sfx_UI_select_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="557163027" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\UI\sfx_UI_unpause.wav</ShortName>
+					<CachePath>SFX/sfx/UI/sfx_UI_unpause_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="687408748" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\UI\sfx_UI_confirm.wav</ShortName>
+					<CachePath>SFX/sfx/UI/sfx_UI_confirm_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="770310829" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\hero\sfx_hero_dialogue_2.wav</ShortName>
+					<CachePath>SFX/sfx/hero/sfx_hero_dialogue_2_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="802854948" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\UI\sfx_UI_pause.wav</ShortName>
+					<CachePath>SFX/sfx/UI/sfx_UI_pause_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="838703695" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\hen\sfx_hen_dialogue_5.wav</ShortName>
+					<CachePath>SFX/sfx/hen/sfx_hen_dialogue_5_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="848075056" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\hero\sfx_hero_jump_1.wav</ShortName>
+					<CachePath>SFX/sfx/hero/sfx_hero_jump_1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="871920434" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\hen\sfx_hen_dialogue_3.wav</ShortName>
+					<CachePath>SFX/sfx/hen/sfx_hen_dialogue_3_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="881584140" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\hero\sfx_hero_jump_3.wav</ShortName>
+					<CachePath>SFX/sfx/hero/sfx_hero_jump_3_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="941157850" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\UI\sfx_UI_tileSelect_move_3.wav</ShortName>
+					<CachePath>SFX/sfx/UI/sfx_UI_tileSelect_move_3_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="943732160" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\UI\sfx_UI_tileSelect_confirm.wav</ShortName>
+					<CachePath>SFX/sfx/UI/sfx_UI_tileSelect_confirm_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="943784105" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx\boss\sfx_boss_dialogue.wav</ShortName>
+					<CachePath>SFX/sfx/boss/sfx_boss_dialogue_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1004793538" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_hen_build.wav</ShortName>
+					<CachePath>SFX/sfx_hen_build_3F75BDB9.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="1109489390" Name="Play_sfx_boss_dialogue" DurationType="OneShot" DurationMin="4" DurationMax="4">
+					<MediaRefs>
+						<MediaRef Id="943784105"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2092053050" Name="Play_sfx_hen_build" DurationType="OneShot" DurationMin="10" DurationMax="10">
+					<MediaRefs>
+						<MediaRef Id="1004793538"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4212917052" Name="Play_sfx_hen_dialogue" DurationType="OneShot" DurationMin="4" DurationMax="4">
+					<MediaRefs>
+						<MediaRef Id="9371666"/>
+						<MediaRef Id="127723183"/>
+						<MediaRef Id="341105674"/>
+						<MediaRef Id="838703695"/>
+						<MediaRef Id="871920434"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="561608359" Name="Play_sfx_hero_dialogue" DurationType="OneShot" DurationMin="0.835941" DurationMax="4">
+					<MediaRefs>
+						<MediaRef Id="49825002"/>
+						<MediaRef Id="113705924"/>
+						<MediaRef Id="770310829"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1765674410" Name="Play_sfx_hero_hurt" DurationType="OneShot" DurationMin="4" DurationMax="4">
+					<MediaRefs>
+						<MediaRef Id="118916711"/>
+						<MediaRef Id="156592918"/>
+						<MediaRef Id="304749164"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2131713793" Name="Play_sfx_hero_jump" DurationType="OneShot" DurationMin="4" DurationMax="4">
+					<MediaRefs>
+						<MediaRef Id="308526368"/>
+						<MediaRef Id="848075056"/>
+						<MediaRef Id="881584140"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1408733697" Name="Play_sfx_UI_confirm" DurationType="OneShot" DurationMin="4" DurationMax="4">
+					<MediaRefs>
+						<MediaRef Id="687408748"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1498969835" Name="Play_sfx_UI_pause" DurationType="OneShot" DurationMin="4" DurationMax="4">
+					<MediaRefs>
+						<MediaRef Id="802854948"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2484137795" Name="Play_sfx_UI_select" DurationType="OneShot" DurationMin="4" DurationMax="4">
+					<MediaRefs>
+						<MediaRef Id="343882944"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1309749098" Name="Play_sfx_UI_tileSelect_confirm" DurationType="OneShot" DurationMin="4" DurationMax="4">
+					<MediaRefs>
+						<MediaRef Id="943732160"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="874347577" Name="Play_sfx_UI_tileSelect_move" DurationType="OneShot" DurationMin="0.6184127" DurationMax="2">
+					<MediaRefs>
+						<MediaRef Id="141881"/>
+						<MediaRef Id="269605014"/>
+						<MediaRef Id="941157850"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3056227168" Name="Play_sfx_UI_unpause" DurationType="OneShot" DurationMin="4" DurationMax="4">
+					<MediaRefs>
+						<MediaRef Id="557163027"/>
+					</MediaRefs>
+				</Event>
+			</Events>
+		</SoundBank>
+		<SoundBank Id="712897226" Type="User" Language="SFX" Hash="{EE3E3EA2-0021-BA15-3B05-742B322687D5}">
+			<ShortName>mus</ShortName>
+			<Path>mus.bnk</Path>
+			<Media>
+				<File Id="7169072" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mus_120bpm_percussionUnpitched.wav</ShortName>
+					<CachePath>SFX/mus_120bpm_percussionUnpitched_9EDFC787.wem</CachePath>
+				</File>
+				<File Id="69287756" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mus_120bpm_bass.wav</ShortName>
+					<CachePath>SFX/mus_120bpm_bass_9EDFC787.wem</CachePath>
+				</File>
+				<File Id="98969881" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mus_120bpm_percussionCrashCymbal.wav</ShortName>
+					<CachePath>SFX/mus_120bpm_percussionCrashCymbal_9EDFC787.wem</CachePath>
+				</File>
+				<File Id="157936423" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mus_120bpm_bassTrombone.wav</ShortName>
+					<CachePath>SFX/mus_120bpm_bassTrombone_9EDFC787.wem</CachePath>
+				</File>
+				<File Id="229884536" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mus_120bpm_percussionXylophone.wav</ShortName>
+					<CachePath>SFX/mus_120bpm_percussionXylophone_9EDFC787.wem</CachePath>
+				</File>
+				<File Id="241994922" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mus_120bpm_percussionGlockenspiel.wav</ShortName>
+					<CachePath>SFX/mus_120bpm_percussionGlockenspiel_9EDFC787.wem</CachePath>
+				</File>
+				<File Id="287733718" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mus_120bpm_woodwinds.wav</ShortName>
+					<CachePath>SFX/mus_120bpm_woodwinds_9EDFC787.wem</CachePath>
+				</File>
+				<File Id="573338594" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mus_120bpm_percussionBassDrum.wav</ShortName>
+					<CachePath>SFX/mus_120bpm_percussionBassDrum_9EDFC787.wem</CachePath>
+				</File>
+				<File Id="812626785" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mus_120bpm_strings.wav</ShortName>
+					<CachePath>SFX/mus_120bpm_strings_9EDFC787.wem</CachePath>
+				</File>
+				<File Id="946355814" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mus_120bpm_silence.wav</ShortName>
+					<CachePath>SFX/mus_120bpm_silence_9EDFC787.wem</CachePath>
+				</File>
+				<File Id="995036463" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mus_120bpm_percussionCowbell.wav</ShortName>
+					<CachePath>SFX/mus_120bpm_percussionCowbell_9EDFC787.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="1353136246" Name="Mute_mus" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="2557561967" Name="Play_mus" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="7169072"/>
+						<MediaRef Id="69287756"/>
+						<MediaRef Id="98969881"/>
+						<MediaRef Id="157936423"/>
+						<MediaRef Id="229884536"/>
+						<MediaRef Id="241994922"/>
+						<MediaRef Id="287733718"/>
+						<MediaRef Id="573338594"/>
+						<MediaRef Id="812626785"/>
+						<MediaRef Id="946355814"/>
+						<MediaRef Id="995036463"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="837844525" Name="Stop_mus" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="96364987" Name="UnMute_mus" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+			</Events>
+		</SoundBank>
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{986487A9-2683-E47A-8688-3D0FE6FDB954}">
+			<ShortName>Init</ShortName>
+			<Path>Init.bnk</Path>
+			<Plugins>
+				<AudioDevices>
+					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
+					<Plugin Id="3859886410" Name="System" LibName="System" LibId="11403271"/>
+				</AudioDevices>
+			</Plugins>
+			<Busses>
+				<Bus Id="3803692087" Name="Master Audio Bus"/>
+			</Busses>
+		</SoundBank>
+	</SoundBanks>
+	<FileHash>{509EA47C-B9D8-C53A-19D3-47D66D049BA7}</FileHash>
+</SoundBanksInfo>

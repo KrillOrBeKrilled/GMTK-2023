@@ -1,6 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{47D6CD64-E75B-4ADC-8639-ED7E2CD07C54}" SchemaVersion="110">
 	<Events>
-		<WorkUnit Name="Default Work Unit" ID="{47D6CD64-E75B-4ADC-8639-ED7E2CD07C54}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{47D6CD64-E75B-4ADC-8639-ED7E2CD07C54}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="mus" ID="{959C7B8C-59F1-4E69-ADBD-63878421FEEE}" ShortID="73701500">
+					<ChildrenList>
+						<Event Name="Mute_mus" ID="{8A179BB8-990B-4FAD-AB0E-C136B0F4C563}">
+							<ChildrenList>
+								<Action Name="" ID="{96FBEAF2-06BD-489E-A5E8-4ACBAF176FA0}" ShortID="717131445">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="4"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="mus" ID="{A3F87E86-CFF7-4CC1-B220-9F7E4D095790}" WorkUnitID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_mus" ID="{7A4C6031-63D2-4A54-ACB1-7B3CFA6B1D14}">
+							<ChildrenList>
+								<Action Name="" ID="{BF05106A-8923-4CD3-AEFD-A83D1D16D6CB}" ShortID="572851558">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="mus" ID="{A3F87E86-CFF7-4CC1-B220-9F7E4D095790}" WorkUnitID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="UnMute_mus" ID="{3867A781-000E-4E7C-98CD-CA96E7C8AC4F}">
+							<ChildrenList>
+								<Action Name="" ID="{D835B190-4FB3-48AE-8FC5-932BE3FA0EE6}" ShortID="76053089">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="mus" ID="{A3F87E86-CFF7-4CC1-B220-9F7E4D095790}" WorkUnitID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Stop_mus" ID="{CE092D2B-6954-496D-ACDE-62228C989916}">
+							<ChildrenList>
+								<Action Name="" ID="{B1AFBA7C-EA68-4208-AD25-73BE5BF7FDAA}" ShortID="792231258">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="mus" ID="{A3F87E86-CFF7-4CC1-B220-9F7E4D095790}" WorkUnitID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="sfx" ID="{1CFA7C9A-8B4F-4D4A-94B8-76F89B3E8F37}" ShortID="576049611">
+					<ChildrenList>
+						<Event Name="Play_sfx_boss_dialogue" ID="{F90AAB29-4DC8-4341-ADB4-B9DEB2C4A37D}">
+							<ChildrenList>
+								<Action Name="" ID="{77468641-85F7-43D4-9882-7F463E9C1A51}" ShortID="1003769020">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="sfx_boss_dialogue" ID="{9DFCF87C-419F-44E7-9BB8-8CA1AA00B987}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Folder Name="UI" ID="{F77CDCAE-C560-4458-8A33-6F3B18EAF848}" ShortID="585419339">
+							<ChildrenList>
+								<Event Name="Play_sfx_UI_tileSelect_move" ID="{FE6E3F8A-FD2C-4D80-BD14-C0CF51030BF6}">
+									<ChildrenList>
+										<Action Name="" ID="{B2DDCB68-8A66-4E87-B120-1B1A2E05D8A1}" ShortID="179976910">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_UI_tileSelect_move" ID="{C68EFA28-60B0-4F92-9A08-6C7D571AF1E2}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_sfx_UI_pause" ID="{3D49C44B-D2A3-4BB8-ACE6-1562B454C837}">
+									<ChildrenList>
+										<Action Name="" ID="{4A114C26-E26D-42A9-B6E9-DF16F64AB2C0}" ShortID="906459385">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_UI_pause" ID="{4E3D7C47-7217-4156-93EB-6E010D539BFC}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_sfx_UI_tileSelect_confirm" ID="{FB94D1D8-CDD1-49BB-B76C-465CC69ECC90}">
+									<ChildrenList>
+										<Action Name="" ID="{B0758CDC-FE0D-43EC-898D-607D237CCEA1}" ShortID="706715172">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_UI_tileSelect_confirm" ID="{7B3471E0-1E47-4F50-BA42-AD0329DC364D}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_sfx_UI_unpause" ID="{C72B8CFD-A2E7-4716-97DB-8B332F2407D3}">
+									<ChildrenList>
+										<Action Name="" ID="{C1A1072D-6792-4EB6-AB52-78820A5D9A5B}" ShortID="54501752">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_UI_unpause" ID="{8A245975-9216-41EF-8862-4354772E9768}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_sfx_UI_select" ID="{C50C4CC2-2B34-46EF-9975-FB28A769E0AD}">
+									<ChildrenList>
+										<Action Name="" ID="{5660A25A-7E53-485D-8316-E640C86F8C64}" ShortID="588778235">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_UI_select" ID="{46E3DD59-F93E-404B-BC5A-17192CCD0522}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_sfx_UI_confirm" ID="{9F510480-361C-4DF2-A381-951A22F89553}">
+									<ChildrenList>
+										<Action Name="" ID="{D7DFFEC6-D744-4E08-8AAF-5DAEA91B4E2B}" ShortID="19495415">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_UI_confirm" ID="{B669F624-EEDC-417D-AB97-81D9D3B1D126}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+							</ChildrenList>
+						</Folder>
+						<Folder Name="hero" ID="{A29872DE-E2B0-4C08-8E6A-67749EDEB9D0}" ShortID="78672783">
+							<ChildrenList>
+								<Event Name="Play_sfx_hero_jump" ID="{A11348FB-9D6C-4020-96E6-1034E3C0458F}">
+									<ChildrenList>
+										<Action Name="" ID="{087B9A4C-E056-4D46-9D94-B2367B4324BA}" ShortID="199969158">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_hero_jump" ID="{27A51DDE-D0B4-4534-805A-3E331A34A876}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_sfx_hero_dialogue" ID="{8E93F9B1-28CE-4FCF-803E-3DE4D8C339CA}">
+									<ChildrenList>
+										<Action Name="" ID="{A93A8D71-6C2A-4E09-ABBC-7AB2161FB423}" ShortID="380196849">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_hero_dialogue" ID="{F5E02DB1-E5C4-4D97-BC9B-D61913356214}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_sfx_hero_hurt" ID="{B112F1D8-DC02-4BC9-AA9E-80FF071E634C}">
+									<ChildrenList>
+										<Action Name="" ID="{83993581-0C27-4205-B38F-D13A22B119A5}" ShortID="555457870">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_hero_hurt" ID="{74628D1F-DB9E-4017-AB5F-F89DE041B890}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+							</ChildrenList>
+						</Folder>
+						<Folder Name="hen" ID="{94D55748-6503-4503-B34C-970D5F7A334D}" ShortID="868133429">
+							<ChildrenList>
+								<Event Name="Play_sfx_hen_dialogue" ID="{C030CDB8-4CD9-4222-B9DA-94D3C151B165}">
+									<ChildrenList>
+										<Action Name="" ID="{DD2ADE83-4385-4828-9978-A31FEAAEBE3B}" ShortID="580393781">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_hen_dialogue" ID="{A155802B-E8BD-4279-9354-6D782E424EAA}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_sfx_hen_build" ID="{E3C302D9-5022-49BB-8C82-F359B7A17E92}">
+									<ChildrenList>
+										<Action Name="" ID="{EEC0950A-509A-46E7-A78F-242BB32C2893}" ShortID="943111101">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_hen_build" ID="{72B171E5-1E1B-4513-9326-11B3AC4A6C53}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+							</ChildrenList>
+						</Folder>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
 	</Events>
 </WwiseDocument>

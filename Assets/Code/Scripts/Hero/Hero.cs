@@ -11,7 +11,8 @@ public class Hero : MonoBehaviour {
   public UnityEvent OnHeroReset;
   public const int MaxHealth = 100;
   public const int MaxLives = 3;
-
+  public AK.Wwise.Event HeroHurtEvent;
+  
   private HeroMovement _heroMovement;
 
   public void TakeDamage(int amount) {
@@ -21,6 +22,7 @@ public class Hero : MonoBehaviour {
       this.Die();
     }
 
+    HeroHurtEvent.Post(gameObject);
     this.OnHealthChanged?.Invoke(this.Health);
   }
 
@@ -32,6 +34,7 @@ public class Hero : MonoBehaviour {
   private void Die()
   {
     Lives--;
+    HeroHurtEvent.Post(gameObject);
     this.OnHeroDied?.Invoke();
     Destroy(this.gameObject);
   }

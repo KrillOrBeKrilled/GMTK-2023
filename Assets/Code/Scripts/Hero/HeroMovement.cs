@@ -5,6 +5,8 @@ public class HeroMovement : MonoBehaviour
 {
     public float MovementSpeed = 4f;
     public float JumpForce = 100f;
+    
+    public AK.Wwise.Event HeroJumpEvent;
 
     private Rigidbody2D _rigidbody;
     private Animator _animator;
@@ -39,6 +41,8 @@ public class HeroMovement : MonoBehaviour
     {
         _rigidbody.AddForce(Vector2.up * JumpForce);
         _animator.SetTrigger(JumpKey);
+        
+        HeroJumpEvent.Post(gameObject);
     }
 
     public void Stun(float duration) {

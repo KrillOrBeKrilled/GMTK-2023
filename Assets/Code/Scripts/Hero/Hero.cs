@@ -6,6 +6,7 @@ public class Hero : MonoBehaviour {
 
   public UnityEvent<int> OnHealthChanged;
   public UnityEvent OnHeroDied;
+  public const int MaxHealth = 100;
 
   private int _health;
   private HeroMovement _heroMovement;
@@ -21,7 +22,7 @@ public class Hero : MonoBehaviour {
   }
 
   private void Awake() {
-    this._health = 100;
+    this._health = MaxHealth;
     this.OnHeroDied = new UnityEvent();
     this.TryGetComponent(out this._heroMovement);
   }

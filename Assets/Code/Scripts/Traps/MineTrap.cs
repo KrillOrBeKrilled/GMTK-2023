@@ -10,7 +10,7 @@ namespace Traps {
       print("Hit Mine, BOOM!");
     }
     protected override void OnExitedTrap(Hero hero) {
-      throw new System.NotImplementedException();
+
     }
   }
 }

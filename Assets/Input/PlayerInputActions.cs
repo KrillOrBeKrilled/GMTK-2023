@@ -81,6 +81,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Advance Dialogue"",
+                    ""type"": ""Button"",
+                    ""id"": ""8f78b695-8773-4029-b963-120c4ced8d62"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -171,6 +180,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Place Trap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""abc590d5-7a2b-454d-8db5-5b41dfc33215"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Advance Dialogue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -185,6 +205,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_PlaceTrap = m_Player.FindAction("Place Trap", throwIfNotFound: true);
+        m_Player_AdvanceDialogue = m_Player.FindAction("Advance Dialogue", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -295,6 +316,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_PlaceTrap;
+    private readonly InputAction m_Player_AdvanceDialogue;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -302,6 +324,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @PlaceTrap => m_Wrapper.m_Player_PlaceTrap;
+        public InputAction @AdvanceDialogue => m_Wrapper.m_Player_AdvanceDialogue;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -320,6 +343,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @PlaceTrap.started += instance.OnPlaceTrap;
             @PlaceTrap.performed += instance.OnPlaceTrap;
             @PlaceTrap.canceled += instance.OnPlaceTrap;
+            @AdvanceDialogue.started += instance.OnAdvanceDialogue;
+            @AdvanceDialogue.performed += instance.OnAdvanceDialogue;
+            @AdvanceDialogue.canceled += instance.OnAdvanceDialogue;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -333,6 +359,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @PlaceTrap.started -= instance.OnPlaceTrap;
             @PlaceTrap.performed -= instance.OnPlaceTrap;
             @PlaceTrap.canceled -= instance.OnPlaceTrap;
+            @AdvanceDialogue.started -= instance.OnAdvanceDialogue;
+            @AdvanceDialogue.performed -= instance.OnAdvanceDialogue;
+            @AdvanceDialogue.canceled -= instance.OnAdvanceDialogue;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -359,5 +388,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnPlaceTrap(InputAction.CallbackContext context);
+        void OnAdvanceDialogue(InputAction.CallbackContext context);
     }
 }

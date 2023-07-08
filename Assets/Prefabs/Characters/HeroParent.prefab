@@ -104,7 +104,7 @@ Transform:
   - {fileID: 681108859637803226}
   - {fileID: 6247357146538272756}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4971154355172940305
 GameObject:
@@ -118,9 +118,11 @@ GameObject:
   - component: {fileID: 2613767614020428336}
   - component: {fileID: 7392192078593308335}
   - component: {fileID: 5776745590884987164}
+  - component: {fileID: 3891578196396726290}
+  - component: {fileID: 3445928629722167213}
   m_Layer: 0
   m_Name: CinemachineBrain
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -269,6 +271,42 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!114 &3891578196396726290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4971154355172940305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62319f021aefe42d584c3648a857872f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
+--- !u!114 &3445928629722167213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4971154355172940305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d627140a7b5764eb9941ed0b3159b570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDefaultListener: 1
+  listenerId: 0
 --- !u!1 &5785905426203949583
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,6 +321,7 @@ GameObject:
   - component: {fileID: 157904434152629821}
   - component: {fileID: 8506578459566230541}
   - component: {fileID: 524431350219916328}
+  - component: {fileID: 7819598305840644080}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -454,6 +493,21 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -1}
   m_Size: {x: 1.29, y: 2.06}
   m_Direction: 0
+--- !u!114 &7819598305840644080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5785905426203949583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e94f9d9f6e80f984f94976b04551b1f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterName: Hero
+  messageBubbleOffset: {x: 0, y: 1, z: 0}
+  offsetUsesRotation: 0
 --- !u!1 &7854436195679784515
 GameObject:
   m_ObjectHideFlags: 0

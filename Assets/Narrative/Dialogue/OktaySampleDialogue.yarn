@@ -4,4 +4,7 @@ Hero: HEN!
 Hen: HERO!
 Hero: AAAAAAAAAA
 Hen: WEEEEEEEE
+<<start_shake HeroCamera>>
+Boss: WHAT ARE YOU FOOLS UP TO!?
+<<stop_shake HeroCamera>>
 ===

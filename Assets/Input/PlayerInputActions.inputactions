@@ -59,24 +59,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "SetTrap1",
-                    "type": "Button",
-                    "id": "827bcaae-d84d-4af6-979a-d18aaaebc46b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SetTrap2",
-                    "type": "Button",
-                    "id": "d409df2e-df7c-452f-9aef-e60d238dbaf5",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -165,28 +147,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Place Trap",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "edb2f64a-c5ed-4bca-8f40-16350b993af5",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SetTrap1",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "708a9f0e-a208-4ff0-8a61-8c68dde199b5",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SetTrap2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

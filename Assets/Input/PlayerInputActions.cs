@@ -81,24 +81,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SetTrap1"",
-                    ""type"": ""Button"",
-                    ""id"": ""827bcaae-d84d-4af6-979a-d18aaaebc46b"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SetTrap2"",
-                    ""type"": ""Button"",
-                    ""id"": ""d409df2e-df7c-452f-9aef-e60d238dbaf5"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -189,28 +171,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Place Trap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""edb2f64a-c5ed-4bca-8f40-16350b993af5"",
-                    ""path"": ""<Keyboard>/1"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SetTrap1"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""708a9f0e-a208-4ff0-8a61-8c68dde199b5"",
-                    ""path"": ""<Keyboard>/2"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SetTrap2"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -225,8 +185,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_PlaceTrap = m_Player.FindAction("Place Trap", throwIfNotFound: true);
-        m_Player_SetTrap1 = m_Player.FindAction("SetTrap1", throwIfNotFound: true);
-        m_Player_SetTrap2 = m_Player.FindAction("SetTrap2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -337,8 +295,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_PlaceTrap;
-    private readonly InputAction m_Player_SetTrap1;
-    private readonly InputAction m_Player_SetTrap2;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -346,8 +302,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @PlaceTrap => m_Wrapper.m_Player_PlaceTrap;
-        public InputAction @SetTrap1 => m_Wrapper.m_Player_SetTrap1;
-        public InputAction @SetTrap2 => m_Wrapper.m_Player_SetTrap2;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -366,12 +320,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @PlaceTrap.started += instance.OnPlaceTrap;
             @PlaceTrap.performed += instance.OnPlaceTrap;
             @PlaceTrap.canceled += instance.OnPlaceTrap;
-            @SetTrap1.started += instance.OnSetTrap1;
-            @SetTrap1.performed += instance.OnSetTrap1;
-            @SetTrap1.canceled += instance.OnSetTrap1;
-            @SetTrap2.started += instance.OnSetTrap2;
-            @SetTrap2.performed += instance.OnSetTrap2;
-            @SetTrap2.canceled += instance.OnSetTrap2;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -385,12 +333,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @PlaceTrap.started -= instance.OnPlaceTrap;
             @PlaceTrap.performed -= instance.OnPlaceTrap;
             @PlaceTrap.canceled -= instance.OnPlaceTrap;
-            @SetTrap1.started -= instance.OnSetTrap1;
-            @SetTrap1.performed -= instance.OnSetTrap1;
-            @SetTrap1.canceled -= instance.OnSetTrap1;
-            @SetTrap2.started -= instance.OnSetTrap2;
-            @SetTrap2.performed -= instance.OnSetTrap2;
-            @SetTrap2.canceled -= instance.OnSetTrap2;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -417,7 +359,5 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnPlaceTrap(InputAction.CallbackContext context);
-        void OnSetTrap1(InputAction.CallbackContext context);
-        void OnSetTrap2(InputAction.CallbackContext context);
     }
 }

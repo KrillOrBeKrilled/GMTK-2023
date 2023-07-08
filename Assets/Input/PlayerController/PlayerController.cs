@@ -15,7 +15,6 @@ namespace Input
         // --------------- Player State --------------
         private static IdleState _idle;
         private static MovingState _moving;
-        private static DeployingState _deploying;
         private static GameOverState _gameOver;
         private IPlayerState _state;
         public UnityEvent<IPlayerState> OnPlayerStateChanged { get; private set; }
@@ -39,7 +38,6 @@ namespace Input
 
             _idle = new IdleState();
             _moving = new MovingState(_speed);
-            _deploying = new DeployingState();
             _gameOver = new GameOverState();
 
             _state = _idle;
@@ -96,17 +94,14 @@ namespace Input
 
         void Jump(InputAction.CallbackContext obj)
         {
+            // Left out of State pattern to allow this during movement
             _rBody.AddForce(Vector2.up * _jumpingForce);
         }
         
         void DeployTrap(InputAction.CallbackContext obj)
         {
-            // Cache previous state and call OnExit and OnEnter
-            var prevState = _state;
-            _state.OnExit(_deploying);
-            _state = _deploying;
-            _state.OnEnter(prevState);
-            this.OnPlayerStateChanged?.Invoke(this._state);
+            // Left out of State pattern to allow this during movement
+            Debug.Log("Deployed trap!");
         }
         
         public void EnterIdleState()

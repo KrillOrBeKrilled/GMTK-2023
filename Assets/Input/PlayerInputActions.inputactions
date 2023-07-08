@@ -61,18 +61,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SetTrap1",
+                    "name": "Advance Dialogue",
                     "type": "Button",
-                    "id": "827bcaae-d84d-4af6-979a-d18aaaebc46b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SetTrap2",
-                    "type": "Button",
-                    "id": "d409df2e-df7c-452f-9aef-e60d238dbaf5",
+                    "id": "8f78b695-8773-4029-b963-120c4ced8d62",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -170,23 +161,12 @@
                 },
                 {
                     "name": "",
-                    "id": "edb2f64a-c5ed-4bca-8f40-16350b993af5",
-                    "path": "<Keyboard>/1",
+                    "id": "abc590d5-7a2b-454d-8db5-5b41dfc33215",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SetTrap1",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "708a9f0e-a208-4ff0-8a61-8c68dde199b5",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SetTrap2",
+                    "action": "Advance Dialogue",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

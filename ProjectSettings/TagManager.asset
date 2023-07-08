@@ -5,16 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
-  - Trap
+  - Hero
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
+  - Hero
+  - Traps
   - 
   - 
   - 

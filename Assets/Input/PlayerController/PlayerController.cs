@@ -51,6 +51,12 @@ namespace Input
 
         void Awake()
         {
+            // Populate tile positions list 
+            _previousTilePositions.Add(Vector3Int.zero);
+            _previousTilePositions.Add(Vector3Int.zero);
+            _previousTilePositions.Add(Vector3Int.zero);
+            _previousTilePositions.Add(Vector3Int.zero);
+            
             _rBody = GetComponent<Rigidbody2D>();
 
             _idle = new IdleState();
@@ -61,13 +67,13 @@ namespace Input
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState>();
         }
 
-        private void Start() {
+        void Start() {
             // Need this due to race condition during scene Awake->OnEnable calls
             this._playerInputActions = PlayerInputController.Instance.PlayerInputActions;
             OnEnable();
         }
 
-        private void FixedUpdate()
+        void FixedUpdate()
         {
             float directionInput = _playerInputActions.Player.Move.ReadValue<float>();
             _direction = directionInput != 0 ? directionInput : _direction;
@@ -251,7 +257,7 @@ namespace Input
             _canDeploy = false;
 
             // Clear the data of the previous tile
-            _previousTilePositions.Clear();
+            _previousTilePositions[0] = Vector3Int.zero;
         }
 
         // For when we put in an animator
@@ -363,10 +369,6 @@ namespace Input
             this._playerInputActions.Player.Move.canceled += Idle;
             this._playerInputActions.Player.Jump.performed += Jump;
             this._playerInputActions.Player.PlaceTrap.performed += DeployTrap;
-            
-            // Test functions to set the traps
-            this._playerInputActions.Player.SetTrap1.performed += SetTrap1;
-            this._playerInputActions.Player.SetTrap2.performed += SetTrap2;
         }
 
         private void OnDisable() {
@@ -374,8 +376,6 @@ namespace Input
             this._playerInputActions.Player.Move.canceled -= Idle;
             this._playerInputActions.Player.Jump.performed -= Jump;
             this._playerInputActions.Player.PlaceTrap.performed -= DeployTrap;
-            this._playerInputActions.Player.SetTrap1.performed -= SetTrap1;
-            this._playerInputActions.Player.SetTrap2.performed -= SetTrap2;
         }
         
         private void OnCollisionEnter2D(Collision2D collision)

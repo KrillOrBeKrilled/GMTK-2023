@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,7 +28,16 @@ namespace Traps
         // Adjusts the trap spawn position relative to an origin
         public abstract Vector3 GetLeftSpawnPoint(Vector3 origin);
         public abstract Vector3 GetRightSpawnPoint(Vector3 origin);
-        
-        public abstract void Detonate();
+
+        protected abstract void OnEnteredTrap(Hero hero);
+        protected abstract void OnExitedTrap(Hero hero);
+
+        private void OnTriggerEnter2D(Collider2D other) {
+            this.OnEnteredTrap(other.GetComponent<Hero>());
+        }
+
+        private void OnTriggerExit2D(Collider2D other) {
+            this.OnExitedTrap(other.GetComponent<Hero>());
+        }
     }
 }

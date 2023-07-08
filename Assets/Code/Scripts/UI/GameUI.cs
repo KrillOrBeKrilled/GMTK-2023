@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class GameUI : MonoBehaviour{
   [SerializeField] private Image _foregroundImage;
   [SerializeField] private GameObject _pauseUI;
+  [SerializeField] private HeroHealthBarUI _heroHealthBarUI;
 
   private const float FadeDuration = 0.5f;
 
@@ -23,6 +24,7 @@ public class GameUI : MonoBehaviour{
 
   private void Awake() {
     this._foregroundImage.gameObject.SetActive(true);
+    this._heroHealthBarUI.gameObject.SetActive(true);
   }
 
   private void Start() {

@@ -15,10 +15,11 @@ namespace Traps
         {
             return origin + _rightSpawnOffset;
         }
+        
+        protected  override void OnEnteredTrap(Hero hero) {
+        }
 
-        public override void Detonate()
-        {
-            
+        protected override void OnExitedTrap(Hero hero) {
         }
     }
 }

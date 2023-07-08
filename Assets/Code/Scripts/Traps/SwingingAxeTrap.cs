@@ -5,8 +5,14 @@ namespace Traps {
     [SerializeField] private float _pushbackForce = 1f;
     [SerializeField] private int _damageAmount = 10;
 
-    public override void AdjustSpawnPoint() {
-      throw new System.NotImplementedException();
+    public override Vector3 GetLeftSpawnPoint(Vector3 origin)
+    {
+      return origin + _leftSpawnOffset;
+    }
+        
+    public override Vector3 GetRightSpawnPoint(Vector3 origin)
+    {
+      return origin + _rightSpawnOffset;
     }
 
     protected override void OnEnteredTrap(Hero hero) {

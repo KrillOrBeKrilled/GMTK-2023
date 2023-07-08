@@ -51,12 +51,6 @@ namespace Input
 
         void Awake()
         {
-            // Populate tile positions list 
-            _previousTilePositions.Add(Vector3Int.zero);
-            _previousTilePositions.Add(Vector3Int.zero);
-            _previousTilePositions.Add(Vector3Int.zero);
-            _previousTilePositions.Add(Vector3Int.zero);
-            
             _rBody = GetComponent<Rigidbody2D>();
 
             _idle = new IdleState();
@@ -67,13 +61,13 @@ namespace Input
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState>();
         }
 
-        void Start() {
+        private void Start() {
             // Need this due to race condition during scene Awake->OnEnable calls
             this._playerInputActions = PlayerInputController.Instance.PlayerInputActions;
             OnEnable();
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             float directionInput = _playerInputActions.Player.Move.ReadValue<float>();
             _direction = directionInput != 0 ? directionInput : _direction;
@@ -102,22 +96,6 @@ namespace Input
             // Ensure that there are no query results yet or that the deploymentOrigin has changed
             if (_previousTilePositions.Count < 1 || deploymentOrigin != _previousTilePositions[0])
             {
-                
-                
-                
-                // if (_previousTilePositions.Count < 1)
-                // {
-                //     Debug.Log("The cache is empty");
-                // }
-                // else
-                // {
-                //     Debug.Log("The tile changed");
-                // }
-                
-                
-                
-                
-                
                 // The tile changed, so flush the tint on the previous tiles and reset the collision status
                 ClearTrapDeployment();
 
@@ -133,13 +111,6 @@ namespace Input
 
                 if (currentCollision)
                 {
-                    
-                    
-                    // Debug.Log(currentCollision);
-                    
-                    
-                    
-                    
                     // Simulate a broad phase of collision; if there's something in the general area, check if any of
                     // the tiles to be painted are within the collision bounds
                     foreach (var prefabOffsetPosition in prefabPoints)
@@ -211,10 +182,6 @@ namespace Input
             var bounds = currentCollision.bounds;
             var maxBounds = bounds.max; 
             var minBounds = bounds.min;
-            
-            Debug.Log("tilePoint: " + tileWorldPosition);
-            Debug.Log("maxBounds: " + maxBounds);
-            Debug.Log("minBounds: " + minBounds);
 
             bool vertices1 = (tileWorldPosition.x <= maxBounds.x) && (tileWorldPosition.y <= maxBounds.y);
             bool vertices2 = (tileWorldPosition.x >= minBounds.x) && (tileWorldPosition.y >= minBounds.y);
@@ -257,7 +224,7 @@ namespace Input
             _canDeploy = false;
 
             // Clear the data of the previous tile
-            _previousTilePositions[0] = Vector3Int.zero;
+            _previousTilePositions.Clear();
         }
 
         // For when we put in an animator
@@ -369,6 +336,10 @@ namespace Input
             this._playerInputActions.Player.Move.canceled += Idle;
             this._playerInputActions.Player.Jump.performed += Jump;
             this._playerInputActions.Player.PlaceTrap.performed += DeployTrap;
+            
+            // Test functions to set the traps
+            this._playerInputActions.Player.SetTrap1.performed += SetTrap1;
+            this._playerInputActions.Player.SetTrap2.performed += SetTrap2;
         }
 
         private void OnDisable() {
@@ -376,6 +347,8 @@ namespace Input
             this._playerInputActions.Player.Move.canceled -= Idle;
             this._playerInputActions.Player.Jump.performed -= Jump;
             this._playerInputActions.Player.PlaceTrap.performed -= DeployTrap;
+            this._playerInputActions.Player.SetTrap1.performed -= SetTrap1;
+            this._playerInputActions.Player.SetTrap2.performed -= SetTrap2;
         }
         
         private void OnCollisionEnter2D(Collision2D collision)

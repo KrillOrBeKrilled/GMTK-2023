@@ -19,6 +19,7 @@ namespace Input
         {
             if (other.gameObject.CompareTag("Trap"))
             {
+                Debug.Log("Enter other: " + other);
                 _currentCollision = other;
             }
         }
@@ -27,6 +28,7 @@ namespace Input
         {
             if (other.gameObject.CompareTag("Trap"))
             {
+                Debug.Log("Exit collision: " + other);
                 _currentCollision = null;
             }
         }

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Traps
 {
     public class TestTrap1 : Trap
@@ -7,7 +9,7 @@ namespace Traps
 
         }
 
-        public override void Detonate()
+        protected  override void Detonate(Collider2D target)
         {
             print("Detonating!");
         }

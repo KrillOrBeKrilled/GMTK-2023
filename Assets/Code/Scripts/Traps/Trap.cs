@@ -10,10 +10,10 @@ namespace Traps
         [SerializeField] protected List<Transform> _gridPoints;
 
         public abstract void AdjustSpawnPoint();
-        public abstract void Detonate();
+        protected abstract void Detonate(Collider2D target);
 
         private void OnTriggerEnter2D(Collider2D other) {
-            this.Detonate();
+            this.Detonate(other);
         }
     }
 }

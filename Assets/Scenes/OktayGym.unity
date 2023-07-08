@@ -239,6 +239,18 @@ PrefabInstance:
       propertyPath: allCharacters.Array.data[1]
       value: 
       objectReference: {fileID: 1919713179}
+    - target: {fileID: 6711672230207336559, guid: 8d6c09a6f35ab93498a17f1a2b9375a9, type: 3}
+      propertyPath: HenDialogueEvent.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: de1eef44fcdd04ee28fa89aaa021100d, type: 2}
+    - target: {fileID: 6711672230207336559, guid: 8d6c09a6f35ab93498a17f1a2b9375a9, type: 3}
+      propertyPath: BossDialogueEvent.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: f67edc7697cc44b95a6e73cb1aa7b062, type: 2}
+    - target: {fileID: 6711672230207336559, guid: 8d6c09a6f35ab93498a17f1a2b9375a9, type: 3}
+      propertyPath: HeroDialogueEvent.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: ef58f8f9ce86149d9ad45e812b3e6673, type: 2}
     - target: {fileID: 8033589538404948243, guid: 8d6c09a6f35ab93498a17f1a2b9375a9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -263,6 +275,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9042731078904656191, guid: 8d6c09a6f35ab93498a17f1a2b9375a9, type: 3}
+      propertyPath: data.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 7ea2bebabe0af4a0e9444341024be355, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -30138,10 +30154,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 157904434152629821, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
+      propertyPath: HeroJumpEvent.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 3cdda45bcab2f4f738df1bc1039774d7, type: 2}
+    - target: {fileID: 1642157839624174438, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
+      propertyPath: HeroHurtEvent.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ac2bf606307a47b2a29782958c7db68, type: 2}
     - target: {fileID: 2617567567799712141, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
       propertyPath: m_Name
       value: HeroParent
       objectReference: {fileID: 0}
+    - target: {fileID: 2714923360369896574, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
+      propertyPath: data.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 7ea2bebabe0af4a0e9444341024be355, type: 2}
+    - target: {fileID: 3544189015641284185, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
+      propertyPath: data.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 344f593a9d5ae47b5a3418055546391d, type: 2}
+    - target: {fileID: 4567588014187424986, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
+      propertyPath: data.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 248436b2931044b21a89384c7e07d83f, type: 2}
+    - target: {fileID: 5428609293778560178, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
+      propertyPath: data.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 98f5633e890ad47a88ed31b005229da4, type: 2}
     - target: {fileID: 7748770393677785153, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
       propertyPath: m_RootOrder
       value: 2

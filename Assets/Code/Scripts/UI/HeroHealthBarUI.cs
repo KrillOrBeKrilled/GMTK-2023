@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,7 +32,9 @@ public class HeroHealthBarUI : MonoBehaviour {
   }
 
   private void OnHealthChanged(int health) {
-    this._healthBar.value = health;
+    this._healthBar
+      .DOValue(health, 0.3f)
+      .SetEase(Ease.InOutCubic);
   }
 
   private void OnDeath() {
@@ -47,7 +50,7 @@ public class HeroHealthBarUI : MonoBehaviour {
       new Vector2(viewportPosition.x * sizeDelta.x - sizeDelta.x * 0.5f,
         viewportPosition.y * sizeDelta.y - sizeDelta.y * 0.5f);
     worldObjectScreenPosition += this._positionOffset;
-
-    this._rectTransform.anchoredPosition = worldObjectScreenPosition;
+    
+    this._rectTransform.DOAnchorPos(worldObjectScreenPosition, 0.1f);
   }
 }

@@ -9,9 +9,13 @@ namespace Traps
 
         }
 
-        protected  override void TriggerTrap(Hero hero)
+        protected  override void OnEnteredTrap(Hero hero)
         {
-            print("Detonating!");
+            print("Triggering Trap");
+        }
+
+        protected override void OnExitedTrap(Hero hero) {
+            print("Left Trap");
         }
     }
 }

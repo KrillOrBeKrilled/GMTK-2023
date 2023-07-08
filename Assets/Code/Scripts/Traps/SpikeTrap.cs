@@ -8,9 +8,13 @@ namespace Traps {
       throw new System.NotImplementedException();
     }
 
-    protected  override void TriggerTrap(Hero hero) {
-      print("Hit spikes!");
+    protected  override void OnEnteredTrap(Hero hero) {
       hero.TakeDamage(this._damageAmount);
+      hero.HeroMovement.SetSpeedPenalty(0.8f);
+    }
+
+    protected override void OnExitedTrap(Hero hero) {
+      hero.HeroMovement.ResetSpeedPenalty();
     }
   }
 }

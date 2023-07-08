@@ -9,10 +9,15 @@ namespace Traps
         [SerializeField] protected List<Transform> _gridPoints;
 
         public abstract void AdjustSpawnPoint();
-        protected abstract void TriggerTrap(Hero hero);
+        protected abstract void OnEnteredTrap(Hero hero);
+        protected abstract void OnExitedTrap(Hero hero);
 
         private void OnTriggerEnter2D(Collider2D other) {
-            this.TriggerTrap(other.GetComponent<Hero>());
+            this.OnEnteredTrap(other.GetComponent<Hero>());
+        }
+
+        private void OnTriggerExit2D(Collider2D other) {
+            this.OnExitedTrap(other.GetComponent<Hero>());
         }
     }
 }

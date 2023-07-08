@@ -5,7 +5,10 @@ public class AcidPitTrap : Trap {
     throw new System.NotImplementedException();
   }
 
-  protected override void TriggerTrap(Hero hero) {
+  protected override void OnEnteredTrap(Hero hero) {
+    throw new System.NotImplementedException();
+  }
+  protected override void OnExitedTrap(Hero hero) {
     throw new System.NotImplementedException();
   }
 }

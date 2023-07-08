@@ -7,7 +7,7 @@ public class HeroMovement : MonoBehaviour
     public float JumpForce = 100f;
 
     private Rigidbody2D _rigidbody;
-    private HeroMovement _heroMovement;
+    private Animator _animator;
 
     private bool _isStunned;
     private Coroutine _stunCoroutine;
@@ -17,6 +17,9 @@ public class HeroMovement : MonoBehaviour
     // - 0.7 is 70% speed reduction
     // Clamped between [0,1]
     private float _speedPenalty = 0f;
+    private static readonly int JumpKey = Animator.StringToHash("jump");
+    private static readonly int XSpeedKey = Animator.StringToHash("xSpeed");
+    private static readonly int YSpeedKey = Animator.StringToHash("ySpeed");
 
     public void ResetSpeedPenalty() {
         this._speedPenalty = 0f;
@@ -35,6 +38,7 @@ public class HeroMovement : MonoBehaviour
     public void Jump()
     {
         _rigidbody.AddForce(Vector2.up * JumpForce);
+        _animator.SetTrigger(JumpKey);
     }
 
     public void Stun(float duration) {
@@ -54,6 +58,7 @@ public class HeroMovement : MonoBehaviour
     private void Awake()
     {
         TryGetComponent(out _rigidbody);
+        TryGetComponent(out _animator);
         this._isStunned = false;
     }
 
@@ -63,6 +68,8 @@ public class HeroMovement : MonoBehaviour
 
         float speed = this.MovementSpeed * (1f - this._speedPenalty);
         _rigidbody.velocity = new Vector2(speed, _rigidbody.velocity.y);
+        _animator.SetFloat(XSpeedKey, Mathf.Abs(_rigidbody.velocity.x));
+        _animator.SetFloat(YSpeedKey, Mathf.Abs(_rigidbody.velocity.y));
     }
 
     private IEnumerator StunCoroutine(float duration) {

@@ -6125,7 +6125,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5060681177199529130, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5060681177199529130, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: m_AnchorMax.x
@@ -6615,7 +6615,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1801679349
 MonoBehaviour:
@@ -7868,6 +7868,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MineTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 2804027177539932533, guid: 98797c311bcb9456dbdf8a0775ae28e7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5237126446321913757, guid: 98797c311bcb9456dbdf8a0775ae28e7, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -7982,6 +7986,67 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 383ecc9e1b2854cfb9c8a66d9d0cdc23, type: 3}
+--- !u!1001 &2311154399860959751
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4923945304104951089, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923945304104951089, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 15.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923945304104951089, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923945304104951089, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923945304104951089, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923945304104951089, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923945304104951089, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923945304104951089, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923945304104951089, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923945304104951089, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923945304104951089, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7242327205239312664, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
+      propertyPath: m_Name
+      value: SwingingAxeTrap
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
 --- !u!1001 &2608510745013249718
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -15,6 +15,11 @@ public class HeroLivesBarUI : MonoBehaviour
     {
         TryGetComponent(out _heartsImage);
     }
+
+    void Start()
+    {
+        UpdateLivesBar();
+    }
     
     void OnEnable()
     {
@@ -31,7 +36,7 @@ public class HeroLivesBarUI : MonoBehaviour
     {
         if (_hero != null)
         {
-            _heartsImage.rectTransform.sizeDelta = new Vector2(_heartImageWidth, _heartImageWidth * _hero.Lives);
+            _heartsImage.rectTransform.sizeDelta = new Vector2(_heartImageWidth * _hero.Lives, _heartImageWidth);
         }
     }
 }

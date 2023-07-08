@@ -15,6 +15,7 @@ public class Hero : MonoBehaviour {
   
   private HeroMovement _heroMovement;
 
+
   public void TakeDamage(int amount) {
     this.Health -= amount;
 
@@ -27,8 +28,9 @@ public class Hero : MonoBehaviour {
   }
 
   private void Awake() {
-    this.Health = MaxHealth;
     this.TryGetComponent(out this._heroMovement);
+    
+    ResetHero();
   }
 
   private void Die()

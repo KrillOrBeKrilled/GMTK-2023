@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo>
+	<Project Name="GMTK-2023_WwiseProject" GUID="{B5F78107-A112-4401-8F7A-179818E13BF0}" Generator="2022.1.5.8242"/>
+	<CacheRoot>../../../../GMTK-2023_WwiseProject/.cache/</CacheRoot>
+	<Platforms>
+		<Platform Name="Linux" GUID="{004DC4EE-C0D1-46D1-B8CC-2788861D048F}" BasePlatform="Linux" BasePlatformGUID="{BD0BDF13-3125-454F-8BFD-319537169F81}" Path="../../../../GMTK-2023_WwiseProject/GeneratedSoundBanks/Linux/"/>
+		<Platform Name="Mac" GUID="{AD7D69E8-2FC4-447A-AC8F-9797850003F2}" BasePlatform="Mac" BasePlatformGUID="{9C6217D5-DD11-4795-87C1-6CE02853C540}" Path="../../../../GMTK-2023_WwiseProject/GeneratedSoundBanks/Mac/"/>
+		<Platform Name="Windows" GUID="{924160F0-B90E-4041-AB71-4E09F4F1A85A}" BasePlatform="Windows" BasePlatformGUID="{6E0CB257-C6C8-4C5C-8366-2740DFC441EB}" Path="../../../../GMTK-2023_WwiseProject/GeneratedSoundBanks/Windows/"/>
+	</Platforms>
+	<Languages>
+		<Language Name="English(US)" Id="684519430" GUID="{E041CF22-664F-49C8-89C3-F39FCE22FC7C}" Default="true" UseAsStandIn="true"/>
+	</Languages>
+	<FileHash>{50850094-DE75-C386-AB28-5927F2B8B3AB}</FileHash>
+</ProjectInfo>

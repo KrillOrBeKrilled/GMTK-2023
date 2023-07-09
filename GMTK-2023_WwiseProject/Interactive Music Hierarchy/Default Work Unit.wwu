@@ -1,6 +1,1061 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}" SchemaVersion="110">
 	<InteractiveMusic>
-		<WorkUnit Name="Default Work Unit" ID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}" PersistMode="Standalone">
+			<ChildrenList>
+				<MusicPlaylistContainer Name="mus" ID="{A3F87E86-CFF7-4CC1-B220-9F7E4D095790}" ShortID="277568514">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-5</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EB546B91-8D58-4470-8021-567389FBC3C0}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{81856265-C603-4AF0-93DD-E73657EF8752}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<MusicSegment Name="mus_120bpm" ID="{D7F9D545-B38B-4865-A24D-77AB7631E2F8}" ShortID="42206943">
+							<PropertyList>
+								<Property Name="EndPosition" Type="Real64" Value="26500"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EB546B91-8D58-4470-8021-567389FBC3C0}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{81856265-C603-4AF0-93DD-E73657EF8752}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicTrack Name="mus_120bpm_bass" ID="{60028508-5C9F-4D4D-AB6B-67B912E39801}" ShortID="724955665">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{81856265-C603-4AF0-93DD-E73657EF8752}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="mus_120bpm_bass" ID="{157E189F-BD17-4F1C-A067-733016BDCE9E}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_bass.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="69287756"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<TransitionList>
+										<MusicTransition Name="Root" ID="{888FF16A-E313-44C5-85DC-23AAF8936E4D}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</TransitionList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{600045EC-3F6F-4FB5-B4D4-C7B7520064C2}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_bass" ID="{9889A7B0-1D62-4C74-BEFD-25A58446656D}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="22000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_bass" ID="{157E189F-BD17-4F1C-A067-733016BDCE9E}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+								<MusicTrack Name="mus_120bpm_bassTrombone" ID="{D55EC8B9-B109-4A0C-9254-750EC22438EA}" ShortID="548399138">
+									<PropertyList>
+										<Property Name="MusicTrackType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EB546B91-8D58-4470-8021-567389FBC3C0}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{81856265-C603-4AF0-93DD-E73657EF8752}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="mus_120bpm_bassTrombone" ID="{4A170BC0-5C38-4E88-96F8-0A428B741DA5}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_bassTrombone.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="157936423"/>
+											</MediaIDList>
+										</AudioFileSource>
+										<AudioFileSource Name="mus_120bpm_silence" ID="{2CAC074D-F562-489F-94C4-B9A909DC4A35}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_silence.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="946355814"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<TransitionList>
+										<MusicTransition Name="Root" ID="{1EC162C1-CFD9-4DEB-88F2-887A2F69208A}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</TransitionList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{4EDC601B-AA0E-4402-B86D-EA078CA2F766}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_bassTrombone" ID="{CE54A088-7336-4B4D-9059-911BBD25EDB8}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="22000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_bassTrombone" ID="{4A170BC0-5C38-4E88-96F8-0A428B741DA5}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{07ADC126-C180-4167-9556-CB3E93BEF222}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_silence" ID="{F1BDF3AF-4A00-4240-A679-7AF291E90B33}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="16000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_silence" ID="{2CAC074D-F562-489F-94C4-B9A909DC4A35}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+								<MusicTrack Name="mus_120bpm_percussionBassDrum" ID="{B56DAFB3-9A84-4140-B600-980D5CF7B838}" ShortID="241682736">
+									<PropertyList>
+										<Property Name="MusicTrackType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EB546B91-8D58-4470-8021-567389FBC3C0}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{81856265-C603-4AF0-93DD-E73657EF8752}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="mus_120bpm_percussionBassDrum" ID="{0E6F7EE7-5F5F-4199-92C2-657A642B8EAB}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_percussionBassDrum.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="573338594"/>
+											</MediaIDList>
+										</AudioFileSource>
+										<AudioFileSource Name="mus_120bpm_silence" ID="{3E193066-1A6D-4C8B-A65D-6C68C45CFD12}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_silence.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="946355814"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<TransitionList>
+										<MusicTransition Name="Root" ID="{63BBC2B3-3AE2-4366-9F82-5537C14C341B}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</TransitionList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{436E24D9-7FA2-4DF2-A484-A624DF9EAD70}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_percussionBassDrum" ID="{BBE0398C-79A9-42CE-84DE-B4F039DFA89D}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="22000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_percussionBassDrum" ID="{0E6F7EE7-5F5F-4199-92C2-657A642B8EAB}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_percussionBassDrum" ID="{1FC907EB-983C-4145-9338-6789809A6FD3}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="22000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_percussionBassDrum" ID="{0E6F7EE7-5F5F-4199-92C2-657A642B8EAB}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{9239BE50-5D0D-49B9-AE0C-18461498BF52}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_silence" ID="{00D1D3AA-5AFE-46BA-AEFD-83FE71B7A4CE}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="16000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_silence" ID="{3E193066-1A6D-4C8B-A65D-6C68C45CFD12}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{03FEFE7D-B28B-43A4-90B2-4AC9FB69AFCD}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_percussionBassDrum" ID="{5A51BBF1-3432-4872-9B7F-C3F29B237E11}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="22000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_percussionBassDrum" ID="{0E6F7EE7-5F5F-4199-92C2-657A642B8EAB}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+								<MusicTrack Name="mus_120bpm_percussionCowbell" ID="{0FC69C71-AA0C-46EF-AF0E-96FB48D8AD32}" ShortID="687903592">
+									<PropertyList>
+										<Property Name="MusicTrackType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EB546B91-8D58-4470-8021-567389FBC3C0}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{81856265-C603-4AF0-93DD-E73657EF8752}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="mus_120bpm_percussionCowbell" ID="{EDFD3C06-5205-4390-ABFB-DA5563BE10F8}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_percussionCowbell.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="995036463"/>
+											</MediaIDList>
+										</AudioFileSource>
+										<AudioFileSource Name="mus_120bpm_silence" ID="{0D61F2AD-1400-4935-9FC0-5320847A8D59}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_silence.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="946355814"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<TransitionList>
+										<MusicTransition Name="Root" ID="{8DEF4178-C872-4B9E-B5A9-B85A5ECC97D8}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</TransitionList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{145C6A4B-950A-4E8C-9A52-267D5AD4EA12}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_percussionCowbell" ID="{B2C79EEB-5A21-440C-BB2E-0A951F75D4FC}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="22000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_percussionCowbell" ID="{EDFD3C06-5205-4390-ABFB-DA5563BE10F8}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{BF09C09E-2AFC-421E-8EEC-CD54F58E1EEC}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_silence" ID="{F27115E6-874D-478E-9617-A717402189EE}">
+																			<PropertyList>
+																				<Property Name="BeginTrimOffset" Type="Real64" Value="1.38777878078145E-14"/>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="16000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																				<Property Name="PlayAt" Type="Real64" Value="-1.38777878078145E-14"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_silence" ID="{0D61F2AD-1400-4935-9FC0-5320847A8D59}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+								<MusicTrack Name="mus_120bpm_percussionCrashCymbal" ID="{FA5C4A88-76B6-4ACD-8071-27240E4BAE7E}" ShortID="193918002">
+									<PropertyList>
+										<Property Name="MusicTrackType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EB546B91-8D58-4470-8021-567389FBC3C0}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{81856265-C603-4AF0-93DD-E73657EF8752}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="mus_120bpm_percussionCrashCymbal" ID="{E1998B31-0453-4BFF-815A-D0368EE89412}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_percussionCrashCymbal.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="98969881"/>
+											</MediaIDList>
+										</AudioFileSource>
+										<AudioFileSource Name="mus_120bpm_silence" ID="{D64DCB64-DE82-4F98-8D6B-F90BB4A1E40C}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_silence.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="946355814"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<TransitionList>
+										<MusicTransition Name="Root" ID="{E7FB3EAE-4F11-44F8-8C43-BAA30138C092}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</TransitionList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{E2DE9688-ABAF-41E0-999A-26EDC0A88338}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_percussionCrashCymbal" ID="{F491B213-C2BD-42E8-BF7C-22F8D712FF19}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="22000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_percussionCrashCymbal" ID="{E1998B31-0453-4BFF-815A-D0368EE89412}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{BFD9F2CE-779E-42DA-9333-199C69C865FA}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_silence" ID="{95A22B20-9E19-42DE-AABD-FC1A879A01B7}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="16000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_silence" ID="{D64DCB64-DE82-4F98-8D6B-F90BB4A1E40C}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+								<MusicTrack Name="mus_120bpm_percussionGlockenspiel" ID="{27A89977-CC39-4366-B608-65D2B19A5E5A}" ShortID="391012848">
+									<PropertyList>
+										<Property Name="MusicTrackType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EB546B91-8D58-4470-8021-567389FBC3C0}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{81856265-C603-4AF0-93DD-E73657EF8752}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="mus_120bpm_percussionGlockenspiel" ID="{B4D0AD7A-AC19-4954-81F7-7EA52E08C0DD}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_percussionGlockenspiel.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="241994922"/>
+											</MediaIDList>
+										</AudioFileSource>
+										<AudioFileSource Name="mus_120bpm_percussionXylophone" ID="{F86D6AFB-ACBE-4B7E-84B9-CD5F4F49417E}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_percussionXylophone.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="229884536"/>
+											</MediaIDList>
+										</AudioFileSource>
+										<AudioFileSource Name="mus_120bpm_silence" ID="{267745CF-70C3-40E3-BBCB-6DE511A004CB}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_silence.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="946355814"/>
+											</MediaIDList>
+										</AudioFileSource>
+										<AudioFileSource Name="mus_120bpm_silence_01" ID="{980E5A9E-7023-4663-A2D3-123D08F51D46}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_silence.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="946355814"/>
+											</MediaIDList>
+										</AudioFileSource>
+										<AudioFileSource Name="mus_120bpm_silence_02" ID="{BB21313E-D648-40BB-9347-ECD1A48A123E}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_silence.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="946355814"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<TransitionList>
+										<MusicTransition Name="Root" ID="{75D38240-0E67-48EE-9AA8-9187C234CDFE}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</TransitionList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{1590E501-DB36-4AF6-8A00-FF703FA4EDEB}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_percussionGlockenspiel" ID="{604B7B7D-779D-4A98-8F5C-74ADD618D52C}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="22000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_percussionGlockenspiel" ID="{B4D0AD7A-AC19-4954-81F7-7EA52E08C0DD}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{0376904C-EE72-4727-B1D0-2974459EDBA2}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_percussionXylophone" ID="{9C070FE8-9499-4E0A-9D90-7AD97329A51C}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="22000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_percussionXylophone" ID="{F86D6AFB-ACBE-4B7E-84B9-CD5F4F49417E}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{DE152F6C-0A3C-4E62-B4B6-FD01B206EF52}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_silence" ID="{C00B3B01-F223-474B-864B-6D36154D1C5B}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="16000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_silence" ID="{267745CF-70C3-40E3-BBCB-6DE511A004CB}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{82D51BC1-667E-4DE9-AEFD-6322D6189A3B}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_silence_01" ID="{66DAB9FA-C856-49D0-A19F-BBFFA2367ECB}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="16000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_silence_01" ID="{980E5A9E-7023-4663-A2D3-123D08F51D46}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{88E3492E-AF83-4B74-9A7E-9B40AFAD2A3B}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_silence_02" ID="{90B79F3D-1FC9-49C8-81C0-356E5C4EC22C}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="16000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_silence_02" ID="{BB21313E-D648-40BB-9347-ECD1A48A123E}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+								<MusicTrack Name="mus_120bpm_percussionUnpitched" ID="{D08FD1E2-0BCE-40EA-BCC5-1B91A50117CD}" ShortID="431290272">
+									<PropertyList>
+										<Property Name="MusicTrackType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EB546B91-8D58-4470-8021-567389FBC3C0}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{81856265-C603-4AF0-93DD-E73657EF8752}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="mus_120bpm_percussionUnpitched" ID="{5F89A757-3FEE-4392-94AF-73058C6BC2BF}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_percussionUnpitched.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="7169072"/>
+											</MediaIDList>
+										</AudioFileSource>
+										<AudioFileSource Name="mus_120bpm_silence" ID="{BC249587-BD28-49F4-ADA9-FE79B7F48E4C}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_silence.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="946355814"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<TransitionList>
+										<MusicTransition Name="Root" ID="{FB44A4C8-C8F6-42AB-A97D-FA394A7CEF5A}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</TransitionList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{5FB440EB-5A2B-4DC0-BD04-6F757C4A63A3}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_percussionUnpitched" ID="{FBC3F8CC-2AA5-4F44-AB2D-D131DC4A9319}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="22000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_percussionUnpitched" ID="{5F89A757-3FEE-4392-94AF-73058C6BC2BF}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{C92AFFA7-2BD8-43E3-AEC7-33AD81DC74B4}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_silence" ID="{B54F2D9B-2C1E-4464-8054-0B17F6254587}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="16000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_silence" ID="{BC249587-BD28-49F4-ADA9-FE79B7F48E4C}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{886D8BF2-B377-4492-A293-C8C8654E027B}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_percussionUnpitched" ID="{991B51B7-FB6C-480C-A650-A95FD0A09284}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="22000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_percussionUnpitched" ID="{5F89A757-3FEE-4392-94AF-73058C6BC2BF}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+								<MusicTrack Name="mus_120bpm_strings" ID="{DF7D77C4-F739-4522-B3EB-9CD20C865BB4}" ShortID="902998421">
+									<PropertyList>
+										<Property Name="MusicTrackType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EB546B91-8D58-4470-8021-567389FBC3C0}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{81856265-C603-4AF0-93DD-E73657EF8752}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="mus_120bpm_strings" ID="{3F569F82-138D-484E-B215-D84AB2F65288}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_strings.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="812626785"/>
+											</MediaIDList>
+										</AudioFileSource>
+										<AudioFileSource Name="mus_120bpm_silence" ID="{2EED1375-5BDD-488E-A63F-63720C7E520A}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_silence.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="946355814"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<TransitionList>
+										<MusicTransition Name="Root" ID="{E2471417-BE92-4FE2-A528-82D91AF5EB56}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</TransitionList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{70E89682-2776-4D9C-B651-EAD1FDAB7B52}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_strings" ID="{6B38898B-1C71-4DC5-81A9-FD67DACA3D81}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="22000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_strings" ID="{3F569F82-138D-484E-B215-D84AB2F65288}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{5667E11B-D6E6-4B03-BC2A-5C07F4EBA0DC}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_silence" ID="{BD9B760F-2ED4-48D5-B6C3-0045F8166234}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="16000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_silence" ID="{2EED1375-5BDD-488E-A63F-63720C7E520A}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{27F82F44-E3F9-44A8-B199-A0948DB27061}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_strings" ID="{302486C6-2111-4A79-95E3-D145501E6641}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="22000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_strings" ID="{3F569F82-138D-484E-B215-D84AB2F65288}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{A67B58C3-9DEB-4B4B-9641-A062A9292D0A}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_strings" ID="{79AEF450-67CE-41A9-AE30-E918F2A41725}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="22000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_strings" ID="{3F569F82-138D-484E-B215-D84AB2F65288}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+								<MusicTrack Name="mus_120bpm_woodwinds" ID="{53BC1FCB-A505-4A25-89F0-B2EF4BCE71D0}" ShortID="32083742">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EB546B91-8D58-4470-8021-567389FBC3C0}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{81856265-C603-4AF0-93DD-E73657EF8752}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="mus_120bpm_woodwinds" ID="{90010C93-957D-4691-B95E-C496EB017764}">
+											<Language>SFX</Language>
+											<AudioFile>mus_120bpm_woodwinds.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="287733718"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<TransitionList>
+										<MusicTransition Name="Root" ID="{EDEFC8BF-F879-4863-B665-67AC9AA16E60}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</TransitionList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{AAAFBF70-3BA3-471E-8498-A0953940501A}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="mus_120bpm_woodwinds" ID="{68215073-4826-4BCA-903C-2CA5F2C9C543}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="22000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="mus_120bpm_woodwinds" ID="{90010C93-957D-4691-B95E-C496EB017764}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<Reference>
+										<Local>
+											<MusicCue Name="Entry Cue" ID="{EFC80FB4-9B6A-4949-BA86-56969012FBAA}"/>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Exit Cue" ID="{084D8783-EEE9-4C3E-A6A5-735F062B8785}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="16000"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</MusicSegment>
+					</ChildrenList>
+					<TransitionList>
+						<MusicTransition Name="Root" ID="{BA654CB8-5561-481D-9E86-2ED6938B64E6}">
+							<PropertyList>
+								<Property Name="IsFolder" Type="bool" Value="True"/>
+							</PropertyList>
+							<ChildrenList>
+								<MusicTransition Name="Transition" ID="{5EFA6C9B-860C-45AC-B16E-ABD347B6133E}">
+									<TransitionInfo/>
+								</MusicTransition>
+							</ChildrenList>
+							<TransitionInfo/>
+						</MusicTransition>
+					</TransitionList>
+					<Playlist>
+						<MusicPlaylistItem Name="" ID="{0E5B4777-CD57-4249-BEA3-7A6E2394C968}" ShortID="546224137">
+							<PropertyList>
+								<Property Name="LoopCount" Type="int16" Value="0"/>
+							</PropertyList>
+							<ChildrenList>
+								<MusicPlaylistItem Name="" ID="{1F85281C-E6E5-4859-BAED-83A00128190A}" ShortID="137800207">
+									<PropertyList>
+										<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+									</PropertyList>
+									<SegmentRef Name="mus_120bpm" ID="{D7F9D545-B38B-4865-A24D-77AB7631E2F8}"/>
+								</MusicPlaylistItem>
+							</ChildrenList>
+						</MusicPlaylistItem>
+					</Playlist>
+				</MusicPlaylistContainer>
+				<MusicSegment Name="mus_120bpm_silence" ID="{E903CC52-BAB2-4824-98E0-40D895B16703}" ShortID="986360898">
+					<PropertyList>
+						<Property Name="EndPosition" Type="Real64" Value="16000"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EB546B91-8D58-4470-8021-567389FBC3C0}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{81856265-C603-4AF0-93DD-E73657EF8752}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<MusicTrack Name="mus_120bpm_silence" ID="{A698F89A-B350-47C3-9CF6-CAB6719A397B}" ShortID="126716839">
+							<ReferenceList>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{81856265-C603-4AF0-93DD-E73657EF8752}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="mus_120bpm_silence" ID="{35C401F9-1A5F-441A-A584-50C30947CF1E}">
+									<Language>SFX</Language>
+									<AudioFile>mus_120bpm_silence.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="946355814"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<TransitionList>
+								<MusicTransition Name="Root" ID="{2CC4F9FF-3E91-479C-A4A4-546C086E3D2C}">
+									<PropertyList>
+										<Property Name="IsFolder" Type="bool" Value="True"/>
+									</PropertyList>
+									<TransitionInfo/>
+								</MusicTransition>
+							</TransitionList>
+							<ObjectLists>
+								<ObjectList Name="Sequences">
+									<Reference>
+										<Local>
+											<MusicTrackSequence Name="" ID="{9C59CB35-BBD6-4A22-BCF7-8EA2C5ADE4CD}">
+												<ObjectLists>
+													<ObjectList Name="Clips">
+														<Reference>
+															<Local>
+																<MusicClip Name="mus_120bpm_silence" ID="{26C0AF29-9D41-438C-917F-907195705A82}">
+																	<PropertyList>
+																		<Property Name="EndTrimOffset" Type="Real64" Value="16000"/>
+																		<Property Name="FadeInMode" Type="int16" Value="0"/>
+																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																	</PropertyList>
+																	<AudioSourceRef Name="mus_120bpm_silence" ID="{35C401F9-1A5F-441A-A584-50C30947CF1E}"/>
+																</MusicClip>
+															</Local>
+														</Reference>
+													</ObjectList>
+												</ObjectLists>
+											</MusicTrackSequence>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</MusicTrack>
+					</ChildrenList>
+					<ObjectLists>
+						<ObjectList Name="Cues">
+							<Reference>
+								<Local>
+									<MusicCue Name="Entry Cue" ID="{A82E3871-52FA-4438-A0F7-39D02877465D}"/>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<MusicCue Name="Exit Cue" ID="{EB9EF781-F536-4847-B223-163D489B0091}">
+										<PropertyList>
+											<Property Name="CueType" Type="int16" Value="1"/>
+											<Property Name="TimeMs" Type="Real64" Value="16000"/>
+										</PropertyList>
+									</MusicCue>
+								</Local>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
+				</MusicSegment>
+			</ChildrenList>
+		</WorkUnit>
 	</InteractiveMusic>
 </WwiseDocument>

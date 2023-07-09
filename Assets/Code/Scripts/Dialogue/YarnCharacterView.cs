@@ -26,6 +26,10 @@ namespace Yarn.Unity.Example
 
         [Tooltip("margin is 0-1.0 (0.1 means 10% of screen space)... -1 lets dialogue bubbles appear offscreen or get cutoff")]
         public float bubbleMargin = 0.1f;
+        
+        public AK.Wwise.Event HenDialogueEvent;
+        public AK.Wwise.Event BossDialogueEvent;
+        public AK.Wwise.Event HeroDialogueEvent;
 
         void Awake()
         {
@@ -59,7 +63,21 @@ namespace Yarn.Unity.Example
 
             // if null, Update() will use the playerCharacter instead
             speakerCharacter = !string.IsNullOrEmpty(characterName) ? FindCharacter(characterName) : null;
-
+            
+            // Run Voice Events
+            switch (characterName)
+            {
+                case "Hero":
+                    HeroDialogueEvent.Post(gameObject);
+                    break;
+                case "Hen":
+                    HenDialogueEvent.Post(gameObject);
+                    break;
+                case "Boss":
+                    BossDialogueEvent.Post(gameObject);
+                    break;
+            }
+            
             // IMPORTANT: we must mark this view as having finished its work, or else the DialogueRunner gets stuck forever
             onDialogueLineFinished();
         }

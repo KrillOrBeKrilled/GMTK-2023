@@ -201,7 +201,7 @@ MonoBehaviour:
   m_XRTrackingOrigin: {fileID: 0}
   m_ActionsAsset: {fileID: -944628639613478452, guid: 32fda2c4537e443bfa27c9abc099ba97, type: 3}
   m_PointAction: {fileID: 0}
-  m_MoveAction: {fileID: 8189847613648813456, guid: 32fda2c4537e443bfa27c9abc099ba97, type: 3}
+  m_MoveAction: {fileID: 0}
   m_SubmitAction: {fileID: 0}
   m_CancelAction: {fileID: 0}
   m_LeftClickAction: {fileID: 0}
@@ -985,6 +985,7 @@ GameObject:
   - component: {fileID: 6711672230207336559}
   - component: {fileID: 3741743096958657521}
   - component: {fileID: 3741743096958657527}
+  - component: {fileID: 9042731078904656191}
   m_Layer: 0
   m_Name: Dialogue Runner
   m_TagString: Untagged
@@ -1021,12 +1022,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allCharacters:
   - {fileID: 0}
-  playerCharacter: {fileID: 3104913905976222486}
+  playerCharacter: {fileID: 0}
   canvas: {fileID: 3741743097333894304}
   canvasScaler: {fileID: 5203182437719251029}
   dialogueBubbleRect: {fileID: 3741743096415219988}
   optionsBubbleRect: {fileID: 1222408367283395131}
   bubbleMargin: 0.1
+  HenDialogueEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: de1eef44fcdd04ee28fa89aaa021100d, type: 2}
+  BossDialogueEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: f67edc7697cc44b95a6e73cb1aa7b062, type: 2}
+  HeroDialogueEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: ef58f8f9ce86149d9ad45e812b3e6673, type: 2}
 --- !u!114 &3741743096958657521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1079,6 +1092,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showDebug: 0
   debugTextView: {fileID: 0}
+--- !u!114 &9042731078904656191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3741743096958657524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72385d20847a248cda9cba9416db71e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerList: f7e1664c
+  useOtherObject: 0
+  data:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 7ea2bebabe0af4a0e9444341024be355, type: 2}
+  decodeBank: 0
+  loadAsynchronous: 0
+  saveDecodedBank: 0
+  unloadTriggerList: 958ca0ea
+  bankNameInternal: 
+  valueGuidInternal: 
 --- !u!1 &3741743097333894308
 GameObject:
   m_ObjectHideFlags: 0

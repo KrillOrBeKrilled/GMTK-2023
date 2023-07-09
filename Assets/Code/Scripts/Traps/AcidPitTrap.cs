@@ -8,8 +8,14 @@ public class AcidPitTrap : Trap {
   private readonly WaitForSeconds _waitForOneSecond = new WaitForSeconds(1f);
   private Coroutine _intervalDamageCoroutine;
 
-  public override void AdjustSpawnPoint() {
-    throw new System.NotImplementedException();
+  public override Vector3 GetLeftSpawnPoint(Vector3 origin)
+  {
+    return origin + _leftSpawnOffset;
+  }
+        
+  public override Vector3 GetRightSpawnPoint(Vector3 origin)
+  {
+    return origin + _rightSpawnOffset;
   }
 
   protected override void OnEnteredTrap(Hero hero) {

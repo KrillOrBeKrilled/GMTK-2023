@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -7424928307857937630}
   m_Layer: 7
   m_Name: SwingingAxeTrap
-  m_TagString: Untagged
+  m_TagString: Trap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &633970818700387168
 SpriteRenderer:
@@ -143,4 +143,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00a6fbd9cf3a45a987474ce8273372aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gridPoints: []
+  _leftGridPoints: []
+  _rightGridPoints: []
+  _validationScore: 0
+  _leftSpawnOffset: {x: 0, y: 0, z: 0}
+  _rightSpawnOffset: {x: 0, y: 0, z: 0}
+  _pushbackForce: 1
+  _damageAmount: 10

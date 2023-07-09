@@ -90,6 +90,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SetTrap1"",
+                    ""type"": ""Button"",
+                    ""id"": ""305dacb5-ed5b-4481-8288-e8545653e14d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SetTrap2"",
+                    ""type"": ""Button"",
+                    ""id"": ""c2643fb8-7d4f-49b3-b78b-a0863b323b31"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -191,6 +209,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Advance Dialogue"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8d6d22d8-6090-45e2-80a8-6dc1d73d9b3f"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SetTrap1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8f1097bb-af4b-466d-a626-56d67a45262a"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SetTrap2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -206,6 +246,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_PlaceTrap = m_Player.FindAction("Place Trap", throwIfNotFound: true);
         m_Player_AdvanceDialogue = m_Player.FindAction("Advance Dialogue", throwIfNotFound: true);
+        m_Player_SetTrap1 = m_Player.FindAction("SetTrap1", throwIfNotFound: true);
+        m_Player_SetTrap2 = m_Player.FindAction("SetTrap2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -317,6 +359,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_PlaceTrap;
     private readonly InputAction m_Player_AdvanceDialogue;
+    private readonly InputAction m_Player_SetTrap1;
+    private readonly InputAction m_Player_SetTrap2;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -325,6 +369,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @PlaceTrap => m_Wrapper.m_Player_PlaceTrap;
         public InputAction @AdvanceDialogue => m_Wrapper.m_Player_AdvanceDialogue;
+        public InputAction @SetTrap1 => m_Wrapper.m_Player_SetTrap1;
+        public InputAction @SetTrap2 => m_Wrapper.m_Player_SetTrap2;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -346,6 +392,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @AdvanceDialogue.started += instance.OnAdvanceDialogue;
             @AdvanceDialogue.performed += instance.OnAdvanceDialogue;
             @AdvanceDialogue.canceled += instance.OnAdvanceDialogue;
+            @SetTrap1.started += instance.OnSetTrap1;
+            @SetTrap1.performed += instance.OnSetTrap1;
+            @SetTrap1.canceled += instance.OnSetTrap1;
+            @SetTrap2.started += instance.OnSetTrap2;
+            @SetTrap2.performed += instance.OnSetTrap2;
+            @SetTrap2.canceled += instance.OnSetTrap2;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -362,6 +414,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @AdvanceDialogue.started -= instance.OnAdvanceDialogue;
             @AdvanceDialogue.performed -= instance.OnAdvanceDialogue;
             @AdvanceDialogue.canceled -= instance.OnAdvanceDialogue;
+            @SetTrap1.started -= instance.OnSetTrap1;
+            @SetTrap1.performed -= instance.OnSetTrap1;
+            @SetTrap1.canceled -= instance.OnSetTrap1;
+            @SetTrap2.started -= instance.OnSetTrap2;
+            @SetTrap2.performed -= instance.OnSetTrap2;
+            @SetTrap2.canceled -= instance.OnSetTrap2;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -389,5 +447,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnPlaceTrap(InputAction.CallbackContext context);
         void OnAdvanceDialogue(InputAction.CallbackContext context);
+        void OnSetTrap1(InputAction.CallbackContext context);
+        void OnSetTrap2(InputAction.CallbackContext context);
     }
 }

@@ -1,21 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Traps
 {
     public class TestTrap1 : Trap
     {
-        public override void AdjustSpawnPoint()
+        public override Vector3 GetLeftSpawnPoint(Vector3 origin)
         {
-
+            return origin + _leftSpawnOffset;
         }
-
-        protected  override void OnEnteredTrap(Hero hero)
+        
+        public override Vector3 GetRightSpawnPoint(Vector3 origin)
         {
-
+            return origin + _rightSpawnOffset;
+        }
+        
+        protected  override void OnEnteredTrap(Hero hero) {
         }
 
         protected override void OnExitedTrap(Hero hero) {
-
         }
     }
 }

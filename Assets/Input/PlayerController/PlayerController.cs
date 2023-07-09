@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Traps;
 using UnityEngine;
 using UnityEngine.Events;
@@ -35,6 +36,7 @@ namespace Input
 
         private int _currentTrapIndex = 0;
 
+        public List<Trap> Traps => this._trapPrefabs.Select(prefab => prefab.GetComponent<Trap>()).ToList();
         public UnityEvent<int> OnSelectedTrapIndexChanged;
 
         [SerializeField] private Tilemap _tileMap;

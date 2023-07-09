@@ -178,6 +178,17 @@
 										</Action>
 									</ChildrenList>
 								</Event>
+								<Event Name="Play_sfx_hero_death" ID="{13D10773-D098-4318-9F3F-663FC9E04A8F}">
+									<ChildrenList>
+										<Action Name="" ID="{CDB6E777-0447-42F1-B672-290C05241313}" ShortID="403618412">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_hero_death" ID="{AF25B4F6-F7C0-4965-9B26-5A7AF89A4E58}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
 							</ChildrenList>
 						</Folder>
 						<Folder Name="hen" ID="{94D55748-6503-4503-B34C-970D5F7A334D}" ShortID="868133429">
@@ -198,7 +209,54 @@
 										<Action Name="" ID="{EEC0950A-509A-46E7-A78F-242BB32C2893}" ShortID="943111101">
 											<ReferenceList>
 												<Reference Name="Target">
-													<ObjectRef Name="sfx_hen_build" ID="{72B171E5-1E1B-4513-9326-11B3AC4A6C53}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+													<ObjectRef Name="sfx_hen_build" ID="{0F78EA27-527B-4701-9D9A-52CA3B0328C3}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_sfx_hen_death" ID="{C5B3FFA1-00A6-4264-A702-947617F4B493}">
+									<ChildrenList>
+										<Action Name="" ID="{46D28C8B-E963-4772-82B0-92FB20E54898}" ShortID="386386551">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_hen_death" ID="{C1189EF0-6700-41E3-A2C3-85CD0506E68C}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_sfx_hen_flap" ID="{6D76A857-646A-423B-9ECE-273EB1F7FE61}">
+									<ChildrenList>
+										<Action Name="" ID="{D8629652-B664-47D8-998A-4BB184D5BA8C}" ShortID="381221812">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_hen_flap" ID="{CBC8EBC2-85C4-4BF5-8D0F-61C44D62EA5F}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_sfx_hen_buildComplete" ID="{45A59F84-F776-41FF-995C-766F1BE6AFC1}">
+									<ChildrenList>
+										<Action Name="" ID="{109E036B-AC39-4D99-8ADF-EDAF5B31171A}" ShortID="19065123">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_hen_buildComplete" ID="{577F66B5-134B-41EB-889E-CE678834B57A}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Stop_sfx_hen_build" ID="{925B2F61-39E5-4788-8217-EA0FA5104FB0}">
+									<ChildrenList>
+										<Action Name="" ID="{8BB8A1C1-EB59-4A0C-90DA-BA186164B12B}" ShortID="1064783431">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_hen_build" ID="{0F78EA27-527B-4701-9D9A-52CA3B0328C3}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
 												</Reference>
 											</ReferenceList>
 										</Action>

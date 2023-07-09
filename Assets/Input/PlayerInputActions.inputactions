@@ -68,6 +68,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SetTrap1",
+                    "type": "Button",
+                    "id": "305dacb5-ed5b-4481-8288-e8545653e14d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SetTrap2",
+                    "type": "Button",
+                    "id": "c2643fb8-7d4f-49b3-b78b-a0863b323b31",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -167,6 +185,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Advance Dialogue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8d6d22d8-6090-45e2-80a8-6dc1d73d9b3f",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SetTrap1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8f1097bb-af4b-466d-a626-56d67a45262a",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SetTrap2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

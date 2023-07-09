@@ -4,8 +4,14 @@ namespace Traps {
   public class SpikeTrap : Trap {
     [SerializeField] private int _damageAmount;
 
-    public override void AdjustSpawnPoint() {
-      throw new System.NotImplementedException();
+    public override Vector3 GetLeftSpawnPoint(Vector3 origin)
+    {
+      return origin + _leftSpawnOffset;
+    }
+        
+    public override Vector3 GetRightSpawnPoint(Vector3 origin)
+    {
+      return origin + _rightSpawnOffset;
     }
 
     protected  override void OnEnteredTrap(Hero hero) {

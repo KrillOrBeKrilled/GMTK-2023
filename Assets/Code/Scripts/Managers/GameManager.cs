@@ -10,9 +10,8 @@ public class GameManager : Singleton<GameManager> {
   [SerializeField] private OutOfBoundsTrigger _outOfBoundsTrigger;
 
   public UnityEvent OnSetupComplete { get; private set; }
-  public UnityEvent OnHenWon { get; private set; }
-  public UnityEvent OnHenDied { get; private set; }
-  public UnityEvent OnHeroReachedLevelEnd { get; private set; }
+  public UnityEvent<string> OnHenWon { get; private set; }
+  public UnityEvent<string> OnHenLost { get; private set; }
 
   private Hero _hero;
 
@@ -36,9 +35,8 @@ public class GameManager : Singleton<GameManager> {
   protected override void Awake() {
     base.Awake();
     this.OnSetupComplete = new UnityEvent();
-    this.OnHenWon = new UnityEvent();
-    this.OnHenDied = new UnityEvent();
-    this.OnHeroReachedLevelEnd = new UnityEvent();
+    this.OnHenWon = new UnityEvent<string>();
+    this.OnHenLost = new UnityEvent<string>();
   }
 
   private void Start() {
@@ -48,7 +46,7 @@ public class GameManager : Singleton<GameManager> {
 
     this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
     this._player.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
-    this._outOfBoundsTrigger.OnPlayerOutOfBounds.AddListener(this.HenDied);
+    this._outOfBoundsTrigger.OnPlayerOutOfBounds.AddListener(this.HenOutOfBounds);
 
     this.OnSetupComplete?.Invoke();
     PauseManager.Instance.SetIsPausable(true);
@@ -56,25 +54,29 @@ public class GameManager : Singleton<GameManager> {
 
   private void OnPlayerStateChanged(IPlayerState state) {
     if (state is GameOverState) {
-      this.HenDied();
+      this.HenDied("Hero managed to take you down hen.\nDon't you dream about that promotion I mentioned last time!");
     }
   }
 
   private void GameWon() {
     this._player.PlayerController.DisablePlayerInput();
-    this.OnHenWon?.Invoke();
+    this.OnHenWon?.Invoke("Hero was stopped, good work hen!");
   }
 
   private void HeroReachedLevelEnd() {
     this._player.PlayerController.DisablePlayerInput();
     this._hero.HeroMovement.ToggleMoving(false);
-    this.OnHeroReachedLevelEnd?.Invoke();
+    this.OnHenLost?.Invoke("Hero managed to reach his goal and do heroic things.\nHen, you failed me!");
   }
 
-  private void HenDied() {
+  private void HenOutOfBounds() {
+    this.HenDied("What are you doing here?\nI told you, you should always keep an eye on the hero!");
+  }
+
+  private void HenDied(string message) {
     this._player.PlayerController.DisablePlayerInput();
     this._hero.HeroMovement.ToggleMoving(false);
     Destroy(this._player.gameObject);
-    this.OnHenDied?.Invoke();
+    this.OnHenLost?.Invoke(message);
   }
 }

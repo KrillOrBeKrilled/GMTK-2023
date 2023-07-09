@@ -13,7 +13,5 @@ public class Player : MonoBehaviour {
       return;
 
     this.PlayerController.GameOver();
-    GameManager.Instance.OnHenDied?.Invoke();
-    Destroy(this.gameObject);
   }
 }

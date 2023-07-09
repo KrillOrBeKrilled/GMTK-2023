@@ -62,7 +62,7 @@ public class Hero : MonoBehaviour {
     ResetHero();
   }
 
-  private void Die()
+  public void Die()
   {
     Lives--;
     HeroHurtEvent.Post(gameObject);

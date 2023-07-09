@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Tilemaps;
@@ -292,7 +293,7 @@ namespace Input
                 return;
             }
 
-            StartBuildEvent.Post(gameObject);
+            StartCoroutine(PlayBuildSoundForDuration(.3f));
 
             var trapToSpawn = _trapPrefabs[_currentTrapIndex];
 
@@ -306,7 +307,14 @@ namespace Input
             trap.transform.position = spawnPosition;
             _isColliding = true;
         }
-        
+
+        private IEnumerator PlayBuildSoundForDuration(float durationInSeconds)
+        {
+            StartBuildEvent.Post(gameObject);
+            yield return new WaitForSeconds(durationInSeconds);
+            StopBuildEvent.Post(gameObject);
+        }
+
         // Test functions to switch between test traps
         private void SetTrap1(InputAction.CallbackContext obj)
         {

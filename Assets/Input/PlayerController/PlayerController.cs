@@ -40,6 +40,13 @@ namespace Input
         private readonly List<Vector3Int> _previousTilePositions = new List<Vector3Int>();
         private bool _isGrounded = true, _isColliding, _canDeploy;
 
+        // ------------- Sound Effects ---------------
+        public AK.Wwise.Event StartBuildEvent;
+        public AK.Wwise.Event StopBuildEvent;
+        public AK.Wwise.Event BuildCompleteEvent;
+        public AK.Wwise.Event HenDeathEvent;
+        public AK.Wwise.Event HenFlapEvent;
+        
         // ----------------- Health ------------------
         // BRAINSTORMING: Do we want to simulate player health?
 
@@ -269,6 +276,8 @@ namespace Input
             _isGrounded = false;
             
             _animator.SetBool("is_grounded", _isGrounded);
+            
+            HenFlapEvent.Post(gameObject);
 
             // Left the ground, so trap deployment isn't possible anymore
             ClearTrapDeployment();
@@ -282,6 +291,8 @@ namespace Input
                 Debug.Log("Can't Deploy Trap!");
                 return;
             }
+
+            StartBuildEvent.Post(gameObject);
 
             var trapToSpawn = _trapPrefabs[_currentTrapIndex];
 
@@ -319,6 +330,8 @@ namespace Input
 
         public void GameOver()
         {
+            
+            HenDeathEvent.Post(gameObject);
             var prevState = _state;
             _state.OnExit(_gameOver);
             _state = _gameOver;

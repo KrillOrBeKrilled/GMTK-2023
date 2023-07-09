@@ -198,7 +198,7 @@ namespace Input
             // Paint all the tiles red
             foreach (var previousTilePosition in _previousTilePositions)
             {
-                _tileMap.SetColor(previousTilePosition, Color.red);
+                _tileMap.SetColor(previousTilePosition, new Color(1, 0, 0, 0.3f));
             }
                         
             _canDeploy = false;
@@ -209,7 +209,7 @@ namespace Input
             // Paint all the tiles green
             foreach (Vector3Int previousTilePosition in _previousTilePositions)
             {
-                _tileMap.SetColor(previousTilePosition, Color.green);
+                _tileMap.SetColor(previousTilePosition, new Color(0, 1, 0, 0.3f));
             }
             
             _canDeploy = true;

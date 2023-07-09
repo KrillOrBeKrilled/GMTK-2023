@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Tilemaps;
@@ -42,6 +43,13 @@ namespace Input
         private readonly List<Vector3Int> _previousTilePositions = new List<Vector3Int>();
         private bool _isGrounded = true, _isColliding, _canDeploy;
 
+        // ------------- Sound Effects ---------------
+        public AK.Wwise.Event StartBuildEvent;
+        public AK.Wwise.Event StopBuildEvent;
+        public AK.Wwise.Event BuildCompleteEvent;
+        public AK.Wwise.Event HenDeathEvent;
+        public AK.Wwise.Event HenFlapEvent;
+        
         // ----------------- Health ------------------
         // BRAINSTORMING: Do we want to simulate player health?
 
@@ -271,6 +279,8 @@ namespace Input
             _isGrounded = false;
             
             _animator.SetBool("is_grounded", _isGrounded);
+            
+            HenFlapEvent.Post(gameObject);
 
             // Left the ground, so trap deployment isn't possible anymore
             ClearTrapDeployment();
@@ -285,6 +295,8 @@ namespace Input
                 return;
             }
 
+            StartCoroutine(PlayBuildSoundForDuration(.3f));
+
             var trapToSpawn = _trapPrefabs[_currentTrapIndex];
 
             // Convert the origin tile position to world space
@@ -297,7 +309,14 @@ namespace Input
             trap.GetComponent<Traps.Trap>().Construct(spawnPosition, _trapCanvas);
             _isColliding = true;
         }
-        
+
+        private IEnumerator PlayBuildSoundForDuration(float durationInSeconds)
+        {
+            StartBuildEvent.Post(gameObject);
+            yield return new WaitForSeconds(durationInSeconds);
+            StopBuildEvent.Post(gameObject);
+        }
+
         // Test functions to switch between test traps
         private void SetTrap1(InputAction.CallbackContext obj)
         {
@@ -327,6 +346,8 @@ namespace Input
 
         public void GameOver()
         {
+            
+            HenDeathEvent.Post(gameObject);
             var prevState = _state;
             _state.OnExit(_gameOver);
             _state = _gameOver;

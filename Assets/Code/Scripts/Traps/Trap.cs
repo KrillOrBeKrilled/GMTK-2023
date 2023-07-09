@@ -73,12 +73,12 @@ namespace Traps
             
             // Spawn a slider to indicate the progress on the build
             GameObject sliderObject = Instantiate(SliderBar, canvas.transform);
-            sliderObject.transform.position = spawnPosition + (Vector3.up * 2f);
+            sliderObject.transform.position = spawnPosition + AnimationOffset + Vector3.up;
             _buildCompletionBar = sliderObject.GetComponent<Slider>();
             
             // Trap deployment visuals
             transform.position = spawnPosition + Vector3.up * 3f;
-            transform.DOMove(spawnPosition + AnimationOffset, 0.2f);
+            transform.DOMove(spawnPosition + Vector3.up * AnimationOffset.y, 0.2f);
             
             var sprite = GetComponent<SpriteRenderer>();
             var color = sprite.color;
@@ -107,7 +107,7 @@ namespace Traps
             
             // Shake out then back
             transform.DOMove(targetPosition, 0.05f);
-            transform.DOMove(SpawnPosition, 0.05f);
+            transform.DOMove(SpawnPosition + Vector3.up * AnimationOffset.y, 0.05f);
         }
 
         private void OnTriggerEnter2D(Collider2D other)

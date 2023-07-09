@@ -4,6 +4,7 @@ namespace Traps {
   public class SwingingAxeTrap : Trap {
     [SerializeField] private float _pushbackForce = 1f;
     [SerializeField] private int _damageAmount = 10;
+    [SerializeField] private Animator _animator;
 
     public override Vector3 GetLeftSpawnPoint(Vector3 origin)
     {
@@ -17,17 +18,20 @@ namespace Traps {
     
     protected override void SetUpTrap()
     {
-
+      // Trigger the axe set up animation
+      _animator.SetTrigger("SetTrap");
     }
     
     protected override void DetonateTrap()
     {
-
+      // Trigger the axe detonation animation
+      _animator.SetBool("IsDetonating", true);
     }
 
     protected override void OnEnteredTrap(Hero hero) {
       if (!IsReady) return;
       
+      DetonateTrap();
       hero.TakeDamage(this._damageAmount);
       hero.HeroMovement.ThrowHeroBack(0.5f, this._pushbackForce);
       Destroy(this.gameObject);

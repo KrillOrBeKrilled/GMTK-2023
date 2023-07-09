@@ -364,13 +364,13 @@ namespace Input
             }
         }
         
-        private void OnCollisionExit2D(Collision2D collision)
-        {
-            if (collision.gameObject.CompareTag("Ground"))
-            {
-                _isGrounded = false;
-                _animator.SetBool("is_grounded", _isGrounded);
-            }
-        }
+        // private void OnCollisionExit2D(Collision2D collision)
+        // {
+        //     if (collision.gameObject.CompareTag("Ground"))
+        //     {
+        //         _isGrounded = false;
+        //         _animator.SetBool("is_grounded", _isGrounded);
+        //     }
+        // }
     }
 }

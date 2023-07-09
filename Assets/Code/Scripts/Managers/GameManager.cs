@@ -36,7 +36,6 @@ public class GameManager : Singleton<GameManager> {
     this.OnSetupComplete = new UnityEvent();
     this.OnHenWon = new UnityEvent<string>();
     this.OnHenLost = new UnityEvent<string>();
-    this._hero = FindObjectOfType<Hero>();
   }
 
   [YarnCommand("enter_player")]
@@ -50,15 +49,16 @@ public class GameManager : Singleton<GameManager> {
   {
     _hero.StartRunning();
     _outOfBoundsTrigger.ToggleBounds(true);
+    CoinManager.Instance.StartCoinEarning();
   }
 
   private void Start() {
     // Setup
-    this._gameUI.Initialize(this);
+    this._gameUI.Initialize(this, this._player);
 
     _hero.ResetHero();
     _outOfBoundsTrigger.ToggleBounds(false);
-    
+
     this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
     this._player.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
     this._outOfBoundsTrigger.OnPlayerOutOfBounds.AddListener(this.HenOutOfBounds);

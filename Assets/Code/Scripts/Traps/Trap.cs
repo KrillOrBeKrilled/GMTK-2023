@@ -1,15 +1,14 @@
 using System.Collections.Generic;
 using DG.Tweening;
 using Input;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Traps
 {
     // Parent trap class
-    public abstract class Trap : MonoBehaviour
-    {
+    public abstract class Trap : MonoBehaviour {
+        [SerializeField] public int Cost;
         [SerializeField] protected List<Vector3Int> LeftGridPoints, RightGridPoints;
         [SerializeField] protected int ValidationScore;
         [SerializeField] protected Vector3 LeftSpawnOffset, RightSpawnOffset, AnimationOffset;
@@ -30,7 +29,7 @@ namespace Traps
                 t += Time.deltaTime;
 
                 _buildCompletionBar.DOValue(ConstructionCompletion, 0.1f);
-                
+
                 // Make construction animations
                 BuildTrap();
 
@@ -51,12 +50,12 @@ namespace Traps
         {
             return LeftGridPoints;
         }
-        
+
         public List<Vector3Int> GetRightGridPoints()
         {
             return RightGridPoints;
         }
-        
+
         public bool IsValidScore(int score)
         {
             return score >= ValidationScore;
@@ -75,7 +74,7 @@ namespace Traps
             GameObject sliderObject = Instantiate(SliderBar, canvas.transform);
             sliderObject.transform.position = spawnPosition + AnimationOffset + Vector3.up;
             _buildCompletionBar = sliderObject.GetComponent<Slider>();
-            
+
             // Trap deployment visuals
             transform.position = spawnPosition + Vector3.up * 3f;
             transform.DOMove(spawnPosition + Vector3.up * AnimationOffset.y, 0.2f);
@@ -84,11 +83,11 @@ namespace Traps
             var color = sprite.color;
             sprite.color = new Color(color.r, color.g, color.b, 0);
             sprite.DOFade(1, 0.4f);
-            
+
             // Initiate the build time countdown
             ConstructionCompletion = 0;
         }
-        
+
         // Adjusts the trap spawn position relative to an origin
         public abstract Vector3 GetLeftSpawnPoint(Vector3 origin);
         public abstract Vector3 GetRightSpawnPoint(Vector3 origin);
@@ -114,7 +113,8 @@ namespace Traps
         {
             if (other.CompareTag("Player")) return;
 
-        this.OnEnteredTrap(other.GetComponent<Hero>());
+            if (other.CompareTag("Hero"))
+                this.OnEnteredTrap(other.GetComponent<Hero>());
         }
 
         private void OnTriggerStay2D(Collider2D other)
@@ -123,7 +123,7 @@ namespace Traps
             {
                 PlayerController playerController;
                 IPlayerState playerState;
-                
+
                 if (other.TryGetComponent<PlayerController>(out playerController))
                 {
                     playerState = playerController.GetPlayerState();
@@ -139,7 +139,7 @@ namespace Traps
                     _startBuildEvent.Post(gameObject);
                 }
             }
-                
+
         }
 
         private void OnTriggerExit2D(Collider2D other) {
@@ -149,8 +149,10 @@ namespace Traps
                 _stopBuildEvent.Post(gameObject);
                 return;
             }
-            
-            this.OnExitedTrap(other.GetComponent<Hero>());
+
+            if (other.CompareTag("Hero")) {
+                this.OnExitedTrap(other.GetComponent<Hero>());
+            }
         }
     }
 }

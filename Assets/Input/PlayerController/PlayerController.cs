@@ -1,13 +1,11 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Tilemaps;
+using System.Linq;
+using Traps;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 
 namespace Input
 {
@@ -30,14 +28,17 @@ namespace Input
         [SerializeField] private float _speed, _jumpingForce;
 
         private float _direction = -1;
-        
+
         // ------------- Trap Deployment -------------
         // The canvas to spawn trap UI
         [SerializeField] private Canvas _trapCanvas;
         [SerializeField] private List<GameObject> _trapPrefabs;
 
         private int _currentTrapIndex = 0;
-        
+
+        public List<Trap> Traps => this._trapPrefabs.Select(prefab => prefab.GetComponent<Trap>()).ToList();
+        public UnityEvent<int> OnSelectedTrapIndexChanged;
+
         [SerializeField] private Tilemap _tileMap;
         [SerializeField] private GameObject _leftDeployTransform, _rightDeployTransform;
 
@@ -71,11 +72,13 @@ namespace Input
 
             _state = _idle;
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState>();
+            this.OnSelectedTrapIndexChanged = new UnityEvent<int>();
         }
 
         private void Start() {
             // Need this due to race condition during scene Awake->OnEnable calls
             this._playerInputActions = PlayerInputController.Instance.PlayerInputActions;
+            this.OnSelectedTrapIndexChanged?.Invoke(this._currentTrapIndex);
             OnEnable();
         }
 
@@ -303,17 +306,23 @@ namespace Input
             StartCoroutine(PlayBuildSoundForDuration(.3f));
 
             var trapToSpawn = _trapPrefabs[_currentTrapIndex];
+            Trap trap = trapToSpawn.GetComponent<Trap>();
+            if (!CoinManager.Instance.CanAfford(trap.Cost)) {
+                print("Can't afford the trap!");
+                return;
+            }
 
             // Convert the origin tile position to world space
             var deploymentOrigin = _tileMap.CellToWorld(_previousTilePositions[0]);
             var spawnPosition = _direction < 0
-                ? trapToSpawn.GetComponent<Traps.Trap>().GetLeftSpawnPoint(deploymentOrigin)
-                : trapToSpawn.GetComponent<Traps.Trap>().GetRightSpawnPoint(deploymentOrigin);
+                ? trapToSpawn.GetComponent<Trap>().GetLeftSpawnPoint(deploymentOrigin)
+                : trapToSpawn.GetComponent<Trap>().GetRightSpawnPoint(deploymentOrigin);
 
-            GameObject trap = Instantiate(trapToSpawn.gameObject);
-            trap.GetComponent<Traps.Trap>().Construct(spawnPosition, _trapCanvas, 
+            GameObject trapGameObject = Instantiate(trapToSpawn.gameObject);
+            trapGameObject.GetComponent<Trap>().Construct(spawnPosition, _trapCanvas,
                 StartBuildEvent, StopBuildEvent, BuildCompleteEvent);
             _isColliding = true;
+            CoinManager.Instance.ConsumeCoins(trap.Cost);
         }
 
         private IEnumerator PlayBuildSoundForDuration(float durationInSeconds)
@@ -327,18 +336,21 @@ namespace Input
         private void SetTrap1(InputAction.CallbackContext obj)
         {
             _currentTrapIndex = 0;
+            this.OnSelectedTrapIndexChanged?.Invoke(_currentTrapIndex);
             ClearTrapDeployment();
         }
 
         private void SetTrap2(InputAction.CallbackContext obj)
         {
             _currentTrapIndex = 1;
+            this.OnSelectedTrapIndexChanged?.Invoke(_currentTrapIndex);
             ClearTrapDeployment();
         }
-        
+
         private void SetTrap3(InputAction.CallbackContext obj)
         {
             _currentTrapIndex = 2;
+            this.OnSelectedTrapIndexChanged?.Invoke(_currentTrapIndex);
             ClearTrapDeployment();
         }
 

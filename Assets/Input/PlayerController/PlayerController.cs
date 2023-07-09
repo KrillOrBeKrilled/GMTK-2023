@@ -306,7 +306,8 @@ namespace Input
                 : trapToSpawn.GetComponent<Traps.Trap>().GetRightSpawnPoint(deploymentOrigin);
             
             GameObject trap = Instantiate(trapToSpawn.gameObject);
-            trap.GetComponent<Traps.Trap>().Construct(spawnPosition, _trapCanvas);
+            trap.GetComponent<Traps.Trap>().Construct(spawnPosition, _trapCanvas, 
+                StartBuildEvent, StopBuildEvent, BuildCompleteEvent);
             _isColliding = true;
         }
 

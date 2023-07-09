@@ -18,6 +18,7 @@ namespace Traps
 
         private Vector3 _spawnPosition;
         private Slider _buildCompletionBar;
+        private AK.Wwise.Event _startBuildEvent, _stopBuildEvent, _buildCompleteEvent;
         protected float ConstructionCompletion, t;
         protected bool IsBuilding, IsReady;
 
@@ -36,6 +37,8 @@ namespace Traps
                 if (ConstructionCompletion >= 0.99f)
                 {
                     IsReady = true;
+                    _stopBuildEvent.Post(gameObject);
+                    _buildCompleteEvent.Post(gameObject);
                     Destroy(_buildCompletionBar.gameObject);
                 }
             }
@@ -56,9 +59,14 @@ namespace Traps
             return score >= ValidationScore;
         }
 
-        public void Construct(Vector3 spawnPosition, Canvas canvas)
+        public void Construct(Vector3 spawnPosition, Canvas canvas, 
+            AK.Wwise.Event startBuild, AK.Wwise.Event stopBuild, AK.Wwise.Event buildComplete)
         {
+            // Initialize all the bookkeeping structures we will need
             _spawnPosition = spawnPosition;
+            _startBuildEvent = startBuild;
+            _stopBuildEvent = stopBuild;
+            _buildCompleteEvent = buildComplete;
             
             // Spawn a slider to indicate the progress on the build
             GameObject sliderObject = Instantiate(SliderBar, canvas.transform);
@@ -105,7 +113,7 @@ namespace Traps
 
         private void OnTriggerStay2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") && !IsReady)
             {
                 PlayerController playerController;
                 IPlayerState playerState;
@@ -122,15 +130,17 @@ namespace Traps
                 if (playerState is IdleState)
                 {
                     IsBuilding = true;
+                    _startBuildEvent.Post(gameObject);
                 }
             }
                 
         }
 
         private void OnTriggerExit2D(Collider2D other) {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") && IsBuilding)
             {
                 IsBuilding = false;
+                _stopBuildEvent.Post(gameObject);
                 return;
             }
             

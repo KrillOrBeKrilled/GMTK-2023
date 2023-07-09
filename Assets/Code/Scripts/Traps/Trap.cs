@@ -100,7 +100,8 @@ namespace Traps
         {
             if (other.CompareTag("Player")) return;
 
-        this.OnEnteredTrap(other.GetComponent<Hero>());
+            if (other.CompareTag("Hero"))
+                this.OnEnteredTrap(other.GetComponent<Hero>());
         }
 
         private void OnTriggerStay2D(Collider2D other)
@@ -124,17 +125,19 @@ namespace Traps
                     IsBuilding = true;
                 }
             }
-                
+
         }
 
         private void OnTriggerExit2D(Collider2D other) {
-            if (other.CompareTag("Player"))
-            {
+
+            if (other.CompareTag("Player")) {
                 IsBuilding = false;
                 return;
             }
-            
-            this.OnExitedTrap(other.GetComponent<Hero>());
+
+            if (other.CompareTag("Hero")) {
+                this.OnExitedTrap(other.GetComponent<Hero>());
+            }
         }
     }
 }

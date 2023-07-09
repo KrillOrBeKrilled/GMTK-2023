@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 5037012343675419090}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,9 +134,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 10
   _jumpingForce: 700
+  _trapCanvas: {fileID: 0}
   _trapPrefabs:
-  - {fileID: 486222141146097442, guid: f9d4a4353bd8ccd4b9d22cae302777ff, type: 3}
-  - {fileID: 9187860938379829254, guid: e7d788240acd1bc46b1d7739eb33a7d8, type: 3}
+  - {fileID: 4577828711679986708, guid: 383ecc9e1b2854cfb9c8a66d9d0cdc23, type: 3}
+  - {fileID: 7242327205239312664, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
+  - {fileID: 813543674720435825, guid: 835ee3f992ae6441bab5de6d2dda2dbc, type: 3}
   _tileMap: {fileID: 0}
   _leftDeployTransform: {fileID: 7283422951846119747}
   _rightDeployTransform: {fileID: 6238511859256710560}
@@ -280,7 +282,7 @@ GameObject:
   - component: {fileID: 6496238088510502564}
   m_Layer: 0
   m_Name: Right Deploy Position
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -370,7 +372,7 @@ GameObject:
   - component: {fileID: 5918191205132163617}
   m_Layer: 0
   m_Name: Left Deploy Position
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

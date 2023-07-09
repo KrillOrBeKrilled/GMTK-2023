@@ -1,6 +1,7 @@
 using Input;
 using UnityEngine;
 using UnityEngine.Events;
+using Yarn.Unity;
 
 public class GameManager : Singleton<GameManager> {
   [SerializeField] private GameUI _gameUI;
@@ -37,10 +38,26 @@ public class GameManager : Singleton<GameManager> {
     this.OnHenLost = new UnityEvent<string>();
   }
 
+  [YarnCommand("enter_player")]
+  public void EnterPlayer()
+  {
+    _hero.EnterLevel();
+  }
+
+  [YarnCommand("start_level")]
+  public void StartLevel()
+  {
+    _hero.StartRunning();
+    _outOfBoundsTrigger.ToggleBounds(true);
+    CoinManager.Instance.StartCoinEarning();
+  }
+
   private void Start() {
     // Setup
     this._gameUI.Initialize(this, this._player);
-    this._hero = FindObjectOfType<Hero>();
+
+    _hero.ResetHero();
+    _outOfBoundsTrigger.ToggleBounds(false);
 
     this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
     this._player.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
@@ -53,23 +70,23 @@ public class GameManager : Singleton<GameManager> {
 
   private void OnPlayerStateChanged(IPlayerState state) {
     if (state is GameOverState) {
-      this.HenDied("Hero managed to take you down hen.\nDon't you dream about that promotion I mentioned last time!");
+      this.HenDied("The Hero managed to take you down Hendall.\nDon't you dream about that promotion I mentioned last time!");
     }
   }
 
   private void GameWon() {
     this._player.PlayerController.DisablePlayerInput();
-    this.OnHenWon?.Invoke("Hero was stopped, good work hen!");
+    this.OnHenWon?.Invoke("The Hero was stopped, good work Hendall!");
   }
 
   private void HeroReachedLevelEnd() {
     this._player.PlayerController.DisablePlayerInput();
     this._hero.HeroMovement.ToggleMoving(false);
-    this.OnHenLost?.Invoke("Hero managed to reach his goal and do heroic things.\nHen, you failed me!");
+    this.OnHenLost?.Invoke("The Hero managed to reach his goal and do heroic things.\nHendall, you failed me!");
   }
 
   private void HenOutOfBounds() {
-    this.HenDied("What are you doing here?\nI told you, you should always keep an eye on the hero!");
+    this.HenDied("What are you doing here?\nI told you, you should always keep an eye on the Hero!");
   }
 
   private void HenDied(string message) {

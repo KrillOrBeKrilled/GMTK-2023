@@ -35,6 +35,26 @@ public class Hero : MonoBehaviour {
     this.OnHealthChanged?.Invoke(this.Health);
   }
 
+  public void StartRunning()
+  {
+    StopAllCoroutines();
+    _heroMovement.ToggleMoving(true);
+  }
+
+  public void EnterLevel()
+  {
+    StartCoroutine(EnterLevelAnimation());
+  }
+  
+  private IEnumerator EnterLevelAnimation()
+  {
+    _heroMovement.ToggleMoving(true);
+
+    yield return new WaitForSeconds(2f);
+    
+    _heroMovement.ToggleMoving(false);
+  }
+  
   private void Awake() {
     this.TryGetComponent(out this._heroMovement);
     this.TryGetComponent(out this._animator);
@@ -84,8 +104,9 @@ public class Hero : MonoBehaviour {
     RespawnPoint = respawnPoint;
   }
 
-  private void ResetHero()
+  public void ResetHero()
   {
+    _heroMovement.ToggleMoving(false);
     Health = MaxHealth;
     Lives = MaxLives;
     OnHealthChanged.Invoke(Health);

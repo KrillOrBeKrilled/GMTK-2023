@@ -24,6 +24,10 @@ public class CoinManager : Singleton<CoinManager> {
     this.OnCoinAmountChanged?.Invoke(this.Coins);
   }
 
+  public void StartCoinEarning() {
+    this.StartCoroutine(this.EarnCoinCoroutine());
+  }
+
   protected override void Awake() {
     base.Awake();
     this.OnCoinAmountChanged = new UnityEvent<int>();
@@ -31,7 +35,6 @@ public class CoinManager : Singleton<CoinManager> {
   }
 
   private void Start() {
-    this.StartCoroutine(this.EarnCoinCoroutine());
     this.Coins = 1;
     this.OnCoinAmountChanged?.Invoke(1);
   }

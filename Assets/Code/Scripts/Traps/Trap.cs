@@ -11,12 +11,13 @@ namespace Traps
         [SerializeField] public int Cost;
         [SerializeField] protected List<Vector3Int> LeftGridPoints, RightGridPoints;
         [SerializeField] protected int ValidationScore;
-        [SerializeField] protected Vector3 LeftSpawnOffset, RightSpawnOffset;
+        [SerializeField] protected Vector3 LeftSpawnOffset, RightSpawnOffset, AnimationOffset;
         [SerializeField] protected float BuildingDuration;
         [SerializeField] protected GameObject SliderBar;
 
-        private Vector3 _spawnPosition;
+        protected Vector3 SpawnPosition;
         private Slider _buildCompletionBar;
+        private AK.Wwise.Event _startBuildEvent, _stopBuildEvent, _buildCompleteEvent;
         protected float ConstructionCompletion, t;
         protected bool IsBuilding, IsReady;
 
@@ -35,7 +36,12 @@ namespace Traps
                 if (ConstructionCompletion >= 0.99f)
                 {
                     IsReady = true;
+                    _stopBuildEvent.Post(gameObject);
+                    _buildCompleteEvent.Post(gameObject);
                     Destroy(_buildCompletionBar.gameObject);
+
+                    // Play trap set up animation
+                    SetUpTrap();
                 }
             }
         }
@@ -55,19 +61,24 @@ namespace Traps
             return score >= ValidationScore;
         }
 
-        public void Construct(Vector3 spawnPosition, Canvas canvas)
+        public void Construct(Vector3 spawnPosition, Canvas canvas, 
+            AK.Wwise.Event startBuild, AK.Wwise.Event stopBuild, AK.Wwise.Event buildComplete)
         {
-            _spawnPosition = spawnPosition;
-
+            // Initialize all the bookkeeping structures we will need
+            SpawnPosition = spawnPosition;
+            _startBuildEvent = startBuild;
+            _stopBuildEvent = stopBuild;
+            _buildCompleteEvent = buildComplete;
+            
             // Spawn a slider to indicate the progress on the build
             GameObject sliderObject = Instantiate(SliderBar, canvas.transform);
-            sliderObject.transform.position = spawnPosition + (Vector3.up * 2f);
+            sliderObject.transform.position = spawnPosition + AnimationOffset + Vector3.up;
             _buildCompletionBar = sliderObject.GetComponent<Slider>();
 
             // Trap deployment visuals
             transform.position = spawnPosition + Vector3.up * 3f;
-            transform.DOMove(spawnPosition, 0.2f);
-
+            transform.DOMove(spawnPosition + Vector3.up * AnimationOffset.y, 0.2f);
+            
             var sprite = GetComponent<SpriteRenderer>();
             var color = sprite.color;
             sprite.color = new Color(color.r, color.g, color.b, 0);
@@ -81,18 +92,21 @@ namespace Traps
         public abstract Vector3 GetLeftSpawnPoint(Vector3 origin);
         public abstract Vector3 GetRightSpawnPoint(Vector3 origin);
 
+        // Animation to ready the trap for detonation
+        protected abstract void SetUpTrap();
+        protected abstract void DetonateTrap();
         protected abstract void OnEnteredTrap(Hero hero);
         protected abstract void OnExitedTrap(Hero hero);
 
         private void BuildTrap()
         {
             // Randomly shake the trap along the x and y-axis
-            Vector3 targetPosition = new Vector3(_spawnPosition.x + Random.Range(-0.5f, 0.5f),
-                _spawnPosition.y + Random.Range(0.01f, 0.2f));
-
+            Vector3 targetPosition = new Vector3(SpawnPosition.x + Random.Range(-0.5f, 0.5f), 
+                SpawnPosition.y + Random.Range(0.01f, 0.2f));
+            
             // Shake out then back
             transform.DOMove(targetPosition, 0.05f);
-            transform.DOMove(_spawnPosition, 0.05f);
+            transform.DOMove(SpawnPosition + Vector3.up * AnimationOffset.y, 0.05f);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -105,7 +119,7 @@ namespace Traps
 
         private void OnTriggerStay2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") && !IsReady)
             {
                 PlayerController playerController;
                 IPlayerState playerState;
@@ -122,15 +136,17 @@ namespace Traps
                 if (playerState is IdleState)
                 {
                     IsBuilding = true;
+                    _startBuildEvent.Post(gameObject);
                 }
             }
 
         }
 
         private void OnTriggerExit2D(Collider2D other) {
-
-            if (other.CompareTag("Player")) {
+            if (other.CompareTag("Player") && IsBuilding)
+            {
                 IsBuilding = false;
+                _stopBuildEvent.Post(gameObject);
                 return;
             }
 

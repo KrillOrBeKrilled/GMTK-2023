@@ -7,6 +7,7 @@ public class OutOfBoundsTrigger : MonoBehaviour {
 
   public UnityEvent OnPlayerOutOfBounds { get; private set; }
   private Transform _transform;
+  private bool _isOn;
 
   private void Awake() {
     this.OnPlayerOutOfBounds = new UnityEvent();
@@ -18,9 +19,14 @@ public class OutOfBoundsTrigger : MonoBehaviour {
   }
 
   private void OnTriggerExit2D(Collider2D other) {
-    if (other.gameObject.layer != LayerMask.NameToLayer("Player"))
+    if (other.gameObject.layer != LayerMask.NameToLayer("Player") || !_isOn)
       return;
 
     this.OnPlayerOutOfBounds?.Invoke();
+  }
+
+  public void ToggleBounds(bool value)
+  {
+    _isOn = value;
   }
 }

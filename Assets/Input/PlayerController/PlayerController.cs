@@ -319,7 +319,8 @@ namespace Input
                 : trapToSpawn.GetComponent<Trap>().GetRightSpawnPoint(deploymentOrigin);
 
             GameObject trapGameObject = Instantiate(trapToSpawn.gameObject);
-            trapGameObject.GetComponent<Trap>().Construct(spawnPosition, _trapCanvas);
+            trapGameObject.GetComponent<Trap>().Construct(spawnPosition, _trapCanvas,
+                StartBuildEvent, StopBuildEvent, BuildCompleteEvent);
             _isColliding = true;
             CoinManager.Instance.ConsumeCoins(trap.Cost);
         }

@@ -36,6 +36,7 @@ public class Hero : MonoBehaviour {
 
   public void StartRunning()
   {
+    StopAllCoroutines();
     _heroMovement.ToggleMoving(true);
   }
 

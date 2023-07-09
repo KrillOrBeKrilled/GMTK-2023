@@ -7,6 +7,7 @@ public class GameManager : Singleton<GameManager> {
   [SerializeField] private Hero _heroPrefab;
   [SerializeField] private Player _player;
   [SerializeField] private EndgameTarget _endgameTarget;
+  [SerializeField] private OutOfBoundsTrigger _outOfBoundsTrigger;
 
   public UnityEvent OnSetupComplete { get; private set; }
   public UnityEvent OnHenWon { get; private set; }
@@ -47,6 +48,7 @@ public class GameManager : Singleton<GameManager> {
 
     this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
     this._player.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
+    this._outOfBoundsTrigger.OnPlayerOutOfBounds.AddListener(this.HenDied);
 
     this.OnSetupComplete?.Invoke();
     PauseManager.Instance.SetIsPausable(true);
@@ -72,6 +74,7 @@ public class GameManager : Singleton<GameManager> {
   private void HenDied() {
     this._player.PlayerController.DisablePlayerInput();
     this._hero.HeroMovement.ToggleMoving(false);
+    Destroy(this._player.gameObject);
     this.OnHenDied?.Invoke();
   }
 }

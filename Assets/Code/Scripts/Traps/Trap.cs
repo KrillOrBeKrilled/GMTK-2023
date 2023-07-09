@@ -1,28 +1,81 @@
 using System.Collections.Generic;
+using DG.Tweening;
+using Input;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Traps
 {
     // Parent trap class
     public abstract class Trap : MonoBehaviour
     {
-        [SerializeField] protected List<Vector3Int> _leftGridPoints, _rightGridPoints;
-        [SerializeField] protected int _validationScore;
-        [SerializeField] protected Vector3 _leftSpawnOffset, _rightSpawnOffset;
+        [SerializeField] protected List<Vector3Int> LeftGridPoints, RightGridPoints;
+        [SerializeField] protected int ValidationScore;
+        [SerializeField] protected Vector3 LeftSpawnOffset, RightSpawnOffset;
+        [SerializeField] protected float BuildingDuration;
+        [SerializeField] protected GameObject SliderBar;
+
+        private Vector3 _spawnPosition;
+        private Slider _buildCompletionBar;
+        protected float ConstructionCompletion, t;
+        protected bool IsBuilding, IsReady;
+
+        public void Update()
+        {
+            if (!IsReady && IsBuilding)
+            {
+                ConstructionCompletion = Mathf.Lerp(ConstructionCompletion, 1f, t / BuildingDuration);
+                t += Time.deltaTime;
+
+                _buildCompletionBar.DOValue(ConstructionCompletion, 0.1f);
+                
+                // Make construction animations
+                BuildTrap();
+
+                if (ConstructionCompletion >= 0.99f)
+                {
+                    IsReady = true;
+                    Destroy(_buildCompletionBar.gameObject);
+                }
+            }
+        }
 
         public List<Vector3Int> GetLeftGridPoints()
         {
-            return _leftGridPoints;
+            return LeftGridPoints;
         }
         
         public List<Vector3Int> GetRightGridPoints()
         {
-            return _rightGridPoints;
+            return RightGridPoints;
         }
         
         public bool IsValidScore(int score)
         {
-            return score >= _validationScore;
+            return score >= ValidationScore;
+        }
+
+        public void Construct(Vector3 spawnPosition, Canvas canvas)
+        {
+            _spawnPosition = spawnPosition;
+            
+            // Spawn a slider to indicate the progress on the build
+            GameObject sliderObject = Instantiate(SliderBar, canvas.transform);
+            sliderObject.transform.position = spawnPosition + (Vector3.up * 2f);
+            _buildCompletionBar = sliderObject.GetComponent<Slider>();
+            
+            // Trap deployment visuals
+            transform.position = spawnPosition + Vector3.up * 3f;
+            transform.DOMove(spawnPosition, 0.2f);
+            
+            var sprite = GetComponent<SpriteRenderer>();
+            var color = sprite.color;
+            sprite.color = new Color(color.r, color.g, color.b, 0);
+            sprite.DOFade(1, 0.4f);
+            
+            // Initiate the build time countdown
+            ConstructionCompletion = 0;
         }
         
         // Adjusts the trap spawn position relative to an origin
@@ -32,11 +85,55 @@ namespace Traps
         protected abstract void OnEnteredTrap(Hero hero);
         protected abstract void OnExitedTrap(Hero hero);
 
-        private void OnTriggerEnter2D(Collider2D other) {
-            this.OnEnteredTrap(other.GetComponent<Hero>());
+        private void BuildTrap()
+        {
+            // Randomly shake the trap along the x and y-axis
+            Vector3 targetPosition = new Vector3(_spawnPosition.x + Random.Range(-0.5f, 0.5f), 
+                _spawnPosition.y + Random.Range(0.01f, 0.2f));
+            
+            // Shake out then back
+            transform.DOMove(targetPosition, 0.05f);
+            transform.DOMove(_spawnPosition, 0.05f);
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.CompareTag("Player")) return;
+
+        this.OnEnteredTrap(other.GetComponent<Hero>());
+        }
+
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                PlayerController playerController;
+                IPlayerState playerState;
+                
+                if (other.TryGetComponent<PlayerController>(out playerController))
+                {
+                    playerState = playerController.GetPlayerState();
+                }
+                else
+                {
+                    playerState = other.GetComponentInParent<PlayerController>().GetPlayerState();
+                }
+
+                if (playerState is IdleState)
+                {
+                    IsBuilding = true;
+                }
+            }
+                
         }
 
         private void OnTriggerExit2D(Collider2D other) {
+            if (other.CompareTag("Player"))
+            {
+                IsBuilding = false;
+                return;
+            }
+            
             this.OnExitedTrap(other.GetComponent<Hero>());
         }
     }

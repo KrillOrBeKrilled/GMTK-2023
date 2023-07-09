@@ -29,11 +29,13 @@ namespace Input
         [Header("State speed parameters")]
         [SerializeField] private float _speed, _jumpingForce;
 
-        private float _direction;
+        private float _direction = -1;
         
         // ------------- Trap Deployment -------------
+        // The canvas to spawn trap UI
+        [SerializeField] private Canvas _trapCanvas;
         [SerializeField] private List<GameObject> _trapPrefabs;
-        private int _currentTrapIndex = 0;
+        private int _currentTrapIndex;
         
         [SerializeField] private Tilemap _tileMap;
         [SerializeField] private GameObject _leftDeployTransform, _rightDeployTransform;
@@ -304,7 +306,7 @@ namespace Input
                 : trapToSpawn.GetComponent<Traps.Trap>().GetRightSpawnPoint(deploymentOrigin);
             
             GameObject trap = Instantiate(trapToSpawn.gameObject);
-            trap.transform.position = spawnPosition;
+            trap.GetComponent<Traps.Trap>().Construct(spawnPosition, _trapCanvas);
             _isColliding = true;
         }
 
@@ -325,6 +327,12 @@ namespace Input
         private void SetTrap2(InputAction.CallbackContext obj)
         {
             _currentTrapIndex = 1;
+            ClearTrapDeployment();
+        }
+        
+        private void SetTrap3(InputAction.CallbackContext obj)
+        {
+            _currentTrapIndex = 2;
             ClearTrapDeployment();
         }
 
@@ -365,6 +373,7 @@ namespace Input
             // Test functions to set the traps
             this._playerInputActions.Player.SetTrap1.performed += SetTrap1;
             this._playerInputActions.Player.SetTrap2.performed += SetTrap2;
+            this._playerInputActions.Player.SetTrap3.performed += SetTrap3;
         }
 
         private void OnDisable() {
@@ -374,6 +383,7 @@ namespace Input
             this._playerInputActions.Player.PlaceTrap.performed -= DeployTrap;
             this._playerInputActions.Player.SetTrap1.performed -= SetTrap1;
             this._playerInputActions.Player.SetTrap2.performed -= SetTrap2;
+            this._playerInputActions.Player.SetTrap3.performed -= SetTrap3;
         }
         
         private void OnCollisionEnter2D(Collision2D collision)

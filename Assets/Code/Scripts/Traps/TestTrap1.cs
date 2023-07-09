@@ -8,12 +8,12 @@ namespace Traps
     {
         public override Vector3 GetLeftSpawnPoint(Vector3 origin)
         {
-            return origin + _leftSpawnOffset;
+            return origin + LeftSpawnOffset;
         }
         
         public override Vector3 GetRightSpawnPoint(Vector3 origin)
         {
-            return origin + _rightSpawnOffset;
+            return origin + RightSpawnOffset;
         }
         
         protected  override void OnEnteredTrap(Hero hero) {

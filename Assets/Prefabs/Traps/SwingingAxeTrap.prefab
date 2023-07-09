@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 7242327205239312664}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 15.41, y: 0.49, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.0003211, y: 3.001667, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -143,10 +143,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00a6fbd9cf3a45a987474ce8273372aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _leftGridPoints: []
-  _rightGridPoints: []
-  _validationScore: 0
-  _leftSpawnOffset: {x: 0, y: 0, z: 0}
-  _rightSpawnOffset: {x: 0, y: 0, z: 0}
+  LeftGridPoints:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 2, z: 0}
+  - {x: -1, y: 0, z: 0}
+  - {x: -1, y: 1, z: 0}
+  - {x: -1, y: 2, z: 0}
+  RightGridPoints:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 2, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 1, y: 1, z: 0}
+  - {x: 1, y: 2, z: 0}
+  ValidationScore: 2
+  LeftSpawnOffset: {x: 0, y: 1.5, z: 0}
+  RightSpawnOffset: {x: 1, y: 1.5, z: 0}
+  BuildingDuration: 5
+  SliderBar: {fileID: 8689842051725396054, guid: 730a5177b6878c7479dff24b13199c1c, type: 3}
   _pushbackForce: 1
   _damageAmount: 10

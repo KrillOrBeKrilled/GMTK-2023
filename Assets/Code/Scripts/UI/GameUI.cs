@@ -13,8 +13,9 @@ public class GameUI : MonoBehaviour{
   public void Initialize(GameManager gameManager) {
     gameManager.OnSetupComplete.AddListener(this.OnGameSetupComplete);
 
-    gameManager.OnGameWon.AddListener(this.OnGameWon);
-    gameManager.OnGameLost.AddListener(this.OnGameOver);
+    gameManager.OnHenWon.AddListener(this.OnHenWon);
+    gameManager.OnHenDied.AddListener(this.OnHenDied);
+    gameManager.OnHeroReachedLevelEnd.AddListener(this.OnHeroReachedLevelEnd);
   }
 
   public void FadeInSceneCover(UnityAction onComplete) {
@@ -44,11 +45,15 @@ public class GameUI : MonoBehaviour{
     this._pauseUI.SetActive(isPaused);
   }
 
-  private void OnGameWon() {
-    this._endgameUI.Show(true);
+  private void OnHenWon() {
+    this._endgameUI.ShowHenWon();
   }
 
-  private void OnGameOver() {
-    this._endgameUI.Show(false);
+  private void OnHenDied() {
+    this._endgameUI.ShowHenDied();
+  }
+
+  private void OnHeroReachedLevelEnd() {
+    this._endgameUI.ShowHeroReachedLevelEnd();
   }
 }

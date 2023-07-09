@@ -249,6 +249,10 @@ namespace Input
             return _state;
         }
 
+        public void DisablePlayerInput() {
+            this._playerInputActions.Disable();
+        }
+
         // ---------------- Input -----------------
         private void Idle(InputAction.CallbackContext obj)
         {

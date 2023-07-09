@@ -2,18 +2,18 @@ using Input;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-  private PlayerController _playerController;
+  public PlayerController PlayerController { get; private set; }
 
   private void Awake() {
-    this.TryGetComponent(out this._playerController);
+    this.PlayerController = this.GetComponent<PlayerController>();
   }
 
   private void OnCollisionEnter2D(Collision2D other) {
     if (other.gameObject.layer != LayerMask.NameToLayer("Hero"))
       return;
 
-    this._playerController.GameOver();
-    GameManager.Instance.OnGameLost?.Invoke();
+    this.PlayerController.GameOver();
+    GameManager.Instance.OnHenDied?.Invoke();
     Destroy(this.gameObject);
   }
 }

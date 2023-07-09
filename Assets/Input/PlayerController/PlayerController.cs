@@ -74,7 +74,7 @@ namespace Input
             _direction = directionInput != 0 ? directionInput : _direction;
             
             // Set animation values
-            SetAnimatorValues();
+            SetAnimatorValues(directionInput);
             
             // Delegate movement behaviour to state classes
             _state.Act(_rBody, _direction, EnterIdleState);
@@ -229,11 +229,10 @@ namespace Input
         }
 
         // For when we put in an animator
-        private void SetAnimatorValues()
+        private void SetAnimatorValues(float inputDirection)
         {
-            _animator.SetFloat("speed", Mathf.Abs(_direction));
+            _animator.SetFloat("speed", Mathf.Abs(inputDirection));
             _animator.SetFloat("direction", _direction);
-            _animator.SetBool("is_grounded", _isGrounded);
         }
 
         // --------------- Getters ---------------
@@ -268,6 +267,8 @@ namespace Input
             // Left out of State pattern to allow this during movement
             _rBody.AddForce(Vector2.up * _jumpingForce);
             _isGrounded = false;
+            
+            _animator.SetBool("is_grounded", _isGrounded);
 
             // Left the ground, so trap deployment isn't possible anymore
             ClearTrapDeployment();
@@ -359,6 +360,16 @@ namespace Input
             if (collision.gameObject.CompareTag("Ground"))
             {
                 _isGrounded = true;
+                _animator.SetBool("is_grounded", _isGrounded);
+            }
+        }
+        
+        private void OnCollisionExit2D(Collision2D collision)
+        {
+            if (collision.gameObject.CompareTag("Ground"))
+            {
+                _isGrounded = false;
+                _animator.SetBool("is_grounded", _isGrounded);
             }
         }
     }

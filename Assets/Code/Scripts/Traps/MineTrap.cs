@@ -14,6 +14,16 @@ namespace Traps {
     {
       return origin + RightSpawnOffset;
     }
+    
+    protected override void SetUpTrap()
+    {
+
+    }
+    
+    protected override void DetonateTrap()
+    {
+
+    }
 
     protected override void OnEnteredTrap(Hero hero) {
       if (!IsReady) return;

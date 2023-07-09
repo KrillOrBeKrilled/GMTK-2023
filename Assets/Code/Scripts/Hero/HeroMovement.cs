@@ -11,6 +11,7 @@ public class HeroMovement : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private Animator _animator;
 
+    private bool _isMoving;
     private bool _isStunned;
     private Coroutine _stunCoroutine;
 
@@ -23,6 +24,11 @@ public class HeroMovement : MonoBehaviour
     private static readonly int XSpeedKey = Animator.StringToHash("xSpeed");
     private static readonly int YSpeedKey = Animator.StringToHash("ySpeed");
 
+    public void ToggleMoving(bool isMoving)
+    {
+        _isMoving = isMoving;
+    }
+    
     public void ResetSpeedPenalty() {
         this._speedPenalty = 0f;
     }
@@ -64,14 +70,21 @@ public class HeroMovement : MonoBehaviour
         TryGetComponent(out _rigidbody);
         TryGetComponent(out _animator);
         this._isStunned = false;
+        this._isMoving = true;
     }
 
     private void Update() {
         if (this._isStunned)
             return;
-
+        
         float speed = this.MovementSpeed * (1f - this._speedPenalty);
         _rigidbody.velocity = new Vector2(speed, _rigidbody.velocity.y);
+
+        if (!_isMoving)
+        {
+            _rigidbody.velocity = Vector2.zero;
+        }
+        
         _animator.SetFloat(XSpeedKey, Mathf.Abs(_rigidbody.velocity.x));
         _animator.SetFloat(YSpeedKey, Mathf.Abs(_rigidbody.velocity.y));
     }

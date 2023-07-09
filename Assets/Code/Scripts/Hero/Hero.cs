@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,9 +15,12 @@ public class Hero : MonoBehaviour {
   public UnityEvent OnHeroReset;
   public const int MaxHealth = 100;
   public const int MaxLives = 3;
+  public float RespawnTime = 3;
   public AK.Wwise.Event HeroHurtEvent;
   
   private HeroMovement _heroMovement;
+  private Animator _animator;
+  private static readonly int SpawningKey = Animator.StringToHash("spawning");
 
 
   public void TakeDamage(int amount) {
@@ -32,6 +36,7 @@ public class Hero : MonoBehaviour {
 
   private void Awake() {
     this.TryGetComponent(out this._heroMovement);
+    this.TryGetComponent(out this._animator);
     
     ResetHero();
   }
@@ -41,17 +46,36 @@ public class Hero : MonoBehaviour {
     Lives--;
     HeroHurtEvent.Post(gameObject);
     this.OnHeroDied?.Invoke();
-    Respawn();
 
     if (Lives == 0)
     {
       OnGameOver.Invoke();
+      return;
     }
+
+    StartCoroutine(Respawn());
   }
 
-  public void Respawn()
+  private IEnumerator Respawn()
   {
     transform.position = RespawnPoint.transform.position;
+    _animator.SetBool(SpawningKey, true);
+    _heroMovement.ToggleMoving(false);
+
+    // Gradually fill the health bar over the respawn time
+    float timePassed = 0;
+    while (timePassed < RespawnTime)
+    {
+      timePassed += Time.deltaTime;
+
+      Health = (int) Mathf.Lerp(0f, MaxHealth, timePassed / RespawnTime);
+      OnHealthChanged.Invoke(Health);
+
+      yield return new WaitForEndOfFrame();
+    }
+    
+    _heroMovement.ToggleMoving(true);
+    _animator.SetBool(SpawningKey, false);
   }
 
   public void SetRespawnPoint(HeroRespawnPoint respawnPoint)
@@ -63,6 +87,7 @@ public class Hero : MonoBehaviour {
   {
     Health = MaxHealth;
     Lives = MaxLives;
+    OnHealthChanged.Invoke(Health);
     OnHeroReset.Invoke();
   }
 }

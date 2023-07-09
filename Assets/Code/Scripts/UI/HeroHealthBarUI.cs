@@ -35,9 +35,12 @@ public class HeroHealthBarUI : MonoBehaviour {
     this.RepositionHealthBar();
   }
 
-  private void OnHealthChanged(int health) {
+  private void OnHealthChanged(int health)
+  {
+    var tweenDuration = 0f;
+    
     this._healthBar
-      .DOValue(health, 0.3f)
+      .DOValue(health, tweenDuration)
       .SetEase(Ease.InOutCubic);
   }
 

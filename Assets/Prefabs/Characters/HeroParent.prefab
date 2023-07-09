@@ -607,6 +607,7 @@ MonoBehaviour:
   OnHeroReset:
     m_PersistentCalls:
       m_Calls: []
+  RespawnTime: 3
   HeroHurtEvent:
     idInternal: 0
     valueGuidInternal: 
@@ -642,7 +643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: Hero
-  messageBubbleOffset: {x: 0, y: 1.5, z: 0}
+  messageBubbleOffset: {x: 0, y: 2, z: 0}
   offsetUsesRotation: 0
 --- !u!114 &2714923360369896574
 MonoBehaviour:

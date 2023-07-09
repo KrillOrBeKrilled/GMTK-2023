@@ -1,6 +1,7 @@
 using Input;
 using UnityEngine;
 using UnityEngine.Events;
+using Yarn.Unity;
 
 public class GameManager : Singleton<GameManager> {
   [SerializeField] private GameUI _gameUI;
@@ -35,13 +36,29 @@ public class GameManager : Singleton<GameManager> {
     this.OnSetupComplete = new UnityEvent();
     this.OnHenWon = new UnityEvent<string>();
     this.OnHenLost = new UnityEvent<string>();
+    this._hero = FindObjectOfType<Hero>();
+  }
+
+  [YarnCommand("enter_player")]
+  public void EnterPlayer()
+  {
+    _hero.EnterLevel();
+  }
+
+  [YarnCommand("start_level")]
+  public void StartLevel()
+  {
+    _hero.StartRunning();
+    _outOfBoundsTrigger.ToggleBounds(true);
   }
 
   private void Start() {
     // Setup
     this._gameUI.Initialize(this);
-    this._hero = FindObjectOfType<Hero>();
 
+    _hero.ResetHero();
+    _outOfBoundsTrigger.ToggleBounds(false);
+    
     this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
     this._player.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
     this._outOfBoundsTrigger.OnPlayerOutOfBounds.AddListener(this.HenOutOfBounds);

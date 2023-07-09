@@ -70,10 +70,10 @@ namespace Yarn.Unity.Example
                 case "Hero":
                     HeroDialogueEvent.Post(gameObject);
                     break;
-                case "Hen":
+                case "Hendall":
                     HenDialogueEvent.Post(gameObject);
                     break;
-                case "Boss":
+                case "Dogan":
                     BossDialogueEvent.Post(gameObject);
                     break;
             }

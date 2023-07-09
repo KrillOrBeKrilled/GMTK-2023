@@ -233,6 +233,7 @@ namespace Input
         {
             _animator.SetFloat("speed", Mathf.Abs(_direction));
             _animator.SetFloat("direction", _direction);
+            _animator.SetBool("is_grounded", _isGrounded);
         }
 
         // --------------- Getters ---------------
@@ -267,9 +268,7 @@ namespace Input
             // Left out of State pattern to allow this during movement
             _rBody.AddForce(Vector2.up * _jumpingForce);
             _isGrounded = false;
-            
-            _animator.SetTrigger("Jump");
-            
+
             // Left the ground, so trap deployment isn't possible anymore
             ClearTrapDeployment();
         }

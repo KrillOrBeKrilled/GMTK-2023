@@ -270,7 +270,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1606483862197435536}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 469, y: 199, z: 0}
+  m_LocalPosition: {x: 0, y: -348, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -943,6 +943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allCharacters:
+  - {fileID: 3104913905976222486}
   - {fileID: 0}
   - {fileID: 0}
   playerCharacter: {fileID: 0}
@@ -950,7 +951,7 @@ MonoBehaviour:
   canvasScaler: {fileID: 5203182437719251029}
   dialogueBubbleRect: {fileID: 3741743096415219988}
   optionsBubbleRect: {fileID: 1222408367283395131}
-  bubbleMargin: 0.1
+  bubbleMargin: 0.15
   HenDialogueEvent:
     idInternal: 0
     valueGuidInternal: 
@@ -975,14 +976,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bec29c0a230741bdac901dba8da47ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yarnProject: {fileID: 0}
+  yarnProject: {fileID: 7545569452688597077, guid: 553d6896a4829d446925a7d3582274a1, type: 3}
   _variableStorage: {fileID: 3741743096958657527}
   dialogueViews:
   - {fileID: 856644338}
   - {fileID: 6711672230207336559}
   - {fileID: 4138263016411109766}
-  startNode: Start
-  startAutomatically: 0
+  startNode: TutorialDialogue
+  startAutomatically: 1
   runSelectedOptionAsLine: 0
   lineProvider: {fileID: 0}
   verboseLogging: 1
@@ -1519,5 +1520,5 @@ Transform:
   - {fileID: 3741743097333894311}
   - {fileID: 6373560024111600768}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -28,11 +28,13 @@ namespace Input
         [Header("State speed parameters")]
         [SerializeField] private float _speed, _jumpingForce;
 
-        private float _direction;
+        private float _direction = -1;
         
         // ------------- Trap Deployment -------------
+        // The canvas to spawn trap UI
+        [SerializeField] private Canvas _trapCanvas;
         [SerializeField] private List<GameObject> _trapPrefabs;
-        private int _currentTrapIndex = 0;
+        private int _currentTrapIndex;
         
         [SerializeField] private Tilemap _tileMap;
         [SerializeField] private GameObject _leftDeployTransform, _rightDeployTransform;
@@ -292,7 +294,7 @@ namespace Input
                 : trapToSpawn.GetComponent<Traps.Trap>().GetRightSpawnPoint(deploymentOrigin);
             
             GameObject trap = Instantiate(trapToSpawn.gameObject);
-            trap.transform.position = spawnPosition;
+            trap.GetComponent<Traps.Trap>().Construct(spawnPosition, _trapCanvas);
             _isColliding = true;
         }
         

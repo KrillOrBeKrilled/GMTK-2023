@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1302818318042211509
 SpriteRenderer:
@@ -143,15 +143,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a65ae4de9d2b4341b63174c58f0deb42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _leftGridPoints:
+  LeftGridPoints:
   - {x: 0, y: 0, z: 0}
   - {x: -1, y: 0, z: 0}
   - {x: -2, y: 0, z: 0}
-  _rightGridPoints:
+  RightGridPoints:
   - {x: 0, y: 0, z: 0}
   - {x: 1, y: 0, z: 0}
   - {x: 2, y: 0, z: 0}
-  _validationScore: 3
-  _leftSpawnOffset: {x: -0.5, y: 0.5, z: 0}
-  _rightSpawnOffset: {x: 1.5, y: 0.5, z: 0}
+  ValidationScore: 3
+  LeftSpawnOffset: {x: -0.5, y: 0.5, z: 0}
+  RightSpawnOffset: {x: 1.5, y: 0.5, z: 0}
+  BuildingDuration: 3
+  SliderBar: {fileID: 8689842051725396054, guid: 730a5177b6878c7479dff24b13199c1c, type: 3}
   _damageAmount: 10

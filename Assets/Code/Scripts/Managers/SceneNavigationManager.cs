@@ -3,11 +3,15 @@ using UnityEngine.SceneManagement;
 
 public class SceneNavigationManager : Singleton<SceneNavigationManager> {
   public void LoadGameScene() {
-    this.LoadScene("Game");
+    LoadScene("Game");
+  }
+
+  public void ReloadCurrentScene() {
+    LoadScene(SceneManager.GetActiveScene().buildIndex);
   }
 
   public void LoadMainMenuScene() {
-    this.LoadScene("MainMenu");
+    LoadScene("MainMenu");
   }
 
   public void ExitGame() {
@@ -15,7 +19,11 @@ public class SceneNavigationManager : Singleton<SceneNavigationManager> {
     Application.Quit();
   }
 
-  public void LoadScene(string sceneName) {
+  private static void LoadScene(string sceneName) {
     SceneManager.LoadScene(sceneName);
+  }
+
+  private static void LoadScene(int sceneIndex) {
+    SceneManager.LoadScene(sceneIndex);
   }
 }

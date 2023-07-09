@@ -860,6 +860,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7748770393677785153}
     m_Modifications:
+    - target: {fileID: 213626637527037636, guid: f6f9ad0816ffa6b4c9cf2af9d669cc74, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -289
+      objectReference: {fileID: 0}
+    - target: {fileID: 213626637527037636, guid: f6f9ad0816ffa6b4c9cf2af9d669cc74, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -59
+      objectReference: {fileID: 0}
     - target: {fileID: 5282539698852992079, guid: f6f9ad0816ffa6b4c9cf2af9d669cc74, type: 3}
       propertyPath: m_Name
       value: HeroCanvas

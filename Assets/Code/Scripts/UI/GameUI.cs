@@ -49,7 +49,6 @@ public class GameUI : MonoBehaviour{
   }
 
   private void OnHenLost(string message) {
-    print(message);
     this._endgameUI.ShowHenLost(message);
   }
 }

@@ -16,7 +16,6 @@ public class EndgameUI : MonoBehaviour {
 
   public void ShowHenLost(string message) {
     this.gameObject.SetActive(true);
-    print(message);
     this._titleText.text = message;
 
     this._nextLevelButton.SetActive(false);

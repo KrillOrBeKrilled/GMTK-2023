@@ -4,16 +4,14 @@ using UnityEngine.Events;
 
 public class GameManager : Singleton<GameManager> {
   [SerializeField] private GameUI _gameUI;
-  [SerializeField] private Hero _heroPrefab;
   [SerializeField] private Player _player;
+  [SerializeField] private Hero _hero;
   [SerializeField] private EndgameTarget _endgameTarget;
   [SerializeField] private OutOfBoundsTrigger _outOfBoundsTrigger;
 
   public UnityEvent OnSetupComplete { get; private set; }
   public UnityEvent<string> OnHenWon { get; private set; }
   public UnityEvent<string> OnHenLost { get; private set; }
-
-  private Hero _hero;
 
   public void LoadMainMenu() {
     PauseManager.Instance.UnpauseGame();
@@ -47,6 +45,7 @@ public class GameManager : Singleton<GameManager> {
     this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
     this._player.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
     this._outOfBoundsTrigger.OnPlayerOutOfBounds.AddListener(this.HenOutOfBounds);
+    this._hero.OnGameOver.AddListener(this.GameWon);
 
     this.OnSetupComplete?.Invoke();
     PauseManager.Instance.SetIsPausable(true);

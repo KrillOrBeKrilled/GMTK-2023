@@ -102139,6 +102139,10 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 2979109686049939942, guid: c3a6bf8df177a41e28b2f650f401c445, type: 3}
+      propertyPath: _hero
+      value: 
+      objectReference: {fileID: 85562175}
+    - target: {fileID: 2979109686049939942, guid: c3a6bf8df177a41e28b2f650f401c445, type: 3}
       propertyPath: _gameUI
       value: 
       objectReference: {fileID: 1637966338}

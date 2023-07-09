@@ -189,6 +189,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameUI: {fileID: 0}
-  _heroPrefab: {fileID: 0}
   _player: {fileID: 0}
+  _hero: {fileID: 0}
   _endgameTarget: {fileID: 851587808882639219}
+  _outOfBoundsTrigger: {fileID: 0}
+  _playerRespawnOffset: {x: 4.5, y: 0}

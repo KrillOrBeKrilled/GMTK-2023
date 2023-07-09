@@ -11,6 +11,9 @@ public class FollowTarget : MonoBehaviour {
   }
 
   private void Update() {
+    if (this._followTarget == null)
+      return;
+
     this._transform.position = (Vector2)this._followTarget.position + this._followOffset;
   }
 }

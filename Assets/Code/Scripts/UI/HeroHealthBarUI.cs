@@ -58,6 +58,9 @@ public class HeroHealthBarUI : MonoBehaviour {
   }
 
   private void RepositionHealthBar() {
+    if (this._objectToFollow == null)
+      return;
+
     Vector2 viewportPosition = this._mainCamera.WorldToViewportPoint(this._objectToFollow.position);
     Vector2 sizeDelta = this._targetCanvas.sizeDelta;
     Vector2 worldObjectScreenPosition =

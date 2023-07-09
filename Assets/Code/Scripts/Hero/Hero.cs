@@ -45,16 +45,16 @@ public class Hero : MonoBehaviour {
   {
     StartCoroutine(EnterLevelAnimation());
   }
-  
+
   private IEnumerator EnterLevelAnimation()
   {
     _heroMovement.ToggleMoving(true);
 
     yield return new WaitForSeconds(2f);
-    
+
     _heroMovement.ToggleMoving(false);
   }
-  
+
   private void Awake() {
     this.TryGetComponent(out this._heroMovement);
     this.TryGetComponent(out this._animator);
@@ -71,6 +71,7 @@ public class Hero : MonoBehaviour {
     if (Lives == 0)
     {
       OnGameOver.Invoke();
+      Destroy(this.gameObject);
       return;
     }
 

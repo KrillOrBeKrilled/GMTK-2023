@@ -1,4 +1,5 @@
 using Input;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using Yarn.Unity;
@@ -9,6 +10,7 @@ public class GameManager : Singleton<GameManager> {
   [SerializeField] private Hero _hero;
   [SerializeField] private EndgameTarget _endgameTarget;
   [SerializeField] private OutOfBoundsTrigger _outOfBoundsTrigger;
+  [SerializeField] private Vector2 _playerRespawnOffset;
 
   public UnityEvent OnSetupComplete { get; private set; }
   public UnityEvent<string> OnHenWon { get; private set; }
@@ -63,6 +65,7 @@ public class GameManager : Singleton<GameManager> {
     this._player.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
     this._outOfBoundsTrigger.OnPlayerOutOfBounds.AddListener(this.HenOutOfBounds);
     this._hero.OnGameOver.AddListener(this.GameWon);
+    this._hero.OnHeroDied.AddListener(this.OnHeroDied);
 
     this.OnSetupComplete?.Invoke();
     PauseManager.Instance.SetIsPausable(true);
@@ -72,6 +75,22 @@ public class GameManager : Singleton<GameManager> {
     if (state is GameOverState) {
       this.HenDied("The Hero managed to take you down Hendall.\nDon't you dream about that promotion I mentioned last time!");
     }
+  }
+
+  private void OnHeroDied() {
+    this._outOfBoundsTrigger.ToggleBounds(false);
+    this.StartCoroutine(this.DisableOutOfBoundsForOneSecond());
+  }
+
+  private IEnumerator DisableOutOfBoundsForOneSecond() {
+    yield return new WaitForSeconds(1f);
+
+    if (this._hero == null)
+      yield break;
+
+    Vector2 newPos = (Vector2)this._hero.transform.position + this._playerRespawnOffset;
+    this._player.MovePlayer(newPos);
+    this._outOfBoundsTrigger.ToggleBounds(true);
   }
 
   private void GameWon() {

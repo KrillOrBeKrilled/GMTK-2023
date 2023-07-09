@@ -32,6 +32,7 @@ namespace AK
         static const AkUniqueID PLAY_SFX_UI_TILESELECT_MOVE = 874347577U;
         static const AkUniqueID PLAY_SFX_UI_UNPAUSE = 3056227168U;
         static const AkUniqueID STOP_MUS = 837844525U;
+        static const AkUniqueID STOP_SFX_HEN_BUILD = 3907100140U;
         static const AkUniqueID UNMUTE_MUS = 96364987U;
     } // namespace EVENTS
 

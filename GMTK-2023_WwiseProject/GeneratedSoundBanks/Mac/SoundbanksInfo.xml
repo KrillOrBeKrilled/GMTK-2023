@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="393239870" Type="User" Language="SFX" Hash="{72E08D1C-B368-ADE8-7A26-5E5B74B88EBD}">
+		<SoundBank Id="393239870" Type="User" Language="SFX" Hash="{2B7338CF-A180-5AFA-3584-28707505C9C8}">
 			<ShortName>sfx</ShortName>
 			<Path>sfx.bnk</Path>
 			<Media>
@@ -349,6 +349,7 @@
 						<MediaRef Id="557163027"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="3907100140" Name="Stop_sfx_hen_build" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
 		</SoundBank>
 		<SoundBank Id="712897226" Type="User" Language="SFX" Hash="{EE3E3EA2-0021-BA15-3B05-742B322687D5}">
@@ -435,5 +436,5 @@
 			</Busses>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{7A11A205-44CE-FE91-4F69-EC61B2E4C440}</FileHash>
+	<FileHash>{67F7999C-CCCB-347B-0B2B-6EBDBD69ECEA}</FileHash>
 </SoundBanksInfo>

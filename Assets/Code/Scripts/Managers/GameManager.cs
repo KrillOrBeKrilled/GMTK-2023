@@ -39,7 +39,7 @@ public class GameManager : Singleton<GameManager> {
 
   private void Start() {
     // Setup
-    this._gameUI.Initialize(this);
+    this._gameUI.Initialize(this, this._player);
     this._hero = FindObjectOfType<Hero>();
 
     this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);

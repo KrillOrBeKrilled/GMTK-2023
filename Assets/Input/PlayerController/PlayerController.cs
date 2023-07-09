@@ -35,6 +35,8 @@ namespace Input
 
         private int _currentTrapIndex = 0;
 
+        public UnityEvent<int> OnSelectedTrapIndexChanged;
+
         [SerializeField] private Tilemap _tileMap;
         [SerializeField] private GameObject _leftDeployTransform, _rightDeployTransform;
 
@@ -68,11 +70,13 @@ namespace Input
 
             _state = _idle;
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState>();
+            this.OnSelectedTrapIndexChanged = new UnityEvent<int>();
         }
 
         private void Start() {
             // Need this due to race condition during scene Awake->OnEnable calls
             this._playerInputActions = PlayerInputController.Instance.PlayerInputActions;
+            this.OnSelectedTrapIndexChanged?.Invoke(this._currentTrapIndex);
             OnEnable();
         }
 
@@ -329,18 +333,21 @@ namespace Input
         private void SetTrap1(InputAction.CallbackContext obj)
         {
             _currentTrapIndex = 0;
+            this.OnSelectedTrapIndexChanged?.Invoke(_currentTrapIndex);
             ClearTrapDeployment();
         }
 
         private void SetTrap2(InputAction.CallbackContext obj)
         {
             _currentTrapIndex = 1;
+            this.OnSelectedTrapIndexChanged?.Invoke(_currentTrapIndex);
             ClearTrapDeployment();
         }
 
         private void SetTrap3(InputAction.CallbackContext obj)
         {
             _currentTrapIndex = 2;
+            this.OnSelectedTrapIndexChanged?.Invoke(_currentTrapIndex);
             ClearTrapDeployment();
         }
 

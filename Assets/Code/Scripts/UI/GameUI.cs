@@ -9,14 +9,16 @@ public class GameUI : MonoBehaviour{
   [SerializeField] private GameObject _pauseUI;
   [SerializeField] private EndgameUI _endgameUI;
   [SerializeField] private TMP_Text _coinsText;
+  [SerializeField] private TrapSelectionBar _trapSelectionBar;
 
   private const float FadeDuration = 0.5f;
 
-  public void Initialize(GameManager gameManager) {
+  public void Initialize(GameManager gameManager, Player player) {
     gameManager.OnSetupComplete.AddListener(this.OnGameSetupComplete);
-
     gameManager.OnHenWon.AddListener(this.OnHenWon);
     gameManager.OnHenLost.AddListener(this.OnHenLost);
+
+    this._trapSelectionBar.Initialize(player);
   }
 
   public void FadeInSceneCover(UnityAction onComplete) {

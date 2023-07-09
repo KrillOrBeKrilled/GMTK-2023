@@ -45,13 +45,14 @@ namespace Input
 
         // --------------- Bookkeeping ---------------
         private Rigidbody2D _rBody;
-        public Animator _animator;
+        private Animator _animator;
 
         private PlayerInputActions _playerInputActions;
 
         void Awake()
         {
             _rBody = GetComponent<Rigidbody2D>();
+            _animator = GetComponent<Animator>();
 
             _idle = new IdleState();
             _moving = new MovingState(_speed);
@@ -71,15 +72,15 @@ namespace Input
         {
             float directionInput = _playerInputActions.Player.Move.ReadValue<float>();
             _direction = directionInput != 0 ? directionInput : _direction;
-
-            // Check trap deployment eligibility
-            SurveyTrapDeployment();
+            
+            // Set animation values
+            SetAnimatorValues();
             
             // Delegate movement behaviour to state classes
             _state.Act(_rBody, _direction, EnterIdleState);
 
-            // Set animation values
-            SetAnimatorValues();
+            // Check trap deployment eligibility
+            SurveyTrapDeployment();
         }
 
         private void SurveyTrapDeployment()
@@ -230,7 +231,8 @@ namespace Input
         // For when we put in an animator
         private void SetAnimatorValues()
         {
-            
+            _animator.SetFloat("speed", Mathf.Abs(_direction));
+            _animator.SetFloat("direction", _direction);
         }
 
         // --------------- Getters ---------------
@@ -265,6 +267,8 @@ namespace Input
             // Left out of State pattern to allow this during movement
             _rBody.AddForce(Vector2.up * _jumpingForce);
             _isGrounded = false;
+            
+            _animator.SetTrigger("Jump");
             
             // Left the ground, so trap deployment isn't possible anymore
             ClearTrapDeployment();

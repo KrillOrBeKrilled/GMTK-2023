@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="393239870" Type="User" Language="SFX" Hash="{C135D6CB-5592-33F5-7A8A-11C6F335C95E}">
+		<SoundBank Id="393239870" Type="User" Language="SFX" Hash="{468FB599-DC4A-8949-089A-6037EF7D9B32}">
 			<ShortName>sfx</ShortName>
 			<Path>sfx.bnk</Path>
 			<Media>
@@ -21,37 +21,41 @@
 					<ShortName>sfx\hen\sfx_hen_dialogue_1.wav</ShortName>
 					<CachePath>SFX/sfx/hen/sfx_hen_dialogue_1_3F75BDB9.wem</CachePath>
 				</File>
-				<File Id="49825002" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx\hero\sfx_hero_dialogue_3.wav</ShortName>
-					<CachePath>SFX/sfx/hero/sfx_hero_dialogue_3_3F75BDB9.wem</CachePath>
+				<File Id="53548733" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_hen_build_4.wav</ShortName>
+					<CachePath>SFX/sfx_hen_build_4_3F75BDB9.wem</CachePath>
 				</File>
-				<File Id="113705924" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx\hero\sfx_hero_dialogue_1.wav</ShortName>
-					<CachePath>SFX/sfx/hero/sfx_hero_dialogue_1_3F75BDB9.wem</CachePath>
+				<File Id="56766801" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_hen_flap_2.wav</ShortName>
+					<CachePath>SFX/sfx_hen_flap_2_3F75BDB9.wem</CachePath>
 				</File>
-				<File Id="118916711" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx\hero\sfx_hero_hurt_2.wav</ShortName>
-					<CachePath>SFX/sfx/hero/sfx_hero_hurt_2_3F75BDB9.wem</CachePath>
+				<File Id="60052066" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_hen_death_1.wav</ShortName>
+					<CachePath>SFX/sfx_hen_death_1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="101428923" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_hen_buildComplete_2.wav</ShortName>
+					<CachePath>SFX/sfx_hen_buildComplete_2_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="127723183" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx\hen\sfx_hen_dialogue_2.wav</ShortName>
 					<CachePath>SFX/sfx/hen/sfx_hen_dialogue_2_3F75BDB9.wem</CachePath>
 				</File>
-				<File Id="156592918" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx\hero\sfx_hero_hurt_1.wav</ShortName>
-					<CachePath>SFX/sfx/hero/sfx_hero_hurt_1_3F75BDB9.wem</CachePath>
+				<File Id="184654326" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_hen_buildComplete_3.wav</ShortName>
+					<CachePath>SFX/sfx_hen_buildComplete_3_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="205397413" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_hen_build_1.wav</ShortName>
+					<CachePath>SFX/sfx_hen_build_1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="227366196" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_hen_build_2.wav</ShortName>
+					<CachePath>SFX/sfx_hen_build_2_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="269605014" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx\UI\sfx_UI_tileSelect_move_2.wav</ShortName>
 					<CachePath>SFX/sfx/UI/sfx_UI_tileSelect_move_2_3F75BDB9.wem</CachePath>
-				</File>
-				<File Id="304749164" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx\hero\sfx_hero_hurt_3.wav</ShortName>
-					<CachePath>SFX/sfx/hero/sfx_hero_hurt_3_3F75BDB9.wem</CachePath>
-				</File>
-				<File Id="308526368" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx\hero\sfx_hero_jump_2.wav</ShortName>
-					<CachePath>SFX/sfx/hero/sfx_hero_jump_2_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="341105674" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx\hen\sfx_hen_dialogue_4.wav</ShortName>
@@ -61,17 +65,37 @@
 					<ShortName>sfx\UI\sfx_UI_select.wav</ShortName>
 					<CachePath>SFX/sfx/UI/sfx_UI_select_3F75BDB9.wem</CachePath>
 				</File>
+				<File Id="366782660" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_hen_flap_1.wav</ShortName>
+					<CachePath>SFX/sfx_hen_flap_1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="389297036" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_hen_flap_4.wav</ShortName>
+					<CachePath>SFX/sfx_hen_flap_4_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="431120553" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_hen_buildComplete_1.wav</ShortName>
+					<CachePath>SFX/sfx_hen_buildComplete_1_3F75BDB9.wem</CachePath>
+				</File>
 				<File Id="557163027" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx\UI\sfx_UI_unpause.wav</ShortName>
 					<CachePath>SFX/sfx/UI/sfx_UI_unpause_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="609106748" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_hen_flap_5.wav</ShortName>
+					<CachePath>SFX/sfx_hen_flap_5_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="610826691" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_hen_flap_3.wav</ShortName>
+					<CachePath>SFX/sfx_hen_flap_3_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="687408748" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx\UI\sfx_UI_confirm.wav</ShortName>
 					<CachePath>SFX/sfx/UI/sfx_UI_confirm_3F75BDB9.wem</CachePath>
 				</File>
-				<File Id="770310829" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx\hero\sfx_hero_dialogue_2.wav</ShortName>
-					<CachePath>SFX/sfx/hero/sfx_hero_dialogue_2_3F75BDB9.wem</CachePath>
+				<File Id="789572075" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_hen_build_3.wav</ShortName>
+					<CachePath>SFX/sfx_hen_build_3_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="802854948" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx\UI\sfx_UI_pause.wav</ShortName>
@@ -81,17 +105,13 @@
 					<ShortName>sfx\hen\sfx_hen_dialogue_5.wav</ShortName>
 					<CachePath>SFX/sfx/hen/sfx_hen_dialogue_5_3F75BDB9.wem</CachePath>
 				</File>
-				<File Id="848075056" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx\hero\sfx_hero_jump_1.wav</ShortName>
-					<CachePath>SFX/sfx/hero/sfx_hero_jump_1_3F75BDB9.wem</CachePath>
-				</File>
 				<File Id="871920434" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx\hen\sfx_hen_dialogue_3.wav</ShortName>
 					<CachePath>SFX/sfx/hen/sfx_hen_dialogue_3_3F75BDB9.wem</CachePath>
 				</File>
-				<File Id="881584140" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx\hero\sfx_hero_jump_3.wav</ShortName>
-					<CachePath>SFX/sfx/hero/sfx_hero_jump_3_3F75BDB9.wem</CachePath>
+				<File Id="932981033" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_hen_death_3.wav</ShortName>
+					<CachePath>SFX/sfx_hen_death_3_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="941157850" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx\UI\sfx_UI_tileSelect_move_3.wav</ShortName>
@@ -105,9 +125,9 @@
 					<ShortName>sfx\boss\sfx_boss_dialogue.wav</ShortName>
 					<CachePath>SFX/sfx/boss/sfx_boss_dialogue_3F75BDB9.wem</CachePath>
 				</File>
-				<File Id="1004793538" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_hen_build.wav</ShortName>
-					<CachePath>SFX/sfx_hen_build_3F75BDB9.wem</CachePath>
+				<File Id="1006230876" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_hen_death_2.wav</ShortName>
+					<CachePath>SFX/sfx_hen_death_2_3F75BDB9.wem</CachePath>
 				</File>
 			</Media>
 			<Events>
@@ -118,7 +138,24 @@
 				</Event>
 				<Event Id="2092053050" Name="Play_sfx_hen_build" DurationType="OneShot" DurationMin="10" DurationMax="10">
 					<MediaRefs>
-						<MediaRef Id="1004793538"/>
+						<MediaRef Id="53548733"/>
+						<MediaRef Id="205397413"/>
+						<MediaRef Id="227366196"/>
+						<MediaRef Id="789572075"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4293832567" Name="Play_sfx_hen_buildComplete" DurationType="OneShot" DurationMin="0.5" DurationMax="0.5">
+					<MediaRefs>
+						<MediaRef Id="101428923"/>
+						<MediaRef Id="184654326"/>
+						<MediaRef Id="431120553"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1026789612" Name="Play_sfx_hen_death" DurationType="OneShot" DurationMin="4" DurationMax="4">
+					<MediaRefs>
+						<MediaRef Id="60052066"/>
+						<MediaRef Id="932981033"/>
+						<MediaRef Id="1006230876"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="4212917052" Name="Play_sfx_hen_dialogue" DurationType="OneShot" DurationMin="4" DurationMax="4">
@@ -130,27 +167,19 @@
 						<MediaRef Id="871920434"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="561608359" Name="Play_sfx_hero_dialogue" DurationType="OneShot" DurationMin="0.835941" DurationMax="4">
+				<Event Id="1677849343" Name="Play_sfx_hen_flap" DurationType="OneShot" DurationMin="0.37501132" DurationMax="0.37501132">
 					<MediaRefs>
-						<MediaRef Id="49825002"/>
-						<MediaRef Id="113705924"/>
-						<MediaRef Id="770310829"/>
+						<MediaRef Id="56766801"/>
+						<MediaRef Id="366782660"/>
+						<MediaRef Id="389297036"/>
+						<MediaRef Id="609106748"/>
+						<MediaRef Id="610826691"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1765674410" Name="Play_sfx_hero_hurt" DurationType="OneShot" DurationMin="4" DurationMax="4">
-					<MediaRefs>
-						<MediaRef Id="118916711"/>
-						<MediaRef Id="156592918"/>
-						<MediaRef Id="304749164"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="2131713793" Name="Play_sfx_hero_jump" DurationType="OneShot" DurationMin="4" DurationMax="4">
-					<MediaRefs>
-						<MediaRef Id="308526368"/>
-						<MediaRef Id="848075056"/>
-						<MediaRef Id="881584140"/>
-					</MediaRefs>
-				</Event>
+				<Event Id="2160761097" Name="Play_sfx_hero_death" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="561608359" Name="Play_sfx_hero_dialogue" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="1765674410" Name="Play_sfx_hero_hurt" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="2131713793" Name="Play_sfx_hero_jump" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="1408733697" Name="Play_sfx_UI_confirm" DurationType="OneShot" DurationMin="4" DurationMax="4">
 					<MediaRefs>
 						<MediaRef Id="687408748"/>
@@ -269,5 +298,5 @@
 			</Busses>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{509EA47C-B9D8-C53A-19D3-47D66D049BA7}</FileHash>
+	<FileHash>{98EB67E0-7339-46C5-4A9C-B8EF5FB96E39}</FileHash>
 </SoundBanksInfo>

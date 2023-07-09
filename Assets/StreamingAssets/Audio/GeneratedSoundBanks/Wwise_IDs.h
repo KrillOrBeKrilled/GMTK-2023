@@ -17,7 +17,11 @@ namespace AK
         static const AkUniqueID PLAY_MUS = 2557561967U;
         static const AkUniqueID PLAY_SFX_BOSS_DIALOGUE = 1109489390U;
         static const AkUniqueID PLAY_SFX_HEN_BUILD = 2092053050U;
+        static const AkUniqueID PLAY_SFX_HEN_BUILDCOMPLETE = 4293832567U;
+        static const AkUniqueID PLAY_SFX_HEN_DEATH = 1026789612U;
         static const AkUniqueID PLAY_SFX_HEN_DIALOGUE = 4212917052U;
+        static const AkUniqueID PLAY_SFX_HEN_FLAP = 1677849343U;
+        static const AkUniqueID PLAY_SFX_HERO_DEATH = 2160761097U;
         static const AkUniqueID PLAY_SFX_HERO_DIALOGUE = 561608359U;
         static const AkUniqueID PLAY_SFX_HERO_HURT = 1765674410U;
         static const AkUniqueID PLAY_SFX_HERO_JUMP = 2131713793U;

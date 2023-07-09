@@ -1,40 +1,49 @@
 Event	ID	Name			Wwise Object Path	Notes
 	561608359	Play_sfx_hero_dialogue			\Default Work Unit\sfx\hero\Play_sfx_hero_dialogue	
 	874347577	Play_sfx_UI_tileSelect_move			\Default Work Unit\sfx\UI\Play_sfx_UI_tileSelect_move	
+	1026789612	Play_sfx_hen_death			\Default Work Unit\sfx\hen\Play_sfx_hen_death	
 	1109489390	Play_sfx_boss_dialogue			\Default Work Unit\sfx\Play_sfx_boss_dialogue	
 	1309749098	Play_sfx_UI_tileSelect_confirm			\Default Work Unit\sfx\UI\Play_sfx_UI_tileSelect_confirm	
 	1408733697	Play_sfx_UI_confirm			\Default Work Unit\sfx\UI\Play_sfx_UI_confirm	
 	1498969835	Play_sfx_UI_pause			\Default Work Unit\sfx\UI\Play_sfx_UI_pause	
+	1677849343	Play_sfx_hen_flap			\Default Work Unit\sfx\hen\Play_sfx_hen_flap	
 	1765674410	Play_sfx_hero_hurt			\Default Work Unit\sfx\hero\Play_sfx_hero_hurt	
 	2092053050	Play_sfx_hen_build			\Default Work Unit\sfx\hen\Play_sfx_hen_build	
 	2131713793	Play_sfx_hero_jump			\Default Work Unit\sfx\hero\Play_sfx_hero_jump	
+	2160761097	Play_sfx_hero_death			\Default Work Unit\sfx\hero\Play_sfx_hero_death	
 	2484137795	Play_sfx_UI_select			\Default Work Unit\sfx\UI\Play_sfx_UI_select	
 	3056227168	Play_sfx_UI_unpause			\Default Work Unit\sfx\UI\Play_sfx_UI_unpause	
 	4212917052	Play_sfx_hen_dialogue			\Default Work Unit\sfx\hen\Play_sfx_hen_dialogue	
+	4293832567	Play_sfx_hen_buildComplete			\Default Work Unit\sfx\hen\Play_sfx_hen_buildComplete	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	141881	sfx_UI_tileSelect_move_1	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\UI\sfx_UI_tileSelect_move_1_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\UI\sfx_UI_tileSelect_move\sfx_UI_tileSelect_move_1		13832
 	9371666	sfx_hen_dialogue_1	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\hen\sfx_hen_dialogue_1_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_dialogue\sfx_hen_dialogue_1		17308
-	49825002	sfx_hero_dialogue_3	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\hero\sfx_hero_dialogue_3_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hero\sfx_hero_dialogue\sfx_hero_dialogue_3		18939
-	113705924	sfx_hero_dialogue_1	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\hero\sfx_hero_dialogue_1_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hero\sfx_hero_dialogue\sfx_hero_dialogue_1		5991
-	118916711	sfx_hero_hurt_2	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\hero\sfx_hero_hurt_2_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hero\sfx_hero_hurt\sfx_hero_hurt_2		11679
+	53548733	sfx_hen_build_4	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx_hen_build_4_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_build\sfx_hen_build_4		131597
+	56766801	sfx_hen_flap_2	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx_hen_flap_2_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_flap\sfx_hen_flap_2		6946
+	60052066	sfx_hen_death_1	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx_hen_death_1_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_death\sfx_hen_death_1		7495
+	101428923	sfx_hen_buildComplete_2	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx_hen_buildComplete_2_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_buildComplete\sfx_hen_buildComplete_2		5981
 	127723183	sfx_hen_dialogue_2	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\hen\sfx_hen_dialogue_2_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_dialogue\sfx_hen_dialogue_2		12511
-	156592918	sfx_hero_hurt_1	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\hero\sfx_hero_hurt_1_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hero\sfx_hero_hurt\sfx_hero_hurt_1		10847
+	184654326	sfx_hen_buildComplete_3	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx_hen_buildComplete_3_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_buildComplete\sfx_hen_buildComplete_3		5627
+	205397413	sfx_hen_build_1	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx_hen_build_1_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_build\sfx_hen_build_1		126164
+	227366196	sfx_hen_build_2	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx_hen_build_2_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_build\sfx_hen_build_2		130735
 	269605014	sfx_UI_tileSelect_move_2	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\UI\sfx_UI_tileSelect_move_2_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\UI\sfx_UI_tileSelect_move\sfx_UI_tileSelect_move_2		11265
-	304749164	sfx_hero_hurt_3	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\hero\sfx_hero_hurt_3_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hero\sfx_hero_hurt\sfx_hero_hurt_3		6232
-	308526368	sfx_hero_jump_2	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\hero\sfx_hero_jump_2_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hero\sfx_hero_jump\sfx_hero_jump_2		11509
 	341105674	sfx_hen_dialogue_4	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\hen\sfx_hen_dialogue_4_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_dialogue\sfx_hen_dialogue_4		7025
 	343882944	sfx_UI_select	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\UI\sfx_UI_select_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\UI\sfx_UI_select		35795
+	366782660	sfx_hen_flap_1	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx_hen_flap_1_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_flap\sfx_hen_flap_1		6167
+	389297036	sfx_hen_flap_4	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx_hen_flap_4_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_flap\sfx_hen_flap_4		6153
+	431120553	sfx_hen_buildComplete_1	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx_hen_buildComplete_1_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_buildComplete\sfx_hen_buildComplete_1		4983
 	557163027	sfx_UI_unpause	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\UI\sfx_UI_unpause_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\UI\sfx_UI_unpause		40632
+	609106748	sfx_hen_flap_5	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx_hen_flap_5_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_flap\sfx_hen_flap_5		6003
+	610826691	sfx_hen_flap_3	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx_hen_flap_3_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_flap\sfx_hen_flap_3		5798
 	687408748	sfx_UI_confirm	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\UI\sfx_UI_confirm_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\UI\sfx_UI_confirm		43676
-	770310829	sfx_hero_dialogue_2	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\hero\sfx_hero_dialogue_2_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hero\sfx_hero_dialogue\sfx_hero_dialogue_2		8760
+	789572075	sfx_hen_build_3	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx_hen_build_3_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_build\sfx_hen_build_3		135371
 	802854948	sfx_UI_pause	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\UI\sfx_UI_pause_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\UI\sfx_UI_pause		39435
 	838703695	sfx_hen_dialogue_5	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\hen\sfx_hen_dialogue_5_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_dialogue\sfx_hen_dialogue_5		10320
-	848075056	sfx_hero_jump_1	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\hero\sfx_hero_jump_1_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hero\sfx_hero_jump\sfx_hero_jump_1		4023
 	871920434	sfx_hen_dialogue_3	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\hen\sfx_hen_dialogue_3_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_dialogue\sfx_hen_dialogue_3		4367
-	881584140	sfx_hero_jump_3	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\hero\sfx_hero_jump_3_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hero\sfx_hero_jump\sfx_hero_jump_3		9886
+	932981033	sfx_hen_death_3	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx_hen_death_3_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_death\sfx_hen_death_3		10797
 	941157850	sfx_UI_tileSelect_move_3	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\UI\sfx_UI_tileSelect_move_3_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\UI\sfx_UI_tileSelect_move\sfx_UI_tileSelect_move_3		11461
 	943732160	sfx_UI_tileSelect_confirm	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\UI\sfx_UI_tileSelect_confirm_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\UI\sfx_UI_tileSelect_confirm		43170
 	943784105	sfx_boss_dialogue	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx\boss\sfx_boss_dialogue_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\boss\sfx_boss_dialogue		21688
-	1004793538	sfx_hen_build	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx_hen_build_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_build		126164
+	1006230876	sfx_hen_death_2	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Windows\SFX\sfx_hen_death_2_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\sfx\hen\sfx_hen_death\sfx_hen_death_2		8543
 

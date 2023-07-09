@@ -248,6 +248,20 @@
 										</Action>
 									</ChildrenList>
 								</Event>
+								<Event Name="Stop_sfx_hen_build" ID="{925B2F61-39E5-4788-8217-EA0FA5104FB0}">
+									<ChildrenList>
+										<Action Name="" ID="{8BB8A1C1-EB59-4A0C-90DA-BA186164B12B}" ShortID="1064783431">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="sfx_hen_build" ID="{0F78EA27-527B-4701-9D9A-52CA3B0328C3}" WorkUnitID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
 							</ChildrenList>
 						</Folder>
 					</ChildrenList>

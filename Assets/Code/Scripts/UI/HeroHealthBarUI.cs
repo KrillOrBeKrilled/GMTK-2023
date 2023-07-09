@@ -13,6 +13,9 @@ public class HeroHealthBarUI : MonoBehaviour {
   private RectTransform _rectTransform;
   private Slider _healthBar;
 
+  private Tween _sliderTween;
+  private Tween _moveTween;
+
   private void Awake() {
     this._mainCamera = Camera.main;
     this._healthBar = this.GetComponent<Slider>();
@@ -38,8 +41,9 @@ public class HeroHealthBarUI : MonoBehaviour {
   private void OnHealthChanged(int health)
   {
     var tweenDuration = 0f;
-    
-    this._healthBar
+
+    this._sliderTween?.Kill();
+    this._sliderTween = this._healthBar
       .DOValue(health, tweenDuration)
       .SetEase(Ease.InOutCubic);
   }
@@ -60,7 +64,8 @@ public class HeroHealthBarUI : MonoBehaviour {
       new Vector2(viewportPosition.x * sizeDelta.x - sizeDelta.x * 0.5f,
         viewportPosition.y * sizeDelta.y - sizeDelta.y * 0.5f);
     worldObjectScreenPosition += this._positionOffset;
-    
-    this._rectTransform.DOAnchorPos(worldObjectScreenPosition, 0.1f);
+
+    this._moveTween?.Kill();
+    this._moveTween = this._rectTransform.DOAnchorPos(worldObjectScreenPosition, 0.1f);
   }
 }

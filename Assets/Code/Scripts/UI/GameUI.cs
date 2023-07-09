@@ -6,12 +6,15 @@ using UnityEngine.UI;
 public class GameUI : MonoBehaviour{
   [SerializeField] private Image _foregroundImage;
   [SerializeField] private GameObject _pauseUI;
+  [SerializeField] private EndgameUI _endgameUI;
 
   private const float FadeDuration = 0.5f;
 
   public void Initialize(GameManager gameManager) {
     gameManager.OnSetupComplete.AddListener(this.OnGameSetupComplete);
-    gameManager.OnGameOver.AddListener(this.OnGameOver);
+
+    gameManager.OnHenWon.AddListener(this.OnHenWon);
+    gameManager.OnHenLost.AddListener(this.OnHenLost);
   }
 
   public void FadeInSceneCover(UnityAction onComplete) {
@@ -41,7 +44,11 @@ public class GameUI : MonoBehaviour{
     this._pauseUI.SetActive(isPaused);
   }
 
-  private void OnGameOver() {
+  private void OnHenWon(string message) {
+    this._endgameUI.ShowHenWon(message);
+  }
 
+  private void OnHenLost(string message) {
+    this._endgameUI.ShowHenLost(message);
   }
 }

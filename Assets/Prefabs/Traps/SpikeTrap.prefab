@@ -28,11 +28,11 @@ Transform:
   m_GameObject: {fileID: 4577828711679986708}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 20.66, y: 0.49, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.9977548, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1302818318042211509
 SpriteRenderer:
@@ -143,9 +143,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a65ae4de9d2b4341b63174c58f0deb42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _leftGridPoints: []
-  _rightGridPoints: []
-  _validationScore: 0
-  _leftSpawnOffset: {x: 0, y: 0, z: 0}
-  _rightSpawnOffset: {x: 0, y: 0, z: 0}
+  _leftGridPoints:
+  - {x: 0, y: 0, z: 0}
+  - {x: -1, y: 0, z: 0}
+  - {x: -2, y: 0, z: 0}
+  _rightGridPoints:
+  - {x: 0, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 2, y: 0, z: 0}
+  _validationScore: 3
+  _leftSpawnOffset: {x: -0.5, y: 0.5, z: 0}
+  _rightSpawnOffset: {x: 1.5, y: 0.5, z: 0}
   _damageAmount: 10

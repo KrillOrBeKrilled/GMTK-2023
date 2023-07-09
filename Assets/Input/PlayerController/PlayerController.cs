@@ -308,6 +308,12 @@ namespace Input
             _currentTrapIndex = 1;
             ClearTrapDeployment();
         }
+        
+        private void SetTrap3(InputAction.CallbackContext obj)
+        {
+            _currentTrapIndex = 2;
+            ClearTrapDeployment();
+        }
 
         public void EnterIdleState()
         {
@@ -344,6 +350,7 @@ namespace Input
             // Test functions to set the traps
             this._playerInputActions.Player.SetTrap1.performed += SetTrap1;
             this._playerInputActions.Player.SetTrap2.performed += SetTrap2;
+            this._playerInputActions.Player.SetTrap3.performed += SetTrap3;
         }
 
         private void OnDisable() {
@@ -353,6 +360,7 @@ namespace Input
             this._playerInputActions.Player.PlaceTrap.performed -= DeployTrap;
             this._playerInputActions.Player.SetTrap1.performed -= SetTrap1;
             this._playerInputActions.Player.SetTrap2.performed -= SetTrap2;
+            this._playerInputActions.Player.SetTrap3.performed -= SetTrap3;
         }
         
         private void OnCollisionEnter2D(Collision2D collision)

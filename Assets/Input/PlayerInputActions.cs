@@ -108,6 +108,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SetTrap3"",
+                    ""type"": ""Button"",
+                    ""id"": ""f1219c89-a821-4b7a-929a-271c65ddbd04"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -231,6 +240,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""SetTrap2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""292f8c6a-f504-480c-9977-edf7e692f23c"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SetTrap3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -248,6 +268,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_AdvanceDialogue = m_Player.FindAction("Advance Dialogue", throwIfNotFound: true);
         m_Player_SetTrap1 = m_Player.FindAction("SetTrap1", throwIfNotFound: true);
         m_Player_SetTrap2 = m_Player.FindAction("SetTrap2", throwIfNotFound: true);
+        m_Player_SetTrap3 = m_Player.FindAction("SetTrap3", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -361,6 +382,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_AdvanceDialogue;
     private readonly InputAction m_Player_SetTrap1;
     private readonly InputAction m_Player_SetTrap2;
+    private readonly InputAction m_Player_SetTrap3;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -371,6 +393,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @AdvanceDialogue => m_Wrapper.m_Player_AdvanceDialogue;
         public InputAction @SetTrap1 => m_Wrapper.m_Player_SetTrap1;
         public InputAction @SetTrap2 => m_Wrapper.m_Player_SetTrap2;
+        public InputAction @SetTrap3 => m_Wrapper.m_Player_SetTrap3;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -398,6 +421,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @SetTrap2.started += instance.OnSetTrap2;
             @SetTrap2.performed += instance.OnSetTrap2;
             @SetTrap2.canceled += instance.OnSetTrap2;
+            @SetTrap3.started += instance.OnSetTrap3;
+            @SetTrap3.performed += instance.OnSetTrap3;
+            @SetTrap3.canceled += instance.OnSetTrap3;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -420,6 +446,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @SetTrap2.started -= instance.OnSetTrap2;
             @SetTrap2.performed -= instance.OnSetTrap2;
             @SetTrap2.canceled -= instance.OnSetTrap2;
+            @SetTrap3.started -= instance.OnSetTrap3;
+            @SetTrap3.performed -= instance.OnSetTrap3;
+            @SetTrap3.canceled -= instance.OnSetTrap3;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -449,5 +478,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnAdvanceDialogue(InputAction.CallbackContext context);
         void OnSetTrap1(InputAction.CallbackContext context);
         void OnSetTrap2(InputAction.CallbackContext context);
+        void OnSetTrap3(InputAction.CallbackContext context);
     }
 }

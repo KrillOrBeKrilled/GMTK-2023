@@ -37,6 +37,11 @@ public class GameManager : Singleton<GameManager> {
     this.OnHenLost = new UnityEvent<string>();
   }
 
+  public void EnterPlayer()
+  {
+    
+  }
+
   private void Start() {
     // Setup
     this._gameUI.Initialize(this);

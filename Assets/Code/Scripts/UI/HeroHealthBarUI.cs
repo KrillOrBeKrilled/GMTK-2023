@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,14 +18,17 @@ public class HeroHealthBarUI : MonoBehaviour {
     this._healthBar = this.GetComponent<Slider>();
     this._rectTransform = this.GetComponent<RectTransform>();
 
-    this._hero.OnHealthChanged.AddListener(this.OnHealthChanged);
-    this._hero.OnHeroDied.AddListener(this.OnDeath);
-
     this._healthBar.maxValue = Hero.MaxHealth;
     this._healthBar.value = Hero.MaxHealth;
     this._healthBar.minValue = 0;
 
     this.RepositionHealthBar();
+  }
+
+  private void OnEnable()
+  {
+    this._hero.OnHealthChanged.AddListener(this.OnHealthChanged);
+    this._hero.OnHeroDied.AddListener(this.OnDeath);
   }
 
   private void Update() {
@@ -37,10 +41,13 @@ public class HeroHealthBarUI : MonoBehaviour {
       .SetEase(Ease.InOutCubic);
   }
 
-  private void OnDeath() {
+  private void OnDisable()
+  {
     this._hero.OnHealthChanged.RemoveListener(this.OnHealthChanged);
     this._hero.OnHeroDied.RemoveListener(this.OnDeath);
-    Destroy(this.gameObject);
+  }
+
+  private void OnDeath() {
   }
 
   private void RepositionHealthBar() {

@@ -1,13 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Tilemaps;
+using Traps;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 
 namespace Input
 {
@@ -30,14 +27,14 @@ namespace Input
         [SerializeField] private float _speed, _jumpingForce;
 
         private float _direction = -1;
-        
+
         // ------------- Trap Deployment -------------
         // The canvas to spawn trap UI
         [SerializeField] private Canvas _trapCanvas;
         [SerializeField] private List<GameObject> _trapPrefabs;
 
         private int _currentTrapIndex = 0;
-        
+
         [SerializeField] private Tilemap _tileMap;
         [SerializeField] private GameObject _leftDeployTransform, _rightDeployTransform;
 
@@ -303,15 +300,20 @@ namespace Input
             StartCoroutine(PlayBuildSoundForDuration(.3f));
 
             var trapToSpawn = _trapPrefabs[_currentTrapIndex];
+            Trap trap = trapToSpawn.GetComponent<Trap>();
+            if (!CoinManager.Instance.CanAfford(trap.Cost)) {
+                print("Can't afford the trap!");
+                return;
+            }
 
             // Convert the origin tile position to world space
             var deploymentOrigin = _tileMap.CellToWorld(_previousTilePositions[0]);
             var spawnPosition = _direction < 0
-                ? trapToSpawn.GetComponent<Traps.Trap>().GetLeftSpawnPoint(deploymentOrigin)
-                : trapToSpawn.GetComponent<Traps.Trap>().GetRightSpawnPoint(deploymentOrigin);
+                ? trapToSpawn.GetComponent<Trap>().GetLeftSpawnPoint(deploymentOrigin)
+                : trapToSpawn.GetComponent<Trap>().GetRightSpawnPoint(deploymentOrigin);
 
-            GameObject trap = Instantiate(trapToSpawn.gameObject);
-            trap.GetComponent<Traps.Trap>().Construct(spawnPosition, _trapCanvas);
+            GameObject trapGameObject = Instantiate(trapToSpawn.gameObject);
+            trapGameObject.GetComponent<Trap>().Construct(spawnPosition, _trapCanvas);
             _isColliding = true;
         }
 
@@ -334,7 +336,7 @@ namespace Input
             _currentTrapIndex = 1;
             ClearTrapDeployment();
         }
-        
+
         private void SetTrap3(InputAction.CallbackContext obj)
         {
             _currentTrapIndex = 2;

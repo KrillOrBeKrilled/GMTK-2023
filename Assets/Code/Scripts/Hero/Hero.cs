@@ -17,7 +17,7 @@ public class Hero : MonoBehaviour {
   public const int MaxLives = 3;
   public float RespawnTime = 3;
   public AK.Wwise.Event HeroHurtEvent;
-  
+
   private HeroMovement _heroMovement;
   private Animator _animator;
   private static readonly int SpawningKey = Animator.StringToHash("spawning");
@@ -25,6 +25,7 @@ public class Hero : MonoBehaviour {
 
   public void TakeDamage(int amount) {
     this.Health -= amount;
+    CoinManager.Instance.EarnCoins(1);
 
     if (this.Health <= 0) {
       this.Die();
@@ -37,7 +38,7 @@ public class Hero : MonoBehaviour {
   private void Awake() {
     this.TryGetComponent(out this._heroMovement);
     this.TryGetComponent(out this._animator);
-    
+
     ResetHero();
   }
 
@@ -73,7 +74,7 @@ public class Hero : MonoBehaviour {
 
       yield return new WaitForEndOfFrame();
     }
-    
+
     _heroMovement.ToggleMoving(true);
     _animator.SetBool(SpawningKey, false);
   }

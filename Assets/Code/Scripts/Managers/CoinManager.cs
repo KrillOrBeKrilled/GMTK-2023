@@ -16,7 +16,11 @@ public class CoinManager : Singleton<CoinManager> {
 
   public void EarnCoins(int amount) {
     this.Coins += amount;
-    print(this.Coins);
+    this.OnCoinAmountChanged?.Invoke(this.Coins);
+  }
+
+  public void ConsumeCoins(int amount) {
+    this.Coins -= amount;
     this.OnCoinAmountChanged?.Invoke(this.Coins);
   }
 

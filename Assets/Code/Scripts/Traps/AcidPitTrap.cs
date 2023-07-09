@@ -12,7 +12,7 @@ public class AcidPitTrap : Trap {
   {
     return origin + LeftSpawnOffset;
   }
-        
+
   public override Vector3 GetRightSpawnPoint(Vector3 origin)
   {
     return origin + RightSpawnOffset;
@@ -20,7 +20,7 @@ public class AcidPitTrap : Trap {
 
   protected override void OnEnteredTrap(Hero hero) {
     if (!IsReady) return;
-    
+
     hero.HeroMovement.SetSpeedPenalty(0.8f);
 
     if (this._intervalDamageCoroutine != null) {
@@ -31,9 +31,11 @@ public class AcidPitTrap : Trap {
 
   protected override void OnExitedTrap(Hero hero) {
     if (!IsReady) return;
-    
+
     hero.HeroMovement.ResetSpeedPenalty();
-    this.StopCoroutine(this._intervalDamageCoroutine);
+
+    if (this._intervalDamageCoroutine != null)
+      this.StopCoroutine(this._intervalDamageCoroutine);
   }
 
   private IEnumerator DealIntervalDamage(Hero hero) {

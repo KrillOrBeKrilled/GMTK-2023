@@ -1,4 +1,5 @@
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -7,6 +8,7 @@ public class GameUI : MonoBehaviour{
   [SerializeField] private Image _foregroundImage;
   [SerializeField] private GameObject _pauseUI;
   [SerializeField] private EndgameUI _endgameUI;
+  [SerializeField] private TMP_Text _coinsText;
 
   private const float FadeDuration = 0.5f;
 
@@ -29,7 +31,12 @@ public class GameUI : MonoBehaviour{
   }
 
   private void Start() {
+    CoinManager.Instance.OnCoinAmountChanged.AddListener(this.OnCoinsUpdated);
     PauseManager.Instance.OnPauseToggled.AddListener(this.OnPauseToggled);
+  }
+
+  private void OnCoinsUpdated(int amount) {
+    this._coinsText.SetText($"{amount}");
   }
 
   private void OnGameSetupComplete() {

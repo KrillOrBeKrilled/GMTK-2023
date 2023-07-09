@@ -315,6 +315,7 @@ namespace Input
             GameObject trapGameObject = Instantiate(trapToSpawn.gameObject);
             trapGameObject.GetComponent<Trap>().Construct(spawnPosition, _trapCanvas);
             _isColliding = true;
+            CoinManager.Instance.ConsumeCoins(trap.Cost);
         }
 
         private IEnumerator PlayBuildSoundForDuration(float durationInSeconds)

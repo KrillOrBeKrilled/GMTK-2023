@@ -219,7 +219,7 @@ namespace Input
         {
             foreach (Vector3Int previousTilePosition in _previousTilePositions)
             {
-                _tileMap.SetColor(previousTilePosition, Color.white);
+                _tileMap.SetColor(previousTilePosition, new Color(1, 1, 1, 0));
             }
             _canDeploy = false;
 

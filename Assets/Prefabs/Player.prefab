@@ -35,7 +35,7 @@ Transform:
   - {fileID: 1276593753349593315}
   - {fileID: 581943907994038428}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1603199856087861948
 SpriteRenderer:
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d5f2f5a5eddb64cb93a1cfe96dc21d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
+  _speed: 8
   _jumpingForce: 130
   _trapPrefabs:
   - {fileID: 486222141146097442, guid: f9d4a4353bd8ccd4b9d22cae302777ff, type: 3}

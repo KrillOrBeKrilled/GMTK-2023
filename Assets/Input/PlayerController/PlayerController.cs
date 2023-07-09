@@ -45,13 +45,14 @@ namespace Input
 
         // --------------- Bookkeeping ---------------
         private Rigidbody2D _rBody;
-        public Animator _animator;
+        private Animator _animator;
 
         private PlayerInputActions _playerInputActions;
 
         void Awake()
         {
             _rBody = GetComponent<Rigidbody2D>();
+            _animator = GetComponent<Animator>();
 
             _idle = new IdleState();
             _moving = new MovingState(_speed);
@@ -71,15 +72,15 @@ namespace Input
         {
             float directionInput = _playerInputActions.Player.Move.ReadValue<float>();
             _direction = directionInput != 0 ? directionInput : _direction;
-
-            // Check trap deployment eligibility
-            SurveyTrapDeployment();
+            
+            // Set animation values
+            SetAnimatorValues(directionInput);
             
             // Delegate movement behaviour to state classes
             _state.Act(_rBody, _direction, EnterIdleState);
 
-            // Set animation values
-            SetAnimatorValues();
+            // Check trap deployment eligibility
+            SurveyTrapDeployment();
         }
 
         private void SurveyTrapDeployment()
@@ -198,7 +199,7 @@ namespace Input
             // Paint all the tiles red
             foreach (var previousTilePosition in _previousTilePositions)
             {
-                _tileMap.SetColor(previousTilePosition, Color.red);
+                _tileMap.SetColor(previousTilePosition, new Color(1, 0, 0, 0.3f));
             }
                         
             _canDeploy = false;
@@ -209,7 +210,7 @@ namespace Input
             // Paint all the tiles green
             foreach (Vector3Int previousTilePosition in _previousTilePositions)
             {
-                _tileMap.SetColor(previousTilePosition, Color.green);
+                _tileMap.SetColor(previousTilePosition, new Color(0, 1, 0, 0.3f));
             }
             
             _canDeploy = true;
@@ -219,7 +220,7 @@ namespace Input
         {
             foreach (Vector3Int previousTilePosition in _previousTilePositions)
             {
-                _tileMap.SetColor(previousTilePosition, Color.white);
+                _tileMap.SetColor(previousTilePosition, new Color(1, 1, 1, 0));
             }
             _canDeploy = false;
 
@@ -228,9 +229,10 @@ namespace Input
         }
 
         // For when we put in an animator
-        private void SetAnimatorValues()
+        private void SetAnimatorValues(float inputDirection)
         {
-            
+            _animator.SetFloat("speed", Mathf.Abs(inputDirection));
+            _animator.SetFloat("direction", _direction);
         }
 
         // --------------- Getters ---------------
@@ -266,6 +268,8 @@ namespace Input
             _rBody.AddForce(Vector2.up * _jumpingForce);
             _isGrounded = false;
             
+            _animator.SetBool("is_grounded", _isGrounded);
+
             // Left the ground, so trap deployment isn't possible anymore
             ClearTrapDeployment();
         }
@@ -356,7 +360,17 @@ namespace Input
             if (collision.gameObject.CompareTag("Ground"))
             {
                 _isGrounded = true;
+                _animator.SetBool("is_grounded", _isGrounded);
             }
         }
+        
+        // private void OnCollisionExit2D(Collision2D collision)
+        // {
+        //     if (collision.gameObject.CompareTag("Ground"))
+        //     {
+        //         _isGrounded = false;
+        //         _animator.SetBool("is_grounded", _isGrounded);
+        //     }
+        // }
     }
 }

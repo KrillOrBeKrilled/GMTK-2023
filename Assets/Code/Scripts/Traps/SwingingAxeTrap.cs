@@ -7,22 +7,24 @@ namespace Traps {
 
     public override Vector3 GetLeftSpawnPoint(Vector3 origin)
     {
-      return origin + _leftSpawnOffset;
+      return origin + LeftSpawnOffset;
     }
         
     public override Vector3 GetRightSpawnPoint(Vector3 origin)
     {
-      return origin + _rightSpawnOffset;
+      return origin + RightSpawnOffset;
     }
 
     protected override void OnEnteredTrap(Hero hero) {
+      if (!IsReady) return;
+      
       hero.TakeDamage(this._damageAmount);
       hero.HeroMovement.ThrowHeroBack(0.5f, this._pushbackForce);
       Destroy(this.gameObject);
     }
 
     protected override void OnExitedTrap(Hero hero) {
-      throw new System.NotImplementedException();
+
     }
   }
 }

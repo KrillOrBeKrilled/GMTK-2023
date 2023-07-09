@@ -14,11 +14,10 @@ public class OutOfBoundsTrigger : MonoBehaviour {
   }
 
   private void Update() {
-
     this._transform.position = (Vector2)this._followTarget.position;
   }
 
-  private void OnTriggerEnter2D(Collider2D other) {
+  private void OnTriggerExit2D(Collider2D other) {
     if (other.gameObject.layer != LayerMask.NameToLayer("Player"))
       return;
 

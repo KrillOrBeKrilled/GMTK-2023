@@ -139,14 +139,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeroParent
       objectReference: {fileID: 0}
-    - target: {fileID: 7392192078593308335, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
-      propertyPath: orthographic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7392192078593308335, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
-      propertyPath: field of view
-      value: 60
-      objectReference: {fileID: 0}
     - target: {fileID: 7748770393677785153, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
       propertyPath: m_RootOrder
       value: 5

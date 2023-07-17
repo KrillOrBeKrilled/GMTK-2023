@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Input;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Traps
@@ -61,7 +62,7 @@ namespace Traps
             return score >= ValidationScore;
         }
 
-        public void Construct(Vector3 spawnPosition, Canvas canvas, 
+        public void Construct(Vector3 spawnPosition, Canvas canvas,
             AK.Wwise.Event startBuild, AK.Wwise.Event stopBuild, AK.Wwise.Event buildComplete)
         {
             // Initialize all the bookkeeping structures we will need
@@ -69,7 +70,7 @@ namespace Traps
             _startBuildEvent = startBuild;
             _stopBuildEvent = stopBuild;
             _buildCompleteEvent = buildComplete;
-            
+
             // Spawn a slider to indicate the progress on the build
             GameObject sliderObject = Instantiate(SliderBar, canvas.transform);
             sliderObject.transform.position = spawnPosition + AnimationOffset + Vector3.up;
@@ -78,7 +79,7 @@ namespace Traps
             // Trap deployment visuals
             transform.position = spawnPosition + Vector3.up * 3f;
             transform.DOMove(spawnPosition + Vector3.up * AnimationOffset.y, 0.2f);
-            
+
             var sprite = GetComponent<SpriteRenderer>();
             var color = sprite.color;
             sprite.color = new Color(color.r, color.g, color.b, 0);
@@ -98,12 +99,16 @@ namespace Traps
         protected abstract void OnEnteredTrap(Hero hero);
         protected abstract void OnExitedTrap(Hero hero);
 
+        protected virtual void OnDetonateTrapAnimationCompete() {
+
+        }
+
         private void BuildTrap()
         {
             // Randomly shake the trap along the x and y-axis
-            Vector3 targetPosition = new Vector3(SpawnPosition.x + Random.Range(-0.5f, 0.5f), 
+            Vector3 targetPosition = new Vector3(SpawnPosition.x + Random.Range(-0.5f, 0.5f),
                 SpawnPosition.y + Random.Range(0.01f, 0.2f));
-            
+
             // Shake out then back
             transform.DOMove(targetPosition, 0.05f);
             transform.DOMove(SpawnPosition + Vector3.up * AnimationOffset.y, 0.05f);

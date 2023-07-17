@@ -23892,6 +23892,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1717153536710988940, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
+      propertyPath: Speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717153536710988940, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
       propertyPath: _tileMap
       value: 
       objectReference: {fileID: 1658534104}
@@ -23899,6 +23903,10 @@ PrefabInstance:
       propertyPath: _trapCanvas
       value: 
       objectReference: {fileID: 1445894700}
+    - target: {fileID: 1717153536710988940, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
+      propertyPath: JumpingForce
+      value: 700
+      objectReference: {fileID: 0}
     - target: {fileID: 1717153536710988940, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
       propertyPath: _trapPrefabs.Array.size
       value: 3

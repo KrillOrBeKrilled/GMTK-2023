@@ -1,4 +1,4 @@
-namespace Input {
+namespace Code.Scripts.Player.Input {
     public class PlayerInputController : Singleton<PlayerInputController> {
         /// <summary>
         /// Class to handle character controls

@@ -1,4 +1,4 @@
-using Input;
+using Code.Scripts.Player.Input;
 using UnityEngine;
 
 public class Player : MonoBehaviour {

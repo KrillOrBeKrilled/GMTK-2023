@@ -1,4 +1,4 @@
-using Input;
+using Code.Scripts.Player.Input;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;

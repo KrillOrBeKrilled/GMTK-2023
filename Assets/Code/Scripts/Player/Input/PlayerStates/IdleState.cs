@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
+using Code.Scripts.Player.Input.Commands;
 using UnityEngine;
 
-namespace Input {
+namespace Code.Scripts.Player.Input {
     /// <summary>
     /// TODO: Make note of any music plugins we need here...
     /// </summary>
@@ -20,9 +22,13 @@ namespace Input {
             return 0f;
         }
         
-        public void Act(Rigidbody2D rBody, float direction, Action enterIdle)
+        public void Act(PlayerController playerController, float direction, List<ICommand> prevCommands)
         {
-            rBody.velocity = new Vector2(0f, rBody.velocity.y);
+            // Create command and execute it
+            // Pass by reference in the list; need to create a new command each time to add to the list (Is there a
+            // better way of doing this, memory-wise?)
+            var command = new IdleCommand(playerController);
+            playerController.ExecuteCommand(command);
         }
         
         public void OnExit(IPlayerState newState)

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Input
+namespace Code.Scripts.Player.Input
 {
     [RequireComponent(typeof(BoxCollider2D))]
     public class TrapOverlap : MonoBehaviour

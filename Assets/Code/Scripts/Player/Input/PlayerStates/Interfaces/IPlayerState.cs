@@ -1,7 +1,8 @@
-using System;
+using System.Collections.Generic;
+using Code.Scripts.Player.Input.Commands;
 using UnityEngine;
 
-namespace Input {
+namespace Code.Scripts.Player.Input {
     /// <summary>
     /// Class used to declutter the PlayerController class, encapsulating the player's behaviour in each state
     /// to better reason about correctness and pinpoint bugs easily, plus specialize behaviours to specific states. 
@@ -23,6 +24,6 @@ namespace Input {
         /// Jumping: Player can jump as many times in the air
         /// Deploying: Player is placing a trap on a given tile space
         /// </summary>
-        abstract void Act(Rigidbody2D rBody, float direction, Action enterIdle);
+        abstract void Act(PlayerController playerController, float direction, List<ICommand> prevCommands);
     }
 }

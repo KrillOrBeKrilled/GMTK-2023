@@ -19,8 +19,8 @@ namespace Code.Scripts.Player.Input
         [SerializeField] private List<GameObject> _trapPrefabs;
         public List<Trap> Traps => _trapPrefabs.Select(prefab => prefab.GetComponent<Trap>()).ToList();
         public int CurrentTrapIndex { get; set; }
-        
-        public Tilemap TileMap { get; }
+
+        public Tilemap TileMap;
         public List<Vector3Int> PreviousTilePositions { get; private set; }
         
         [SerializeField] private GameObject _leftDeployTransform, _rightDeployTransform;

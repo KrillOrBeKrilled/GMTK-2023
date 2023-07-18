@@ -40,7 +40,7 @@ namespace Code.Scripts.Player.Input
         [SerializeField] private Canvas _trapCanvas;
         
         private float _direction = -1;
-        private bool _isGrounded = true;
+        private bool _isGrounded = true, _isRecording;
         public UnityEvent<int> OnSelectedTrapIndexChanged;
 
         private TrapController _trapController;
@@ -78,6 +78,9 @@ namespace Code.Scripts.Player.Input
             prevCommands = new List<ICommand>();
 
             _trapController = GetComponent<TrapController>();
+            
+            GameManager.Instance.OnHenWon.AddListener(this.StopRecording);
+            GameManager.Instance.OnHenLost.AddListener(this.StopRecording);
 
             // Need this due to race condition during scene Awake->OnEnable calls
             this._playerInputActions = PlayerInputController.Instance.PlayerInputActions;
@@ -102,8 +105,6 @@ namespace Code.Scripts.Player.Input
         
         public void GameOver()
         {
-            PrintCommands();
-            
             HenDeathEvent.Post(gameObject);
             var prevState = _state;
             _state.OnExit(_gameOver);
@@ -113,14 +114,6 @@ namespace Code.Scripts.Player.Input
             this.OnPlayerStateChanged?.Invoke(this._state);
         }
 
-        private void PrintCommands()
-        {
-            foreach (var command in prevCommands)
-            {
-                print(command);
-            }
-        }
-        
         //========================================
         // Getters
         //========================================
@@ -265,7 +258,30 @@ namespace Code.Scripts.Player.Input
             command.Execute();
 
             // Record the command to the log of previous commands
-            prevCommands.Add(command);
+            if (_isRecording) prevCommands.Add(command);
+        }
+
+        public void StartRecording()
+        {
+            _isRecording = true;
+            print("Start Recording");
+        }
+
+        public void StopRecording(string message)
+        {
+            _isRecording = false;
+            print("Stop Recording");
+            
+            // Create a new playtest session recording file
+            CreateSessionFile();
+        }
+        
+        private void CreateSessionFile()
+        {
+            foreach (var command in prevCommands)
+            {
+                print(command);
+            }
         }
         
         //========================================

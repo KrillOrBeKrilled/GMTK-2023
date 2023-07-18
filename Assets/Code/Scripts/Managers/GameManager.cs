@@ -50,6 +50,10 @@ public class GameManager : Singleton<GameManager> {
   public void StartLevel()
   {
     _hero.StartRunning();
+    
+    // For playtesting analytics, start recording the player input for the session
+    _player.PlayerController.StartRecording();
+    
     _outOfBoundsTrigger.ToggleBounds(true);
     CoinManager.Instance.StartCoinEarning();
   }

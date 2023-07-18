@@ -6,7 +6,7 @@ namespace Code.Scripts.Player.Input.Commands
 {
     public class DeployCommand : ICommand
     {
-        private Pawn _controlledObject;
+        private readonly Pawn _controlledObject;
 
         public DeployCommand(Pawn controlledObject)
         {

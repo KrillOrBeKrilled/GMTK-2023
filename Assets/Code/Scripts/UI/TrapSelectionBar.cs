@@ -9,7 +9,7 @@ public class TrapSelectionBar : MonoBehaviour {
     player.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
     CoinManager.Instance.OnCoinAmountChanged.AddListener(this.OnCoinAmountChanged);
 
-    List<Trap> traps = player.PlayerController.Traps;
+    List<Trap> traps = player.TrapController.Traps;
     for (int i = 0; i < this._trapBarIcons.Count; i++) {
       this._trapBarIcons[i].Initialize(traps[i]);
     }

@@ -6,8 +6,8 @@ namespace Code.Scripts.Player.Input.Commands
 {
     public class SetTrapCommand : ICommand
     {
-        private Pawn _controlledObject;
-        private int _trapIndex;
+        private readonly Pawn _controlledObject;
+        private readonly int _trapIndex;
 
         public SetTrapCommand(Pawn controlledObject, int trapIndex)
         {

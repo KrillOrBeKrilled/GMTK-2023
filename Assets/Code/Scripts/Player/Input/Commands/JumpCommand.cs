@@ -6,7 +6,7 @@ namespace Code.Scripts.Player.Input.Commands
 {
     public class JumpCommand : ICommand
     {
-        private Pawn _controlledObject;
+        private readonly Pawn _controlledObject;
 
         public JumpCommand(Pawn controlledObject)
         {

@@ -11,12 +11,13 @@ GameObject:
   - component: {fileID: 7118899271869219251}
   - component: {fileID: 1603199856087861948}
   - component: {fileID: 2917755861018091152}
-  - component: {fileID: 1717153536710988940}
-  - component: {fileID: 7820116121340408506}
   - component: {fileID: 5929949226365127913}
+  - component: {fileID: 5037012343675419090}
+  - component: {fileID: 1717153536710988940}
+  - component: {fileID: 6115344566304706308}
+  - component: {fileID: 7820116121340408506}
   - component: {fileID: 1431151410556034827}
   - component: {fileID: 845186409547286209}
-  - component: {fileID: 5037012343675419090}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -39,7 +40,7 @@ Transform:
   - {fileID: 1276593753349593315}
   - {fileID: 581943907994038428}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1603199856087861948
 SpriteRenderer:
@@ -120,69 +121,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &1717153536710988940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5438100687898551652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97d5f2f5a5eddb64cb93a1cfe96dc21d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 10
-  _jumpingForce: 700
-  _trapCanvas: {fileID: 0}
-  _trapPrefabs:
-  - {fileID: 4577828711679986708, guid: 383ecc9e1b2854cfb9c8a66d9d0cdc23, type: 3}
-  - {fileID: 7242327205239312664, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
-  - {fileID: 813543674720435825, guid: 835ee3f992ae6441bab5de6d2dda2dbc, type: 3}
-  _tileMap: {fileID: 0}
-  _leftDeployTransform: {fileID: 7283422951846119747}
-  _rightDeployTransform: {fileID: 6238511859256710560}
-  StartBuildEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 92c940e8face79048add1cb9135a9eb9, type: 2}
-  StopBuildEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: c9081fb1dc4b50d43a4bc70714b59013, type: 2}
-  BuildCompleteEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 0152d0cebda74e149859eca31ac74822, type: 2}
-  HenDeathEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: b9716eb7b49e8604dbc8927e2e3dc858, type: 2}
-  HenFlapEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: db69785455cf8a0458267d2169fba03b, type: 2}
---- !u!95 &7820116121340408506
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5438100687898551652}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 993a5b26054a4f44e9cb496ec17ada7e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!70 &5929949226365127913
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -218,6 +156,96 @@ CapsuleCollider2D:
   m_Offset: {x: 0.049764633, y: -0.56606936}
   m_Size: {x: 1.5225258, y: 2.0077276}
   m_Direction: 0
+--- !u!114 &5037012343675419090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5438100687898551652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ba532d93edf40458c6fa50d279b5efe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1717153536710988940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5438100687898551652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d5f2f5a5eddb64cb93a1cfe96dc21d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 10
+  JumpingForce: 700
+  _trapCanvas: {fileID: 0}
+  OnSelectedTrapIndexChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  StartBuildEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 92c940e8face79048add1cb9135a9eb9, type: 2}
+  StopBuildEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: c9081fb1dc4b50d43a4bc70714b59013, type: 2}
+  BuildCompleteEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 0152d0cebda74e149859eca31ac74822, type: 2}
+  HenDeathEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: b9716eb7b49e8604dbc8927e2e3dc858, type: 2}
+  HenFlapEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: db69785455cf8a0458267d2169fba03b, type: 2}
+--- !u!114 &6115344566304706308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5438100687898551652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a91371ed6864d54990674978c9fd6b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _trapPrefabs:
+  - {fileID: 4577828711679986708, guid: 383ecc9e1b2854cfb9c8a66d9d0cdc23, type: 3}
+  - {fileID: 7242327205239312664, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
+  - {fileID: 813543674720435825, guid: 835ee3f992ae6441bab5de6d2dda2dbc, type: 3}
+  _tileMap: {fileID: 0}
+  _leftDeployTransform: {fileID: 7283422951846119747}
+  _rightDeployTransform: {fileID: 6238511859256710560}
+--- !u!95 &7820116121340408506
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5438100687898551652}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 993a5b26054a4f44e9cb496ec17ada7e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1431151410556034827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,18 +285,6 @@ MonoBehaviour:
   characterName: Hendall
   messageBubbleOffset: {x: 0, y: 1.5, z: 0}
   offsetUsesRotation: 0
---- !u!114 &5037012343675419090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5438100687898551652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ba532d93edf40458c6fa50d279b5efe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6238511859256710560
 GameObject:
   m_ObjectHideFlags: 0

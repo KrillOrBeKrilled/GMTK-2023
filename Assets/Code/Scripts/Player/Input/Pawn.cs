@@ -4,8 +4,13 @@ using UnityEngine;
 
 namespace Code.Scripts.Player.Input
 {
-    // A class to be utilized for all possible movement of a playable character that will be executed by respective
-    // commands
+    //*******************************************************************************************
+    // Pawn
+    //*******************************************************************************************
+    /// <summary>
+    /// A parent class to handle simple movement methods for controlling a character adapted to
+    /// the Command pattern for easy command execution.
+    /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
     public class Pawn : MonoBehaviour
     {
@@ -14,10 +19,9 @@ namespace Code.Scripts.Player.Input
 
         private void Awake()
         {
-            Debug.Log("Pawn awake called");
             RBody = GetComponent<Rigidbody2D>();
         }
-        
+
         public virtual void StandIdle()
         {
             RBody.velocity = new Vector2(0f, RBody.velocity.y);

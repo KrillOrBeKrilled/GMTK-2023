@@ -6,7 +6,7 @@ namespace Code.Scripts.Player.Input.Commands
 {
     public class IdleCommand : ICommand
     {
-        private Pawn _controlledObject;
+        private readonly Pawn _controlledObject;
 
         public IdleCommand(Pawn controlledObject)
         {

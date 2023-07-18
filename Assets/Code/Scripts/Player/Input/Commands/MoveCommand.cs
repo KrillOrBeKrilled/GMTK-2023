@@ -6,8 +6,8 @@ namespace Code.Scripts.Player.Input.Commands
 {
     public class MoveCommand : ICommand
     {
-        private Pawn _controlledObject;
-        private float _inputDirection;
+        private readonly Pawn _controlledObject;
+        private readonly float _inputDirection;
         
         public MoveCommand(Pawn controlledObject, float inputDirection)
         {

@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using Code.Scripts.Player.Input.Commands;
@@ -57,7 +59,7 @@ namespace Code.Scripts.Player.Input
 
         private PlayerInputActions _playerInputActions;
 
-        private void Awake()
+        protected void Awake()
         {
             RBody = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
@@ -278,12 +280,34 @@ namespace Code.Scripts.Player.Input
         
         private void CreateSessionFile()
         {
+#if UNITY_EDITOR
+            var filename = $"Playtest {DateTime.Now:MM-dd-yyyy HH-mm-ss}.txt";
+            using StreamWriter sw = new StreamWriter("Assets\\InputRecordings\\" + filename);
+            
             foreach (var command in prevCommands)
             {
-                print(command);
+                switch (command)
+                {
+                    case DeployCommand:
+                        sw.WriteLine("D");
+                        break;
+                    case IdleCommand:
+                        sw.WriteLine("I");
+                        break;
+                    case JumpCommand:
+                        sw.WriteLine("J");
+                        break;
+                    case MoveCommand:
+                        sw.WriteLine("M:" + command.GetDirection());
+                        break;
+                    case SetTrapCommand:
+                        sw.WriteLine("T:"+ command.GetTrapIndex());
+                        break;
+                }
             }
+#endif
         }
-        
+
         //========================================
         // Music
         //========================================

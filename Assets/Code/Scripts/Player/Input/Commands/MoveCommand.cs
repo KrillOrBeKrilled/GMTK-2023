@@ -15,6 +15,11 @@ namespace Code.Scripts.Player.Input.Commands
             _inputDirection = inputDirection;
         }
 
+        public float GetDirection()
+        {
+            return _inputDirection;
+        }
+
         public void Execute()
         {
             _controlledObject.Move(_inputDirection);

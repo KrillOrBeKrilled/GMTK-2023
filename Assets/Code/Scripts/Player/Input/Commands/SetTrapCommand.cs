@@ -14,6 +14,12 @@ namespace Code.Scripts.Player.Input.Commands
             _controlledObject = controlledObject;
             _trapIndex = trapIndex;
         }
+        
+        public int GetTrapIndex()
+        {
+            return _trapIndex;
+        }
+
 
         public void Execute()
         {

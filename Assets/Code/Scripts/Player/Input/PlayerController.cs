@@ -1,13 +1,12 @@
 using System;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using Code.Scripts.Player.Input.Commands;
 using Traps;
 using UnityEngine;
-using UnityEngine.Android;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 
 namespace Code.Scripts.Player.Input
 {
@@ -23,29 +22,31 @@ namespace Code.Scripts.Player.Input
     public class PlayerController : Pawn
     {
         // --------------- Player State --------------
-        private static IdleState _idle;
-        private static MovingState _moving;
+        protected static IdleState _idle;
+        protected static MovingState _moving;
         private static GameOverState _gameOver;
-        private IPlayerState _state;
+        protected IPlayerState _state;
         public UnityEvent<IPlayerState> OnPlayerStateChanged { get; private set; }
         
         // ----------------- Command -----------------
         // Stateless commands; can be copied in the list of previous commands
         private ICommand _jumpCommand;
         private ICommand _deployCommand;
+        
+        // TODO: Consider undoing and redoing actions?
 
-        // For replay functionality, store all previous commands
-        private List<ICommand> prevCommands;
+        // ---------------- Replaying ----------------
+        protected InputEventTrace _inputRecorder;
 
         // ------------- Trap Deployment ------------
         // The canvas to spawn trap UI
         [SerializeField] private Canvas _trapCanvas;
         
-        private float _direction = -1;
-        private bool _isGrounded = true, _isRecording;
+        protected float _direction = -1;
+        protected bool _isGrounded = true;
         public UnityEvent<int> OnSelectedTrapIndexChanged;
 
-        private TrapController _trapController;
+        protected TrapController _trapController;
 
         // ------------- Sound Effects ---------------
         public AK.Wwise.Event StartBuildEvent;
@@ -57,12 +58,13 @@ namespace Code.Scripts.Player.Input
         // --------------- Bookkeeping ---------------
         private Animator _animator;
 
-        private PlayerInputActions _playerInputActions;
+        protected PlayerInputActions _playerInputActions;
 
-        protected void Awake()
+        protected virtual void Awake()
         {
             RBody = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
+            _inputRecorder = new InputEventTrace();
 
             _idle = new IdleState();
             _moving = new MovingState(Speed);
@@ -77,12 +79,11 @@ namespace Code.Scripts.Player.Input
         {
             _jumpCommand = new JumpCommand(this);
             _deployCommand = new DeployCommand(this);
-            prevCommands = new List<ICommand>();
 
             _trapController = GetComponent<TrapController>();
-            
-            GameManager.Instance.OnHenWon.AddListener(this.StopRecording);
-            GameManager.Instance.OnHenLost.AddListener(this.StopRecording);
+
+            GameManager.Instance.OnHenWon.AddListener(this.StopSession);
+            GameManager.Instance.OnHenLost.AddListener(this.StopSession);
 
             // Need this due to race condition during scene Awake->OnEnable calls
             this._playerInputActions = PlayerInputController.Instance.PlayerInputActions;
@@ -90,7 +91,7 @@ namespace Code.Scripts.Player.Input
             OnEnable();
         }
 
-        private void FixedUpdate()
+        protected virtual void FixedUpdate()
         {
             float directionInput = _playerInputActions.Player.Move.ReadValue<float>();
             _direction = directionInput != 0 ? directionInput : _direction;
@@ -99,7 +100,7 @@ namespace Code.Scripts.Player.Input
             SetAnimatorValues(directionInput);
 
             // Delegate movement behaviour to state classes
-            _state.Act(this, _direction, prevCommands);
+            _state.Act(this, _direction);
 
             // Check trap deployment eligibility
             _trapController.SurveyTrapDeployment(_isGrounded, _direction);
@@ -133,7 +134,7 @@ namespace Code.Scripts.Player.Input
         // Animator
         //========================================
         
-        private void SetAnimatorValues(float inputDirection)
+        protected void SetAnimatorValues(float inputDirection)
         {
             _animator.SetFloat("speed", Mathf.Abs(inputDirection));
             _animator.SetFloat("direction", _direction);
@@ -155,6 +156,7 @@ namespace Code.Scripts.Player.Input
 
         private void Move(InputAction.CallbackContext obj)
         {
+            print("Move");
             // Cache previous state and call OnExit and OnEnter
             var prevState = _state;
             _state.OnExit(_moving);
@@ -258,56 +260,49 @@ namespace Code.Scripts.Player.Input
         public void ExecuteCommand(ICommand command)
         {
             command.Execute();
+        }
+        
+        //========================================
+        // Recording
+        //========================================
 
-            // Record the command to the log of previous commands
-            if (_isRecording) prevCommands.Add(command);
+        public void StartSession()
+        {
+            EnableControls();
+            StartRecording();
         }
 
-        public void StartRecording()
+        protected virtual void StartRecording()
         {
-            _isRecording = true;
+            _inputRecorder.Enable();
             print("Start Recording");
         }
 
-        public void StopRecording(string message)
+        private void StopSession(string message)
         {
-            _isRecording = false;
+            StopRecording();
+        }
+
+        protected virtual void StopRecording()
+        {
+            _inputRecorder.Disable();
             print("Stop Recording");
             
             // Create a new playtest session recording file
-            CreateSessionFile();
+            CreateRecordingFile();
+            
+            // Prevent memory leaks!
+            _inputRecorder.Dispose();
         }
-        
-        private void CreateSessionFile()
+
+        private void CreateRecordingFile()
         {
 #if UNITY_EDITOR
             var filename = $"Playtest {DateTime.Now:MM-dd-yyyy HH-mm-ss}.txt";
-            using StreamWriter sw = new StreamWriter("Assets\\InputRecordings\\" + filename);
-            
-            foreach (var command in prevCommands)
-            {
-                switch (command)
-                {
-                    case DeployCommand:
-                        sw.WriteLine("D");
-                        break;
-                    case IdleCommand:
-                        sw.WriteLine("I");
-                        break;
-                    case JumpCommand:
-                        sw.WriteLine("J");
-                        break;
-                    case MoveCommand:
-                        sw.WriteLine("M:" + command.GetDirection());
-                        break;
-                    case SetTrapCommand:
-                        sw.WriteLine("T:"+ command.GetTrapIndex());
-                        break;
-                }
-            }
+            _inputRecorder.WriteTo("Assets\\InputRecordings\\" + filename);
 #endif
         }
-
+        
         //========================================
         // Music
         //========================================
@@ -330,7 +325,12 @@ namespace Code.Scripts.Player.Input
 
             if (this._playerInputActions == null)
                 return;
+                
+            EnableControls();
+        }
 
+        private void EnableControls()
+        {
             this._playerInputActions.Player.Move.performed += Move;
             this._playerInputActions.Player.Move.canceled += Idle;
             this._playerInputActions.Player.Jump.performed += Jump;
@@ -343,6 +343,11 @@ namespace Code.Scripts.Player.Input
         }
 
         private void OnDisable() {
+            DisableControls();
+        }
+
+        protected void DisableControls()
+        {
             this._playerInputActions.Player.Move.performed -= Move;
             this._playerInputActions.Player.Move.canceled -= Idle;
             this._playerInputActions.Player.Jump.performed -= Jump;

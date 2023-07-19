@@ -1,0 +1,11 @@
+﻿title: ReplayDialogue
+tags:
+---
+Hendall: A shortened dialogue script for recreating playtest sessions! Be careful not to touch any game controls!
+<<enter_player GameManager>>
+Hero: Another dungeon, another dollar. blah blah blah...
+<<show_hero CameraSwitcher>>
+Hendall: Click to start replay!
+<<start_level GameManager>>
+
+===

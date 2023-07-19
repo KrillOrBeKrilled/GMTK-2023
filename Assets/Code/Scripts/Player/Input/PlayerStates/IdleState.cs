@@ -22,11 +22,9 @@ namespace Code.Scripts.Player.Input {
             return 0f;
         }
         
-        public void Act(PlayerController playerController, float direction, List<ICommand> prevCommands)
+        public void Act(PlayerController playerController, float direction)
         {
             // Create command and execute it
-            // Pass by reference in the list; need to create a new command each time to add to the list (Is there a
-            // better way of doing this, memory-wise?)
             var command = new IdleCommand(playerController);
             playerController.ExecuteCommand(command);
         }

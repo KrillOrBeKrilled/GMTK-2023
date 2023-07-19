@@ -24,6 +24,6 @@ namespace Code.Scripts.Player.Input {
         /// Jumping: Player can jump as many times in the air
         /// Deploying: Player is placing a trap on a given tile space
         /// </summary>
-        abstract void Act(PlayerController playerController, float direction, List<ICommand> prevCommands);
+        abstract void Act(PlayerController playerController, float direction);
     }
 }

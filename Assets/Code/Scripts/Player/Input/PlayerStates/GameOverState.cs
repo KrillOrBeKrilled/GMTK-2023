@@ -24,7 +24,7 @@ namespace Code.Scripts.Player.Input {
             return 0f;
         }
         
-        public void Act(PlayerController playerController, float direction, List<ICommand> prevCommands)
+        public void Act(PlayerController playerController, float direction)
         {
             // The game is over! Maybe the player shouldn't do anything anymore and some UI opens or something
         }

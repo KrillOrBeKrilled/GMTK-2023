@@ -1,5 +1,3 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 
 namespace Code.Scripts.Player.Input
@@ -22,12 +20,12 @@ namespace Code.Scripts.Player.Input
             ParseControls();
         }
 
-        protected override void StartRecording()
+        public override void StartSession()
         {
             Replay();
         }
 
-        protected override void StopRecording()
+        protected override void StopSession(string message)
         {
             // Make this blank to prevent the creation of the input recording script from the parent class
         }

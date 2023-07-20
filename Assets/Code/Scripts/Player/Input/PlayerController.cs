@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.IO;
 using Code.Scripts.Player.Input.Commands;
 using Traps;
 using UnityEngine;
@@ -22,10 +22,10 @@ namespace Code.Scripts.Player.Input
     public class PlayerController : Pawn
     {
         // --------------- Player State --------------
-        protected static IdleState _idle;
-        protected static MovingState _moving;
+        private static IdleState _idle;
+        private static MovingState _moving;
         private static GameOverState _gameOver;
-        protected IPlayerState _state;
+        private IPlayerState _state;
         public UnityEvent<IPlayerState> OnPlayerStateChanged { get; private set; }
         
         // ----------------- Command -----------------
@@ -42,11 +42,11 @@ namespace Code.Scripts.Player.Input
         // The canvas to spawn trap UI
         [SerializeField] private Canvas _trapCanvas;
         
-        protected float _direction = -1;
-        protected bool _isGrounded = true;
+        private float _direction = -1;
+        private bool _isGrounded = true;
         public UnityEvent<int> OnSelectedTrapIndexChanged;
 
-        protected TrapController _trapController;
+        private TrapController _trapController;
 
         // ------------- Sound Effects ---------------
         public AK.Wwise.Event StartBuildEvent;
@@ -58,7 +58,8 @@ namespace Code.Scripts.Player.Input
         // --------------- Bookkeeping ---------------
         private Animator _animator;
 
-        protected PlayerInputActions _playerInputActions;
+        private PlayerInputActions _playerInputActions;
+        private const string BaseFolder = "InputRecordings";
 
         protected virtual void Awake()
         {
@@ -134,7 +135,7 @@ namespace Code.Scripts.Player.Input
         // Animator
         //========================================
         
-        protected void SetAnimatorValues(float inputDirection)
+        private void SetAnimatorValues(float inputDirection)
         {
             _animator.SetFloat("speed", Mathf.Abs(inputDirection));
             _animator.SetFloat("direction", _direction);
@@ -266,24 +267,15 @@ namespace Code.Scripts.Player.Input
         // Recording
         //========================================
 
-        public void StartSession()
-        {
-            EnableControls();
-            StartRecording();
-        }
-
-        protected virtual void StartRecording()
+        public virtual void StartSession()
         {
             _inputRecorder.Enable();
             print("Start Recording");
+            
+            EnableControls();
         }
-
-        private void StopSession(string message)
-        {
-            StopRecording();
-        }
-
-        protected virtual void StopRecording()
+        
+        protected virtual void StopSession(string message)
         {
             _inputRecorder.Disable();
             print("Stop Recording");
@@ -297,10 +289,32 @@ namespace Code.Scripts.Player.Input
 
         private void CreateRecordingFile()
         {
+            var fileName = $"Playtest {DateTime.Now:MM-dd-yyyy HH-mm-ss}.txt";
+            
+            // From https://stackoverflow.com/questions/70715187/unity-read-and-write-to-txt-file-after-build
 #if UNITY_EDITOR
-            var filename = $"Playtest {DateTime.Now:MM-dd-yyyy HH-mm-ss}.txt";
-            _inputRecorder.WriteTo("Assets\\InputRecordings\\" + filename);
+            var path = Application.dataPath + $"/{BaseFolder}/" ;
+            var path1 = Application.dataPath + $"/{BaseFolder}";
+            if (!Directory.Exists(path1)) Directory.CreateDirectory(path1);
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+#elif UNITY_ANDROID
+            var path = Application.persistentDataPath + $"/{BaseFolder}/";
+            var path1 = Application.persistentDataPath + $"/{BaseFolder}";
+            if (!Directory.Exists(path1)) Directory.CreateDirectory(path1);
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+#elif UNITY_IPHONE
+            var path = Application.persistentDataPath + $"/{BaseFolder}/";
+            var path1 = Application.persistentDataPath + $"/{BaseFolder}";
+            if (!Directory.Exists(path1)) Directory.CreateDirectory(path1);
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+#else
+            var path = Application.dataPath + $"/{BaseFolder}/";
+            var path1 = Application.dataPath + $"/{BaseFolder}";
+            if (!Directory.Exists(path1)) Directory.CreateDirectory(path1);
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 #endif
+            
+            _inputRecorder.WriteTo(path + fileName);
         }
         
         //========================================
@@ -346,7 +360,7 @@ namespace Code.Scripts.Player.Input
             DisableControls();
         }
 
-        protected void DisableControls()
+        private void DisableControls()
         {
             this._playerInputActions.Player.Move.performed -= Move;
             this._playerInputActions.Player.Move.canceled -= Idle;

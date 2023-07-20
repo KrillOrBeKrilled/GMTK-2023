@@ -49,11 +49,11 @@ public class GameManager : Singleton<GameManager> {
   [YarnCommand("start_level")]
   public void StartLevel()
   {
-    _hero.StartRunning();
-    
     // For playtesting analytics, start recording the player input for the session
     _player.PlayerController.StartSession();
     
+    _hero.StartRunning();
+
     _outOfBoundsTrigger.ToggleBounds(true);
     CoinManager.Instance.StartCoinEarning();
   }

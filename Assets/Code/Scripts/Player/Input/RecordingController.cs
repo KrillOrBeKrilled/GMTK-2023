@@ -1,3 +1,7 @@
+using System;
+using System.Collections;
+using System.IO;
+using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 
 namespace Code.Scripts.Player.Input
@@ -22,7 +26,7 @@ namespace Code.Scripts.Player.Input
 
         public override void StartSession()
         {
-            Replay();
+            StartCoroutine(ReplayDelay());
         }
 
         protected override void StopSession(string message)
@@ -33,6 +37,11 @@ namespace Code.Scripts.Player.Input
         private void ParseControls()
         {
             _inputRecorder = InputEventTrace.LoadFrom("Assets\\InputRecordings\\" + FilePath + ".txt");
+            
+            if (_inputRecorder.eventCount < 1)
+            {
+                print("File empty or parse failed!");
+            }
         }
 
         private void Replay()
@@ -40,6 +49,14 @@ namespace Code.Scripts.Player.Input
             print("Start Replay");
             _replayController = _inputRecorder.Replay();
             _replayController.PlayAllEventsAccordingToTimestamps();
+        }
+
+        private IEnumerator ReplayDelay()
+        {
+            // Slight delay to give more precision to combat a margin of error in the timing of the execution
+            // of events when yarn triggers "start_level" in the GameManager.
+            yield return new WaitForSeconds(0.02f);
+            Replay();
         }
     }
 }

@@ -157,7 +157,6 @@ namespace Code.Scripts.Player.Input
 
         private void Move(InputAction.CallbackContext obj)
         {
-            print("Move");
             // Cache previous state and call OnExit and OnEnter
             var prevState = _state;
             _state.OnExit(_moving);

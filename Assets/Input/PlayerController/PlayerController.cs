@@ -308,7 +308,7 @@ namespace Input
             var trapToSpawn = _trapPrefabs[_currentTrapIndex];
             Trap trap = trapToSpawn.GetComponent<Trap>();
             if (!CoinManager.Instance.CanAfford(trap.Cost)) {
-                print("Can't afford the trap!");
+                Debug.Log("Can't afford the trap!");
                 return;
             }
 

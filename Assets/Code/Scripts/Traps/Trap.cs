@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Input;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Traps

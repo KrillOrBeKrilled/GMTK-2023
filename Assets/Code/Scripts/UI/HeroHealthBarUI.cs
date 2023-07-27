@@ -54,7 +54,7 @@ public class HeroHealthBarUI : MonoBehaviour {
     this._hero.OnHeroDied.RemoveListener(this.OnDeath);
   }
 
-  private void OnDeath() {
+  private void OnDeath(int numberLives) {
   }
 
   private void RepositionHealthBar() {

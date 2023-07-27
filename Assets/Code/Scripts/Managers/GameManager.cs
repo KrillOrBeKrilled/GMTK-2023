@@ -73,11 +73,14 @@ public class GameManager : Singleton<GameManager> {
 
   private void OnPlayerStateChanged(IPlayerState state) {
     if (state is GameOverState) {
+      UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins);
       this.HenDied("The Hero managed to take you down Hendall.\nDon't you dream about that promotion I mentioned last time!");
     }
   }
 
-  private void OnHeroDied() {
+  private void OnHeroDied(int numberLives)
+  {
+    UGS_Analytics.HeroDiedCustomEvent(numberLives);
     this._outOfBoundsTrigger.ToggleBounds(false);
     this.StartCoroutine(this.DisableOutOfBoundsForOneSecond());
   }

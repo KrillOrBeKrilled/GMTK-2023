@@ -18,12 +18,12 @@ public class HeroLivesBarUI : MonoBehaviour
 
     void Start()
     {
-        UpdateLivesBar();
+        UpdateLivesBar(_hero.Lives);
     }
     
     void OnEnable()
     {
-        UpdateLivesBar();
+        UpdateLivesBar(_hero.Lives);
         _hero.OnHeroDied.AddListener(UpdateLivesBar);
     }
 
@@ -32,11 +32,11 @@ public class HeroLivesBarUI : MonoBehaviour
         _hero.OnHeroDied.RemoveListener(UpdateLivesBar);
     }
 
-    void UpdateLivesBar()
+    void UpdateLivesBar(int lives)
     {
         if (_hero != null)
         {
-            _heartsImage.rectTransform.sizeDelta = new Vector2(_heartImageWidth * _hero.Lives, _heartImageWidth);
+            _heartsImage.rectTransform.sizeDelta = new Vector2(_heartImageWidth * lives, _heartImageWidth);
         }
     }
 }

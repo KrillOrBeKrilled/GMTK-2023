@@ -1,7 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+//*******************************************************************************************
+// Jukebox
+//*******************************************************************************************
+/// <summary>
+/// A class to act as a soundbank for all the game's music. Works hand in hand with the
+/// AudioManager class (handles the SFX soundbank) to provide methods for listening in on
+/// events invoked during gameplay that handle all the Wwise sound events.
+/// </summary>
 public class Jukebox : MonoBehaviour
 {
     public AK.Wwise.Event PlayMusicEvent, PauseMusicEvent, UnpauseMusicEvent, StopMusicEvent;
@@ -31,5 +37,10 @@ public class Jukebox : MonoBehaviour
     public void UnpauseMusic()
     {
         UnpauseMusicEvent.Post(gameObject);
+    }
+
+    public void StopMusic()
+    {
+        StopMusicEvent.Post(gameObject);
     }
 }

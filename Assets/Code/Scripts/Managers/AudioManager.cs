@@ -1,9 +1,15 @@
 using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//*******************************************************************************************
+// AudioManager
+//*******************************************************************************************
+/// <summary>
+/// A class to act as a soundbank for all the game's SFX. Works hand in hand with the
+/// Jukebox class (handles the music soundbank) to provide methods for listening in on
+/// events invoked during gameplay that handle all the Wwise sound events.
+/// </summary>
 public class AudioManager : MonoBehaviour
 {
     // ------------ UI Sound Effects -------------
@@ -24,7 +30,6 @@ public class AudioManager : MonoBehaviour
         _henFlapEvent;
 
     private bool _isBuilding;
-
     private Jukebox _jukebox;
 
     private void Start()
@@ -38,6 +43,9 @@ public class AudioManager : MonoBehaviour
         
     }
 
+    //========================================
+    // UI Sound Event Methods
+    //========================================
     public void PlayUIClick(GameObject audioSource)
     {
         _playUIConfirmEvent.Post(audioSource);
@@ -58,6 +66,22 @@ public class AudioManager : MonoBehaviour
         _playUITileSelectConfirmEvent.Post(audioSource);
     }
     
+    private void ToggleJukeboxPause(bool isPaused)
+    {
+        if (isPaused)
+        {
+            _jukebox.PauseMusic();
+            _playUIPauseEvent.Post(gameObject);
+            return;
+        }
+        
+        _jukebox.UnpauseMusic();
+        _playUIUnpauseEvent.Post(gameObject);
+    }
+    
+    //========================================
+    // Hen Sound Event Methods
+    //========================================
     public void PlayBuild(GameObject audioSource)
     {
         if (!_isBuilding)
@@ -98,18 +122,5 @@ public class AudioManager : MonoBehaviour
     public void PlayHenJump(GameObject audioSource)
     {
         _henFlapEvent.Post(audioSource);
-    }
-
-    private void ToggleJukeboxPause(bool isPaused)
-    {
-        if (isPaused)
-        {
-            _jukebox.PauseMusic();
-            _playUIPauseEvent.Post(gameObject);
-            return;
-        }
-        
-        _jukebox.UnpauseMusic();
-        _playUIUnpauseEvent.Post(gameObject);
     }
 }

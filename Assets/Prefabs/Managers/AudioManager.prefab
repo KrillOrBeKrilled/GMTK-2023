@@ -85,3 +85,31 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: e231d2ab8569b2e4db2d2adaf3a37ae5, type: 2}
+  _playUIPauseEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: d7b8bf0c797d7664290227059aff1fa0, type: 2}
+  _playUIUnpauseEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: c2a9f8ddda6d2934099092ac31cfaf8f, type: 2}
+  _startBuildEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 92c940e8face79048add1cb9135a9eb9, type: 2}
+  _stopBuildEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: c9081fb1dc4b50d43a4bc70714b59013, type: 2}
+  _buildCompleteEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 0152d0cebda74e149859eca31ac74822, type: 2}
+  _henDeathEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: b9716eb7b49e8604dbc8927e2e3dc858, type: 2}
+  _henFlapEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: db69785455cf8a0458267d2169fba03b, type: 2}

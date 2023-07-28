@@ -926,6 +926,26 @@ PrefabInstance:
       propertyPath: _onHover.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 6135367027959472033, guid: d33c0e7198cdd614aa1e54146e309d09, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6135367027959472033, guid: d33c0e7198cdd614aa1e54146e309d09, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6135367027959472033, guid: d33c0e7198cdd614aa1e54146e309d09, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6135367027959472033, guid: d33c0e7198cdd614aa1e54146e309d09, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6135367027959472033, guid: d33c0e7198cdd614aa1e54146e309d09, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6844438180002257283, guid: d33c0e7198cdd614aa1e54146e309d09, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1013,6 +1033,26 @@ PrefabInstance:
     - target: {fileID: 8355958149810238448, guid: d33c0e7198cdd614aa1e54146e309d09, type: 3}
       propertyPath: m_Name
       value: MainMenuFINAL
+      objectReference: {fileID: 0}
+    - target: {fileID: 8567668772092720815, guid: d33c0e7198cdd614aa1e54146e309d09, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8567668772092720815, guid: d33c0e7198cdd614aa1e54146e309d09, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8567668772092720815, guid: d33c0e7198cdd614aa1e54146e309d09, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8567668772092720815, guid: d33c0e7198cdd614aa1e54146e309d09, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8567668772092720815, guid: d33c0e7198cdd614aa1e54146e309d09, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

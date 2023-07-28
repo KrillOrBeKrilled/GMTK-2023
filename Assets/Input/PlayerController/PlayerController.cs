@@ -326,6 +326,7 @@ namespace Input
             trapGameObject.GetComponent<Trap>().Construct(spawnPosition, _trapCanvas, _soundsController);
             _isColliding = true;
             CoinManager.Instance.ConsumeCoins(trap.Cost);
+            _soundsController.OnTileSelectConfirm();
         }
 
         // Test functions to switch between test traps
@@ -338,7 +339,6 @@ namespace Input
             ClearTrapDeployment();
             
             _isSelectingTileSFX = false;
-            _soundsController.OnTileSelectConfirm();
         }
 
         private void SetTrap2(InputAction.CallbackContext obj)
@@ -350,7 +350,6 @@ namespace Input
             ClearTrapDeployment();
             
             _isSelectingTileSFX = false;
-            _soundsController.OnTileSelectConfirm();
         }
 
         private void SetTrap3(InputAction.CallbackContext obj)
@@ -362,7 +361,6 @@ namespace Input
             ClearTrapDeployment();
 
             _isSelectingTileSFX = false;
-            _soundsController.OnTileSelectConfirm();
         }
 
         public void EnterIdleState()

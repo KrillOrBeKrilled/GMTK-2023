@@ -75,8 +75,8 @@ public class AudioManager : MonoBehaviour
             return;
         }
         
-        _jukebox.UnpauseMusic();
         _playUIUnpauseEvent.Post(gameObject);
+        _jukebox.UnpauseMusic();
     }
     
     //========================================

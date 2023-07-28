@@ -128,7 +128,11 @@ public class GameManager : Singleton<GameManager> {
   private void HenDied(string message) {
     this._player.PlayerController.DisablePlayerInput();
     this._hero.HeroMovement.ToggleMoving(false);
-    Destroy(this._player.gameObject);
+    
+    // To avoid calling the OnTriggerExit2D method in the OutOfBoundsTrigger class, don't destroy the player object 
+    // Destroy(this._player.gameObject);
+    this._player.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+    
     this.OnHenLost?.Invoke(message);
   }
 }

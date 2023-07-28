@@ -703,7 +703,11 @@ MonoBehaviour:
   PauseMusicEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: ed9fb31f178065340a2b5a7c88f96500, type: 2}
+  UnpauseMusicEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: edca420616c97104185a2f07bce5a9ba, type: 2}
   StopMusicEvent:
     idInternal: 0
     valueGuidInternal: 

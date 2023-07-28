@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Jukebox : MonoBehaviour
 {
-    public AK.Wwise.Event PlayMusicEvent, PauseMusicEvent, StopMusicEvent;
+    public AK.Wwise.Event PlayMusicEvent, PauseMusicEvent, UnpauseMusicEvent, StopMusicEvent;
     
     public static bool IsLoaded;
     
@@ -23,9 +23,13 @@ public class Jukebox : MonoBehaviour
         PlayMusicEvent.Post(gameObject);
     }
     
-    // TODO: Fix this to pause the game music instead of stopping it
     public void PauseMusic()
     {
-        StopMusicEvent.Post(gameObject);
+        PauseMusicEvent.Post(gameObject);
+    }
+    
+    public void UnpauseMusic()
+    {
+        UnpauseMusicEvent.Post(gameObject);
     }
 }

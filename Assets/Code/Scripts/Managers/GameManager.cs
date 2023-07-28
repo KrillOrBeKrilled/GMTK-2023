@@ -63,6 +63,7 @@ public class GameManager : Singleton<GameManager> {
 
     this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
     this._player.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
+    this._player.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
     this._player.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
     this._outOfBoundsTrigger.OnPlayerOutOfBounds.AddListener(this.HenOutOfBounds);
     this._hero.OnGameOver.AddListener(this.GameWon);
@@ -81,9 +82,17 @@ public class GameManager : Singleton<GameManager> {
     }
   }
   
-  private void OnTrapDeployed(int trapType) {
+  private void SelectedTrapIndexChanged(int trapIndex)
+  {
+    var isAffordable = _player.PlayerController.GetTrapCost() >= CoinManager.Instance.Coins;
+    
     // Send Analytics data
-    UGS_Analytics.DeployTrapCustomEvent(trapType);
+    UGS_Analytics.SwitchTrapCustomEvent(trapIndex, isAffordable);
+  }
+  
+  private void OnTrapDeployed(int trapIndex) {
+    // Send Analytics data
+    UGS_Analytics.DeployTrapCustomEvent(trapIndex);
   }
 
 

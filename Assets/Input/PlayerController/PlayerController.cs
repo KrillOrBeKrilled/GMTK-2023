@@ -257,6 +257,12 @@ namespace Input
             return _state;
         }
 
+        // Retrieves the cost of the current trap selected
+        public int GetTrapCost()
+        {
+            return Traps[_currentTrapIndex].Cost;
+        }
+
         public void DisablePlayerInput() {
             this._playerInputActions.Disable();
         }

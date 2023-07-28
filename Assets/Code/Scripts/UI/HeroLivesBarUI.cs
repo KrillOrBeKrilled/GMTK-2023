@@ -32,7 +32,7 @@ public class HeroLivesBarUI : MonoBehaviour
         _hero.OnHeroDied.RemoveListener(UpdateLivesBar);
     }
 
-    void UpdateLivesBar(int lives)
+    void UpdateLivesBar(int lives, float xPos = 0, float yPos = 0, float zPos = 0)
     {
         if (_hero != null)
         {

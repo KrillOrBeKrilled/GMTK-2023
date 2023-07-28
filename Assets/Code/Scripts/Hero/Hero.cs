@@ -10,7 +10,7 @@ public class Hero : MonoBehaviour {
   public HeroRespawnPoint RespawnPoint;
 
   public UnityEvent<int> OnHealthChanged;
-  public UnityEvent<int> OnHeroDied;
+  public UnityEvent<int, float, float, float> OnHeroDied;
   public UnityEvent OnGameOver;
   public UnityEvent OnHeroReset;
   public const int MaxHealth = 100;
@@ -66,7 +66,9 @@ public class Hero : MonoBehaviour {
   {
     Lives--;
     HeroHurtEvent.Post(gameObject);
-    this.OnHeroDied?.Invoke(Lives);
+
+    var heroPos = transform.position;
+    this.OnHeroDied?.Invoke(Lives, heroPos.x, heroPos.y, heroPos.z);
 
     if (Lives == 0)
     {

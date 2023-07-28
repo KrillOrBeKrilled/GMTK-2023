@@ -63,6 +63,7 @@ public class GameManager : Singleton<GameManager> {
 
     this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
     this._player.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
+    this._player.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
     this._outOfBoundsTrigger.OnPlayerOutOfBounds.AddListener(this.HenOutOfBounds);
     this._hero.OnGameOver.AddListener(this.GameWon);
     this._hero.OnHeroDied.AddListener(this.OnHeroDied);
@@ -71,16 +72,26 @@ public class GameManager : Singleton<GameManager> {
     PauseManager.Instance.SetIsPausable(true);
   }
 
-  private void OnPlayerStateChanged(IPlayerState state) {
+  private void OnPlayerStateChanged(IPlayerState state, float xPos, float yPos, float zPos) {
     if (state is GameOverState) {
-      UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins);
+      // Send Analytics data before ending the game
+      UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins, xPos, yPos, zPos);
+      
       this.HenDied("The Hero managed to take you down Hendall.\nDon't you dream about that promotion I mentioned last time!");
     }
   }
+  
+  private void OnTrapDeployed(int trapType) {
+    // Send Analytics data
+    UGS_Analytics.DeployTrapCustomEvent(trapType);
+  }
 
-  private void OnHeroDied(int numberLives)
+
+  private void OnHeroDied(int numberLives, float xPos, float yPos, float zPos)
   {
-    UGS_Analytics.HeroDiedCustomEvent(numberLives);
+    // Send Analytics data before ending the game
+    UGS_Analytics.HeroDiedCustomEvent(numberLives, xPos, yPos, zPos);
+    
     this._outOfBoundsTrigger.ToggleBounds(false);
     this.StartCoroutine(this.DisableOutOfBoundsForOneSecond());
   }
@@ -107,7 +118,10 @@ public class GameManager : Singleton<GameManager> {
     this.OnHenLost?.Invoke("The Hero managed to reach his goal and do heroic things.\nHendall, you failed me!");
   }
 
-  private void HenOutOfBounds() {
+  private void HenOutOfBounds(float xPos, float yPos, float zPos) {
+    // Send Analytics data before ending the game
+    UGS_Analytics.PlayerDeathByBoundaryCustomEvent(CoinManager.Instance.Coins, xPos, yPos, zPos);
+    
     this.HenDied("What are you doing here?\nI told you, you should always keep an eye on the Hero!");
   }
 

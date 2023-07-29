@@ -1032,7 +1032,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8355958149810238448, guid: d33c0e7198cdd614aa1e54146e309d09, type: 3}
       propertyPath: m_Name
-      value: MainMenuFINAL
+      value: MainMenu
       objectReference: {fileID: 0}
     - target: {fileID: 8567668772092720815, guid: d33c0e7198cdd614aa1e54146e309d09, type: 3}
       propertyPath: m_AnchorMax.y

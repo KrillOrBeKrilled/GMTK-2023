@@ -66,6 +66,19 @@ public class UGS_Analytics : MonoBehaviour
         AnalyticsService.Instance.CustomData("heroDied", eventParameters);
         AnalyticsService.Instance.Flush();
     }
+    
+    public static void HeroIsStuckCustomEvent(float xPos, float yPos, float zPos)
+    {
+        var eventParameters = new Dictionary<string, object>
+        {
+            { "xPos", xPos },
+            { "yPos", yPos },
+            { "zPos", zPos }
+        };
+        
+        AnalyticsService.Instance.CustomData("heroIsStuck", eventParameters);
+        AnalyticsService.Instance.Flush();
+    }
 
     public static void DeployTrapCustomEvent(int trapType)
     {

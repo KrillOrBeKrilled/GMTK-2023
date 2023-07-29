@@ -58,6 +58,7 @@ public class Hero : MonoBehaviour {
   private void Awake() {
     this.TryGetComponent(out this._heroMovement);
     this.TryGetComponent(out this._animator);
+    this.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 
     ResetHero();
   }
@@ -78,6 +79,11 @@ public class Hero : MonoBehaviour {
     }
 
     StartCoroutine(Respawn());
+  }
+  
+  public void OnHeroIsStuck(float xPos, float yPos, float zPos)
+  {
+    Die();
   }
 
   private IEnumerator Respawn()

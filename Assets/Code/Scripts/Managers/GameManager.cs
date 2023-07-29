@@ -68,6 +68,7 @@ public class GameManager : Singleton<GameManager> {
     this._outOfBoundsTrigger.OnPlayerOutOfBounds.AddListener(this.HenOutOfBounds);
     this._hero.OnGameOver.AddListener(this.GameWon);
     this._hero.OnHeroDied.AddListener(this.OnHeroDied);
+    this._hero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 
     this.OnSetupComplete?.Invoke();
     PauseManager.Instance.SetIsPausable(true);
@@ -103,6 +104,12 @@ public class GameManager : Singleton<GameManager> {
     
     this._outOfBoundsTrigger.ToggleBounds(false);
     this.StartCoroutine(this.DisableOutOfBoundsForOneSecond());
+  }
+  
+  private void OnHeroIsStuck(float xPos, float yPos, float zPos)
+  {
+    // Send Analytics data
+    UGS_Analytics.HeroIsStuckCustomEvent(xPos, yPos, zPos);
   }
 
   private IEnumerator DisableOutOfBoundsForOneSecond() {

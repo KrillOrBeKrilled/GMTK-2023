@@ -8,6 +8,7 @@ public class DataPointCollection : MonoBehaviour
 {
     public List<DataPoint> DataPoints;
     public float PointTargetRadius;
+    public bool VisualizeTargetRadius;
     
     public int MaxPointConcentrationSpectrum;
     public Color SpectrumBorder, SpectrumCenter;

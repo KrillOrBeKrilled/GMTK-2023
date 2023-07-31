@@ -1,9 +1,27 @@
+using System;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class DataPoint : MonoBehaviour
 {
+    private DataPointCollection _pointCollection;
+
+    private void Awake()
+    {
+        _pointCollection = FindObjectOfType<DataPointCollection>();
+    }
+    
+    private void OnDrawGizmos()
+    {
+        if (!_pointCollection.VisualizeTargetRadius) return;
+        
+        Gizmos.DrawWireSphere(transform.position, _pointCollection.PointTargetRadius);
+    }
+
     public void UpdatePoint(DataPointCollection pointCollection)
     {
+        _pointCollection = pointCollection;
+        
         // Check how many points are nearby and adjust the size and color accordingly
         var pointConcentration = 0f;
         foreach (var point in pointCollection.DataPoints)

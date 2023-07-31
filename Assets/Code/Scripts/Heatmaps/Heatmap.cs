@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Heatmap : MonoBehaviour
 {
     public string FileName;
+    public List<string> FilesParsed;
+    
     public DataPointCollection PointCollection;
     public GameObject DataPoint;
     
@@ -25,10 +28,13 @@ public class Heatmap : MonoBehaviour
             // Set the point's data and add the new point to a list of points 
             point.transform.SetParent(PointCollection.transform);
         }
+        
+        FilesParsed.Add(FileName);
     }
     
     public void ClearHeatmap()
     {
         PointCollection.ClearPoints();
+        FilesParsed.Clear();
     }
 }

@@ -4,17 +4,12 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class GameUI : MonoBehaviour {
-  [Header("Game UI References")]
+public class GameUI : MonoBehaviour{
   [SerializeField] private Image _foregroundImage;
   [SerializeField] private GameObject _pauseUI;
   [SerializeField] private EndgameUI _endgameUI;
   [SerializeField] private TMP_Text _coinsText;
   [SerializeField] private TrapSelectionBar _trapSelectionBar;
-
-  [Header("Pause UI Events")]
-  [SerializeField] private UnityEvent _onPaused;
-  [SerializeField] private UnityEvent _onUnpaused;
 
   private const float FadeDuration = 0.5f;
 
@@ -56,12 +51,6 @@ public class GameUI : MonoBehaviour {
 
   private void OnPauseToggled(bool isPaused) {
     this._pauseUI.SetActive(isPaused);
-
-    if (isPaused) {
-      this._onPaused?.Invoke();
-    } else {
-      this._onUnpaused?.Invoke();
-    }
   }
 
   private void OnHenWon(string message) {

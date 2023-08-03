@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Input;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Traps
@@ -17,7 +18,7 @@ namespace Traps
 
         protected Vector3 SpawnPosition;
         private Slider _buildCompletionBar;
-        private PlayerSoundsController _soundsController;
+        private AK.Wwise.Event _startBuildEvent, _stopBuildEvent, _buildCompleteEvent;
         protected float ConstructionCompletion, t;
         protected bool IsBuilding, IsReady;
 
@@ -36,9 +37,8 @@ namespace Traps
                 if (ConstructionCompletion >= 0.99f)
                 {
                     IsReady = true;
-                    IsBuilding = false;
-                    _soundsController.OnStopBuild();
-                    _soundsController.OnBuildComplete();
+                    _stopBuildEvent.Post(gameObject);
+                    _buildCompleteEvent.Post(gameObject);
                     Destroy(_buildCompletionBar.gameObject);
 
                     // Play trap set up animation
@@ -62,11 +62,14 @@ namespace Traps
             return score >= ValidationScore;
         }
 
-        public void Construct(Vector3 spawnPosition, Canvas canvas, PlayerSoundsController soundsController)
+        public void Construct(Vector3 spawnPosition, Canvas canvas,
+            AK.Wwise.Event startBuild, AK.Wwise.Event stopBuild, AK.Wwise.Event buildComplete)
         {
             // Initialize all the bookkeeping structures we will need
             SpawnPosition = spawnPosition;
-            _soundsController = soundsController;
+            _startBuildEvent = startBuild;
+            _stopBuildEvent = stopBuild;
+            _buildCompleteEvent = buildComplete;
 
             // Spawn a slider to indicate the progress on the build
             GameObject sliderObject = Instantiate(SliderBar, canvas.transform);
@@ -126,7 +129,7 @@ namespace Traps
                 PlayerController playerController;
                 IPlayerState playerState;
 
-                if (other.TryGetComponent(out playerController))
+                if (other.TryGetComponent<PlayerController>(out playerController))
                 {
                     playerState = playerController.GetPlayerState();
                 }
@@ -138,7 +141,7 @@ namespace Traps
                 if (playerState is IdleState)
                 {
                     IsBuilding = true;
-                    _soundsController.OnStartBuild();
+                    _startBuildEvent.Post(gameObject);
                 }
             }
 
@@ -148,7 +151,7 @@ namespace Traps
             if (other.CompareTag("Player") && IsBuilding)
             {
                 IsBuilding = false;
-                _soundsController.OnStopBuild();
+                _stopBuildEvent.Post(gameObject);
                 return;
             }
 

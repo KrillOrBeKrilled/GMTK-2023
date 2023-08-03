@@ -21,8 +21,7 @@ namespace Input
         private static MovingState _moving;
         private static GameOverState _gameOver;
         private IPlayerState _state;
-        public UnityEvent<IPlayerState, float, float, float> OnPlayerStateChanged { get; private set; }
-        public UnityEvent<int> OnTrapDeployed { get; private set; }
+        public UnityEvent<IPlayerState> OnPlayerStateChanged { get; private set; }
 
         // For movement testing, allow speeds to be set through the editor
         [Header("State speed parameters")]
@@ -46,34 +45,29 @@ namespace Input
         private readonly List<Vector3Int> _previousTilePositions = new List<Vector3Int>();
         private bool _isGrounded = true, _isColliding, _canDeploy;
 
-        // ------------- Sound Effects ---------------
-        public AK.Wwise.Event StartBuildEvent;
-        public AK.Wwise.Event StopBuildEvent;
-        public AK.Wwise.Event BuildCompleteEvent;
-        public AK.Wwise.Event HenDeathEvent;
-        public AK.Wwise.Event HenFlapEvent;
-
         // ----------------- Health ------------------
         // BRAINSTORMING: Do we want to simulate player health?
 
         // --------------- Bookkeeping ---------------
         private Rigidbody2D _rBody;
         private Animator _animator;
+        private PlayerSoundsController _soundsController;
 
         private PlayerInputActions _playerInputActions;
+        private bool _isSelectingTileSFX;
 
         void Awake()
         {
             _rBody = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
-
+            _soundsController = GetComponent<PlayerSoundsController>();
+            
             _idle = new IdleState();
             _moving = new MovingState(_speed);
             _gameOver = new GameOverState();
 
             _state = _idle;
-            this.OnPlayerStateChanged = new UnityEvent<IPlayerState, float, float, float>();
-            this.OnTrapDeployed = new UnityEvent<int>();
+            this.OnPlayerStateChanged = new UnityEvent<IPlayerState>();
             this.OnSelectedTrapIndexChanged = new UnityEvent<int>();
         }
 
@@ -115,6 +109,15 @@ namespace Input
             {
                 // The tile changed, so flush the tint on the previous tiles and reset the collision status
                 ClearTrapDeployment();
+
+                if (_isSelectingTileSFX)
+                {
+                    _soundsController.OnTileSelectMove();
+                }
+                else
+                {
+                    _isSelectingTileSFX = !_isSelectingTileSFX;
+                }
 
                 // Get the grid placement data for the selected prefab
                 var selectedTrapPrefab = _trapPrefabs[_currentTrapIndex].GetComponent<Traps.Trap>();
@@ -257,12 +260,6 @@ namespace Input
             return _state;
         }
 
-        // Retrieves the cost of the current trap selected
-        public int GetTrapCost()
-        {
-            return Traps[_currentTrapIndex].Cost;
-        }
-
         public void DisablePlayerInput() {
             this._playerInputActions.Disable();
         }
@@ -275,9 +272,7 @@ namespace Input
             _state.OnExit(_idle);
             _state = _idle;
             _state.OnEnter(prevState);
-
-            var currentPos = transform.position;
-            this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
+            this.OnPlayerStateChanged?.Invoke(this._state);
         }
 
         private void Move(InputAction.CallbackContext obj)
@@ -287,9 +282,7 @@ namespace Input
             _state.OnExit(_moving);
             _state = _moving;
             _state.OnEnter(prevState);
-            
-            var currentPos = transform.position;
-            this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
+            this.OnPlayerStateChanged?.Invoke(this._state);
         }
 
         private void Jump(InputAction.CallbackContext obj)
@@ -300,10 +293,11 @@ namespace Input
 
             _animator.SetBool("is_grounded", _isGrounded);
 
-            HenFlapEvent.Post(gameObject);
+            _soundsController.OnHenJump();
 
             // Left the ground, so trap deployment isn't possible anymore
             ClearTrapDeployment();
+            _isSelectingTileSFX = false;
         }
 
         private void DeployTrap(InputAction.CallbackContext obj)
@@ -315,12 +309,10 @@ namespace Input
                 return;
             }
 
-            StartCoroutine(PlayBuildSoundForDuration(.3f));
-
             var trapToSpawn = _trapPrefabs[_currentTrapIndex];
             Trap trap = trapToSpawn.GetComponent<Trap>();
             if (!CoinManager.Instance.CanAfford(trap.Cost)) {
-                print("Can't afford the trap!");
+                Debug.Log("Can't afford the trap!");
                 return;
             }
 
@@ -331,41 +323,44 @@ namespace Input
                 : trapToSpawn.GetComponent<Trap>().GetRightSpawnPoint(deploymentOrigin);
 
             GameObject trapGameObject = Instantiate(trapToSpawn.gameObject);
-            trapGameObject.GetComponent<Trap>().Construct(spawnPosition, _trapCanvas,
-                StartBuildEvent, StopBuildEvent, BuildCompleteEvent);
+            trapGameObject.GetComponent<Trap>().Construct(spawnPosition, _trapCanvas, _soundsController);
             _isColliding = true;
-            
             CoinManager.Instance.ConsumeCoins(trap.Cost);
-            this.OnTrapDeployed?.Invoke(_currentTrapIndex);
-        }
-
-        private IEnumerator PlayBuildSoundForDuration(float durationInSeconds)
-        {
-            StartBuildEvent.Post(gameObject);
-            yield return new WaitForSeconds(durationInSeconds);
-            StopBuildEvent.Post(gameObject);
+            _soundsController.OnTileSelectConfirm();
         }
 
         // Test functions to switch between test traps
         private void SetTrap1(InputAction.CallbackContext obj)
         {
+            if (_currentTrapIndex == 0) return;
+            
             _currentTrapIndex = 0;
             this.OnSelectedTrapIndexChanged?.Invoke(_currentTrapIndex);
             ClearTrapDeployment();
+            
+            _isSelectingTileSFX = false;
         }
 
         private void SetTrap2(InputAction.CallbackContext obj)
         {
+            if (_currentTrapIndex == 1) return;
+            
             _currentTrapIndex = 1;
             this.OnSelectedTrapIndexChanged?.Invoke(_currentTrapIndex);
             ClearTrapDeployment();
+            
+            _isSelectingTileSFX = false;
         }
 
         private void SetTrap3(InputAction.CallbackContext obj)
         {
+            if (_currentTrapIndex == 2) return;
+            
             _currentTrapIndex = 2;
             this.OnSelectedTrapIndexChanged?.Invoke(_currentTrapIndex);
             ClearTrapDeployment();
+
+            _isSelectingTileSFX = false;
         }
 
         public void EnterIdleState()
@@ -378,14 +373,14 @@ namespace Input
 
         public void GameOver()
         {
-            HenDeathEvent.Post(gameObject);
+            _soundsController.OnHenDeath();
+            
             var prevState = _state;
             _state.OnExit(_gameOver);
             _state = _gameOver;
             _state.OnEnter(prevState);
 
-            var currentPos = transform.position;
-            this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
+            this.OnPlayerStateChanged?.Invoke(this._state);
         }
 
         private void OnEnable() {

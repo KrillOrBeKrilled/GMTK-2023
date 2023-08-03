@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1603199856087861948}
   - component: {fileID: 2917755861018091152}
   - component: {fileID: 1717153536710988940}
+  - component: {fileID: 6881718048625000024}
   - component: {fileID: 7820116121340408506}
   - component: {fileID: 5929949226365127913}
   - component: {fileID: 1431151410556034827}
@@ -39,7 +40,7 @@ Transform:
   - {fileID: 1276593753349593315}
   - {fileID: 581943907994038428}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1603199856087861948
 SpriteRenderer:
@@ -139,6 +140,9 @@ MonoBehaviour:
   - {fileID: 4577828711679986708, guid: 383ecc9e1b2854cfb9c8a66d9d0cdc23, type: 3}
   - {fileID: 7242327205239312664, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
   - {fileID: 813543674720435825, guid: 835ee3f992ae6441bab5de6d2dda2dbc, type: 3}
+  OnSelectedTrapIndexChanged:
+    m_PersistentCalls:
+      m_Calls: []
   _tileMap: {fileID: 0}
   _leftDeployTransform: {fileID: 7283422951846119747}
   _rightDeployTransform: {fileID: 6238511859256710560}
@@ -162,6 +166,24 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: db69785455cf8a0458267d2169fba03b, type: 2}
+--- !u!114 &6881718048625000024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5438100687898551652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 203542b8d5af51043a8d03270751e8e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onTileSelectMove:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTileSelectConfirm:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &7820116121340408506
 Animator:
   serializedVersion: 5

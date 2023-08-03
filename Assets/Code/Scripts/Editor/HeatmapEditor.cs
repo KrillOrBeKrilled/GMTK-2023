@@ -6,9 +6,14 @@ using UnityEditor;
 public class HeatmapEditor : Editor
 {
     SerializedProperty Heatmap;
+    SerializedProperty CSVFile;
+    SerializedProperty _filePath;
 
     public override void OnInspectorGUI()
     {
+        serializedObject.Update();
+        EditorGUILayout.PropertyField(_filePath);
+        
         DrawDefaultInspector();
 
         var heatmapScript = (Heatmap)target;
@@ -21,5 +26,16 @@ public class HeatmapEditor : Editor
         {
             heatmapScript.ClearHeatmap();
         }
+
+        if (!CSVFile.objectReferenceValue) return;
+
+        _filePath.stringValue = AssetDatabase.GetAssetPath(CSVFile.objectReferenceValue.GetInstanceID());
+        serializedObject.ApplyModifiedProperties();
+    }
+    
+    private void OnEnable()
+    {
+        CSVFile = serializedObject.FindProperty("CSVFile");
+        _filePath = serializedObject.FindProperty("_filePath");
     }
 }

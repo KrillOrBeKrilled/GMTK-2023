@@ -3,15 +3,17 @@ using UnityEngine;
 
 public class Heatmap : MonoBehaviour
 {
-    public string FileName;
-    public List<string> FilesParsed;
+    public Object CSVFile;
+    public List<Object> FilesParsed;
+
+    [SerializeField] private string _filePath;
     
     public DataPointCollection PointCollection;
     public GameObject DataPoint;
     
     public void GenerateHeatmap()
     {
-        var lines = System.IO.File.ReadAllLines("Assets\\HeatmapData\\" + FileName + ".csv"); 
+        var lines = System.IO.File.ReadAllLines(_filePath); 
         
         for (var lineNumber = 0; lineNumber < lines.Length; lineNumber++)
         {
@@ -29,7 +31,7 @@ public class Heatmap : MonoBehaviour
             point.transform.SetParent(PointCollection.transform);
         }
         
-        FilesParsed.Add(FileName);
+        FilesParsed.Add(CSVFile);
     }
     
     public void ClearHeatmap()

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Traps;
@@ -294,10 +293,6 @@ namespace Input
             _animator.SetBool("is_grounded", _isGrounded);
 
             _soundsController.OnHenJump();
-
-            // Left the ground, so trap deployment isn't possible anymore
-            ClearTrapDeployment();
-            _isSelectingTileSFX = false;
         }
 
         private void DeployTrap(InputAction.CallbackContext obj)
@@ -414,20 +409,22 @@ namespace Input
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.CompareTag("Ground"))
-            {
-                _isGrounded = true;
-                _animator.SetBool("is_grounded", _isGrounded);
-            }
+            if (!collision.gameObject.CompareTag("Ground")) return;
+
+            _isGrounded = true;
+            _animator.SetBool("is_grounded", _isGrounded);
         }
 
-        // private void OnCollisionExit2D(Collision2D collision)
-        // {
-        //     if (collision.gameObject.CompareTag("Ground"))
-        //     {
-        //         _isGrounded = false;
-        //         _animator.SetBool("is_grounded", _isGrounded);
-        //     }
-        // }
+        private void OnCollisionExit2D(Collision2D collision)
+        {
+            if (!collision.gameObject.CompareTag("Ground")) return;
+
+            _isGrounded = false;
+            _animator.SetBool("is_grounded", _isGrounded);
+            
+            // Left the ground, so trap deployment isn't possible anymore
+            ClearTrapDeployment();
+            _isSelectingTileSFX = false;
+        }
     }
 }

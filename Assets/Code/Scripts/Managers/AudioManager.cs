@@ -71,9 +71,6 @@ public class AudioManager : MonoBehaviour
     
     private void ToggleJukeboxPause(bool isPaused)
     {
-#if UNITY_EDITOR
-        return;
-#endif
         if (isPaused)
         {
             _jukebox.PauseMusic();

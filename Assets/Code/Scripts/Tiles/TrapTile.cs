@@ -25,7 +25,7 @@ public class TrapTile : Tile
             "Asset", "Save Trap Tile", "Assets");
         if (path == "") return;
         
-        AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<TrapTile>(), path);
+        AssetDatabase.CreateAsset(CreateInstance<TrapTile>(), path);
     }
     #endif
 }

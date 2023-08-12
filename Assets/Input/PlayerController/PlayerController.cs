@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Traps;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -39,7 +41,8 @@ namespace Input
         public List<Trap> Traps => this._trapPrefabs.Select(prefab => prefab.GetComponent<Trap>()).ToList();
         public UnityEvent<int> OnSelectedTrapIndexChanged;
 
-        [SerializeField] private Tilemap _tileMap;
+        [SerializeField] private Tilemap _trapTileMap;
+        [SerializeField] private Tilemap _groundTileMap;
         [SerializeField] private GameObject _leftDeployTransform, _rightDeployTransform;
 
         private readonly List<Vector3Int> _previousTilePositions = new List<Vector3Int>();
@@ -47,6 +50,9 @@ namespace Input
 
         // ----------------- Health ------------------
         // BRAINSTORMING: Do we want to simulate player health?
+        
+        // ---------------- Collider -----------------
+        private ContactPoint2D _lastContact;
 
         // --------------- Bookkeeping ---------------
         private Rigidbody2D _rBody;
@@ -69,6 +75,8 @@ namespace Input
             _state = _idle;
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState>();
             this.OnSelectedTrapIndexChanged = new UnityEvent<int>();
+            
+            _animator.SetBool("is_grounded", _isGrounded);
         }
 
         private void Start() {
@@ -102,7 +110,7 @@ namespace Input
                 ? _leftDeployTransform
                 : _rightDeployTransform;
             var deployPosition = deployChecker.GetComponent<Transform>().position;
-            var deploymentOrigin = _tileMap.WorldToCell(deployPosition);
+            var deploymentOrigin = _trapTileMap.WorldToCell(deployPosition);
 
             // Ensure that there are no query results yet or that the deploymentOrigin has changed
             if (_previousTilePositions.Count < 1 || deploymentOrigin != _previousTilePositions[0])
@@ -137,12 +145,12 @@ namespace Input
                     {
                         var tileSpacePosition = deploymentOrigin + prefabOffsetPosition;
 
-                        validationScore = IsTileOfType<TrapTile>(_tileMap, tileSpacePosition)
+                        validationScore = IsTileOfType<TrapTile>(_trapTileMap, tileSpacePosition)
                             ? ++validationScore
                             : validationScore;
 
                         // Allow to tile to be edited
-                        _tileMap.SetTileFlags(tileSpacePosition, TileFlags.None);
+                        _trapTileMap.SetTileFlags(tileSpacePosition, TileFlags.None);
                         _previousTilePositions.Add(tileSpacePosition);
 
                         // Check tile collision
@@ -161,12 +169,12 @@ namespace Input
 
                     foreach (var prefabOffsetPosition in prefabPoints)
                     {
-                        validationScore = IsTileOfType<TrapTile>(_tileMap, deploymentOrigin + prefabOffsetPosition)
+                        validationScore = IsTileOfType<TrapTile>(_trapTileMap, deploymentOrigin + prefabOffsetPosition)
                             ? ++validationScore
                             : validationScore;
 
                         // Allow to tile to be edited
-                        _tileMap.SetTileFlags(deploymentOrigin + prefabOffsetPosition, TileFlags.None);
+                        _trapTileMap.SetTileFlags(deploymentOrigin + prefabOffsetPosition, TileFlags.None);
                         _previousTilePositions.Add(deploymentOrigin + prefabOffsetPosition);
                     }
                 }
@@ -196,7 +204,7 @@ namespace Input
         private void CheckTileCollision(Collider2D currentCollision, Vector3Int tileSpacePosition)
         {
             // Convert the origin tile position to world space
-            var tileWorldPosition = _tileMap.CellToWorld(tileSpacePosition);
+            var tileWorldPosition = _trapTileMap.CellToWorld(tileSpacePosition);
 
             // Check that the tile unit is not within the collision bounds
             var bounds = currentCollision.bounds;
@@ -218,7 +226,7 @@ namespace Input
             // Paint all the tiles red
             foreach (var previousTilePosition in _previousTilePositions)
             {
-                _tileMap.SetColor(previousTilePosition, new Color(1, 0, 0, 0.3f));
+                _trapTileMap.SetColor(previousTilePosition, new Color(1, 0, 0, 0.3f));
             }
 
             _canDeploy = false;
@@ -229,7 +237,7 @@ namespace Input
             // Paint all the tiles green
             foreach (Vector3Int previousTilePosition in _previousTilePositions)
             {
-                _tileMap.SetColor(previousTilePosition, new Color(0, 1, 0, 0.3f));
+                _trapTileMap.SetColor(previousTilePosition, new Color(0, 1, 0, 0.3f));
             }
 
             _canDeploy = true;
@@ -239,7 +247,7 @@ namespace Input
         {
             foreach (Vector3Int previousTilePosition in _previousTilePositions)
             {
-                _tileMap.SetColor(previousTilePosition, new Color(1, 1, 1, 0));
+                _trapTileMap.SetColor(previousTilePosition, new Color(1, 1, 1, 0));
             }
             _canDeploy = false;
 
@@ -290,11 +298,11 @@ namespace Input
             // Left out of State pattern to allow this during movement
             _rBody.AddForce(Vector2.up * _jumpingForce);
             _isGrounded = false;
-
-            _animator.SetBool("is_grounded", _isGrounded);
-
+            
             _soundsController.OnHenJump();
-
+            
+            _animator.SetBool("is_grounded", _isGrounded);
+            
             // Left the ground, so trap deployment isn't possible anymore
             ClearTrapDeployment();
             _isSelectingTileSFX = false;
@@ -317,7 +325,7 @@ namespace Input
             }
 
             // Convert the origin tile position to world space
-            var deploymentOrigin = _tileMap.CellToWorld(_previousTilePositions[0]);
+            var deploymentOrigin = _trapTileMap.CellToWorld(_previousTilePositions[0]);
             var spawnPosition = _direction < 0
                 ? trapToSpawn.GetComponent<Trap>().GetLeftSpawnPoint(deploymentOrigin)
                 : trapToSpawn.GetComponent<Trap>().GetRightSpawnPoint(deploymentOrigin);
@@ -414,20 +422,44 @@ namespace Input
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.CompareTag("Ground"))
+            if (_isGrounded) return;
+
+            for (var i = 0; i < collision.GetContacts(collision.contacts); i++)
             {
+                var contactPosition = (Vector3)collision.GetContact(i).point;
+                var contactTilePosition = _groundTileMap.WorldToCell(contactPosition);
+
+                if (!IsTileOfType<CustomGroundRuleTile>(_groundTileMap, contactTilePosition)) continue;
+                
                 _isGrounded = true;
                 _animator.SetBool("is_grounded", _isGrounded);
+                return;
             }
         }
 
-        // private void OnCollisionExit2D(Collision2D collision)
-        // {
-        //     if (collision.gameObject.CompareTag("Ground"))
-        //     {
-        //         _isGrounded = false;
-        //         _animator.SetBool("is_grounded", _isGrounded);
-        //     }
-        // }
+        private void OnCollisionStay2D(Collision2D collision)
+        {
+            _lastContact = collision.GetContact(0);
+        }
+
+        // Called one frame after the collision, so fetch contact point from the last frame;
+        private void OnCollisionExit2D(Collision2D collision)
+        {
+            if (!_isGrounded) return;
+            
+            var contactPosition = (Vector3)_lastContact.point + (Vector3.down * .05f);
+            var contactTilePosition = _groundTileMap.WorldToCell(contactPosition);
+            
+            print(IsTileOfType<CustomGroundRuleTile>(_groundTileMap, contactTilePosition));
+
+            if (!IsTileOfType<CustomGroundRuleTile>(_groundTileMap, contactTilePosition)) return;
+            
+            _isGrounded = false;
+            _animator.SetBool("is_grounded", _isGrounded);
+            
+            // Left the ground, so trap deployment isn't possible anymore
+            ClearTrapDeployment();
+            _isSelectingTileSFX = false;
+            }
     }
 }

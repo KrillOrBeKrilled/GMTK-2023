@@ -40,13 +40,13 @@ namespace Input
 
         public List<Trap> Traps => this._trapPrefabs.Select(prefab => prefab.GetComponent<Trap>()).ToList();
         public UnityEvent<int> OnSelectedTrapIndexChanged;
-
+        
         [SerializeField] private Tilemap _trapTileMap;
         [SerializeField] private Tilemap _groundTileMap;
-        [SerializeField] private GameObject _leftDeployTransform, _rightDeployTransform;
+        [SerializeField] private Transform _leftDeployTransform, _rightDeployTransform;
 
         private readonly List<Vector3Int> _previousTilePositions = new List<Vector3Int>();
-        private bool _isGrounded = true, _isColliding, _canDeploy;
+        private bool _isGrounded = true, _canDeploy;
 
         // ----------------- Health ------------------
         // BRAINSTORMING: Do we want to simulate player health?
@@ -106,156 +106,72 @@ namespace Input
             if (!_isGrounded) return;
 
             // Check whether to deploy left or right
-            var deployChecker = _direction < 0
-                ? _leftDeployTransform
-                : _rightDeployTransform;
-            var deployPosition = deployChecker.GetComponent<Transform>().position;
+            var deployPosition = _direction < 0
+                ? _leftDeployTransform.position
+                : _rightDeployTransform.position;
             var deploymentOrigin = _trapTileMap.WorldToCell(deployPosition);
 
             // Ensure that there are no query results yet or that the deploymentOrigin has changed
-            if (_previousTilePositions.Count < 1 || deploymentOrigin != _previousTilePositions[0])
+            if (_previousTilePositions.Count >= 1 && deploymentOrigin == _previousTilePositions[0]) return;
+            
+            // The tile changed, so flush the tint on the previous tiles and reset the collision status
+            ClearTrapDeployment();
+
+            if (_isSelectingTileSFX) _soundsController.OnTileSelectMove();
+            else _isSelectingTileSFX = !_isSelectingTileSFX;
+
+            // Get the grid placement data for the selected prefab
+            var selectedTrapPrefab = Traps[_currentTrapIndex];
+            var prefabPoints = _direction < 0
+                ? selectedTrapPrefab.GetLeftGridPoints()
+                : selectedTrapPrefab.GetRightGridPoints();
+
+            // Validate the deployment of the trap with a validation score
+            var validationScore = 0;
+
+            foreach (var prefabOffsetPosition in prefabPoints)
             {
-                // The tile changed, so flush the tint on the previous tiles and reset the collision status
-                ClearTrapDeployment();
+                validationScore = IsTileOfType<TrapTile>(_trapTileMap, deploymentOrigin + prefabOffsetPosition)
+                    ? ++validationScore
+                    : validationScore;
 
-                if (_isSelectingTileSFX)
-                {
-                    _soundsController.OnTileSelectMove();
-                }
-                else
-                {
-                    _isSelectingTileSFX = !_isSelectingTileSFX;
-                }
-
-                // Get the grid placement data for the selected prefab
-                var selectedTrapPrefab = _trapPrefabs[_currentTrapIndex].GetComponent<Traps.Trap>();
-                var prefabPoints = _direction < 0
-                        ? selectedTrapPrefab.GetLeftGridPoints()
-                        : selectedTrapPrefab.GetRightGridPoints();
-
-                // Validate the deployment of the trap with a validation score
-                var validationScore = 0;
-                var currentCollision = deployChecker.GetComponent<TrapOverlap>().GetCollisionData();
-
-                if (currentCollision)
-                {
-                    // Simulate a broad phase of collision; if there's something in the general area, check if any of
-                    // the tiles to be painted are within the collision bounds
-                    foreach (var prefabOffsetPosition in prefabPoints)
-                    {
-                        var tileSpacePosition = deploymentOrigin + prefabOffsetPosition;
-
-                        validationScore = IsTileOfType<TrapTile>(_trapTileMap, tileSpacePosition)
-                            ? ++validationScore
-                            : validationScore;
-
-                        // Allow to tile to be edited
-                        _trapTileMap.SetTileFlags(tileSpacePosition, TileFlags.None);
-                        _previousTilePositions.Add(tileSpacePosition);
-
-                        // Check tile collision
-                        if (!_isColliding) CheckTileCollision(currentCollision, tileSpacePosition);
-                    }
-
-                    if (_isColliding)
-                    {
-                        InvalidateTrapDeployment();
-                        return;
-                    }
-                }
-                else
-                {
-                    _isColliding = false;
-
-                    foreach (var prefabOffsetPosition in prefabPoints)
-                    {
-                        validationScore = IsTileOfType<TrapTile>(_trapTileMap, deploymentOrigin + prefabOffsetPosition)
-                            ? ++validationScore
-                            : validationScore;
-
-                        // Allow to tile to be edited
-                        _trapTileMap.SetTileFlags(deploymentOrigin + prefabOffsetPosition, TileFlags.None);
-                        _previousTilePositions.Add(deploymentOrigin + prefabOffsetPosition);
-                    }
-                }
-
-                // If the validation score isn't high enough, paint the selected tiles an invalid color
-                if (!selectedTrapPrefab.IsValidScore(validationScore))
-                {
-                    InvalidateTrapDeployment();
-                    return;
-                }
-
-                ValidateTrapDeployment();
+                // Allow to tile to be edited
+                _trapTileMap.SetTileFlags(deploymentOrigin + prefabOffsetPosition, TileFlags.None);
+                _previousTilePositions.Add(deploymentOrigin + prefabOffsetPosition);
             }
 
-            // Check that a trap is not already placed there
-            if (_isColliding) InvalidateTrapDeployment();
+            // If the validation score isn't high enough, paint the selected tiles an invalid color
+            if (!selectedTrapPrefab.IsValidScore(validationScore)) InvalidateTrapDeployment();
+            else ValidateTrapDeployment();
         }
 
         private bool IsTileOfType<T>(ITilemap tilemap, Vector3Int position) where T : TileBase
         {
-            TileBase targetTile = tilemap.GetTile(position);
-            if (targetTile != null && targetTile is T) return true;
-
-            return false;
-        }
-
-        private void CheckTileCollision(Collider2D currentCollision, Vector3Int tileSpacePosition)
-        {
-            // Convert the origin tile position to world space
-            var tileWorldPosition = _trapTileMap.CellToWorld(tileSpacePosition);
-
-            // Check that the tile unit is not within the collision bounds
-            var bounds = currentCollision.bounds;
-            var maxBounds = bounds.max;
-            var minBounds = bounds.min;
-
-            bool vertices1 = (tileWorldPosition.x <= maxBounds.x) && (tileWorldPosition.y <= maxBounds.y);
-            bool vertices2 = (tileWorldPosition.x >= minBounds.x) && (tileWorldPosition.y >= minBounds.y);
-
-            // If any tile is found within the collider, invalidate the deployment
-            if (vertices1 && vertices2)
-            {
-                _isColliding = true;
-            }
+            var targetTile = tilemap.GetTile(position);
+            return targetTile is T;
         }
 
         private void InvalidateTrapDeployment()
         {
-            // Paint all the tiles red
-            foreach (var previousTilePosition in _previousTilePositions)
-            {
-                _trapTileMap.SetColor(previousTilePosition, new Color(1, 0, 0, 0.3f));
-            }
-
+            TilemapManager.Instance.PaintTilesRejectionColor(_previousTilePositions);
             _canDeploy = false;
         }
-
+        
         private void ValidateTrapDeployment()
         {
-            // Paint all the tiles green
-            foreach (Vector3Int previousTilePosition in _previousTilePositions)
-            {
-                _trapTileMap.SetColor(previousTilePosition, new Color(0, 1, 0, 0.3f));
-            }
-
+            TilemapManager.Instance.PaintTilesConfirmationColor(_previousTilePositions);
             _canDeploy = true;
         }
-
+        
         private void ClearTrapDeployment()
         {
-            foreach (Vector3Int previousTilePosition in _previousTilePositions)
-            {
-                _trapTileMap.SetColor(previousTilePosition, new Color(1, 1, 1, 0));
-            }
+            TilemapManager.Instance.PaintTilesBlank(_previousTilePositions);
             _canDeploy = false;
-
+        
             // Clear the data of the previous tile
             _previousTilePositions.Clear();
         }
-
-        // For when we put in an animator
+        
         private void SetAnimatorValues(float inputDirection)
         {
             _animator.SetFloat("speed", Mathf.Abs(inputDirection));
@@ -341,7 +257,11 @@ namespace Input
 
             GameObject trapGameObject = Instantiate(trapToSpawn.gameObject);
             trapGameObject.GetComponent<Trap>().Construct(spawnPosition, _trapCanvas, _soundsController);
-            _isColliding = true;
+
+            // Delete all the tiles around the trap
+            TilemapManager.Instance.ClearLevelTiles(_previousTilePositions);
+            CoinManager.Instance.EarnCoins(5);
+            
             CoinManager.Instance.ConsumeCoins(trap.Cost);
             _soundsController.OnTileSelectConfirm();
         }

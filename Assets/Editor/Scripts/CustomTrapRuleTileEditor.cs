@@ -1,6 +1,13 @@
 using UnityEngine;
 using UnityEditor;
 
+//*******************************************************************************************
+// CustomTrapRuleTileEditor
+//*******************************************************************************************
+/// <summary>
+/// A subclass of RuleTileEditor that provides custom sprites for the
+/// CustomTrapRuleTile class neighboring tile rule visualizer in the inspector.
+/// </summary>
 [CustomEditor(typeof(CustomTrapRuleTile))]
 [CanEditMultipleObjects]
 public class CustomTrapRuleTileEditor : RuleTileEditor

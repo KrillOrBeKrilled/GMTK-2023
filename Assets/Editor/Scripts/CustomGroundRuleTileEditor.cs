@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+//*******************************************************************************************
+// CustomGroundRuleTileEditor
+//*******************************************************************************************
+/// <summary>
+/// A subclass of RuleTileEditor that provides custom sprites for the
+/// CustomGroundRuleTile class neighboring tile rule visualizer in the inspector.
+/// </summary>
 [CustomEditor(typeof(CustomGroundRuleTile))]
 [CanEditMultipleObjects]
 public class CustomGroundRuleTileEditor : RuleTileEditor

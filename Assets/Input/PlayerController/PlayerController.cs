@@ -51,7 +51,7 @@ namespace Input
         // ----------------- Health ------------------
         // BRAINSTORMING: Do we want to simulate player health?
         
-        // ---------------- Collider -----------------
+        // --------------- Collision -----------------
         private ContactPoint2D _lastContact;
 
         // --------------- Bookkeeping ---------------
@@ -261,6 +261,20 @@ namespace Input
             _animator.SetFloat("speed", Mathf.Abs(inputDirection));
             _animator.SetFloat("direction", _direction);
         }
+        
+        // Helper method for setting the animation controller state and clearing the trap deployment
+        // markers depending on if the player has touched the ground or not
+        private void SetGroundedStatus(bool isGrounded)
+        {
+            _isGrounded = isGrounded;
+            _animator.SetBool("is_grounded", _isGrounded);
+
+            if (isGrounded) return;
+            
+            // Left the ground, so trap deployment isn't possible anymore
+            ClearTrapDeployment();
+            _isSelectingTileSFX = false;
+        }
 
         // --------------- Getters ---------------
         public IPlayerState GetPlayerState()
@@ -297,15 +311,10 @@ namespace Input
         {
             // Left out of State pattern to allow this during movement
             _rBody.AddForce(Vector2.up * _jumpingForce);
-            _isGrounded = false;
-            
             _soundsController.OnHenJump();
-            
-            _animator.SetBool("is_grounded", _isGrounded);
-            
+
             // Left the ground, so trap deployment isn't possible anymore
-            ClearTrapDeployment();
-            _isSelectingTileSFX = false;
+            SetGroundedStatus(false);
         }
 
         private void DeployTrap(InputAction.CallbackContext obj)
@@ -371,7 +380,7 @@ namespace Input
             _isSelectingTileSFX = false;
         }
 
-        public void EnterIdleState()
+        private void EnterIdleState()
         {
             var prevState = _state;
             _state.OnExit(_idle);
@@ -390,7 +399,42 @@ namespace Input
 
             this.OnPlayerStateChanged?.Invoke(this._state);
         }
+        
+        // -------------- Collision ---------------
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (_isGrounded) return;
 
+            for (var i = 0; i < collision.GetContacts(collision.contacts); i++)
+            {
+                var contactPosition = (Vector3)collision.GetContact(i).point;
+                var contactTilePosition = _groundTileMap.WorldToCell(contactPosition);
+
+                if (!IsTileOfType<CustomGroundRuleTile>(_groundTileMap, contactTilePosition)) continue;
+                
+                SetGroundedStatus(true);
+                return;
+            }
+        }
+
+        private void OnCollisionStay2D(Collision2D collision)
+        {
+            _lastContact = collision.GetContact(0);
+        }
+
+        // Called one frame after the collision, so fetch contact point from the last frame;
+        private void OnCollisionExit2D(Collision2D collision)
+        {
+            if (!_isGrounded) return;
+            
+            var contactPosition = (Vector3)_lastContact.point + (Vector3.down * .05f);
+            var contactTilePosition = _groundTileMap.WorldToCell(contactPosition);
+
+            if (!IsTileOfType<CustomGroundRuleTile>(_groundTileMap, contactTilePosition)) return;
+            
+            SetGroundedStatus(false);
+        }
+        
         private void OnEnable() {
             // OnEnable called before Start
             // PlayerInputController.Instance and this._playerInputController may be uninitialized
@@ -419,47 +463,5 @@ namespace Input
             this._playerInputActions.Player.SetTrap2.performed -= SetTrap2;
             this._playerInputActions.Player.SetTrap3.performed -= SetTrap3;
         }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (_isGrounded) return;
-
-            for (var i = 0; i < collision.GetContacts(collision.contacts); i++)
-            {
-                var contactPosition = (Vector3)collision.GetContact(i).point;
-                var contactTilePosition = _groundTileMap.WorldToCell(contactPosition);
-
-                if (!IsTileOfType<CustomGroundRuleTile>(_groundTileMap, contactTilePosition)) continue;
-                
-                _isGrounded = true;
-                _animator.SetBool("is_grounded", _isGrounded);
-                return;
-            }
-        }
-
-        private void OnCollisionStay2D(Collision2D collision)
-        {
-            _lastContact = collision.GetContact(0);
-        }
-
-        // Called one frame after the collision, so fetch contact point from the last frame;
-        private void OnCollisionExit2D(Collision2D collision)
-        {
-            if (!_isGrounded) return;
-            
-            var contactPosition = (Vector3)_lastContact.point + (Vector3.down * .05f);
-            var contactTilePosition = _groundTileMap.WorldToCell(contactPosition);
-            
-            print(IsTileOfType<CustomGroundRuleTile>(_groundTileMap, contactTilePosition));
-
-            if (!IsTileOfType<CustomGroundRuleTile>(_groundTileMap, contactTilePosition)) return;
-            
-            _isGrounded = false;
-            _animator.SetBool("is_grounded", _isGrounded);
-            
-            // Left the ground, so trap deployment isn't possible anymore
-            ClearTrapDeployment();
-            _isSelectingTileSFX = false;
-            }
     }
 }

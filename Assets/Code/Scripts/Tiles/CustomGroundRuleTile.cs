@@ -41,6 +41,7 @@ public class CustomGroundRuleTile : RuleTile<CustomGroundRuleTile.Neighbor> {
         return base.RuleMatch(neighbor, tile);
     }
     
+    // --------- Rule Match Helpers ----------
     private bool CheckThis(TileBase tile)
     {
         return tileTypesToConnect.Contains(tile) || tile == this;

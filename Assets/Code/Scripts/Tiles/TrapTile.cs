@@ -5,6 +5,13 @@ using UnityEngine.Tilemaps;
 using UnityEditor;
 #endif
 
+//*******************************************************************************************
+// TrapTile
+//*******************************************************************************************
+/// <summary>
+/// A subclass of Tile that takes on the same functionality, only to be used as a type
+/// specifier for the trap deployment validation score in the PlayerController class.
+/// </summary>
 public class TrapTile : Tile 
 {
     public override void RefreshTile(Vector3Int position, ITilemap tilemap)

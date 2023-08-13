@@ -16,6 +16,7 @@ namespace Traps
         [SerializeField] protected GameObject SliderBar;
 
         protected Vector3 SpawnPosition;
+        protected Vector3Int[] TilePositions;
         private Slider _buildCompletionBar;
         private PlayerSoundsController _soundsController;
         protected float ConstructionCompletion, t;
@@ -62,11 +63,16 @@ namespace Traps
             return score >= ValidationScore;
         }
 
-        public void Construct(Vector3 spawnPosition, Canvas canvas, PlayerSoundsController soundsController)
+        public void Construct(Vector3 spawnPosition, Canvas canvas, 
+            Vector3Int[] tilePositions, PlayerSoundsController soundsController)
         {
             // Initialize all the bookkeeping structures we will need
             SpawnPosition = spawnPosition;
+            TilePositions = tilePositions;
             _soundsController = soundsController;
+            
+            // Delete/invalidate all the tiles overlapping the trap
+            TilemapManager.Instance.ClearLevelTiles(TilePositions);
 
             // Spawn a slider to indicate the progress on the build
             GameObject sliderObject = Instantiate(SliderBar, canvas.transform);

@@ -53,7 +53,7 @@ public class TilemapManager : Singleton<TilemapManager> {
         }
     }
         
-    // ----------- Clearing Tiles ------------
+    // ------------ Setting Tiles ------------
     public void ClearLevelTiles(IEnumerable<Vector3Int> tilePositions)
     {
         foreach (var position in tilePositions)
@@ -66,6 +66,18 @@ public class TilemapManager : Singleton<TilemapManager> {
             // Set the new tile the invalid color
             _trapTileMap.SetTileFlags(position, TileFlags.None);
             _trapTileMap.SetColor(position, RejectionColor);
+        }
+    }
+
+    // Repaints TrapTiles at all the given tile positions to enable the building of traps in that position again
+    public void ResetTrapTiles(IEnumerable<Vector3Int> tilePositions)
+    {
+        foreach (var position in tilePositions)
+        {
+            _trapTileMap.SetTile(position, _trapValidationTile);
+
+            // Mark the new tile as editable
+            _trapTileMap.SetTileFlags(position, TileFlags.None);
         }
     }
 }

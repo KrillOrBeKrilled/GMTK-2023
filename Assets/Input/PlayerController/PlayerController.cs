@@ -242,9 +242,8 @@ namespace Input
                 return;
             }
 
-            var trapToSpawn = _trapPrefabs[_currentTrapIndex];
-            Trap trap = trapToSpawn.GetComponent<Trap>();
-            if (!CoinManager.Instance.CanAfford(trap.Cost)) {
+            var trapToSpawn = Traps[_currentTrapIndex];
+            if (!CoinManager.Instance.CanAfford(trapToSpawn.Cost)) {
                 Debug.Log("Can't afford the trap!");
                 return;
             }
@@ -252,17 +251,17 @@ namespace Input
             // Convert the origin tile position to world space
             var deploymentOrigin = _trapTileMap.CellToWorld(_previousTilePositions[0]);
             var spawnPosition = _direction < 0
-                ? trapToSpawn.GetComponent<Trap>().GetLeftSpawnPoint(deploymentOrigin)
-                : trapToSpawn.GetComponent<Trap>().GetRightSpawnPoint(deploymentOrigin);
+                ? trapToSpawn.GetLeftSpawnPoint(deploymentOrigin)
+                : trapToSpawn.GetRightSpawnPoint(deploymentOrigin);
 
-            GameObject trapGameObject = Instantiate(trapToSpawn.gameObject);
-            trapGameObject.GetComponent<Trap>().Construct(spawnPosition, _trapCanvas, _soundsController);
-
-            // Delete all the tiles around the trap
-            TilemapManager.Instance.ClearLevelTiles(_previousTilePositions);
+            var trapGameObject = Instantiate(trapToSpawn.gameObject);
+            trapGameObject.GetComponent<Trap>().Construct(spawnPosition, _trapCanvas, 
+                _previousTilePositions.ToArray(), _soundsController);
+            
+            // TODO: For testing purposes, remove this afterward!
             CoinManager.Instance.EarnCoins(5);
             
-            CoinManager.Instance.ConsumeCoins(trap.Cost);
+            CoinManager.Instance.ConsumeCoins(trapToSpawn.Cost);
             _soundsController.OnTileSelectConfirm();
         }
 

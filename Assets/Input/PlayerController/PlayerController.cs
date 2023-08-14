@@ -257,10 +257,7 @@ namespace Input
             var trapGameObject = Instantiate(trapToSpawn.gameObject);
             trapGameObject.GetComponent<Trap>().Construct(spawnPosition, _trapCanvas, 
                 _previousTilePositions.ToArray(), _soundsController);
-            
-            // TODO: For testing purposes, remove this afterward!
-            CoinManager.Instance.EarnCoins(5);
-            
+
             CoinManager.Instance.ConsumeCoins(trapToSpawn.Cost);
             _soundsController.OnTileSelectConfirm();
         }

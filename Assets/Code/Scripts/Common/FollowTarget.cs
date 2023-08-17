@@ -4,7 +4,8 @@ public class FollowTarget : MonoBehaviour {
   [SerializeField] private Transform _followTarget;
   [SerializeField] private bool _followTargetX = true;
   [SerializeField] private bool _followTargetY = true;
-  [SerializeField] private Vector2 _followOffset;
+  [SerializeField] private bool _followTargetZ = true;
+  [SerializeField] private Vector3 _followOffset;
 
   private Transform _transform;
 
@@ -18,7 +19,7 @@ public class FollowTarget : MonoBehaviour {
       return;
     }
 
-    Vector2 newPosition = this._transform.position;
+    Vector3 newPosition = this._transform.position;
 
     if (this._followTargetX) {
       newPosition.x = this._followTarget.position.x + this._followOffset.x;
@@ -26,6 +27,10 @@ public class FollowTarget : MonoBehaviour {
 
     if (this._followTargetY) {
       newPosition.y = this._followTarget.position.y + this._followOffset.y;
+    }
+
+    if (this._followTargetZ) {
+      newPosition.z = this._followTarget.position.z + this._followOffset.z;
     }
 
     this._transform.position = newPosition;

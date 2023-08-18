@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Services.Analytics;
 using Unity.Services.Core;
-public class UGS_Analytics : MonoBehaviour
+public class UGS_Analytics : Singleton<UGS_Analytics>
 {
     private async void Start()
    {
@@ -17,7 +17,7 @@ public class UGS_Analytics : MonoBehaviour
        // We want analytics to persist throughout the lifecycle of the entire game so we can trigger its functions
        // But this means testing must be done by starting with the MainMenu scene
        DontDestroyOnLoad(transform.gameObject);
-       
+      
        // TODO: Adjust this to ask for consent in the future...
        AnalyticsService.Instance.StartDataCollection();
    }

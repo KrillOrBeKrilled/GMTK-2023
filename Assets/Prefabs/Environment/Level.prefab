@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b889662f938c9b54ca85b829afaef15b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HeroCamera: {fileID: 7321476965606265971}
+  PlayerCamera: {fileID: 7321476965606265971}
   StartCamera: {fileID: 4747244904720195900}
   EndCamera: {fileID: 3898479775062851490}
 --- !u!114 &1389544224669065816
@@ -407,7 +407,7 @@ Transform:
   - {fileID: 4800650490342396190}
   - {fileID: 8002431065350371291}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6108041675722949752
 GameObject:
@@ -499,8 +499,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598152539663569871}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.1433, y: -9.053544, z: 0}
-  m_LocalScale: {x: 50, y: 2, z: 1}
+  m_LocalPosition: {x: 0, y: -9, z: 0}
+  m_LocalScale: {x: 1000, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7804050682826004805}
@@ -525,7 +525,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598152539663569871}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0890c89ecfc4217a95c715659d9d850, type: 3}
   m_Name: 
@@ -533,7 +533,7 @@ MonoBehaviour:
   _followTarget: {fileID: 0}
   _followTargetX: 1
   _followTargetY: 0
-  _followTargetZ: 1
+  _followTargetZ: 0
   _followOffset: {x: 0, y: -11.5, z: 0}
 --- !u!212 &424767072575197136
 SpriteRenderer:

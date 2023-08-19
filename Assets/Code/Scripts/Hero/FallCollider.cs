@@ -10,12 +10,12 @@ public class FallCollider : MonoBehaviour{
   }
 
   private void OnHeroTriggerEnter(Hero hero) {
-    if (hero is not null)
+    if (hero != null)
       hero.Die();
   }
 
   private void OnPlayerTriggerEnter(Player player) {
-    if (player is not null)
+    if (player != null)
       player.PlayerController.GameOver();
   }
 }

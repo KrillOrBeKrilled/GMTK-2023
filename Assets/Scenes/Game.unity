@@ -301,7 +301,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 157904434152629821, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
       propertyPath: _positionThreshold
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 157904434152629821, guid: 2a2acf7bf5002e14d906e9b94221ebfa, type: 3}
       propertyPath: StuckTimerThreshold

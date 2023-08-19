@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Services.Analytics;
 using Unity.Services.Core;
-using Unity.Services.Core.Analytics;
-public class UGS_Analytics : MonoBehaviour
+public class UGS_Analytics : Singleton<UGS_Analytics>
 {
     private async void Start()
    {
@@ -18,7 +17,8 @@ public class UGS_Analytics : MonoBehaviour
        // We want analytics to persist throughout the lifecycle of the entire game so we can trigger its functions
        // But this means testing must be done by starting with the MainMenu scene
        DontDestroyOnLoad(transform.gameObject);
-       
+      
+       // TODO: Adjust this to ask for consent in the future...
        AnalyticsService.Instance.StartDataCollection();
    }
 
@@ -36,7 +36,7 @@ public class UGS_Analytics : MonoBehaviour
         AnalyticsService.Instance.CustomData("touchHeroDeath", eventParameters);
 
         // You can call Events.Flush() to send the event immediately
-        AnalyticsService.Instance.Flush();
+        // AnalyticsService.Instance.Flush();
     }
     
     public static void PlayerDeathByBoundaryCustomEvent(int coinBalance, float xPos, float yPos, float zPos)
@@ -50,7 +50,6 @@ public class UGS_Analytics : MonoBehaviour
         };
 
         AnalyticsService.Instance.CustomData("touchBoundaryDeath", eventParameters);
-        AnalyticsService.Instance.Flush();
     }
 
     public static void HeroDiedCustomEvent(int numberLivesLeft, float xPos, float yPos, float zPos)
@@ -64,7 +63,6 @@ public class UGS_Analytics : MonoBehaviour
         };
         
         AnalyticsService.Instance.CustomData("heroDied", eventParameters);
-        AnalyticsService.Instance.Flush();
     }
     
     public static void HeroIsStuckCustomEvent(float xPos, float yPos, float zPos)
@@ -77,7 +75,6 @@ public class UGS_Analytics : MonoBehaviour
         };
         
         AnalyticsService.Instance.CustomData("heroIsStuck", eventParameters);
-        AnalyticsService.Instance.Flush();
     }
 
     public static void DeployTrapCustomEvent(int trapType)
@@ -90,7 +87,6 @@ public class UGS_Analytics : MonoBehaviour
         };
 
         AnalyticsService.Instance.CustomData("deployTrap", eventParameters);
-        AnalyticsService.Instance.Flush();
     }
     
     public static void SwitchTrapCustomEvent(int trapType, bool isAffordable)
@@ -104,7 +100,6 @@ public class UGS_Analytics : MonoBehaviour
         };
 
         AnalyticsService.Instance.CustomData("switchTrap", eventParameters);
-        AnalyticsService.Instance.Flush();
     }
 
     private static string GenerateTrapName(int trapType)

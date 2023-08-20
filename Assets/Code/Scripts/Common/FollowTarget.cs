@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class FollowTarget : MonoBehaviour {
   [SerializeField] private Transform _followTarget;
-  [SerializeField] private Vector2 _followOffset;
+  [SerializeField] private bool _followTargetX = true;
+  [SerializeField] private bool _followTargetY = true;
+  [SerializeField] private bool _followTargetZ = true;
+  [SerializeField] private Vector3 _followOffset;
 
   private Transform _transform;
 
@@ -11,9 +14,25 @@ public class FollowTarget : MonoBehaviour {
   }
 
   private void Update() {
-    if (this._followTarget == null)
+    if (this._followTarget == null) {
+      this.gameObject.SetActive(false);
       return;
+    }
 
-    this._transform.position = (Vector2)this._followTarget.position + this._followOffset;
+    Vector3 newPosition = this._transform.position;
+
+    if (this._followTargetX) {
+      newPosition.x = this._followTarget.position.x + this._followOffset.x;
+    }
+
+    if (this._followTargetY) {
+      newPosition.y = this._followTarget.position.y + this._followOffset.y;
+    }
+
+    if (this._followTargetZ) {
+      newPosition.z = this._followTarget.position.z + this._followOffset.z;
+    }
+
+    this._transform.position = newPosition;
   }
 }

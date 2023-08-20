@@ -43,9 +43,11 @@ public class HeroMovement : MonoBehaviour
         this._speedPenalty = Mathf.Clamp(this._speedPenalty, 0f, 1f);
     }
 
-    public void Jump()
+    public void Jump(float jumpForce = 0f)
     {
-        _rigidbody.AddForce(Vector2.up * JumpForce);
+        if (jumpForce > 0f) _rigidbody.AddForce(Vector2.up * jumpForce);
+        else _rigidbody.AddForce(Vector2.up * JumpForce);
+        
         _animator.SetTrigger(JumpKey);
         
         HeroJumpEvent.Post(gameObject);

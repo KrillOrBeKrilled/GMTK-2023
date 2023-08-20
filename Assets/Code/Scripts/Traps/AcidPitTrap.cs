@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AcidPitTrap : Trap {
   [SerializeField] private int _damageAmount;
+  [SerializeField] private GameObject _pitAvoidanceJumpPad;
 
   private readonly WaitForSeconds _waitForOneSecond = new WaitForSeconds(1f);
   private Coroutine _intervalDamageCoroutine;
@@ -20,7 +21,7 @@ public class AcidPitTrap : Trap {
   
   protected override void SetUpTrap()
   {
-
+      _pitAvoidanceJumpPad.SetActive(false);
   }
     
   protected override void DetonateTrap()

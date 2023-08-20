@@ -8,7 +8,7 @@ using UnityEngine;
 /// AudioManager class (handles the SFX soundbank) to provide methods for listening in on
 /// events invoked during gameplay that handle all the Wwise sound events.
 /// </summary>
-public class Jukebox : MonoBehaviour
+public class Jukebox : Singleton<Jukebox>
 {
     public AK.Wwise.Event PlayMusicEvent, PauseMusicEvent, UnpauseMusicEvent, StopMusicEvent;
     

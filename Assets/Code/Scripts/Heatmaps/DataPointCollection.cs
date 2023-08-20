@@ -39,11 +39,15 @@ public class DataPointCollection : MonoBehaviour
 
     private void OnEnable()
     {
-        EditorApplication.hierarchyChanged += OnHierarchyChanged;
+        #if UNITY_EDITOR
+            EditorApplication.hierarchyChanged += OnHierarchyChanged;
+        #endif
     }
 
     private void OnDisable()
     {
-        EditorApplication.hierarchyChanged -= OnHierarchyChanged;
+        #if UNITY_EDITOR
+            EditorApplication.hierarchyChanged -= OnHierarchyChanged;
+        #endif
     }
 }

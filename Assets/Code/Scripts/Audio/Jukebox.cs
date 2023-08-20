@@ -16,6 +16,8 @@ public class Jukebox : Singleton<Jukebox>
     
     void Awake()
     {
+        base.Awake();
+        
         if (!IsLoaded)
         {
             PlayMusicEvent.Post(gameObject);

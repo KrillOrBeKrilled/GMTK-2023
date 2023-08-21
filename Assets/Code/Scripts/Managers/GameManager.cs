@@ -61,22 +61,52 @@ public class GameManager : Singleton<GameManager> {
 
     this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
     this._player.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
+    this._player.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
+    this._player.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
     this._player.PlayerController.OnSkipDialoguePerformed.AddListener(this.OnSkipDialoguePerformed);
     this._hero.OnGameOver.AddListener(this.GameWon);
     this._hero.OnHeroDied.AddListener(this.OnHeroDied);
+    this._hero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 
     this.OnSetupComplete?.Invoke();
     PauseManager.Instance.SetIsPausable(true);
   }
 
-  private void OnPlayerStateChanged(IPlayerState state) {
+  private void OnPlayerStateChanged(IPlayerState state, float xPos, float yPos, float zPos) {
     if (state is GameOverState) {
+      // Send Analytics data before ending the game
+      UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins, xPos, yPos, zPos);
+      
       this.HenDied("The Hero managed to take you down Hendall.\nDon't you dream about that promotion I mentioned last time!");
     }
   }
+  
+  private void SelectedTrapIndexChanged(int trapIndex)
+  {
+    var isAffordable = _player.PlayerController.GetTrapCost() >= CoinManager.Instance.Coins;
+    
+    // Send Analytics data
+    UGS_Analytics.SwitchTrapCustomEvent(trapIndex, isAffordable);
+  }
+  
+  private void OnTrapDeployed(int trapIndex) {
+    // Send Analytics data
+    UGS_Analytics.DeployTrapCustomEvent(trapIndex);
+  }
 
-  private void OnHeroDied() {
+
+  private void OnHeroDied(int numberLives, float xPos, float yPos, float zPos)
+  {
+    // Send Analytics data before ending the game
+    UGS_Analytics.HeroDiedCustomEvent(numberLives, xPos, yPos, zPos);
+
     this.StartCoroutine(this.DisableOutOfBoundsForOneSecond());
+  }
+  
+  private void OnHeroIsStuck(float xPos, float yPos, float zPos)
+  {
+    // Send Analytics data
+    UGS_Analytics.HeroIsStuckCustomEvent(xPos, yPos, zPos);
   }
 
   private IEnumerator DisableOutOfBoundsForOneSecond() {
@@ -103,7 +133,11 @@ public class GameManager : Singleton<GameManager> {
   private void HenDied(string message) {
     this._player.PlayerController.DisablePlayerInput();
     this._hero.HeroMovement.ToggleMoving(false);
-    Destroy(this._player.gameObject);
+    
+    // To avoid calling the OnTriggerExit2D method in the OutOfBoundsTrigger class, don't destroy the player object 
+    // Destroy(this._player.gameObject);
+    this._player.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+    
     this.OnHenLost?.Invoke(message);
   }
 

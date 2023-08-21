@@ -44,7 +44,8 @@ namespace Input
         private bool _isGrounded = true, _isColliding, _canDeploy;
 
         // ----------------- Events ------------------
-        public UnityEvent<IPlayerState> OnPlayerStateChanged { get; private set; }
+        public UnityEvent<IPlayerState, float, float, float> OnPlayerStateChanged { get; private set; }
+        public UnityEvent<int> OnTrapDeployed { get; private set; }
         public UnityEvent<int> OnSelectedTrapIndexChanged { get; private set; }
         public UnityEvent OnSkipDialogueStarted { get; private set; }
         public UnityEvent OnSkipDialogueCancelled { get; private set; }
@@ -72,7 +73,8 @@ namespace Input
             _gameOver = new GameOverState();
 
             _state = _idle;
-            this.OnPlayerStateChanged = new UnityEvent<IPlayerState>();
+            this.OnPlayerStateChanged = new UnityEvent<IPlayerState, float, float, float>();
+            this.OnTrapDeployed = new UnityEvent<int>();
             this.OnSelectedTrapIndexChanged = new UnityEvent<int>();
             this.OnSkipDialogueStarted = new UnityEvent();
             this.OnSkipDialogueCancelled = new UnityEvent();
@@ -268,6 +270,12 @@ namespace Input
             return _state;
         }
 
+        // Retrieves the cost of the current trap selected
+        public int GetTrapCost()
+        {
+            return Traps[_currentTrapIndex].Cost;
+        }
+
         public void DisablePlayerInput() {
             this._playerInputActions.Disable();
         }
@@ -280,7 +288,9 @@ namespace Input
             _state.OnExit(_idle);
             _state = _idle;
             _state.OnEnter(prevState);
-            this.OnPlayerStateChanged?.Invoke(this._state);
+
+            var currentPos = transform.position;
+            this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
         }
 
         private void Move(InputAction.CallbackContext obj)
@@ -290,7 +300,9 @@ namespace Input
             _state.OnExit(_moving);
             _state = _moving;
             _state.OnEnter(prevState);
-            this.OnPlayerStateChanged?.Invoke(this._state);
+
+            var currentPos = transform.position;
+            this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
         }
 
         private void Jump(InputAction.CallbackContext obj)
@@ -345,7 +357,9 @@ namespace Input
             GameObject trapGameObject = Instantiate(trapToSpawn.gameObject);
             trapGameObject.GetComponent<Trap>().Construct(spawnPosition, _trapCanvas, _soundsController);
             _isColliding = true;
+
             CoinManager.Instance.ConsumeCoins(trap.Cost);
+            this.OnTrapDeployed?.Invoke(_currentTrapIndex);
             _soundsController.OnTileSelectConfirm();
         }
 
@@ -400,7 +414,8 @@ namespace Input
             _state = _gameOver;
             _state.OnEnter(prevState);
 
-            this.OnPlayerStateChanged?.Invoke(this._state);
+            var currentPos = transform.position;
+            this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
         }
 
         private void OnEnable() {

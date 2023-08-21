@@ -9,7 +9,6 @@ public class GameManager : Singleton<GameManager> {
   [SerializeField] private Player _player;
   [SerializeField] private Hero _hero;
   [SerializeField] private EndgameTarget _endgameTarget;
-  [SerializeField] private OutOfBoundsTrigger _outOfBoundsTrigger;
   [SerializeField] private Vector2 _playerRespawnOffset;
 
   public UnityEvent OnSetupComplete { get; private set; }
@@ -53,8 +52,6 @@ public class GameManager : Singleton<GameManager> {
     _player.PlayerController.StartSession();
     
     _hero.StartRunning();
-
-    _outOfBoundsTrigger.ToggleBounds(true);
     CoinManager.Instance.StartCoinEarning();
   }
 
@@ -63,27 +60,54 @@ public class GameManager : Singleton<GameManager> {
     this._gameUI.Initialize(this, this._player);
 
     _hero.ResetHero();
-    _outOfBoundsTrigger.ToggleBounds(false);
 
     this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
     this._player.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
-    this._outOfBoundsTrigger.OnPlayerOutOfBounds.AddListener(this.HenOutOfBounds);
+    this._player.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
+    this._player.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
     this._hero.OnGameOver.AddListener(this.GameWon);
     this._hero.OnHeroDied.AddListener(this.OnHeroDied);
+    this._hero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 
     this.OnSetupComplete?.Invoke();
     PauseManager.Instance.SetIsPausable(true);
   }
 
-  private void OnPlayerStateChanged(IPlayerState state) {
+  private void OnPlayerStateChanged(IPlayerState state, float xPos, float yPos, float zPos) {
     if (state is GameOverState) {
+      // Send Analytics data before ending the game
+      UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins, xPos, yPos, zPos);
+      
       this.HenDied("The Hero managed to take you down Hendall.\nDon't you dream about that promotion I mentioned last time!");
     }
   }
+  
+  private void SelectedTrapIndexChanged(int trapIndex)
+  {
+    var isAffordable = _player.PlayerController.GetTrapCost() >= CoinManager.Instance.Coins;
+    
+    // Send Analytics data
+    UGS_Analytics.SwitchTrapCustomEvent(trapIndex, isAffordable);
+  }
+  
+  private void OnTrapDeployed(int trapIndex) {
+    // Send Analytics data
+    UGS_Analytics.DeployTrapCustomEvent(trapIndex);
+  }
 
-  private void OnHeroDied() {
-    this._outOfBoundsTrigger.ToggleBounds(false);
+
+  private void OnHeroDied(int numberLives, float xPos, float yPos, float zPos)
+  {
+    // Send Analytics data before ending the game
+    UGS_Analytics.HeroDiedCustomEvent(numberLives, xPos, yPos, zPos);
+
     this.StartCoroutine(this.DisableOutOfBoundsForOneSecond());
+  }
+  
+  private void OnHeroIsStuck(float xPos, float yPos, float zPos)
+  {
+    // Send Analytics data
+    UGS_Analytics.HeroIsStuckCustomEvent(xPos, yPos, zPos);
   }
 
   private IEnumerator DisableOutOfBoundsForOneSecond() {
@@ -94,7 +118,6 @@ public class GameManager : Singleton<GameManager> {
 
     Vector2 newPos = (Vector2)this._hero.transform.position + this._playerRespawnOffset;
     this._player.MovePlayer(newPos);
-    this._outOfBoundsTrigger.ToggleBounds(true);
   }
 
   private void GameWon() {
@@ -108,14 +131,14 @@ public class GameManager : Singleton<GameManager> {
     this.OnHenLost?.Invoke("The Hero managed to reach his goal and do heroic things.\nHendall, you failed me!");
   }
 
-  private void HenOutOfBounds() {
-    this.HenDied("What are you doing here?\nI told you, you should always keep an eye on the Hero!");
-  }
-
   private void HenDied(string message) {
     this._player.PlayerController.DisablePlayerInput();
     this._hero.HeroMovement.ToggleMoving(false);
-    Destroy(this._player.gameObject);
+    
+    // To avoid calling the OnTriggerExit2D method in the OutOfBoundsTrigger class, don't destroy the player object 
+    // Destroy(this._player.gameObject);
+    this._player.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+    
     this.OnHenLost?.Invoke(message);
   }
 }

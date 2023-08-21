@@ -1,11 +1,14 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class HeroMovement : MonoBehaviour
 {
     public float MovementSpeed = 4f;
     public float JumpForce = 100f;
-    
+    public float StuckTimerThreshold = 5f;
+    [SerializeField] private float _positionThreshold = 0.1f;
+
     public AK.Wwise.Event HeroJumpEvent;
 
     private Rigidbody2D _rigidbody;
@@ -13,7 +16,11 @@ public class HeroMovement : MonoBehaviour
 
     private bool _isMoving;
     private bool _isStunned;
+    private bool _maybeStuck;
+    private Vector3 _prevPosition = Vector3.zero;
     private Coroutine _stunCoroutine;
+    
+    public UnityEvent<float, float, float> OnHeroIsStuck;
 
     // Examples
     // - 0.2 is 20% speed reduction
@@ -69,6 +76,7 @@ public class HeroMovement : MonoBehaviour
     {
         TryGetComponent(out _rigidbody);
         TryGetComponent(out _animator);
+        this.OnHeroIsStuck = new UnityEvent<float, float, float>();
         this._isStunned = false;
         this._isMoving = true;
     }
@@ -84,9 +92,21 @@ public class HeroMovement : MonoBehaviour
         {
             _rigidbody.velocity = Vector2.zero;
         }
-        
+
         _animator.SetFloat(XSpeedKey, Mathf.Abs(_rigidbody.velocity.x));
         _animator.SetFloat(YSpeedKey, Mathf.Abs(_rigidbody.velocity.y));
+    }
+
+    private void FixedUpdate()
+    {
+        if (_isMoving && !_maybeStuck && Vector3.Distance(transform.position, _prevPosition) < _positionThreshold)
+        {
+            _maybeStuck = true;
+            StartCoroutine(ConfirmHeroIsStuck());
+        }
+
+        // Keep track of previous position to check if the hero is stuck at any point in time
+        _prevPosition = transform.position;
     }
 
     private IEnumerator StunCoroutine(float duration) {
@@ -94,5 +114,22 @@ public class HeroMovement : MonoBehaviour
         yield return new WaitForSeconds(duration);
         this._isStunned = false;
         this._stunCoroutine = null;
+    }
+    
+    // A method created specifically for UGS Analytics that checks if the hero is stuck at any point in time
+    private IEnumerator ConfirmHeroIsStuck()
+    {
+        yield return new WaitForSeconds(StuckTimerThreshold);
+        
+        if (!_isMoving || Vector3.Distance(transform.position, _prevPosition) > _positionThreshold)
+        {
+            _maybeStuck = false;
+            yield break;
+        }
+        
+        var position = transform.position;
+        OnHeroIsStuck.Invoke(position.x, position.y, position.z);
+
+        _maybeStuck = false;
     }
 }

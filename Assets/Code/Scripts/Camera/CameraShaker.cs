@@ -18,7 +18,7 @@ public class CameraShaker : MonoBehaviour
         // record all camera noise controllers
         _noiseControllers = new();
         CinemachineVirtualCamera vcam;
-        _switcher.HeroCamera.TryGetComponent(out vcam);
+        _switcher.PlayerCamera.TryGetComponent(out vcam);
         _noiseControllers.Add(vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>());
         _switcher.StartCamera.TryGetComponent(out vcam);
         _noiseControllers.Add(vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>());

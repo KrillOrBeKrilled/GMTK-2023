@@ -10,7 +10,7 @@ public class Hero : MonoBehaviour {
   public HeroRespawnPoint RespawnPoint;
 
   public UnityEvent<int> OnHealthChanged;
-  public UnityEvent OnHeroDied;
+  public UnityEvent<int, float, float, float> OnHeroDied;
   public UnityEvent OnGameOver;
   public UnityEvent OnHeroReset;
   public const int MaxHealth = 100;
@@ -58,6 +58,7 @@ public class Hero : MonoBehaviour {
   private void Awake() {
     this.TryGetComponent(out this._heroMovement);
     this.TryGetComponent(out this._animator);
+    this.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 
     ResetHero();
   }
@@ -66,7 +67,9 @@ public class Hero : MonoBehaviour {
   {
     Lives--;
     HeroHurtEvent.Post(gameObject);
-    this.OnHeroDied?.Invoke();
+
+    var heroPos = transform.position;
+    this.OnHeroDied?.Invoke(Lives, heroPos.x, heroPos.y, heroPos.z);
 
     if (Lives == 0)
     {
@@ -76,6 +79,11 @@ public class Hero : MonoBehaviour {
     }
 
     StartCoroutine(Respawn());
+  }
+  
+  public void OnHeroIsStuck(float xPos, float yPos, float zPos)
+  {
+    Die();
   }
 
   private IEnumerator Respawn()

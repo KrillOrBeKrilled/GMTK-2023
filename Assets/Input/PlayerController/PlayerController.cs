@@ -437,9 +437,9 @@ namespace Input
             this._playerInputActions.Player.SetTrap3.performed += SetTrap3;
 
             // UI actions
-            this._playerInputActions.Player.SkipDialogue.started += this.SkipDialogueStarted;
-            this._playerInputActions.Player.SkipDialogue.canceled += this.SkipDialogueCancelled;
-            this._playerInputActions.Player.SkipDialogue.performed += this.SkipDialoguePerformed;
+            this._playerInputActions.UI.SkipDialogue.started += this.SkipDialogueStarted;
+            this._playerInputActions.UI.SkipDialogue.canceled += this.SkipDialogueCancelled;
+            this._playerInputActions.UI.SkipDialogue.performed += this.SkipDialoguePerformed;
         }
 
         private void OnDisable() {
@@ -452,9 +452,9 @@ namespace Input
             this._playerInputActions.Player.SetTrap3.performed -= SetTrap3;
 
             // UI actions
-            this._playerInputActions.Player.SkipDialogue.started -= this.SkipDialogueStarted;
-            this._playerInputActions.Player.SkipDialogue.canceled -= this.SkipDialogueCancelled;
-            this._playerInputActions.Player.SkipDialogue.performed -= this.SkipDialoguePerformed;
+            this._playerInputActions.UI.SkipDialogue.started -= this.SkipDialogueStarted;
+            this._playerInputActions.UI.SkipDialogue.canceled -= this.SkipDialogueCancelled;
+            this._playerInputActions.UI.SkipDialogue.performed -= this.SkipDialoguePerformed;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

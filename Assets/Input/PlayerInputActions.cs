@@ -83,24 +83,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Advance Dialogue"",
-                    ""type"": ""Button"",
-                    ""id"": ""8f78b695-8773-4029-b963-120c4ced8d62"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Skip Dialogue"",
-                    ""type"": ""Button"",
-                    ""id"": ""ad3503a5-d452-4249-84ad-a15e29edc2f3"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Hold(duration=1)"",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""SetTrap1"",
                     ""type"": ""Button"",
                     ""id"": ""305dacb5-ed5b-4481-8288-e8545653e14d"",
@@ -219,17 +201,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""abc590d5-7a2b-454d-8db5-5b41dfc33215"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Advance Dialogue"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""8d6d22d8-6090-45e2-80a8-6dc1d73d9b3f"",
                     ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
@@ -260,10 +231,47 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""SetTrap3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""UI"",
+            ""id"": ""1363d107-8a52-4c30-a508-dbb061969a1b"",
+            ""actions"": [
+                {
+                    ""name"": ""Advance Dialogue"",
+                    ""type"": ""Button"",
+                    ""id"": ""671b8445-8ad3-4fb0-ace6-6fea0e80a433"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skip Dialogue"",
+                    ""type"": ""Button"",
+                    ""id"": ""1ac75756-cf99-40c3-a019-bf252bc578a2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=1)"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""9e5cb03e-42cc-46f3-8896-67ca887f023d"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Advance Dialogue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""1b0a64d9-a248-4e51-9f61-0e75c492faa7"",
+                    ""id"": ""2209c1dc-372f-4540-91b1-7abbed5b05ac"",
                     ""path"": ""<Keyboard>/backquote"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -285,11 +293,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_PlaceTrap = m_Player.FindAction("Place Trap", throwIfNotFound: true);
-        m_Player_AdvanceDialogue = m_Player.FindAction("Advance Dialogue", throwIfNotFound: true);
-        m_Player_SkipDialogue = m_Player.FindAction("Skip Dialogue", throwIfNotFound: true);
         m_Player_SetTrap1 = m_Player.FindAction("SetTrap1", throwIfNotFound: true);
         m_Player_SetTrap2 = m_Player.FindAction("SetTrap2", throwIfNotFound: true);
         m_Player_SetTrap3 = m_Player.FindAction("SetTrap3", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_AdvanceDialogue = m_UI.FindAction("Advance Dialogue", throwIfNotFound: true);
+        m_UI_SkipDialogue = m_UI.FindAction("Skip Dialogue", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -400,8 +410,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_PlaceTrap;
-    private readonly InputAction m_Player_AdvanceDialogue;
-    private readonly InputAction m_Player_SkipDialogue;
     private readonly InputAction m_Player_SetTrap1;
     private readonly InputAction m_Player_SetTrap2;
     private readonly InputAction m_Player_SetTrap3;
@@ -412,8 +420,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @PlaceTrap => m_Wrapper.m_Player_PlaceTrap;
-        public InputAction @AdvanceDialogue => m_Wrapper.m_Player_AdvanceDialogue;
-        public InputAction @SkipDialogue => m_Wrapper.m_Player_SkipDialogue;
         public InputAction @SetTrap1 => m_Wrapper.m_Player_SetTrap1;
         public InputAction @SetTrap2 => m_Wrapper.m_Player_SetTrap2;
         public InputAction @SetTrap3 => m_Wrapper.m_Player_SetTrap3;
@@ -435,12 +441,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @PlaceTrap.started += instance.OnPlaceTrap;
             @PlaceTrap.performed += instance.OnPlaceTrap;
             @PlaceTrap.canceled += instance.OnPlaceTrap;
-            @AdvanceDialogue.started += instance.OnAdvanceDialogue;
-            @AdvanceDialogue.performed += instance.OnAdvanceDialogue;
-            @AdvanceDialogue.canceled += instance.OnAdvanceDialogue;
-            @SkipDialogue.started += instance.OnSkipDialogue;
-            @SkipDialogue.performed += instance.OnSkipDialogue;
-            @SkipDialogue.canceled += instance.OnSkipDialogue;
             @SetTrap1.started += instance.OnSetTrap1;
             @SetTrap1.performed += instance.OnSetTrap1;
             @SetTrap1.canceled += instance.OnSetTrap1;
@@ -463,12 +463,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @PlaceTrap.started -= instance.OnPlaceTrap;
             @PlaceTrap.performed -= instance.OnPlaceTrap;
             @PlaceTrap.canceled -= instance.OnPlaceTrap;
-            @AdvanceDialogue.started -= instance.OnAdvanceDialogue;
-            @AdvanceDialogue.performed -= instance.OnAdvanceDialogue;
-            @AdvanceDialogue.canceled -= instance.OnAdvanceDialogue;
-            @SkipDialogue.started -= instance.OnSkipDialogue;
-            @SkipDialogue.performed -= instance.OnSkipDialogue;
-            @SkipDialogue.canceled -= instance.OnSkipDialogue;
             @SetTrap1.started -= instance.OnSetTrap1;
             @SetTrap1.performed -= instance.OnSetTrap1;
             @SetTrap1.canceled -= instance.OnSetTrap1;
@@ -495,6 +489,60 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // UI
+    private readonly InputActionMap m_UI;
+    private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
+    private readonly InputAction m_UI_AdvanceDialogue;
+    private readonly InputAction m_UI_SkipDialogue;
+    public struct UIActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @AdvanceDialogue => m_Wrapper.m_UI_AdvanceDialogue;
+        public InputAction @SkipDialogue => m_Wrapper.m_UI_SkipDialogue;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void AddCallbacks(IUIActions instance)
+        {
+            if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
+            @AdvanceDialogue.started += instance.OnAdvanceDialogue;
+            @AdvanceDialogue.performed += instance.OnAdvanceDialogue;
+            @AdvanceDialogue.canceled += instance.OnAdvanceDialogue;
+            @SkipDialogue.started += instance.OnSkipDialogue;
+            @SkipDialogue.performed += instance.OnSkipDialogue;
+            @SkipDialogue.canceled += instance.OnSkipDialogue;
+        }
+
+        private void UnregisterCallbacks(IUIActions instance)
+        {
+            @AdvanceDialogue.started -= instance.OnAdvanceDialogue;
+            @AdvanceDialogue.performed -= instance.OnAdvanceDialogue;
+            @AdvanceDialogue.canceled -= instance.OnAdvanceDialogue;
+            @SkipDialogue.started -= instance.OnSkipDialogue;
+            @SkipDialogue.performed -= instance.OnSkipDialogue;
+            @SkipDialogue.canceled -= instance.OnSkipDialogue;
+        }
+
+        public void RemoveCallbacks(IUIActions instance)
+        {
+            if (m_Wrapper.m_UIActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IUIActions instance)
+        {
+            foreach (var item in m_Wrapper.m_UIActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_UIActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public UIActions @UI => new UIActions(this);
     public interface IPauseActions
     {
         void OnPauseAction(InputAction.CallbackContext context);
@@ -504,10 +552,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnPlaceTrap(InputAction.CallbackContext context);
-        void OnAdvanceDialogue(InputAction.CallbackContext context);
-        void OnSkipDialogue(InputAction.CallbackContext context);
         void OnSetTrap1(InputAction.CallbackContext context);
         void OnSetTrap2(InputAction.CallbackContext context);
         void OnSetTrap3(InputAction.CallbackContext context);
+    }
+    public interface IUIActions
+    {
+        void OnAdvanceDialogue(InputAction.CallbackContext context);
+        void OnSkipDialogue(InputAction.CallbackContext context);
     }
 }

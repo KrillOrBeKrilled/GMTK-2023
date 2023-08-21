@@ -21,7 +21,6 @@ namespace Input
         private static MovingState _moving;
         private static GameOverState _gameOver;
         private IPlayerState _state;
-        public UnityEvent<IPlayerState> OnPlayerStateChanged { get; private set; }
 
         // For movement testing, allow speeds to be set through the editor
         [Header("State speed parameters")]
@@ -37,13 +36,19 @@ namespace Input
         private int _currentTrapIndex = 0;
 
         public List<Trap> Traps => this._trapPrefabs.Select(prefab => prefab.GetComponent<Trap>()).ToList();
-        public UnityEvent<int> OnSelectedTrapIndexChanged;
 
         [SerializeField] private Tilemap _tileMap;
         [SerializeField] private GameObject _leftDeployTransform, _rightDeployTransform;
 
         private readonly List<Vector3Int> _previousTilePositions = new List<Vector3Int>();
         private bool _isGrounded = true, _isColliding, _canDeploy;
+
+        // ----------------- Events ------------------
+        public UnityEvent<IPlayerState> OnPlayerStateChanged { get; private set; }
+        public UnityEvent<int> OnSelectedTrapIndexChanged { get; private set; }
+        public UnityEvent OnSkipDialogueStarted { get; private set; }
+        public UnityEvent OnSkipDialogueCancelled { get; private set; }
+        public UnityEvent OnSkipDialoguePerformed { get; private set; }
 
         // ----------------- Health ------------------
         // BRAINSTORMING: Do we want to simulate player health?
@@ -61,7 +66,7 @@ namespace Input
             _rBody = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
             _soundsController = GetComponent<PlayerSoundsController>();
-            
+
             _idle = new IdleState();
             _moving = new MovingState(_speed);
             _gameOver = new GameOverState();
@@ -69,13 +74,16 @@ namespace Input
             _state = _idle;
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState>();
             this.OnSelectedTrapIndexChanged = new UnityEvent<int>();
+            this.OnSkipDialogueStarted = new UnityEvent();
+            this.OnSkipDialogueCancelled = new UnityEvent();
+            this.OnSkipDialoguePerformed = new UnityEvent();
         }
 
         private void Start() {
             // Need this due to race condition during scene Awake->OnEnable calls
             this._playerInputActions = PlayerInputController.Instance.PlayerInputActions;
             this.OnSelectedTrapIndexChanged?.Invoke(this._currentTrapIndex);
-            OnEnable();
+            this.OnEnable();
         }
 
         private void FixedUpdate()
@@ -300,6 +308,18 @@ namespace Input
             _isSelectingTileSFX = false;
         }
 
+        private void SkipDialogueStarted(InputAction.CallbackContext obj) {
+            this.OnSkipDialogueStarted?.Invoke();
+        }
+
+        private void SkipDialogueCancelled(InputAction.CallbackContext obj) {
+            this.OnSkipDialogueCancelled?.Invoke();
+        }
+
+        private void SkipDialoguePerformed(InputAction.CallbackContext obj) {
+            this.OnSkipDialoguePerformed?.Invoke();
+        }
+
         private void DeployTrap(InputAction.CallbackContext obj)
         {
             // Left out of State pattern to allow this during movement
@@ -333,29 +353,29 @@ namespace Input
         private void SetTrap1(InputAction.CallbackContext obj)
         {
             if (_currentTrapIndex == 0) return;
-            
+
             _currentTrapIndex = 0;
             this.OnSelectedTrapIndexChanged?.Invoke(_currentTrapIndex);
             ClearTrapDeployment();
-            
+
             _isSelectingTileSFX = false;
         }
 
         private void SetTrap2(InputAction.CallbackContext obj)
         {
             if (_currentTrapIndex == 1) return;
-            
+
             _currentTrapIndex = 1;
             this.OnSelectedTrapIndexChanged?.Invoke(_currentTrapIndex);
             ClearTrapDeployment();
-            
+
             _isSelectingTileSFX = false;
         }
 
         private void SetTrap3(InputAction.CallbackContext obj)
         {
             if (_currentTrapIndex == 2) return;
-            
+
             _currentTrapIndex = 2;
             this.OnSelectedTrapIndexChanged?.Invoke(_currentTrapIndex);
             ClearTrapDeployment();
@@ -374,7 +394,7 @@ namespace Input
         public void GameOver()
         {
             _soundsController.OnHenDeath();
-            
+
             var prevState = _state;
             _state.OnExit(_gameOver);
             _state = _gameOver;
@@ -400,6 +420,11 @@ namespace Input
             this._playerInputActions.Player.SetTrap1.performed += SetTrap1;
             this._playerInputActions.Player.SetTrap2.performed += SetTrap2;
             this._playerInputActions.Player.SetTrap3.performed += SetTrap3;
+
+            // UI actions
+            this._playerInputActions.Player.SkipDialogue.started += this.SkipDialogueStarted;
+            this._playerInputActions.Player.SkipDialogue.canceled += this.SkipDialogueCancelled;
+            this._playerInputActions.Player.SkipDialogue.performed += this.SkipDialoguePerformed;
         }
 
         private void OnDisable() {
@@ -410,6 +435,11 @@ namespace Input
             this._playerInputActions.Player.SetTrap1.performed -= SetTrap1;
             this._playerInputActions.Player.SetTrap2.performed -= SetTrap2;
             this._playerInputActions.Player.SetTrap3.performed -= SetTrap3;
+
+            // UI actions
+            this._playerInputActions.Player.SkipDialogue.started -= this.SkipDialogueStarted;
+            this._playerInputActions.Player.SkipDialogue.canceled -= this.SkipDialogueCancelled;
+            this._playerInputActions.Player.SkipDialogue.performed -= this.SkipDialoguePerformed;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

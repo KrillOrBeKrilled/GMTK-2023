@@ -92,6 +92,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Skip Dialogue"",
+                    ""type"": ""Button"",
+                    ""id"": ""ad3503a5-d452-4249-84ad-a15e29edc2f3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=1)"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""SetTrap1"",
                     ""type"": ""Button"",
                     ""id"": ""305dacb5-ed5b-4481-8288-e8545653e14d"",
@@ -251,6 +260,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""SetTrap3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1b0a64d9-a248-4e51-9f61-0e75c492faa7"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skip Dialogue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -266,6 +286,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_PlaceTrap = m_Player.FindAction("Place Trap", throwIfNotFound: true);
         m_Player_AdvanceDialogue = m_Player.FindAction("Advance Dialogue", throwIfNotFound: true);
+        m_Player_SkipDialogue = m_Player.FindAction("Skip Dialogue", throwIfNotFound: true);
         m_Player_SetTrap1 = m_Player.FindAction("SetTrap1", throwIfNotFound: true);
         m_Player_SetTrap2 = m_Player.FindAction("SetTrap2", throwIfNotFound: true);
         m_Player_SetTrap3 = m_Player.FindAction("SetTrap3", throwIfNotFound: true);
@@ -380,6 +401,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_PlaceTrap;
     private readonly InputAction m_Player_AdvanceDialogue;
+    private readonly InputAction m_Player_SkipDialogue;
     private readonly InputAction m_Player_SetTrap1;
     private readonly InputAction m_Player_SetTrap2;
     private readonly InputAction m_Player_SetTrap3;
@@ -391,6 +413,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @PlaceTrap => m_Wrapper.m_Player_PlaceTrap;
         public InputAction @AdvanceDialogue => m_Wrapper.m_Player_AdvanceDialogue;
+        public InputAction @SkipDialogue => m_Wrapper.m_Player_SkipDialogue;
         public InputAction @SetTrap1 => m_Wrapper.m_Player_SetTrap1;
         public InputAction @SetTrap2 => m_Wrapper.m_Player_SetTrap2;
         public InputAction @SetTrap3 => m_Wrapper.m_Player_SetTrap3;
@@ -415,6 +438,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @AdvanceDialogue.started += instance.OnAdvanceDialogue;
             @AdvanceDialogue.performed += instance.OnAdvanceDialogue;
             @AdvanceDialogue.canceled += instance.OnAdvanceDialogue;
+            @SkipDialogue.started += instance.OnSkipDialogue;
+            @SkipDialogue.performed += instance.OnSkipDialogue;
+            @SkipDialogue.canceled += instance.OnSkipDialogue;
             @SetTrap1.started += instance.OnSetTrap1;
             @SetTrap1.performed += instance.OnSetTrap1;
             @SetTrap1.canceled += instance.OnSetTrap1;
@@ -440,6 +466,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @AdvanceDialogue.started -= instance.OnAdvanceDialogue;
             @AdvanceDialogue.performed -= instance.OnAdvanceDialogue;
             @AdvanceDialogue.canceled -= instance.OnAdvanceDialogue;
+            @SkipDialogue.started -= instance.OnSkipDialogue;
+            @SkipDialogue.performed -= instance.OnSkipDialogue;
+            @SkipDialogue.canceled -= instance.OnSkipDialogue;
             @SetTrap1.started -= instance.OnSetTrap1;
             @SetTrap1.performed -= instance.OnSetTrap1;
             @SetTrap1.canceled -= instance.OnSetTrap1;
@@ -476,6 +505,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnPlaceTrap(InputAction.CallbackContext context);
         void OnAdvanceDialogue(InputAction.CallbackContext context);
+        void OnSkipDialogue(InputAction.CallbackContext context);
         void OnSetTrap1(InputAction.CallbackContext context);
         void OnSetTrap2(InputAction.CallbackContext context);
         void OnSetTrap3(InputAction.CallbackContext context);

@@ -70,6 +70,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Skip Dialogue",
+                    "type": "Button",
+                    "id": "ad3503a5-d452-4249-84ad-a15e29edc2f3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(duration=1)",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "SetTrap1",
                     "type": "Button",
                     "id": "305dacb5-ed5b-4481-8288-e8545653e14d",
@@ -227,6 +236,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "SetTrap3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1b0a64d9-a248-4e51-9f61-0e75c492faa7",
+                    "path": "<Keyboard>/backquote",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skip Dialogue",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

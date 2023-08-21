@@ -10,6 +10,7 @@ public class GameManager : Singleton<GameManager> {
   [SerializeField] private Hero _hero;
   [SerializeField] private EndgameTarget _endgameTarget;
   [SerializeField] private Vector2 _playerRespawnOffset;
+  [SerializeField] private DialogueRunner _dialogueRunner;
 
   public UnityEvent OnSetupComplete { get; private set; }
   public UnityEvent<string> OnHenWon { get; private set; }
@@ -60,6 +61,7 @@ public class GameManager : Singleton<GameManager> {
 
     this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
     this._player.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
+    this._player.PlayerController.OnSkipDialoguePerformed.AddListener(this.OnSkipDialoguePerformed);
     this._hero.OnGameOver.AddListener(this.GameWon);
     this._hero.OnHeroDied.AddListener(this.OnHeroDied);
 
@@ -103,5 +105,9 @@ public class GameManager : Singleton<GameManager> {
     this._hero.HeroMovement.ToggleMoving(false);
     Destroy(this._player.gameObject);
     this.OnHenLost?.Invoke(message);
+  }
+
+  private void OnSkipDialoguePerformed() {
+    this._dialogueRunner.Stop();
   }
 }

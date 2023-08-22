@@ -1,7 +1,9 @@
+using Code.Scripts.UI;
 using Input;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using Yarn.Unity;
 
 public class GameManager : Singleton<GameManager> {
@@ -76,19 +78,19 @@ public class GameManager : Singleton<GameManager> {
     if (state is GameOverState) {
       // Send Analytics data before ending the game
       UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins, xPos, yPos, zPos);
-      
+
       this.HenDied("The Hero managed to take you down Hendall.\nDon't you dream about that promotion I mentioned last time!");
     }
   }
-  
+
   private void SelectedTrapIndexChanged(int trapIndex)
   {
     var isAffordable = _player.PlayerController.GetTrapCost() >= CoinManager.Instance.Coins;
-    
+
     // Send Analytics data
     UGS_Analytics.SwitchTrapCustomEvent(trapIndex, isAffordable);
   }
-  
+
   private void OnTrapDeployed(int trapIndex) {
     // Send Analytics data
     UGS_Analytics.DeployTrapCustomEvent(trapIndex);
@@ -102,7 +104,7 @@ public class GameManager : Singleton<GameManager> {
 
     this.StartCoroutine(this.DisableOutOfBoundsForOneSecond());
   }
-  
+
   private void OnHeroIsStuck(float xPos, float yPos, float zPos)
   {
     // Send Analytics data
@@ -133,15 +135,15 @@ public class GameManager : Singleton<GameManager> {
   private void HenDied(string message) {
     this._player.PlayerController.DisablePlayerInput();
     this._hero.HeroMovement.ToggleMoving(false);
-    
-    // To avoid calling the OnTriggerExit2D method in the OutOfBoundsTrigger class, don't destroy the player object 
+
+    // To avoid calling the OnTriggerExit2D method in the OutOfBoundsTrigger class, don't destroy the player object
     // Destroy(this._player.gameObject);
     this._player.gameObject.GetComponent<SpriteRenderer>().enabled = false;
-    
+
     this.OnHenLost?.Invoke(message);
   }
 
-  private void OnSkipDialoguePerformed() {
+  private void OnSkipDialoguePerformed(InputAction.CallbackContext _) {
     this._dialogueRunner.Stop();
   }
 }

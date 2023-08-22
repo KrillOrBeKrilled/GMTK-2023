@@ -47,9 +47,9 @@ namespace Input
         public UnityEvent<IPlayerState, float, float, float> OnPlayerStateChanged { get; private set; }
         public UnityEvent<int> OnTrapDeployed { get; private set; }
         public UnityEvent<int> OnSelectedTrapIndexChanged { get; private set; }
-        public UnityEvent OnSkipDialogueStarted { get; private set; }
-        public UnityEvent OnSkipDialogueCancelled { get; private set; }
-        public UnityEvent OnSkipDialoguePerformed { get; private set; }
+        public UnityEvent<InputAction.CallbackContext> OnSkipDialogueStarted { get; private set; }
+        public UnityEvent<InputAction.CallbackContext> OnSkipDialogueCancelled { get; private set; }
+        public UnityEvent<InputAction.CallbackContext> OnSkipDialoguePerformed { get; private set; }
 
         // ----------------- Health ------------------
         // BRAINSTORMING: Do we want to simulate player health?
@@ -76,9 +76,9 @@ namespace Input
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState, float, float, float>();
             this.OnTrapDeployed = new UnityEvent<int>();
             this.OnSelectedTrapIndexChanged = new UnityEvent<int>();
-            this.OnSkipDialogueStarted = new UnityEvent();
-            this.OnSkipDialogueCancelled = new UnityEvent();
-            this.OnSkipDialoguePerformed = new UnityEvent();
+            this.OnSkipDialogueStarted = new UnityEvent<InputAction.CallbackContext>();
+            this.OnSkipDialogueCancelled = new UnityEvent<InputAction.CallbackContext>();
+            this.OnSkipDialoguePerformed = new UnityEvent<InputAction.CallbackContext>();
         }
 
         private void Start() {
@@ -320,16 +320,16 @@ namespace Input
             _isSelectingTileSFX = false;
         }
 
-        private void SkipDialogueStarted(InputAction.CallbackContext obj) {
-            this.OnSkipDialogueStarted?.Invoke();
+        private void SkipDialogueStarted(InputAction.CallbackContext ctx) {
+            this.OnSkipDialogueStarted?.Invoke(ctx);
         }
 
-        private void SkipDialogueCancelled(InputAction.CallbackContext obj) {
-            this.OnSkipDialogueCancelled?.Invoke();
+        private void SkipDialogueCancelled(InputAction.CallbackContext ctx) {
+            this.OnSkipDialogueCancelled?.Invoke(ctx);
         }
 
-        private void SkipDialoguePerformed(InputAction.CallbackContext obj) {
-            this.OnSkipDialoguePerformed?.Invoke();
+        private void SkipDialoguePerformed(InputAction.CallbackContext ctx) {
+            this.OnSkipDialoguePerformed?.Invoke(ctx);
         }
 
         private void DeployTrap(InputAction.CallbackContext obj)

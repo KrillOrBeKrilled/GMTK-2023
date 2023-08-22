@@ -13,6 +13,7 @@ public class GameManager : Singleton<GameManager> {
   [SerializeField] private EndgameTarget _endgameTarget;
   [SerializeField] private Vector2 _playerRespawnOffset;
   [SerializeField] private DialogueRunner _dialogueRunner;
+  [SerializeField] private CameraSwitcher _cameraSwitcher;
 
   public UnityEvent OnSetupComplete { get; private set; }
   public UnityEvent<string> OnHenWon { get; private set; }
@@ -42,8 +43,8 @@ public class GameManager : Singleton<GameManager> {
     this.OnHenLost = new UnityEvent<string>();
   }
 
-  [YarnCommand("enter_player")]
-  public void EnterPlayer()
+  [YarnCommand("enter_hero")]
+  public void EnterHero()
   {
     _hero.EnterLevel();
   }
@@ -136,14 +137,13 @@ public class GameManager : Singleton<GameManager> {
     this._player.PlayerController.DisablePlayerInput();
     this._hero.HeroMovement.ToggleMoving(false);
 
-    // To avoid calling the OnTriggerExit2D method in the OutOfBoundsTrigger class, don't destroy the player object
-    // Destroy(this._player.gameObject);
-    this._player.gameObject.GetComponent<SpriteRenderer>().enabled = false;
-
+    Destroy(this._player.gameObject);
     this.OnHenLost?.Invoke(message);
   }
 
   private void OnSkipDialoguePerformed(InputAction.CallbackContext _) {
     this._dialogueRunner.Stop();
+    this._cameraSwitcher.ShowPlayer();
+    this.StartLevel();
   }
 }

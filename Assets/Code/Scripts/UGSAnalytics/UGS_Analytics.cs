@@ -7,8 +7,7 @@ public class UGS_Analytics : Singleton<UGS_Analytics>
 {
     private async void Start()
    {
-       try 
-       {
+       try{
             await UnityServices.InitializeAsync();
        } catch (ConsentCheckException e) {
             Debug.Log(e.ToString());
@@ -17,7 +16,7 @@ public class UGS_Analytics : Singleton<UGS_Analytics>
        // We want analytics to persist throughout the lifecycle of the entire game so we can trigger its functions
        // But this means testing must be done by starting with the MainMenu scene
        DontDestroyOnLoad(transform.gameObject);
-      
+
        // TODO: Adjust this to ask for consent in the future...
        AnalyticsService.Instance.StartDataCollection();
    }
@@ -33,12 +32,16 @@ public class UGS_Analytics : Singleton<UGS_Analytics>
         };
 
         // The ‘touchHeroDeath’ event will get cached locally and sent during the next scheduled upload, within 1 minute
-        AnalyticsService.Instance.CustomData("touchHeroDeath", eventParameters);
+        try {
+            AnalyticsService.Instance.CustomData("touchHeroDeath", eventParameters);
+        } catch (ServicesInitializationException e) {
+            Debug.Log("<color=red>AnalyticsService Initialization Failed</color>");
+        }
 
         // You can call Events.Flush() to send the event immediately
         // AnalyticsService.Instance.Flush();
     }
-    
+
     public static void PlayerDeathByBoundaryCustomEvent(int coinBalance, float xPos, float yPos, float zPos)
     {
         var eventParameters = new Dictionary<string, object>
@@ -49,7 +52,11 @@ public class UGS_Analytics : Singleton<UGS_Analytics>
             { "zPos", zPos }
         };
 
-        AnalyticsService.Instance.CustomData("touchBoundaryDeath", eventParameters);
+        try {
+            AnalyticsService.Instance.CustomData("touchBoundaryDeath", eventParameters);
+        } catch (ServicesInitializationException e) {
+            Debug.Log("<color=red>AnalyticsService Initialization Failed</color>");
+        }
     }
 
     public static void HeroDiedCustomEvent(int numberLivesLeft, float xPos, float yPos, float zPos)
@@ -61,10 +68,14 @@ public class UGS_Analytics : Singleton<UGS_Analytics>
             { "yPos", yPos },
             { "zPos", zPos }
         };
-        
-        AnalyticsService.Instance.CustomData("heroDied", eventParameters);
+
+        try {
+            AnalyticsService.Instance.CustomData("heroDied", eventParameters);
+        } catch (ServicesInitializationException e) {
+            Debug.Log("<color=red>AnalyticsService Initialization Failed</color>");
+        }
     }
-    
+
     public static void HeroIsStuckCustomEvent(float xPos, float yPos, float zPos)
     {
         var eventParameters = new Dictionary<string, object>
@@ -73,33 +84,45 @@ public class UGS_Analytics : Singleton<UGS_Analytics>
             { "yPos", yPos },
             { "zPos", zPos }
         };
-        
-        AnalyticsService.Instance.CustomData("heroIsStuck", eventParameters);
+
+        try {
+            AnalyticsService.Instance.CustomData("heroIsStuck", eventParameters);
+        } catch (ServicesInitializationException e) {
+            Debug.Log("<color=red>AnalyticsService Initialization Failed</color>");
+        }
     }
 
     public static void DeployTrapCustomEvent(int trapType)
     {
         var trapName = GenerateTrapName(trapType);
-        
+
         var eventParameters = new Dictionary<string, object>
         {
             { "trapType", trapName }
         };
 
-        AnalyticsService.Instance.CustomData("deployTrap", eventParameters);
+        try {
+            AnalyticsService.Instance.CustomData("deployTrap", eventParameters);
+        } catch (ServicesInitializationException e) {
+            Debug.Log("<color=red>AnalyticsService Initialization Failed</color>");
+        }
     }
-    
+
     public static void SwitchTrapCustomEvent(int trapType, bool isAffordable)
     {
         var trapName = GenerateTrapName(trapType);
-        
+
         var eventParameters = new Dictionary<string, object>
         {
             { "trapType", trapName },
             { "canAfford", isAffordable }
         };
 
-        AnalyticsService.Instance.CustomData("switchTrap", eventParameters);
+        try {
+            AnalyticsService.Instance.CustomData("switchTrap", eventParameters);
+        } catch (ServicesInitializationException e) {
+            Debug.Log("<color=red>AnalyticsService Initialization Failed</color>");
+        }
     }
 
     private static string GenerateTrapName(int trapType)

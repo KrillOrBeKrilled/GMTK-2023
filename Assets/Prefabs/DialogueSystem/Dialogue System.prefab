@@ -983,7 +983,7 @@ MonoBehaviour:
   - {fileID: 6711672230207336559}
   - {fileID: 4138263016411109766}
   startNode: TutorialDialogue
-  startAutomatically: 1
+  startAutomatically: 0
   runSelectedOptionAsLine: 0
   lineProvider: {fileID: 0}
   verboseLogging: 1

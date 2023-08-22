@@ -3,6 +3,7 @@ using System.Collections;
 using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
+using Object = UnityEngine.Object;
 
 namespace Code.Scripts.Player.Input
 {
@@ -15,7 +16,9 @@ namespace Code.Scripts.Player.Input
     /// </summary>
     public class RecordingController : PlayerController
     {
-        public string FilePath;
+        public Object RecordingFile;
+        [SerializeField] private string _filePath;
+        
         private InputEventTrace.ReplayController _replayController;
 
         protected override void Awake()
@@ -36,7 +39,7 @@ namespace Code.Scripts.Player.Input
 
         private void ParseControls()
         {
-            _inputRecorder = InputEventTrace.LoadFrom("Assets\\InputRecordings\\" + FilePath + ".txt");
+            _inputRecorder = InputEventTrace.LoadFrom(_filePath);
             
             if (_inputRecorder.eventCount < 1)
             {

@@ -68,6 +68,8 @@ public class AudioManager : MonoBehaviour
     
     private void ToggleJukeboxPause(bool isPaused)
     {
+        if (_jukebox is null) return;
+        
         if (isPaused)
         {
             _jukebox.PauseMusic();

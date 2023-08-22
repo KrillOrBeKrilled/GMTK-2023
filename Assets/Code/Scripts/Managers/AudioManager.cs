@@ -34,7 +34,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        _jukebox = GameObject.Find("Jukebox").GetComponent<Jukebox>();
+        _jukebox = GameObject.Find("Jukebox")?.GetComponent<Jukebox>();
 
         if (SceneManager.GetActiveScene().name != "MainMenu")
         {

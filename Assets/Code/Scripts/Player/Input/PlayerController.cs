@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.IO;
 using Code.Scripts.Player.Input.Commands;
 using Traps;
@@ -26,7 +25,7 @@ namespace Code.Scripts.Player.Input
         private static MovingState _moving;
         private static GameOverState _gameOver;
         private IPlayerState _state;
-        public UnityEvent<IPlayerState> OnPlayerStateChanged { get; private set; }
+        public UnityEvent<IPlayerState, float, float, float> OnPlayerStateChanged { get; private set; }
         
         // ----------------- Command -----------------
         // Stateless commands; can be copied in the list of previous commands
@@ -45,15 +44,12 @@ namespace Code.Scripts.Player.Input
         private float _direction = -1;
         private bool _isGrounded = true;
         public UnityEvent<int> OnSelectedTrapIndexChanged;
+        public UnityEvent<int> OnTrapDeployed { get; private set; }
 
         private TrapController _trapController;
 
         // ------------- Sound Effects ---------------
-        public AK.Wwise.Event StartBuildEvent;
-        public AK.Wwise.Event StopBuildEvent;
-        public AK.Wwise.Event BuildCompleteEvent;
-        public AK.Wwise.Event HenDeathEvent;
-        public AK.Wwise.Event HenFlapEvent;
+        private PlayerSoundsController _soundsController;
 
         // --------------- Bookkeeping ---------------
         private Animator _animator;
@@ -65,6 +61,8 @@ namespace Code.Scripts.Player.Input
         {
             RBody = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
+            _trapController = GetComponent<TrapController>();
+            _soundsController = GetComponent<PlayerSoundsController>();
             _inputRecorder = new InputEventTrace();
 
             _idle = new IdleState();
@@ -72,7 +70,8 @@ namespace Code.Scripts.Player.Input
             _gameOver = new GameOverState();
 
             _state = _idle;
-            this.OnPlayerStateChanged = new UnityEvent<IPlayerState>();
+            this.OnPlayerStateChanged = new UnityEvent<IPlayerState, float, float, float>();
+            this.OnTrapDeployed = new UnityEvent<int>();
             this.OnSelectedTrapIndexChanged = new UnityEvent<int>();
         }
 
@@ -80,8 +79,6 @@ namespace Code.Scripts.Player.Input
         {
             _jumpCommand = new JumpCommand(this);
             _deployCommand = new DeployCommand(this);
-
-            _trapController = GetComponent<TrapController>();
 
             GameManager.Instance.OnHenWon.AddListener(this.StopSession);
             GameManager.Instance.OnHenLost.AddListener(this.StopSession);
@@ -94,7 +91,7 @@ namespace Code.Scripts.Player.Input
 
         protected virtual void FixedUpdate()
         {
-            float directionInput = _playerInputActions.Player.Move.ReadValue<float>();
+            var directionInput = _playerInputActions.Player.Move.ReadValue<float>();
             _direction = directionInput != 0 ? directionInput : _direction;
 
             // Set animation values
@@ -109,13 +106,15 @@ namespace Code.Scripts.Player.Input
         
         public void GameOver()
         {
-            HenDeathEvent.Post(gameObject);
+            _soundsController.OnHenDeath();
+            
             var prevState = _state;
             _state.OnExit(_gameOver);
             _state = _gameOver;
             _state.OnEnter(prevState);
 
-            this.OnPlayerStateChanged?.Invoke(this._state);
+            var currentPos = transform.position;
+            this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
         }
 
         //========================================
@@ -125,6 +124,12 @@ namespace Code.Scripts.Player.Input
         public IPlayerState GetPlayerState()
         {
             return _state;
+        }
+        
+        // Retrieves the cost of the current trap selected
+        public int GetTrapCost()
+        {
+            return _trapController.GetCurrentTrapCost();
         }
 
         public void DisablePlayerInput() {
@@ -152,7 +157,9 @@ namespace Code.Scripts.Player.Input
             _state.OnExit(_idle);
             _state = _idle;
             _state.OnEnter(prevState);
-            this.OnPlayerStateChanged?.Invoke(this._state);
+            
+            var currentPos = transform.position;
+            this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
         }
 
         private void Move(InputAction.CallbackContext obj)
@@ -162,7 +169,9 @@ namespace Code.Scripts.Player.Input
             _state.OnExit(_moving);
             _state = _moving;
             _state.OnEnter(prevState);
-            this.OnPlayerStateChanged?.Invoke(this._state);
+            
+            var currentPos = transform.position;
+            this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
         }
 
         private void Jump(InputAction.CallbackContext obj)
@@ -206,10 +215,11 @@ namespace Code.Scripts.Player.Input
 
             _animator.SetBool("is_grounded", _isGrounded);
 
-            HenFlapEvent.Post(gameObject);
+            _soundsController.OnHenJump();
 
             // Left the ground, so trap deployment isn't possible anymore
             _trapController.ClearTrapDeployment();
+            _trapController.IsSelectingTileSFX = false;
         }
         
         public override void DeployTrap()
@@ -221,8 +231,6 @@ namespace Code.Scripts.Player.Input
                 print("Can't Deploy Trap!");
                 return;
             }
-
-            StartCoroutine(PlayBuildSoundForDuration(.3f));
 
             var trapToSpawn = _trapController.GetCurrentTrap();
             var trapScript = trapToSpawn.GetComponent<Trap>();
@@ -238,10 +246,12 @@ namespace Code.Scripts.Player.Input
                 : trapScript.GetRightSpawnPoint(deploymentOrigin);
 
             GameObject trapGameObject = Instantiate(trapToSpawn.gameObject);
-            trapGameObject.GetComponent<Trap>().Construct(spawnPosition, _trapCanvas,
-                StartBuildEvent, StopBuildEvent, BuildCompleteEvent);
+            trapGameObject.GetComponent<Trap>().Construct(spawnPosition, _trapCanvas, _soundsController);
             _trapController.IsColliding = true;
+            
             CoinManager.Instance.ConsumeCoins(trapScript.Cost);
+            this.OnTrapDeployed?.Invoke(_trapController.CurrentTrapIndex);
+            _soundsController.OnTileSelectConfirm();
         }
         
         public override void ChangeTrap(int trapIndex)
@@ -250,6 +260,7 @@ namespace Code.Scripts.Player.Input
             this.OnSelectedTrapIndexChanged?.Invoke(trapIndex);
 
             _trapController.ClearTrapDeployment();
+            _trapController.IsSelectingTileSFX = false;
         }
         
         //========================================
@@ -314,17 +325,6 @@ namespace Code.Scripts.Player.Input
 #endif
             
             _inputRecorder.WriteTo(path + fileName);
-        }
-        
-        //========================================
-        // Music
-        //========================================
-        
-        private IEnumerator PlayBuildSoundForDuration(float durationInSeconds)
-        {
-            StartBuildEvent.Post(gameObject);
-            yield return new WaitForSeconds(durationInSeconds);
-            StopBuildEvent.Post(gameObject);
         }
 
         //========================================

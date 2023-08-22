@@ -16,6 +16,10 @@ namespace Code.Scripts.Player.Input
     /// </summary>
     public class TrapController : MonoBehaviour
     {
+        // ------------- Sound Effects ---------------
+        private PlayerSoundsController _soundsController;
+        
+        // ------------- Trap Deployment -------------
         [SerializeField] private List<GameObject> _trapPrefabs;
         public List<Trap> Traps => _trapPrefabs.Select(prefab => prefab.GetComponent<Trap>()).ToList();
         public int CurrentTrapIndex { get; set; }
@@ -28,10 +32,13 @@ namespace Code.Scripts.Player.Input
         private readonly TrapOverlap[] _deployColliders = new TrapOverlap[2];
 
         public bool IsColliding { get; set; }
+        public bool IsSelectingTileSFX { get; set; }
         public bool CanDeploy { get; private set; }
 
         private void Awake()
         {
+            _soundsController = GetComponent<PlayerSoundsController>();
+            
             PreviousTilePositions = new List<Vector3Int>();
                 
             _deployTransforms[0] = _leftDeployTransform.GetComponent<Transform>();
@@ -46,14 +53,20 @@ namespace Code.Scripts.Player.Input
             if (!isGrounded) return;
 
             // Check whether to deploy left or right
-            var deployCheckerIndex = direction < 0 ? 0 : 1;
-            var deploymentOrigin = TileMap.WorldToCell(_deployTransforms[deployCheckerIndex].position);
+            var deployChecker = direction < 0
+                ? _leftDeployTransform
+                : _rightDeployTransform;
+            var deployPosition = deployChecker.GetComponent<Transform>().position;
+            var deploymentOrigin = TileMap.WorldToCell(deployPosition);
 
             // Ensure that there are no query results yet or that the deploymentOrigin has changed
             if (PreviousTilePositions.Count < 1 || deploymentOrigin != PreviousTilePositions[0])
             {
                 // The tile changed, so flush the tint on the previous tiles and reset the collision status
                 ClearTrapDeployment();
+                
+                if (IsSelectingTileSFX) _soundsController.OnTileSelectMove();
+                else IsSelectingTileSFX = !IsSelectingTileSFX;
 
                 // Get the grid placement data for the selected prefab
                 var selectedTrapPrefab = Traps[CurrentTrapIndex];
@@ -63,7 +76,7 @@ namespace Code.Scripts.Player.Input
 
                 // Validate the deployment of the trap with a validation score
                 var validationScore = 0;
-                var currentCollision = _deployColliders[deployCheckerIndex].GetCollisionData();
+                var currentCollision = deployChecker.GetComponent<TrapOverlap>().GetCollisionData();
 
                 if (currentCollision)
                 {
@@ -146,10 +159,7 @@ namespace Code.Scripts.Player.Input
             var vertices2 = (tileWorldPosition.x >= minBounds.x) && (tileWorldPosition.y >= minBounds.y);
 
             // If any tile is found within the collider, invalidate the deployment
-            if (vertices1 && vertices2)
-            {
-                IsColliding = true;
-            }
+            if (vertices1 && vertices2) IsColliding = true;
         }
 
         private void InvalidateTrapDeployment()
@@ -192,6 +202,11 @@ namespace Code.Scripts.Player.Input
         public GameObject GetCurrentTrap()
         {
             return _trapPrefabs[CurrentTrapIndex];
+        }
+
+        public int GetCurrentTrapCost()
+        {
+            return Traps[CurrentTrapIndex].Cost;
         }
     }
 }

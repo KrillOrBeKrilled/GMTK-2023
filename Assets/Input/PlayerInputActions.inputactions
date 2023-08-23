@@ -224,15 +224,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Skip Dialogue",
-                    "type": "Button",
-                    "id": "1ac75756-cf99-40c3-a019-bf252bc578a2",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Hold(duration=1)",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -244,17 +235,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Advance Dialogue",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2209c1dc-372f-4540-91b1-7abbed5b05ac",
-                    "path": "<Keyboard>/backspace",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Skip Dialogue",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

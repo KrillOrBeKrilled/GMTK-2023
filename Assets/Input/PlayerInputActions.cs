@@ -246,15 +246,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Skip Dialogue"",
-                    ""type"": ""Button"",
-                    ""id"": ""1ac75756-cf99-40c3-a019-bf252bc578a2"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Hold(duration=1)"",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -266,17 +257,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Advance Dialogue"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2209c1dc-372f-4540-91b1-7abbed5b05ac"",
-                    ""path"": ""<Keyboard>/backspace"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Skip Dialogue"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -299,7 +279,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_AdvanceDialogue = m_UI.FindAction("Advance Dialogue", throwIfNotFound: true);
-        m_UI_SkipDialogue = m_UI.FindAction("Skip Dialogue", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -494,13 +473,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_AdvanceDialogue;
-    private readonly InputAction m_UI_SkipDialogue;
     public struct UIActions
     {
         private @PlayerInputActions m_Wrapper;
         public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @AdvanceDialogue => m_Wrapper.m_UI_AdvanceDialogue;
-        public InputAction @SkipDialogue => m_Wrapper.m_UI_SkipDialogue;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -513,9 +490,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @AdvanceDialogue.started += instance.OnAdvanceDialogue;
             @AdvanceDialogue.performed += instance.OnAdvanceDialogue;
             @AdvanceDialogue.canceled += instance.OnAdvanceDialogue;
-            @SkipDialogue.started += instance.OnSkipDialogue;
-            @SkipDialogue.performed += instance.OnSkipDialogue;
-            @SkipDialogue.canceled += instance.OnSkipDialogue;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -523,9 +497,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @AdvanceDialogue.started -= instance.OnAdvanceDialogue;
             @AdvanceDialogue.performed -= instance.OnAdvanceDialogue;
             @AdvanceDialogue.canceled -= instance.OnAdvanceDialogue;
-            @SkipDialogue.started -= instance.OnSkipDialogue;
-            @SkipDialogue.performed -= instance.OnSkipDialogue;
-            @SkipDialogue.canceled -= instance.OnSkipDialogue;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -559,6 +530,5 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         void OnAdvanceDialogue(InputAction.CallbackContext context);
-        void OnSkipDialogue(InputAction.CallbackContext context);
     }
 }

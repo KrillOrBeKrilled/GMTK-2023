@@ -1,29 +1,40 @@
 using Code.Scripts.Managers;
 using Input;
-using System;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using UnityEngine.UI;
 
 namespace Code.Scripts.UI {
-  public class SkipDialogueUI : MonoBehaviour {
+  public class SkipDialogueUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField] private Image _completionImage;
     private float _skipStartTime = -1f;
-    private float _skipHoldDuration = -1f;
+    private float _skipHoldDuration = 1f;
+    private UnityAction _onSkipComplete;
 
-    public void Initialize(PlayerController playerController) {
-      playerController.OnSkipDialogueStarted.AddListener(this.OnSkipStarted);
-      playerController.OnSkipDialogueCancelled.AddListener(this.OnSkipCancelled);
-      playerController.OnSkipDialoguePerformed.AddListener(this.OnSkipPerformed);
+    public void OnPointerDown(PointerEventData eventData) {
+      this._skipStartTime = Time.time;
+      this._completionImage.gameObject.SetActive(true);
+    }
 
+    public void OnPointerUp(PointerEventData eventData) {
       this.OnHoldStopped();
+    }
+
+    public void Initialize(UnityEvent onStartLevel, UnityAction onSkipComplete) {
+      this._onSkipComplete = onSkipComplete;
+      onStartLevel.AddListener(this.OnStartLevel);
     }
 
     private void Awake() {
       if (PlayerPrefsManager.ShouldSkipDialogue()) {
         this.gameObject.SetActive(false);
+        return;
       }
+
+      this.OnHoldStopped();
     }
 
     private void Update() {
@@ -36,35 +47,21 @@ namespace Code.Scripts.UI {
       this._completionImage.fillAmount = completionPercentage;
 
       if (completionPercentage >= 0.99f) {
+        this._onSkipComplete?.Invoke();
         this._completionImage.fillAmount = 0f;
+        this.OnHoldStopped();
+        this.gameObject.SetActive(false);
       }
-    }
-
-    private void OnSkipStarted(InputAction.CallbackContext ctx) {
-      if (ctx.interaction is not HoldInteraction holdInteraction) {
-        return;
-      }
-
-      this._skipStartTime = Time.time;
-      this._skipHoldDuration = holdInteraction.duration;
-      this._completionImage.gameObject.SetActive(true);
-    }
-
-    private void OnSkipCancelled(InputAction.CallbackContext ctx) {
-      this.OnHoldStopped();
-    }
-
-    private void OnSkipPerformed(InputAction.CallbackContext ctx) {
-      this.OnHoldStopped();
-      this.gameObject.SetActive(false);
     }
 
     private void OnHoldStopped() {
       this._skipStartTime = -1f;
-      this._skipHoldDuration = -1f;
-
       this._completionImage.fillAmount = 0f;
       this._completionImage.gameObject.SetActive(false);
+    }
+
+    private void OnStartLevel() {
+      this.gameObject.SetActive(false);
     }
   }
 }

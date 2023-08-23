@@ -27,7 +27,7 @@ namespace Code.Scripts.UI {
       gameManager.OnHenLost.AddListener(this.OnHenLost);
 
       this._trapSelectionBar.Initialize(player);
-      this._skipDialogueUI.Initialize(player.PlayerController);
+      this._skipDialogueUI.Initialize(gameManager.OnStartLevel, gameManager.SkipDialogue);
     }
 
     public void FadeInSceneCover(UnityAction onComplete) {

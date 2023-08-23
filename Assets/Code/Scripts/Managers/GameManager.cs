@@ -17,6 +17,7 @@ namespace Code.Scripts.Managers {
     [SerializeField] private CameraSwitcher _cameraSwitcher;
 
     public UnityEvent OnSetupComplete { get; private set; }
+    public UnityEvent OnStartLevel { get; private set; }
     public UnityEvent<string> OnHenWon { get; private set; }
     public UnityEvent<string> OnHenLost { get; private set; }
 
@@ -39,6 +40,7 @@ namespace Code.Scripts.Managers {
     protected override void Awake() {
       base.Awake();
       this.OnSetupComplete = new UnityEvent();
+      this.OnStartLevel = new UnityEvent();
       this.OnHenWon = new UnityEvent<string>();
       this.OnHenLost = new UnityEvent<string>();
     }
@@ -54,6 +56,16 @@ namespace Code.Scripts.Managers {
     {
       this._hero.StartRunning();
       CoinManager.Instance.StartCoinEarning();
+      this.OnStartLevel?.Invoke();
+    }
+
+    public void SkipDialogue() {
+      if (this._dialogueRunner.IsDialogueRunning) {
+        this._dialogueRunner.Stop();
+      }
+
+      this._cameraSwitcher.ShowPlayer();
+      this.StartLevel();
     }
 
     private void Start() {
@@ -66,7 +78,6 @@ namespace Code.Scripts.Managers {
       this._player.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
       this._player.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
       this._player.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
-      this._player.PlayerController.OnSkipDialoguePerformed.AddListener(this.SkipDialogue);
       this._hero.OnGameOver.AddListener(this.GameWon);
       this._hero.OnHeroDied.AddListener(this.OnHeroDied);
       this._hero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
@@ -147,20 +158,6 @@ namespace Code.Scripts.Managers {
 
       Destroy(this._player.gameObject);
       this.OnHenLost?.Invoke(message);
-    }
-
-    private void SkipDialogue(InputAction.CallbackContext _) {
-      this.SkipDialogue();
-    }
-
-    private void SkipDialogue() {
-      print("Skip Dialogue called");
-      if (this._dialogueRunner.IsDialogueRunning) {
-        this._dialogueRunner.Stop();
-      }
-
-      this._cameraSwitcher.ShowPlayer();
-      this.StartLevel();
     }
   }
 }

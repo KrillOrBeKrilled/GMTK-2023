@@ -47,9 +47,6 @@ namespace Input
         public UnityEvent<IPlayerState, float, float, float> OnPlayerStateChanged { get; private set; }
         public UnityEvent<int> OnTrapDeployed { get; private set; }
         public UnityEvent<int> OnSelectedTrapIndexChanged { get; private set; }
-        public UnityEvent<InputAction.CallbackContext> OnSkipDialogueStarted { get; private set; }
-        public UnityEvent<InputAction.CallbackContext> OnSkipDialogueCancelled { get; private set; }
-        public UnityEvent<InputAction.CallbackContext> OnSkipDialoguePerformed { get; private set; }
 
         // ----------------- Health ------------------
         // BRAINSTORMING: Do we want to simulate player health?
@@ -76,9 +73,6 @@ namespace Input
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState, float, float, float>();
             this.OnTrapDeployed = new UnityEvent<int>();
             this.OnSelectedTrapIndexChanged = new UnityEvent<int>();
-            this.OnSkipDialogueStarted = new UnityEvent<InputAction.CallbackContext>();
-            this.OnSkipDialogueCancelled = new UnityEvent<InputAction.CallbackContext>();
-            this.OnSkipDialoguePerformed = new UnityEvent<InputAction.CallbackContext>();
         }
 
         private void Start() {
@@ -319,19 +313,6 @@ namespace Input
             ClearTrapDeployment();
             _isSelectingTileSFX = false;
         }
-
-        private void SkipDialogueStarted(InputAction.CallbackContext ctx) {
-            this.OnSkipDialogueStarted?.Invoke(ctx);
-        }
-
-        private void SkipDialogueCancelled(InputAction.CallbackContext ctx) {
-            this.OnSkipDialogueCancelled?.Invoke(ctx);
-        }
-
-        private void SkipDialoguePerformed(InputAction.CallbackContext ctx) {
-            this.OnSkipDialoguePerformed?.Invoke(ctx);
-        }
-
         private void DeployTrap(InputAction.CallbackContext obj)
         {
             // Left out of State pattern to allow this during movement
@@ -435,11 +416,6 @@ namespace Input
             this._playerInputActions.Player.SetTrap1.performed += SetTrap1;
             this._playerInputActions.Player.SetTrap2.performed += SetTrap2;
             this._playerInputActions.Player.SetTrap3.performed += SetTrap3;
-
-            // UI actions
-            this._playerInputActions.UI.SkipDialogue.started += this.SkipDialogueStarted;
-            this._playerInputActions.UI.SkipDialogue.canceled += this.SkipDialogueCancelled;
-            this._playerInputActions.UI.SkipDialogue.performed += this.SkipDialoguePerformed;
         }
 
         private void OnDisable() {
@@ -450,11 +426,6 @@ namespace Input
             this._playerInputActions.Player.SetTrap1.performed -= SetTrap1;
             this._playerInputActions.Player.SetTrap2.performed -= SetTrap2;
             this._playerInputActions.Player.SetTrap3.performed -= SetTrap3;
-
-            // UI actions
-            this._playerInputActions.UI.SkipDialogue.started -= this.SkipDialogueStarted;
-            this._playerInputActions.UI.SkipDialogue.canceled -= this.SkipDialogueCancelled;
-            this._playerInputActions.UI.SkipDialogue.performed -= this.SkipDialoguePerformed;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

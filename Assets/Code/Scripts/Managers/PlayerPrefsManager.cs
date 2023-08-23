@@ -12,5 +12,9 @@ namespace Code.Scripts.Managers {
       bool shouldSkipDialogue = PlayerPrefs.GetInt(SkipDialogueKey) == 1;
       return shouldSkipDialogue;
     }
+
+    public static void SetSkipDialogue(bool value) {
+      PlayerPrefs.SetInt(SkipDialogueKey, value ? 1 : 0);
+    }
   }
 }

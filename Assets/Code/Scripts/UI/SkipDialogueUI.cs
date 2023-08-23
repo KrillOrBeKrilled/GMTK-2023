@@ -1,4 +1,6 @@
+using Code.Scripts.Managers;
 using Input;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
@@ -16,6 +18,12 @@ namespace Code.Scripts.UI {
       playerController.OnSkipDialoguePerformed.AddListener(this.OnSkipPerformed);
 
       this.OnHoldStopped();
+    }
+
+    private void Awake() {
+      if (PlayerPrefsManager.ShouldSkipDialogue()) {
+        this.gameObject.SetActive(false);
+      }
     }
 
     private void Update() {

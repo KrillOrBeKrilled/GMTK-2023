@@ -66,14 +66,17 @@ namespace Code.Scripts.Managers {
       this._player.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
       this._player.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
       this._player.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
-      this._player.PlayerController.OnSkipDialoguePerformed.AddListener(this.OnSkipDialoguePerformed);
+      this._player.PlayerController.OnSkipDialoguePerformed.AddListener(this.SkipDialogue);
       this._hero.OnGameOver.AddListener(this.GameWon);
       this._hero.OnHeroDied.AddListener(this.OnHeroDied);
       this._hero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 
       this.OnSetupComplete?.Invoke();
 
-      if (!PlayerPrefsManager.ShouldSkipDialogue()) {
+      if (PlayerPrefsManager.ShouldSkipDialogue()) {
+        this.SkipDialogue();
+      } else {
+        this._cameraSwitcher.ShowStart();
         this._dialogueRunner.StartDialogue(this._dialogueRunner.startNode);
       }
 
@@ -146,8 +149,16 @@ namespace Code.Scripts.Managers {
       this.OnHenLost?.Invoke(message);
     }
 
-    private void OnSkipDialoguePerformed(InputAction.CallbackContext _) {
-      this._dialogueRunner.Stop();
+    private void SkipDialogue(InputAction.CallbackContext _) {
+      this.SkipDialogue();
+    }
+
+    private void SkipDialogue() {
+      print("Skip Dialogue called");
+      if (this._dialogueRunner.IsDialogueRunning) {
+        this._dialogueRunner.Stop();
+      }
+
       this._cameraSwitcher.ShowPlayer();
       this.StartLevel();
     }

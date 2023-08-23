@@ -7,8 +7,6 @@ public class CameraSwitcher : MonoBehaviour
     public GameObject StartCamera;
     public GameObject EndCamera;
 
-    private void Start() => ShowStart();
-
     private void DisableAll()
     {
         this.PlayerCamera.SetActive(false);

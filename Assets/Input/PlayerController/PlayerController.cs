@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Traps;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -61,6 +62,10 @@ namespace Input
 
         private PlayerInputActions _playerInputActions;
         private bool _isSelectingTileSFX;
+        
+        private List<Vector3> testPoints = new List<Vector3>();
+        private List<Vector3> testPoints2 = new List<Vector3>();
+        private List<Vector3> successfulPoints = new List<Vector3>();
 
         void Awake()
         {
@@ -258,7 +263,8 @@ namespace Input
             trapGameObject.GetComponent<Trap>().Construct(spawnPosition, _trapCanvas, 
                 _previousTilePositions.ToArray(), _soundsController);
 
-            CoinManager.Instance.ConsumeCoins(trapToSpawn.Cost);
+            // CoinManager.Instance.ConsumeCoins(trapToSpawn.Cost);
+            CoinManager.Instance.EarnCoins(5);
             _soundsController.OnTileSelectConfirm();
         }
 
@@ -323,10 +329,16 @@ namespace Input
 
             for (var i = 0; i < collision.GetContacts(collision.contacts); i++)
             {
-                var contactPosition = (Vector3)collision.GetContact(i).point;
+                var contactPosition = (Vector3)collision.GetContact(i).point + (Vector3.down * .15f);
                 var contactTilePosition = _groundTileMap.WorldToCell(contactPosition);
 
-                if (!IsTileOfType<CustomGroundRuleTile>(_groundTileMap, contactTilePosition)) continue;
+                if (!IsTileOfType<CustomGroundRuleTile>(_groundTileMap, contactTilePosition))
+                {
+                    testPoints.Add(contactPosition);
+                    continue;
+                };
+                
+                successfulPoints.Add(contactPosition);
                 
                 SetGroundedStatus(true);
                 return;
@@ -336,6 +348,7 @@ namespace Input
         private void OnCollisionStay2D(Collision2D collision)
         {
             _lastContact = collision.GetContact(0);
+            // testPoints2.Add(_lastContact.point);
         }
 
         // Called one frame after the collision, so fetch contact point from the last frame;
@@ -347,8 +360,31 @@ namespace Input
             var contactTilePosition = _groundTileMap.WorldToCell(contactPosition);
 
             if (!IsTileOfType<CustomGroundRuleTile>(_groundTileMap, contactTilePosition)) return;
+
+            successfulPoints.Add(contactPosition);
             
             SetGroundedStatus(false);
+        }
+        
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            foreach (var point in testPoints)
+            {
+                Gizmos.DrawSphere(point, .05f);
+            }
+
+            // Gizmos.color = Color.red;
+            // foreach (var point in testPoints2)
+            // {
+            //     Gizmos.DrawSphere(point, .05f);
+            // }
+            
+            Gizmos.color = Color.magenta;
+            foreach (var point in successfulPoints)
+            {
+                Gizmos.DrawSphere(point, .05f);
+            }
         }
         
         private void OnEnable() {

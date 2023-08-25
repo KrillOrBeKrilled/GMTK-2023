@@ -17,8 +17,8 @@ namespace Traps
 
         protected Vector3 SpawnPosition;
         protected Vector3Int[] TilePositions;
-        private Slider _buildCompletionBar;
-        private PlayerSoundsController _soundsController;
+        protected Slider BuildCompletionBar;
+        protected PlayerSoundsController SoundsController;
         protected float ConstructionCompletion, t;
         protected bool IsBuilding, IsReady;
 
@@ -29,7 +29,7 @@ namespace Traps
                 ConstructionCompletion = Mathf.Lerp(ConstructionCompletion, 1f, t / BuildingDuration);
                 t += Time.deltaTime;
 
-                _buildCompletionBar.DOValue(ConstructionCompletion, 0.1f);
+                BuildCompletionBar.DOValue(ConstructionCompletion, 0.1f);
 
                 // Make construction animations
                 BuildTrap();
@@ -38,9 +38,9 @@ namespace Traps
                 {
                     IsReady = true;
                     IsBuilding = false;
-                    _soundsController.OnStopBuild();
-                    _soundsController.OnBuildComplete();
-                    Destroy(_buildCompletionBar.gameObject);
+                    SoundsController.OnStopBuild();
+                    SoundsController.OnBuildComplete();
+                    Destroy(BuildCompletionBar.gameObject);
 
                     // Play trap set up animation
                     SetUpTrap();
@@ -63,13 +63,13 @@ namespace Traps
             return score >= ValidationScore;
         }
 
-        public void Construct(Vector3 spawnPosition, Canvas canvas, 
+        public virtual void Construct(Vector3 spawnPosition, Canvas canvas, 
             Vector3Int[] tilePositions, PlayerSoundsController soundsController)
         {
             // Initialize all the bookkeeping structures we will need
             SpawnPosition = spawnPosition;
             TilePositions = tilePositions;
-            _soundsController = soundsController;
+            SoundsController = soundsController;
             
             // Delete/invalidate all the tiles overlapping the trap
             TilemapManager.Instance.ClearLevelTiles(TilePositions);
@@ -77,9 +77,10 @@ namespace Traps
             // Spawn a slider to indicate the progress on the build
             GameObject sliderObject = Instantiate(SliderBar, canvas.transform);
             sliderObject.transform.position = spawnPosition + AnimationOffset + Vector3.up;
-            _buildCompletionBar = sliderObject.GetComponent<Slider>();
+            BuildCompletionBar = sliderObject.GetComponent<Slider>();
 
             // Trap deployment visuals
+            // Slide down trap and fade it into existence
             transform.position = spawnPosition + Vector3.up * 3f;
             transform.DOMove(spawnPosition + Vector3.up * AnimationOffset.y, 0.2f);
 
@@ -144,7 +145,7 @@ namespace Traps
                 if (playerState is IdleState)
                 {
                     IsBuilding = true;
-                    _soundsController.OnStartBuild();
+                    SoundsController.OnStartBuild();
                 }
             }
 
@@ -154,7 +155,7 @@ namespace Traps
             if (other.CompareTag("Player") && IsBuilding)
             {
                 IsBuilding = false;
-                _soundsController.OnStopBuild();
+                SoundsController.OnStopBuild();
                 return;
             }
 

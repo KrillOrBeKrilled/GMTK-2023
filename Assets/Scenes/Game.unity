@@ -17896,7 +17896,7 @@ Tilemap:
   - first: {x: 13, y: -1, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 82
+      m_TileIndex: 81
       m_TileSpriteIndex: 47
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
@@ -17906,7 +17906,7 @@ Tilemap:
   - first: {x: 14, y: -1, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 82
+      m_TileIndex: 81
       m_TileSpriteIndex: 44
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
@@ -21067,9 +21067,9 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 1660
+  - m_RefCount: 1662
     m_Data: {fileID: 11400000, guid: 6e6bc309c1a41504e9eab1855fa31a23, type: 2}
-  - m_RefCount: 332
+  - m_RefCount: 330
     m_Data: {fileID: 11400000, guid: 4070da3d94ef50e45a2cd4e458994b8d, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 0
@@ -28845,6 +28845,10 @@ PrefabInstance:
     - target: {fileID: 1392112906212204591, guid: b1a8d77b21ad37440a3dc48fd94e7c56, type: 3}
       propertyPath: m_Name
       value: TrapCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 1900287835537557923, guid: b1a8d77b21ad37440a3dc48fd94e7c56, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -840374945
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

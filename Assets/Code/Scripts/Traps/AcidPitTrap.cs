@@ -31,8 +31,10 @@ public class AcidPitTrap : Trap {
   
     // Trap deployment visuals
     transform.position = spawnPosition;
+    
+    // Set the acid liquid level and heat haze intensity to 0
     _acidLiquid.SetFloat("_Depth", 0);
-    // _heatEmanating.SetFloat("_HazeRange", 0);
+    _heatEmanating.SetFloat("_HazeRange", 0);
     _bubbles.SetActive(false);
 
     // Initiate the build time countdown
@@ -77,6 +79,16 @@ public class AcidPitTrap : Trap {
 
     if (this._intervalDamageCoroutine != null)
       this.StopCoroutine(this._intervalDamageCoroutine);
+  }
+
+  // Animation to fill the pit with acid and heat haze
+  protected override void BuildTrap()
+  {
+    // Magic ratio to avoid making the haze too intense
+    var targetHeatHazeRange = Mathf.Clamp(ConstructionCompletion / 3.8f, 0, 1);
+    
+    _acidLiquid.SetFloat("_Depth", ConstructionCompletion);
+    _heatEmanating.SetFloat("_HazeRange", targetHeatHazeRange);
   }
 
   private IEnumerator DealIntervalDamage(Hero hero) {

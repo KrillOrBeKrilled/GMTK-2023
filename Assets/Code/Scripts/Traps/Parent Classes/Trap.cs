@@ -107,7 +107,7 @@ namespace Traps
 
         }
 
-        private void BuildTrap()
+        protected virtual void BuildTrap()
         {
             // Randomly shake the trap along the x and y-axis
             Vector3 targetPosition = new Vector3(SpawnPosition.x + Random.Range(-0.5f, 0.5f),

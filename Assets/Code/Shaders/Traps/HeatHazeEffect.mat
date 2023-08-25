@@ -44,7 +44,11 @@ Material:
     - _AngleOffset: 10
     - _AngleSpeed: 1
     - _CellDensity: 30
-    - _HazeRange: 0.36
+    - _Depth: 1
+    - _HazeRange: 1.53
+    - _Intensity: 1.25
+    - _NoiseDensity: 20
+    - _Offset: -0.009
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Speed: 0.125

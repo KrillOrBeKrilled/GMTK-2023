@@ -185,7 +185,7 @@ namespace Input
         
         // Helper method for setting the animation controller state and clearing the trap deployment
         // markers depending on if the player has touched the ground or not
-        private void SetGroundedStatus(bool isGrounded)
+        public void SetGroundedStatus(bool isGrounded)
         {
             _isGrounded = isGrounded;
             _animator.SetBool("is_grounded", _isGrounded);

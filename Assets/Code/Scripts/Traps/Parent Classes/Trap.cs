@@ -126,7 +126,7 @@ namespace Traps
                 this.OnEnteredTrap(other.GetComponent<Hero>());
         }
 
-        private void OnTriggerStay2D(Collider2D other)
+        protected virtual void OnTriggerStay2D(Collider2D other)
         {
             if (other.CompareTag("Player") && !IsReady)
             {
@@ -148,7 +148,6 @@ namespace Traps
                     SoundsController.OnStartBuild();
                 }
             }
-
         }
 
         private void OnTriggerExit2D(Collider2D other) {

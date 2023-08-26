@@ -3,7 +3,7 @@ using Traps;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AcidPitTrap : Trap {
+public class AcidPitTrap : InGroundTrap {
   [SerializeField] private MeshRenderer _acidLiquid;
   [SerializeField] private SpriteRenderer _heatEmanating;
   [SerializeField] private GameObject _bubbles;

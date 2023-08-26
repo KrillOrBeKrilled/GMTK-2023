@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Yarn.Unity.Example
+namespace Dialogue
 {
-    /// <summary>Script for the 3D RPG sample project in YarnSpinner. DialogueRunner invokes YarnCharacterView, 
+    /// <summary>Script for the 3D RPG sample project in YarnSpinner. DialogueRunner invokes YarnCharacterView,
     /// which locates the YarnCharacter who is speaking. Put this script on your various NPC gameObjects.</summary>
     public class YarnCharacter : MonoBehaviour
     {
@@ -15,22 +15,22 @@ namespace Yarn.Unity.Example
         [Tooltip("if true, then apply messageBubbleOffset relative to this transform's rotation and scale")]
         public bool offsetUsesRotation = false;
 
-        // bwaaaah ugly ugly ugly 
+        // bwaaaah ugly ugly ugly
         private Vector3 _prevPosition;
         private Vector3 _prevPrevPosition;
         private Vector3 _prevPrevPrevPosition;
         private Vector3 _dampenedPosition;
 
         public Vector3 positionWithOffset
-        { 
+        {
             get {
-                if (!offsetUsesRotation)
+                if (!this.offsetUsesRotation)
                 {
-                    return _dampenedPosition + messageBubbleOffset;
+                    return this._dampenedPosition + this.messageBubbleOffset;
                 }
                 else
                 {
-                    return _dampenedPosition + transform.TransformPoint(messageBubbleOffset); // convert offset into local space
+                    return this._dampenedPosition + this.transform.TransformPoint(this.messageBubbleOffset); // convert offset into local space
                 }
             }
         }
@@ -47,22 +47,22 @@ namespace Yarn.Unity.Example
 
             YarnCharacterView.instance.RegisterYarnCharacter(this);
 
-            var position = transform.position;
-            _prevPosition = position;
-            _prevPrevPosition = position;
-            _prevPrevPrevPosition = position;
+            var position = this.transform.position;
+            this._prevPosition = position;
+            this._prevPrevPosition = position;
+            this._prevPrevPrevPosition = position;
         }
-        
-        
+
+
         void FixedUpdate()
         {
-            var position = transform.position;
-            
-            _dampenedPosition = (position + _prevPosition + _prevPrevPosition + _prevPrevPrevPosition) / 4f;
+            var position = this.transform.position;
 
-            _prevPrevPrevPosition = _prevPrevPosition;
-            _prevPrevPosition = _prevPosition;
-            _prevPosition = position;
+            this._dampenedPosition = (position + this._prevPosition + this._prevPrevPosition + this._prevPrevPrevPosition) / 4f;
+
+            this._prevPrevPrevPosition = this._prevPrevPosition;
+            this._prevPrevPosition = this._prevPosition;
+            this._prevPosition = position;
         }
 
         void OnDestroy()

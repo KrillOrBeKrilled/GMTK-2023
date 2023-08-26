@@ -1,8 +1,8 @@
-using Code.Scripts.Managers;
+using Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code.Scripts.UI {
+namespace UI {
   public class SettingsUI : MonoBehaviour {
     [SerializeField] private Toggle _skipDialogueToggle;
 

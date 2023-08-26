@@ -1,11 +1,11 @@
-using Code.Scripts.Managers;
 using DG.Tweening;
+using Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace Code.Scripts.UI {
+namespace UI {
   public class GameUI : MonoBehaviour {
     [Header("Game UI References")]
     [SerializeField] private Image _foregroundImage;
@@ -21,12 +21,12 @@ namespace Code.Scripts.UI {
 
     private const float FadeDuration = 0.5f;
 
-    public void Initialize(GameManager gameManager, global::Player player) {
+    public void Initialize(GameManager gameManager, global::Player.PlayerManager playerManager) {
       gameManager.OnSetupComplete.AddListener(this.OnGameSetupComplete);
       gameManager.OnHenWon.AddListener(this.OnHenWon);
       gameManager.OnHenLost.AddListener(this.OnHenLost);
 
-      this._trapSelectionBar.Initialize(player);
+      this._trapSelectionBar.Initialize(playerManager);
       this._skipDialogueUI.Initialize(gameManager.OnStartLevel, gameManager.SkipDialogue);
     }
 

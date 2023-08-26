@@ -1,27 +1,31 @@
-using UnityEngine;
+using Managers;
+using Player;
 using System.Collections.Generic;
 using Traps;
+using UnityEngine;
 
-public class TrapSelectionBar : MonoBehaviour {
-  [SerializeField] private List<TrapBarIcon> _trapBarIcons;
+namespace UI {
+  public class TrapSelectionBar : MonoBehaviour {
+    [SerializeField] private List<TrapBarIcon> _trapBarIcons;
 
-  public void Initialize(Player player) {
-    player.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
-    CoinManager.Instance.OnCoinAmountChanged.AddListener(this.OnCoinAmountChanged);
+    public void Initialize(PlayerManager playerManager) {
+      playerManager.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
+      CoinManager.Instance.OnCoinAmountChanged.AddListener(this.OnCoinAmountChanged);
 
-    List<Trap> traps = player.TrapController.Traps;
-    for (int i = 0; i < this._trapBarIcons.Count; i++) {
-      this._trapBarIcons[i].Initialize(traps[i]);
+      List<Trap> traps = playerManager.TrapController.Traps;
+      for (int i = 0; i < this._trapBarIcons.Count; i++) {
+        this._trapBarIcons[i].Initialize(traps[i]);
+      }
     }
-  }
 
-  private void SelectedTrapIndexChanged(int newIndex) {
-    for (int i = 0; i < this._trapBarIcons.Count; i++) {
-      this._trapBarIcons[i].OnSelectedChanged(i == newIndex);
+    private void SelectedTrapIndexChanged(int newIndex) {
+      for (int i = 0; i < this._trapBarIcons.Count; i++) {
+        this._trapBarIcons[i].OnSelectedChanged(i == newIndex);
+      }
     }
-  }
 
-  private void OnCoinAmountChanged(int newAmount) {
-    this._trapBarIcons.ForEach(trapBarIcon => trapBarIcon.OnCanAffordChanged(newAmount));
+    private void OnCoinAmountChanged(int newAmount) {
+      this._trapBarIcons.ForEach(trapBarIcon => trapBarIcon.OnCanAffordChanged(newAmount));
+    }
   }
 }

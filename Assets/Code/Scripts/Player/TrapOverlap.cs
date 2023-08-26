@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Code.Scripts.Player.Input
+namespace Player
 {
     [RequireComponent(typeof(BoxCollider2D))]
     public class TrapOverlap : MonoBehaviour
@@ -12,22 +9,22 @@ namespace Code.Scripts.Player.Input
 
         public Collider2D GetCollisionData()
         {
-            return _currentCollision;
+            return this._currentCollision;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.gameObject.CompareTag("Trap"))
             {
-                _currentCollision = other;
+                this._currentCollision = other;
             }
         }
-        
+
         private void OnTriggerExit2D(Collider2D other)
         {
             if (other.gameObject.CompareTag("Trap"))
             {
-                _currentCollision = null;
+                this._currentCollision = null;
             }
         }
     }

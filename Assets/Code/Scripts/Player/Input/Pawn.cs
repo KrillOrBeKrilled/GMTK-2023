@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Code.Scripts.Player.Input
+namespace Player
 {
     //*******************************************************************************************
     // Pawn
@@ -19,33 +17,32 @@ namespace Code.Scripts.Player.Input
 
         private void Awake()
         {
-            RBody = GetComponent<Rigidbody2D>();
+            this.RBody = this.GetComponent<Rigidbody2D>();
         }
 
         public virtual void StandIdle()
         {
-            RBody.velocity = new Vector2(0f, RBody.velocity.y);
+            this.RBody.velocity = new Vector2(0f, this.RBody.velocity.y);
         }
-        
+
         public virtual void Move(float direction)
         {
-            RBody.velocity = new Vector2(direction * Speed, RBody.velocity.y);
+            this.RBody.velocity = new Vector2(direction * this.Speed, this.RBody.velocity.y);
         }
 
         public virtual void Jump()
         {
-            RBody.AddForce(Vector2.up * JumpingForce);
+            this.RBody.AddForce(Vector2.up * this.JumpingForce);
         }
 
         public virtual void DeployTrap()
         {
             // Particular to the hen, so will be overrided instead
         }
-        
+
         public virtual void ChangeTrap(int trapIndex)
         {
             // Particular to the hen, so will be overrided instead
         }
     }
 }
-

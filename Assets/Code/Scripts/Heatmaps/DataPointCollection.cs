@@ -1,53 +1,53 @@
-using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-
-[ExecuteInEditMode]
-public class DataPointCollection : MonoBehaviour
-{
-    public List<DataPoint> DataPoints;
-    public float PointTargetRadius;
-    public bool VisualizeTargetRadius;
-    
-    public int MaxPointConcentrationSpectrum;
-    public Color SpectrumBorder, SpectrumCenter;
-    
-    public Vector3 PointBaseScale;
-    public Vector3 MaxScaleSpectrum;
-
-    public void ClearPoints()
+namespace Heatmaps {
+    [ExecuteInEditMode]
+    public class DataPointCollection : MonoBehaviour
     {
-        foreach (var point in DataPoints)
+        public List<DataPoint> DataPoints;
+        public float PointTargetRadius;
+        public bool VisualizeTargetRadius;
+
+        public int MaxPointConcentrationSpectrum;
+        public Color SpectrumBorder, SpectrumCenter;
+
+        public Vector3 PointBaseScale;
+        public Vector3 MaxScaleSpectrum;
+
+        public void ClearPoints()
         {
-            DestroyImmediate(point.gameObject);
+            foreach (var point in this.DataPoints)
+            {
+                DestroyImmediate(point.gameObject);
+            }
         }
-    }
-    
-    private void OnHierarchyChanged()
-    {
-        DataPoints.Clear();
-        
-        // Update the list of data points as well as each point
-        var points = FindObjectsOfType<DataPoint>();
-        foreach (var point in points)
+
+        private void OnHierarchyChanged()
         {
-            DataPoints.Add(point);
-            point.UpdatePoint(this);
+            this.DataPoints.Clear();
+
+            // Update the list of data points as well as each point
+            var points = FindObjectsOfType<DataPoint>();
+            foreach (var point in points)
+            {
+                this.DataPoints.Add(point);
+                point.UpdatePoint(this);
+            }
         }
-    }
 
-    private void OnEnable()
-    {
+        private void OnEnable()
+        {
         #if UNITY_EDITOR
-            EditorApplication.hierarchyChanged += OnHierarchyChanged;
+            EditorApplication.hierarchyChanged += this.OnHierarchyChanged;
         #endif
-    }
+        }
 
-    private void OnDisable()
-    {
+        private void OnDisable()
+        {
         #if UNITY_EDITOR
-            EditorApplication.hierarchyChanged -= OnHierarchyChanged;
+            EditorApplication.hierarchyChanged -= this.OnHierarchyChanged;
         #endif
+        }
     }
 }

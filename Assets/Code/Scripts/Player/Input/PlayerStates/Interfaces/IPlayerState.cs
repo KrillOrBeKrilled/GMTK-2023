@@ -1,16 +1,12 @@
-using System.Collections.Generic;
-using Code.Scripts.Player.Input.Commands;
-using UnityEngine;
-
-namespace Code.Scripts.Player.Input {
+namespace Player {
     /// <summary>
     /// Class used to declutter the PlayerController class, encapsulating the player's behaviour in each state
-    /// to better reason about correctness and pinpoint bugs easily, plus specialize behaviours to specific states. 
+    /// to better reason about correctness and pinpoint bugs easily, plus specialize behaviours to specific states.
     /// </summary>
     public interface IPlayerState
     {
         public float GetMovementSpeed();
-        
+
         // Methods OnEnter and OnExit that can be extended for future purposes to encapsulate rendering, sound, and logic
         // that are associated with each state.
         // TODO: Consider what we need when switching states...reference to old state, to play audio, etc.

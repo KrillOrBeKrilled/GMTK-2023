@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Code.Scripts.Player.Input.Commands;
-using UnityEngine;
-
-namespace Code.Scripts.Player.Input {
+namespace Player {
     /// <summary>
     /// TODO: Make note of any music plugins we need here...
     /// </summary>
@@ -15,9 +9,9 @@ namespace Code.Scripts.Player.Input {
 
         public MovingState(float stateSpeed)
         {
-            _stateSpeed = stateSpeed;
+            this._stateSpeed = stateSpeed;
         }
-        
+
         public void OnEnter(IPlayerState prevState)
         {
             // TODO: When the Player moves...what should happen? music? visual animations? Does it matter from which
@@ -26,16 +20,16 @@ namespace Code.Scripts.Player.Input {
 
         public float GetMovementSpeed()
         {
-            return _stateSpeed;
+            return this._stateSpeed;
         }
-        
+
         public void Act(PlayerController playerController, float direction)
         {
             // Create command and execute it
             var command = new MoveCommand(playerController, direction);
             playerController.ExecuteCommand(command);
         }
-        
+
         public void OnExit(IPlayerState newState)
         {
             // TODO: When the Player stops moving...what should happen? music? visual animations? Does

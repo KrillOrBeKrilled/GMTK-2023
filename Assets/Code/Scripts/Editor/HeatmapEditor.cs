@@ -1,3 +1,4 @@
+using Heatmaps;
 using UnityEngine;
 using UnityEditor;
 

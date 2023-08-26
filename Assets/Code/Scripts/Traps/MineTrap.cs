@@ -1,3 +1,4 @@
+using Heroes;
 using UnityEngine;
 
 namespace Traps {

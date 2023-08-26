@@ -1,4 +1,4 @@
-namespace Code.Scripts.Player.Input {
+namespace Player {
     public class PlayerInputController : Singleton<PlayerInputController> {
         /// <summary>
         /// Class to handle character controls
@@ -12,23 +12,23 @@ namespace Code.Scripts.Player.Input {
             this.PlayerInputActions = new PlayerInputActions();
             this.PlayerInputActions.Enable();
         }
-        
+
         // To help with UI stuff when disabling and enabling controls
         public void DisablePlayerControls()
         {
             this.PlayerInputActions.Player.Disable();
         }
-        
+
         public void EnablePlayerControls()
         {
             this.PlayerInputActions.Player.Enable();
         }
-        
+
         public void DisableUIControls()
         {
             this.PlayerInputActions.Pause.Disable();
         }
-        
+
         public void EnableUIControls()
         {
             this.PlayerInputActions.Pause.Enable();

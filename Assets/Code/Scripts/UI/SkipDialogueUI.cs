@@ -1,10 +1,10 @@
-using Code.Scripts.Managers;
+using Managers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Code.Scripts.UI {
+namespace UI {
   public class SkipDialogueUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField] private Image _completionImage;
     private float _skipStartTime = -1f;

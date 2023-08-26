@@ -1,14 +1,17 @@
-using Code.Scripts.UI;
-using Code.Scripts.Player.Input;
+using Heroes;
+using Player;
+using UGSAnalytics;
+using UI;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Yarn.Unity;
 
-namespace Code.Scripts.Managers {
+namespace Managers {
   public class GameManager : Singleton<GameManager> {
     [Header("References")]
     [SerializeField] private GameUI _gameUI;
-    [SerializeField] private global::Player _player;
+    [FormerlySerializedAs("_player")] [SerializeField] private global::Player.PlayerManager _playerManager;
     [SerializeField] private EndgameTarget _endgameTarget;
 
     [Header("Dialogue References")]
@@ -58,7 +61,7 @@ namespace Code.Scripts.Managers {
     public void StartLevel()
     {
       // For playtesting analytics, start recording the player input for the session
-      this._player.PlayerController.StartSession();
+      this._playerManager.PlayerController.StartSession();
 
       this._hero.StartRunning();
       CoinManager.Instance.StartCoinEarning();
@@ -77,14 +80,14 @@ namespace Code.Scripts.Managers {
 
     private void Start() {
       // Setup
-      this._gameUI.Initialize(this, this._player);
+      this._gameUI.Initialize(this, this._playerManager);
 
       this._hero.ResetHero();
 
       this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
-      this._player.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
-      this._player.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
-      this._player.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
+      this._playerManager.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
+      this._playerManager.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
+      this._playerManager.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
       this._hero.OnGameOver.AddListener(this.GameWon);
       this._hero.OnHeroDied.AddListener(this.OnHeroDied);
       this._hero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
@@ -116,7 +119,7 @@ namespace Code.Scripts.Managers {
 
   private void SelectedTrapIndexChanged(int trapIndex)
   {
-    var isAffordable = _player.PlayerController.GetTrapCost() >= CoinManager.Instance.Coins;
+    var isAffordable = this._playerManager.PlayerController.GetTrapCost() >= CoinManager.Instance.Coins;
 
     // Send Analytics data
     if (UGS_Analytics.Instance is null) return;
@@ -149,21 +152,21 @@ namespace Code.Scripts.Managers {
   }
 
     private void GameWon() {
-      this._player.PlayerController.DisablePlayerInput();
+      this._playerManager.PlayerController.DisablePlayerInput();
       this.OnHenWon?.Invoke("The Hero was stopped, good work Hendall!");
     }
 
     private void HeroReachedLevelEnd() {
-      this._player.PlayerController.DisablePlayerInput();
+      this._playerManager.PlayerController.DisablePlayerInput();
       this._hero.HeroMovement.ToggleMoving(false);
       this.OnHenLost?.Invoke("The Hero managed to reach his goal and do heroic things.\nHendall, you failed me!");
     }
 
     private void HenDied(string message) {
-      this._player.PlayerController.DisablePlayerInput();
+      this._playerManager.PlayerController.DisablePlayerInput();
       this._hero.HeroMovement.ToggleMoving(false);
 
-      Destroy(this._player.gameObject);
+      Destroy(this._playerManager.gameObject);
       this.OnHenLost?.Invoke(message);
     }
   }

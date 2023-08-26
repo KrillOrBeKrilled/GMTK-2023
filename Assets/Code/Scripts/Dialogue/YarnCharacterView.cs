@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
 
-namespace Yarn.Unity.Example
+namespace Dialogue
 {
     /// <summary>Manager singleton that repositions DialogueUI window in 3D worldspace, based on whoever is speaking. Put this script on the same gameObject as your DialogueUI.</summary>
     public class YarnCharacterView : DialogueViewBase // inherit from DialogueViewBase to receive data directly from DialogueRunner
@@ -26,7 +25,7 @@ namespace Yarn.Unity.Example
 
         [Tooltip("margin is 0-1.0 (0.1 means 10% of screen space)... -1 lets dialogue bubbles appear offscreen or get cutoff")]
         public float bubbleMargin = 0.1f;
-        
+
         public AK.Wwise.Event HenDialogueEvent;
         public AK.Wwise.Event BossDialogueEvent;
         public AK.Wwise.Event HeroDialogueEvent;
@@ -34,8 +33,8 @@ namespace Yarn.Unity.Example
         void Awake()
         {
             // ... this is important because we must set the static "instance" here, before any YarnCharacter.Start() can use it
-            instance = this; 
-            worldCamera = Camera.main;
+            instance = this;
+            this.worldCamera = Camera.main;
         }
 
         /// <summary>automatically called by YarnCharacter.Start() so that YarnCharacterView knows they exist</summary>
@@ -43,7 +42,7 @@ namespace Yarn.Unity.Example
         {
             if (!YarnCharacterView.instance.allCharacters.Contains(newCharacter))
             {
-                allCharacters.Add(newCharacter);
+                this.allCharacters.Add(newCharacter);
             }
         }
 
@@ -52,7 +51,7 @@ namespace Yarn.Unity.Example
         {
             if (YarnCharacterView.instance.allCharacters.Contains(deletedCharacter))
             {
-                allCharacters.Remove(deletedCharacter);
+                this.allCharacters.Remove(deletedCharacter);
             }
         }
 
@@ -62,22 +61,22 @@ namespace Yarn.Unity.Example
             string characterName = dialogueLine.CharacterName;
 
             // if null, Update() will use the playerCharacter instead
-            speakerCharacter = !string.IsNullOrEmpty(characterName) ? FindCharacter(characterName) : null;
-            
+            this.speakerCharacter = !string.IsNullOrEmpty(characterName) ? this.FindCharacter(characterName) : null;
+
             // Run Voice Events
             switch (characterName)
             {
                 case "Hero":
-                    HeroDialogueEvent.Post(gameObject);
+                    this.HeroDialogueEvent.Post(this.gameObject);
                     break;
                 case "Hendall":
-                    HenDialogueEvent.Post(gameObject);
+                    this.HenDialogueEvent.Post(this.gameObject);
                     break;
                 case "Dogan":
-                    BossDialogueEvent.Post(gameObject);
+                    this.BossDialogueEvent.Post(this.gameObject);
                     break;
             }
-            
+
             // IMPORTANT: we must mark this view as having finished its work, or else the DialogueRunner gets stuck forever
             onDialogueLineFinished();
         }
@@ -85,7 +84,7 @@ namespace Yarn.Unity.Example
         /// <summary>simple search through allCharacters list for a matching name, returns null and LogWarning if no match found</summary>
         YarnCharacter FindCharacter(string searchName)
         {
-            foreach (var character in allCharacters)
+            foreach (var character in this.allCharacters)
             {
                 if (character.characterName == searchName)
                 {
@@ -97,21 +96,21 @@ namespace Yarn.Unity.Example
             return null;
         }
 
-        /// <summary>Calculates where to put dialogue bubble based on worldPosition and any desired screen margins. 
+        /// <summary>Calculates where to put dialogue bubble based on worldPosition and any desired screen margins.
         /// Ensure "constrainToViewportMargin" is between 0.0f-1.0f (% of screen) to constrain to screen, or value of -1 lets bubble go off-screen.</summary>
         Vector2 WorldToAnchoredPosition(RectTransform bubble, Vector3 worldPos, float constrainToViewportMargin = -1f)
         {
-            Camera canvasCamera = worldCamera;
+            Camera canvasCamera = this.worldCamera;
             // Canvas "Overlay" mode is special case for ScreenPointToLocalPointInRectangle (see the Unity docs)
-            if (canvas.renderMode == RenderMode.ScreenSpaceOverlay)
+            if (this.canvas.renderMode == RenderMode.ScreenSpaceOverlay)
             {
-                canvasCamera = null; 
+                canvasCamera = null;
             }
 
-            RectTransformUtility.ScreenPointToLocalPointInRectangle( 
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 bubble.parent.GetComponent<RectTransform>(), // calculate local point inside parent... NOT inside the dialogue bubble itself
-                worldCamera.WorldToScreenPoint(worldPos), 
-                canvasCamera, 
+                this.worldCamera.WorldToScreenPoint(worldPos),
+                canvasCamera,
                 out Vector2 screenPos
             );
 
@@ -124,10 +123,10 @@ namespace Yarn.Unity.Example
                 // it's not really in world space or screen space, it's in a RectTransform "UI space"
                 // so we must manually convert our desired screen bounds to this UI space
 
-                bool useCanvasResolution = canvasScaler != null && canvasScaler.uiScaleMode != CanvasScaler.ScaleMode.ConstantPixelSize;
+                bool useCanvasResolution = this.canvasScaler != null && this.canvasScaler.uiScaleMode != CanvasScaler.ScaleMode.ConstantPixelSize;
                 Vector2 screenSize = Vector2.zero;
-                screenSize.x = useCanvasResolution ? canvasScaler.referenceResolution.x : Screen.width;
-                screenSize.y = useCanvasResolution ? canvasScaler.referenceResolution.y : Screen.height;
+                screenSize.x = useCanvasResolution ? this.canvasScaler.referenceResolution.x : Screen.width;
+                screenSize.y = useCanvasResolution ? this.canvasScaler.referenceResolution.y : Screen.height;
 
                 // calculate "half" values because we are measuring margins based on the center, like a radius
                 var halfBubbleWidth = bubble.rect.width / 2;
@@ -137,42 +136,42 @@ namespace Yarn.Unity.Example
                 var margin = screenSize.x < screenSize.y ? screenSize.x * constrainToViewportMargin : screenSize.y * constrainToViewportMargin;
 
                 // finally, clamp the screenPos fully within the screen bounds, while accounting for the bubble's rectTransform anchors
-                screenPos.x = Mathf.Clamp( 
+                screenPos.x = Mathf.Clamp(
                     screenPos.x,
                     margin + halfBubbleWidth - bubble.anchorMin.x * screenSize.x,
                     -(margin + halfBubbleWidth) - bubble.anchorMax.x * screenSize.x + screenSize.x
                 );
 
-                screenPos.y = Mathf.Clamp( 
-                    screenPos.y, 
-                    margin + halfBubbleHeight - bubble.anchorMin.y * screenSize.y, 
+                screenPos.y = Mathf.Clamp(
+                    screenPos.y,
+                    margin + halfBubbleHeight - bubble.anchorMin.y * screenSize.y,
                     -(margin + halfBubbleHeight) - bubble.anchorMax.y * screenSize.y + screenSize.y
                 );
             }
 
             return screenPos;
         }
-        
-        
+
+
         void FixedUpdate()
         {
             // this all in Update instead of RunLine because characters might walk around or move during the dialogue
-            if (dialogueBubbleRect.gameObject.activeInHierarchy)
+            if (this.dialogueBubbleRect.gameObject.activeInHierarchy)
             {
-                if (speakerCharacter != null) 
+                if (this.speakerCharacter != null)
                 {
-                    dialogueBubbleRect.anchoredPosition = WorldToAnchoredPosition(dialogueBubbleRect, speakerCharacter.positionWithOffset, bubbleMargin);
-                } 
-                else 
+                    this.dialogueBubbleRect.anchoredPosition = this.WorldToAnchoredPosition(this.dialogueBubbleRect, this.speakerCharacter.positionWithOffset, this.bubbleMargin);
+                }
+                else
                 {   // if no speaker defined, then display speech above playerCharacter as a default
-                    dialogueBubbleRect.anchoredPosition = WorldToAnchoredPosition(dialogueBubbleRect, playerCharacter.positionWithOffset, bubbleMargin);
+                    this.dialogueBubbleRect.anchoredPosition = this.WorldToAnchoredPosition(this.dialogueBubbleRect, this.playerCharacter.positionWithOffset, this.bubbleMargin);
                 }
             }
 
             // put choice option UI above playerCharacter
-            if (optionsBubbleRect.gameObject.activeInHierarchy)
+            if (this.optionsBubbleRect.gameObject.activeInHierarchy)
             {
-                optionsBubbleRect.anchoredPosition = WorldToAnchoredPosition(optionsBubbleRect, playerCharacter.positionWithOffset, bubbleMargin);
+                this.optionsBubbleRect.anchoredPosition = this.WorldToAnchoredPosition(this.optionsBubbleRect, this.playerCharacter.positionWithOffset, this.bubbleMargin);
             }
         }
     }

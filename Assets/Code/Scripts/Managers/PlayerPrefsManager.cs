@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Code.Scripts.Managers {
+namespace Managers {
   public static class PlayerPrefsManager {
     private const string SkipDialogueKey = "skipDialogue";
 

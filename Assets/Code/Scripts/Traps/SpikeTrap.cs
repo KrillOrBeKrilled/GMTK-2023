@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Heroes;
 using UnityEngine;
 
 namespace Traps {

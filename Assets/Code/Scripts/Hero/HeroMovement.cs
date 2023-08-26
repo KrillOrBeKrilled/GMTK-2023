@@ -45,8 +45,9 @@ public class HeroMovement : MonoBehaviour
 
     public void Jump(float jumpForce = 0f)
     {
+        // Add a little bit more jump force from the applied speed penalty to better prevent getting stuck
         if (jumpForce > 0f) _rigidbody.AddForce(Vector2.up * jumpForce);
-        else _rigidbody.AddForce(Vector2.up * JumpForce);
+        else _rigidbody.AddForce(Vector2.up * (JumpForce + JumpForce * _speedPenalty / 2f));
         
         _animator.SetTrigger(JumpKey);
         

@@ -4,7 +4,6 @@ using UGSAnalytics;
 using UI;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using Yarn.Unity;
 
 namespace Managers {

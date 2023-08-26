@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Heroes;
 using UnityEngine;
 
 namespace Traps
@@ -10,22 +9,22 @@ namespace Traps
         {
             return origin + LeftSpawnOffset;
         }
-        
+
         public override Vector3 GetRightSpawnPoint(Vector3 origin)
         {
             return origin + RightSpawnOffset;
         }
-        
+
         protected override void SetUpTrap()
         {
 
         }
-    
+
         protected override void DetonateTrap()
         {
 
         }
-        
+
         protected  override void OnEnteredTrap(Hero hero) {
         }
 

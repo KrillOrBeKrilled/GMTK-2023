@@ -1,5 +1,5 @@
+using Heroes;
 using System.Collections;
-using Traps;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -110,6 +110,48 @@ public class AcidPitTrap : InGroundTrap {
       yield return this._waitForOneSecond;
     }
 
-    this._intervalDamageCoroutine = null;
+    public override Vector3 GetRightSpawnPoint(Vector3 origin)
+    {
+      return origin + this.RightSpawnOffset;
+    }
+
+    protected override void SetUpTrap()
+    {
+
+    }
+
+    protected override void DetonateTrap()
+    {
+
+    }
+
+    protected override void OnEnteredTrap(Hero hero) {
+      if (!this.IsReady) return;
+
+      hero.HeroMovement.SetSpeedPenalty(0.8f);
+
+      if (this._intervalDamageCoroutine != null) {
+        this.StopCoroutine(this._intervalDamageCoroutine);
+      }
+      this._intervalDamageCoroutine = this.StartCoroutine(this.DealIntervalDamage(hero));
+    }
+
+    protected override void OnExitedTrap(Hero hero) {
+      if (!this.IsReady) return;
+
+      hero.HeroMovement.ResetSpeedPenalty();
+
+      if (this._intervalDamageCoroutine != null)
+        this.StopCoroutine(this._intervalDamageCoroutine);
+    }
+
+    private IEnumerator DealIntervalDamage(Hero hero) {
+      while (hero.Health > 0) {
+        hero.TakeDamage(this._damageAmount);
+        yield return this._waitForOneSecond;
+      }
+
+      this._intervalDamageCoroutine = null;
+    }
   }
 }

@@ -61,15 +61,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Advance Dialogue",
-                    "type": "Button",
-                    "id": "8f78b695-8773-4029-b963-120c4ced8d62",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "SetTrap1",
                     "type": "Button",
                     "id": "305dacb5-ed5b-4481-8288-e8545653e14d",
@@ -188,17 +179,6 @@
                 },
                 {
                     "name": "",
-                    "id": "abc590d5-7a2b-454d-8db5-5b41dfc33215",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Advance Dialogue",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "8d6d22d8-6090-45e2-80a8-6dc1d73d9b3f",
                     "path": "<Keyboard>/1",
                     "interactions": "",
@@ -227,6 +207,34 @@
                     "processors": "",
                     "groups": "",
                     "action": "SetTrap3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "1363d107-8a52-4c30-a508-dbb061969a1b",
+            "actions": [
+                {
+                    "name": "Advance Dialogue",
+                    "type": "Button",
+                    "id": "671b8445-8ad3-4fb0-ace6-6fea0e80a433",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9e5cb03e-42cc-46f3-8896-67ca887f023d",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Advance Dialogue",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

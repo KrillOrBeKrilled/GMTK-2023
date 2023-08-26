@@ -983,7 +983,7 @@ MonoBehaviour:
   - {fileID: 6711672230207336559}
   - {fileID: 4138263016411109766}
   startNode: TutorialDialogue
-  startAutomatically: 1
+  startAutomatically: 0
   runSelectedOptionAsLine: 0
   lineProvider: {fileID: 0}
   verboseLogging: 1
@@ -1469,7 +1469,7 @@ MonoBehaviour:
   dialogueView: {fileID: 856644338}
   continueActionType: 3
   continueActionKeyCode: 32
-  continueActionReference: {fileID: 6526484924844025534, guid: 32fda2c4537e443bfa27c9abc099ba97, type: 3}
+  continueActionReference: {fileID: 608783597165084035, guid: 32fda2c4537e443bfa27c9abc099ba97, type: 3}
   continueAction:
     m_Name: Skip
     m_Type: 1
@@ -1520,5 +1520,5 @@ Transform:
   - {fileID: 3741743097333894311}
   - {fileID: 6373560024111600768}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

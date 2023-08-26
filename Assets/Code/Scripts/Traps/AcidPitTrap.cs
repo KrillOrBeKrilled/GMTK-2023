@@ -86,18 +86,21 @@ public class AcidPitTrap : InGroundTrap {
   // Animation to fill the pit with acid and heat haze
   protected override void BuildTrap()
   {
-    // Magic ratio to avoid making the haze too intense
-    var targetHeatHazeRange = Mathf.Clamp(ConstructionCompletion / 3.8f, 0, 1);
+    // Clamp the acid depth to prevent the acid from looking strange around tile edges
+    var targetDepth = Mathf.Clamp(ConstructionCompletion, 0, 0.8f);
     
-    _acidLiquid.material.SetFloat("_Depth", ConstructionCompletion);
+    // Magic ratio to avoid making the haze too intense
+    var targetHeatHazeRange = Mathf.Clamp(targetDepth / 3.8f, 0, 1);
+    
+    _acidLiquid.material.SetFloat("_Depth", targetDepth);
     _heatEmanating.material.SetFloat("_HazeRange", targetHeatHazeRange);
 
-    if (!_bubbles.activeSelf && ConstructionCompletion > 0.05f)
+    if (!_bubbles.activeSelf && targetDepth > 0.05f)
     {
       _bubbles.SetActive(true);
     }
 
-    _bubbles.transform.position = new Vector3(_bubblesStartPos.x, _bubblesStartPos.y + ConstructionCompletion * 1.8f,
+    _bubbles.transform.position = new Vector3(_bubblesStartPos.x, _bubblesStartPos.y + targetDepth * 1.8f,
                                               _bubblesStartPos.z);
   }
 

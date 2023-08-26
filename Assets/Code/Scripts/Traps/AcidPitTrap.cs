@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class AcidPitTrap : Trap {
-  [SerializeField] private Material _acidLiquid;
-  [SerializeField] private Material _heatEmanating;
+  [SerializeField] private MeshRenderer _acidLiquid;
+  [SerializeField] private SpriteRenderer _heatEmanating;
   [SerializeField] private GameObject _bubbles;
+  private Vector3 _bubblesStartPos;
   [SerializeField] private int _damageAmount;
   [SerializeField] private GameObject _pitAvoidanceJumpPad;
   
@@ -31,10 +32,11 @@ public class AcidPitTrap : Trap {
   
     // Trap deployment visuals
     transform.position = spawnPosition;
+    _bubblesStartPos = _bubbles.transform.position;
     
     // Set the acid liquid level and heat haze intensity to 0
-    _acidLiquid.SetFloat("_Depth", 0);
-    _heatEmanating.SetFloat("_HazeRange", 0);
+    _acidLiquid.material.SetFloat("_Depth", 0);
+    _heatEmanating.material.SetFloat("_HazeRange", 0);
     _bubbles.SetActive(false);
 
     // Initiate the build time countdown
@@ -87,8 +89,16 @@ public class AcidPitTrap : Trap {
     // Magic ratio to avoid making the haze too intense
     var targetHeatHazeRange = Mathf.Clamp(ConstructionCompletion / 3.8f, 0, 1);
     
-    _acidLiquid.SetFloat("_Depth", ConstructionCompletion);
-    _heatEmanating.SetFloat("_HazeRange", targetHeatHazeRange);
+    _acidLiquid.material.SetFloat("_Depth", ConstructionCompletion);
+    _heatEmanating.material.SetFloat("_HazeRange", targetHeatHazeRange);
+
+    if (!_bubbles.activeSelf && ConstructionCompletion > 0.05f)
+    {
+      _bubbles.SetActive(true);
+    }
+
+    _bubbles.transform.position = new Vector3(_bubblesStartPos.x, _bubblesStartPos.y + ConstructionCompletion * 1.8f,
+                                              _bubblesStartPos.z);
   }
 
   private IEnumerator DealIntervalDamage(Hero hero) {

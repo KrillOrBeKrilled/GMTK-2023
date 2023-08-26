@@ -451,7 +451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015006166966294980, guid: 8c823611921986e48986fbaaa282b939, type: 3}
       propertyPath: HeroJumpForce
-      value: 0
+      value: 97
       objectReference: {fileID: 0}
     - target: {fileID: 6311759303802772288, guid: 8c823611921986e48986fbaaa282b939, type: 3}
       propertyPath: m_Name
@@ -471,7 +471,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7313791761958765132, guid: 8c823611921986e48986fbaaa282b939, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.183
+      value: -3.45
       objectReference: {fileID: 0}
     - target: {fileID: 7313791761958765132, guid: 8c823611921986e48986fbaaa282b939, type: 3}
       propertyPath: m_LocalPosition.z

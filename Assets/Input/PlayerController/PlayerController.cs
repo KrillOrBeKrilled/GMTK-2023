@@ -266,6 +266,9 @@ namespace Input
             // CoinManager.Instance.ConsumeCoins(trapToSpawn.Cost);
             CoinManager.Instance.EarnCoins(5);
             _soundsController.OnTileSelectConfirm();
+
+            // Invalidate trap deployment once the new trap has been deployed
+            _canDeploy = false;
         }
 
         // Test functions to switch between test traps

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using DG.Tweening;
-using Input;
+using Code.Scripts.Player.Input;
 using UnityEngine;
 using UnityEngine.UI;
 

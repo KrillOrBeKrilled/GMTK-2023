@@ -1,4 +1,4 @@
-using Input;
+using Code.Scripts.Player.Input;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -48,6 +48,9 @@ public class GameManager : Singleton<GameManager> {
   [YarnCommand("start_level")]
   public void StartLevel()
   {
+    // For playtesting analytics, start recording the player input for the session
+    _player.PlayerController.StartSession();
+    
     _hero.StartRunning();
     CoinManager.Instance.StartCoinEarning();
   }
@@ -70,40 +73,51 @@ public class GameManager : Singleton<GameManager> {
     PauseManager.Instance.SetIsPausable(true);
   }
 
-  private void OnPlayerStateChanged(IPlayerState state, float xPos, float yPos, float zPos) {
-    if (state is GameOverState) {
-      // Send Analytics data before ending the game
-      UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins, xPos, yPos, zPos);
-      
-      this.HenDied("The Hero managed to take you down Hendall.\nDon't you dream about that promotion I mentioned last time!");
-    }
+  private void OnPlayerStateChanged(IPlayerState state, float xPos, float yPos, float zPos)
+  {
+    if (state is not GameOverState) return;
+
+    this.HenDied("The Hero managed to take you down Hendall.\nDon't you dream about that promotion I mentioned last time!");
+    
+    // Send Analytics data
+    if (UGS_Analytics.Instance is null) return;
+    
+    UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins, xPos, yPos, zPos);
   }
   
   private void SelectedTrapIndexChanged(int trapIndex)
   {
     var isAffordable = _player.PlayerController.GetTrapCost() >= CoinManager.Instance.Coins;
-    
+
     // Send Analytics data
+    if (UGS_Analytics.Instance is null) return;
+    
     UGS_Analytics.SwitchTrapCustomEvent(trapIndex, isAffordable);
   }
   
   private void OnTrapDeployed(int trapIndex) {
     // Send Analytics data
+    if (UGS_Analytics.Instance is null) return;
+    
     UGS_Analytics.DeployTrapCustomEvent(trapIndex);
   }
 
 
   private void OnHeroDied(int numberLives, float xPos, float yPos, float zPos)
   {
-    // Send Analytics data before ending the game
-    UGS_Analytics.HeroDiedCustomEvent(numberLives, xPos, yPos, zPos);
-
     this.StartCoroutine(this.DisableOutOfBoundsForOneSecond());
+    
+    // Send Analytics data
+    if (UGS_Analytics.Instance is null) return;
+    
+    UGS_Analytics.HeroDiedCustomEvent(numberLives, xPos, yPos, zPos);
   }
   
   private void OnHeroIsStuck(float xPos, float yPos, float zPos)
   {
     // Send Analytics data
+    if (UGS_Analytics.Instance is null) return;
+    
     UGS_Analytics.HeroIsStuckCustomEvent(xPos, yPos, zPos);
   }
 

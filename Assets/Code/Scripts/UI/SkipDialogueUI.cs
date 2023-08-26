@@ -1,10 +1,7 @@
 using Code.Scripts.Managers;
-using Input;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Interactions;
 using UnityEngine.UI;
 
 namespace Code.Scripts.UI {

@@ -1,5 +1,5 @@
 using Code.Scripts.UI;
-using Input;
+using Code.Scripts.Player.Input;
 using UnityEngine;
 using UnityEngine.Events;
 using Yarn.Unity;
@@ -8,7 +8,7 @@ namespace Code.Scripts.Managers {
   public class GameManager : Singleton<GameManager> {
     [Header("References")]
     [SerializeField] private GameUI _gameUI;
-    [SerializeField] private Player _player;
+    [SerializeField] private global::Player _player;
     [SerializeField] private EndgameTarget _endgameTarget;
 
     [Header("Dialogue References")]
@@ -57,6 +57,9 @@ namespace Code.Scripts.Managers {
     [YarnCommand("start_level")]
     public void StartLevel()
     {
+      // For playtesting analytics, start recording the player input for the session
+      this._player.PlayerController.StartSession();
+
       this._hero.StartRunning();
       CoinManager.Instance.StartCoinEarning();
       this.OnStartLevel?.Invoke();
@@ -99,40 +102,51 @@ namespace Code.Scripts.Managers {
       PauseManager.Instance.SetIsPausable(true);
     }
 
-    private void OnPlayerStateChanged(IPlayerState state, float xPos, float yPos, float zPos) {
-      if (state is GameOverState) {
-        // Send Analytics data before ending the game
-        UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins, xPos, yPos, zPos);
+  private void OnPlayerStateChanged(IPlayerState state, float xPos, float yPos, float zPos)
+  {
+    if (state is not GameOverState) return;
 
-        this.HenDied("The Hero managed to take you down Hendall.\nDon't you dream about that promotion I mentioned last time!");
-      }
-    }
+    this.HenDied("The Hero managed to take you down Hendall.\nDon't you dream about that promotion I mentioned last time!");
 
-    private void SelectedTrapIndexChanged(int trapIndex)
-    {
-      var isAffordable = this._player.PlayerController.GetTrapCost() >= CoinManager.Instance.Coins;
+    // Send Analytics data
+    if (UGS_Analytics.Instance is null) return;
 
-      // Send Analytics data
-      UGS_Analytics.SwitchTrapCustomEvent(trapIndex, isAffordable);
-    }
+    UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins, xPos, yPos, zPos);
+  }
 
-    private void OnTrapDeployed(int trapIndex) {
-      // Send Analytics data
-      UGS_Analytics.DeployTrapCustomEvent(trapIndex);
-    }
+  private void SelectedTrapIndexChanged(int trapIndex)
+  {
+    var isAffordable = _player.PlayerController.GetTrapCost() >= CoinManager.Instance.Coins;
+
+    // Send Analytics data
+    if (UGS_Analytics.Instance is null) return;
+
+    UGS_Analytics.SwitchTrapCustomEvent(trapIndex, isAffordable);
+  }
+
+  private void OnTrapDeployed(int trapIndex) {
+    // Send Analytics data
+    if (UGS_Analytics.Instance is null) return;
+
+    UGS_Analytics.DeployTrapCustomEvent(trapIndex);
+  }
 
 
-    private void OnHeroDied(int numberLives, float xPos, float yPos, float zPos)
-    {
-      // Send Analytics data before ending the game
-      UGS_Analytics.HeroDiedCustomEvent(numberLives, xPos, yPos, zPos);
-    }
+  private void OnHeroDied(int numberLives, float xPos, float yPos, float zPos)
+  {
+    // Send Analytics data
+    if (UGS_Analytics.Instance is null) return;
 
-    private void OnHeroIsStuck(float xPos, float yPos, float zPos)
-    {
-      // Send Analytics data
-      UGS_Analytics.HeroIsStuckCustomEvent(xPos, yPos, zPos);
-    }
+    UGS_Analytics.HeroDiedCustomEvent(numberLives, xPos, yPos, zPos);
+  }
+
+  private void OnHeroIsStuck(float xPos, float yPos, float zPos)
+  {
+    // Send Analytics data
+    if (UGS_Analytics.Instance is null) return;
+
+    UGS_Analytics.HeroIsStuckCustomEvent(xPos, yPos, zPos);
+  }
 
     private void GameWon() {
       this._player.PlayerController.DisablePlayerInput();

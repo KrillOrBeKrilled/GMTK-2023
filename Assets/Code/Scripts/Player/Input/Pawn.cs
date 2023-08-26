@@ -1,0 +1,51 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Code.Scripts.Player.Input
+{
+    //*******************************************************************************************
+    // Pawn
+    //*******************************************************************************************
+    /// <summary>
+    /// A parent class to handle simple movement methods for controlling a character adapted to
+    /// the Command pattern for easy command execution.
+    /// </summary>
+    [RequireComponent(typeof(Rigidbody2D))]
+    public class Pawn : MonoBehaviour
+    {
+        [SerializeField] protected float Speed, JumpingForce;
+        protected Rigidbody2D RBody;
+
+        private void Awake()
+        {
+            RBody = GetComponent<Rigidbody2D>();
+        }
+
+        public virtual void StandIdle()
+        {
+            RBody.velocity = new Vector2(0f, RBody.velocity.y);
+        }
+        
+        public virtual void Move(float direction)
+        {
+            RBody.velocity = new Vector2(direction * Speed, RBody.velocity.y);
+        }
+
+        public virtual void Jump()
+        {
+            RBody.AddForce(Vector2.up * JumpingForce);
+        }
+
+        public virtual void DeployTrap()
+        {
+            // Particular to the hen, so will be overrided instead
+        }
+        
+        public virtual void ChangeTrap(int trapIndex)
+        {
+            // Particular to the hen, so will be overrided instead
+        }
+    }
+}
+

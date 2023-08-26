@@ -21,7 +21,7 @@ namespace Code.Scripts.UI {
 
     private const float FadeDuration = 0.5f;
 
-    public void Initialize(GameManager gameManager, Player player) {
+    public void Initialize(GameManager gameManager, global::Player player) {
       gameManager.OnSetupComplete.AddListener(this.OnGameSetupComplete);
       gameManager.OnHenWon.AddListener(this.OnHenWon);
       gameManager.OnHenLost.AddListener(this.OnHenLost);

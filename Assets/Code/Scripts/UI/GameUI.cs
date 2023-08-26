@@ -1,5 +1,6 @@
 using DG.Tweening;
 using Managers;
+using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -21,7 +22,7 @@ namespace UI {
 
     private const float FadeDuration = 0.5f;
 
-    public void Initialize(GameManager gameManager, global::Player.PlayerManager playerManager) {
+    public void Initialize(GameManager gameManager, PlayerManager playerManager) {
       gameManager.OnSetupComplete.AddListener(this.OnGameSetupComplete);
       gameManager.OnHenWon.AddListener(this.OnHenWon);
       gameManager.OnHenLost.AddListener(this.OnHenLost);

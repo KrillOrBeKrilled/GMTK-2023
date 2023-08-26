@@ -11,7 +11,7 @@ namespace Managers {
   public class GameManager : Singleton<GameManager> {
     [Header("References")]
     [SerializeField] private GameUI _gameUI;
-    [FormerlySerializedAs("_player")] [SerializeField] private global::Player.PlayerManager _playerManager;
+    [SerializeField] private PlayerManager _playerManager;
     [SerializeField] private EndgameTarget _endgameTarget;
 
     [Header("Dialogue References")]

@@ -7,8 +7,6 @@ public class CameraSwitcher : MonoBehaviour
     public GameObject StartCamera;
     public GameObject EndCamera;
 
-    private void Start() => ShowStart();
-
     private void DisableAll()
     {
         this.PlayerCamera.SetActive(false);
@@ -16,8 +14,8 @@ public class CameraSwitcher : MonoBehaviour
         EndCamera.SetActive(false);
     }
 
-    [YarnCommand("show_hero")]
-    public void ShowHero()
+    [YarnCommand("show_player")]
+    public void ShowPlayer()
     {
         DisableAll();
         this.PlayerCamera.SetActive(true);

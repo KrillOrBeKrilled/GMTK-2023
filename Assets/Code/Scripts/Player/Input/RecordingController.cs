@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
-using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 using Object = UnityEngine.Object;
 
-namespace Code.Scripts.Player.Input
+namespace Player
 {
     //*******************************************************************************************
     // RecordingController
@@ -18,18 +16,18 @@ namespace Code.Scripts.Player.Input
     {
         public Object RecordingFile;
         [SerializeField] private string _filePath;
-        
+
         private InputEventTrace.ReplayController _replayController;
 
         protected override void Awake()
         {
             base.Awake();
-            ParseControls();
+            this.ParseControls();
         }
 
         public override void StartSession()
         {
-            StartCoroutine(ReplayDelay());
+            this.StartCoroutine(this.ReplayDelay());
         }
 
         protected override void StopSession(string message)
@@ -39,9 +37,9 @@ namespace Code.Scripts.Player.Input
 
         private void ParseControls()
         {
-            _inputRecorder = InputEventTrace.LoadFrom(_filePath);
-            
-            if (_inputRecorder.eventCount < 1)
+            this._inputRecorder = InputEventTrace.LoadFrom(this._filePath);
+
+            if (this._inputRecorder.eventCount < 1)
             {
                 print("File empty or parse failed!");
             }
@@ -50,8 +48,8 @@ namespace Code.Scripts.Player.Input
         private void Replay()
         {
             print("Start Replay");
-            _replayController = _inputRecorder.Replay();
-            _replayController.PlayAllEventsAccordingToTimestamps();
+            this._replayController = this._inputRecorder.Replay();
+            this._replayController.PlayAllEventsAccordingToTimestamps();
         }
 
         private IEnumerator ReplayDelay()
@@ -59,8 +57,7 @@ namespace Code.Scripts.Player.Input
             // Slight delay to give more precision to combat a margin of error in the timing of the execution
             // of events when yarn triggers "start_level" in the GameManager.
             yield return new WaitForSeconds(0.02f);
-            Replay();
+            this.Replay();
         }
     }
 }
-

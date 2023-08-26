@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
+using System.Collections.Generic;
 using UnityEngine;
 using Yarn.Unity;
 
@@ -13,32 +12,32 @@ public class CameraShaker : MonoBehaviour
 
     void Awake()
     {
-        TryGetComponent(out _switcher);
-        
+        this.TryGetComponent(out this._switcher);
+
         // record all camera noise controllers
-        _noiseControllers = new();
+        this._noiseControllers = new();
         CinemachineVirtualCamera vcam;
-        _switcher.PlayerCamera.TryGetComponent(out vcam);
-        _noiseControllers.Add(vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>());
-        _switcher.StartCamera.TryGetComponent(out vcam);
-        _noiseControllers.Add(vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>());
-        _switcher.EndCamera.TryGetComponent(out vcam);
-        _noiseControllers.Add(vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>());
+        this._switcher.PlayerCamera.TryGetComponent(out vcam);
+        this._noiseControllers.Add(vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>());
+        this._switcher.StartCamera.TryGetComponent(out vcam);
+        this._noiseControllers.Add(vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>());
+        this._switcher.EndCamera.TryGetComponent(out vcam);
+        this._noiseControllers.Add(vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>());
     }
 
     [YarnCommand("start_shake")]
     public void StartShake()
     {
-        foreach (var noise in _noiseControllers)
+        foreach (var noise in this._noiseControllers)
         {
-            noise.m_AmplitudeGain = ShakeAmplitude;
+            noise.m_AmplitudeGain = this.ShakeAmplitude;
         }
     }
-    
+
     [YarnCommand("stop_shake")]
     public void StopShake()
     {
-        foreach (var noise in _noiseControllers)
+        foreach (var noise in this._noiseControllers)
         {
             noise.m_AmplitudeGain = 0;
         }

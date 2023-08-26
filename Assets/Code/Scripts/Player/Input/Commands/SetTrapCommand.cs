@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Code.Scripts.Player.Input.Commands
+namespace Player
 {
     public class SetTrapCommand : ICommand
     {
@@ -11,19 +7,19 @@ namespace Code.Scripts.Player.Input.Commands
 
         public SetTrapCommand(Pawn controlledObject, int trapIndex)
         {
-            _controlledObject = controlledObject;
-            _trapIndex = trapIndex;
+            this._controlledObject = controlledObject;
+            this._trapIndex = trapIndex;
         }
-        
+
         public int GetTrapIndex()
         {
-            return _trapIndex;
+            return this._trapIndex;
         }
 
 
         public void Execute()
         {
-            _controlledObject.ChangeTrap(_trapIndex);
+            this._controlledObject.ChangeTrap(this._trapIndex);
         }
     }
 }

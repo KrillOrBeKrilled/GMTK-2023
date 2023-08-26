@@ -1,5 +1,5 @@
+using Heroes;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Traps {
   public class SwingingAxeTrap : Trap {

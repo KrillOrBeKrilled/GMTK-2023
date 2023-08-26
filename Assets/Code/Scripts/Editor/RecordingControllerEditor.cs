@@ -1,4 +1,4 @@
-using Code.Scripts.Player.Input;
+using Player;
 using UnityEngine;
 using UnityEditor;
 

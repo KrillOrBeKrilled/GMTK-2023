@@ -1,42 +1,42 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Heroes;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HeroLivesBarUI : MonoBehaviour
-{
-    [SerializeField] private Hero _hero;
-    [SerializeField] private float _heartImageWidth = 8;
-
-    private Image _heartsImage;
-
-    void Awake()
+namespace UI {
+    public class HeroLivesBarUI : MonoBehaviour
     {
-        TryGetComponent(out _heartsImage);
-    }
+        [SerializeField] private Hero _hero;
+        [SerializeField] private float _heartImageWidth = 8;
 
-    void Start()
-    {
-        UpdateLivesBar(_hero.Lives);
-    }
-    
-    void OnEnable()
-    {
-        UpdateLivesBar(_hero.Lives);
-        _hero.OnHeroDied.AddListener(UpdateLivesBar);
-    }
+        private Image _heartsImage;
 
-    private void OnDisable()
-    {
-        _hero.OnHeroDied.RemoveListener(UpdateLivesBar);
-    }
-
-    void UpdateLivesBar(int lives, float xPos = 0, float yPos = 0, float zPos = 0)
-    {
-        if (_hero != null)
+        void Awake()
         {
-            _heartsImage.rectTransform.sizeDelta = new Vector2(_heartImageWidth * lives, _heartImageWidth);
+            this.TryGetComponent(out this._heartsImage);
+        }
+
+        void Start()
+        {
+            this.UpdateLivesBar(this._hero.Lives);
+        }
+
+        void OnEnable()
+        {
+            this.UpdateLivesBar(this._hero.Lives);
+            this._hero.OnHeroDied.AddListener(this.UpdateLivesBar);
+        }
+
+        private void OnDisable()
+        {
+            this._hero.OnHeroDied.RemoveListener(this.UpdateLivesBar);
+        }
+
+        void UpdateLivesBar(int lives, float xPos = 0, float yPos = 0, float zPos = 0)
+        {
+            if (this._hero != null)
+            {
+                this._heartsImage.rectTransform.sizeDelta = new Vector2(this._heartImageWidth * lives, this._heartImageWidth);
+            }
         }
     }
 }

@@ -1,28 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Code.Scripts.Player.Input.Commands
+namespace Player
 {
     public class MoveCommand : ICommand
     {
         private readonly Pawn _controlledObject;
         private readonly float _inputDirection;
-        
+
         public MoveCommand(Pawn controlledObject, float inputDirection)
         {
-            _controlledObject = controlledObject;
-            _inputDirection = inputDirection;
+            this._controlledObject = controlledObject;
+            this._inputDirection = inputDirection;
         }
 
         public float GetDirection()
         {
-            return _inputDirection;
+            return this._inputDirection;
         }
 
         public void Execute()
         {
-            _controlledObject.Move(_inputDirection);
+            this._controlledObject.Move(this._inputDirection);
         }
     }
 }

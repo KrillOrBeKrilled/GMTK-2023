@@ -1,3 +1,5 @@
+using Heroes;
+using Player;
 using UnityEngine;
 
 public class FallCollider : MonoBehaviour{
@@ -5,7 +7,7 @@ public class FallCollider : MonoBehaviour{
     if (other.CompareTag("Hero")) {
       this.OnHeroTriggerEnter(other.GetComponent<Hero>());
     } else if (other.CompareTag("Player")) {
-      this.OnPlayerTriggerEnter(other.GetComponent<Player>());
+      this.OnPlayerTriggerEnter(other.GetComponent<PlayerManager>());
     }
   }
 
@@ -14,8 +16,8 @@ public class FallCollider : MonoBehaviour{
       hero.Die();
   }
 
-  private void OnPlayerTriggerEnter(Player player) {
-    if (player != null)
-      player.PlayerController.GameOver();
+  private void OnPlayerTriggerEnter(PlayerManager playerManager) {
+    if (playerManager != null)
+      playerManager.PlayerController.GameOver();
   }
 }

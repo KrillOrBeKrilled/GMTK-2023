@@ -2,47 +2,49 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class CoinManager : Singleton<CoinManager> {
-  [SerializeField] private float _earnCoinInterval = 5f;
+namespace Managers {
+  public class CoinManager : Singleton<CoinManager> {
+    [SerializeField] private float _earnCoinInterval = 5f;
 
-  public int Coins { get; private set; }
-  public UnityEvent<int> OnCoinAmountChanged;
+    public int Coins { get; private set; }
+    public UnityEvent<int> OnCoinAmountChanged;
 
-  private WaitForSeconds _waitInterval;
+    private WaitForSeconds _waitInterval;
 
-  public bool CanAfford(int cost) {
-    return this.Coins >= cost;
-  }
+    public bool CanAfford(int cost) {
+      return this.Coins >= cost;
+    }
 
-  public void EarnCoins(int amount) {
-    this.Coins += amount;
-    this.OnCoinAmountChanged?.Invoke(this.Coins);
-  }
+    public void EarnCoins(int amount) {
+      this.Coins += amount;
+      this.OnCoinAmountChanged?.Invoke(this.Coins);
+    }
 
-  public void ConsumeCoins(int amount) {
-    this.Coins -= amount;
-    this.OnCoinAmountChanged?.Invoke(this.Coins);
-  }
+    public void ConsumeCoins(int amount) {
+      this.Coins -= amount;
+      this.OnCoinAmountChanged?.Invoke(this.Coins);
+    }
 
-  public void StartCoinEarning() {
-    this.StartCoroutine(this.EarnCoinCoroutine());
-  }
+    public void StartCoinEarning() {
+      this.StartCoroutine(this.EarnCoinCoroutine());
+    }
 
-  protected override void Awake() {
-    base.Awake();
-    this.OnCoinAmountChanged = new UnityEvent<int>();
-    this._waitInterval = new WaitForSeconds(this._earnCoinInterval);
-  }
+    protected override void Awake() {
+      base.Awake();
+      this.OnCoinAmountChanged = new UnityEvent<int>();
+      this._waitInterval = new WaitForSeconds(this._earnCoinInterval);
+    }
 
-  private void Start() {
-    this.Coins = 1;
-    this.OnCoinAmountChanged?.Invoke(1);
-  }
+    private void Start() {
+      this.Coins = 1;
+      this.OnCoinAmountChanged?.Invoke(1);
+    }
 
-  private IEnumerator EarnCoinCoroutine() {
-    while (true) {
-      yield return this._waitInterval;
-      this.EarnCoins(1);
+    private IEnumerator EarnCoinCoroutine() {
+      while (true) {
+        yield return this._waitInterval;
+        this.EarnCoins(1);
+      }
     }
   }
 }

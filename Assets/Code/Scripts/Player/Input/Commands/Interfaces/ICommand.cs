@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Code.Scripts.Player.Input.Commands
+namespace Player
 {
     public interface ICommand
     {
@@ -12,7 +8,7 @@ namespace Code.Scripts.Player.Input.Commands
         {
             return 0f;
         }
-        
+
         public int GetTrapIndex()
         {
             return 0;

@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Code.Scripts.Player.Input.Commands
+namespace Player
 {
     public class JumpCommand : ICommand
     {
@@ -10,12 +6,12 @@ namespace Code.Scripts.Player.Input.Commands
 
         public JumpCommand(Pawn controlledObject)
         {
-            _controlledObject = controlledObject;
+            this._controlledObject = controlledObject;
         }
 
         public void Execute()
         {
-            _controlledObject.Jump();
+            this._controlledObject.Jump();
         }
     }
 }

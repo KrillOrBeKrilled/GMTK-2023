@@ -60,6 +60,7 @@ namespace Managers {
 
       this._activeRespawnPoint = this._respawnPoints.First();
       this.SpawnHero();
+      this._hero.HeroMovement.ToggleMoving(false);
     }
 
     [YarnCommand("enter_hero")]
@@ -138,17 +139,18 @@ namespace Managers {
 
 
     private void OnHeroDied(Hero hero) {
+      print("Deleting hero");
+      if (hero.TryGetComponent(out YarnCharacter diedCharacter)) {
+        YarnCharacterView.instance.ForgetYarnCharacter(diedCharacter);
+      }
+
+      this.SpawnHero();
+
       // Send Analytics data
       if (UGS_Analytics.Instance is null) return;
 
       Vector3 heroPos = hero.transform.position;
       UGS_Analytics.HeroDiedCustomEvent(heroPos.x, heroPos.y, heroPos.z);
-
-      if (!hero.TryGetComponent(out YarnCharacter diedCharacter)) {
-        return;
-      }
-
-      YarnCharacterView.instance.ForgetYarnCharacter(diedCharacter);
     }
 
     private void OnHeroIsStuck(float xPos, float yPos, float zPos) {
@@ -173,10 +175,10 @@ namespace Managers {
     }
 
     private void SpawnHero() {
+      print("<color=cyan>Spawning Hero</color>");
       this._hero = Instantiate(this._heroPrefab, this._activeRespawnPoint.transform);
       this._hero.OnHeroDied.AddListener(this.OnHeroDied);
       this._hero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
-      this._hero.HeroMovement.ToggleMoving(false);
 
       if (!this._hero.TryGetComponent(out YarnCharacter newYarnCharacter)) {
         return;

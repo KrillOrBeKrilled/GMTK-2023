@@ -23,12 +23,12 @@ namespace Heroes {
       this.Health -= amount;
       CoinManager.Instance.EarnCoins(1);
 
+      this.HeroHurtEvent.Post(this.gameObject);
+      this.OnHealthChanged?.Invoke(this.Health);
+
       if (this.Health <= 0) {
         this.Die();
       }
-
-      this.HeroHurtEvent.Post(this.gameObject);
-      this.OnHealthChanged?.Invoke(this.Health);
     }
 
     public void StartRunning()
@@ -55,14 +55,14 @@ namespace Heroes {
       this.TryGetComponent(out this._heroMovement);
       this.TryGetComponent(out this._animator);
       this.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
+
+      // this.Health = MaxHealth;
     }
 
     public void Die() {
       this.HeroHurtEvent.Post(this.gameObject);
 
-      Vector3 heroPos = this.transform.position;
       this.OnHeroDied?.Invoke(this);
-
       Destroy(this.gameObject);
     }
 

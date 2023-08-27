@@ -55,7 +55,8 @@ namespace UI {
       this._hero.OnHeroDied.RemoveListener(this.OnDeath);
     }
 
-    private void OnDeath(int numberLives, float xPos = 0, float yPos = 0, float zPos = 0) {
+    private void OnDeath(Hero _) {
+      Destroy(this.gameObject);
     }
 
     private void RepositionHealthBar() {

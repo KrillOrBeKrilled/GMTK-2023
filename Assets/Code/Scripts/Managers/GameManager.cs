@@ -1,5 +1,8 @@
+using Dialogue;
 using Heroes;
 using Player;
+using System.Collections.Generic;
+using System.Linq;
 using UGSAnalytics;
 using UI;
 using UnityEngine;
@@ -19,12 +22,18 @@ namespace Managers {
     [SerializeField] private CameraShaker _cameraShaker;
 
     [Header("Heroes")]
-    [SerializeField] private Hero _hero;
+    [SerializeField] private Hero _heroPrefab;
+
+    [Header("Level")]
+    [SerializeField] private List<RespawnPoint> _respawnPoints;
+    private RespawnPoint _activeRespawnPoint;
 
     public UnityEvent OnSetupComplete { get; private set; }
     public UnityEvent OnStartLevel { get; private set; }
     public UnityEvent<string> OnHenWon { get; private set; }
     public UnityEvent<string> OnHenLost { get; private set; }
+
+    private Hero _hero;
 
     public void LoadMainMenu() {
       PauseManager.Instance.UnpauseGame();
@@ -48,17 +57,18 @@ namespace Managers {
       this.OnStartLevel = new UnityEvent();
       this.OnHenWon = new UnityEvent<string>();
       this.OnHenLost = new UnityEvent<string>();
+
+      this._activeRespawnPoint = this._respawnPoints.First();
+      this.SpawnHero();
     }
 
     [YarnCommand("enter_hero")]
-    public void EnterHero()
-    {
+    public void EnterHero() {
       this._hero.EnterLevel();
     }
 
     [YarnCommand("start_level")]
-    public void StartLevel()
-    {
+    public void StartLevel() {
       // For playtesting analytics, start recording the player input for the session
       this._playerManager.PlayerController.StartSession();
 
@@ -81,15 +91,10 @@ namespace Managers {
       // Setup
       this._gameUI.Initialize(this, this._playerManager);
 
-      this._hero.ResetHero();
-
       this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
       this._playerManager.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
       this._playerManager.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
       this._playerManager.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
-      this._hero.OnGameOver.AddListener(this.GameWon);
-      this._hero.OnHeroDied.AddListener(this.OnHeroDied);
-      this._hero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 
       this.OnSetupComplete?.Invoke();
 
@@ -104,55 +109,53 @@ namespace Managers {
       PauseManager.Instance.SetIsPausable(true);
     }
 
-  private void OnPlayerStateChanged(IPlayerState state, float xPos, float yPos, float zPos)
-  {
-    if (state is not GameOverState) return;
+    private void OnPlayerStateChanged(IPlayerState state, float xPos, float yPos, float zPos) {
+      if (state is not GameOverState) return;
 
-    this.HenDied("The Hero managed to take you down Hendall.\nDon't you dream about that promotion I mentioned last time!");
+      this.HenDied("The Hero managed to take you down Hendall.\nDon't you dream about that promotion I mentioned last time!");
 
-    // Send Analytics data
-    if (UGS_Analytics.Instance is null) return;
+      // Send Analytics data
+      if (UGS_Analytics.Instance is null) return;
 
-    UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins, xPos, yPos, zPos);
-  }
+      UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins, xPos, yPos, zPos);
+    }
 
-  private void SelectedTrapIndexChanged(int trapIndex)
-  {
-    var isAffordable = this._playerManager.PlayerController.GetTrapCost() >= CoinManager.Instance.Coins;
+    private void SelectedTrapIndexChanged(int trapIndex) {
+      var isAffordable = this._playerManager.PlayerController.GetTrapCost() >= CoinManager.Instance.Coins;
 
-    // Send Analytics data
-    if (UGS_Analytics.Instance is null) return;
+      // Send Analytics data
+      if (UGS_Analytics.Instance is null) return;
 
-    UGS_Analytics.SwitchTrapCustomEvent(trapIndex, isAffordable);
-  }
+      UGS_Analytics.SwitchTrapCustomEvent(trapIndex, isAffordable);
+    }
 
-  private void OnTrapDeployed(int trapIndex) {
-    // Send Analytics data
-    if (UGS_Analytics.Instance is null) return;
+    private void OnTrapDeployed(int trapIndex) {
+      // Send Analytics data
+      if (UGS_Analytics.Instance is null) return;
 
-    UGS_Analytics.DeployTrapCustomEvent(trapIndex);
-  }
+      UGS_Analytics.DeployTrapCustomEvent(trapIndex);
+    }
 
 
-  private void OnHeroDied(int numberLives, float xPos, float yPos, float zPos)
-  {
-    // Send Analytics data
-    if (UGS_Analytics.Instance is null) return;
+    private void OnHeroDied(Hero hero) {
+      // Send Analytics data
+      if (UGS_Analytics.Instance is null) return;
 
-    UGS_Analytics.HeroDiedCustomEvent(numberLives, xPos, yPos, zPos);
-  }
+      Vector3 heroPos = hero.transform.position;
+      UGS_Analytics.HeroDiedCustomEvent(heroPos.x, heroPos.y, heroPos.z);
 
-  private void OnHeroIsStuck(float xPos, float yPos, float zPos)
-  {
-    // Send Analytics data
-    if (UGS_Analytics.Instance is null) return;
+      if (!hero.TryGetComponent(out YarnCharacter diedCharacter)) {
+        return;
+      }
 
-    UGS_Analytics.HeroIsStuckCustomEvent(xPos, yPos, zPos);
-  }
+      YarnCharacterView.instance.ForgetYarnCharacter(diedCharacter);
+    }
 
-    private void GameWon() {
-      this._playerManager.PlayerController.DisablePlayerInput();
-      this.OnHenWon?.Invoke("The Hero was stopped, good work Hendall!");
+    private void OnHeroIsStuck(float xPos, float yPos, float zPos) {
+      // Send Analytics data
+      if (UGS_Analytics.Instance is null) return;
+
+      UGS_Analytics.HeroIsStuckCustomEvent(xPos, yPos, zPos);
     }
 
     private void HeroReachedLevelEnd() {
@@ -167,6 +170,20 @@ namespace Managers {
 
       Destroy(this._playerManager.gameObject);
       this.OnHenLost?.Invoke(message);
+    }
+
+    private void SpawnHero() {
+      this._hero = Instantiate(this._heroPrefab, this._activeRespawnPoint.transform);
+      this._hero.OnHeroDied.AddListener(this.OnHeroDied);
+      this._hero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
+      this._hero.HeroMovement.ToggleMoving(false);
+
+      if (!this._hero.TryGetComponent(out YarnCharacter newYarnCharacter)) {
+        return;
+      }
+
+      YarnCharacterView.instance.RegisterYarnCharacter(newYarnCharacter);
+      YarnCharacterView.instance.playerCharacter = newYarnCharacter;
     }
   }
 }

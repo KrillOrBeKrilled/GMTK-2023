@@ -22,16 +22,16 @@ namespace Tiles {
             base.GetTileData(position, tilemap, ref tileData);
         }
 
-#if UNITY_EDITOR
-    [MenuItem("Assets/Create/2D/Custom Tiles/Trap Tile")]
-    public static void CreateTrapTile()
-    {
-        var path = EditorUtility.SaveFilePanelInProject("Save Trap Tile", "New Trap Tile",
-            "Asset", "Save Trap Tile", "Assets");
-        if (path == "") return;
-        
-        AssetDatabase.CreateAsset(CreateInstance<TrapTile>(), path);
-    }
+    #if UNITY_EDITOR
+        [MenuItem("Assets/Create/2D/Custom Tiles/Trap Tile")]
+        public static void CreateTrapTile()
+        {
+            var path = EditorUtility.SaveFilePanelInProject("Save Trap Tile", "New Trap Tile",
+                "Asset", "Save Trap Tile", "Assets");
+            if (path == "") return;
+            
+            AssetDatabase.CreateAsset(CreateInstance<TrapTile>(), path);
+        }
     #endif
     }
 }

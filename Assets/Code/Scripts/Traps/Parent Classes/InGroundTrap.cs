@@ -1,4 +1,4 @@
-using Input;
+using Player;
 using UnityEngine;
 
 namespace Traps

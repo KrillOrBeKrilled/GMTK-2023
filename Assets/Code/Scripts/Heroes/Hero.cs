@@ -56,7 +56,7 @@ namespace Heroes {
       this.TryGetComponent(out this._animator);
       this.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 
-      // this.Health = MaxHealth;
+      this.Health = MaxHealth;
     }
 
     public void Die() {

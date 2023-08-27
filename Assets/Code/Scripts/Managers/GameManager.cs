@@ -28,10 +28,12 @@ namespace Managers {
     [SerializeField] private List<RespawnPoint> _respawnPoints;
     private RespawnPoint _activeRespawnPoint;
 
+    // --------------- Events ---------------
     public UnityEvent OnSetupComplete { get; private set; }
     public UnityEvent OnStartLevel { get; private set; }
     public UnityEvent<string> OnHenWon { get; private set; }
     public UnityEvent<string> OnHenLost { get; private set; }
+    public UnityEvent<Hero> OnHeroSpawned { get; private set; }
 
     private Hero _hero;
 
@@ -57,10 +59,9 @@ namespace Managers {
       this.OnStartLevel = new UnityEvent();
       this.OnHenWon = new UnityEvent<string>();
       this.OnHenLost = new UnityEvent<string>();
+      this.OnHeroSpawned = new UnityEvent<Hero>();
 
       this._activeRespawnPoint = this._respawnPoints.First();
-      this.SpawnHero();
-      this._hero.HeroMovement.ToggleMoving(false);
     }
 
     [YarnCommand("enter_hero")]
@@ -96,6 +97,9 @@ namespace Managers {
       this._playerManager.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
       this._playerManager.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
       this._playerManager.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
+
+      this.SpawnHero();
+      this._hero.HeroMovement.ToggleMoving(false);
 
       this.OnSetupComplete?.Invoke();
 
@@ -175,17 +179,20 @@ namespace Managers {
     }
 
     private void SpawnHero() {
-      print("<color=cyan>Spawning Hero</color>");
       this._hero = Instantiate(this._heroPrefab, this._activeRespawnPoint.transform);
       this._hero.OnHeroDied.AddListener(this.OnHeroDied);
       this._hero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 
       if (!this._hero.TryGetComponent(out YarnCharacter newYarnCharacter)) {
+        print("NULL");
         return;
       }
 
       YarnCharacterView.instance.RegisterYarnCharacter(newYarnCharacter);
       YarnCharacterView.instance.playerCharacter = newYarnCharacter;
+
+      print("Invoking on hero spawned");
+      this.OnHeroSpawned.Invoke(this._hero);
     }
   }
 }

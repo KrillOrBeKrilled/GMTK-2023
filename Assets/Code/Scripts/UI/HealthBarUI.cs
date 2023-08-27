@@ -4,18 +4,28 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI {
-  public class HeroHealthBarUI : MonoBehaviour {
+  public class HealthBarUI : MonoBehaviour {
     [SerializeField] Vector2 _positionOffset;
-    [SerializeField] private Hero _hero;
-    [SerializeField] private Transform _objectToFollow;
-    [SerializeField] private RectTransform _targetCanvas;
 
     private Camera _mainCamera;
     private RectTransform _rectTransform;
     private Slider _healthBar;
 
+    private Transform _objectToFollow;
+    private Hero _hero;
+    private RectTransform _targetCanvas;
+
     private Tween _sliderTween;
     private Tween _moveTween;
+
+    public void Initialize(Hero targetHero, RectTransform targetCanvas) {
+      this._hero = targetHero;
+      this._objectToFollow = targetHero.transform;
+      this._targetCanvas = targetCanvas;
+
+      this._hero.OnHealthChanged.AddListener(this.OnHealthChanged);
+      this._hero.OnHeroDied.AddListener(this.OnDeath);
+    }
 
     private void Awake() {
       this._mainCamera = Camera.main;
@@ -27,12 +37,6 @@ namespace UI {
       this._healthBar.minValue = 0;
 
       this.RepositionHealthBar();
-    }
-
-    private void OnEnable()
-    {
-      this._hero.OnHealthChanged.AddListener(this.OnHealthChanged);
-      this._hero.OnHeroDied.AddListener(this.OnDeath);
     }
 
     private void Update() {
@@ -70,8 +74,8 @@ namespace UI {
           viewportPosition.y * sizeDelta.y - sizeDelta.y * 0.5f);
       worldObjectScreenPosition += this._positionOffset;
 
-      this._moveTween?.Kill();
-      this._moveTween = this._rectTransform.DOAnchorPos(worldObjectScreenPosition, 0.1f);
+      // this._rectTransform.DOAnchorPos(worldObjectScreenPosition, 0.1f);
+      this._rectTransform.anchoredPosition = worldObjectScreenPosition;
     }
   }
 }

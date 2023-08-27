@@ -7,10 +7,10 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 
+//*******************************************************************************************
+// PlayerController
+//*******************************************************************************************
 namespace Player {
-    //*******************************************************************************************
-    // PlayerController
-    //*******************************************************************************************
     /// <summary>
     /// A class to handle the brunt of player input: Contains the implementation for the
     /// character movement, jumping, changing and deployment of traps, as well as player

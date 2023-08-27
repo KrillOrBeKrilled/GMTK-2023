@@ -7,11 +7,11 @@ using Traps;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+//*******************************************************************************************
+// TrapController
+//*******************************************************************************************
 namespace Player
 {
-    //*******************************************************************************************
-    // TrapController
-    //*******************************************************************************************
     /// <summary>
     /// A class to handle the eligibility calculation of tile placement called every frame
     /// through tilemap and custom collision detection. Contains helper methods to check tile

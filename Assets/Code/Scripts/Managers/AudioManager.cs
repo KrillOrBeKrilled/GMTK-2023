@@ -9,8 +9,9 @@ using UnityEngine.SceneManagement;
 namespace Managers {
     /// <summary>
     /// A class to act as a soundbank for all the game's SFX. Works hand in hand with the
-    /// Jukebox class (handles the music soundbank) to provide methods for listening in on
-    /// events invoked during gameplay that handle all the Wwise sound events.
+    /// <see cref="Jukebox"> Jukebox </see> class (handles the music soundbank) to provide
+    /// methods for listening in on events invoked during gameplay that handle all the Wwise
+    /// sound events.
     /// </summary>
     public class AudioManager : MonoBehaviour
     {

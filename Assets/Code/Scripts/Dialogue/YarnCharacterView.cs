@@ -4,14 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
 
+//*******************************************************************************************
+// YarnCharacterView
+//*******************************************************************************************
 namespace Dialogue
 {
-    /// <summary>Manager singleton that repositions DialogueUI window in 3D worldspace, based on whoever is speaking. Put this script on the same gameObject as your DialogueUI.</summary>
+    /// <summary>
+    /// Manager singleton that repositions DialogueUI window in 3D world space, based on
+    /// whoever is speaking. Put this script on the same gameObject as your DialogueUI.
+    /// </summary>
     public class YarnCharacterView : DialogueViewBase // inherit from DialogueViewBase to receive data directly from DialogueRunner
     {
-        public static YarnCharacterView instance; // very minimal implementation of singleton manager (initialized lazily in Awake)
-        public List<YarnCharacter> allCharacters = new List<YarnCharacter>(); // list of all YarnCharacters in the scene, who register themselves in YarnCharacter.Start()
-        Camera worldCamera; // this script assumes you are using a full-screen Unity UI canvas along with a full-screen game camera
+        // Very minimal implementation of singleton manager (initialized lazily in Awake)
+        public static YarnCharacterView instance;
+        
+        // List of all YarnCharacters in the scene, who register themselves in YarnCharacter.Start()
+        public List<YarnCharacter> allCharacters = new List<YarnCharacter>();
+        
+        // This script assumes you are using a full-screen Unity UI canvas along with a full-screen game camera
+        Camera worldCamera;
 
         [Tooltip("display dialogue choices for this character, and display any no-name dialogue here too")]
         public YarnCharacter playerCharacter;
@@ -36,8 +47,38 @@ namespace Dialogue
             instance = this;
             this.worldCamera = Camera.main;
         }
+        
+        void FixedUpdate()
+        {
+            // this all in Update instead of RunLine because characters might walk around or move during the dialogue
+            if (this.dialogueBubbleRect.gameObject.activeInHierarchy)
+            {
+                if (this.speakerCharacter is not null)
+                {
+                    this.dialogueBubbleRect.anchoredPosition = this.WorldToAnchoredPosition(
+                        this.dialogueBubbleRect, this.speakerCharacter.positionWithOffset, this.bubbleMargin);
+                }
+                else
+                {   // if no speaker defined, then display speech above playerCharacter as a default
+                    this.dialogueBubbleRect.anchoredPosition = this.WorldToAnchoredPosition(
+                        this.dialogueBubbleRect, this.playerCharacter.positionWithOffset, this.bubbleMargin);
+                }
+            }
 
-        /// <summary>automatically called by YarnCharacter.Start() so that YarnCharacterView knows they exist</summary>
+            // put choice option UI above playerCharacter
+            if (this.optionsBubbleRect.gameObject.activeInHierarchy)
+            {
+                this.optionsBubbleRect.anchoredPosition = this.WorldToAnchoredPosition(
+                    this.optionsBubbleRect, this.playerCharacter.positionWithOffset, this.bubbleMargin);
+            }
+        }
+
+        /// <summary>
+        /// Registers a character to track dialogue lines spoken by this character if the character is not
+        /// currently registered.
+        /// </summary>
+        /// <param name="newCharacter"> The YarnCharacter to be registered. </param>
+        /// <remarks> Automatically called by YarnCharacter.Start() so that YarnCharacterView knows they exist. </remarks>
         public void RegisterYarnCharacter(YarnCharacter newCharacter)
         {
             if (!YarnCharacterView.instance.allCharacters.Contains(newCharacter))
@@ -46,7 +87,12 @@ namespace Dialogue
             }
         }
 
-        /// <summary>automatically called by YarnCharacter.OnDestroy() to clean-up</summary>
+        /// <summary>
+        /// Unregisters a character to stop tracking dialogue lines spoken by this character if the
+        /// character is currently registered.
+        /// </summary>
+        /// <param name="deletedCharacter"> The YarnCharacter to be unregistered. </param>
+        /// <remarks> Automatically called by YarnCharacter.OnDestroy() to clean-up. </remarks>
         public void ForgetYarnCharacter(YarnCharacter deletedCharacter)
         {
             if (YarnCharacterView.instance.allCharacters.Contains(deletedCharacter))
@@ -54,7 +100,12 @@ namespace Dialogue
                 this.allCharacters.Remove(deletedCharacter);
             }
         }
-
+        
+        /// <summary>
+        /// Extends the <see cref="DialogueViewBase.RunLine">RunLine</see> method from
+        /// <see cref="DialogueViewBase"/> to play SFX associated with the in-game characters
+        /// speaking their lines.
+        /// </summary>
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
             // Try and get the character name from the line
@@ -81,7 +132,10 @@ namespace Dialogue
             onDialogueLineFinished();
         }
 
-        /// <summary>simple search through allCharacters list for a matching name, returns null and LogWarning if no match found</summary>
+        /// <summary> Simple search through <see cref="allCharacters"/> list for a matching name. </summary>
+        /// <param name="searchName"> The name to identify a <see cref="YarnCharacter"/>. </param>
+        /// <returns> The <see cref="YarnCharacter"/> with a name matching the provided name. </returns>
+        /// <remarks> Returns <see langword="null"/> and LogWarning if no match is found. </remarks>
         YarnCharacter FindCharacter(string searchName)
         {
             foreach (var character in this.allCharacters)
@@ -95,9 +149,16 @@ namespace Dialogue
             Debug.LogWarningFormat("YarnCharacterView couldn't find a YarnCharacter named {0}!", searchName );
             return null;
         }
-
-        /// <summary>Calculates where to put dialogue bubble based on worldPosition and any desired screen margins.
-        /// Ensure "constrainToViewportMargin" is between 0.0f-1.0f (% of screen) to constrain to screen, or value of -1 lets bubble go off-screen.</summary>
+        
+        /// <summary>
+        /// Calculates where to put the dialogue bubble based on worldPos and any desired screen margins.
+        /// </summary>
+        /// <param name="bubble"> The dialogue bubble to hold dialogue text. </param>
+        /// <param name="worldPos"> The world space position to place the dialogue bubble. </param>
+        /// <param name="constrainToViewportMargin"> Screen margins to confine the dialogue bubble. </param>
+        /// <returns> The position to render the dialogue bubble in world space. </returns>
+        /// <remarks> Ensure <see cref="constrainToViewportMargin"/> is between <b>0.0f-1.0f (% of screen)</b> to
+        /// constrain to screen; the value of <b>-1</b> lets the bubble go off-screen. </remarks>
         Vector2 WorldToAnchoredPosition(RectTransform bubble, Vector3 worldPos, float constrainToViewportMargin = -1f)
         {
             Camera canvasCamera = this.worldCamera;
@@ -150,29 +211,6 @@ namespace Dialogue
             }
 
             return screenPos;
-        }
-
-
-        void FixedUpdate()
-        {
-            // this all in Update instead of RunLine because characters might walk around or move during the dialogue
-            if (this.dialogueBubbleRect.gameObject.activeInHierarchy)
-            {
-                if (this.speakerCharacter != null)
-                {
-                    this.dialogueBubbleRect.anchoredPosition = this.WorldToAnchoredPosition(this.dialogueBubbleRect, this.speakerCharacter.positionWithOffset, this.bubbleMargin);
-                }
-                else
-                {   // if no speaker defined, then display speech above playerCharacter as a default
-                    this.dialogueBubbleRect.anchoredPosition = this.WorldToAnchoredPosition(this.dialogueBubbleRect, this.playerCharacter.positionWithOffset, this.bubbleMargin);
-                }
-            }
-
-            // put choice option UI above playerCharacter
-            if (this.optionsBubbleRect.gameObject.activeInHierarchy)
-            {
-                this.optionsBubbleRect.anchoredPosition = this.WorldToAnchoredPosition(this.optionsBubbleRect, this.playerCharacter.positionWithOffset, this.bubbleMargin);
-            }
         }
     }
 }

@@ -2,7 +2,12 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
+//*******************************************************************************************
+// HeroMovement
+//*******************************************************************************************
 namespace Heroes {
+    /// <summary>
+    /// </summary>
     public class HeroMovement : MonoBehaviour
     {
         public float MovementSpeed = 4f;
@@ -31,7 +36,7 @@ namespace Heroes {
         private static readonly int JumpKey = Animator.StringToHash("jump");
         private static readonly int XSpeedKey = Animator.StringToHash("xSpeed");
         private static readonly int YSpeedKey = Animator.StringToHash("ySpeed");
-
+        
         public void ToggleMoving(bool isMoving)
         {
             this._isMoving = isMoving;

@@ -1,7 +1,13 @@
 using Player;
-using UnityEngine;
 using UnityEditor;
 
+//*******************************************************************************************
+// RecordingControllerEditor
+//*******************************************************************************************
+/// <summary>
+/// A subclass of <see cref="Editor"/> to autogenerate a file path from the
+/// <see cref="RecordingFile"/> reference for <see cref="RecordingController"/>.
+/// </summary>
 [CustomEditor(typeof(RecordingController))]
 [CanEditMultipleObjects]
 public class RecordingControllerEditor : Editor

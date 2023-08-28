@@ -2,6 +2,15 @@ using Heatmaps;
 using UnityEngine;
 using UnityEditor;
 
+//*******************************************************************************************
+// HeatmapEditor
+//*******************************************************************************************
+/// <summary>
+/// A subclass of <see cref="Editor"/> to draw extra buttons and fields in the inspector
+/// for <see cref="Heatmap"/>. Includes buttons for generating and clearing the heatmap
+/// data from the <see cref="CSVFile"/> and logic to autogenerate a file path from the
+/// <see cref="CSVFile"/> reference.
+/// </summary>
 [CustomEditor(typeof(Heatmap))]
 [CanEditMultipleObjects]
 public class HeatmapEditor : Editor

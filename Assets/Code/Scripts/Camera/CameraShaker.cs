@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Yarn.Unity;
 
+//*******************************************************************************************
+// CameraShaker
+//*******************************************************************************************
+/// <summary>
+/// Handles adjustments to the Perlin Noise applied to all the cameras managed by the
+/// <see cref="CameraSwitcher"/>.
+/// </summary>
+/// <remarks> Access to the cameras is provided through the <see cref="CameraSwitcher"/>. </remarks>
 public class CameraShaker : MonoBehaviour
 {
     public float ShakeAmplitude = 0.5f;
@@ -25,6 +33,11 @@ public class CameraShaker : MonoBehaviour
         this._noiseControllers.Add(vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>());
     }
 
+    /// <summary>
+    /// Triggers a camera shake via the <see cref="CinemachineBasicMultiChannelPerlin"/> for each
+    /// camera associated with the CameraSwitcher.
+    /// </summary>
+    /// <remarks> Can be accessed as a YarnCommand. </remarks>
     [YarnCommand("start_shake")]
     public void StartShake()
     {
@@ -34,6 +47,11 @@ public class CameraShaker : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Stops the camera shake via the <see cref="CinemachineBasicMultiChannelPerlin"/> for each
+    /// camera associated with the CameraSwitcher.
+    /// </summary>
+    /// <remarks> Can be accessed as a YarnCommand. </remarks>
     [YarnCommand("stop_shake")]
     public void StopShake()
     {

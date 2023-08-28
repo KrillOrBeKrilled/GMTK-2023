@@ -1,5 +1,14 @@
 using UnityEngine;
+
+//*******************************************************************************************
+// DataPoint
+//*******************************************************************************************
 namespace Heatmaps {
+    /// <summary>
+    /// Represents a data point in a heatmap, adjusting the scale and color of the
+    /// associated GameObject with respect to the concentration of other
+    /// <see cref="DataPoint">DataPoints</see> in a specified range.
+    /// </summary>
     [ExecuteInEditMode]
     public class DataPoint : MonoBehaviour
     {
@@ -17,6 +26,15 @@ namespace Heatmaps {
             Gizmos.DrawWireSphere(this.transform.position, this._pointCollection.PointTargetRadius);
         }
 
+        /// <summary>
+        /// Calculates the concentration of points around this <see cref="DataPoint"/> and interpolates
+        /// the color and scale between maximum and minimum values specified in the provided
+        /// <see cref="DataPointCollection"/>.
+        /// </summary>
+        /// <param name="pointCollection"> The <see cref="DataPointCollection"/> containing this
+        /// <see cref="DataPoint"/> and its color, scale, and concentration configurations. </param>
+        /// <remarks> Invoked by <see cref="DataPointCollection"/> every time the scene is updated in the
+        /// Unity Editor. </remarks>
         public void UpdatePoint(DataPointCollection pointCollection)
         {
             this._pointCollection = pointCollection;

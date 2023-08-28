@@ -1,5 +1,12 @@
 using UnityEngine;
 
+//*******************************************************************************************
+// FollowTarget
+//*******************************************************************************************
+/// <summary>
+/// Follows the position of a specified target with an offset with customizations for
+/// the axes that movement should be tracked along.
+/// </summary>
 public class FollowTarget : MonoBehaviour {
   [SerializeField] private Transform _followTarget;
   [SerializeField] private bool _followTargetX = true;
@@ -14,7 +21,7 @@ public class FollowTarget : MonoBehaviour {
   }
 
   private void Update() {
-    if (this._followTarget == null) {
+    if (this._followTarget is null) {
       this.gameObject.SetActive(false);
       return;
     }

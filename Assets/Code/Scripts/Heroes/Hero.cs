@@ -8,6 +8,8 @@ namespace Heroes {
     public HeroMovement HeroMovement => this._heroMovement;
     public int Health { get; private set; }
 
+    public float LevelProgress => (this.transform.position.x - this._levelStart.position.x) / (this._levelEnd.position.x - this._levelStart.position.x);
+
     public UnityEvent<int> OnHealthChanged;
     public UnityEvent<Hero> OnHeroDied;
 
@@ -17,6 +19,14 @@ namespace Heroes {
     private HeroMovement _heroMovement;
     private Animator _animator;
     private static readonly int SpawningKey = Animator.StringToHash("spawning");
+
+    private Transform _levelStart;
+    private Transform _levelEnd;
+
+    public void Initialize(Transform levelStart, Transform levelEnd) {
+      this._levelStart = levelStart;
+      this._levelEnd = levelEnd;
+    }
 
 
     public void TakeDamage(int amount) {

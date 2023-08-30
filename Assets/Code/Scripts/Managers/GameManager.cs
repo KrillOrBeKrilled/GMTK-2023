@@ -14,7 +14,6 @@ namespace Managers {
     [Header("References")]
     [SerializeField] private GameUI _gameUI;
     [SerializeField] private PlayerManager _playerManager;
-    [SerializeField] private EndgameTarget _endgameTarget;
 
     [Header("Dialogue References")]
     [SerializeField] private DialogueRunner _dialogueRunner;
@@ -26,6 +25,8 @@ namespace Managers {
 
     [Header("Level")]
     [SerializeField] private List<RespawnPoint> _respawnPoints;
+    [SerializeField] private RespawnPoint _firstRespawnPoint;
+    [SerializeField] private EndgameTarget _endgameTarget;
     private RespawnPoint _activeRespawnPoint;
 
     // --------------- Events ---------------
@@ -143,7 +144,6 @@ namespace Managers {
 
 
     private void OnHeroDied(Hero hero) {
-      print("Deleting hero");
       if (hero.TryGetComponent(out YarnCharacter diedCharacter)) {
         YarnCharacterView.instance.ForgetYarnCharacter(diedCharacter);
       }
@@ -180,18 +180,17 @@ namespace Managers {
 
     private void SpawnHero() {
       this._hero = Instantiate(this._heroPrefab, this._activeRespawnPoint.transform);
+      this._hero.Initialize(this._firstRespawnPoint.transform, this._endgameTarget.transform);
       this._hero.OnHeroDied.AddListener(this.OnHeroDied);
       this._hero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 
       if (!this._hero.TryGetComponent(out YarnCharacter newYarnCharacter)) {
-        print("NULL");
         return;
       }
 
       YarnCharacterView.instance.RegisterYarnCharacter(newYarnCharacter);
       YarnCharacterView.instance.playerCharacter = newYarnCharacter;
 
-      print("Invoking on hero spawned");
       this.OnHeroSpawned.Invoke(this._hero);
     }
   }

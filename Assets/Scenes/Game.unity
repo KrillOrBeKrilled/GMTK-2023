@@ -31054,6 +31054,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Code.Scripts.Managers.GameManager, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 3154452847532534029, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3154452847532534029, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3154452847532534029, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4363370139461904998, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -31246,6 +31258,14 @@ PrefabInstance:
       propertyPath: _onHover.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1279884328}
+    - target: {fileID: 7638054293906174036, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7638054293906174036, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7932940752394304597, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -109217,6 +109237,10 @@ PrefabInstance:
       propertyPath: _dialogueRunner
       value: 
       objectReference: {fileID: 1797329647}
+    - target: {fileID: 2979109686049939942, guid: c3a6bf8df177a41e28b2f650f401c445, type: 3}
+      propertyPath: _firstRespawnPoint
+      value: 
+      objectReference: {fileID: 290364272}
     - target: {fileID: 2979109686049939942, guid: c3a6bf8df177a41e28b2f650f401c445, type: 3}
       propertyPath: _outOfBoundsTrigger
       value: 

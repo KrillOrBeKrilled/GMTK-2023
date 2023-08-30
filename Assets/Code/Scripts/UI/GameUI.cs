@@ -17,6 +17,7 @@ namespace UI {
     [SerializeField] private TrapSelectionBar _trapSelectionBar;
     [SerializeField] private SkipDialogueUI _skipDialogueUI;
     [SerializeField] private Transform _healthBarsContainer;
+    [SerializeField] private HeroProgressUI _heroProgressUI;
 
     [Header("Pause UI Events")]
     [SerializeField] private UnityEvent _onPaused;
@@ -31,7 +32,7 @@ namespace UI {
       gameManager.OnSetupComplete.AddListener(this.OnGameSetupComplete);
       gameManager.OnHenWon.AddListener(this.OnHenWon);
       gameManager.OnHenLost.AddListener(this.OnHenLost);
-      gameManager.OnHeroSpawned.AddListener(this.SetupHealthBar);
+      gameManager.OnHeroSpawned.AddListener(this.OnHeroSpawned);
 
       this._trapSelectionBar.Initialize(playerManager);
       this._skipDialogueUI.Initialize(gameManager.OnStartLevel, gameManager.SkipDialogue);
@@ -83,8 +84,12 @@ namespace UI {
       this._endgameUI.ShowHenLost(message);
     }
 
+    private void OnHeroSpawned(Hero hero) {
+      this.SetupHealthBar(hero);
+      this._heroProgressUI.RegisterHero(hero);
+    }
+
     private void SetupHealthBar(Hero hero) {
-      print("Setup bar called");
       HealthBarUI newBar = Instantiate(this._healthBarUIPrefab, this._healthBarsContainer);
       newBar.Initialize(hero, (RectTransform)this.transform);
     }

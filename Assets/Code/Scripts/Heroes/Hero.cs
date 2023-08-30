@@ -62,8 +62,7 @@ namespace Heroes {
         /// <see cref="MaxHealth"/> and <see cref="MaxLives"/>.
         /// </summary>
         /// <remarks> Invokes the <see cref="OnHealthChanged"/> and <see cref="OnHeroReset"/> events. </remarks>
-        public void ResetHero()
-        {
+        public void ResetHero() {
             this._heroMovement.ToggleMoving(false);
             this.Health = MaxHealth;
             this.Lives = MaxLives;
@@ -76,11 +75,10 @@ namespace Heroes {
         //========================================
         
         /// <summary>
-        /// Sets the <see cref="RespawnPoint"/> to the provided <see cref="HeroRespawnPoint"/>.
+        /// Sets the <see cref="RespawnPoint"/>.
         /// </summary>
         /// <param name="respawnPoint"> The new respawn point for the hero to respawn to upon death. </param>
-        public void SetRespawnPoint(HeroRespawnPoint respawnPoint)
-        {
+        public void SetRespawnPoint(HeroRespawnPoint respawnPoint) {
             this.RespawnPoint = respawnPoint;
         }
         
@@ -91,8 +89,7 @@ namespace Heroes {
         /// <summary>
         /// Enables movement until the hero enters the level.
         /// </summary>
-        public void EnterLevel()
-        {
+        public void EnterLevel() {
             this.StartCoroutine(this.EnterLevelAnimation());
         }
 
@@ -101,8 +98,7 @@ namespace Heroes {
         /// movement.
         /// </summary>
         /// <remarks> The coroutine is started by <see cref="EnterLevel"/>. </remarks>
-        private IEnumerator EnterLevelAnimation()
-        {
+        private IEnumerator EnterLevelAnimation() {
             this._heroMovement.ToggleMoving(true);
 
             yield return new WaitForSeconds(2f);
@@ -111,8 +107,7 @@ namespace Heroes {
         }
         
         /// <summary> Enables movement through <see cref="HeroMovement"/>. </summary>
-        public void StartRunning()
-        {
+        public void StartRunning() {
             this.StopAllCoroutines();
             this._heroMovement.ToggleMoving(true);
         }
@@ -122,7 +117,7 @@ namespace Heroes {
         //========================================
         
         /// <summary>
-        /// Decrements the hero's health by the provided amount, earns coins through the <see cref="CoinManager"/>,
+        /// Decrements the hero's health, earns coins through the <see cref="CoinManager"/>,
         /// and plays associated SFX. If the health falls to zero or below, triggers the hero death.
         /// </summary>
         /// <param name="amount"> The value to subtract from the hero's health. </param>
@@ -146,16 +141,14 @@ namespace Heroes {
         /// </summary>
         /// <remarks> Invokes the <see cref="OnHeroDied"/> event. If the number of lives are reduced to
         /// zero, invokes the <see cref="OnGameOver"/> event. </remarks>
-        public void Die()
-        {
+        public void Die() {
             this.Lives--;
             this.HeroHurtEvent.Post(this.gameObject);
 
             var heroPos = this.transform.position;
             this.OnHeroDied?.Invoke(this.Lives, heroPos.x, heroPos.y, heroPos.z);
 
-            if (this.Lives == 0)
-            {
+            if (this.Lives == 0) {
                 this.OnGameOver.Invoke();
                 Destroy(this.gameObject);
                 return;
@@ -168,8 +161,7 @@ namespace Heroes {
         /// Triggers hero death through <see cref="Die"/>.
         /// </summary>
         /// <remarks> Listens on the <see cref="HeroMovement.OnHeroIsStuck"/> event. </remarks>
-        private void OnHeroIsStuck(float xPos, float yPos, float zPos)
-        {
+        private void OnHeroIsStuck(float xPos, float yPos, float zPos) {
             this.Die();
         }
 
@@ -181,16 +173,14 @@ namespace Heroes {
         /// </summary>
         /// <remarks> The coroutine is started by <see cref="Die"/> if the hero has any remaining lives.
         /// Invokes the <see cref="OnHealthChanged"/> event for each cycle that the health bar refills. </remarks>
-        private IEnumerator Respawn()
-        {
+        private IEnumerator Respawn() {
             this.transform.position = this.RespawnPoint.transform.position;
             this._animator.SetBool(SpawningKey, true);
             this._heroMovement.ToggleMoving(false);
 
             // Gradually fill the health bar over the respawn time
             float timePassed = 0;
-            while (timePassed < this.RespawnTime)
-            {
+            while (timePassed < this.RespawnTime) {
                 timePassed += Time.deltaTime;
 
                 this.Health = (int) Mathf.Lerp(0f, MaxHealth, timePassed / this.RespawnTime);

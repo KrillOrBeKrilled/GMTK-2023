@@ -10,18 +10,16 @@ namespace Heatmaps {
     /// <see cref="DataPoint">DataPoints</see> in a specified range.
     /// </summary>
     [ExecuteInEditMode]
-    public class DataPoint : MonoBehaviour
-    {
+    public class DataPoint : MonoBehaviour {
         private DataPointCollection _pointCollection;
 
-        private void Awake()
-        {
+        private void Awake() {
             this._pointCollection = FindObjectOfType<DataPointCollection>();
         }
 
-        private void OnDrawGizmos()
-        {
-            if (!this._pointCollection.VisualizeTargetRadius) return;
+        private void OnDrawGizmos() {
+            if (!this._pointCollection.VisualizeTargetRadius) 
+                return;
 
             Gizmos.DrawWireSphere(this.transform.position, this._pointCollection.PointTargetRadius);
         }
@@ -35,16 +33,13 @@ namespace Heatmaps {
         /// <see cref="DataPoint"/> and its color, scale, and concentration configurations. </param>
         /// <remarks> Invoked by <see cref="DataPointCollection"/> every time the scene is updated in the
         /// Unity Editor. </remarks>
-        public void UpdatePoint(DataPointCollection pointCollection)
-        {
+        public void UpdatePoint(DataPointCollection pointCollection) {
             this._pointCollection = pointCollection;
 
             // Check how many points are nearby and adjust the size and color accordingly
             var pointConcentration = 0f;
-            foreach (var point in pointCollection.DataPoints)
-            {
-                if (Vector3.Distance(point.transform.position, this.transform.position) < pointCollection.PointTargetRadius)
-                {
+            foreach (var point in pointCollection.DataPoints) {
+                if (Vector3.Distance(point.transform.position, this.transform.position) < pointCollection.PointTargetRadius) {
                     pointConcentration++;
                 }
             }

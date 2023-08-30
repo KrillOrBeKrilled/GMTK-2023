@@ -12,8 +12,7 @@ namespace Heatmaps {
     /// </summary>
     /// <remarks> Position data may include: hero stuck positions, hero death positions,
     /// player deaths positions, etc. </remarks>
-    public class Heatmap : MonoBehaviour
-    {
+    public class Heatmap : MonoBehaviour {
         [Tooltip("Reference to the csv file to be parsed.")]
         public Object CSVFile;
         
@@ -36,13 +35,12 @@ namespace Heatmaps {
         /// <p> Logs the file that was parsed for record keeping when aggregating data from multiple files. </p>
         /// </summary>
         /// <remarks> Invoked when the "Generate Heatmap" button is pressed in the inspector. </remarks>
-        public void GenerateHeatmap()
-        {
+        public void GenerateHeatmap() {
             var lines = System.IO.File.ReadAllLines(this._filePath);
 
-            for (var lineNumber = 0; lineNumber < lines.Length; lineNumber++)
-            {
-                if (lineNumber < 1) continue;
+            for (var lineNumber = 0; lineNumber < lines.Length; lineNumber++) {
+                if (lineNumber < 1) 
+                    continue;
 
                 var elements = lines[lineNumber].Split(',');
                 float.TryParse(elements[0], out var x);
@@ -64,8 +62,7 @@ namespace Heatmaps {
         /// and empties <see cref="FilesParsed"/>.
         /// </summary>
         /// <remarks> Invoked when the "Clear Heatmap" button is pressed in the inspector. </remarks>
-        public void ClearHeatmap()
-        {
+        public void ClearHeatmap() {
             this.PointCollection.ClearPoints();
             this.FilesParsed.Clear();
         }

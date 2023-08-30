@@ -11,15 +11,16 @@ using Yarn.Unity;
 /// <see cref="CameraSwitcher"/>.
 /// </summary>
 /// <remarks> Access to the cameras is provided through the <see cref="CameraSwitcher"/>. </remarks>
-public class CameraShaker : MonoBehaviour
-{
+public class CameraShaker : MonoBehaviour {
+    [Tooltip("The Perlin Noise intensity to apply to the camera to cause camera shakes.")]
     public float ShakeAmplitude = 0.5f;
 
+    /// Acts as the access point for the active cameras in the level.
     private CameraSwitcher _switcher;
+    /// Noise control settings for each camera in the camera switcher.
     private List<CinemachineBasicMultiChannelPerlin> _noiseControllers;
 
-    void Awake()
-    {
+    private void Awake() {
         this.TryGetComponent(out this._switcher);
 
         // record all camera noise controllers
@@ -39,10 +40,8 @@ public class CameraShaker : MonoBehaviour
     /// </summary>
     /// <remarks> Can be accessed as a YarnCommand. </remarks>
     [YarnCommand("start_shake")]
-    public void StartShake()
-    {
-        foreach (var noise in this._noiseControllers)
-        {
+    public void StartShake() {
+        foreach (var noise in this._noiseControllers) {
             noise.m_AmplitudeGain = this.ShakeAmplitude;
         }
     }
@@ -53,10 +52,8 @@ public class CameraShaker : MonoBehaviour
     /// </summary>
     /// <remarks> Can be accessed as a YarnCommand. </remarks>
     [YarnCommand("stop_shake")]
-    public void StopShake()
-    {
-        foreach (var noise in this._noiseControllers)
-        {
+    public void StopShake() {
+        foreach (var noise in this._noiseControllers) {
             noise.m_AmplitudeGain = 0;
         }
     }

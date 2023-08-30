@@ -12,8 +12,7 @@ namespace Heatmaps {
     /// the Unity Editor.
     /// </summary>
     [ExecuteInEditMode]
-    public class DataPointCollection : MonoBehaviour
-    {
+    public class DataPointCollection : MonoBehaviour {
         [Tooltip("Stores all the DataPoints currently registered with the heatmap.")]
         public List<DataPoint> DataPoints;
         
@@ -36,10 +35,8 @@ namespace Heatmaps {
         /// Destroys all the <see cref="DataPoint">DataPoints</see> recorded in <see cref="DataPoints"/>.
         /// </summary>
         /// <remarks> Invoked by <see cref="Heatmap"/> to clear the entire heatmap. </remarks>
-        public void ClearPoints()
-        {
-            foreach (var point in this.DataPoints)
-            {
+        public void ClearPoints() {
+            foreach (var point in this.DataPoints) {
                 DestroyImmediate(point.gameObject);
             }
         }
@@ -48,31 +45,27 @@ namespace Heatmaps {
         /// Updates the list of <see cref="DataPoint">DataPoints</see> and each <see cref="DataPoint"/>.
         /// </summary>
         /// <remarks> Invoked every time the scene is updated in the Unity Editor. </remarks>
-        private void OnHierarchyChanged()
-        {
+        private void OnHierarchyChanged() {
             this.DataPoints.Clear();
 
             // Update the list of data points as well as each point
             var points = FindObjectsOfType<DataPoint>();
-            foreach (var point in points)
-            {
+            foreach (var point in points) {
                 this.DataPoints.Add(point);
                 point.UpdatePoint(this);
             }
         }
 
-        private void OnEnable()
-        {
-        #if UNITY_EDITOR
-            EditorApplication.hierarchyChanged += this.OnHierarchyChanged;
-        #endif
+        private void OnEnable() {
+            #if UNITY_EDITOR
+                EditorApplication.hierarchyChanged += this.OnHierarchyChanged;
+            #endif
         }
 
-        private void OnDisable()
-        {
-        #if UNITY_EDITOR
-            EditorApplication.hierarchyChanged -= this.OnHierarchyChanged;
-        #endif
+        private void OnDisable() {
+            #if UNITY_EDITOR
+                EditorApplication.hierarchyChanged -= this.OnHierarchyChanged;
+            #endif
         }
     }
 }

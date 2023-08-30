@@ -58,7 +58,7 @@ namespace Audio {
         }
 
         /// <summary>
-        /// Plays character SFX associated with the player death.
+        /// Plays character SFX associated with death.
         /// </summary>
         public void OnHenDeath() {
             this._onHenDeath?.Invoke();

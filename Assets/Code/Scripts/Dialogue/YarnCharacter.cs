@@ -3,15 +3,13 @@
 //*******************************************************************************************
 // YarnCharacter
 //*******************************************************************************************
-namespace Dialogue
-{
+namespace Dialogue {
     /// <summary>
     /// Script for the 3D RPG sample project in YarnSpinner. DialogueRunner invokes
     /// <see cref="YarnCharacterView"/>, which locates the YarnCharacter that is speaking.
     /// </summary>
     /// <remarks> Put this script on your various NPC gameObjects. </remarks>
-    public class YarnCharacter : MonoBehaviour
-    {
+    public class YarnCharacter : MonoBehaviour {
         [Tooltip("This must match the character name used in Yarn dialogue scripts.")]
         public string characterName = "MyName";
 
@@ -19,7 +17,7 @@ namespace Dialogue
                  "offset to this gameObject's position. Taller characters should use taller offsets, etc.")]
         public Vector3 messageBubbleOffset = new Vector3(0f, 3f, 0f);
 
-        [Tooltip("if true, then apply messageBubbleOffset relative to this transform's rotation and scale")]
+        [Tooltip("If true, then apply messageBubbleOffset relative to this transform's rotation and scale.")]
         public bool offsetUsesRotation = false;
 
         // bwaaaah ugly ugly ugly
@@ -35,10 +33,10 @@ namespace Dialogue
         /// </summary>
         /// <returns> The position for the dialogue message bubble associated with this character to
         /// be anchored to. </returns>
-        public Vector3 positionWithOffset
-        {
+        public Vector3 positionWithOffset {
             get {
-                if (!this.offsetUsesRotation) return this._dampenedPosition + this.messageBubbleOffset;
+                if (!this.offsetUsesRotation)
+                  return this._dampenedPosition + this.messageBubbleOffset;
                 
                 // convert offset into local space
                 return this._dampenedPosition + this.transform.TransformPoint(this.messageBubbleOffset);
@@ -47,10 +45,8 @@ namespace Dialogue
 
         // Start is called before the first frame update, but AFTER Awake()
         // ... this is important because YarnCharacterManager.Awake() must run before YarnCharacter.Start()
-        void Start()
-        {
-            if (YarnCharacterView.instance is null)
-            {
+        private void Start() {
+            if (YarnCharacterView.instance is null) {
                 Debug.LogError("YarnCharacter can't find the YarnCharacterView instance! Is the 3D Dialogue " +
                                "prefab and YarnCharacterView script in the scene?");
                 return;
@@ -65,8 +61,7 @@ namespace Dialogue
         }
 
 
-        void FixedUpdate()
-        {
+        private void FixedUpdate() {
             var position = this.transform.position;
 
             this._dampenedPosition = (position + this._prevPosition + this._prevPrevPosition + this._prevPrevPrevPosition) / 4f;
@@ -79,10 +74,8 @@ namespace Dialogue
         /// <summary>
         /// Unregisters this character from the YarnCharacterView.
         /// </summary>
-        void OnDestroy()
-        {
-            if (YarnCharacterView.instance is not null)
-            {
+        private void OnDestroy() {
+            if (YarnCharacterView.instance is not null) {
                 YarnCharacterView.instance.ForgetYarnCharacter(this);
             }
         }

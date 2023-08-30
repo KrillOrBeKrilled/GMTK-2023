@@ -98,6 +98,7 @@ namespace Managers {
       this._playerManager.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
       this._playerManager.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
       this._playerManager.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
+      this._playerManager.Initialize(this._firstRespawnPoint.transform, this._endgameTarget.transform);
 
       this.SpawnHero();
       this._hero.HeroMovement.ToggleMoving(false);

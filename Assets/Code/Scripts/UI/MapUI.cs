@@ -1,10 +1,11 @@
 using Heroes;
+using Player;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI {
-  public class HeroProgressUI : MonoBehaviour {
+  public class MapUI : MonoBehaviour {
     [Header("References")]
     [SerializeField] private Image _playerIcon;
     [SerializeField] private Slider _progressSlider;
@@ -16,7 +17,12 @@ namespace UI {
     [SerializeField] private Image _heroIconPrefab;
 
     private Dictionary<Hero, Image> _heroToIconDict;
+    private PlayerManager _player;
     private float _sliderLength;
+
+    public void Initialize(PlayerManager player) {
+      this._player = player;
+    }
 
     public void RegisterHero(Hero newHero) {
       newHero.OnHeroDied.AddListener(this.UnregisterHero);
@@ -37,11 +43,15 @@ namespace UI {
         Hero hero = kvp.Key;
         Image image = kvp.Value;
 
-        image.rectTransform.anchoredPosition = new Vector2(this._sliderLength * hero.LevelProgress, 0);
-        greatestProgress = Mathf.Max(greatestProgress, hero.LevelProgress);
+        image.rectTransform.anchoredPosition = new Vector2(this._sliderLength * hero.MapPosition, 0);
+        greatestProgress = Mathf.Max(greatestProgress, hero.MapPosition);
       }
 
       this._progressSlider.value = greatestProgress;
+
+      if (this._player is not null) {
+        this._playerIcon.rectTransform.anchoredPosition = new Vector2(this._sliderLength * this._player.MapPosition, 0);
+      }
     }
 
     private void UnregisterHero(Hero diedHero) {

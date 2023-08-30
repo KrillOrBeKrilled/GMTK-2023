@@ -17,7 +17,7 @@ namespace UI {
     [SerializeField] private TrapSelectionBar _trapSelectionBar;
     [SerializeField] private SkipDialogueUI _skipDialogueUI;
     [SerializeField] private Transform _healthBarsContainer;
-    [SerializeField] private HeroProgressUI _heroProgressUI;
+    [SerializeField] private MapUI _mapUI;
 
     [Header("Pause UI Events")]
     [SerializeField] private UnityEvent _onPaused;
@@ -36,6 +36,7 @@ namespace UI {
 
       this._trapSelectionBar.Initialize(playerManager);
       this._skipDialogueUI.Initialize(gameManager.OnStartLevel, gameManager.SkipDialogue);
+      this._mapUI.Initialize(playerManager);
     }
 
     public void FadeInSceneCover(UnityAction onComplete) {
@@ -86,7 +87,7 @@ namespace UI {
 
     private void OnHeroSpawned(Hero hero) {
       this.SetupHealthBar(hero);
-      this._heroProgressUI.RegisterHero(hero);
+      this._mapUI.RegisterHero(hero);
     }
 
     private void SetupHealthBar(Hero hero) {

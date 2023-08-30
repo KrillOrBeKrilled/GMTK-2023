@@ -166,7 +166,7 @@ MonoBehaviour:
   _trapSelectionBar: {fileID: 1130829105555904614}
   _skipDialogueUI: {fileID: 3836053563677021556}
   _healthBarsContainer: {fileID: 5362244279306275188}
-  _heroProgressUI: {fileID: 1717459162070282995}
+  _mapUI: {fileID: 1717459162070282995}
   _onPaused:
     m_PersistentCalls:
       m_Calls: []
@@ -1577,7 +1577,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4109173421939875674, guid: 4623c7bcede9f47b999cb920344dbed9, type: 3}
       propertyPath: m_Name
-      value: HeroProgressUI
+      value: MapUI
       objectReference: {fileID: 0}
     - target: {fileID: 8338413947154904028, guid: 4623c7bcede9f47b999cb920344dbed9, type: 3}
       propertyPath: m_Pivot.x

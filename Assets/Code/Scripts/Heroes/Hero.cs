@@ -8,7 +8,7 @@ namespace Heroes {
     public HeroMovement HeroMovement => this._heroMovement;
     public int Health { get; private set; }
 
-    public float LevelProgress => (this.transform.position.x - this._levelStart.position.x) / (this._levelEnd.position.x - this._levelStart.position.x);
+    public float MapPosition => (this.transform.position.x - this._levelStart.position.x) / (this._levelEnd.position.x - this._levelStart.position.x);
 
     public UnityEvent<int> OnHealthChanged;
     public UnityEvent<Hero> OnHeroDied;

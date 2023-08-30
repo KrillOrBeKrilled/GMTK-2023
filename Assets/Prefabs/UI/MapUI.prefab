@@ -282,6 +282,9 @@ MonoBehaviour:
   _heroIconsParent: {fileID: 6712525682145337165}
   _minPosition: {fileID: 6255109453719365329}
   _maxPosition: {fileID: 8816105175828071010}
+  _fillArea: {fileID: 6980094481330997107}
+  _safeColor: {r: 0, g: 1, b: 0, a: 1}
+  _dangerColor: {r: 1, g: 0, b: 0, a: 1}
   _heroIconPrefab: {fileID: 7330574631618793490, guid: aceb761f58da0407999bb72ed0081c4e, type: 3}
 --- !u!1 &4269005398718092908
 GameObject:

@@ -13,6 +13,11 @@ namespace UI {
     [SerializeField] private RectTransform _minPosition;
     [SerializeField] private RectTransform _maxPosition;
 
+    [Header("Color Settings")]
+    [SerializeField] private Image _fillArea;
+    [SerializeField] private Color _safeColor;
+    [SerializeField] private Color _dangerColor;
+
     [Header("Hero Icon Prefabs")]
     [SerializeField] private Image _heroIconPrefab;
 
@@ -47,11 +52,16 @@ namespace UI {
         greatestProgress = Mathf.Max(greatestProgress, hero.MapPosition);
       }
 
-      this._progressSlider.value = greatestProgress;
+      this.SetFillAreaColor(greatestProgress);
 
       if (this._player is not null) {
         this._playerIcon.rectTransform.anchoredPosition = new Vector2(this._sliderLength * this._player.MapPosition, 0);
       }
+    }
+
+    private void SetFillAreaColor(float greatestHeroProgress) {
+      this._progressSlider.value = greatestHeroProgress;
+      this._fillArea.color = Color.Lerp(this._safeColor, this._dangerColor, greatestHeroProgress);
     }
 
     private void UnregisterHero(Hero diedHero) {

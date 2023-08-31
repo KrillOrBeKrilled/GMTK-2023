@@ -280,7 +280,6 @@ namespace Player {
         public virtual void StartSession()
         {
             this._inputRecorder.Enable();
-            print("Start Recording");
 
             this.EnableControls();
         }
@@ -288,7 +287,6 @@ namespace Player {
         protected virtual void StopSession(string message)
         {
             this._inputRecorder.Disable();
-            print("Stop Recording");
 
             // Create a new playtest session recording file
             this.CreateRecordingFile();
@@ -356,7 +354,6 @@ namespace Player {
         }
 
         private void OnDisable() {
-            print("<color=red>OnDisable called</color>");
             this.DisableControls();
         }
 

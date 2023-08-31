@@ -21,7 +21,7 @@ namespace UI {
     [Header("Hero Icon Prefabs")]
     [SerializeField] private Image _heroIconPrefab;
 
-    private Dictionary<Hero, Image> _heroToIconDict;
+    private Dictionary<Hero, Image> _heroToIconDict = new Dictionary<Hero, Image>();
     private PlayerManager _player;
     private float _sliderLength;
 
@@ -37,7 +37,6 @@ namespace UI {
 
     private void Awake() {
       this._progressSlider.value = 0f;
-      this._heroToIconDict = new Dictionary<Hero, Image>();
       this._sliderLength = this._maxPosition.anchoredPosition.x - this._minPosition.anchoredPosition.x;
     }
 
@@ -54,7 +53,7 @@ namespace UI {
 
       this.SetFillAreaColor(greatestProgress);
 
-      if (this._player is not null) {
+      if (this._player != null) {
         this._playerIcon.rectTransform.anchoredPosition = new Vector2(this._sliderLength * this._player.MapPosition, 0);
       }
     }

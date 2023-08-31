@@ -1,6 +1,8 @@
 using Dialogue;
 using Heroes;
+using Model;
 using Player;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UGSAnalytics;
@@ -36,7 +38,8 @@ namespace Managers {
     public UnityEvent<string> OnHenLost { get; private set; }
     public UnityEvent<Hero> OnHeroSpawned { get; private set; }
 
-    private Hero _hero;
+    // private Hero _hero;
+    private WaveData _waveData = new WaveData() { HeroesCount = 4, HeroSpawnDelayInSeconds = 1f};
 
     public void LoadMainMenu() {
       PauseManager.Instance.UnpauseGame();
@@ -67,7 +70,7 @@ namespace Managers {
 
     [YarnCommand("enter_hero")]
     public void EnterHero() {
-      this._hero.EnterLevel();
+      // this._hero.EnterLevel();
     }
 
     [YarnCommand("start_level")]
@@ -75,7 +78,7 @@ namespace Managers {
       // For playtesting analytics, start recording the player input for the session
       this._playerManager.PlayerController.StartSession();
 
-      this._hero.StartRunning();
+      // this._hero.StartRunning();
       CoinManager.Instance.StartCoinEarning();
       this.OnStartLevel?.Invoke();
     }
@@ -100,8 +103,8 @@ namespace Managers {
       this._playerManager.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
       this._playerManager.Initialize(this._firstRespawnPoint.transform, this._endgameTarget.transform);
 
-      this.SpawnHero();
-      this._hero.HeroMovement.ToggleMoving(false);
+      this.StartCoroutine(this.SpawnWave(this._waveData));
+      // this._hero.HeroMovement.ToggleMoving(false);
 
       this.OnSetupComplete?.Invoke();
 
@@ -149,7 +152,8 @@ namespace Managers {
         YarnCharacterView.instance.ForgetYarnCharacter(diedCharacter);
       }
 
-      this.SpawnHero();
+      // TODO: Replace with spawning next wave
+      // this.SpawnHero();
 
       // Send Analytics data
       if (UGS_Analytics.Instance is null) return;
@@ -167,32 +171,39 @@ namespace Managers {
 
     private void HeroReachedLevelEnd() {
       this._playerManager.PlayerController.DisablePlayerInput();
-      this._hero.HeroMovement.ToggleMoving(false);
+      // this._hero.HeroMovement.ToggleMoving(false);
       this.OnHenLost?.Invoke("The Hero managed to reach his goal and do heroic things.\nHendall, you failed me!");
     }
 
     private void HenDied(string message) {
       this._playerManager.PlayerController.DisablePlayerInput();
-      this._hero.HeroMovement.ToggleMoving(false);
+      // this._hero.HeroMovement.ToggleMoving(false);
 
       Destroy(this._playerManager.gameObject);
       this.OnHenLost?.Invoke(message);
     }
 
-    private void SpawnHero() {
-      this._hero = Instantiate(this._heroPrefab, this._activeRespawnPoint.transform);
-      this._hero.Initialize(this._firstRespawnPoint.transform, this._endgameTarget.transform);
-      this._hero.OnHeroDied.AddListener(this.OnHeroDied);
-      this._hero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
+    private IEnumerator SpawnWave(WaveData waveData) {
+      for (int i = 0; i < waveData.HeroesCount; i++) {
+        this.SpawnHero();
+        yield return new WaitForSeconds(waveData.HeroSpawnDelayInSeconds);
+      }
+    }
 
-      if (!this._hero.TryGetComponent(out YarnCharacter newYarnCharacter)) {
+    private void SpawnHero() {
+      Hero newHero = Instantiate(this._heroPrefab, this._activeRespawnPoint.transform);
+      newHero.Initialize(this._firstRespawnPoint.transform, this._endgameTarget.transform);
+      newHero.OnHeroDied.AddListener(this.OnHeroDied);
+      newHero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
+
+      if (!newHero.TryGetComponent(out YarnCharacter newYarnCharacter)) {
         return;
       }
 
       YarnCharacterView.instance.RegisterYarnCharacter(newYarnCharacter);
       YarnCharacterView.instance.playerCharacter = newYarnCharacter;
 
-      this.OnHeroSpawned.Invoke(this._hero);
+      this.OnHeroSpawned.Invoke(newHero);
     }
   }
 }

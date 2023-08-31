@@ -356,6 +356,7 @@ namespace Player {
         }
 
         private void OnDisable() {
+            print("<color=red>OnDisable called</color>");
             this.DisableControls();
         }
 

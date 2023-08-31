@@ -39,9 +39,9 @@ namespace Managers {
     public UnityEvent<Hero> OnHeroSpawned { get; private set; }
 
     // private Hero _hero;
-    private WaveData _wave1 = new WaveData() { HeroesCount = 2, HeroSpawnDelayInSeconds = 1f};
-    private WaveData _wave2 = new WaveData() { HeroesCount = 3, HeroSpawnDelayInSeconds = 1.5f};
-    private WaveData _wave3 = new WaveData() { HeroesCount = 5, HeroSpawnDelayInSeconds = 3f};
+    private WaveData _wave1 = new WaveData() { HeroesCount = 2, HeroSpawnDelayInSeconds = 1f, NextWaveSpawnDelayInSeconds = 10f};
+    private WaveData _wave2 = new WaveData() { HeroesCount = 3, HeroSpawnDelayInSeconds = 1.5f, NextWaveSpawnDelayInSeconds = 15f};
+    private WaveData _wave3 = new WaveData() { HeroesCount = 5, HeroSpawnDelayInSeconds = 3f, NextWaveSpawnDelayInSeconds = -1f};
     private List<WaveData> _waves = new List<WaveData>();
     private List<Hero> _heroes = new List<Hero>();
 
@@ -208,6 +208,13 @@ namespace Managers {
       }
 
       this._waves.RemoveAt(0);
+
+      if (waveData.NextWaveSpawnDelayInSeconds < 0) {
+        yield break;
+      }
+
+      yield return new WaitForSeconds(waveData.NextWaveSpawnDelayInSeconds);
+      yield return this.SpawnNextWave();
     }
 
     private void SpawnHero() {

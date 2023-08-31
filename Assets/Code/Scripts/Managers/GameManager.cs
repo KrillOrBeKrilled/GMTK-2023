@@ -39,7 +39,13 @@ namespace Managers {
     public UnityEvent<Hero> OnHeroSpawned { get; private set; }
 
     // private Hero _hero;
-    private WaveData _waveData = new WaveData() { HeroesCount = 4, HeroSpawnDelayInSeconds = 1f};
+    private WaveData _wave1 = new WaveData() { HeroesCount = 2, HeroSpawnDelayInSeconds = 1f};
+    private WaveData _wave2 = new WaveData() { HeroesCount = 3, HeroSpawnDelayInSeconds = 1.5f};
+    private WaveData _wave3 = new WaveData() { HeroesCount = 5, HeroSpawnDelayInSeconds = 3f};
+    private List<WaveData> _waves = new List<WaveData>();
+    private List<Hero> _heroes = new List<Hero>();
+
+    // TODO : Fix dialogue
 
     public void LoadMainMenu() {
       PauseManager.Instance.UnpauseGame();
@@ -66,6 +72,10 @@ namespace Managers {
       this.OnHeroSpawned = new UnityEvent<Hero>();
 
       this._activeRespawnPoint = this._respawnPoints.First();
+
+      this._waves.Add(this._wave1);
+      this._waves.Add(this._wave2);
+      this._waves.Add(this._wave3);
     }
 
     [YarnCommand("enter_hero")]
@@ -103,7 +113,7 @@ namespace Managers {
       this._playerManager.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
       this._playerManager.Initialize(this._firstRespawnPoint.transform, this._endgameTarget.transform);
 
-      this.StartCoroutine(this.SpawnWave(this._waveData));
+      this.StartCoroutine(this.SpawnNextWave());
       // this._hero.HeroMovement.ToggleMoving(false);
 
       this.OnSetupComplete?.Invoke();
@@ -152,12 +162,19 @@ namespace Managers {
         YarnCharacterView.instance.ForgetYarnCharacter(diedCharacter);
       }
 
-      // TODO: Replace with spawning next wave
-      // this.SpawnHero();
+      this._heroes.Remove(hero);
+
+      bool noMoreWaves = this._waves.Count <= 0;
+      bool allHeroesDied = this._heroes.Count <= 0;
+      if (noMoreWaves && allHeroesDied) {
+        // TODO: better text line later?
+        this.OnHenWon?.Invoke("All heroes were defeated. Good job!");
+      } else if (allHeroesDied) {
+        this.StartCoroutine(this.SpawnNextWave());
+      }
 
       // Send Analytics data
       if (UGS_Analytics.Instance is null) return;
-
       Vector3 heroPos = hero.transform.position;
       UGS_Analytics.HeroDiedCustomEvent(heroPos.x, heroPos.y, heroPos.z);
     }
@@ -183,11 +200,14 @@ namespace Managers {
       this.OnHenLost?.Invoke(message);
     }
 
-    private IEnumerator SpawnWave(WaveData waveData) {
+    private IEnumerator SpawnNextWave() {
+      WaveData waveData = this._waves[0];
       for (int i = 0; i < waveData.HeroesCount; i++) {
         this.SpawnHero();
         yield return new WaitForSeconds(waveData.HeroSpawnDelayInSeconds);
       }
+
+      this._waves.RemoveAt(0);
     }
 
     private void SpawnHero() {
@@ -196,13 +216,12 @@ namespace Managers {
       newHero.OnHeroDied.AddListener(this.OnHeroDied);
       newHero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 
-      if (!newHero.TryGetComponent(out YarnCharacter newYarnCharacter)) {
-        return;
+      if (newHero.TryGetComponent(out YarnCharacter newYarnCharacter)) {
+        YarnCharacterView.instance.RegisterYarnCharacter(newYarnCharacter);
+        YarnCharacterView.instance.playerCharacter = newYarnCharacter;
       }
 
-      YarnCharacterView.instance.RegisterYarnCharacter(newYarnCharacter);
-      YarnCharacterView.instance.playerCharacter = newYarnCharacter;
-
+      this._heroes.Add(newHero);
       this.OnHeroSpawned.Invoke(newHero);
     }
   }

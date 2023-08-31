@@ -23,6 +23,8 @@ namespace Heroes {
     private Transform _levelStart;
     private Transform _levelEnd;
 
+    private const int CoinsEarnedOnDeath = 2;
+
     public void Initialize(Transform levelStart, Transform levelEnd) {
       this._levelStart = levelStart;
       this._levelEnd = levelEnd;
@@ -71,6 +73,7 @@ namespace Heroes {
 
     public void Die() {
       this.HeroHurtEvent.Post(this.gameObject);
+      CoinManager.Instance.EarnCoins(CoinsEarnedOnDeath);
 
       this.OnHeroDied?.Invoke(this);
       Destroy(this.gameObject);

@@ -39,11 +39,15 @@ namespace Managers {
     public UnityEvent<Hero> OnHeroSpawned { get; private set; }
 
     // private Hero _hero;
-    private WaveData _wave1 = new WaveData() { HeroesCount = 2, HeroSpawnDelayInSeconds = 1f, NextWaveSpawnDelayInSeconds = 10f};
-    private WaveData _wave2 = new WaveData() { HeroesCount = 3, HeroSpawnDelayInSeconds = 1.5f, NextWaveSpawnDelayInSeconds = 15f};
-    private WaveData _wave3 = new WaveData() { HeroesCount = 5, HeroSpawnDelayInSeconds = 3f, NextWaveSpawnDelayInSeconds = -1f};
-    private List<WaveData> _waves = new List<WaveData>();
+    private static HeroData _defaultHero = new HeroData() { Health = 100, Type = HeroData.HeroType.Default };
+
+    private static WaveData _wave1 = new WaveData() { Heroes = new List<HeroData>() {_defaultHero, _defaultHero}, HeroSpawnDelayInSeconds = 1f, NextWaveSpawnDelayInSeconds = 10f};
+    private static WaveData _wave2 = new WaveData() { Heroes = new List<HeroData>() {_defaultHero, _defaultHero, _defaultHero, _defaultHero, _defaultHero}, HeroSpawnDelayInSeconds = 1.5f, NextWaveSpawnDelayInSeconds = 15f};
+    private static WaveData _wave3 = new WaveData() { Heroes = new List<HeroData>() {_defaultHero, _defaultHero, _defaultHero, _defaultHero, _defaultHero}, HeroSpawnDelayInSeconds = 3f, NextWaveSpawnDelayInSeconds = -1f};
+    private static List<WaveData> _waves = new List<WaveData>() { _wave1, _wave2, _wave3};
+
     private List<Hero> _heroes = new List<Hero>();
+    private WavesData _wavesData = new WavesData() { WavesList = _waves };
 
     // TODO : Fix dialogue
 
@@ -72,10 +76,6 @@ namespace Managers {
       this.OnHeroSpawned = new UnityEvent<Hero>();
 
       this._activeRespawnPoint = this._respawnPoints.First();
-
-      this._waves.Add(this._wave1);
-      this._waves.Add(this._wave2);
-      this._waves.Add(this._wave3);
     }
 
     [YarnCommand("enter_hero")]
@@ -164,7 +164,7 @@ namespace Managers {
 
       this._heroes.Remove(hero);
 
-      bool noMoreWaves = this._waves.Count <= 0;
+      bool noMoreWaves = this._wavesData.WavesList.Count <= 0;
       bool allHeroesDied = this._heroes.Count <= 0;
       if (noMoreWaves && allHeroesDied) {
         // TODO: better text line later?
@@ -201,13 +201,13 @@ namespace Managers {
     }
 
     private IEnumerator SpawnNextWave() {
-      WaveData waveData = this._waves[0];
-      for (int i = 0; i < waveData.HeroesCount; i++) {
+      WaveData waveData = this._wavesData.WavesList[0];
+      for (int i = 0; i < waveData.Heroes.Count; i++) {
         this.SpawnHero();
         yield return new WaitForSeconds(waveData.HeroSpawnDelayInSeconds);
       }
 
-      this._waves.RemoveAt(0);
+      this._wavesData.WavesList.RemoveAt(0);
 
       if (waveData.NextWaveSpawnDelayInSeconds < 0) {
         yield break;

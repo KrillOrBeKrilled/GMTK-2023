@@ -1,9 +1,11 @@
+using System.Collections.Generic;
+
 namespace Model {
   public struct WaveData {
     /// <summary>
-    /// How many heroes are spawned in this wave.
+    /// List of heroes to spawn in this wave.
     /// </summary>
-    public int HeroesCount;
+    public List<HeroData> Heroes;
 
     /// <summary>
     /// Delay between spawning each hero.

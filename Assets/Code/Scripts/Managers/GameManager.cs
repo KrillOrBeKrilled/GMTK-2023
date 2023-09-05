@@ -27,10 +27,9 @@ namespace Managers {
     [SerializeField] private Hero _heroPrefab;
 
     [Header("Level")]
-    [SerializeField] private List<RespawnPoint> _respawnPoints;
-    [SerializeField] private RespawnPoint _firstRespawnPoint;
-    [SerializeField] private EndgameTarget _endgameTarget;
-    private RespawnPoint _activeRespawnPoint;
+    [SerializeField] private LevelData _levelDataFile;
+    [SerializeField] private RespawnPoint _respawnPointPrefab;
+    [SerializeField] private EndgameTarget _endgameTargetPrefab;
 
     // --------------- Events ---------------
     public UnityEvent OnSetupComplete { get; private set; }
@@ -41,7 +40,11 @@ namespace Managers {
 
     // private Hero _hero;
     private List<Hero> _heroes = new List<Hero>();
-    [SerializeField] private LevelData _levelDataFile;
+
+    private EndgameTarget _endgameTarget;
+    private List<RespawnPoint> _respawnPoints = new List<RespawnPoint>();
+    private RespawnPoint _firstRespawnPoint;
+    private RespawnPoint _activeRespawnPoint;
 
     private LevelData _levelData;
 
@@ -71,13 +74,21 @@ namespace Managers {
       this.OnHenLost = new UnityEvent<string>();
       this.OnHeroSpawned = new UnityEvent<Hero>();
 
-      this._activeRespawnPoint = this._respawnPoints.First();
-
       // Create a copy to avoid modifying data source
       this._levelData = ScriptableObject.CreateInstance<LevelData>();
       this._levelData.EndgameTargetPosition = this._levelDataFile.EndgameTargetPosition;
       this._levelData.RespawnPositions = this._levelDataFile.RespawnPositions.ToList();
       this._levelData.WavesData = new WavesData() { WavesList = this._levelDataFile.WavesData.WavesList.ToList() };
+
+      this._endgameTarget = Instantiate(this._endgameTargetPrefab, this._levelData.EndgameTargetPosition, Quaternion.identity, this.transform);
+
+      foreach (Vector3 respawnPosition in this._levelData.RespawnPositions) {
+        RespawnPoint newPoint = Instantiate(this._respawnPointPrefab, respawnPosition, Quaternion.identity, this.transform);
+        this._respawnPoints.Add(newPoint);
+      }
+
+      this._activeRespawnPoint = this._respawnPoints.First();
+      this._firstRespawnPoint = this._activeRespawnPoint;
     }
 
     [YarnCommand("enter_hero")]

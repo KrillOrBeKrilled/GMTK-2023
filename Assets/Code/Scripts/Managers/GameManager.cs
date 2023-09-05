@@ -78,8 +78,6 @@ namespace Managers {
       this._levelData.EndgameTargetPosition = this._levelDataFile.EndgameTargetPosition;
       this._levelData.RespawnPositions = this._levelDataFile.RespawnPositions.ToList();
       this._levelData.WavesData = new WavesData() { WavesList = this._levelDataFile.WavesData.WavesList.ToList() };
-
-      print(this._levelData.WavesData.WavesList.Count);
     }
 
     [YarnCommand("enter_hero")]
@@ -205,8 +203,11 @@ namespace Managers {
     }
 
     private IEnumerator SpawnNextWave() {
-      print($"<color=cyan>Spawning next wave. Waves list count: {this._levelData.WavesData.WavesList.Count}</color>");
-      print($"<color=cyan>Spawning next wave. SO source count: {this._levelDataFile.WavesData.WavesList.Count}</color>");
+      if (this._levelData.WavesData.WavesList.Count <= 0) {
+        Debug.LogWarning("Trying to spawn next wave when there are no more waves to spawn");
+        yield break;
+      }
+
       WaveData waveData = this._levelData.WavesData.WavesList[0];
       for (int i = 0; i < waveData.Heroes.Count; i++) {
         this.SpawnHero();

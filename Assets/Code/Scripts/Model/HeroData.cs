@@ -1,4 +1,7 @@
+using System;
+
 namespace Model {
+  [Serializable]
   public struct HeroData {
     public int Health;
     public HeroType Type;

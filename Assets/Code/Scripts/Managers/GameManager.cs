@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UGSAnalytics;
 using UI;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Events;
 using Yarn.Unity;
@@ -39,15 +40,10 @@ namespace Managers {
     public UnityEvent<Hero> OnHeroSpawned { get; private set; }
 
     // private Hero _hero;
-    private static HeroData _defaultHero = new HeroData() { Health = 100, Type = HeroData.HeroType.Default };
-
-    private static WaveData _wave1 = new WaveData() { Heroes = new List<HeroData>() {_defaultHero, _defaultHero}, HeroSpawnDelayInSeconds = 1f, NextWaveSpawnDelayInSeconds = 10f};
-    private static WaveData _wave2 = new WaveData() { Heroes = new List<HeroData>() {_defaultHero, _defaultHero, _defaultHero, _defaultHero, _defaultHero}, HeroSpawnDelayInSeconds = 1.5f, NextWaveSpawnDelayInSeconds = 15f};
-    private static WaveData _wave3 = new WaveData() { Heroes = new List<HeroData>() {_defaultHero, _defaultHero, _defaultHero, _defaultHero, _defaultHero}, HeroSpawnDelayInSeconds = 3f, NextWaveSpawnDelayInSeconds = -1f};
-    private static List<WaveData> _waves = new List<WaveData>() { _wave1, _wave2, _wave3};
-
     private List<Hero> _heroes = new List<Hero>();
-    private WavesData _wavesData = new WavesData() { WavesList = _waves };
+    [SerializeField] private LevelData _levelDataFile;
+
+    private LevelData _levelData;
 
     // TODO : Fix dialogue
 
@@ -76,6 +72,14 @@ namespace Managers {
       this.OnHeroSpawned = new UnityEvent<Hero>();
 
       this._activeRespawnPoint = this._respawnPoints.First();
+
+      // Create a copy to avoid modifying data source
+      this._levelData = ScriptableObject.CreateInstance<LevelData>();
+      this._levelData.EndgameTargetPosition = this._levelDataFile.EndgameTargetPosition;
+      this._levelData.RespawnPositions = this._levelDataFile.RespawnPositions.ToList();
+      this._levelData.WavesData = new WavesData() { WavesList = this._levelDataFile.WavesData.WavesList.ToList() };
+
+      print(this._levelData.WavesData.WavesList.Count);
     }
 
     [YarnCommand("enter_hero")]
@@ -164,7 +168,7 @@ namespace Managers {
 
       this._heroes.Remove(hero);
 
-      bool noMoreWaves = this._wavesData.WavesList.Count <= 0;
+      bool noMoreWaves = this._levelData.WavesData.WavesList.Count <= 0;
       bool allHeroesDied = this._heroes.Count <= 0;
       if (noMoreWaves && allHeroesDied) {
         // TODO: better text line later?
@@ -201,13 +205,15 @@ namespace Managers {
     }
 
     private IEnumerator SpawnNextWave() {
-      WaveData waveData = this._wavesData.WavesList[0];
+      print($"<color=cyan>Spawning next wave. Waves list count: {this._levelData.WavesData.WavesList.Count}</color>");
+      print($"<color=cyan>Spawning next wave. SO source count: {this._levelDataFile.WavesData.WavesList.Count}</color>");
+      WaveData waveData = this._levelData.WavesData.WavesList[0];
       for (int i = 0; i < waveData.Heroes.Count; i++) {
         this.SpawnHero();
         yield return new WaitForSeconds(waveData.HeroSpawnDelayInSeconds);
       }
 
-      this._wavesData.WavesList.RemoveAt(0);
+      this._levelData.WavesData.WavesList.RemoveAt(0);
 
       if (waveData.NextWaveSpawnDelayInSeconds < 0) {
         yield break;

@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 
 namespace Model {
-  public struct WavesData {
+  [Serializable]
+  public class WavesData {
     public List<WaveData> WavesList;
   }
 }

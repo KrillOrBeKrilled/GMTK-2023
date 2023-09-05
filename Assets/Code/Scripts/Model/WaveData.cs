@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 
 namespace Model {
+  [Serializable]
   public struct WaveData {
     /// <summary>
     /// List of heroes to spawn in this wave.

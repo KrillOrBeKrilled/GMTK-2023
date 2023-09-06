@@ -27690,6 +27690,10 @@ PrefabInstance:
       value: Dialogue System
       objectReference: {fileID: 0}
     - target: {fileID: 6711672230207336559, guid: 8d6c09a6f35ab93498a17f1a2b9375a9, type: 3}
+      propertyPath: playerCharacter
+      value: 
+      objectReference: {fileID: 1413619168}
+    - target: {fileID: 6711672230207336559, guid: 8d6c09a6f35ab93498a17f1a2b9375a9, type: 3}
       propertyPath: allCharacters.Array.data[1]
       value: 
       objectReference: {fileID: 1413619168}

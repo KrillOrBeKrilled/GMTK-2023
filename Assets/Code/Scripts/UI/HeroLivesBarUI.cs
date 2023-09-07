@@ -37,7 +37,7 @@ namespace UI {
         /// Adjusts the hero lives displayed on the screen according to the current hero lives.
         /// </summary>
         /// <param name="lives"> The current hero lives remaining. </param>
-        /// <remarks> Listens on the <see cref="Hero.OnHeroDied"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="Hero.OnHeroDied"/> event. </remarks>
         void UpdateLivesBar(int lives, float xPos = 0, float yPos = 0, float zPos = 0) {
             if (this._hero is not null) {
                 this._heartsImage.rectTransform.sizeDelta = 

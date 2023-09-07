@@ -24,14 +24,14 @@ namespace Heroes {
 		}
 
 		private void OnTriggerEnter2D(Collider2D other) {
-			if (!other.TryGetComponent(out Hero hero)) return;
+			if (!other.TryGetComponent(out Hero hero)) 
+				return;
 
 			hero.SetRespawnPoint(this);
 		}
 
 		private void OnDrawGizmos() {
-			if (this._collider is null)
-			{
+			if (this._collider is null) {
 				this.TryGetComponent(out this._collider);
 			}
 

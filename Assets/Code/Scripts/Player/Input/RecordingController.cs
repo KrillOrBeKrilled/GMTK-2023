@@ -29,7 +29,7 @@ namespace Player {
             this.StartCoroutine(this.ReplayDelay());
         }
 
-        /// <remarks> Listens on the <see cref="GameManager.OnHenWon"/> and <see cref="GameManager.OnHenLost"/>
+        /// <remarks> Subscribed to the <see cref="GameManager.OnHenWon"/> and <see cref="GameManager.OnHenLost"/>
         /// events. Overrides <see cref="PlayerController.StopSession"/> to prevent the duplication of recording
         /// files. </remarks>
         protected override void StopSession(string message) {
@@ -59,9 +59,7 @@ namespace Player {
             this._replayController.PlayAllEventsAccordingToTimestamps();
         }
 
-        /// <summary>
-        /// Delays for a duration of time and begins replaying the input recording data.
-        /// </summary>
+        /// <summary> Delays for a duration of time and begins replaying the input recording data. </summary>
         /// <remarks> The coroutine is started by <see cref="StartSession"/>. </remarks>
         private IEnumerator ReplayDelay() {
             // Slight delay to give more precision to combat a margin of error in the timing of the execution

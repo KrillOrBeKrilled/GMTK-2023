@@ -55,9 +55,8 @@ namespace Dialogue {
                 if (this.speakerCharacter is not null) {
                     this.dialogueBubbleRect.anchoredPosition = this.WorldToAnchoredPosition(
                         this.dialogueBubbleRect, this.speakerCharacter.positionWithOffset, this.bubbleMargin);
-                }
-                else
-                {   // if no speaker defined, then display speech above playerCharacter as a default
+                } else {   
+                    // if no speaker defined, then display speech above playerCharacter as a default
                     this.dialogueBubbleRect.anchoredPosition = this.WorldToAnchoredPosition(
                         this.dialogueBubbleRect, this.playerCharacter.positionWithOffset, this.bubbleMargin);
                 }

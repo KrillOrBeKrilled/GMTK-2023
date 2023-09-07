@@ -74,9 +74,7 @@ namespace Heroes {
         // Setters
         //========================================
         
-        /// <summary>
-        /// Sets the <see cref="RespawnPoint"/>.
-        /// </summary>
+        /// <summary> Sets the <see cref="RespawnPoint"/>. </summary>
         /// <param name="respawnPoint"> The new respawn point for the hero to respawn to upon death. </param>
         public void SetRespawnPoint(HeroRespawnPoint respawnPoint) {
             this.RespawnPoint = respawnPoint;
@@ -86,9 +84,7 @@ namespace Heroes {
         // Level Dialogue Sequence
         //========================================
         
-        /// <summary>
-        /// Enables movement until the hero enters the level.
-        /// </summary>
+        /// <summary> Enables movement until the hero enters the level. </summary>
         public void EnterLevel() {
             this.StartCoroutine(this.EnterLevelAnimation());
         }
@@ -160,7 +156,7 @@ namespace Heroes {
         /// <summary>
         /// Triggers hero death through <see cref="Die"/>.
         /// </summary>
-        /// <remarks> Listens on the <see cref="HeroMovement.OnHeroIsStuck"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="HeroMovement.OnHeroIsStuck"/> event. </remarks>
         private void OnHeroIsStuck(float xPos, float yPos, float zPos) {
             this.Die();
         }

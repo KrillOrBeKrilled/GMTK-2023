@@ -78,7 +78,7 @@ namespace UI {
         }
 
         /// <summary> Disables this GameObject. </summary>
-        /// <remarks> Listens on the onStartLevel event provided upon <see cref="Initialize"/>. </remarks>
+        /// <remarks> Subscribed to the onStartLevel event provided upon <see cref="Initialize"/>. </remarks>
         private void OnStartLevel() {
             this.gameObject.SetActive(false);
         }

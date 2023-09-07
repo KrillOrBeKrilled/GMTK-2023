@@ -42,9 +42,7 @@ namespace UI {
             }
         }
 
-        /// <summary>
-        /// Updates each <see cref="TrapBarIcon"/> tint when the coin balance updates.
-        /// </summary>
+        /// <summary> Updates each <see cref="TrapBarIcon"/> tint when the coin balance updates. </summary>
         /// <param name="newAmount"> The current number of coins available from the <see cref="CoinManager"/>. </param>
         /// <remarks> Listens on the <see cref="CoinManager.OnCoinAmountChanged"/> event. </remarks>
         private void OnCoinAmountChanged(int newAmount) {

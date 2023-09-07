@@ -17,9 +17,7 @@ namespace Player {
             this.RBody = this.GetComponent<Rigidbody2D>();
         }
 
-        /// <summary>
-        /// Sets the character velocity to zero through the <see cref="Rigidbody2D"/>.
-        /// </summary>
+        /// <summary> Sets the character velocity to zero through the <see cref="Rigidbody2D"/>. </summary>
         public void StandIdle() {
             this.RBody.velocity = new Vector2(0f, this.RBody.velocity.y);
         }
@@ -40,16 +38,12 @@ namespace Player {
             this.RBody.AddForce(Vector2.up * this.JumpingForce);
         }
 
-        /// <summary>
-        /// Deploys the equipped trap in the selected tile positions. 
-        /// </summary>
+        /// <summary> Deploys the equipped trap in the selected tile positions. </summary>
         public virtual void DeployTrap() {
             // Particular to the hen, so will be overrided instead
         }
 
-        /// <summary>
-        /// Selects or equips a new trap.
-        /// </summary>
+        /// <summary> Selects or equips a new trap. </summary>
         /// <param name="trapIndex"> The index of the trap to be selected. </param>
         public virtual void ChangeTrap(int trapIndex) {
             // Particular to the hen, so will be overrided instead

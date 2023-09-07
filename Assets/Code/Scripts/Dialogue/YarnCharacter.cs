@@ -36,7 +36,7 @@ namespace Dialogue {
         public Vector3 positionWithOffset {
             get {
                 if (!this.offsetUsesRotation)
-                  return this._dampenedPosition + this.messageBubbleOffset;
+                    return this._dampenedPosition + this.messageBubbleOffset;
                 
                 // convert offset into local space
                 return this._dampenedPosition + this.transform.TransformPoint(this.messageBubbleOffset);
@@ -71,9 +71,7 @@ namespace Dialogue {
             this._prevPosition = position;
         }
 
-        /// <summary>
-        /// Unregisters this character from the YarnCharacterView.
-        /// </summary>
+        /// <summary> Unregisters this character from the YarnCharacterView. </summary>
         private void OnDestroy() {
             if (YarnCharacterView.instance is not null) {
                 YarnCharacterView.instance.ForgetYarnCharacter(this);

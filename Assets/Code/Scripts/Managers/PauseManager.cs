@@ -11,7 +11,6 @@ namespace Managers {
     /// manipulation of <see cref="Time.timeScale"/>.
     /// </summary>
     public class PauseManager: Singleton<PauseManager> {
-
         [Tooltip("Tracks when the game is paused and unpaused.")]
         public UnityEvent<bool> OnPauseToggled;
 

@@ -30,9 +30,7 @@ namespace UI {
             this._playAgainButton.SetActive(false);
         }
 
-        /// <summary>
-        /// Displays the Game Over menu with text and enables the button to replay the level.
-        /// </summary>
+        /// <summary> Displays the Game Over menu with text and enables the button to replay the level. </summary>
         /// <param name="message"> The text message to be displayed on the Game Over menu. </param>
         /// <remarks> Prevents the player from advancing to the next level by disabling the associated button. </remarks>
         public void ShowHenLost(string message) {

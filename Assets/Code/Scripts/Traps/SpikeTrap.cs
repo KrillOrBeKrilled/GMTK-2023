@@ -42,9 +42,7 @@ namespace Traps {
         }
 
         /// <inheritdoc cref="Trap.OnExitedTrap"/>
-        /// <summary>
-        /// Resets the speed reduction through <see cref="HeroMovement"/>.
-        /// </summary>
+        /// <summary> Resets the speed reduction through <see cref="HeroMovement"/>. </summary>
         protected override void OnExitedTrap(Hero hero) {
             if (!IsReady) 
                 return;

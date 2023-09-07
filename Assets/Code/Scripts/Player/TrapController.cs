@@ -236,9 +236,7 @@ namespace Player {
         // Getters & Setters
         //========================================
         
-        /// <summary>
-        /// Retrieves the cost of the current selected trap.
-        /// </summary>
+        /// <summary> Retrieves the cost of the current selected trap. </summary>
         /// <returns> The cost of the current selected trap. </returns>
         public int GetCurrentTrapCost() {
             return this.Traps[this.CurrentTrapIndex].Cost;

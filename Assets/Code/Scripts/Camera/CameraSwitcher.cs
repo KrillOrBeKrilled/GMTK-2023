@@ -19,19 +19,15 @@ public class CameraSwitcher : MonoBehaviour {
     [Tooltip("The camera focused on the end position of the level.")]
     public GameObject EndCamera;
 
-    /// <summary>
-    /// Disables every camera managed by this class.
-    /// </summary>
+    /// <summary> Disables every camera managed by this class. </summary>
     private void DisableAll() {
         this.PlayerCamera.SetActive(false);
         StartCamera.SetActive(false);
         EndCamera.SetActive(false);
     }
 
-    /// <summary>
-    /// Enables only the <see cref="PlayerCamera"/> to transition the screen to focus on the player.
-    /// </summary>
-    /// <remarks> Can be accessed as a YarnCommand. </remarks>
+    /// <summary> Enables only the <see cref="PlayerCamera"/> to transition the screen to focus on the player. </summary>
+    /// <remarks> Can be accessed as the "show_player" YarnCommand. </remarks>
     [YarnCommand("show_player")]
     public void ShowPlayer() {
         DisableAll();
@@ -41,7 +37,7 @@ public class CameraSwitcher : MonoBehaviour {
     /// <summary>
     /// Enables only the <see cref="StartCamera"/> to transition the screen to focus on the beginning of the level.
     /// </summary>
-    /// <remarks> Can be accessed as a YarnCommand. </remarks>
+    /// <remarks> Can be accessed as the "show_start" YarnCommand. </remarks>
     [YarnCommand("show_start")]
     public void ShowStart() {
         DisableAll();
@@ -51,7 +47,7 @@ public class CameraSwitcher : MonoBehaviour {
     /// <summary>
     /// Enables only the <see cref="EndCamera"/> to transition the screen to focus on the level goal.
     /// </summary>
-    /// <remarks> Can be accessed as a YarnCommand. </remarks>
+    /// <remarks> Can be accessed as the "show_end" YarnCommand. </remarks>
     [YarnCommand("show_end")]
     public void ShowEnd() {
         DisableAll();

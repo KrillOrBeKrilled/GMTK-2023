@@ -12,9 +12,9 @@ using UnityEngine;
 public class FallCollider : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Hero")) {
-          this.OnHeroTriggerEnter(other.GetComponent<Hero>());
+            this.OnHeroTriggerEnter(other.GetComponent<Hero>());
         } else if (other.CompareTag("Player")) {
-          this.OnPlayerTriggerEnter(other.GetComponent<PlayerManager>());
+            this.OnPlayerTriggerEnter(other.GetComponent<PlayerManager>());
         }
     }
 

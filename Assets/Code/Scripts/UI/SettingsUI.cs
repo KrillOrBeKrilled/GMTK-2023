@@ -20,7 +20,7 @@ namespace UI {
 
         /// <summary> Updates the skip dialogue sequence settings through <see cref="PlayerPrefsManager"/>. </summary>
         /// <param name="value"> Whether the option to skip the dialogue sequence is toggled or not. </param>
-        /// <remarks> Listens on the <see cref="Toggle.onValueChanged"/> event for the
+        /// <remarks> Subscribed to the <see cref="Toggle.onValueChanged"/> event for the
         /// <see cref="_skipDialogueToggle"/>. </remarks>
         private void OnSkipToggleValueChanged(bool value) {
             PlayerPrefsManager.SetSkipDialogue(value);

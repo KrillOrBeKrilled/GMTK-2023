@@ -50,6 +50,7 @@ namespace Managers {
             this.OnHenLost = new UnityEvent<string>();
         }
         
+        /// <remarks> Invokes the <see cref="OnSetupComplete"/> event. </remarks>
         private void Start() {
             // Setup
             this._gameUI.Initialize(this, this._playerManager);
@@ -149,16 +150,16 @@ namespace Managers {
         /// <param name="xPos"> The player's current position along the x-axis. </param>
         /// <param name="yPos"> The player's current position along the y-axis. </param>
         /// <param name="zPos"> The player's current position along the z-axis. </param>
-        /// <remarks> Listens on the <see cref="PlayerController.OnPlayerStateChanged"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="PlayerController.OnPlayerStateChanged"/> event. </remarks>
         private void OnPlayerStateChanged(IPlayerState state, float xPos, float yPos, float zPos) {
             if (state is not GameOverState)
-              return;
+                return;
 
             this.HenDied("The Hero managed to take you down Hendall.\nDon't you dream about that promotion I mentioned last time!");
 
             // Send Analytics data
             if (UGS_Analytics.Instance is null) 
-              return;
+                return;
 
             UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins, xPos, yPos, zPos);
         }
@@ -167,7 +168,8 @@ namespace Managers {
         /// Disables the player input and hero movement, destroying the player GameObject, and triggers the loss UI.
         /// </summary>
         /// <param name="message"> The message to be displayed on the loss UI. </param>
-        /// <remarks> Helper for <see cref="GameManager.OnPlayerStateChanged"/>. </remarks>
+        /// <remarks> Helper for <see cref="GameManager.OnPlayerStateChanged"/>.
+        /// Invokes the <see cref="OnHenLost"/> event.</remarks>
         private void HenDied(string message) {
             this._playerManager.PlayerController.DisablePlayerInput();
             this._hero.HeroMovement.ToggleMoving(false);
@@ -178,24 +180,23 @@ namespace Managers {
 
         /// <summary> Records analytics trap switching data. </summary>
         /// <param name="trapIndex"> The most recently selected trap index. </param>
-        /// <remarks> Listens on the <see cref="PlayerController.OnSelectedTrapIndexChanged"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="PlayerController.OnSelectedTrapIndexChanged"/> event. </remarks>
         private void SelectedTrapIndexChanged(int trapIndex) {
             var isAffordable = this._playerManager.PlayerController.GetTrapCost() >= CoinManager.Instance.Coins;
 
             // Send Analytics data
             if (UGS_Analytics.Instance is null) 
-              return;
+                return;
 
             UGS_Analytics.SwitchTrapCustomEvent(trapIndex, isAffordable);
         }
 
         /// <summary> Records analytics trap deployment data. </summary>
         /// <param name="trapIndex"> The most recently selected trap index. </param>
-        /// <remarks> Listens on the <see cref="PlayerController.OnTrapDeployed"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="PlayerController.OnTrapDeployed"/> event. </remarks>
         private void OnTrapDeployed(int trapIndex) {
-            // Send Analytics data
             if (UGS_Analytics.Instance is null)
-              return;
+                return;
 
             UGS_Analytics.DeployTrapCustomEvent(trapIndex);
         }
@@ -205,11 +206,11 @@ namespace Managers {
         /// <param name="xPos"> The hero's current position along the x-axis. </param>
         /// <param name="yPos"> The hero's current position along the y-axis. </param>
         /// <param name="zPos"> The hero's current position along the z-axis. </param>
-        /// <remarks> Listens on the <see cref="Hero.OnHeroDied"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="Hero.OnHeroDied"/> event. </remarks>
         private void OnHeroDied(int numberLives, float xPos, float yPos, float zPos) {
             // Send Analytics data
             if (UGS_Analytics.Instance is null) 
-              return;
+                return;
 
             UGS_Analytics.HeroDiedCustomEvent(numberLives, xPos, yPos, zPos);
         }
@@ -218,17 +219,17 @@ namespace Managers {
         /// <param name="xPos"> The hero's current position along the x-axis. </param>
         /// <param name="yPos"> The hero's current position along the y-axis. </param>
         /// <param name="zPos"> The hero's current position along the z-axis. </param>
-        /// <remarks> Listens on the <see cref="HeroMovement.OnHeroIsStuck"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="HeroMovement.OnHeroIsStuck"/> event. </remarks>
         private void OnHeroIsStuck(float xPos, float yPos, float zPos) {
             // Send Analytics data
             if (UGS_Analytics.Instance is null) 
-              return;
+                return;
 
             UGS_Analytics.HeroIsStuckCustomEvent(xPos, yPos, zPos);
         }
 
         /// <summary> Disables player input and triggers the win UI. </summary>
-        /// <remarks> Listens on the <see cref="Hero.OnGameOver"/> event.
+        /// <remarks> Subscribed to the <see cref="Hero.OnGameOver"/> event. Invokes the <see cref="OnHenWon"/> event.
         /// <p> If the <see cref="PlayerController"/> refers to the <see cref="RecordingController"/>, does nothing.
         /// Otherwise, stops recording the player input and creates a file for the recorded input. </p></remarks>
         private void GameWon() {
@@ -237,7 +238,8 @@ namespace Managers {
         }
 
         /// <summary> Disables the player input and hero movement, and triggers the loss UI. </summary>
-        /// <remarks> Listens on the <see cref="EndgameTarget.OnHeroReachedEndgameTarget"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="EndgameTarget.OnHeroReachedEndgameTarget"/> event.
+        /// Invokes the <see cref="OnHenLost"/> event. </remarks>
         private void HeroReachedLevelEnd() {
             this._playerManager.PlayerController.DisablePlayerInput();
             this._hero.HeroMovement.ToggleMoving(false);

@@ -81,6 +81,7 @@ namespace Player {
             _animator.SetBool("is_grounded", _isGrounded);
         }
 
+        /// <remarks> Invokes the <see cref="OnSelectedTrapIndexChanged"/> event. </remarks>
         private void Start() {
             this._jumpCommand = new JumpCommand(this);
             this._deployCommand = new DeployCommand(this);
@@ -111,6 +112,7 @@ namespace Player {
         /// <summary>
         /// Changes the current <see cref="IPlayerState"/> to the death state and plays associated SFX.
         /// </summary>
+        /// <remarks> Invokes the <see cref="OnPlayerStateChanged"/> event. </remarks>
         public void GameOver() {
             this._soundsController.OnHenDeath();
 
@@ -176,6 +178,7 @@ namespace Player {
         //========================================
 
         /// <summary> Changes the current <see cref="IPlayerState"/> to the idle state. </summary>
+        /// <remarks> Invokes the <see cref="OnPlayerStateChanged"/> event. </remarks>
         private void Idle(InputAction.CallbackContext obj) {
             // Cache previous state and call OnExit and OnEnter
             var prevState = this._state;
@@ -188,6 +191,7 @@ namespace Player {
         }
 
         /// <summary> Changes the current <see cref="IPlayerState"/> to the moving state. </summary>
+        /// <remarks> Invokes the <see cref="OnPlayerStateChanged"/> event. </remarks>
         private void Move(InputAction.CallbackContext obj) {
             // Cache previous state and call OnExit and OnEnter
             var prevState = this._state;
@@ -254,14 +258,16 @@ namespace Player {
         }
 
         /// <inheritdoc cref="Pawn.DeployTrap"/>
-        /// <remarks> Delegates trap deployment execution to <see cref="TrapController.DeployTrap"/>. </remarks>
+        /// <remarks> Delegates trap deployment execution to <see cref="TrapController.DeployTrap"/>.
+        /// Invokes the <see cref="OnTrapDeployed"/> event. </remarks>
         public override void DeployTrap() {
             if (_trapController.DeployTrap(_direction, out var trapIndex)) 
                 this.OnTrapDeployed?.Invoke(trapIndex);
         }
 
         /// <inheritdoc cref="Pawn.ChangeTrap"/>
-        /// <remarks> Delegates trap selection execution to the <see cref="TrapController"/>. </remarks>
+        /// <remarks> Delegates trap selection execution to the <see cref="TrapController"/>.
+        /// Invokes the <see cref="OnSelectedTrapIndexChanged"/> event.</remarks>
         public override void ChangeTrap(int trapIndex) {
             // Delegate setting trap to TrapController for better encapsulation and efficiency
             this._trapController.ChangeTrap(trapIndex);
@@ -299,7 +305,7 @@ namespace Player {
         /// Stops recording play input via the <see cref="InputEventTrace"/>, creates a file for the recorded input,
         /// and frees the memory used for the recording process.
         /// </summary>
-        /// <remarks> Listens on the <see cref="GameManager.OnHenWon"/> and <see cref="GameManager.OnHenLost"/>
+        /// <remarks> Subscribed to the <see cref="GameManager.OnHenWon"/> and <see cref="GameManager.OnHenLost"/>
         /// events. </remarks>
         protected virtual void StopSession(string message) {
             this.InputRecorder.Disable();

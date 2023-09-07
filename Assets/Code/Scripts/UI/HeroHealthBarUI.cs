@@ -58,7 +58,7 @@ namespace UI {
         /// Sets the hero health bar slider value with a new tween.
         /// </summary>
         /// <param name="health"> The new health bar value. </param>
-        /// <remarks> Listens on the <see cref="Hero.OnHealthChanged"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="Hero.OnHealthChanged"/> event. </remarks>
         private void OnHealthChanged(int health) {
             var tweenDuration = 0f;
 
@@ -68,7 +68,7 @@ namespace UI {
                 .SetEase(Ease.InOutCubic);
         }
         
-        /// <remarks> Listens on the <see cref="Hero.OnHeroDied"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="Hero.OnHeroDied"/> event. </remarks>
         private void OnDeath(int numberLives, float xPos = 0, float yPos = 0, float zPos = 0) {
             
         }
@@ -78,7 +78,7 @@ namespace UI {
         /// </summary>
         /// <remarks> Does nothing if <see cref="_objectToFollow"/> is null. </remarks>
         private void RepositionHealthBar() {
-            if (this._objectToFollow is null)
+            if (this._objectToFollow == null)
                 return;
 
             Vector2 viewportPosition = this._mainCamera.WorldToViewportPoint(this._objectToFollow.position);

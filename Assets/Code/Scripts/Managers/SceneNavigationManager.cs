@@ -40,7 +40,7 @@ namespace Managers {
         }
 
         /// <summary>
-        /// Loads a scene by name.
+        /// Helper method for loading a scene by name.
         /// </summary>
         /// <param name="sceneName"> The name of the scene to load. </param>
         private static void LoadScene(string sceneName) {
@@ -48,7 +48,7 @@ namespace Managers {
         }
 
         /// <summary>
-        /// Loads a scene by index.
+        /// Helper method for loading a scene by index.
         /// </summary>
         /// <param name="sceneIndex"> The index of the scene to load. </param>
         private static void LoadScene(int sceneIndex) {

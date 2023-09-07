@@ -19,9 +19,7 @@ namespace UI {
 
         private Trap _assignedTrap;
 
-        /// <summary>
-        /// Sets a reference to the trap this icon represents.
-        /// </summary>
+        /// <summary> Sets a reference to the trap this icon represents. </summary>
         /// <param name="trap"> The <see cref="Trap"/> associated with the trap type prefab. </param>
         public void Initialize(Trap trap) {
             this._assignedTrap = trap;

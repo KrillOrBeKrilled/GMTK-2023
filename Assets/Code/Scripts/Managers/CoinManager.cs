@@ -66,6 +66,7 @@ namespace Managers {
             this._waitInterval = new WaitForSeconds(this._earnCoinInterval);
         }
 
+        /// <remarks> Invokes the <see cref="OnCoinAmountChanged"/> event. </remarks>
         private void Start() {
             this.Coins = 1;
             this.OnCoinAmountChanged?.Invoke(1);

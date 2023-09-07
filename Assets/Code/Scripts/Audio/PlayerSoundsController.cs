@@ -25,48 +25,43 @@ namespace Audio {
         /// <summary>
         /// Plays SFX associated with changing the selected tile for deployment on the tilemap grid.
         /// </summary>
+        /// <remarks> Invokes the <see cref="_onTileSelectMove"/> event. </remarks>
         public void OnTileSelectMove() {
             this._onTileSelectMove?.Invoke();
         }
 
-        /// <summary>
-        /// Plays SFX associated with deploying a trap on selected tile spaces.
-        /// </summary>
+        /// <summary> Plays SFX associated with deploying a trap on selected tile spaces. </summary>
+        /// <remarks> Invokes the <see cref="_onTileSelectConfirm"/> event. </remarks>
         public void OnTileSelectConfirm() {
             this._onTileSelectConfirm?.Invoke();
         }
 
-        /// <summary>
-        /// Plays SFX associated with the building of traps.
-        /// </summary>
+        /// <summary> Plays SFX associated with the building of traps. </summary>
+        /// <remarks> Invokes the <see cref="_onStartBuild"/> event. </remarks>
         public void OnStartBuild() {
             this._onStartBuild?.Invoke();
         }
 
-        /// <summary>
-        /// Stops SFX associated with the building of traps.
-        /// </summary>
+        /// <summary> Stops SFX associated with the building of traps. </summary>
+        /// <remarks> Invokes the <see cref="_onStopBuild"/> event. </remarks>
         public void OnStopBuild() {
             this._onStopBuild?.Invoke();
         }
 
-        /// <summary>
-        /// Plays SFX associated with completing the building of traps.
-        /// </summary>
+        /// <summary> Plays SFX associated with completing the building of traps. </summary>
+        /// <remarks> Invokes the <see cref="_onBuildComplete"/> event. </remarks>
         public void OnBuildComplete() {
             this._onBuildComplete?.Invoke();
         }
 
-        /// <summary>
-        /// Plays character SFX associated with death.
-        /// </summary>
+        /// <summary> Plays character SFX associated with death. </summary>
+        /// <remarks> Invokes the <see cref="_onHenDeath"/> event. </remarks>
         public void OnHenDeath() {
             this._onHenDeath?.Invoke();
         }
 
-        /// <summary>
-        /// Plays character SFX associated with jumping. 
-        /// </summary>
+        /// <summary> Plays character SFX associated with jumping. </summary>
+        /// <remarks> Invokes the <see cref="_onHenJump"/> event. </remarks>
         public void OnHenJump() {
             this._onHenJump?.Invoke();
         }

@@ -74,6 +74,7 @@ namespace UI {
 
         /// <summary> Updates the coin counter UI text. </summary>
         /// <param name="amount"> The new coin count to display on the coin counter UI. </param>
+        /// <remarks> Subscribed to the <see cref="CoinManager.OnCoinAmountChanged"/> event. </remarks>
         private void OnCoinsUpdated(int amount) {
             this._coinsText.SetText($"{amount}");
         }
@@ -90,7 +91,7 @@ namespace UI {
 
         /// <summary> Enables or disables the Pause menu UI. </summary>
         /// <param name="isPaused"> Whether the game is currently paused or not. </param>
-        /// <remarks> Listens on the <see cref="PauseManager.OnPauseToggled"/> event. Invokes the
+        /// <remarks> Subscribed to the <see cref="PauseManager.OnPauseToggled"/> event. Invokes the
         /// <see cref="_onPaused"/> and <see cref="_onUnpaused"/> events. </remarks>
         private void OnPauseToggled(bool isPaused) {
             this._pauseUI.SetActive(isPaused);

@@ -86,9 +86,7 @@ namespace Heroes {
             this._prevPosition = this.transform.position;
         }
         
-        /// <summary>
-        /// Enables or disables the hero's ability to move.
-        /// </summary>
+        /// <summary> Enables or disables the hero's ability to move. </summary>
         /// <param name="isMoving"> The hero's new movement status. </param>
         public void ToggleMoving(bool isMoving) {
             this._isMoving = isMoving;
@@ -117,9 +115,7 @@ namespace Heroes {
         // Trap Effects
         //========================================
 
-        /// <summary>
-        /// Sets the <see cref="_speedPenalty"/> to reduce the hero movement speed.
-        /// </summary>
+        /// <summary> Sets the <see cref="_speedPenalty"/> to reduce the hero movement speed. </summary>
         /// <param name="newPenalty"> The new speed penalty to limit hero movement. </param>
         /// <remarks> The provided speed penalty is clamped between [0,1] as a percentage value. </remarks>
         public void SetSpeedPenalty(float newPenalty) {
@@ -127,9 +123,7 @@ namespace Heroes {
             this._speedPenalty = Mathf.Clamp(this._speedPenalty, 0f, 1f);
         }
 
-        /// <summary>
-        /// Increments the <see cref="_speedPenalty"/> to reduce the hero movement speed.
-        /// </summary>
+        /// <summary> Increments the <see cref="_speedPenalty"/> to reduce the hero movement speed. </summary>
         /// <param name="amount"> The speed penalty value to increment the current <see cref="_speedPenalty"/> to
         /// limit hero movement. </param>
         /// <remarks> The incremented speed penalty is clamped between [0,1] as a percentage value. </remarks>
@@ -138,9 +132,7 @@ namespace Heroes {
             this._speedPenalty = Mathf.Clamp(this._speedPenalty, 0f, 1f);
         }
         
-        /// <summary>
-        /// Resets the <see cref="_speedPenalty"/> to return the hero movement speed to normal.
-        /// </summary>
+        /// <summary> Resets the <see cref="_speedPenalty"/> to return the hero movement speed to normal. </summary>
         public void ResetSpeedPenalty() {
             this._speedPenalty = 0f;
         }
@@ -168,9 +160,7 @@ namespace Heroes {
             this._stunCoroutine = this.StartCoroutine(this.StunCoroutine(duration));
         }
 
-        /// <summary>
-        /// Freezes the hero is place for a duration of time.
-        /// </summary>
+        /// <summary> Freezes the hero is place for a duration of time. </summary>
         /// <param name="duration"> The duration of time to stun the hero in place. </param>
         /// <remarks> The coroutine is started by <see cref="Stun"/>. </remarks>
         private IEnumerator StunCoroutine(float duration) {
@@ -184,13 +174,13 @@ namespace Heroes {
         // UGS Analytics
         //========================================
 
-        // A method created to inform UGS Analytics that the hero is stuck and send it positional data.
         /// <summary>
         /// Checks that the hero has remained within the distance range defined by <see cref="_positionThreshold"/>
         /// for <see cref="StuckTimerThreshold"/> duration of time.
         /// </summary>
         /// <remarks> If the hero remains in a similar position for the duration of time, invokes the
-        /// <see cref="OnHeroIsStuck"/> event. The coroutine is started by <see cref="FixedUpdate"/>. </remarks>
+        /// <see cref="OnHeroIsStuck"/> event to send hero stuck positional data to UGS analytics.
+        /// The coroutine is started by <see cref="FixedUpdate"/>. </remarks>
         private IEnumerator ConfirmHeroIsStuck() {
             yield return new WaitForSeconds(this.StuckTimerThreshold);
 

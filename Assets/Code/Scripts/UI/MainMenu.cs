@@ -3,24 +3,33 @@ using Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
+//*******************************************************************************************
+// MainMenu
+//*******************************************************************************************
 namespace UI {
-  public class MainMenu : MonoBehaviour {
-    [SerializeField] private Image _foreground;
+    /// <summary>
+    /// Handles the fading transitions of the MainMenu scene, along with loading the
+    /// game scene through the <see cref="SceneNavigationManager"/>.
+    /// </summary>
+    public class MainMenu : MonoBehaviour {
+        [Tooltip("Used to fade the scene in.")]
+        [SerializeField] private Image _foreground;
 
-    private const float FadeDuration = 0.5f;
+        private const float FadeDuration = 0.5f;
 
-    public void OnStartGame() {
-      this._foreground.gameObject.SetActive(true);
-      this._foreground
-        .DOFade(1, FadeDuration)
-        .OnComplete(SceneNavigationManager.Instance.LoadGameScene);
+        /// <summary> Fades in the screen and loads the game scene upon completion. </summary>
+        public void OnStartGame() {
+            this._foreground.gameObject.SetActive(true);
+            this._foreground
+                .DOFade(1, FadeDuration)
+                .OnComplete(SceneNavigationManager.Instance.LoadGameScene);
+        }
+
+        private void Awake() {
+            this._foreground.gameObject.SetActive(true);
+            this._foreground
+                .DOFade(0, FadeDuration)
+                .OnComplete(() => this._foreground.gameObject.SetActive(false));
+        }
     }
-
-    private void Awake() {
-      this._foreground.gameObject.SetActive(true);
-      this._foreground
-        .DOFade(0, FadeDuration)
-        .OnComplete(() => this._foreground.gameObject.SetActive(false));
-    }
-  }
 }

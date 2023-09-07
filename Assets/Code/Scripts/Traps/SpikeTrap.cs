@@ -2,45 +2,54 @@ using DG.Tweening;
 using Heroes;
 using UnityEngine;
 
+//*******************************************************************************************
+// SpikeTrap
+//*******************************************************************************************
 namespace Traps {
-  public class SpikeTrap : Trap {
-    [SerializeField] private int _damageAmount;
+    /// <summary>
+    /// A subclass of <see cref="Trap"/> that fills a permanent 3x1 grounded area and
+    /// damages the <see cref="Hero"/> with a speed penalty. 
+    /// </summary>
+    public class SpikeTrap : Trap {
+        [Tooltip("The damage to be applied to the Hero upon collision.")]
+        [SerializeField] private int _damageAmount;
 
-    public override Vector3 GetLeftSpawnPoint(Vector3 origin)
-    {
-      return origin + LeftSpawnOffset;
-    }
+        /// <inheritdoc cref="Trap.SetUpTrap"/>
+        /// <remarks> Pulls the spike back into the ground in wait of the hero to walk over them. </remarks>
+        protected override void SetUpTrap() {
+            transform.DOMove(SpawnPosition + Vector3.down * 0.2f, 1f);
+        }
         
-    public override Vector3 GetRightSpawnPoint(Vector3 origin)
-    {
-      return origin + RightSpawnOffset;
-    }
+        /// <inheritdoc cref="Trap.DetonateTrap"/>
+        /// <remarks> Immediately juts the spikes out when the hero walks over them. </remarks>
+        protected override void DetonateTrap() {
+            transform.DOComplete();
+            transform.DOMove(SpawnPosition + AnimationOffset, 0.05f);
+        }
 
-    protected override void SetUpTrap()
-    {
-      // The spikes will pull back into the ground when ready to be detonated
-       transform.DOMove(SpawnPosition + Vector3.down * 0.2f, 1f);
-    }
-    
-    protected override void DetonateTrap()
-    {
-      // Juts out when the hero walks over them
-      transform.DOComplete();
-      transform.DOMove(SpawnPosition + AnimationOffset, 0.05f);
-    }
+        /// <inheritdoc cref="Trap.OnEnteredTrap"/>
+        /// <summary>
+        /// This trap applies an 30% speed reduction to the <see cref="HeroMovement"/> and flat damage to the
+        /// <see cref="Hero"/>.
+        /// </summary>
+        protected  override void OnEnteredTrap(Hero hero) {
+            if (!IsReady) 
+                return;
 
-    protected  override void OnEnteredTrap(Hero hero) {
-      if (!IsReady) return;
-      
-      DetonateTrap();
-      hero.TakeDamage(this._damageAmount);
-      hero.HeroMovement.SetSpeedPenalty(0.3f);
-    }
+            DetonateTrap();
+            hero.TakeDamage(this._damageAmount);
+            hero.HeroMovement.SetSpeedPenalty(0.3f);
+        }
 
-    protected override void OnExitedTrap(Hero hero) {
-      if (!IsReady) return;
-      
-      hero.HeroMovement.ResetSpeedPenalty();
+        /// <inheritdoc cref="Trap.OnExitedTrap"/>
+        /// <summary>
+        /// Resets the speed reduction through <see cref="HeroMovement"/>.
+        /// </summary>
+        protected override void OnExitedTrap(Hero hero) {
+            if (!IsReady) 
+                return;
+
+            hero.HeroMovement.ResetSpeedPenalty();
+        }
     }
-  }
 }

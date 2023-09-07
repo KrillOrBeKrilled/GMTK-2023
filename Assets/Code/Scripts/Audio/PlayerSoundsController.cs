@@ -6,7 +6,7 @@ using UnityEngine.Events;
 //*******************************************************************************************
 namespace Audio {
     /// <summary>
-    /// A class that holds all UnityEvents used to communicate with the AudioManager to fire
+    /// Holds all UnityEvents used to communicate with the AudioManager to fire
     /// off Wwise sound events associated with the player, acting as an intermediate between
     /// the AudioManager and PlayerController classes.
     /// <remarks> Exposes methods to the PlayerController that invoke the UnityEvents the

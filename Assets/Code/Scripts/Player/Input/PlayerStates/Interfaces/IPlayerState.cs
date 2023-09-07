@@ -1,25 +1,44 @@
+//*******************************************************************************************
+// IPlayerState
+//*******************************************************************************************
 namespace Player {
     /// <summary>
-    /// Class used to declutter the PlayerController class, encapsulating the player's behaviour in each state
-    /// to better reason about correctness and pinpoint bugs easily, plus specialize behaviours to specific states.
+    /// Used to declutter the PlayerController class, encapsulating the player's
+    /// behaviour in each state to better reason about correctness and pinpoint bugs
+    /// easily, plus specialize behaviours to specific states.
     /// </summary>
-    public interface IPlayerState
-    {
+    public interface IPlayerState {
+        /// <summary>
+        /// Retrieves the player movement speed specific to the current state executed.
+        /// </summary>
+        /// <returns> The speed setting for the player to move. </returns>
         public float GetMovementSpeed();
 
-        // Methods OnEnter and OnExit that can be extended for future purposes to encapsulate rendering, sound, and logic
-        // that are associated with each state.
-        // TODO: Consider what we need when switching states...reference to old state, to play audio, etc.
+        /// <summary>
+        /// Executes animations, SFX, logic, and so forth associated with the entry into this player state.
+        /// </summary>
+        /// <param name="prevState"> The <see cref="IPlayerState"/> that was exited to enter this state. </param>
         public void OnEnter(IPlayerState prevState) {}
+        
+        /// <summary>
+        /// Executes animations, SFX, logic, and so forth associated with the exit out of this player state.
+        /// </summary>
+        /// <param name="newState"> The <see cref="IPlayerState"/> that will be entered from this state. </param>
         public void OnExit(IPlayerState newState) {}
 
         /// <summary>
         /// Adjust the player movement speed and actions depending on the current state of the player.
-        /// Idle: Player stands still, can transition to any other state in this state
-        /// Moving: Player moves in this state in a given direction along the x-axis
-        /// Jumping: Player can jump as many times in the air
-        /// Deploying: Player is placing a trap on a given tile space
+        /// <list type="bullet">
+        /// <item> Idle: Player stands still, can transition to any other state in this state. </item>
+        /// <item> Moving: Player moves in this state in a given direction along the x-axis. </item>
+        /// <item> GameOver: Player has perished, thus ending the game. </item>
+        /// </list>
         /// </summary>
+        /// <param name="playerController"> The <see cref="PlayerController"/> executing this state. </param>
+        /// <param name="direction"> The direction the player is currently facing when this state is executed. </param>
+        /// <remarks> The player <b>jumping</b> and <b>trap deployment</b> abilities are left out of the state
+        /// pattern to be executed concurrently with the other states within the same frames for reduced
+        /// latency. </remarks>
         abstract void Act(PlayerController playerController, float direction);
     }
 }

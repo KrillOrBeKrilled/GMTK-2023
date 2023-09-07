@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 //*******************************************************************************************
 namespace Managers {
     /// <summary>
-    /// A class to act as a soundbank for all the game's SFX. Works hand in hand with
+    /// Acts as a sound bank for all the game's SFX. Works hand in hand with
     /// <see cref="Jukebox"/> to provide methods for listening in on events invoked
     /// during gameplay that handle all the Wwise sound events.
     /// </summary>
@@ -100,8 +100,7 @@ namespace Managers {
         
         /// <summary> Plays SFX associated with building a trap after deployment to set it up. </summary>
         /// <param name="audioSource"> The GameObject that's making this SFX. </param>
-        public void PlayBuild(GameObject audioSource)
-        {
+        public void PlayBuild(GameObject audioSource) {
             if (this._isBuilding) 
                 return;
             
@@ -118,9 +117,7 @@ namespace Managers {
             this._isBuilding = false;
         }
 
-        /// <summary>
-        /// Plays SFX associated with building a trap to set it up for a duration of time.
-        /// </summary>
+        /// <summary> Plays SFX associated with building a trap to set it up for a duration of time. </summary>
         /// <param name="durationInSeconds"> The duration of time to play the build SFX. </param>
         /// <remarks> The coroutine is started and stopped by <see cref="PlayBuild"/> and
         /// <see cref="StopBuild"/>. </remarks>

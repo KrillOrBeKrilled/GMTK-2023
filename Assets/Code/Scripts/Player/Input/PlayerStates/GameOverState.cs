@@ -1,31 +1,25 @@
+//*******************************************************************************************
+// GameOverState
+//*******************************************************************************************
 namespace Player {
     /// <summary>
-    /// TODO: Make note of any music plugins we need here...
+    /// Implements <see cref="IPlayerState"/> to encapsulate logic, visuals, and sounds
+    /// associated with the player death.
     /// </summary>
-    public class GameOverState : IPlayerState
-    {
-        public GameOverState()
-        {
-
-        }
-
-        public void OnEnter(IPlayerState prevState)
-        {
+    public class GameOverState : IPlayerState {
+        public void OnEnter(IPlayerState prevState) {
             // TODO: When the game ends...what should happen? music? visual animations?
         }
 
-        public float GetMovementSpeed()
-        {
+        public float GetMovementSpeed() {
             return 0f;
         }
 
-        public void Act(PlayerController playerController, float direction)
-        {
+        public void Act(PlayerController playerController, float direction) {
             // The game is over! Maybe the player shouldn't do anything anymore and some UI opens or something
         }
 
-        public void OnExit(IPlayerState newState)
-        {
+        public void OnExit(IPlayerState newState) {
             // TODO: When the game ends...what should happen? music? visual animations?
         }
     }

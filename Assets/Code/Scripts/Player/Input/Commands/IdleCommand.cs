@@ -1,16 +1,21 @@
-namespace Player
-{
-    public class IdleCommand : ICommand
-    {
+//*******************************************************************************************
+// IdleCommand
+//*******************************************************************************************
+namespace Player {
+    /// <summary>
+    /// Implements <see cref="ICommand"/> to execute the player action for standing idle.
+    /// </summary>
+    public class IdleCommand : ICommand {
+        // Reference to the player Pawn to control.
         private readonly Pawn _controlledObject;
 
-        public IdleCommand(Pawn controlledObject)
-        {
+        /// <summary> Constructor to set references required for this command to act on a <see cref="Pawn"/>. </summary>
+        /// <param name="controlledObject"> The player <see cref="Pawn"/> associated with this idle command. </param>
+        public IdleCommand(Pawn controlledObject) {
             this._controlledObject = controlledObject;
         }
 
-        public void Execute()
-        {
+        public void Execute() {
             this._controlledObject.StandIdle();
         }
     }

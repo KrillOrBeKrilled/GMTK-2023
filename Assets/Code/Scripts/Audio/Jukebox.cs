@@ -3,7 +3,7 @@
 //*******************************************************************************************
 namespace Audio {
     /// <summary>
-    /// A class to act as a soundbank for all the game's music. Works hand in hand with the
+    /// Acts as a sound bank for all the game's music. Works hand in hand with the
     /// AudioManager (handles the SFX soundbank) to provide methods for listening in on
     /// events invoked during gameplay that handle all the Wwise sound events.
     /// </summary>

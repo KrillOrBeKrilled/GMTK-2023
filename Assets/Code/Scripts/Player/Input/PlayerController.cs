@@ -12,18 +12,21 @@ using UnityEngine.InputSystem.LowLevel;
 //*******************************************************************************************
 namespace Player {
     /// <summary>
-    /// A class to handle the brunt of player input: Contains the implementation for the
-    /// character movement, jumping, changing and deployment of traps, as well as player
-    /// death with associated animations and sound. Works hand-in-hand with the
-    /// TrapController class made to separate the trap searching and tiles painting logic.
+    /// Handles the brunt of the player input. Works hand-in-hand with the
+    /// <see cref="TrapController"/> class made to separate the trap searching and tile
+    /// painting logic.
     /// </summary>
-    public class PlayerController : Pawn
-    {
+    /// <remarks> Contains the implementation for the character movement, jumping,
+    /// changing and deployment of traps, as well as player death with associated
+    /// animations and sound. </remarks>
+    public class PlayerController : Pawn {
         // --------------- Player State --------------
         private static IdleState _idle;
         private static MovingState _moving;
         private static GameOverState _gameOver;
         private IPlayerState _state;
+        
+        [Tooltip("Tracks when the player state changes.")]
         public UnityEvent<IPlayerState, float, float, float> OnPlayerStateChanged { get; private set; }
 
         // ----------------- Command -----------------
@@ -39,7 +42,10 @@ namespace Player {
         // ------------- Trap Deployment ------------
         private float _direction = -1;
         private bool _isGrounded = true;
+        
+        [Tooltip("Tracks when a new trap is selected.")]
         public UnityEvent<int> OnSelectedTrapIndexChanged;
+        [Tooltip("Tracks when a trap has been deployed.")]
         public UnityEvent<int> OnTrapDeployed { get; private set; }
 
         private TrapController _trapController;
@@ -56,8 +62,7 @@ namespace Player {
         private PlayerInputActions _playerInputActions;
         private const string BaseFolder = "InputRecordings";
 
-        protected virtual void Awake()
-        {
+        protected virtual void Awake() {
             this.RBody = this.GetComponent<Rigidbody2D>();
             this._animator = this.GetComponent<Animator>();
             this._trapController = this.GetComponent<TrapController>();
@@ -76,8 +81,7 @@ namespace Player {
             _animator.SetBool("is_grounded", _isGrounded);
         }
 
-        private void Start()
-        {
+        private void Start() {
             this._jumpCommand = new JumpCommand(this);
             this._deployCommand = new DeployCommand(this);
 
@@ -90,8 +94,7 @@ namespace Player {
             this.OnEnable();
         }
 
-        protected virtual void FixedUpdate()
-        {
+        protected virtual void FixedUpdate() {
             var directionInput = this._playerInputActions.Player.Move.ReadValue<float>();
             this._direction = directionInput != 0 ? directionInput : this._direction;
 
@@ -105,8 +108,10 @@ namespace Player {
             this._trapController.SurveyTrapDeployment(this._isGrounded, this._direction);
         }
 
-        public void GameOver()
-        {
+        /// <summary>
+        /// Changes the current <see cref="IPlayerState"/> to the death state and plays associated SFX.
+        /// </summary>
+        public void GameOver() {
             this._soundsController.OnHenDeath();
 
             var prevState = this._state;
@@ -122,17 +127,19 @@ namespace Player {
         // Getters
         //========================================
 
-        public IPlayerState GetPlayerState()
-        {
+        /// <summary> Retrieves the current <see cref="IPlayerState"/> stored in <see cref="_state"/>. </summary>
+        /// <returns> The <see cref="IPlayerState"/> that is currently being executed. </returns>
+        public IPlayerState GetPlayerState() {
             return this._state;
         }
 
-        // Retrieves the cost of the current trap selected
-        public int GetTrapCost()
-        {
+        /// <summary> Retrieves the cost of the current selected trap through the <see cref="TrapController"/>. </summary>
+        /// <returns> The cost of the current selected trap. </returns>
+        public int GetTrapCost() {
             return this._trapController.GetCurrentTrapCost();
         }
 
+        /// <summary> Disables the retrieval of controller input in <see cref="PlayerInputActions"/>. </summary>
         public void DisablePlayerInput() {
             this._playerInputActions.Disable();
         }
@@ -141,20 +148,24 @@ namespace Player {
         // Animator
         //========================================
 
-        private void SetAnimatorValues(float inputDirection)
-        {
+        /// <summary> Adjusts the <see cref="Animator"/> speed and direction values. </summary>
+        /// <param name="inputDirection"> The vector x-value associated with the player's current movement. </param>
+        private void SetAnimatorValues(float inputDirection) {
             this._animator.SetFloat("speed", Mathf.Abs(inputDirection));
             this._animator.SetFloat("direction", this._direction);
         }
         
-        // Helper method for setting the animation controller state and clearing the trap deployment
-        // markers depending on if the player has touched the ground or not
-        public void SetGroundedStatus(bool isGrounded)
-        {
+        /// <summary>
+        /// Helper method for setting the animation controller state and clearing the trap deployment
+        /// markers depending on whether the player has touched the ground or not.
+        /// </summary>
+        /// <param name="isGrounded"> If the player is currently touching the ground. </param>
+        public void SetGroundedStatus(bool isGrounded) {
             this._isGrounded = isGrounded;
             this._animator.SetBool("is_grounded", this._isGrounded);
 
-            if (isGrounded) return;
+            if (isGrounded) 
+                return;
             
             // Left the ground, so trap deployment isn't possible anymore
             this._trapController.DisableTrapDeployment();
@@ -164,8 +175,8 @@ namespace Player {
         // Input
         //========================================
 
-        private void Idle(InputAction.CallbackContext obj)
-        {
+        /// <summary> Changes the current <see cref="IPlayerState"/> to the idle state. </summary>
+        private void Idle(InputAction.CallbackContext obj) {
             // Cache previous state and call OnExit and OnEnter
             var prevState = this._state;
             this._state.OnExit(_idle);
@@ -176,8 +187,8 @@ namespace Player {
             this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
         }
 
-        private void Move(InputAction.CallbackContext obj)
-        {
+        /// <summary> Changes the current <see cref="IPlayerState"/> to the moving state. </summary>
+        private void Move(InputAction.CallbackContext obj) {
             // Cache previous state and call OnExit and OnEnter
             var prevState = this._state;
             this._state.OnExit(_moving);
@@ -188,31 +199,36 @@ namespace Player {
             this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
         }
 
-        private void Jump(InputAction.CallbackContext obj)
-        {
+        /// <summary> Executes the <see cref="JumpCommand"/>. </summary>
+        private void Jump(InputAction.CallbackContext obj) {
             this.ExecuteCommand(this._jumpCommand);
         }
 
-        private void DeployTrap(InputAction.CallbackContext obj)
-        {
+        /// <summary> Executes the <see cref="DeployCommand"/>. </summary>
+        private void DeployTrap(InputAction.CallbackContext obj) {
             this.ExecuteCommand(this._deployCommand);
         }
-
-        // Test functions to switch between test traps
-        private void SetTrap1(InputAction.CallbackContext obj)
-        {
+        
+        /// <summary>
+        /// Selects the first trap from <see cref="TrapController.Traps"/>, executing the <see cref="SetTrapCommand"/>.
+        /// </summary>
+        private void SetTrap1(InputAction.CallbackContext obj) {
             var command = new SetTrapCommand(this, 0);
             this.ExecuteCommand(command);
         }
 
-        private void SetTrap2(InputAction.CallbackContext obj)
-        {
+        /// <summary>
+        /// Selects the second trap from <see cref="TrapController.Traps"/>, executing the <see cref="SetTrapCommand"/>.
+        /// </summary>
+        private void SetTrap2(InputAction.CallbackContext obj) {
             var command = new SetTrapCommand(this, 1);
             this.ExecuteCommand(command);
         }
 
-        private void SetTrap3(InputAction.CallbackContext obj)
-        {
+        /// <summary>
+        /// Selects the third trap from <see cref="TrapController.Traps"/>, executing the <see cref="SetTrapCommand"/>.
+        /// </summary>
+        private void SetTrap3(InputAction.CallbackContext obj) {
             var command = new SetTrapCommand(this, 2);
             this.ExecuteCommand(command);
         }
@@ -221,8 +237,10 @@ namespace Player {
         // Pawn Inherited Methods
         //========================================
 
-        public override void Jump()
-        {
+        /// <inheritdoc cref="Pawn.Jump"/>
+        /// <remarks> Additionally updates the player <see cref="Animator"/>, plays associated SFX, and disables
+        /// <see cref="TrapController"/> trap deployment abilities. </remarks>
+        public override void Jump() {
             // Left out of State pattern to allow this during movement
             this.RBody.AddForce(Vector2.up * this.JumpingForce);
             this._isGrounded = false;
@@ -235,14 +253,16 @@ namespace Player {
             this._trapController.DisableTrapDeployment();
         }
 
-        public override void DeployTrap()
-        {
-            // Delegate deployment to TrapController for better encapsulation and efficiency
-            if (_trapController.DeployTrap(_direction, out var trapIndex)) this.OnTrapDeployed?.Invoke(trapIndex);
+        /// <inheritdoc cref="Pawn.DeployTrap"/>
+        /// <remarks> Delegates trap deployment execution to <see cref="TrapController.DeployTrap"/>. </remarks>
+        public override void DeployTrap() {
+            if (_trapController.DeployTrap(_direction, out var trapIndex)) 
+                this.OnTrapDeployed?.Invoke(trapIndex);
         }
 
-        public override void ChangeTrap(int trapIndex)
-        {
+        /// <inheritdoc cref="Pawn.ChangeTrap"/>
+        /// <remarks> Delegates trap selection execution to the <see cref="TrapController"/>. </remarks>
+        public override void ChangeTrap(int trapIndex) {
             // Delegate setting trap to TrapController for better encapsulation and efficiency
             this._trapController.ChangeTrap(trapIndex);
             this.OnSelectedTrapIndexChanged?.Invoke(trapIndex);
@@ -252,9 +272,11 @@ namespace Player {
         // Command
         //========================================
 
-        // Method to execute any given command (interfaced) and record it to a list to replay
-        public void ExecuteCommand(ICommand command)
-        {
+        /// <summary> Executes an <see cref="ICommand"/>. </summary>
+        /// <param name="command"> The <see cref="ICommand"/> to be executed. </param>
+        /// <remarks> Can be extended to record each command to a list to implement redo/undo logic, especially
+        /// sorted by type. </remarks>
+        public void ExecuteCommand(ICommand command) {
             command.Execute();
         }
 
@@ -262,16 +284,24 @@ namespace Player {
         // Recording
         //========================================
 
-        public virtual void StartSession()
-        {
+        /// <summary>
+        /// Begins recording all player input with timestamps via the <see cref="InputEventTrace"/> and enables
+        /// all controls from the <see cref="PlayerInputActions"/>.
+        /// </summary>
+        public virtual void StartSession() {
             this.InputRecorder.Enable();
             print("Start Recording");
 
             this.EnableControls();
         }
 
-        protected virtual void StopSession(string message)
-        {
+        /// <summary>
+        /// Stops recording play input via the <see cref="InputEventTrace"/>, creates a file for the recorded input,
+        /// and frees the memory used for the recording process.
+        /// </summary>
+        /// <remarks> Listens on the <see cref="GameManager.OnHenWon"/> and <see cref="GameManager.OnHenLost"/>
+        /// events. </remarks>
+        protected virtual void StopSession(string message) {
             this.InputRecorder.Disable();
             print("Stop Recording");
 
@@ -282,8 +312,13 @@ namespace Player {
             this.InputRecorder.Dispose();
         }
 
-        private void CreateRecordingFile()
-        {
+        /// <summary>
+        /// Helper method for creating a file for the player input recording based on platform the game was played
+        /// on.
+        /// </summary>
+        /// <remarks> The recording files will be stored in <b>Assets > InputRecordings</b> within the project
+        /// hierarchy. For a build, the recordings can be found in <b>Henchman_Data > InputRecordings</b>. </remarks>
+        private void CreateRecordingFile() {
             var fileName = $"Playtest {DateTime.Now:MM-dd-yyyy HH-mm-ss}.txt";
 
             // From https://stackoverflow.com/questions/70715187/unity-read-and-write-to-txt-file-after-build
@@ -315,34 +350,34 @@ namespace Player {
         //========================================
         // Collisions
         //========================================
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (this._isGrounded) return;
+        private void OnCollisionEnter2D(Collision2D collision) {
+            if (this._isGrounded) 
+                return;
 
-            for (var i = 0; i < collision.GetContacts(collision.contacts); i++)
-            {
+            for (var i = 0; i < collision.GetContacts(collision.contacts); i++) {
                 var contactPosition = (Vector3)collision.GetContact(i).point + (Vector3.down * .15f);
                 
-                if (!this._trapController.CheckForGroundTile(contactPosition)) continue;
+                if (!this._trapController.CheckForGroundTile(contactPosition)) 
+                    continue;
                 
                 this.SetGroundedStatus(true);
                 return;
             }
         }
 
-        private void OnCollisionStay2D(Collision2D collision)
-        {
+        private void OnCollisionStay2D(Collision2D collision) {
             this._lastContact = collision.GetContact(0);
         }
 
         // Called one frame after the collision, so fetch contact point from the last frame;
-        private void OnCollisionExit2D(Collision2D collision)
-        {
-            if (!this._isGrounded) return;
+        private void OnCollisionExit2D(Collision2D collision) {
+            if (!this._isGrounded) 
+                return;
             
             var contactPosition = (Vector3)this._lastContact.point + (Vector3.down * .05f);
              
-            if (!this._trapController.CheckForGroundTile(contactPosition)) return;
+            if (!this._trapController.CheckForGroundTile(contactPosition)) 
+                return;
             
             this.SetGroundedStatus(false);
         }
@@ -362,8 +397,10 @@ namespace Player {
             this.EnableControls();
         }
 
-        private void EnableControls()
-        {
+        /// <summary>
+        /// Subscribes all the input methods to the <see cref="PlayerInputActions"/> input action bindings.
+        /// </summary>
+        private void EnableControls() {
             this._playerInputActions.Player.Move.performed += this.Move;
             this._playerInputActions.Player.Move.canceled += this.Idle;
             this._playerInputActions.Player.Jump.performed += this.Jump;
@@ -379,8 +416,10 @@ namespace Player {
             this.DisableControls();
         }
 
-        private void DisableControls()
-        {
+        /// <summary>
+        /// Unsubscribes all the input methods from the <see cref="PlayerInputActions"/> input action bindings.
+        /// </summary>
+        private void DisableControls() {
             this._playerInputActions.Player.Move.performed -= this.Move;
             this._playerInputActions.Player.Move.canceled -= this.Idle;
             this._playerInputActions.Player.Jump.performed -= this.Jump;

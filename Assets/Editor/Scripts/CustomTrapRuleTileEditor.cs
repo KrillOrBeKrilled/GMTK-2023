@@ -1,3 +1,4 @@
+using Tiles;
 using UnityEngine;
 using UnityEditor;
 
@@ -5,19 +6,17 @@ using UnityEditor;
 // CustomTrapRuleTileEditor
 //*******************************************************************************************
 /// <summary>
-/// A subclass of RuleTileEditor that provides custom sprites for the
+/// A subclass of <see cref="RuleTileEditor"/> that provides custom sprites for the
 /// CustomTrapRuleTile class neighboring tile rule visualizer in the inspector.
 /// </summary>
 [CustomEditor(typeof(CustomTrapRuleTile))]
 [CanEditMultipleObjects]
-public class CustomTrapRuleTileEditor : RuleTileEditor
-{
+public class CustomTrapRuleTileEditor : RuleTileEditor {
+    [Tooltip("Sprites to signify the extended rule tile rules.")]
     public Texture2D ground, dungeon;
 
-    public override void RuleOnGUI(Rect rect, Vector3Int position, int neighbor)
-    {
-        switch (neighbor)
-        {
+    public override void RuleOnGUI(Rect rect, Vector3Int position, int neighbor) {
+        switch (neighbor) {
             case 3:
                 GUI.DrawTexture(rect, ground);
                 return;

@@ -1,10 +1,15 @@
+using UnityEngine;
+
+//*******************************************************************************************
+// PlayerInputController
+//*******************************************************************************************
 namespace Player {
+    /// <summary>
+    /// Manages the enabling and disabling of character controls directly through
+    /// <see cref="PlayerInputActions"/>.
+    /// </summary>
     public class PlayerInputController : Singleton<PlayerInputController> {
-        /// <summary>
-        /// Class to handle character controls
-        /// TODO: Make note of any music plugins we need here...
-        /// </summary>
-        // -------------- Input System ---------------
+        [Tooltip("The PlayerInputActions asset associated with this player controller.")]
         public PlayerInputActions PlayerInputActions { get; private set; }
 
         protected override void Awake() {
@@ -14,23 +19,23 @@ namespace Player {
         }
 
         // To help with UI stuff when disabling and enabling controls
-        public void DisablePlayerControls()
-        {
+        /// <summary> Disables the input retrieval through the <see cref="PlayerInputActions"/> asset. </summary>
+        public void DisablePlayerControls() {
             this.PlayerInputActions.Player.Disable();
         }
 
-        public void EnablePlayerControls()
-        {
+        /// <summary> Enables the input retrieval through the <see cref="PlayerInputActions"/> asset. </summary>
+        public void EnablePlayerControls() {
             this.PlayerInputActions.Player.Enable();
         }
 
-        public void DisableUIControls()
-        {
+        /// <summary> Disables the pause input retrieval through the <see cref="PlayerInputActions"/> asset. </summary>
+        public void DisableUIControls() {
             this.PlayerInputActions.Pause.Disable();
         }
 
-        public void EnableUIControls()
-        {
+        /// <summary> Enables the pause input retrieval through the <see cref="PlayerInputActions"/> asset. </summary>
+        public void EnableUIControls() {
             this.PlayerInputActions.Pause.Enable();
         }
     }

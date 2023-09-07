@@ -1,34 +1,28 @@
 using Heroes;
-using UnityEngine;
 
-namespace Traps
-{
-    public class TestTrap1 : Trap
-    {
-        public override Vector3 GetLeftSpawnPoint(Vector3 origin)
-        {
-            return origin + LeftSpawnOffset;
-        }
-
-        public override Vector3 GetRightSpawnPoint(Vector3 origin)
-        {
-            return origin + RightSpawnOffset;
-        }
-
-        protected override void SetUpTrap()
-        {
+//*******************************************************************************************
+// TestTrap1
+//*******************************************************************************************
+namespace Traps {
+    /// <summary>
+    /// An experimental subclass of <see cref="Trap"/> used to test various trap
+    /// deployment and detonation scenarios. 
+    /// </summary>
+    public class TestTrap1 : Trap {
+        protected override void SetUpTrap() {
 
         }
 
-        protected override void DetonateTrap()
-        {
+        protected override void DetonateTrap() {
 
         }
 
         protected  override void OnEnteredTrap(Hero hero) {
+            
         }
 
         protected override void OnExitedTrap(Hero hero) {
+            
         }
     }
 }

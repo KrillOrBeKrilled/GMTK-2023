@@ -4,16 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI {
-  public class MainMenu : MonoBehaviour {
+  public class LevelsUI : MonoBehaviour {
     [SerializeField] private Image _foreground;
 
     private const float FadeDuration = 0.5f;
 
-    public void OnPlay() {
+    public void LoadLevel(string levelName) {
       this._foreground.gameObject.SetActive(true);
       this._foreground
         .DOFade(1, FadeDuration)
-        .OnComplete(SceneNavigationManager.Instance.LoadLevelsScene);
+        .OnComplete(() => LevelManager.Instance.LoadLevel(levelName));
     }
 
     private void Awake() {

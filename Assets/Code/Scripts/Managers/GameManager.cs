@@ -49,7 +49,7 @@ namespace Managers {
     public void LoadMainMenu() {
       PauseManager.Instance.UnpauseGame();
       PauseManager.Instance.SetIsPausable(false);
-      this._gameUI.FadeInSceneCover(SceneNavigationManager.Instance.LoadMainMenuScene);
+      this._gameUI.FadeInSceneCover(SceneNavigationManager.Instance.LoadLevelsScene);
     }
 
     public void LoadNextLevel() {
@@ -60,45 +60,6 @@ namespace Managers {
       PauseManager.Instance.UnpauseGame();
       PauseManager.Instance.SetIsPausable(false);
       this._gameUI.FadeInSceneCover(SceneNavigationManager.Instance.ReloadCurrentScene);
-    }
-
-    public void Initialize(LevelData levelData) {
-      // Create a copy to avoid modifying data source
-      this._levelData = ScriptableObject.CreateInstance<LevelData>();
-      this._levelData.Type = levelData.Type;
-      this._levelData.DialogueName = levelData.DialogueName;
-      this._levelData.EndgameTargetPosition = levelData.EndgameTargetPosition;
-      this._levelData.RespawnPositions = levelData.RespawnPositions.ToList();
-      this._levelData.WavesData = new WavesData() { WavesList = levelData.WavesData.WavesList.ToList() };
-
-      this._endgameTarget = Instantiate(this._endgameTargetPrefab, this._levelData.EndgameTargetPosition, Quaternion.identity, this.transform);
-
-      foreach (Vector3 respawnPosition in this._levelData.RespawnPositions) {
-        RespawnPoint newPoint = Instantiate(this._respawnPointPrefab, respawnPosition, Quaternion.identity, this.transform);
-        this._respawnPoints.Add(newPoint);
-      }
-
-      this._activeRespawnPoint = this._respawnPoints.First();
-      this._firstRespawnPoint = this._activeRespawnPoint;
-
-      this._gameUI.Initialize(this, this._playerManager);
-
-      this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
-      this._playerManager.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
-      this._playerManager.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
-      this._playerManager.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
-
-      this._playerManager.Initialize(this._firstRespawnPoint.transform, this._endgameTarget.transform);
-
-      this.OnSetupComplete?.Invoke();
-
-      if (this._levelData.Type == LevelData.LevelType.Story) {
-        this.StartStoryLevel();
-      } else {
-        this.StartEndlessLevel();
-      }
-
-      PauseManager.Instance.SetIsPausable(true);
     }
 
     protected override void Awake() {
@@ -141,6 +102,39 @@ namespace Managers {
 
     public void SkipDialogue() {
       this.StartCoroutine(this.SkipDialogueCoroutine());
+    }
+
+    private void Start() {
+      // Create a copy to avoid modifying data source
+      this._levelData = LevelManager.Instance.ActiveLevelData;
+      this._endgameTarget = Instantiate(this._endgameTargetPrefab, this._levelData.EndgameTargetPosition, Quaternion.identity, this.transform);
+
+      foreach (Vector3 respawnPosition in this._levelData.RespawnPositions) {
+        RespawnPoint newPoint = Instantiate(this._respawnPointPrefab, respawnPosition, Quaternion.identity, this.transform);
+        this._respawnPoints.Add(newPoint);
+      }
+
+      this._activeRespawnPoint = this._respawnPoints.First();
+      this._firstRespawnPoint = this._activeRespawnPoint;
+
+      this._gameUI.Initialize(this, this._playerManager);
+
+      this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
+      this._playerManager.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
+      this._playerManager.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
+      this._playerManager.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
+
+      this._playerManager.Initialize(this._firstRespawnPoint.transform, this._endgameTarget.transform);
+
+      this.OnSetupComplete?.Invoke();
+
+      if (this._levelData.Type == LevelData.LevelType.Story) {
+        this.StartStoryLevel();
+      } else {
+        this.StartEndlessLevel();
+      }
+
+      PauseManager.Instance.SetIsPausable(true);
     }
 
     private IEnumerator SkipDialogueCoroutine() {

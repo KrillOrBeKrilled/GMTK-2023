@@ -123,10 +123,11 @@ namespace Managers {
       if (this._dialogueRunner.IsDialogueRunning) {
         this._dialogueRunner.Stop();
       }
-      
+
       this._cameraShaker.StopShake();
       this._cameraSwitcher.ShowPlayer();
       this.StartLevel();
+      this.StartCoroutine(this.SpawnNextWave());
     }
 
     private void Start() {
@@ -166,7 +167,6 @@ namespace Managers {
 
     private void StartEndlessLevel() {
       this.SkipDialogue();
-      this.StartCoroutine(this.SpawnNextWave());
     }
 
     private void OnPlayerStateChanged(IPlayerState state, float xPos, float yPos, float zPos) {

@@ -33,7 +33,6 @@ namespace Heroes {
 
     public void TakeDamage(int amount) {
       this.Health -= amount;
-      CoinManager.Instance.EarnCoins(1);
 
       this.HeroHurtEvent.Post(this.gameObject);
       this.OnHealthChanged?.Invoke(this.Health);

@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Model {
   [CreateAssetMenu(fileName = "LevelData", menuName = "LevelData")]
+  [Serializable]
   public class LevelData : ScriptableObject {
     public LevelType Type = LevelType.Endless;
     public string DialogueName;

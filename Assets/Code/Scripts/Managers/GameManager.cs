@@ -26,7 +26,6 @@ namespace Managers {
     [SerializeField] private Hero _heroPrefab;
 
     [Header("Level")]
-    [SerializeField] private LevelData _levelDataFile;
     [SerializeField] private RespawnPoint _respawnPointPrefab;
     [SerializeField] private EndgameTarget _endgameTargetPrefab;
 
@@ -63,21 +62,14 @@ namespace Managers {
       this._gameUI.FadeInSceneCover(SceneNavigationManager.Instance.ReloadCurrentScene);
     }
 
-    protected override void Awake() {
-      base.Awake();
-      this.OnSetupComplete = new UnityEvent();
-      this.OnStartLevel = new UnityEvent();
-      this.OnHenWon = new UnityEvent<string>();
-      this.OnHenLost = new UnityEvent<string>();
-      this.OnHeroSpawned = new UnityEvent<Hero>();
-
+    public void Initialize(LevelData levelData) {
       // Create a copy to avoid modifying data source
       this._levelData = ScriptableObject.CreateInstance<LevelData>();
-      this._levelData.Type = this._levelDataFile.Type;
-      this._levelData.DialogueName = this._levelDataFile.DialogueName;
-      this._levelData.EndgameTargetPosition = this._levelDataFile.EndgameTargetPosition;
-      this._levelData.RespawnPositions = this._levelDataFile.RespawnPositions.ToList();
-      this._levelData.WavesData = new WavesData() { WavesList = this._levelDataFile.WavesData.WavesList.ToList() };
+      this._levelData.Type = levelData.Type;
+      this._levelData.DialogueName = levelData.DialogueName;
+      this._levelData.EndgameTargetPosition = levelData.EndgameTargetPosition;
+      this._levelData.RespawnPositions = levelData.RespawnPositions.ToList();
+      this._levelData.WavesData = new WavesData() { WavesList = levelData.WavesData.WavesList.ToList() };
 
       this._endgameTarget = Instantiate(this._endgameTargetPrefab, this._levelData.EndgameTargetPosition, Quaternion.identity, this.transform);
 
@@ -88,6 +80,34 @@ namespace Managers {
 
       this._activeRespawnPoint = this._respawnPoints.First();
       this._firstRespawnPoint = this._activeRespawnPoint;
+
+      this._gameUI.Initialize(this, this._playerManager);
+
+      this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
+      this._playerManager.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
+      this._playerManager.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
+      this._playerManager.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
+
+      this._playerManager.Initialize(this._firstRespawnPoint.transform, this._endgameTarget.transform);
+
+      this.OnSetupComplete?.Invoke();
+
+      if (this._levelData.Type == LevelData.LevelType.Story) {
+        this.StartStoryLevel();
+      } else {
+        this.StartEndlessLevel();
+      }
+
+      PauseManager.Instance.SetIsPausable(true);
+    }
+
+    protected override void Awake() {
+      base.Awake();
+      this.OnSetupComplete = new UnityEvent();
+      this.OnStartLevel = new UnityEvent();
+      this.OnHenWon = new UnityEvent<string>();
+      this.OnHenLost = new UnityEvent<string>();
+      this.OnHeroSpawned = new UnityEvent<Hero>();
     }
 
 #region YarnCommands
@@ -120,35 +140,21 @@ namespace Managers {
 #endregion
 
     public void SkipDialogue() {
+      this.StartCoroutine(this.SkipDialogueCoroutine());
+    }
+
+    private IEnumerator SkipDialogueCoroutine() {
       if (this._dialogueRunner.IsDialogueRunning) {
         this._dialogueRunner.Stop();
       }
 
       this._cameraShaker.StopShake();
       this._cameraSwitcher.ShowPlayer();
+
+      // Skip a frame to ensure all scripts have initialized and called Start()
+      yield return null;
       this.StartLevel();
       this.StartCoroutine(this.SpawnNextWave());
-    }
-
-    private void Start() {
-      this._gameUI.Initialize(this, this._playerManager);
-
-      this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
-      this._playerManager.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
-      this._playerManager.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
-      this._playerManager.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
-
-      this._playerManager.Initialize(this._firstRespawnPoint.transform, this._endgameTarget.transform);
-
-      this.OnSetupComplete?.Invoke();
-
-      if (this._levelData.Type == LevelData.LevelType.Story) {
-        this.StartStoryLevel();
-      } else {
-        this.StartEndlessLevel();
-      }
-
-      PauseManager.Instance.SetIsPausable(true);
     }
 
     private void StartStoryLevel() {

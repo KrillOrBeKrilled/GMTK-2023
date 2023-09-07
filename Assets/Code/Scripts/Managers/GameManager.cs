@@ -94,7 +94,7 @@ namespace Managers {
 
     [YarnCommand("spawn_hero_actor")]
     public void SpawnHeroActor() {
-      this._heroActor = this.SpawnHero();
+      this._heroActor = this.SpawnHero(HeroData.DefaultHero);
 
       if (this._heroActor.TryGetComponent(out YarnCharacter newYarnCharacter)) {
         YarnCharacterView.instance.RegisterYarnCharacter(newYarnCharacter);
@@ -243,7 +243,7 @@ namespace Managers {
 
       WaveData waveData = this._levelData.WavesData.WavesList[0];
       for (int i = 0; i < waveData.Heroes.Count; i++) {
-        this.SpawnHero();
+        this.SpawnHero(waveData.Heroes[i]);
         yield return new WaitForSeconds(waveData.HeroSpawnDelayInSeconds);
       }
 
@@ -257,9 +257,9 @@ namespace Managers {
       yield return this.SpawnNextWave();
     }
 
-    private Hero SpawnHero() {
+    private Hero SpawnHero(HeroData heroData) {
       Hero newHero = Instantiate(this._heroPrefab, this._activeRespawnPoint.transform);
-      newHero.Initialize(this._firstRespawnPoint.transform, this._endgameTarget.transform);
+      newHero.Initialize(heroData, this._firstRespawnPoint.transform, this._endgameTarget.transform);
       newHero.OnHeroDied.AddListener(this.OnHeroDied);
       newHero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 

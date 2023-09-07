@@ -25,6 +25,9 @@ namespace UI {
 
       this._hero.OnHealthChanged.AddListener(this.OnHealthChanged);
       this._hero.OnHeroDied.AddListener(this.OnDeath);
+
+      this._healthBar.maxValue = targetHero.Health;
+      this._healthBar.value = targetHero.Health;
     }
 
     private void Awake() {
@@ -32,8 +35,8 @@ namespace UI {
       this._healthBar = this.GetComponent<Slider>();
       this._rectTransform = this.GetComponent<RectTransform>();
 
-      this._healthBar.maxValue = Hero.MaxHealth;
-      this._healthBar.value = Hero.MaxHealth;
+      this._healthBar.maxValue = 0;
+      this._healthBar.value = 0;
       this._healthBar.minValue = 0;
 
       this.RepositionHealthBar();

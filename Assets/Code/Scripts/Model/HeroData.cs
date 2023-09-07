@@ -11,5 +11,10 @@ namespace Model {
       AcidResistant,
       Armoured
     }
+
+    public static HeroData DefaultHero => new HeroData() {
+      Health = 50,
+      Type = HeroType.Default
+    };
   }
 }

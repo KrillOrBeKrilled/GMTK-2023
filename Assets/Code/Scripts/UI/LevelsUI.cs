@@ -9,6 +9,13 @@ namespace UI {
 
     private const float FadeDuration = 0.5f;
 
+    public void LoadMainMenu() {
+      this._foreground.gameObject.SetActive(true);
+      this._foreground
+        .DOFade(1, FadeDuration)
+        .OnComplete(SceneNavigationManager.Instance.LoadMainMenuScene);
+    }
+
     public void LoadLevel(string levelName) {
       this._foreground.gameObject.SetActive(true);
       this._foreground

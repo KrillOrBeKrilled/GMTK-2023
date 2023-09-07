@@ -13,7 +13,7 @@ namespace Audio {
 
         public static bool IsLoaded;
 
-        void Awake()
+        protected override void Awake()
         {
             base.Awake();
 

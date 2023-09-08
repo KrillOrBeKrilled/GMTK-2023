@@ -4,6 +4,7 @@ using Model;
 using Player;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using UGSAnalytics;
 using UI;
@@ -45,6 +46,10 @@ namespace Managers {
     private RespawnPoint _activeRespawnPoint;
 
     private LevelData _levelData;
+    private List<WaveData> _lastWavesDataList;
+    private bool IsEndlessLevel => this._levelData != null && (this._levelData.Type == LevelData.LevelType.Endless);
+
+    private const float EndlessLevelHealthIncreaseRate = 1.5f;
 
     public void LoadMainMenu() {
       PauseManager.Instance.UnpauseGame();
@@ -105,8 +110,15 @@ namespace Managers {
     }
 
     private void Start() {
-      // Create a copy to avoid modifying data source
-      this._levelData = LevelManager.Instance.ActiveLevelData;
+      // Create a copy to avoid modifying source
+      this._levelData = ScriptableObject.CreateInstance<LevelData>();
+      this._levelData.DialogueName = LevelManager.Instance.ActiveLevelData.DialogueName;
+      this._levelData.Type = LevelManager.Instance.ActiveLevelData.Type;
+      this._levelData.RespawnPositions = LevelManager.Instance.ActiveLevelData.RespawnPositions.ToList();
+      this._levelData.EndgameTargetPosition = LevelManager.Instance.ActiveLevelData.EndgameTargetPosition;
+      this._levelData.WavesData = new WavesData() { WavesList = LevelManager.Instance.ActiveLevelData.WavesData.WavesList.ToList() };
+
+      this._lastWavesDataList = this._levelData.WavesData.WavesList.ToList();
       this._endgameTarget = Instantiate(this._endgameTargetPrefab, this._levelData.EndgameTargetPosition, Quaternion.identity, this.transform);
 
       foreach (Vector3 respawnPosition in this._levelData.RespawnPositions) {
@@ -203,7 +215,7 @@ namespace Managers {
 
       this._heroes.Remove(hero);
 
-      bool noMoreWaves = this._levelData.WavesData.WavesList.Count <= 0;
+      bool noMoreWaves = !this.IsEndlessLevel && this._levelData.WavesData.WavesList.Count <= 0;
       bool allHeroesDied = this._heroes.Count <= 0;
       if (noMoreWaves && allHeroesDied) {
         this.OnHenWon?.Invoke("All heroes were defeated. Good job!");
@@ -237,13 +249,16 @@ namespace Managers {
 
     private IEnumerator SpawnNextWave() {
       if (this._levelData.WavesData.WavesList.Count <= 0) {
-        Debug.LogWarning("Trying to spawn next wave when there are no more waves to spawn");
-        yield break;
+        if (!this.IsEndlessLevel) {
+          yield break;
+        }
+
+        this.GenerateNextWaveList();
       }
 
       WaveData waveData = this._levelData.WavesData.WavesList[0];
-      for (int i = 0; i < waveData.Heroes.Count; i++) {
-        this.SpawnHero(waveData.Heroes[i]);
+      foreach (HeroData heroData in waveData.Heroes) {
+        this.SpawnHero(heroData);
         yield return new WaitForSeconds(waveData.HeroSpawnDelayInSeconds);
       }
 
@@ -266,6 +281,32 @@ namespace Managers {
       this._heroes.Add(newHero);
       this.OnHeroSpawned.Invoke(newHero);
       return newHero;
+    }
+
+    private void GenerateNextWaveList() {
+      List<WaveData> newWaveDataList = new List<WaveData>();
+
+      foreach (WaveData waveData in this._lastWavesDataList) {
+        WaveData newWave = new WaveData() {
+          Heroes = new List<HeroData>(),
+          HeroSpawnDelayInSeconds = waveData.HeroSpawnDelayInSeconds,
+          NextWaveSpawnDelayInSeconds = waveData.NextWaveSpawnDelayInSeconds
+        };
+
+        foreach (HeroData heroData in waveData.Heroes) {
+          HeroData newHeroData = new HeroData() {
+            Health = Mathf.FloorToInt(heroData.Health * EndlessLevelHealthIncreaseRate),
+            Type = heroData.Type
+          };
+
+          newWave.Heroes.Add(newHeroData);
+        }
+
+        newWaveDataList.Add(newWave);
+      }
+
+      this._levelData.WavesData.WavesList = newWaveDataList;
+      this._lastWavesDataList = newWaveDataList.ToList();
     }
 
     private void StopAllHeroes() {

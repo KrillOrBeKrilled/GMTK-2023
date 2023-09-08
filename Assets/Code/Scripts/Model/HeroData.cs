@@ -13,7 +13,7 @@ namespace Model {
     }
 
     public static HeroData DefaultHero => new HeroData() {
-      Health = 50,
+      Health = 10,
       Type = HeroType.Default
     };
   }

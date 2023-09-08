@@ -16,6 +16,7 @@ namespace Model {
 
     /// <summary>
     /// After finishing this wave, how many seconds should we wait before spawning next one.<br></br>
+    /// If it is negative, next wave will only be spawned once all heroes are dead.<br></br>
     /// Note: clearing all heroes of this wave will trigger spawning of next wave regardless of this delay.
     /// </summary>
     public float NextWaveSpawnDelayInSeconds;

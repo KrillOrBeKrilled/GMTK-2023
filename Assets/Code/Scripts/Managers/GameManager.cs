@@ -4,7 +4,6 @@ using Model;
 using Player;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using UGSAnalytics;
 using UI;
@@ -24,7 +23,8 @@ namespace Managers {
     [SerializeField] private CameraShaker _cameraShaker;
 
     [Header("Heroes")]
-    [SerializeField] private Hero _heroPrefab;
+    [SerializeField] private Hero _defaultHeroPrefab;
+    [SerializeField] private Hero _druidHeroPrefab;
 
     [Header("Level")]
     [SerializeField] private RespawnPoint _respawnPointPrefab;
@@ -97,7 +97,10 @@ namespace Managers {
     public void StartLevel() {
       // Start recording the player input for the session
       this._playerManager.PlayerController.StartSession();
-      this._heroActor?.StartRunning();
+
+      if (this._heroActor != null) {
+        this._heroActor.StartRunning();
+      }
 
       CoinManager.Instance.StartCoinEarning();
       this.OnStartLevel?.Invoke();
@@ -273,7 +276,12 @@ namespace Managers {
     }
 
     private Hero SpawnHero(HeroData heroData) {
-      Hero newHero = Instantiate(this._heroPrefab, this._activeRespawnPoint.transform);
+      Hero heroPrefab = this._defaultHeroPrefab;
+      if (heroData.Type == HeroData.HeroType.Druid) {
+        heroPrefab = this._druidHeroPrefab;
+      }
+
+      Hero newHero = Instantiate(heroPrefab, this._activeRespawnPoint.transform);
       newHero.Initialize(heroData, this._firstRespawnPoint.transform, this._endgameTarget.transform);
       newHero.OnHeroDied.AddListener(this.OnHeroDied);
       newHero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);

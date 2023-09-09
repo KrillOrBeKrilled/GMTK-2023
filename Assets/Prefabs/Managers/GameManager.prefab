@@ -49,7 +49,7 @@ MonoBehaviour:
   _dialogueRunner: {fileID: 0}
   _cameraSwitcher: {fileID: 0}
   _cameraShaker: {fileID: 0}
-  _heroPrefab: {fileID: 4773728292545531315, guid: 5cad44e0579da4f3ca8158c1533c6046, type: 3}
-  _levelDataFile: {fileID: 11400000, guid: 9955662b932c94e97a1baec037e64c29, type: 2}
+  _defaultHeroPrefab: {fileID: 4773728292545531315, guid: 5cad44e0579da4f3ca8158c1533c6046, type: 3}
+  _druidHeroPrefab: {fileID: 4773728292545531315, guid: a5808fc2796964395b6af8992e2559c3, type: 3}
   _respawnPointPrefab: {fileID: 908663684222352325, guid: 95dbd9212de398d42af1486d1b511008, type: 3}
   _endgameTargetPrefab: {fileID: 2478820807580166489, guid: 38b84a3185ecd47ec984625f684b6a6a, type: 3}

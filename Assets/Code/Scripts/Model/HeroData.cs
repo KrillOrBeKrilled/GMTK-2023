@@ -8,6 +8,7 @@ namespace Model {
 
     public enum HeroType {
       Default,
+      Druid,
       AcidResistant,
       Armoured
     }

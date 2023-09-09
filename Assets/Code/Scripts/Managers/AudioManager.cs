@@ -12,7 +12,7 @@ namespace Managers {
     /// Jukebox class (handles the music soundbank) to provide methods for listening in on
     /// events invoked during gameplay that handle all the Wwise sound events.
     /// </summary>
-    public class AudioManager : MonoBehaviour
+    public class AudioManager : Singleton<AudioManager>
     {
         // ------------ UI Sound Effects -------------
         [SerializeField] private AK.Wwise.Event

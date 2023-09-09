@@ -2,6 +2,7 @@ using Audio;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 //*******************************************************************************************
 // AudioManager
@@ -31,8 +32,18 @@ namespace Managers {
             _henDeathEvent,
             _henFlapEvent;
 
+        public bool AreSfxMuted { get; private set; }
         private bool _isBuilding;
         private Jukebox _jukebox;
+
+        public void SetAreSfxMuted(bool areSfxMuted) {
+            this.AreSfxMuted = areSfxMuted;
+        }
+
+        protected override void Awake() {
+            base.Awake();
+            this.AreSfxMuted = PlayerPrefsManager.AreSfxMuted();
+        }
 
         private void Start()
         {
@@ -50,22 +61,30 @@ namespace Managers {
         //========================================
         public void PlayUIClick(GameObject audioSource)
         {
-            this._playUIConfirmEvent.Post(audioSource);
+            if (!this.AreSfxMuted) {
+                this._playUIConfirmEvent.Post(audioSource);
+            }
         }
 
         public void PlayUIHover(GameObject audioSource)
         {
-            this._playUISelectEvent.Post(audioSource);
+            if (!this.AreSfxMuted) {
+                this._playUISelectEvent.Post(audioSource);
+            }
         }
 
         public void PlayUITileSelectMove(GameObject audioSource)
         {
-            this._playUITileSelectMoveEvent.Post(audioSource);
+            if (!this.AreSfxMuted) {
+                this._playUITileSelectMoveEvent.Post(audioSource);
+            }
         }
 
         public void PlayUITileSelectConfirm(GameObject audioSource)
         {
-            this._playUITileSelectConfirmEvent.Post(audioSource);
+            if (!this.AreSfxMuted) {
+                this._playUITileSelectConfirmEvent.Post(audioSource);
+            }
         }
 
         private void ToggleJukeboxPause(bool isPaused)
@@ -75,11 +94,16 @@ namespace Managers {
             if (isPaused)
             {
                 this._jukebox.PauseMusic();
-                this._playUIPauseEvent.Post(this.gameObject);
+
+                if (!this.AreSfxMuted) {
+                    this._playUIPauseEvent.Post(this.gameObject);
+                }
                 return;
             }
 
-            this._playUIUnpauseEvent.Post(this.gameObject);
+            if (!this.AreSfxMuted) {
+                this._playUIUnpauseEvent.Post(this.gameObject);
+            }
             this._jukebox.UnpauseMusic();
         }
 
@@ -88,6 +112,10 @@ namespace Managers {
         //========================================
         public void PlayBuild(GameObject audioSource)
         {
+            if (this.AreSfxMuted) {
+                return;
+            }
+
             if (!this._isBuilding)
             {
                 this._isBuilding = true;
@@ -97,6 +125,10 @@ namespace Managers {
 
         public void StopBuild(GameObject audioSource)
         {
+            if (this.AreSfxMuted) {
+                return;
+            }
+
             this.StopCoroutine(this.PlayBuildSoundForDuration(11f));
             this._stopBuildEvent.Post(this.gameObject);
 
@@ -115,17 +147,23 @@ namespace Managers {
 
         public void PlayBuildComplete(GameObject audioSource)
         {
-            this._buildCompleteEvent.Post(audioSource);
+            if (!this.AreSfxMuted) {
+                this._buildCompleteEvent.Post(audioSource);
+            }
         }
 
         public void PlayHenDeath(GameObject audioSource)
         {
-            this._henDeathEvent.Post(audioSource);
+            if (!this.AreSfxMuted) {
+                this._henDeathEvent.Post(audioSource);
+            }
         }
 
         public void PlayHenJump(GameObject audioSource)
         {
-            this._henFlapEvent.Post(audioSource);
+            if (!this.AreSfxMuted) {
+                this._henFlapEvent.Post(audioSource);
+            }
         }
     }
 }

@@ -37,7 +37,10 @@ namespace Heroes {
     public void TakeDamage(int amount) {
       this.Health -= amount;
 
-      this.HeroHurtEvent.Post(this.gameObject);
+      if (!AudioManager.Instance.AreSfxMuted) {
+        this.HeroHurtEvent.Post(this.gameObject);
+      }
+
       this.OnHealthChanged?.Invoke(this.Health);
 
       if (this.Health <= 0) {
@@ -57,7 +60,10 @@ namespace Heroes {
     }
 
     public void Die() {
-      this.HeroHurtEvent.Post(this.gameObject);
+      if (!AudioManager.Instance.AreSfxMuted) {
+        this.HeroHurtEvent.Post(this.gameObject);
+      }
+      
       CoinManager.Instance.EarnCoins(CoinsEarnedOnDeath);
 
       this.OnHeroDied?.Invoke(this);

@@ -1,3 +1,4 @@
+using Managers;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -56,7 +57,9 @@ namespace Heroes {
             this._rigidbody.AddForce(Vector2.up * this.JumpForce);
             this._animator.SetTrigger(JumpKey);
 
-            this.HeroJumpEvent.Post(this.gameObject);
+            if (!AudioManager.Instance.AreSfxMuted) {
+                this.HeroJumpEvent.Post(this.gameObject);
+            }
         }
 
         public void Stun(float duration) {

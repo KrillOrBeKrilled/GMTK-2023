@@ -1,3 +1,4 @@
+using Audio;
 using UnityEngine;
 
 namespace Managers {
@@ -39,10 +40,12 @@ namespace Managers {
 
     public static void SetMuteMusic(bool value) {
       PlayerPrefs.SetInt(MuteMusicKey, value ? 1 : 0);
+      Jukebox.Instance.SetIsMusicMuted(value);
     }
 
     public static void SetMuteSfx(bool value) {
       PlayerPrefs.SetInt(MuteSfxKey, value ? 1 : 0);
+      AudioManager.Instance.SetAreSfxMuted(value);
     }
   }
 }

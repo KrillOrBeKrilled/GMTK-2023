@@ -15,6 +15,8 @@ namespace Audio {
 
         public static bool IsLoaded;
 
+        private bool _isMusicMuted;
+
         protected override void Awake()
         {
             base.Awake();
@@ -22,6 +24,7 @@ namespace Audio {
             if (!IsLoaded)
             {
                 DontDestroyOnLoad(this.gameObject);
+                this._isMusicMuted = PlayerPrefsManager.IsMusicMuted();
                 this.PlayMusic();
             }
             IsLoaded = true;
@@ -29,7 +32,7 @@ namespace Audio {
 
         public void PlayMusic()
         {
-            if (!PlayerPrefsManager.IsMusicMuted()) {
+            if (!this._isMusicMuted) {
                 this.PlayMusicEvent.Post(this.gameObject);
             }
         }
@@ -47,6 +50,10 @@ namespace Audio {
         public void StopMusic()
         {
             this.StopMusicEvent.Post(this.gameObject);
+        }
+
+        public void SetIsMusicMuted(bool isMuted) {
+            this._isMusicMuted = isMuted;
         }
     }
 }

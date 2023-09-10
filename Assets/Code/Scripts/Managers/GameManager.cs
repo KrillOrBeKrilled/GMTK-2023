@@ -114,12 +114,13 @@ namespace Managers {
 
     private void Start() {
       // Create a copy to avoid modifying source
+      LevelData sourceData = LevelManager.Instance.GetActiveLevelData();
       this._levelData = ScriptableObject.CreateInstance<LevelData>();
-      this._levelData.DialogueName = LevelManager.Instance.ActiveLevelData.DialogueName;
-      this._levelData.Type = LevelManager.Instance.ActiveLevelData.Type;
-      this._levelData.RespawnPositions = LevelManager.Instance.ActiveLevelData.RespawnPositions.ToList();
-      this._levelData.EndgameTargetPosition = LevelManager.Instance.ActiveLevelData.EndgameTargetPosition;
-      this._levelData.WavesData = new WavesData() { WavesList = LevelManager.Instance.ActiveLevelData.WavesData.WavesList.ToList() };
+      this._levelData.DialogueName = sourceData.DialogueName;
+      this._levelData.Type = sourceData.Type;
+      this._levelData.RespawnPositions = sourceData.RespawnPositions.ToList();
+      this._levelData.EndgameTargetPosition = sourceData.EndgameTargetPosition;
+      this._levelData.WavesData = new WavesData() { WavesList = sourceData.WavesData.WavesList.ToList() };
 
       this._lastWavesDataList = this._levelData.WavesData.WavesList.ToList();
       this._endgameTarget = Instantiate(this._endgameTargetPrefab, this._levelData.EndgameTargetPosition, Quaternion.identity, this.transform);

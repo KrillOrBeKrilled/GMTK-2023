@@ -285,7 +285,8 @@ MonoBehaviour:
   _fillArea: {fileID: 6980094481330997107}
   _safeColor: {r: 0, g: 1, b: 0, a: 1}
   _dangerColor: {r: 1, g: 0, b: 0, a: 1}
-  _heroIconPrefab: {fileID: 7330574631618793490, guid: aceb761f58da0407999bb72ed0081c4e, type: 3}
+  _defaultHeroIconPrefab: {fileID: 7330574631618793490, guid: aceb761f58da0407999bb72ed0081c4e, type: 3}
+  _druidHeroIconPrefab: {fileID: 7330574631618793490, guid: 47b17a082927745f8ae57b5ebe938ad6, type: 3}
 --- !u!1 &4269005398718092908
 GameObject:
   m_ObjectHideFlags: 0

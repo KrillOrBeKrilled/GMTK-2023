@@ -129,14 +129,12 @@ namespace Managers {
       this._activeRespawnPoint = this._respawnPoints.First();
       this._firstRespawnPoint = this._activeRespawnPoint;
 
-      this._gameUI.Initialize(this, this._playerManager);
+      this._gameUI.Initialize(this, this._playerManager, this._firstRespawnPoint.transform, this._endgameTarget.transform);
 
       this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
       this._playerManager.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
       this._playerManager.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
       this._playerManager.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
-
-      this._playerManager.Initialize(this._firstRespawnPoint.transform, this._endgameTarget.transform);
 
       this.OnSetupComplete?.Invoke();
 
@@ -274,7 +272,7 @@ namespace Managers {
 
     private Hero SpawnHero(HeroData heroData) {
       Hero newHero = Instantiate(this._heroPrefab, this._activeRespawnPoint.transform);
-      newHero.Initialize(heroData, this._firstRespawnPoint.transform, this._endgameTarget.transform);
+      newHero.Initialize(heroData);
       newHero.OnHeroDied.AddListener(this.OnHeroDied);
       newHero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 

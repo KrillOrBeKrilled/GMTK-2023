@@ -10,8 +10,6 @@ namespace Heroes {
     public int Health { get; private set; }
     public HeroData.HeroType Type { get; private set; }
 
-    public float MapPosition => (this.transform.position.x - this._levelStart.position.x) / (this._levelEnd.position.x - this._levelStart.position.x);
-
     public UnityEvent<int> OnHealthChanged;
     public UnityEvent<Hero> OnHeroDied;
 
@@ -21,17 +19,11 @@ namespace Heroes {
     private Animator _animator;
     private static readonly int SpawningKey = Animator.StringToHash("spawning");
 
-    private Transform _levelStart;
-    private Transform _levelEnd;
-
     private const int CoinsEarnedOnDeath = 2;
 
-    public void Initialize(HeroData heroData, Transform levelStart, Transform levelEnd) {
+    public void Initialize(HeroData heroData) {
       this.Health = heroData.Health;
       this.Type = heroData.Type;
-
-      this._levelStart = levelStart;
-      this._levelEnd = levelEnd;
     }
 
     public void TakeDamage(int amount) {

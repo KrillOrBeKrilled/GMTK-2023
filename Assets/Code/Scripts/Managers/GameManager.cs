@@ -51,6 +51,8 @@ namespace Managers {
 
     private const float EndlessLevelHealthIncreaseRate = 1.5f;
 
+    private IEnumerator _waveSpawnCoroutine = null;
+
     public void LoadMainMenu() {
       PauseManager.Instance.UnpauseGame();
       PauseManager.Instance.SetIsPausable(false);
@@ -158,7 +160,8 @@ namespace Managers {
       // Skip a frame to ensure all scripts have initialized and called Start()
       yield return null;
       this.StartLevel();
-      this.StartCoroutine(this.SpawnNextWave());
+      this._waveSpawnCoroutine = this.SpawnNextWave();
+      this.StartCoroutine(this._waveSpawnCoroutine);
     }
 
     private void StartStoryLevel() {
@@ -216,9 +219,10 @@ namespace Managers {
       bool noMoreWaves = !this.IsEndlessLevel && this._levelData.WavesData.WavesList.Count <= 0;
       bool allHeroesDied = this._heroes.Count <= 0;
       if (noMoreWaves && allHeroesDied) {
-        this.OnHenWon?.Invoke("All heroes were defeated. Good job!");
+        this.HenWon("All heroes were defeated. Good job!");
       } else if (allHeroesDied) {
-        this.StartCoroutine(this.SpawnNextWave());
+        this._waveSpawnCoroutine = this.SpawnNextWave();
+        this.StartCoroutine(this._waveSpawnCoroutine);
       }
 
       if (UGS_Analytics.Instance is null) return;
@@ -232,17 +236,27 @@ namespace Managers {
     }
 
     private void HeroReachedLevelEnd() {
+      this.HenLost("The Hero managed to reach his goal and do heroic things.\nHendall, you failed me!");
+    }
+
+    private void HenLost(string endgameMessage) {
       this._playerManager.PlayerController.DisablePlayerInput();
+      this.StopCoroutine(this._waveSpawnCoroutine);
       this.StopAllHeroes();
-      this.OnHenLost?.Invoke("The Hero managed to reach his goal and do heroic things.\nHendall, you failed me!");
+      this.OnHenLost?.Invoke(endgameMessage);
+    }
+
+    private void HenWon(string message) {
+      this._playerManager.PlayerController.DisablePlayerInput();
+      FreezeCommand freezeCommand = new FreezeCommand(this._playerManager.PlayerController);
+      this._playerManager.PlayerController.ExecuteCommand(freezeCommand);
+      this.OnHenWon?.Invoke(message);
     }
 
     private void HenDied(string message) {
-      this._playerManager.PlayerController.DisablePlayerInput();
-      this.StopAllHeroes();
-
       Destroy(this._playerManager.gameObject);
-      this.OnHenLost?.Invoke(message);
+      this.StopCoroutine(this._waveSpawnCoroutine);
+      this.HenLost(message);
     }
 
     private IEnumerator SpawnNextWave() {
@@ -267,7 +281,8 @@ namespace Managers {
       }
 
       yield return new WaitForSeconds(waveData.NextWaveSpawnDelayInSeconds);
-      yield return this.SpawnNextWave();
+      this._waveSpawnCoroutine = this.SpawnNextWave();
+      yield return this._waveSpawnCoroutine;
     }
 
     private Hero SpawnHero(HeroData heroData) {

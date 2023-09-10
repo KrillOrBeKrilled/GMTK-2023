@@ -35,6 +35,14 @@ namespace Player
             this.RBody.AddForce(Vector2.up * this.JumpingForce);
         }
 
+        public virtual void FreezePosition() {
+            this.RBody.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+
+        public virtual void UnfreezePosition() {
+            this.RBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
+
         public virtual void DeployTrap()
         {
             // Particular to the hen, so will be overrided instead

@@ -2,7 +2,6 @@ using Audio;
 using Managers;
 using System;
 using System.IO;
-using Traps;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -35,12 +34,9 @@ namespace Player {
         // TODO: Consider undoing and redoing actions?
 
         // ---------------- Replaying ----------------
-        protected InputEventTrace _inputRecorder;
+        protected InputEventTrace InputRecorder;
 
         // ------------- Trap Deployment ------------
-        // The canvas to spawn trap UI
-        [SerializeField] private Canvas _trapCanvas;
-
         private float _direction = -1;
         private bool _isGrounded = true;
         public UnityEvent<int> OnSelectedTrapIndexChanged;
@@ -50,6 +46,9 @@ namespace Player {
 
         // ------------- Sound Effects ---------------
         private PlayerSoundsController _soundsController;
+
+        // --------------- Collision -----------------
+        private ContactPoint2D _lastContact;
 
         // --------------- Bookkeeping ---------------
         private Animator _animator;
@@ -63,7 +62,7 @@ namespace Player {
             this._animator = this.GetComponent<Animator>();
             this._trapController = this.GetComponent<TrapController>();
             this._soundsController = this.GetComponent<PlayerSoundsController>();
-            this._inputRecorder = new InputEventTrace();
+            this.InputRecorder = new InputEventTrace();
 
             _idle = new IdleState();
             _moving = new MovingState(this.Speed);
@@ -73,6 +72,8 @@ namespace Player {
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState, float, float, float>();
             this.OnTrapDeployed = new UnityEvent<int>();
             this.OnSelectedTrapIndexChanged = new UnityEvent<int>();
+
+            _animator.SetBool("is_grounded", _isGrounded);
         }
 
         private void Start()
@@ -144,6 +145,19 @@ namespace Player {
         {
             this._animator.SetFloat("speed", Mathf.Abs(inputDirection));
             this._animator.SetFloat("direction", this._direction);
+        }
+
+        // Helper method for setting the animation controller state and clearing the trap deployment
+        // markers depending on if the player has touched the ground or not
+        public void SetGroundedStatus(bool isGrounded)
+        {
+            this._isGrounded = isGrounded;
+            this._animator.SetBool("is_grounded", this._isGrounded);
+
+            if (isGrounded) return;
+
+            // Left the ground, so trap deployment isn't possible anymore
+            this._trapController.DisableTrapDeployment();
         }
 
         //========================================
@@ -218,49 +232,20 @@ namespace Player {
             this._soundsController.OnHenJump();
 
             // Left the ground, so trap deployment isn't possible anymore
-            this._trapController.ClearTrapDeployment();
-            this._trapController.IsSelectingTileSFX = false;
+            this._trapController.DisableTrapDeployment();
         }
 
         public override void DeployTrap()
         {
-            // Left out of State pattern to allow this during movement
-            if(!this._trapController.CanDeploy || this._trapController.PreviousTilePositions.Count < 1)
-            {
-                // TODO: Make an animation for this!
-                print("Can't Deploy Trap!");
-                return;
-            }
-
-            var trapToSpawn = this._trapController.GetCurrentTrap();
-            var trapScript = trapToSpawn.GetComponent<Trap>();
-            if (!CoinManager.Instance.CanAfford(trapScript.Cost)) {
-                print("Can't afford the trap!");
-                return;
-            }
-
-            // Convert the origin tile position to world space
-            var deploymentOrigin = this._trapController.TileMap.CellToWorld(this._trapController.PreviousTilePositions[0]);
-            var spawnPosition = this._direction < 0
-                ? trapScript.GetLeftSpawnPoint(deploymentOrigin)
-                : trapScript.GetRightSpawnPoint(deploymentOrigin);
-
-            GameObject trapGameObject = Instantiate(trapToSpawn.gameObject);
-            trapGameObject.GetComponent<Trap>().Construct(spawnPosition, this._trapCanvas, this._soundsController);
-            this._trapController.IsColliding = true;
-
-            CoinManager.Instance.ConsumeCoins(trapScript.Cost);
-            this.OnTrapDeployed?.Invoke(this._trapController.CurrentTrapIndex);
-            this._soundsController.OnTileSelectConfirm();
+            // Delegate deployment to TrapController for better encapsulation and efficiency
+            if (_trapController.DeployTrap(_direction, out var trapIndex)) this.OnTrapDeployed?.Invoke(trapIndex);
         }
 
         public override void ChangeTrap(int trapIndex)
         {
-            this._trapController.CurrentTrapIndex = trapIndex;
+            // Delegate setting trap to TrapController for better encapsulation and efficiency
+            this._trapController.ChangeTrap(trapIndex);
             this.OnSelectedTrapIndexChanged?.Invoke(trapIndex);
-
-            this._trapController.ClearTrapDeployment();
-            this._trapController.IsSelectingTileSFX = false;
         }
 
         //========================================
@@ -279,20 +264,20 @@ namespace Player {
 
         public virtual void StartSession()
         {
-            this._inputRecorder.Enable();
+            this.InputRecorder.Enable();
 
             this.EnableControls();
         }
 
         protected virtual void StopSession(string message)
         {
-            this._inputRecorder.Disable();
+            this.InputRecorder.Disable();
 
             // Create a new playtest session recording file
             this.CreateRecordingFile();
 
             // Prevent memory leaks!
-            this._inputRecorder.Dispose();
+            this.InputRecorder.Dispose();
         }
 
         private void CreateRecordingFile()
@@ -322,11 +307,46 @@ namespace Player {
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 #endif
 
-            this._inputRecorder.WriteTo(path + fileName);
+            this.InputRecorder.WriteTo(path + fileName);
         }
 
         //========================================
-        // Unity Physics / etc.
+        // Collisions
+        //========================================
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (this._isGrounded) return;
+
+            for (var i = 0; i < collision.GetContacts(collision.contacts); i++)
+            {
+                var contactPosition = (Vector3)collision.GetContact(i).point + (Vector3.down * .15f);
+
+                if (!this._trapController.CheckForGroundTile(contactPosition)) continue;
+
+                this.SetGroundedStatus(true);
+                return;
+            }
+        }
+
+        private void OnCollisionStay2D(Collision2D collision)
+        {
+            this._lastContact = collision.GetContact(0);
+        }
+
+        // Called one frame after the collision, so fetch contact point from the last frame;
+        private void OnCollisionExit2D(Collision2D collision)
+        {
+            if (!this._isGrounded) return;
+
+            var contactPosition = (Vector3)this._lastContact.point + (Vector3.down * .05f);
+
+            if (!this._trapController.CheckForGroundTile(contactPosition)) return;
+
+            this.SetGroundedStatus(false);
+        }
+
+        //========================================
+        // Control bindings, etc.
         //========================================
 
         private void OnEnable() {
@@ -366,15 +386,6 @@ namespace Player {
             this._playerInputActions.Player.SetTrap1.performed -= this.SetTrap1;
             this._playerInputActions.Player.SetTrap2.performed -= this.SetTrap2;
             this._playerInputActions.Player.SetTrap3.performed -= this.SetTrap3;
-        }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (collision.gameObject.CompareTag("Ground"))
-            {
-                this._isGrounded = true;
-                this._animator.SetBool("is_grounded", this._isGrounded);
-            }
         }
     }
 }

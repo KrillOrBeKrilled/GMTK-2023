@@ -52,13 +52,16 @@ namespace Heroes {
             this._speedPenalty = Mathf.Clamp(this._speedPenalty, 0f, 1f);
         }
 
-        public void Jump()
+        public void Jump(float jumpForce = 0f)
         {
-            this._rigidbody.AddForce(Vector2.up * this.JumpForce);
-            this._animator.SetTrigger(JumpKey);
-
+            // Add a little bit more jump force from the applied speed penalty to better prevent getting stuck
+            if (jumpForce > 0f) _rigidbody.AddForce(Vector2.up * jumpForce);
+            else _rigidbody.AddForce(Vector2.up * (JumpForce + JumpForce * _speedPenalty / 2f));
+        
+            _animator.SetTrigger(JumpKey);
+        
             if (!AudioManager.Instance.AreSfxMuted) {
-                this.HeroJumpEvent.Post(this.gameObject);
+                HeroJumpEvent.Post(gameObject);
             }
         }
 

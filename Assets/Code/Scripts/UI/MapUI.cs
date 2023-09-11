@@ -21,12 +21,17 @@ namespace UI {
     [Header("Hero Icon Prefabs")]
     [SerializeField] private Image _heroIconPrefab;
 
-    private Dictionary<Hero, Image> _heroToIconDict = new Dictionary<Hero, Image>();
+    private readonly Dictionary<Hero, Image> _heroToIconDict = new Dictionary<Hero, Image>();
     private PlayerManager _player;
     private float _sliderLength;
 
-    public void Initialize(PlayerManager player) {
+    private float _levelStartX;
+    private float _levelEndX;
+
+    public void Initialize(PlayerManager player, float levelStartX, float levelEndX) {
       this._player = player;
+      this._levelStartX = levelStartX;
+      this._levelEndX = levelEndX;
     }
 
     public void RegisterHero(Hero newHero) {
@@ -47,14 +52,15 @@ namespace UI {
         Hero hero = kvp.Key;
         Image image = kvp.Value;
 
-        image.rectTransform.anchoredPosition = new Vector2(this._sliderLength * hero.MapPosition, 0);
-        greatestProgress = Mathf.Max(greatestProgress, hero.MapPosition);
+        float heroMapProgress = this.GetHeroMapProgress(hero);
+        image.rectTransform.anchoredPosition = new Vector2(this._sliderLength * heroMapProgress, 0);
+        greatestProgress = Mathf.Max(greatestProgress, heroMapProgress);
       }
 
       this.SetFillAreaColor(greatestProgress);
 
       if (this._player != null) {
-        this._playerIcon.rectTransform.anchoredPosition = new Vector2(this._sliderLength * this._player.MapPosition, 0);
+        this._playerIcon.rectTransform.anchoredPosition = new Vector2(this._sliderLength * this.GetHeroMapProgress(this._player), 0);
       }
     }
 
@@ -69,6 +75,11 @@ namespace UI {
       }
 
       this._heroToIconDict.Remove(diedHero);
+    }
+
+    private float GetHeroMapProgress(Component character) {
+      float mapProgress = (character.transform.position.x - this._levelStartX) / (this._levelEndX - this._levelStartX);
+      return Mathf.Clamp(mapProgress, 0f, 1f);
     }
   }
 }

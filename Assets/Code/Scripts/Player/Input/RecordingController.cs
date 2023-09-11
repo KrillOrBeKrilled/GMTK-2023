@@ -37,9 +37,9 @@ namespace Player
 
         private void ParseControls()
         {
-            this._inputRecorder = InputEventTrace.LoadFrom(this._filePath);
+            this.InputRecorder = InputEventTrace.LoadFrom(this._filePath);
 
-            if (this._inputRecorder.eventCount < 1)
+            if (this.InputRecorder.eventCount < 1)
             {
                 print("File empty or parse failed!");
             }
@@ -48,7 +48,7 @@ namespace Player
         private void Replay()
         {
             print("Start Replay");
-            this._replayController = this._inputRecorder.Replay();
+            this._replayController = this.InputRecorder.Replay();
             this._replayController.PlayAllEventsAccordingToTimestamps();
         }
 

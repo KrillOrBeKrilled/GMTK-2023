@@ -28,7 +28,7 @@ namespace UI {
 
     private const float FadeDuration = 0.5f;
 
-    public void Initialize(GameManager gameManager, PlayerManager playerManager) {
+    public void Initialize(GameManager gameManager, PlayerManager playerManager, Transform levelStartTransform, Transform levelEndTransform) {
       gameManager.OnSetupComplete.AddListener(this.OnGameSetupComplete);
       gameManager.OnHenWon.AddListener(this.OnHenWon);
       gameManager.OnHenLost.AddListener(this.OnHenLost);
@@ -36,7 +36,7 @@ namespace UI {
 
       this._trapSelectionBar.Initialize(playerManager);
       this._skipDialogueUI.Initialize(gameManager.OnStartLevel, gameManager.SkipDialogue);
-      this._mapUI.Initialize(playerManager);
+      this._mapUI.Initialize(playerManager, levelStartTransform.position.x, levelEndTransform.position.x);
     }
 
     public void FadeInSceneCover(UnityAction onComplete) {

@@ -45,6 +45,7 @@ namespace Traps {
 
     protected override void OnDetonateTrapAnimationCompete() {
       print("Detonate competed");
+      TilemapManager.Instance.ResetTrapTiles(TilePositions);
       Destroy(this.gameObject);
     }
   }

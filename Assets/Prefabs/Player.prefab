@@ -136,7 +136,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 10
   JumpingForce: 700
-  _trapCanvas: {fileID: 0}
   OnSelectedTrapIndexChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -155,10 +154,12 @@ MonoBehaviour:
   _trapPrefabs:
   - {fileID: 4577828711679986708, guid: 383ecc9e1b2854cfb9c8a66d9d0cdc23, type: 3}
   - {fileID: 7242327205239312664, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
-  - {fileID: 813543674720435825, guid: 835ee3f992ae6441bab5de6d2dda2dbc, type: 3}
-  TileMap: {fileID: 0}
-  _leftDeployTransform: {fileID: 7283422951846119747}
-  _rightDeployTransform: {fileID: 6238511859256710560}
+  - {fileID: 8431635930419567876, guid: 3e2d3e77e9b5a7e4e88ff6768307a2f2, type: 3}
+  TrapTilemap: {fileID: 0}
+  GroundTilemap: {fileID: 0}
+  _trapCanvas: {fileID: 0}
+  _leftDeployTransform: {fileID: 581943907994038428}
+  _rightDeployTransform: {fileID: 1276593753349593315}
 --- !u!114 &6881718048625000024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,7 +310,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1276593753349593315}
   - component: {fileID: 3177477215373522028}
-  - component: {fileID: 6496238088510502564}
   m_Layer: 0
   m_Name: Right Deploy Position
   m_TagString: Player
@@ -377,18 +377,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5417523, y: 2.6211948}
   m_EdgeRadius: 0
---- !u!114 &6496238088510502564
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6238511859256710560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c841ddd8db6c8704389b1d2dcbf4d26b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7283422951846119747
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,7 +387,6 @@ GameObject:
   m_Component:
   - component: {fileID: 581943907994038428}
   - component: {fileID: 5841978157119706718}
-  - component: {fileID: 5918191205132163617}
   m_Layer: 0
   m_Name: Left Deploy Position
   m_TagString: Player
@@ -467,15 +454,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5450096, y: 2.897353}
   m_EdgeRadius: 0
---- !u!114 &5918191205132163617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7283422951846119747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c841ddd8db6c8704389b1d2dcbf4d26b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

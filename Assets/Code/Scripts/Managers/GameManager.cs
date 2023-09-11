@@ -242,7 +242,11 @@ namespace Managers {
 
     private void HenLost(string endgameMessage) {
       this._playerManager.PlayerController.DisablePlayerInput();
-      this.StopCoroutine(this._waveSpawnCoroutine);
+
+      if (this._waveSpawnCoroutine != null) {
+        this.StopCoroutine(this._waveSpawnCoroutine);
+      }
+
       this.StopAllHeroes();
       this.OnHenLost?.Invoke(endgameMessage);
     }
@@ -256,7 +260,12 @@ namespace Managers {
 
     private void HenDied(string message) {
       Destroy(this._playerManager.gameObject);
-      this.StopCoroutine(this._waveSpawnCoroutine);
+
+      if (this._waveSpawnCoroutine != null) {
+        this.StopCoroutine(this._waveSpawnCoroutine);
+      }
+
+      this._dialogueRunner.Stop();
       this.HenLost(message);
     }
 

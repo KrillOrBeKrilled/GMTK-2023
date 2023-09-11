@@ -23,6 +23,6 @@ MonoBehaviour:
       - Health: 20
         Type: 0
       - Health: 20
-        Type: 0
+        Type: 1
       HeroSpawnDelayInSeconds: 2
       NextWaveSpawnDelayInSeconds: 10

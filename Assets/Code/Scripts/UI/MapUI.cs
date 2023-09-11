@@ -1,5 +1,7 @@
 using Heroes;
+using Model;
 using Player;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +21,8 @@ namespace UI {
     [SerializeField] private Color _dangerColor;
 
     [Header("Hero Icon Prefabs")]
-    [SerializeField] private Image _heroIconPrefab;
+    [SerializeField] private Image _defaultHeroIconPrefab;
+    [SerializeField] private Image _druidHeroIconPrefab;
 
     private readonly Dictionary<Hero, Image> _heroToIconDict = new Dictionary<Hero, Image>();
     private PlayerManager _player;
@@ -36,7 +39,22 @@ namespace UI {
 
     public void RegisterHero(Hero newHero) {
       newHero.OnHeroDied.AddListener(this.UnregisterHero);
-      Image newIcon = Instantiate(this._heroIconPrefab, this._heroIconsParent);
+      Image heroIconPrefab;
+
+      switch (newHero.Type) {
+        case HeroData.HeroType.Default:
+        case HeroData.HeroType.AcidResistant:
+        case HeroData.HeroType.Armoured:
+          heroIconPrefab = this._defaultHeroIconPrefab;
+          break;
+        case HeroData.HeroType.Druid:
+          heroIconPrefab = this._druidHeroIconPrefab;
+          break;
+        default:
+          throw new ArgumentOutOfRangeException();
+      }
+
+      Image newIcon = Instantiate(heroIconPrefab, this._heroIconsParent);
       this._heroToIconDict.Add(newHero, newIcon);
     }
 

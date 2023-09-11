@@ -23,7 +23,8 @@ namespace Managers {
     [SerializeField] private CameraShaker _cameraShaker;
 
     [Header("Heroes")]
-    [SerializeField] private Hero _heroPrefab;
+    [SerializeField] private Hero _defaultHeroPrefab;
+    [SerializeField] private Hero _druidHeroPrefab;
 
     [Header("Level")]
     [SerializeField] private RespawnPoint _respawnPointPrefab;
@@ -99,7 +100,10 @@ namespace Managers {
     public void StartLevel() {
       // Start recording the player input for the session
       this._playerManager.PlayerController.StartSession();
-      this._heroActor?.StartRunning();
+
+      if (this._heroActor != null) {
+        this._heroActor.StartRunning();
+      }
 
       CoinManager.Instance.StartCoinEarning();
       this.OnStartLevel?.Invoke();
@@ -113,12 +117,13 @@ namespace Managers {
 
     private void Start() {
       // Create a copy to avoid modifying source
+      LevelData sourceData = LevelManager.Instance.GetActiveLevelData();
       this._levelData = ScriptableObject.CreateInstance<LevelData>();
-      this._levelData.DialogueName = LevelManager.Instance.ActiveLevelData.DialogueName;
-      this._levelData.Type = LevelManager.Instance.ActiveLevelData.Type;
-      this._levelData.RespawnPositions = LevelManager.Instance.ActiveLevelData.RespawnPositions.ToList();
-      this._levelData.EndgameTargetPosition = LevelManager.Instance.ActiveLevelData.EndgameTargetPosition;
-      this._levelData.WavesData = new WavesData() { WavesList = LevelManager.Instance.ActiveLevelData.WavesData.WavesList.ToList() };
+      this._levelData.DialogueName = sourceData.DialogueName;
+      this._levelData.Type = sourceData.Type;
+      this._levelData.RespawnPositions = sourceData.RespawnPositions.ToList();
+      this._levelData.EndgameTargetPosition = sourceData.EndgameTargetPosition;
+      this._levelData.WavesData = new WavesData() { WavesList = sourceData.WavesData.WavesList.ToList() };
 
       this._nextWavesDataQueue = new Queue<WaveData>(this._levelData.WavesData.WavesList);
       this._lastWavesDataQueue = new Queue<WaveData>(this._levelData.WavesData.WavesList);
@@ -294,7 +299,12 @@ namespace Managers {
     }
 
     private Hero SpawnHero(HeroData heroData) {
-      Hero newHero = Instantiate(this._heroPrefab, this._activeRespawnPoint.transform);
+      Hero heroPrefab = this._defaultHeroPrefab;
+      if (heroData.Type == HeroData.HeroType.Druid) {
+        heroPrefab = this._druidHeroPrefab;
+      }
+
+      Hero newHero = Instantiate(heroPrefab, this._activeRespawnPoint.transform);
       newHero.Initialize(heroData);
       newHero.OnHeroDied.AddListener(this.OnHeroDied);
       newHero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);

@@ -46,7 +46,7 @@ namespace Player {
 
         // ------------- Sound Effects ---------------
         private PlayerSoundsController _soundsController;
-        
+
         // --------------- Collision -----------------
         private ContactPoint2D _lastContact;
 
@@ -72,7 +72,7 @@ namespace Player {
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState, float, float, float>();
             this.OnTrapDeployed = new UnityEvent<int>();
             this.OnSelectedTrapIndexChanged = new UnityEvent<int>();
-            
+
             _animator.SetBool("is_grounded", _isGrounded);
         }
 
@@ -146,7 +146,7 @@ namespace Player {
             this._animator.SetFloat("speed", Mathf.Abs(inputDirection));
             this._animator.SetFloat("direction", this._direction);
         }
-        
+
         // Helper method for setting the animation controller state and clearing the trap deployment
         // markers depending on if the player has touched the ground or not
         public void SetGroundedStatus(bool isGrounded)
@@ -155,7 +155,7 @@ namespace Player {
             this._animator.SetBool("is_grounded", this._isGrounded);
 
             if (isGrounded) return;
-            
+
             // Left the ground, so trap deployment isn't possible anymore
             this._trapController.DisableTrapDeployment();
         }
@@ -265,7 +265,6 @@ namespace Player {
         public virtual void StartSession()
         {
             this.InputRecorder.Enable();
-            print("Start Recording");
 
             this.EnableControls();
         }
@@ -273,7 +272,6 @@ namespace Player {
         protected virtual void StopSession(string message)
         {
             this.InputRecorder.Disable();
-            print("Stop Recording");
 
             // Create a new playtest session recording file
             this.CreateRecordingFile();
@@ -311,7 +309,7 @@ namespace Player {
 
             this.InputRecorder.WriteTo(path + fileName);
         }
-        
+
         //========================================
         // Collisions
         //========================================
@@ -322,9 +320,9 @@ namespace Player {
             for (var i = 0; i < collision.GetContacts(collision.contacts); i++)
             {
                 var contactPosition = (Vector3)collision.GetContact(i).point + (Vector3.down * .15f);
-                
+
                 if (!this._trapController.CheckForGroundTile(contactPosition)) continue;
-                
+
                 this.SetGroundedStatus(true);
                 return;
             }
@@ -339,11 +337,11 @@ namespace Player {
         private void OnCollisionExit2D(Collision2D collision)
         {
             if (!this._isGrounded) return;
-            
+
             var contactPosition = (Vector3)this._lastContact.point + (Vector3.down * .05f);
-             
+
             if (!this._trapController.CheckForGroundTile(contactPosition)) return;
-            
+
             this.SetGroundedStatus(false);
         }
 

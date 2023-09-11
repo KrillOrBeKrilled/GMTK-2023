@@ -9,11 +9,11 @@ namespace UI {
 
     private const float FadeDuration = 0.5f;
 
-    public void OnStartGame() {
+    public void OnPlay() {
       this._foreground.gameObject.SetActive(true);
       this._foreground
         .DOFade(1, FadeDuration)
-        .OnComplete(SceneNavigationManager.Instance.LoadGameScene);
+        .OnComplete(SceneNavigationManager.Instance.LoadLevelsScene);
     }
 
     private void Awake() {

@@ -945,7 +945,6 @@ MonoBehaviour:
   allCharacters:
   - {fileID: 3104913905976222486}
   - {fileID: 0}
-  - {fileID: 0}
   playerCharacter: {fileID: 0}
   canvas: {fileID: 3741743097333894304}
   canvasScaler: {fileID: 5203182437719251029}
@@ -976,7 +975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bec29c0a230741bdac901dba8da47ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yarnProject: {fileID: 7545569452688597077, guid: 553d6896a4829d446925a7d3582274a1, type: 3}
+  yarnProject: {fileID: 7545569452688597077, guid: ad130cd4873c8f349a3d9aa73e56cf90, type: 3}
   _variableStorage: {fileID: 3741743096958657527}
   dialogueViews:
   - {fileID: 856644338}
@@ -986,7 +985,7 @@ MonoBehaviour:
   startAutomatically: 0
   runSelectedOptionAsLine: 0
   lineProvider: {fileID: 0}
-  verboseLogging: 1
+  verboseLogging: 0
   onNodeStart:
     m_PersistentCalls:
       m_Calls: []
@@ -1103,7 +1102,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &5203182437719251029
 MonoBehaviour:
@@ -1520,5 +1519,5 @@ Transform:
   - {fileID: 3741743097333894311}
   - {fileID: 6373560024111600768}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

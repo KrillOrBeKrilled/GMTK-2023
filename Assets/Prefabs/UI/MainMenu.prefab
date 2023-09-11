@@ -265,7 +265,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8419552718801445360}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: OnStartGame
+        m_MethodName: OnPlay
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

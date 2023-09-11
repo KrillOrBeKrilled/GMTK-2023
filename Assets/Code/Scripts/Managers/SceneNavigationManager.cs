@@ -7,6 +7,10 @@ namespace Managers {
       LoadScene("Game");
     }
 
+    public void LoadLevelsScene() {
+      LoadScene("Levels");
+    }
+
     public void ReloadCurrentScene() {
       LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

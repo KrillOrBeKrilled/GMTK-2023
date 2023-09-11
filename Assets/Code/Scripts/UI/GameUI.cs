@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Heroes;
 using Managers;
 using Player;
 using TMPro;
@@ -15,20 +16,27 @@ namespace UI {
     [SerializeField] private TMP_Text _coinsText;
     [SerializeField] private TrapSelectionBar _trapSelectionBar;
     [SerializeField] private SkipDialogueUI _skipDialogueUI;
+    [SerializeField] private Transform _healthBarsContainer;
+    [SerializeField] private MapUI _mapUI;
 
     [Header("Pause UI Events")]
     [SerializeField] private UnityEvent _onPaused;
     [SerializeField] private UnityEvent _onUnpaused;
 
+    [Header("Prefabs")]
+    [SerializeField] private HealthBarUI _healthBarUIPrefab;
+
     private const float FadeDuration = 0.5f;
 
-    public void Initialize(GameManager gameManager, PlayerManager playerManager) {
+    public void Initialize(GameManager gameManager, PlayerManager playerManager, Transform levelStartTransform, Transform levelEndTransform) {
       gameManager.OnSetupComplete.AddListener(this.OnGameSetupComplete);
       gameManager.OnHenWon.AddListener(this.OnHenWon);
       gameManager.OnHenLost.AddListener(this.OnHenLost);
+      gameManager.OnHeroSpawned.AddListener(this.OnHeroSpawned);
 
       this._trapSelectionBar.Initialize(playerManager);
       this._skipDialogueUI.Initialize(gameManager.OnStartLevel, gameManager.SkipDialogue);
+      this._mapUI.Initialize(playerManager, levelStartTransform.position.x, levelEndTransform.position.x);
     }
 
     public void FadeInSceneCover(UnityAction onComplete) {
@@ -75,6 +83,16 @@ namespace UI {
 
     private void OnHenLost(string message) {
       this._endgameUI.ShowHenLost(message);
+    }
+
+    private void OnHeroSpawned(Hero hero) {
+      this.SetupHealthBar(hero);
+      this._mapUI.RegisterHero(hero);
+    }
+
+    private void SetupHealthBar(Hero hero) {
+      HealthBarUI newBar = Instantiate(this._healthBarUIPrefab, this._healthBarsContainer);
+      newBar.Initialize(hero, (RectTransform)this.transform);
     }
   }
 }

@@ -60,11 +60,10 @@ namespace UGSAnalytics {
             }
         }
 
-        public static void HeroDiedCustomEvent(int numberLivesLeft, float xPos, float yPos, float zPos)
+        public static void HeroDiedCustomEvent(float xPos, float yPos, float zPos)
         {
             var eventParameters = new Dictionary<string, object>
             {
-                { "livesLeft", numberLivesLeft},
                 { "xPos", xPos },
                 { "yPos", yPos },
                 { "zPos", zPos }

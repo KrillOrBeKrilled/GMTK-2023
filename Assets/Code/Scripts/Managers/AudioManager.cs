@@ -38,7 +38,7 @@ namespace Managers {
         {
             this._jukebox = GameObject.Find("Jukebox")?.GetComponent<Jukebox>();
 
-            if (SceneManager.GetActiveScene().name != "MainMenu")
+            if (SceneManager.GetActiveScene().name == "Game")
             {
                 PauseManager.Instance.OnPauseToggled.AddListener(this.ToggleJukeboxPause);
             }

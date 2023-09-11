@@ -5,6 +5,8 @@ namespace Heroes {
     {
         public Vector2 Offset = Vector2.zero;
         public Vector2 Size = Vector2.one;
+        
+        public float HeroJumpForce;
 
         private BoxCollider2D _collider;
 
@@ -23,7 +25,7 @@ namespace Heroes {
                 return;
             }
 
-            heroMovement.Jump();
+            heroMovement.Jump(HeroJumpForce);
         }
 
         private void OnDrawGizmos()

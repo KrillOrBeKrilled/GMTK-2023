@@ -18,8 +18,9 @@ namespace Traps
         [SerializeField] protected GameObject SliderBar;
 
         protected Vector3 SpawnPosition;
-        private Slider _buildCompletionBar;
-        private PlayerSoundsController _soundsController;
+        protected Vector3Int[] TilePositions;
+        protected Slider BuildCompletionBar;
+        protected PlayerSoundsController SoundsController;
         protected float ConstructionCompletion, t;
         protected bool IsBuilding, IsReady;
 
@@ -30,7 +31,7 @@ namespace Traps
                 ConstructionCompletion = Mathf.Lerp(ConstructionCompletion, 1f, t / BuildingDuration);
                 t += Time.deltaTime;
 
-                _buildCompletionBar.DOValue(ConstructionCompletion, 0.1f);
+                BuildCompletionBar.DOValue(ConstructionCompletion, 0.1f);
 
                 // Make construction animations
                 BuildTrap();
@@ -39,9 +40,9 @@ namespace Traps
                 {
                     IsReady = true;
                     IsBuilding = false;
-                    _soundsController.OnStopBuild();
-                    _soundsController.OnBuildComplete();
-                    Destroy(_buildCompletionBar.gameObject);
+                    SoundsController.OnStopBuild();
+                    SoundsController.OnBuildComplete();
+                    Destroy(BuildCompletionBar.gameObject);
 
                     // Play trap set up animation
                     SetUpTrap();
@@ -64,18 +65,24 @@ namespace Traps
             return score >= ValidationScore;
         }
 
-        public void Construct(Vector3 spawnPosition, Canvas canvas, PlayerSoundsController soundsController)
+        public virtual void Construct(Vector3 spawnPosition, Canvas canvas, 
+            Vector3Int[] tilePositions, PlayerSoundsController soundsController)
         {
             // Initialize all the bookkeeping structures we will need
             SpawnPosition = spawnPosition;
-            _soundsController = soundsController;
+            TilePositions = tilePositions;
+            SoundsController = soundsController;
+            
+            // Delete/invalidate all the tiles overlapping the trap
+            TilemapManager.Instance.ClearLevelTiles(TilePositions);
 
             // Spawn a slider to indicate the progress on the build
             GameObject sliderObject = Instantiate(SliderBar, canvas.transform);
             sliderObject.transform.position = spawnPosition + AnimationOffset + Vector3.up;
-            _buildCompletionBar = sliderObject.GetComponent<Slider>();
+            BuildCompletionBar = sliderObject.GetComponent<Slider>();
 
             // Trap deployment visuals
+            // Slide down trap and fade it into existence
             transform.position = spawnPosition + Vector3.up * 3f;
             transform.DOMove(spawnPosition + Vector3.up * AnimationOffset.y, 0.2f);
 
@@ -102,7 +109,7 @@ namespace Traps
 
         }
 
-        private void BuildTrap()
+        protected virtual void BuildTrap()
         {
             // Randomly shake the trap along the x and y-axis
             Vector3 targetPosition = new Vector3(SpawnPosition.x + Random.Range(-0.5f, 0.5f),
@@ -121,7 +128,7 @@ namespace Traps
                 this.OnEnteredTrap(other.GetComponent<Hero>());
         }
 
-        private void OnTriggerStay2D(Collider2D other)
+        protected virtual void OnTriggerStay2D(Collider2D other)
         {
             if (other.CompareTag("Player") && !IsReady)
             {
@@ -140,17 +147,16 @@ namespace Traps
                 if (playerState is IdleState)
                 {
                     IsBuilding = true;
-                    _soundsController.OnStartBuild();
+                    SoundsController.OnStartBuild();
                 }
             }
-
         }
 
         private void OnTriggerExit2D(Collider2D other) {
             if (other.CompareTag("Player") && IsBuilding)
             {
                 IsBuilding = false;
-                _soundsController.OnStopBuild();
+                SoundsController.OnStopBuild();
                 return;
             }
 

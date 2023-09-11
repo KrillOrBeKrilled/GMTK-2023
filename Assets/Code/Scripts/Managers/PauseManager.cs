@@ -22,6 +22,12 @@ namespace Managers {
       this.OnPauseToggled?.Invoke(this._isPaused);
     }
 
+    public void PauseGame() {
+      Time.timeScale = 0f;
+      this._isPaused = true;
+      this.OnPauseToggled?.Invoke(this._isPaused);
+    }
+
     protected override void Awake() {
       base.Awake();
 
@@ -49,12 +55,6 @@ namespace Managers {
       } else {
         this.PauseGame();
       }
-    }
-
-    private void PauseGame() {
-      Time.timeScale = 0f;
-      this._isPaused = true;
-      this.OnPauseToggled?.Invoke(this._isPaused);
     }
   }
 }

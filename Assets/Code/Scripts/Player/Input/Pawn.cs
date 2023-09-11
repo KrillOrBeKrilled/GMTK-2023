@@ -1,10 +1,10 @@
 using UnityEngine;
 
+//*******************************************************************************************
+// Pawn
+//*******************************************************************************************
 namespace Player
 {
-    //*******************************************************************************************
-    // Pawn
-    //*******************************************************************************************
     /// <summary>
     /// A parent class to handle simple movement methods for controlling a character adapted to
     /// the Command pattern for easy command execution.
@@ -33,6 +33,14 @@ namespace Player
         public virtual void Jump()
         {
             this.RBody.AddForce(Vector2.up * this.JumpingForce);
+        }
+
+        public virtual void FreezePosition() {
+            this.RBody.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+
+        public virtual void UnfreezePosition() {
+            this.RBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
 
         public virtual void DeployTrap()

@@ -16,7 +16,7 @@ TagManager:
   - UI
   - Hero
   - Traps
-  - 
+  - Distortion
   - 
   - 
   - 
@@ -43,4 +43,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: AcidHeatDistortion
+    uniqueID: 3990326525
+    locked: 0
+  - name: AboveAcidHeatDistortion
+    uniqueID: 3454592351
     locked: 0

@@ -46,10 +46,13 @@ namespace Managers {
     private RespawnPoint _activeRespawnPoint;
 
     private LevelData _levelData;
-    private List<WaveData> _lastWavesDataList;
+    private Queue<WaveData> _nextWavesDataQueue;
+    private Queue<WaveData> _lastWavesDataQueue;
     private bool IsEndlessLevel => this._levelData != null && (this._levelData.Type == LevelData.LevelType.Endless);
 
     private const float EndlessLevelHealthIncreaseRate = 1.5f;
+
+    private IEnumerator _waveSpawnCoroutine = null;
 
     public void LoadMainMenu() {
       PauseManager.Instance.UnpauseGame();
@@ -122,7 +125,8 @@ namespace Managers {
       this._levelData.EndgameTargetPosition = sourceData.EndgameTargetPosition;
       this._levelData.WavesData = new WavesData() { WavesList = sourceData.WavesData.WavesList.ToList() };
 
-      this._lastWavesDataList = this._levelData.WavesData.WavesList.ToList();
+      this._nextWavesDataQueue = new Queue<WaveData>(this._levelData.WavesData.WavesList);
+      this._lastWavesDataQueue = new Queue<WaveData>(this._levelData.WavesData.WavesList);
       this._endgameTarget = Instantiate(this._endgameTargetPrefab, this._levelData.EndgameTargetPosition, Quaternion.identity, this.transform);
 
       foreach (Vector3 respawnPosition in this._levelData.RespawnPositions) {
@@ -133,14 +137,12 @@ namespace Managers {
       this._activeRespawnPoint = this._respawnPoints.First();
       this._firstRespawnPoint = this._activeRespawnPoint;
 
-      this._gameUI.Initialize(this, this._playerManager);
+      this._gameUI.Initialize(this, this._playerManager, this._firstRespawnPoint.transform, this._endgameTarget.transform);
 
       this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
       this._playerManager.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
       this._playerManager.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
       this._playerManager.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
-
-      this._playerManager.Initialize(this._firstRespawnPoint.transform, this._endgameTarget.transform);
 
       this.OnSetupComplete?.Invoke();
 
@@ -164,7 +166,8 @@ namespace Managers {
       // Skip a frame to ensure all scripts have initialized and called Start()
       yield return null;
       this.StartLevel();
-      this.StartCoroutine(this.SpawnNextWave());
+      this._waveSpawnCoroutine = this.SpawnNextWave();
+      this.StartCoroutine(this._waveSpawnCoroutine);
     }
 
     private void StartStoryLevel() {
@@ -219,12 +222,13 @@ namespace Managers {
 
       this._heroes.Remove(hero);
 
-      bool noMoreWaves = !this.IsEndlessLevel && this._levelData.WavesData.WavesList.Count <= 0;
+      bool noMoreWaves = !this.IsEndlessLevel && this._nextWavesDataQueue.Count <= 0;
       bool allHeroesDied = this._heroes.Count <= 0;
       if (noMoreWaves && allHeroesDied) {
-        this.OnHenWon?.Invoke("All heroes were defeated. Good job!");
+        this.HenWon("All heroes were defeated. Good job!");
       } else if (allHeroesDied) {
-        this.StartCoroutine(this.SpawnNextWave());
+        this._waveSpawnCoroutine = this.SpawnNextWave();
+        this.StartCoroutine(this._waveSpawnCoroutine);
       }
 
       if (UGS_Analytics.Instance is null) return;
@@ -238,42 +242,60 @@ namespace Managers {
     }
 
     private void HeroReachedLevelEnd() {
+      this.HenLost("The Hero managed to reach his goal and do heroic things.\nHendall, you failed me!");
+    }
+
+    private void HenLost(string endgameMessage) {
       this._playerManager.PlayerController.DisablePlayerInput();
+
+      if (this._waveSpawnCoroutine != null) {
+        this.StopCoroutine(this._waveSpawnCoroutine);
+      }
+
       this.StopAllHeroes();
-      this.OnHenLost?.Invoke("The Hero managed to reach his goal and do heroic things.\nHendall, you failed me!");
+      this.OnHenLost?.Invoke(endgameMessage);
+    }
+
+    private void HenWon(string message) {
+      this._playerManager.PlayerController.DisablePlayerInput();
+      FreezeCommand freezeCommand = new FreezeCommand(this._playerManager.PlayerController);
+      this._playerManager.PlayerController.ExecuteCommand(freezeCommand);
+      this.OnHenWon?.Invoke(message);
     }
 
     private void HenDied(string message) {
-      this._playerManager.PlayerController.DisablePlayerInput();
-      this.StopAllHeroes();
-
       Destroy(this._playerManager.gameObject);
-      this.OnHenLost?.Invoke(message);
+
+      if (this._waveSpawnCoroutine != null) {
+        this.StopCoroutine(this._waveSpawnCoroutine);
+      }
+
+      this._dialogueRunner.Stop();
+      this.HenLost(message);
     }
 
     private IEnumerator SpawnNextWave() {
-      if (this._levelData.WavesData.WavesList.Count <= 0) {
+      if (this._nextWavesDataQueue.Count <= 0) {
         if (!this.IsEndlessLevel) {
           yield break;
         }
 
-        this.GenerateNextWaveList();
+        this.GenerateNextWaves();
       }
 
-      WaveData waveData = this._levelData.WavesData.WavesList[0];
+      WaveData waveData = this._nextWavesDataQueue.Dequeue();
       foreach (HeroData heroData in waveData.Heroes) {
         this.SpawnHero(heroData);
         yield return new WaitForSeconds(waveData.HeroSpawnDelayInSeconds);
       }
-
-      this._levelData.WavesData.WavesList.RemoveAt(0);
 
       if (waveData.NextWaveSpawnDelayInSeconds < 0) {
         yield break;
       }
 
       yield return new WaitForSeconds(waveData.NextWaveSpawnDelayInSeconds);
-      yield return this.SpawnNextWave();
+      this._waveSpawnCoroutine = this.SpawnNextWave();
+      yield return this._waveSpawnCoroutine;
     }
 
     private Hero SpawnHero(HeroData heroData) {
@@ -283,7 +305,7 @@ namespace Managers {
       }
 
       Hero newHero = Instantiate(heroPrefab, this._activeRespawnPoint.transform);
-      newHero.Initialize(heroData, this._firstRespawnPoint.transform, this._endgameTarget.transform);
+      newHero.Initialize(heroData);
       newHero.OnHeroDied.AddListener(this.OnHeroDied);
       newHero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 
@@ -292,10 +314,13 @@ namespace Managers {
       return newHero;
     }
 
-    private void GenerateNextWaveList() {
-      List<WaveData> newWaveDataList = new List<WaveData>();
+    private void GenerateNextWaves() {
+      if (this._nextWavesDataQueue.Count > 0) {
+        Debug.LogWarning("Attempted to generate next wave when current one is not empty.");
+        return;
+      }
 
-      foreach (WaveData waveData in this._lastWavesDataList) {
+      foreach (WaveData waveData in this._lastWavesDataQueue) {
         WaveData newWave = new WaveData() {
           Heroes = new List<HeroData>(),
           HeroSpawnDelayInSeconds = waveData.HeroSpawnDelayInSeconds,
@@ -311,11 +336,10 @@ namespace Managers {
           newWave.Heroes.Add(newHeroData);
         }
 
-        newWaveDataList.Add(newWave);
+        this._nextWavesDataQueue.Enqueue(newWave);
       }
 
-      this._levelData.WavesData.WavesList = newWaveDataList;
-      this._lastWavesDataList = newWaveDataList.ToList();
+      this._lastWavesDataQueue = new Queue<WaveData>(this._nextWavesDataQueue);
     }
 
     private void StopAllHeroes() {

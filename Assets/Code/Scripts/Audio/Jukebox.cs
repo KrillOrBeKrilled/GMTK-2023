@@ -1,6 +1,8 @@
 //*******************************************************************************************
 // Jukebox
 //*******************************************************************************************
+using Managers;
+
 namespace Audio {
     /// <summary>
     /// A class to act as a soundbank for all the game's music. Works hand in hand with the
@@ -13,21 +15,26 @@ namespace Audio {
 
         public static bool IsLoaded;
 
+        private bool _isMusicMuted;
+
         protected override void Awake()
         {
             base.Awake();
 
             if (!IsLoaded)
             {
-                this.PlayMusicEvent.Post(this.gameObject);
                 DontDestroyOnLoad(this.gameObject);
+                this._isMusicMuted = PlayerPrefsManager.IsMusicMuted();
+                this.PlayMusic();
             }
             IsLoaded = true;
         }
 
         public void PlayMusic()
         {
-            this.PlayMusicEvent.Post(this.gameObject);
+            if (!this._isMusicMuted) {
+                this.PlayMusicEvent.Post(this.gameObject);
+            }
         }
 
         public void PauseMusic()
@@ -43,6 +50,10 @@ namespace Audio {
         public void StopMusic()
         {
             this.StopMusicEvent.Post(this.gameObject);
+        }
+
+        public void SetIsMusicMuted(bool isMuted) {
+            this._isMusicMuted = isMuted;
         }
     }
 }

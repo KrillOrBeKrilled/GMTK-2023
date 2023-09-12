@@ -5,7 +5,7 @@ using UnityEngine.Events;
 //*******************************************************************************************
 // HeroMovement
 //*******************************************************************************************
-namespace Heroes {
+namespace KrillOrBeKrilled.Heroes {
     /// <summary>
     /// Encompasses all logic associated with hero movement, including speed,
     /// jump settings, responses to collisions with traps, animations and SFX.

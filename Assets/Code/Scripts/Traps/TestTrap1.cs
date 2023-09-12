@@ -1,9 +1,9 @@
-using Heroes;
+using KrillOrBeKrilled.Common;
 
 //*******************************************************************************************
 // TestTrap1
 //*******************************************************************************************
-namespace Traps {
+namespace KrillOrBeKrilled.Traps {
     /// <summary>
     /// An experimental subclass of <see cref="Trap"/> used to test various trap
     /// deployment and detonation scenarios. 
@@ -17,11 +17,11 @@ namespace Traps {
 
         }
 
-        protected  override void OnEnteredTrap(Hero hero) {
+        protected  override void OnEnteredTrap(IDamageable actor) {
             
         }
 
-        protected override void OnExitedTrap(Hero hero) {
+        protected override void OnExitedTrap(IDamageable actor) {
             
         }
     }

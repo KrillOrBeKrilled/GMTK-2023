@@ -1,11 +1,11 @@
+using KrillOrBeKrilled.Common;
 using DG.Tweening;
-using Heroes;
 using UnityEngine;
 
 //*******************************************************************************************
 // SpikeTrap
 //*******************************************************************************************
-namespace Traps {
+namespace KrillOrBeKrilled.Traps {
     /// <summary>
     /// A subclass of <see cref="Trap"/> that fills a permanent 3x1 grounded area and
     /// damages the <see cref="Hero"/> with a speed penalty. 
@@ -32,22 +32,22 @@ namespace Traps {
         /// This trap applies an 30% speed reduction to the <see cref="HeroMovement"/> and flat damage to the
         /// <see cref="Hero"/>.
         /// </summary>
-        protected  override void OnEnteredTrap(Hero hero) {
+        protected  override void OnEnteredTrap(IDamageable actor) {
             if (!IsReady) 
                 return;
 
             DetonateTrap();
-            hero.TakeDamage(this._damageAmount);
-            hero.HeroMovement.SetSpeedPenalty(0.3f);
+            actor.TakeDamage(this._damageAmount);
+            actor.ApplySpeedPenalty(0.3f);
         }
 
         /// <inheritdoc cref="Trap.OnExitedTrap"/>
         /// <summary> Resets the speed reduction through <see cref="HeroMovement"/>. </summary>
-        protected override void OnExitedTrap(Hero hero) {
+        protected override void OnExitedTrap(IDamageable actor) {
             if (!IsReady) 
                 return;
 
-            hero.HeroMovement.ResetSpeedPenalty();
+            actor.ResetSpeedPenalty();
         }
     }
 }

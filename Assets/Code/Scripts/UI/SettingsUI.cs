@@ -1,11 +1,11 @@
-using Managers;
+using KrillOrBeKrilled.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
 //*******************************************************************************************
 // SettingsUI
 //*******************************************************************************************
-namespace UI {
+namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// Handles the updates from player interaction with the settings menu UI to the
     /// PlayerPref settings through the <see cref="PlayerPrefsManager"/>.

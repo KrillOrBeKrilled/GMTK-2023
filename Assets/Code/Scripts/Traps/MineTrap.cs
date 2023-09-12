@@ -1,10 +1,10 @@
-using Heroes;
+using KrillOrBeKrilled.Common;
 using UnityEngine;
 
 //*******************************************************************************************
 // MineTrap
 //*******************************************************************************************
-namespace Traps {
+namespace KrillOrBeKrilled.Traps {
     /// <summary>
     /// A subclass of <see cref="Trap"/> that damages and throws back the hero through
     /// <see cref="HeroMovement"/>.
@@ -15,30 +15,24 @@ namespace Traps {
         [Tooltip("The damage to be applied to the Hero upon collision.")]
         [SerializeField] private int _damageAmount = 10;
         
-        protected override void SetUpTrap() {
-
-        }
+        protected override void SetUpTrap() {}
         
-        protected override void DetonateTrap() {
-
-        }
+        protected override void DetonateTrap() {}
 
         /// <inheritdoc cref="Trap.OnEnteredTrap"/>
         /// <summary>
         /// This trap applies a knock back force to the <see cref="HeroMovement"/> and flat damage to the
         /// <see cref="Hero"/> before destroying itself.
         /// </summary>
-        protected override void OnEnteredTrap(Hero hero) {
+        protected override void OnEnteredTrap(IDamageable actor) {
             if (!IsReady) 
                 return;
           
-            hero.TakeDamage(this._damageAmount);
-            hero.HeroMovement.ThrowHeroBack(2f, this._explosionForce);
+            actor.TakeDamage(this._damageAmount);
+            actor.ThrowActorBack(2f, this._explosionForce);
             Destroy(this.gameObject);
         }
 
-        protected override void OnExitedTrap(Hero hero) {
-
-        }
+        protected override void OnExitedTrap(IDamageable actor) {}
     }
 }

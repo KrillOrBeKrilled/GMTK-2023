@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using DG.Tweening;
-using Managers;
-using Player;
+using KrillOrBeKrilled.Managers;
+using KrillOrBeKrilled.Traps;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,7 +10,7 @@ using UnityEngine.UI;
 //*******************************************************************************************
 // GameUI
 //*******************************************************************************************
-namespace UI {
+namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// Acts as a central control panel for initializing, activating/deactivating, and
     /// updating UI elements for various gameplay systems.
@@ -45,13 +46,14 @@ namespace UI {
         /// </summary>
         /// <param name="gameManager"> Provides events related to the game state to subscribe to. </param>
         /// <param name="playerManager"> Provides events related to the trap system to subscribe to. </param>
-        public void Initialize(GameManager gameManager, PlayerManager playerManager) {
-            gameManager.OnSetupComplete.AddListener(this.OnGameSetupComplete);
-            gameManager.OnHenWon.AddListener(this.OnHenWon);
-            gameManager.OnHenLost.AddListener(this.OnHenLost);
+        public void Initialize(UnityEvent setupComplete, UnityEvent<string> henWon, UnityEvent<string> henLost, 
+            UnityEvent onStartLevel, UnityAction onSkipDialogue, UnityEvent<int> trapIndexChanged, List<Trap> traps) {
+            setupComplete.AddListener(this.OnGameSetupComplete);
+            henWon.AddListener(this.OnHenWon);
+            henLost.AddListener(this.OnHenLost);
 
-            this._trapSelectionBar.Initialize(playerManager);
-            this._skipDialogueUI.Initialize(gameManager.OnStartLevel, gameManager.SkipDialogue);
+            this._trapSelectionBar.Initialize(trapIndexChanged, traps);
+            this._skipDialogueUI.Initialize(onStartLevel, onSkipDialogue);
         }
 
         /// <summary> Fades in the screen and invokes a function upon completion. </summary>

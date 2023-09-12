@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 //*******************************************************************************************
 // ButtonExtension
 //*******************************************************************************************
-namespace UI {
+namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// Creates additional events for a button to add extra visual effects and SFX.
     /// </summary>

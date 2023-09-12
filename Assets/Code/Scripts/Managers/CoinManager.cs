@@ -1,11 +1,12 @@
 using System.Collections;
+using KrillOrBeKrilled.Common;
 using UnityEngine;
 using UnityEngine.Events;
 
 //*******************************************************************************************
 // CoinManager
 //*******************************************************************************************
-namespace Managers {
+namespace KrillOrBeKrilled.Managers {
     /// <summary>
     /// Manages the coin count through earning and consumption throughout gameplay.
     /// </summary>

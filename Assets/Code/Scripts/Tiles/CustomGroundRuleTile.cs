@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 //*******************************************************************************************
 // CustomGroundRuleTile
 //*******************************************************************************************
-namespace Tiles {
+namespace KrillOrBeKrilled.Tiles {
     /// <summary>
     /// A subclass of <see cref="RuleTile"/> that contains the same functionality as a
     /// <see cref="CustomTrapRuleTile"/> but is instead used for the surface of platforms

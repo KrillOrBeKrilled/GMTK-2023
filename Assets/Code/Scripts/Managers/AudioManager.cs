@@ -1,4 +1,3 @@
-using Audio;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,7 +5,7 @@ using UnityEngine.SceneManagement;
 //*******************************************************************************************
 // AudioManager
 //*******************************************************************************************
-namespace Managers {
+namespace KrillOrBeKrilled.Managers {
     /// <summary>
     /// Acts as a sound bank for all the game's SFX. Works hand in hand with
     /// <see cref="Jukebox"/> to provide methods for listening in on events invoked

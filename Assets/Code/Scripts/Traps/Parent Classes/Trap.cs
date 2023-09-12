@@ -1,16 +1,15 @@
-using Audio;
-using Managers;
+using KrillOrBeKrilled.Common;
+using KrillOrBeKrilled.Heroes;
+using KrillOrBeKrilled.Managers;
 using System.Collections.Generic;
 using DG.Tweening;
-using Heroes;
-using Player;
 using UnityEngine;
 using UnityEngine.UI;
 
 //*******************************************************************************************
 // Trap
 //*******************************************************************************************
-namespace Traps {
+namespace KrillOrBeKrilled.Traps {
     /// <summary>
     /// Abstract class that handles general logic for trap surveying, spawning, building,
     /// and collisions.
@@ -53,7 +52,7 @@ namespace Traps {
                 if (ConstructionCompletion >= 0.99f) {
                     IsReady = true;
                     IsBuilding = false;
-                    SoundsController.OnStopBuild();
+                    SoundsController.OnBuild(false);
                     SoundsController.OnBuildComplete();
                     Destroy(BuildCompletionBar.gameObject);
 
@@ -195,13 +194,13 @@ namespace Traps {
         /// Applies resulting effects and reactions to the <see cref="Hero"/> upon trap detonation. 
         /// </summary>
         /// <remarks> Invoked upon triggered collision with a <see cref="Hero"/>. </remarks>
-        protected abstract void OnEnteredTrap(Hero hero);
+        protected abstract void OnEnteredTrap(IDamageable actor);
         
         /// <summary>
         /// Applies lasting effects and reactions to the <see cref="Hero"/> when exiting the trap collider. 
         /// </summary>
         /// <remarks> Invoked upon exiting a trigger collision with a <see cref="Hero"/>. </remarks>
-        protected abstract void OnExitedTrap(Hero hero);
+        protected abstract void OnExitedTrap(IDamageable actor);
 
         /// <summary>
         /// Cleans up the trap data and frees the used trap tiles upon the completion of the trap detonation animation.
@@ -211,39 +210,55 @@ namespace Traps {
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
-            if (other.CompareTag("Player")) return;
-
-            if (other.CompareTag("Hero"))
-                this.OnEnteredTrap(other.GetComponent<Hero>());
+            if (other.TryGetComponent(out IDamageable actor)) {
+                this.OnEnteredTrap(actor);
+            }
         }
 
         protected virtual void OnTriggerStay2D(Collider2D other) {
-            if (other.CompareTag("Player") && !IsReady) {
-                PlayerController playerController;
-                IPlayerState playerState;
-
-                if (other.TryGetComponent(out playerController)) {
-                    playerState = playerController.GetPlayerState();
-                } else {
-                    playerState = other.GetComponentInParent<PlayerController>().GetPlayerState();
-                }
-
-                if (playerState is IdleState) {
-                    IsBuilding = true;
-                    SoundsController.OnStartBuild();
-                }
+            // Change this to checking an interface, not specifically the player
+            // if (other.CompareTag("Player") && !IsReady) {
+            //     PlayerController playerController;
+            //     IPlayerState playerState;
+            //
+            //     if (other.TryGetComponent(out playerController)) {
+            //         playerState = playerController.GetPlayerState();
+            //     } else {
+            //         playerState = other.GetComponentInParent<PlayerController>().GetPlayerState();
+            //     }
+            //
+            //     if (playerState is IdleState) {
+            //         IsBuilding = true;
+            //         SoundsController.OnStartBuild();
+            //     }
+            // }
+            
+            if (IsReady || !other.TryGetComponent(out ITrapBuilder actor)) {
+                return;
             }
+            
+            IsBuilding = actor.CanBuildTrap();
+            SoundsController.OnBuild(IsBuilding);
         }
 
         private void OnTriggerExit2D(Collider2D other) {
-            if (other.CompareTag("Player") && IsBuilding) {
+            // if (other.CompareTag("Player") && IsBuilding) {
+            //     IsBuilding = false;
+            //     SoundsController.OnStopBuild();
+            //     return;
+            // }
+            //
+            // if (other.CompareTag("Hero")) {
+            //     this.OnExitedTrap(other.GetComponent<IDamageable>());
+            // }
+            if (other.TryGetComponent(out ITrapBuilder builderActor)) {
                 IsBuilding = false;
-                SoundsController.OnStopBuild();
+                SoundsController.OnBuild(IsBuilding);
                 return;
             }
-
-            if (other.CompareTag("Hero")) {
-                this.OnExitedTrap(other.GetComponent<Hero>());
+            
+            if (other.TryGetComponent(out IDamageable damageActor)) {
+                this.OnExitedTrap(damageActor);
             }
         }
     }

@@ -1,5 +1,5 @@
 using DG.Tweening;
-using Heroes;
+using KrillOrBeKrilled.Heroes;
 using UnityEngine;
 using UnityEngine.UI;
 

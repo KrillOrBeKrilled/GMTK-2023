@@ -3,7 +3,7 @@ using UnityEngine;
 //*******************************************************************************************
 // HeroJumpPad
 //*******************************************************************************************
-namespace Heroes {
+namespace KrillOrBeKrilled.Heroes {
     /// <summary>
     /// An invisible region outlined in the Unity Editor scene viewport used to
     /// trigger hero jumps upon collision triggers with a GameObject associated with

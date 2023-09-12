@@ -3,7 +3,7 @@
 //*******************************************************************************************
 // YarnCharacter
 //*******************************************************************************************
-namespace Dialogue {
+namespace KrillOrBeKrilled.Dialogue {
     /// <summary>
     /// Script for the 3D RPG sample project in YarnSpinner. DialogueRunner invokes
     /// <see cref="YarnCharacterView"/>, which locates the YarnCharacter that is speaking.

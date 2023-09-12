@@ -1,4 +1,4 @@
-using Heroes;
+using KrillOrBeKrilled.Heroes;
 using UnityEngine;
 using UnityEngine.UI;
 

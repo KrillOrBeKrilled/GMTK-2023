@@ -1,12 +1,12 @@
+using KrillOrBeKrilled.Managers;
 using DG.Tweening;
-using Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
 //*******************************************************************************************
 // MainMenu
 //*******************************************************************************************
-namespace UI {
+namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// Handles the fading transitions of the MainMenu scene, along with loading the
     /// game scene through the <see cref="SceneNavigationManager"/>.

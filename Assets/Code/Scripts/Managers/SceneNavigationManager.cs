@@ -1,10 +1,11 @@
+using KrillOrBeKrilled.Common;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 //*******************************************************************************************
 // SceneNavigationManager
 //*******************************************************************************************
-namespace Managers {
+namespace KrillOrBeKrilled.Managers {
     /// <summary>
     /// Communicates directly with <see cref="SceneManager"/> to load scenes and exit
     /// the application through exposed methods.

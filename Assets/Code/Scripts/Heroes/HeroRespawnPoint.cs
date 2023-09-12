@@ -3,7 +3,7 @@ using UnityEngine;
 //*******************************************************************************************
 // HeroRespawnPoint
 //*******************************************************************************************
-namespace Heroes {
+namespace KrillOrBeKrilled.Heroes {
 	/// <summary>
 	/// An invisible region outlined in the Unity Editor scene viewport used to
 	/// as a waypoint to spawn the hero through <see cref="Hero"/>.

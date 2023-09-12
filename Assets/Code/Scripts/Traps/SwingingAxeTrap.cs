@@ -1,11 +1,11 @@
-using Heroes;
-using Managers;
+using KrillOrBeKrilled.Common;
+using KrillOrBeKrilled.Managers;
 using UnityEngine;
 
 //*******************************************************************************************
 // SwingingAxeTrap
 //*******************************************************************************************
-namespace Traps {
+namespace KrillOrBeKrilled.Traps {
     /// <summary>
     /// A subclass of <see cref="Trap"/> that fills a permanent 2x3 grounded area and
     /// damages and throws back the hero through <see cref="HeroMovement"/>. 
@@ -38,18 +38,18 @@ namespace Traps {
         /// This trap applies a knock back force to the <see cref="HeroMovement"/> and flat damage to the
         /// <see cref="Hero"/>.
         /// </summary>
-        protected override void OnEnteredTrap(Hero hero) {
+        protected override void OnEnteredTrap(IDamageable actor) {
             if (!IsReady) 
                 return;
 
             DetonateTrap();
-            hero.TakeDamage(this._damageAmount);
-            hero.HeroMovement.ThrowHeroBack(0.5f, this._pushbackForce);
+            actor.TakeDamage(this._damageAmount);
+            actor.ThrowActorBack(0.5f, this._pushbackForce);
+            
+            // hero.HeroMovement.ThrowHeroBack(0.5f, this._pushbackForce);
         }
 
-        protected override void OnExitedTrap(Hero hero) {
-
-        }
+        protected override void OnExitedTrap(IDamageable actor) {}
 
         protected override void OnDetonateTrapAnimationCompete() {
             print("Detonate competed");

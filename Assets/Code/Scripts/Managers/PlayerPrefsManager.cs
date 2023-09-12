@@ -3,7 +3,7 @@ using UnityEngine;
 //*******************************************************************************************
 // PlayerPrefsManager
 //*******************************************************************************************
-namespace Managers {
+namespace KrillOrBeKrilled.Managers {
     /// <summary>
     /// Manages the direct manipulation of the data stored in <see cref="PlayerPrefs"/>
     /// and relays the data to external classes through exposed methods.

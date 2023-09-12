@@ -4,7 +4,7 @@ using UnityEngine;
 //*******************************************************************************************
 // EndgameUI
 //*******************************************************************************************
-namespace UI {
+namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// Manages the Game Over menu, enabling and disabling buttons to advance to new
     /// levels and replay levels and displaying level text messages.

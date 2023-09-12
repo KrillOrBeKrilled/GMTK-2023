@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 //*******************************************************************************************
 // TrapTile
 //*******************************************************************************************
-namespace Tiles {
+namespace KrillOrBeKrilled.Tiles {
     /// <summary>
     /// A subclass of <see cref="Tile"/> that takes on the same functionality, only to
     /// be used as a type specifier for the trap deployment validation score in the

@@ -1,13 +1,13 @@
-using Managers;
-using Player;
 using System.Collections.Generic;
-using Traps;
+using KrillOrBeKrilled.Managers;
+using KrillOrBeKrilled.Traps;
 using UnityEngine;
+using UnityEngine.Events;
 
 //*******************************************************************************************
 // TrapSelectionBar
 //*******************************************************************************************
-namespace UI {
+namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// Manages the initialization and updates to the
     /// <see cref="TrapBarIcon">TrapBarIcons</see> upon updates to the trap and coin
@@ -23,11 +23,10 @@ namespace UI {
         /// </summary>
         /// <param name="playerManager"> Provides event and data references related to the trap system to subscribe
         /// to and link trap icons. </param>
-        public void Initialize(PlayerManager playerManager) {
-            playerManager.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
+        public void Initialize(UnityEvent<int> trapIndexChanged, List<Trap> traps) {
+            trapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
             CoinManager.Instance.OnCoinAmountChanged.AddListener(this.OnCoinAmountChanged);
-
-            List<Trap> traps = playerManager.TrapController.Traps;
+            
             for (int i = 0; i < this._trapBarIcons.Count; i++) {
                 this._trapBarIcons[i].Initialize(traps[i]);
             }

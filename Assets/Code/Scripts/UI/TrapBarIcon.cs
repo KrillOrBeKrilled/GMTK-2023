@@ -1,11 +1,11 @@
-using Traps;
+using KrillOrBeKrilled.Traps;
 using UnityEngine;
 using UnityEngine.UI;
 
 //*******************************************************************************************
 // TrapBarIcon
 //*******************************************************************************************
-namespace UI {
+namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// Manages the animations associated with a single trap icon, rendering outlines
     /// upon trap selection and tinting out the icon when the corresponding trap is

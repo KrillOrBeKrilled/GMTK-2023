@@ -1,4 +1,4 @@
-using Managers;
+using KrillOrBeKrilled.Managers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -7,7 +7,7 @@ using UnityEngine.UI;
 //*******************************************************************************************
 // SkipDialogueUI
 //*******************************************************************************************
-namespace UI {
+namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// Handles the skip dialogue HUD hold timer logic and associated timer completion
     /// status animations. 

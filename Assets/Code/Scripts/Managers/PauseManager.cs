@@ -1,3 +1,5 @@
+using KrillOrBeKrilled.Common;
+using KrillOrBeKrilled.Input;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -5,7 +7,7 @@ using UnityEngine.InputSystem;
 //*******************************************************************************************
 // PauseManager
 //*******************************************************************************************
-namespace Managers {
+namespace KrillOrBeKrilled.Managers {
     /// <summary>
     /// Manages the pausing and unpausing mechanics of the game through direct
     /// manipulation of <see cref="Time.timeScale"/>.

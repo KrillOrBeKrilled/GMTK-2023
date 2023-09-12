@@ -1,17 +1,16 @@
-using Heroes;
 using System.Collections;
-using Audio;
-using Managers;
+using KrillOrBeKrilled.Common;
+using KrillOrBeKrilled.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
 //*******************************************************************************************
 // AcidPitTrap
 //*******************************************************************************************
-namespace Traps {
+namespace KrillOrBeKrilled.Traps {
     /// <summary>
     /// A subclass of <see cref="InGroundTrap"/> that fills a permanent 2x2 grounded
-    /// square of liquid into the ground and damages the <see cref="Hero"/> in
+    /// square of liquid into the ground and damages the <see cref="IDamageable"/> in
     /// intervals with a speed penalty. 
     /// </summary>
     /// <remarks> The default building animations are overrided with shader support
@@ -113,16 +112,16 @@ namespace Traps {
         /// This trap applies an 80% speed reduction to the <see cref="HeroMovement"/> and interval damage to the
         /// <see cref="Hero"/> every second the <see cref="Hero"/> remains in the acid.
         /// </summary>
-        protected override void OnEnteredTrap(Hero hero) {
+        protected override void OnEnteredTrap(IDamageable actor) {
             if (!this.IsReady) 
                 return;
 
-            hero.HeroMovement.SetSpeedPenalty(0.8f);
+            actor.ApplySpeedPenalty(0.8f);
 
             if (this._intervalDamageCoroutine != null) {
               this.StopCoroutine(this._intervalDamageCoroutine);
             }
-            this._intervalDamageCoroutine = this.StartCoroutine(this.DealIntervalDamage(hero));
+            this._intervalDamageCoroutine = this.StartCoroutine(this.DealIntervalDamage(actor));
         }
 
         /// <inheritdoc cref="Trap.OnExitedTrap"/>
@@ -130,11 +129,11 @@ namespace Traps {
         /// Resets the speed reduction through <see cref="HeroMovement"/> and stops dealing damage to the
         /// <see cref="Hero"/>.
         /// </summary>
-        protected override void OnExitedTrap(Hero hero) {
+        protected override void OnExitedTrap(IDamageable actor) {
             if (!this.IsReady) 
                 return;
 
-            hero.HeroMovement.ResetSpeedPenalty();
+            actor.ResetSpeedPenalty();
 
             if (this._intervalDamageCoroutine != null)
                 this.StopCoroutine(this._intervalDamageCoroutine);
@@ -146,13 +145,19 @@ namespace Traps {
         /// </summary>
         /// <param name="hero"> The hero receiving damage. </param>
         /// <remarks> The coroutine is started and stopped by <see cref="OnEnteredTrap"/>. </remarks>
-        private IEnumerator DealIntervalDamage(Hero hero) {
-            while (hero.Health > 0) {
-              hero.TakeDamage(this._damageAmount);
-              yield return this._waitForOneSecond;
+        private IEnumerator DealIntervalDamage(IDamageable actor) {
+            // while (hero.Health > 0) {
+            //   hero.TakeDamage(this._damageAmount);
+            //   yield return this._waitForOneSecond;
+            // }
+            //
+            // this._intervalDamageCoroutine = null;
+            
+            // Infinitely deals damage at intervals until this coroutine is stopped.
+            while (true) {
+                actor.TakeDamage(this._damageAmount);
+                yield return this._waitForOneSecond;
             }
-
-            this._intervalDamageCoroutine = null;
         }
     }
 }

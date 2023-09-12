@@ -1,4 +1,4 @@
-using Managers;
+using KrillOrBeKrilled.Common;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,13 +6,13 @@ using UnityEngine.Events;
 //*******************************************************************************************
 // Hero
 //*******************************************************************************************
-namespace Heroes {
+namespace KrillOrBeKrilled.Heroes {
     /// <summary>
     /// Manages the states of the hero throughout narrative sequences and gameplay,
     /// tracking health and playing associated SFX. Manipulates movement in the
     /// narrative sequences through <see cref="HeroMovement"/>.
     /// </summary>
-    public class Hero : MonoBehaviour {
+    public class Hero : MonoBehaviour, IDamageable {
         public HeroMovement HeroMovement => this._heroMovement;
         private HeroMovement _heroMovement;
         
@@ -109,7 +109,7 @@ namespace Heroes {
         }
         
         //========================================
-        // Gameplay Loop
+        // IDamageable Implementations
         //========================================
         
         /// <summary>
@@ -120,7 +120,7 @@ namespace Heroes {
         /// <remarks> Invokes the <see cref="OnHealthChanged"/> event. </remarks>
         public void TakeDamage(int amount) {
             this.Health -= amount;
-            CoinManager.Instance.EarnCoins(1);
+            // CoinManager.Instance.EarnCoins(1);
 
             if (this.Health <= 0) {
                 this.Die();
@@ -152,6 +152,22 @@ namespace Heroes {
 
             this.StartCoroutine(this.Respawn());
         }
+
+        public void ThrowActorBack(float stunDuration, float throwForce) {
+            this._heroMovement.ThrowHeroBack(stunDuration, throwForce);
+        }
+
+        public void ApplySpeedPenalty(float penalty) {
+            this._heroMovement.AddSpeedPenalty(penalty);
+        }
+
+        public void ResetSpeedPenalty() {
+            this._heroMovement.ResetSpeedPenalty();
+        }
+        
+        //========================================
+        // Gameplay Loop
+        //========================================
 
         /// <summary>
         /// Triggers hero death through <see cref="Die"/>.

@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 //*******************************************************************************************
 // CustomTrapRuleTile
 //*******************************************************************************************
-namespace Tiles {
+namespace KrillOrBeKrilled.Tiles {
     /// <summary>
     /// A subclass of <see cref="RuleTile"/> that extends the functionality of the Null
     /// rule to pass if any of the specified tiles are connected as well as its own type.

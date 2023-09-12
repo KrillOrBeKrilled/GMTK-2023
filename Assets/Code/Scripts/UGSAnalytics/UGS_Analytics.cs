@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using KrillOrBeKrilled.Managers;
 using Unity.Services.Analytics;
 using Unity.Services.Core;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 //*******************************************************************************************
 // UGSAnalytics
 //*******************************************************************************************
-namespace UGSAnalytics {
+namespace KrillOrBeKrilled.UGSAnalytics {
     /// <summary>
     /// Manages all initialization and data collection for <see cref="AnalyticsService"/>
     /// to collect gameplay analytics data that can be accessed through the UGS Analytics

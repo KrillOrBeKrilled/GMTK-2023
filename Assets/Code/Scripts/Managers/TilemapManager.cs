@@ -1,3 +1,4 @@
+using KrillOrBeKrilled.Common;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -5,7 +6,7 @@ using UnityEngine.Tilemaps;
 //*******************************************************************************************
 // TilemapManager
 //*******************************************************************************************
-namespace Managers {
+namespace KrillOrBeKrilled.Managers {
     /// <summary>
     /// Handles all logic that directly alters the tilemaps crucial to the tile-based
     /// gameplay.

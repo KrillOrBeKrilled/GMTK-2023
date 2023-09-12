@@ -31,5 +31,11 @@ namespace KrillOrBeKrilled.UI {
                 .DOFade(0, FadeDuration)
                 .OnComplete(() => this._foreground.gameObject.SetActive(false));
         }
-    }
+
+        public void OnPlay() {
+            this._foreground.gameObject.SetActive(true);
+            this._foreground
+                .DOFade(1, FadeDuration)
+                .OnComplete(SceneNavigationManager.Instance.LoadLevelsScene);
+        }
 }

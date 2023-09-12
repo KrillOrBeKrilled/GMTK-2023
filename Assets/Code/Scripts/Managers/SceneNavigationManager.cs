@@ -25,6 +25,10 @@ namespace KrillOrBeKrilled.Managers {
             LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
+        public void LoadLevelsScene() {
+            LoadScene("Levels");
+        }
+
         /// <summary>
         /// Loads the "MainMenu" scene.
         /// </summary>

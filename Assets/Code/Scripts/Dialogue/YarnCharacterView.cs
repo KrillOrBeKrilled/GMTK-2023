@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Managers;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -106,16 +107,15 @@ namespace KrillOrBeKrilled.Dialogue {
             this.speakerCharacter = !string.IsNullOrEmpty(characterName) ? this.FindCharacter(characterName) : null;
 
             // Run Voice Events
-            switch (characterName) {
-                case "Hero":
-                    this.HeroDialogueEvent.Post(this.gameObject);
-                    break;
-                case "Hendall":
-                    this.HenDialogueEvent.Post(this.gameObject);
-                    break;
-                case "Dogan":
-                    this.BossDialogueEvent.Post(this.gameObject);
-                    break;
+            AK.Wwise.Event dialogueEvent = characterName switch {
+                "Hero" => this.HeroDialogueEvent,
+                "Hendall" => this.HenDialogueEvent,
+                "Dogan" => this.BossDialogueEvent,
+                _ => null
+            };
+
+            if (!AudioManager.Instance.AreSfxMuted) {
+                dialogueEvent?.Post(this.gameObject);
             }
 
             // IMPORTANT: we must mark this view as having finished its work, or else the DialogueRunner gets stuck forever

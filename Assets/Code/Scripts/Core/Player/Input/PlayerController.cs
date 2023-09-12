@@ -54,7 +54,7 @@ namespace KrillOrBeKrilled.Core.Player {
 
         // ------------- Sound Effects ---------------
         private PlayerSoundsController _soundsController;
-        
+
         // --------------- Collision -----------------
         private ContactPoint2D _lastContact;
 
@@ -79,7 +79,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState, float, float, float>();
             this.OnTrapDeployed = new UnityEvent<int>();
             this.OnSelectedTrapIndexChanged = new UnityEvent<int>();
-            
+
             _animator.SetBool("is_grounded", _isGrounded);
         }
 
@@ -152,8 +152,9 @@ namespace KrillOrBeKrilled.Core.Player {
             this._isGrounded = isGrounded;
             this._animator.SetBool("is_grounded", this._isGrounded);
 
-            if (isGrounded) 
+            if (isGrounded) {
                 return;
+            }
             
             // Left the ground, so trap deployment isn't possible anymore
             this._trapController.DisableTrapDeployment();
@@ -319,7 +320,6 @@ namespace KrillOrBeKrilled.Core.Player {
         /// </summary>
         public virtual void StartSession() {
             this.InputRecorder.Enable();
-            print("Start Recording");
 
             this.EnableControls();
         }
@@ -332,7 +332,6 @@ namespace KrillOrBeKrilled.Core.Player {
         /// events. </remarks>
         protected virtual void StopSession(string message) {
             this.InputRecorder.Disable();
-            print("Stop Recording");
 
             // Create a new playtest session recording file
             this.CreateRecordingFile();
@@ -375,7 +374,7 @@ namespace KrillOrBeKrilled.Core.Player {
 
             this.InputRecorder.WriteTo(path + fileName);
         }
-        
+
         //========================================
         // Collisions
         //========================================
@@ -386,8 +385,9 @@ namespace KrillOrBeKrilled.Core.Player {
             for (var i = 0; i < collision.GetContacts(collision.contacts); i++) {
                 var contactPosition = (Vector3)collision.GetContact(i).point + (Vector3.down * .15f);
                 
-                if (!this._trapController.CheckForGroundTile(contactPosition)) 
+                if (!this._trapController.CheckForGroundTile(contactPosition)) {
                     continue;
+                }
                 
                 this.SetGroundedStatus(true);
                 return;
@@ -400,13 +400,15 @@ namespace KrillOrBeKrilled.Core.Player {
 
         // Called one frame after the collision, so fetch contact point from the last frame;
         private void OnCollisionExit2D(Collision2D collision) {
-            if (!this._isGrounded) 
+            if (!this._isGrounded) {
                 return;
+            }  
             
             var contactPosition = (Vector3)this._lastContact.point + (Vector3.down * .05f);
              
-            if (!this._trapController.CheckForGroundTile(contactPosition)) 
+            if (!this._trapController.CheckForGroundTile(contactPosition)) {
                 return;
+            }
             
             this.SetGroundedStatus(false);
         }

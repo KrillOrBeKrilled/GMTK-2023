@@ -80,5 +80,6 @@ namespace KrillOrBeKrilled.Managers {
             this._isPaused = true;
             this.OnPauseToggled?.Invoke(this._isPaused);
         }
+    
     }
 }

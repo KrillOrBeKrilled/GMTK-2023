@@ -1,3 +1,4 @@
+using Managers;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -108,7 +109,9 @@ namespace KrillOrBeKrilled.Heroes {
         
             _animator.SetTrigger(JumpKey);
         
-            HeroJumpEvent.Post(gameObject);
+            if (!AudioManager.Instance.AreSfxMuted) {
+                HeroJumpEvent.Post(gameObject);
+            }
         }
 
         //========================================

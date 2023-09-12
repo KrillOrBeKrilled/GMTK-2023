@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Traps;
+using Heroes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -31,12 +32,17 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private TrapSelectionBar _trapSelectionBar;
         [Tooltip("The Skip Dialogue HUD displayed during dialogue sequences.")]
         [SerializeField] private SkipDialogueUI _skipDialogueUI;
+        [SerializeField] private Transform _healthBarsContainer;
+        [SerializeField] private MapUI _mapUI;
 
         [Header("Pause UI Events")]
         [Tooltip("Tracks when the game is paused.")]
         [SerializeField] private UnityEvent _onPaused;
         [Tooltip("Tracks when the game is unpaused.")]
         [SerializeField] private UnityEvent _onUnpaused;
+
+        [Header("Prefabs")]
+        [SerializeField] private HealthBarUI _healthBarUIPrefab;
 
         private const float FadeDuration = 0.5f;
 
@@ -46,14 +52,17 @@ namespace KrillOrBeKrilled.UI {
         /// </summary>
         /// <param name="gameManager"> Provides events related to the game state to subscribe to. </param>
         /// <param name="playerManager"> Provides events related to the trap system to subscribe to. </param>
-        public void Initialize(UnityEvent setupComplete, UnityEvent<string> henWon, UnityEvent<string> henLost, 
-            UnityEvent onStartLevel, UnityAction onSkipDialogue, UnityEvent<int> trapIndexChanged, List<Trap> traps) {
+        public void Initialize(UnityEvent setupComplete, UnityEvent<string> henWon, UnityEvent<string> henLost, UnityEvent<Hero> heroSpawned
+            UnityEvent onStartLevel, UnityAction onSkipDialogue, UnityEvent<int> trapIndexChanged, List<Trap> traps,
+            Transform levelStartTransform, Transform levelEndTransform) {
             setupComplete.AddListener(this.OnGameSetupComplete);
             henWon.AddListener(this.OnHenWon);
             henLost.AddListener(this.OnHenLost);
+            heroSpawned.AddListener(this.OnHeroSpawned);
 
             this._trapSelectionBar.Initialize(trapIndexChanged, traps);
             this._skipDialogueUI.Initialize(onStartLevel, onSkipDialogue);
+            this._mapUI.Initialize(playerManager, levelStartTransform.position.x, levelEndTransform.position.x);
         }
 
         /// <summary> Fades in the screen and invokes a function upon completion. </summary>
@@ -115,6 +124,16 @@ namespace KrillOrBeKrilled.UI {
         /// <param name="message"> The message to display when the player has lost the level. </param>
         private void OnHenLost(string message) {
             this._endgameUI.ShowHenLost(message);
+        }
+
+        private void OnHeroSpawned(Hero hero) {
+            this.SetupHealthBar(hero);
+            this._mapUI.RegisterHero(hero);
+        }
+
+        private void SetupHealthBar(Hero hero) {
+            HealthBarUI newBar = Instantiate(this._healthBarUIPrefab, this._healthBarsContainer);
+            newBar.Initialize(hero, (RectTransform)this.transform);
         }
     }
 }

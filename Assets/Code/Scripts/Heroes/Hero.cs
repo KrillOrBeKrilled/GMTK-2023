@@ -1,5 +1,6 @@
 using KrillOrBeKrilled.Common;
 using KrillOrBeKrilled.Managers;
+using Model;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -18,6 +19,7 @@ namespace KrillOrBeKrilled.Heroes {
         private HeroMovement _heroMovement;
         
         private Animator _animator;
+        private const int CoinsEarnedOnDeath = 2;
         
         // ---------------- Spawning -----------------
         [Tooltip("Determines the position to respawn the hero.")]
@@ -36,6 +38,9 @@ namespace KrillOrBeKrilled.Heroes {
         public const int MaxHealth = 100;
         [Tooltip("The maximum number of times the hero can die before game over.")]
         public const int MaxLives = 3;
+
+        // ----------------- Data --------------------
+        public HeroData.HeroType Type { get; private set; }
         
         // ------------------ SFX --------------------
         public AK.Wwise.Event HeroHurtEvent;
@@ -54,8 +59,11 @@ namespace KrillOrBeKrilled.Heroes {
             this.TryGetComponent(out this._heroMovement);
             this.TryGetComponent(out this._animator);
             this.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
+        }
 
-            this.ResetHero();
+        public void Initialize(HeroData heroData) {
+            this.Health = heroData.Health;
+            this.Type = heroData.Type;
         }
         
         /// <summary>
@@ -121,14 +129,16 @@ namespace KrillOrBeKrilled.Heroes {
         /// <remarks> Invokes the <see cref="OnHealthChanged"/> event. </remarks>
         public void TakeDamage(int amount) {
             this.Health -= amount;
-            CoinManager.Instance.EarnCoins(1);
+
+            if (!AudioManager.Instance.AreSfxMuted) {
+                this.HeroHurtEvent.Post(this.gameObject);
+            }
+
+            this.OnHealthChanged?.Invoke(this.Health);
 
             if (this.Health <= 0) {
                 this.Die();
             }
-
-            this.HeroHurtEvent.Post(this.gameObject);
-            this.OnHealthChanged?.Invoke(this.Health);
         }
 
         /// <summary>
@@ -139,19 +149,14 @@ namespace KrillOrBeKrilled.Heroes {
         /// <remarks> Invokes the <see cref="OnHeroDied"/> event. If the number of lives are reduced to
         /// zero, invokes the <see cref="OnGameOver"/> event. </remarks>
         public void Die() {
-            this.Lives--;
-            this.HeroHurtEvent.Post(this.gameObject);
-
-            var heroPos = this.transform.position;
-            this.OnHeroDied?.Invoke(this.Lives, heroPos.x, heroPos.y, heroPos.z);
-
-            if (this.Lives == 0) {
-                this.OnGameOver.Invoke();
-                Destroy(this.gameObject);
-                return;
+            if (!AudioManager.Instance.AreSfxMuted) {
+                this.HeroHurtEvent.Post(this.gameObject);
             }
+            
+            CoinManager.Instance.EarnCoins(CoinsEarnedOnDeath);
 
-            this.StartCoroutine(this.Respawn());
+            this.OnHeroDied?.Invoke(this);
+            Destroy(this.gameObject);
         }
 
         public void ThrowActorBack(float stunDuration, float throwForce) {
@@ -204,6 +209,7 @@ namespace KrillOrBeKrilled.Heroes {
 
             this._heroMovement.ToggleMoving(true);
             this._animator.SetBool(SpawningKey, false);
-        }
+      }
     }
+  }
 }

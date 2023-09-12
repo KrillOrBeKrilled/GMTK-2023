@@ -1,4 +1,5 @@
 using KrillOrBeKrilled.Common;
+using KrillOrBeKrilled.Managers;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -120,7 +121,7 @@ namespace KrillOrBeKrilled.Heroes {
         /// <remarks> Invokes the <see cref="OnHealthChanged"/> event. </remarks>
         public void TakeDamage(int amount) {
             this.Health -= amount;
-            // CoinManager.Instance.EarnCoins(1);
+            CoinManager.Instance.EarnCoins(1);
 
             if (this.Health <= 0) {
                 this.Die();

@@ -11,35 +11,20 @@ namespace KrillOrBeKrilled.Traps {
     /// </summary>
     public abstract class InGroundTrap : Trap {
         protected override void OnTriggerStay2D(Collider2D other) {
-            // if (!other.CompareTag("Player")) 
-            //     return;
-            //
-            // // If the player itself collides with this trap, treat this trap as a non-ground tile
-            // if (other.TryGetComponent(out PlayerController playerController)) {
-            //     playerController.SetGroundedStatus(false);
-            // }
-            // else {
-            //     playerController = other.GetComponentInParent<PlayerController>();
-            // }
-            //
-            // var playerState = playerController.GetPlayerState();
-            //
-            // // If the trap is not ready and the player is idle, start building the trap
-            // if (IsReady || playerState is not IdleState) 
-            //     return;
-            //
-            // IsBuilding = true;
-            // SoundsController.OnStartBuild();
-            
-            if (!other.TryGetComponent(out ITrapBuilder actor)) {
+            ITrapBuilder actor;
+            if (other.TryGetComponent(out actor)) {
+                // Treat this trap as a non-ground tile if the actor itself collides with this trap
+                actor.SetGroundedStatus(false);
+            }
+
+            if (IsReady) {
                 return;
             }
             
-            // If the actor itself collides with this trap, treat this trap as a non-ground tile
-            actor.SetGroundedStatus(false);
-            
-            if (IsReady) {
+            if (actor is null && !other.CompareTag("Builder Range")) {
                 return;
+            } else {
+                actor = other.GetComponentInParent<ITrapBuilder>();
             }
             
             IsBuilding = actor.CanBuildTrap();

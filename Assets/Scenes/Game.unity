@@ -3270,7 +3270,7 @@ PrefabInstance:
     - target: {fileID: 686051568901768547, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
       propertyPath: _leftDeployTransform
       value: 
-      objectReference: {fileID: 887336893}
+      objectReference: {fileID: 0}
     - target: {fileID: 686051568901768547, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
       propertyPath: _rightDeployTransform
       value: 
@@ -3309,7 +3309,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6238511859256710560, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: Builder Range
       objectReference: {fileID: 0}
     - target: {fileID: 6881718048625000024, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
       propertyPath: _onHenJump.m_PersistentCalls.m_Calls.Array.size
@@ -3596,11 +3596,6 @@ GameObject:
 --- !u!4 &887336892 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1276593753349593315, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
-  m_PrefabInstance: {fileID: 887336890}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &887336893 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 581943907994038428, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
   m_PrefabInstance: {fileID: 887336890}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &900400211

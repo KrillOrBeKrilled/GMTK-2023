@@ -40,8 +40,7 @@ namespace KrillOrBeKrilled.Core.Player {
         private List<Vector3Int> _previousTilePositions;
 
         [Tooltip("The transform data for the trap deployment position on each side of the player.")]
-        [SerializeField] private Transform _leftDeployTransform, _rightDeployTransform;
-        private readonly Transform[] _deployTransforms = new Transform[2];
+        [SerializeField] private Vector3 _leftDeployPosition, _rightDeployPosition;
 
         private bool _isSelectingTileSFX, _canDeploy;
 
@@ -49,9 +48,6 @@ namespace KrillOrBeKrilled.Core.Player {
             this._soundsController = this.GetComponent<PlayerSoundsController>();
 
             this._previousTilePositions = new List<Vector3Int>();
-
-            this._deployTransforms[0] = this._leftDeployTransform.GetComponent<Transform>();
-            this._deployTransforms[1] = this._rightDeployTransform.GetComponent<Transform>();
         }
 
         /// <summary>
@@ -74,8 +70,8 @@ namespace KrillOrBeKrilled.Core.Player {
 
             // Check whether to deploy left or right
             var deployPosition = direction < 0
-                ? this._leftDeployTransform.position
-                : this._rightDeployTransform.position;
+                ? this.transform.position + this._leftDeployPosition
+                : this.transform.position + this._rightDeployPosition;
             var deploymentOrigin = this.TrapTilemap.WorldToCell(deployPosition);
 
             // Ensure that there are no query results yet or that the deploymentOrigin has changed

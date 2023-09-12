@@ -205,35 +205,23 @@ namespace KrillOrBeKrilled.Traps {
         /// <summary>
         /// Cleans up the trap data and frees the used trap tiles upon the completion of the trap detonation animation.
         /// </summary>
-        protected virtual void OnDetonateTrapAnimationCompete() {
-
-        }
+        protected virtual void OnDetonateTrapAnimationCompete() {}
 
         private void OnTriggerEnter2D(Collider2D other) {
-            if (other.TryGetComponent(out IDamageable actor)) {
+            if (other.CompareTag("Hero") && other.TryGetComponent(out IDamageable actor)) {
                 this.OnEnteredTrap(actor);
             }
         }
 
         protected virtual void OnTriggerStay2D(Collider2D other) {
-            // Change this to checking an interface, not specifically the player
-            // if (other.CompareTag("Player") && !IsReady) {
-            //     PlayerController playerController;
-            //     IPlayerState playerState;
-            //
-            //     if (other.TryGetComponent(out playerController)) {
-            //         playerState = playerController.GetPlayerState();
-            //     } else {
-            //         playerState = other.GetComponentInParent<PlayerController>().GetPlayerState();
-            //     }
-            //
-            //     if (playerState is IdleState) {
-            //         IsBuilding = true;
-            //         SoundsController.OnStartBuild();
-            //     }
-            // }
+            if (IsReady) {
+                return;
+            }
             
-            if (IsReady || !other.TryGetComponent(out ITrapBuilder actor)) {
+            ITrapBuilder actor;
+            if (other.CompareTag("Builder Range")) {
+                actor = other.GetComponentInParent<ITrapBuilder>();
+            } else if (!other.TryGetComponent(out actor)) {
                 return;
             }
             
@@ -242,21 +230,12 @@ namespace KrillOrBeKrilled.Traps {
         }
 
         private void OnTriggerExit2D(Collider2D other) {
-            // if (other.CompareTag("Player") && IsBuilding) {
-            //     IsBuilding = false;
-            //     SoundsController.OnStopBuild();
-            //     return;
-            // }
-            //
-            // if (other.CompareTag("Hero")) {
-            //     this.OnExitedTrap(other.GetComponent<IDamageable>());
-            // }
-            if (other.TryGetComponent(out ITrapBuilder builderActor)) {
+            if (other.CompareTag("Builder Range")) {
                 IsBuilding = false;
                 SoundsController.OnBuild(IsBuilding);
                 return;
             }
-            
+
             if (other.TryGetComponent(out IDamageable damageActor)) {
                 this.OnExitedTrap(damageActor);
             }

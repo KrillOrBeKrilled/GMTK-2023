@@ -1,16 +1,12 @@
-namespace Player
-{
-    public class FreezeCommand : ICommand
-    {
+namespace KrillOrBeKrilled.Core.Player {
+    public class FreezeCommand : ICommand {
         private readonly Pawn _controlledObject;
 
-        public FreezeCommand(Pawn controlledObject)
-        {
+        public FreezeCommand(Pawn controlledObject) {
             this._controlledObject = controlledObject;
         }
 
-        public void Execute()
-        {
+        public void Execute() {
             this._controlledObject.FreezePosition();
         }
     }

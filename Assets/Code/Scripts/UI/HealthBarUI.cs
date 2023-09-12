@@ -6,7 +6,7 @@ using UnityEngine.UI;
 //*******************************************************************************************
 // HeroHealthBarUI
 //*******************************************************************************************
-namespace UI {
+namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// Handles the on-screen positioning of the hero health bar UI and visualizes
     /// updates to the associated hero's health.

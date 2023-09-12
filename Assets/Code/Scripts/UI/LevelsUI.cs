@@ -1,5 +1,5 @@
 using DG.Tweening;
-using Managers;
+using KrillOrBeKrilled.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 

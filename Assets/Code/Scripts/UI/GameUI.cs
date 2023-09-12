@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Traps;
-using Heroes;
+using KrillOrBeKrilled.Heroes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -52,9 +52,11 @@ namespace KrillOrBeKrilled.UI {
         /// </summary>
         /// <param name="gameManager"> Provides events related to the game state to subscribe to. </param>
         /// <param name="playerManager"> Provides events related to the trap system to subscribe to. </param>
-        public void Initialize(UnityEvent setupComplete, UnityEvent<string> henWon, UnityEvent<string> henLost, UnityEvent<Hero> heroSpawned
-            UnityEvent onStartLevel, UnityAction onSkipDialogue, UnityEvent<int> trapIndexChanged, List<Trap> traps,
-            Transform levelStartTransform, Transform levelEndTransform) {
+        public void Initialize(UnityEvent setupComplete, UnityEvent<string> henWon, UnityEvent<string> henLost, 
+            UnityEvent<Hero> heroSpawned,
+            UnityEvent<int> trapIndexChanged, List<Trap> traps,
+            UnityEvent onStartLevel, UnityAction onSkipDialogue,
+            Transform playerTransform, Transform levelStartTransform, Transform levelEndTransform) {
             setupComplete.AddListener(this.OnGameSetupComplete);
             henWon.AddListener(this.OnHenWon);
             henLost.AddListener(this.OnHenLost);
@@ -62,7 +64,7 @@ namespace KrillOrBeKrilled.UI {
 
             this._trapSelectionBar.Initialize(trapIndexChanged, traps);
             this._skipDialogueUI.Initialize(onStartLevel, onSkipDialogue);
-            this._mapUI.Initialize(playerManager, levelStartTransform.position.x, levelEndTransform.position.x);
+            this._mapUI.Initialize(playerTransform, levelStartTransform.position.x, levelEndTransform.position.x);
         }
 
         /// <summary> Fades in the screen and invokes a function upon completion. </summary>

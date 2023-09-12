@@ -37,6 +37,14 @@ namespace KrillOrBeKrilled.Core.Player {
         public virtual void Jump() {
             this.RBody.AddForce(Vector2.up * this.JumpingForce);
         }
+        
+        public virtual void FreezePosition() {
+            this.RBody.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+
+        public virtual void UnfreezePosition() {
+            this.RBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
 
         /// <summary> Deploys the equipped trap in the selected tile positions. </summary>
         public virtual void DeployTrap() {

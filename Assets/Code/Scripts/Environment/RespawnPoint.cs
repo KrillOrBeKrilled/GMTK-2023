@@ -1,4 +1,4 @@
-using Heroes;
+using KrillOrBeKrilled.Heroes;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -9,18 +9,15 @@ public class RespawnPoint : MonoBehaviour
 
 	private BoxCollider2D _collider;
 
-	private void Awake()
-	{
+	private void Awake() {
 		this.TryGetComponent(out this._collider);
 
 		this._collider.offset = this._offset;
 		this._collider.size = this._size;
 	}
 
-	private void OnTriggerEnter2D(Collider2D other)
-	{
-		if (!other.TryGetComponent(out Hero hero))
-		{
+	private void OnTriggerEnter2D(Collider2D other) {
+		if (!other.TryGetComponent(out Hero hero)) {
 			return;
 		}
 
@@ -28,10 +25,8 @@ public class RespawnPoint : MonoBehaviour
 		// hero.SetRespawnPoint(this);
 	}
 
-	private void OnDrawGizmos()
-	{
-		if (this._collider is null)
-		{
+	private void OnDrawGizmos() {
+		if (this._collider is null) {
 			this.TryGetComponent(out this._collider);
 		}
 

@@ -11,23 +11,27 @@ namespace KrillOrBeKrilled.Managers.Audio {
     public class Jukebox : Singleton<Jukebox> {
         public AK.Wwise.Event PlayMusicEvent, PauseMusicEvent, UnpauseMusicEvent, StopMusicEvent;
 
-        private static bool _isLoaded;
+        public static bool IsLoaded;
+        private bool _isMusicMuted;
 
         private new void Awake() {
             base.Awake();
 
-            if (!_isLoaded) {
-                this.PlayMusicEvent.Post(this.gameObject);
+            if (!IsLoaded) {
                 DontDestroyOnLoad(this.gameObject);
+                this._isMusicMuted = PlayerPrefsManager.IsMusicMuted();
+                this.PlayMusic();
             }
-            _isLoaded = true;
+            IsLoaded = true;
         }
 
         /// <summary>
         /// Plays the main game music.
         /// </summary>
         public void PlayMusic() {
-            this.PlayMusicEvent.Post(this.gameObject);
+            if (!this._isMusicMuted) {
+                this.PlayMusicEvent.Post(this.gameObject);
+            }
         }
 
         /// <summary>
@@ -49,6 +53,10 @@ namespace KrillOrBeKrilled.Managers.Audio {
         /// </summary>
         public void StopMusic() {
             this.StopMusicEvent.Post(this.gameObject);
+        }
+        
+        public void SetIsMusicMuted(bool isMuted) {
+            this._isMusicMuted = isMuted;
         }
     }
 }

@@ -1,6 +1,6 @@
 using KrillOrBeKrilled.Common;
-using KrillOrBeKrilled.Heroes;
 using KrillOrBeKrilled.Managers;
+using KrillOrBeKrilled.Managers.Audio;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;

@@ -1,7 +1,7 @@
 //*******************************************************************************************
 // Jukebox
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Managers {
+namespace KrillOrBeKrilled.Managers.Audio {
     /// <summary>
     /// Acts as a sound bank for all the game's music. Works hand in hand with the
     /// AudioManager (handles the SFX soundbank) to provide methods for listening in on

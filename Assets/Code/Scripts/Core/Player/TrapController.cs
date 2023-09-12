@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KrillOrBeKrilled.Managers;
+using KrillOrBeKrilled.Managers.Audio;
 using KrillOrBeKrilled.Tiles;
 using KrillOrBeKrilled.Traps;
 using UnityEngine;

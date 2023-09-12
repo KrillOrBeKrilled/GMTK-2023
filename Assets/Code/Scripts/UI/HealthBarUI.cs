@@ -56,16 +56,6 @@ namespace KrillOrBeKrilled.UI {
             this.RepositionHealthBar();
         }
 
-        private void OnEnable() {
-            this._hero.OnHealthChanged.AddListener(this.OnHealthChanged);
-            this._hero.OnHeroDied.AddListener(this.OnDeath);
-        }
-        
-        private void OnDisable() {
-            this._hero.OnHealthChanged.RemoveListener(this.OnHealthChanged);
-            this._hero.OnHeroDied.RemoveListener(this.OnDeath);
-        }
-
         /// <summary>
         /// Sets the hero health bar slider value with a new tween.
         /// </summary>

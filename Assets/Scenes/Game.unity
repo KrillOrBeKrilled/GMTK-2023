@@ -5916,6 +5916,54 @@ PrefabInstance:
       propertyPath: _onHover.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1279884328}
+    - target: {fileID: 5043373623861584210, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5043373623861584210, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onHover.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5043373623861584210, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1279884328}
+    - target: {fileID: 5043373623861584210, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onHover.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1279884328}
+    - target: {fileID: 5043373623861584210, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayUIClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 5043373623861584210, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onHover.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayUIHover
+      objectReference: {fileID: 0}
+    - target: {fileID: 5043373623861584210, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KrillOrBeKrilled.Managers.AudioManager, Managers
+      objectReference: {fileID: 0}
+    - target: {fileID: 5043373623861584210, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onHover.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KrillOrBeKrilled.Managers.AudioManager, Managers
+      objectReference: {fileID: 0}
+    - target: {fileID: 5043373623861584210, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1494888310}
+    - target: {fileID: 5043373623861584210, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onHover.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1494888310}
+    - target: {fileID: 5043373623861584210, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5043373623861584210, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onHover.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5060681177199529130, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -6027,6 +6075,38 @@ PrefabInstance:
     - target: {fileID: 5995642053997792264, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6678378307549180544, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6678378307549180544, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6678378307549180544, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1560785548}
+    - target: {fileID: 6678378307549180544, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6678378307549180544, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PauseGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 6678378307549180544, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KrillOrBeKrilled.Managers.PauseManager, Managers
+      objectReference: {fileID: 0}
+    - target: {fileID: 6678378307549180544, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6678378307549180544, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7431547898454540899, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -6177,6 +6257,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+--- !u!1 &1494888310 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2777322145821197453, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+  m_PrefabInstance: {fileID: 1494888309}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1504048743
 GameObject:
   m_ObjectHideFlags: 0

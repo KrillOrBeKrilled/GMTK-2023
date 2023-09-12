@@ -19,14 +19,7 @@ namespace KrillOrBeKrilled.Cameras {
     
         [Tooltip("The camera focused on the end position of the level.")]
         public GameObject EndCamera;
-    
-        /// <summary> Disables every camera managed by this class. </summary>
-        private void DisableAll() {
-            this.PlayerCamera.SetActive(false);
-            StartCamera.SetActive(false);
-            EndCamera.SetActive(false);
-        }
-    
+
         /// <summary> Enables only the <see cref="PlayerCamera"/> to transition the screen to focus on the player. </summary>
         /// <remarks> Can be accessed as the "show_player" YarnCommand. </remarks>
         [YarnCommand("show_player")]
@@ -53,6 +46,13 @@ namespace KrillOrBeKrilled.Cameras {
         public void ShowEnd() {
             DisableAll();
             EndCamera.SetActive(true);
+        }
+        
+        /// <summary> Disables every camera managed by this class. </summary>
+        private void DisableAll() {
+            this.PlayerCamera.SetActive(false);
+            StartCamera.SetActive(false);
+            EndCamera.SetActive(false);
         }
     }
 }

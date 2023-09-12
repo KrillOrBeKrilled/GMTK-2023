@@ -30,6 +30,14 @@ namespace KrillOrBeKrilled.Managers {
         public void SetIsPausable(bool isPausable) {
             this._isPausable = isPausable;
         }
+        
+        /// <summary> Sets the <see cref="Time.timeScale"/> to zero and toggles <see cref="_isPaused"/>. </summary>
+        /// <remarks> Invokes the <see cref="OnPauseToggled"/> event. </remarks>
+        public void PauseGame() {
+            Time.timeScale = 0f;
+            this._isPaused = true;
+            this.OnPauseToggled?.Invoke(this._isPaused);
+        }
 
         /// <summary> Resets the <see cref="Time.timeScale"/> and resets <see cref="_isPaused"/>. </summary>
         /// <remarks> Invokes the <see cref="OnPauseToggled"/> event. </remarks>
@@ -72,14 +80,5 @@ namespace KrillOrBeKrilled.Managers {
                 this.PauseGame();
             }
         }
-
-        /// <summary> Sets the <see cref="Time.timeScale"/> to zero and toggles <see cref="_isPaused"/>. </summary>
-        /// <remarks> Invokes the <see cref="OnPauseToggled"/> event. </remarks>
-        private void PauseGame() {
-            Time.timeScale = 0f;
-            this._isPaused = true;
-            this.OnPauseToggled?.Invoke(this._isPaused);
-        }
-    
     }
 }

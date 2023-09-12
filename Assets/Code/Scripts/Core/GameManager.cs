@@ -102,7 +102,7 @@ namespace KrillOrBeKrilled.Core {
                 this._respawnPoints.Add(newPoint);
             }
 
-            // this._activeRespawnPoint = this._respawnPoints.First();
+            this._activeRespawnPoint = this._respawnPoints.First();
             this._firstRespawnPoint = this._activeRespawnPoint;
             
             this._gameUI.Initialize(OnSetupComplete, OnHenWon, OnHenLost, OnHeroSpawned, 

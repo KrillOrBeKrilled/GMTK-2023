@@ -145,7 +145,7 @@ namespace KrillOrBeKrilled.Heroes {
         }
 
         public void ApplySpeedPenalty(float penalty) {
-            this._heroMovement.AddSpeedPenalty(penalty);
+            this._heroMovement.SetSpeedPenalty(penalty);
         }
 
         public void ResetSpeedPenalty() {

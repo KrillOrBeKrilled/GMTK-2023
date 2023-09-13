@@ -1,7 +1,7 @@
 //*******************************************************************************************
 // NullCommand
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Core.Player {
+namespace KrillOrBeKrilled.Common.Commands {
     /// <summary>
     /// A Null Object Command that implements <see cref="ICommand"/> to do nothing.
     /// </summary>

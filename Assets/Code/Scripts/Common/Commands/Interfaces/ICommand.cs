@@ -1,7 +1,7 @@
 //*******************************************************************************************
 // ICommand
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Core.Player {
+namespace KrillOrBeKrilled.Common.Commands {
     /// <summary>
     /// General interface for a command that encapsulates a specific player input action.
     /// </summary>

@@ -1,7 +1,7 @@
 //*******************************************************************************************
 // FreezeCommand
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Core.Player {
+namespace KrillOrBeKrilled.Common.Commands {
     /// <summary>
     /// Implements <see cref="ICommand"/> to freeze the player position.
     /// </summary>

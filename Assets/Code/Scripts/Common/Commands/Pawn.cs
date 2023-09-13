@@ -3,7 +3,7 @@ using UnityEngine;
 //*******************************************************************************************
 // Pawn
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Core.Player {
+namespace KrillOrBeKrilled.Common.Commands {
     /// <summary>
     /// Parent class to handle simple movement methods for controlling a character
     /// adapted to the Command pattern for easy command execution.

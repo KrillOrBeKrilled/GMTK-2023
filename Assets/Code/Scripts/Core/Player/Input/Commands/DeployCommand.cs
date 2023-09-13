@@ -7,12 +7,12 @@ namespace KrillOrBeKrilled.Core.Player {
     /// deployment.
     /// </summary>
     public class DeployCommand : ICommand {
-        // Reference to the player Pawn to control.
+        /// Reference to the player Pawn to control.
         private readonly Pawn _controlledObject;
 
         /// <summary> Constructor to set references required for this command to act on a <see cref="Pawn"/>. </summary>
         /// <param name="controlledObject"> The player <see cref="Pawn"/> associated with this deploy command. </param>
-        public DeployCommand(Pawn controlledObject) {
+        internal DeployCommand(Pawn controlledObject) {
             this._controlledObject = controlledObject;
         }
         

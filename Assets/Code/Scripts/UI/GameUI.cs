@@ -128,11 +128,20 @@ namespace KrillOrBeKrilled.UI {
             this._endgameUI.ShowHenLost(message);
         }
 
+        /// <summary>
+        /// Creates a health bar for the associated <see cref="Hero"/> and registers the hero to be represented
+        /// on the <see cref="MapUI"/>.
+        /// </summary>
+        /// <param name="hero"> The newly spawned <see cref="Hero"/>. </param>
         private void OnHeroSpawned(Hero hero) {
             this.SetupHealthBar(hero);
             this._mapUI.RegisterHero(hero);
         }
 
+        /// <summary>
+        /// Instantiates a new health bar and links it to the assigned <see cref="Hero"/> <see cref="Transform"/>.
+        /// </summary>
+        /// <param name="hero"> The hero to receive the newly instantiated health bar. </param>
         private void SetupHealthBar(Hero hero) {
             HealthBarUI newBar = Instantiate(this._healthBarUIPrefab, this._healthBarsContainer);
             newBar.Initialize(hero, (RectTransform)this.transform);

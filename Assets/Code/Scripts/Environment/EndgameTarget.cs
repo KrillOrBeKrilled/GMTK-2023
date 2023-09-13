@@ -19,8 +19,9 @@ namespace KrillOrBeKrilled.Environment {
         /// <remarks> Invokes the <see cref="OnHeroReachedEndgameTarget"/> event on triggered collision with
         /// a GameObject in the "Hero" layer. </remarks>
         private void OnTriggerEnter2D(Collider2D other) {
-            if (other.gameObject.layer != LayerMask.NameToLayer("Hero")) 
+            if (other.gameObject.layer != LayerMask.NameToLayer("Hero")) {
                 return;
+            } 
     
             this.OnHeroReachedEndgameTarget?.Invoke();
         }

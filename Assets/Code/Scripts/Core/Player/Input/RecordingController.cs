@@ -25,7 +25,7 @@ namespace KrillOrBeKrilled.Core.Player {
         }
 
         /// <summary> Begins the recording playback with a slight delay. </summary>
-        public override void StartSession() {
+        internal override void StartSession() {
             this.StartCoroutine(this.ReplayDelay());
         }
 

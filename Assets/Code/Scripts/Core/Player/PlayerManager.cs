@@ -11,9 +11,9 @@ namespace KrillOrBeKrilled.Core.Player {
     /// </summary>
     public class PlayerManager : MonoBehaviour {
         [Tooltip("The PlayerController associated with the player GameObject.")]
-        public PlayerController PlayerController { get; private set; }
+        internal PlayerController PlayerController { get; private set; }
         [Tooltip("The TrapController associated with the player GameObject.")]
-        public TrapController TrapController { get; private set; }
+        internal TrapController TrapController { get; private set; }
 
         private void Awake() {
             this.PlayerController = this.GetComponent<PlayerController>();
@@ -21,8 +21,9 @@ namespace KrillOrBeKrilled.Core.Player {
         }
 
         private void OnCollisionEnter2D(Collision2D other) {
-            if (other.gameObject.layer != LayerMask.NameToLayer("Hero"))
+            if (other.gameObject.layer != LayerMask.NameToLayer("Hero")) {
                 return;
+            }
 
             this.PlayerController.Die();
         }

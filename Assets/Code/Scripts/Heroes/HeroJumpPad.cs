@@ -12,11 +12,11 @@ namespace KrillOrBeKrilled.Heroes {
     /// <remarks> The region <see cref="BoxCollider2D"/> size and offset are automatically
     /// adjusted by <see cref="Offset"/> and <see cref="Size"/> at runtime. </remarks>
     public class HeroJumpPad : MonoBehaviour {
-        public Vector2 Offset = Vector2.zero;
-        public Vector2 Size = Vector2.one;
+        [SerializeField] internal Vector2 Offset = Vector2.zero;
+        [SerializeField] internal Vector2 Size = Vector2.one;
         
         [Tooltip("The force to apply to the hero's jump on contact with this jump pad.")]
-        public float HeroJumpForce;
+        [SerializeField] internal float HeroJumpForce;
 
         private BoxCollider2D _collider;
 

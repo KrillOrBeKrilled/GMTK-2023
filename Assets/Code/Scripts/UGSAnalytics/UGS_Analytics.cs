@@ -80,7 +80,7 @@ namespace KrillOrBeKrilled.UGSAnalytics {
         }
 
         /// <summary>
-        /// Packages hero death position and remaining lives data to send to the UGS Analytics server.
+        /// Packages hero death position data to send to the UGS Analytics server.
         /// </summary>
         /// <param name="numberLivesLeft"> The number of remaining lives the hero has at the time of death. </param>
         /// <param name="xPos"> The hero's current position along the x-axis. </param>

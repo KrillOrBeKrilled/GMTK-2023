@@ -1,6 +1,5 @@
 using KrillOrBeKrilled.Common;
 using KrillOrBeKrilled.Managers;
-using KrillOrBeKrilled.Managers.Audio;
 using KrillOrBeKrilled.Model;
 using System.Collections;
 using UnityEngine;
@@ -27,22 +26,13 @@ namespace KrillOrBeKrilled.Heroes {
         // public HeroRespawnPoint RespawnPoint;
 
         [Tooltip("Duration of time for the hero to recover at the RespawnPoint before moving again.")]
-        public float RespawnTime = 3;
+        [SerializeField] internal float RespawnTime = 3;
 
         private static readonly int SpawningKey = Animator.StringToHash("spawning");
 
         // ----------------- Health ------------------
         [Tooltip("The current health of the hero.")]
         public int Health { get; private set; }
-
-        [Tooltip("The current number of lives the hero has left.")]
-        public int Lives { get; private set; }
-
-        [Tooltip("The maximum health value used upon initialization and respawns.")]
-        public const int MaxHealth = 100;
-
-        [Tooltip("The maximum number of times the hero can die before game over.")]
-        public const int MaxLives = 3;
 
         // ----------------- Data --------------------
         public HeroData.HeroType Type { get; private set; }
@@ -77,38 +67,13 @@ namespace KrillOrBeKrilled.Heroes {
             this._heroMovement.Initialize(soundsController);
         }
 
-        /// <summary>
-        /// Disables movement and fills the health and lives to their maximum values specified by
-        /// <see cref="MaxHealth"/> and <see cref="MaxLives"/>.
-        /// </summary>
-        /// <remarks> Invokes the <see cref="OnHealthChanged"/> and <see cref="OnHeroReset"/> events. </remarks>
-        public void ResetHero()
-        {
-            this._heroMovement.ToggleMoving(false);
-            this.Health = MaxHealth;
-            this.Lives = MaxLives;
-            this.OnHealthChanged.Invoke(this.Health);
-            this.OnHeroReset.Invoke();
-        }
-
-        //========================================
-        // Setters
-        //========================================
-
-        // /// <summary> Sets the <see cref="RespawnPoint"/>. </summary>
-        // /// <param name="respawnPoint"> The new respawn point for the hero to respawn to upon death. </param>
-        // public void SetRespawnPoint(HeroRespawnPoint respawnPoint)
-        // {
-        //     this.RespawnPoint = respawnPoint;
-        // }
-
         //========================================
         // Level Dialogue Sequence
         //========================================
 
+#region Level Dialogue Sequence
         /// <summary> Enables movement until the hero enters the level. </summary>
-        public void EnterLevel()
-        {
+        public void EnterLevel() {
             this.StartCoroutine(this.EnterLevelAnimation());
         }
 
@@ -117,8 +82,7 @@ namespace KrillOrBeKrilled.Heroes {
         /// movement.
         /// </summary>
         /// <remarks> The coroutine is started by <see cref="EnterLevel"/>. </remarks>
-        private IEnumerator EnterLevelAnimation()
-        {
+        private IEnumerator EnterLevelAnimation() {
             this._heroMovement.ToggleMoving(true);
 
             yield return new WaitForSeconds(2f);
@@ -127,16 +91,21 @@ namespace KrillOrBeKrilled.Heroes {
         }
 
         /// <summary> Enables movement through <see cref="HeroMovement"/>. </summary>
-        public void StartRunning()
-        {
+        public void StartRunning() {
             this.StopAllCoroutines();
             this._heroMovement.ToggleMoving(true);
         }
+#endregion
 
         //========================================
         // IDamageable Implementations
         //========================================
 
+#region IDamageable Implementations
+        public int GetHealth() {
+            return this.Health;
+        }
+        
         /// <summary>
         /// Decrements the hero's health, earns coins through the <see cref="CoinManager"/>,
         /// and plays associated SFX. If the health falls to zero or below, triggers the hero death.
@@ -171,62 +140,31 @@ namespace KrillOrBeKrilled.Heroes {
             Destroy(this.gameObject);
         }
 
-        public void ThrowActorBack(float stunDuration, float throwForce)
-        {
+        public void ThrowActorBack(float stunDuration, float throwForce) {
             this._heroMovement.ThrowHeroBack(stunDuration, throwForce);
         }
 
-        public void ApplySpeedPenalty(float penalty)
-        {
+        public void ApplySpeedPenalty(float penalty) {
             this._heroMovement.AddSpeedPenalty(penalty);
         }
 
-        public void ResetSpeedPenalty()
-        {
+        public void ResetSpeedPenalty() {
             this._heroMovement.ResetSpeedPenalty();
         }
+#endregion
 
         //========================================
         // Gameplay Loop
         //========================================
-
+        
+#region Gameplay Loop
         /// <summary>
         /// Triggers hero death through <see cref="Die"/>.
         /// </summary>
         /// <remarks> Subscribed to the <see cref="HeroMovement.OnHeroIsStuck"/> event. </remarks>
-        private void OnHeroIsStuck(float xPos, float yPos, float zPos)
-        {
+        private void OnHeroIsStuck(float xPos, float yPos, float zPos) {
             this.Die();
         }
-
-        // /// <summary>
-        // /// Freezes the hero's position to the <see cref="RespawnPoint"/> <see cref="Transform"/> position,
-        // /// triggering associated animations, and gradually refills the health bar for
-        // /// <see cref="RespawnTime"/> duration. Once the health bar refills, enables movement and movement
-        // /// animations.
-        // /// </summary>
-        // /// <remarks> The coroutine is started by <see cref="Die"/> if the hero has any remaining lives.
-        // /// Invokes the <see cref="OnHealthChanged"/> event for each cycle that the health bar refills. </remarks>
-        // private IEnumerator Respawn()
-        // {
-        //     this.transform.position = this.RespawnPoint.transform.position;
-        //     this._animator.SetBool(SpawningKey, true);
-        //     this._heroMovement.ToggleMoving(false);
-        //
-        //     // Gradually fill the health bar over the respawn time
-        //     float timePassed = 0;
-        //     while (timePassed < this.RespawnTime)
-        //     {
-        //         timePassed += Time.deltaTime;
-        //
-        //         this.Health = (int)Mathf.Lerp(0f, MaxHealth, timePassed / this.RespawnTime);
-        //         this.OnHealthChanged.Invoke(this.Health);
-        //
-        //         yield return new WaitForEndOfFrame();
-        //     }
-        //
-        //     this._heroMovement.ToggleMoving(true);
-        //     this._animator.SetBool(SpawningKey, false);
-        // }
+#endregion
     }
 }

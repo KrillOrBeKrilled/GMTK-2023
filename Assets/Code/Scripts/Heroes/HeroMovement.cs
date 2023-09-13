@@ -1,5 +1,3 @@
-using KrillOrBeKrilled.Managers;
-using KrillOrBeKrilled.Managers.Audio;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,10 +12,10 @@ namespace KrillOrBeKrilled.Heroes {
     /// </summary>
     /// <remarks> Sends UGS Analytics data when the hero gets stuck. </remarks>
     public class HeroMovement : MonoBehaviour {
-        public float MovementSpeed = 4f;
+        [SerializeField] internal float MovementSpeed = 4f;
 
         [Tooltip("Default jump force to apply to the hero.")]
-        public float JumpForce = 100f;
+        [SerializeField] internal float JumpForce = 100f;
         
         private bool _isMoving;
 
@@ -42,7 +40,7 @@ namespace KrillOrBeKrilled.Heroes {
         
         // -------------- UGS Analytics --------------
         [Tooltip("Duration of time before confirming that the hero is stuck in the same position.")]
-        public float StuckTimerThreshold = 5f;
+        [SerializeField] internal float StuckTimerThreshold = 5f;
         
         [Tooltip("Range for the GameObject position to fall within to be considered stuck.")]
         [SerializeField] private float _positionThreshold = 0.1f;
@@ -62,13 +60,14 @@ namespace KrillOrBeKrilled.Heroes {
             this._isMoving = true;
         }
         
-        public void Initialize(HeroSoundsController soundsController) {
+        internal void Initialize(HeroSoundsController soundsController) {
             this._soundsController = soundsController;
         }
 
         private void Update() {
-            if (this._isStunned)
+            if (this._isStunned) {
                 return;
+            }  
 
             float speed = this.MovementSpeed * (1f - this._speedPenalty);
             this._rigidbody.velocity = new Vector2(speed, this._rigidbody.velocity.y);
@@ -92,6 +91,11 @@ namespace KrillOrBeKrilled.Heroes {
             this._prevPosition = this.transform.position;
         }
         
+        //========================================
+        // Movement
+        //========================================
+        
+#region Movement
         /// <summary> Enables or disables the hero's ability to move. </summary>
         /// <param name="isMoving"> The hero's new movement status. </param>
         public void ToggleMoving(bool isMoving) {
@@ -105,26 +109,29 @@ namespace KrillOrBeKrilled.Heroes {
         /// <param name="jumpForce"> The jump force to apply to the hero. If this value is not provided
         /// and is zero or below, the default <see cref="JumpForce"/> will be applied instead. </param>
         /// <remarks> Accessed when the hero collides with a <see cref="HeroJumpPad"/>. </remarks>
-        public void Jump(float jumpForce = 0f) {
+        internal void Jump(float jumpForce = 0f) {
             // Add a little bit more jump force from the applied speed penalty to better prevent getting stuck
-            if (jumpForce > 0f) 
+            if (jumpForce > 0f) {
                 _rigidbody.AddForce(Vector2.up * jumpForce);
-            else 
+            } else {
                 _rigidbody.AddForce(Vector2.up * (JumpForce + JumpForce * _speedPenalty / 2f));
-        
+            }
+            
             _animator.SetTrigger(JumpKey);
 
             _soundsController.OnHeroJump();
         }
+#endregion
 
         //========================================
         // Trap Effects
         //========================================
 
+#region Trap Effects
         /// <summary> Sets the <see cref="_speedPenalty"/> to reduce the hero movement speed. </summary>
         /// <param name="newPenalty"> The new speed penalty to limit hero movement. </param>
         /// <remarks> The provided speed penalty is clamped between [0,1] as a percentage value. </remarks>
-        public void SetSpeedPenalty(float newPenalty) {
+        internal void SetSpeedPenalty(float newPenalty) {
             this._speedPenalty = newPenalty;
             this._speedPenalty = Mathf.Clamp(this._speedPenalty, 0f, 1f);
         }
@@ -133,13 +140,13 @@ namespace KrillOrBeKrilled.Heroes {
         /// <param name="amount"> The speed penalty value to increment the current <see cref="_speedPenalty"/> to
         /// limit hero movement. </param>
         /// <remarks> The incremented speed penalty is clamped between [0,1] as a percentage value. </remarks>
-        public void AddSpeedPenalty(float amount) {
+        internal void AddSpeedPenalty(float amount) {
             this._speedPenalty += amount;
             this._speedPenalty = Mathf.Clamp(this._speedPenalty, 0f, 1f);
         }
         
         /// <summary> Resets the <see cref="_speedPenalty"/> to return the hero movement speed to normal. </summary>
-        public void ResetSpeedPenalty() {
+        internal void ResetSpeedPenalty() {
             this._speedPenalty = 0f;
         }
 
@@ -148,7 +155,7 @@ namespace KrillOrBeKrilled.Heroes {
         /// </summary>
         /// <param name="stunDuration"> The duration of time to stun the hero. </param>
         /// <param name="throwForce"> Scales the knock back force applied to the hero. </param>
-        public void ThrowHeroBack(float stunDuration, float throwForce) {
+        internal void ThrowHeroBack(float stunDuration, float throwForce) {
             this.Stun(stunDuration);
             Vector2 explosionVector = new Vector2(-1f, 0.7f) * throwForce;
             this._rigidbody.AddForce(explosionVector, ForceMode2D.Impulse);
@@ -175,11 +182,13 @@ namespace KrillOrBeKrilled.Heroes {
             this._isStunned = false;
             this._stunCoroutine = null;
         }
+#endregion
         
         //========================================
         // UGS Analytics
         //========================================
 
+#region UGS Analytics
         /// <summary>
         /// Checks that the hero has remained within the distance range defined by <see cref="_positionThreshold"/>
         /// for <see cref="StuckTimerThreshold"/> duration of time.
@@ -200,5 +209,6 @@ namespace KrillOrBeKrilled.Heroes {
 
             this._maybeStuck = false;
         }
+#endregion
     }
 }

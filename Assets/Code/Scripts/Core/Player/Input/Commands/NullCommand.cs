@@ -8,8 +8,6 @@ namespace KrillOrBeKrilled.Core.Player {
     /// <remarks> Included in case we want to set up buttons that do nothing
     /// (e.g. switching keybindings) </remarks>
     public class NullCommand : ICommand {
-        public void Execute() {
-
-        }
+        public void Execute() {}
     }
 }

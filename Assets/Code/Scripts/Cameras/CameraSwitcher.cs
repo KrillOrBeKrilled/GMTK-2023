@@ -20,7 +20,9 @@ namespace KrillOrBeKrilled.Cameras {
         [Tooltip("The camera focused on the end position of the level.")]
         public GameObject EndCamera;
 
-        /// <summary> Enables only the <see cref="PlayerCamera"/> to transition the screen to focus on the player. </summary>
+        /// <summary>
+        /// Enables only the <see cref="PlayerCamera"/> to transition the screen to focus on the player.
+        /// </summary>
         /// <remarks> Can be accessed as the "show_player" YarnCommand. </remarks>
         [YarnCommand("show_player")]
         public void ShowPlayer() {

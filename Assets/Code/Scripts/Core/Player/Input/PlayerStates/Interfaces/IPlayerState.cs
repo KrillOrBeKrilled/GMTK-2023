@@ -37,6 +37,6 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <remarks> The player <b>jumping</b> and <b>trap deployment</b> abilities are left out of the state
         /// pattern to be executed concurrently with the other states within the same frames for reduced
         /// latency. </remarks>
-        abstract void Act(PlayerController playerController, float direction);
+        public void Act(PlayerController playerController, float direction);
     }
 }

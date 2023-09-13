@@ -38,6 +38,7 @@ namespace KrillOrBeKrilled.Traps {
         // Trap Deployment / Building
         //========================================
 
+#region Trap Deployment & Building
         /// <inheritdoc cref="Trap.Construct"/>
         /// <remarks> Extended to change the shader animations for the acid liquid. </remarks>
         public override void Construct(Vector3 spawnPosition, Canvas canvas, 
@@ -70,7 +71,7 @@ namespace KrillOrBeKrilled.Traps {
         
         /// <inheritdoc cref="Trap.BuildTrap"/>
         /// <summary>
-        /// Overrided to create a new build animation to fill the pit with acid and heat haze, while adjusting the
+        /// Overridden to create a new build animation to fill the pit with acid and heat haze, while adjusting the
         /// position of the rising bubbles.
         /// </summary>
         protected override void BuildTrap() {
@@ -96,16 +97,16 @@ namespace KrillOrBeKrilled.Traps {
         protected override void SetUpTrap() {
             _pitAvoidanceJumpPad.SetActive(false);
         }
+#endregion
         
         //========================================
         // Trap Detonation
         //========================================
 
+#region Trap Detonation
         /// <inheritdoc cref="Trap.DetonateTrap"/>
         /// <remarks> This trap cannot be detonated and forever stays dug into the ground with moving liquid. </remarks>
-        protected override void DetonateTrap() {
-
-        }
+        protected override void DetonateTrap() {}
 
         /// <inheritdoc cref="Trap.OnEnteredTrap"/>
         /// <summary>
@@ -140,24 +141,19 @@ namespace KrillOrBeKrilled.Traps {
         }
 
         /// <summary>
-        /// Deals damage to the <see cref="Hero"/> each second for as long as the <see cref="Hero.Health"/> remains
+        /// Deals damage to the <see cref="IDamageable"/> each second for as long as its health remains
         /// greater than zero.
         /// </summary>
         /// <param name="hero"> The hero receiving damage. </param>
         /// <remarks> The coroutine is started and stopped by <see cref="OnEnteredTrap"/>. </remarks>
         private IEnumerator DealIntervalDamage(IDamageable actor) {
-            // while (hero.Health > 0) {
-            //   hero.TakeDamage(this._damageAmount);
-            //   yield return this._waitForOneSecond;
-            // }
-            //
-            // this._intervalDamageCoroutine = null;
-            
-            // Infinitely deals damage at intervals until this coroutine is stopped.
-            while (true) {
+            while (actor.GetHealth() > 0) {
                 actor.TakeDamage(this._damageAmount);
                 yield return this._waitForOneSecond;
             }
+            
+            this._intervalDamageCoroutine = null;
         }
+#endregion
     }
 }

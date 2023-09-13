@@ -14,28 +14,28 @@ namespace Heatmaps {
     [ExecuteInEditMode]
     public class DataPointCollection : MonoBehaviour {
         [Tooltip("Stores all the DataPoints currently registered with the heatmap.")]
-        public List<DataPoint> DataPoints;
+        [SerializeField] internal List<DataPoint> DataPoints;
         
         [Tooltip("All DataPoints that fall within this range contribute to the point concentration calculations.")]
-        public float PointTargetRadius;
+        [SerializeField] internal float PointTargetRadius;
         
         [Tooltip("Visualizes the PointTargetRadius.")]
-        public bool VisualizeTargetRadius;
+        [SerializeField] internal bool VisualizeTargetRadius;
 
         [Tooltip("The maximum value of point concentration to scale the DataPoint colors and scales.")]
-        public int MaxPointConcentrationSpectrum;
+        [SerializeField] internal int MaxPointConcentrationSpectrum;
         
         [Tooltip("Color scheme of the 'heat', starting from the SpectrumBorder (cold) to the SpectrumCenter (hot)")]
-        public Color SpectrumBorder, SpectrumCenter;
+        [SerializeField] internal Color SpectrumBorder, SpectrumCenter;
 
         [Tooltip("Scale scheme, ranging between the PointBaseScale to the MaxScaleSpectrum")]
-        public Vector3 PointBaseScale, MaxScaleSpectrum;
+        [SerializeField] internal Vector3 PointBaseScale, MaxScaleSpectrum;
 
         /// <summary>
         /// Destroys all the <see cref="DataPoint">DataPoints</see> recorded in <see cref="DataPoints"/>.
         /// </summary>
         /// <remarks> Invoked by <see cref="Heatmap"/> to clear the entire heatmap. </remarks>
-        public void ClearPoints() {
+        internal void ClearPoints() {
             foreach (var point in this.DataPoints) {
                 DestroyImmediate(point.gameObject);
             }

@@ -6,10 +6,10 @@ namespace KrillOrBeKrilled.Core.Player {
     /// Implements <see cref="ICommand"/> to execute the player action for movement.
     /// </summary>
     public class MoveCommand : ICommand {
-        // Reference to the player Pawn to control.
+        /// Reference to the player Pawn to control.
         private readonly Pawn _controlledObject;
         
-        // Direction for the player Pawn to move towards on execution of this command.
+        /// Direction for the player Pawn to move towards on execution of this command.
         private readonly float _inputDirection;
 
         /// <summary> Constructor to set references required for this command to act on a <see cref="Pawn"/>. </summary>

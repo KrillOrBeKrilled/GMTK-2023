@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 //*******************************************************************************************
-// HeroHealthBarUI
+// HealthBarUI
 //*******************************************************************************************
 namespace KrillOrBeKrilled.UI {
     /// <summary>
@@ -40,6 +40,9 @@ namespace KrillOrBeKrilled.UI {
             this.RepositionHealthBar();
         }
 
+        /// <summary> Sets up all references and listeners to operate this health bar UI. </summary>
+        /// <param name="targetHero"> The hero to track for positional changes and health value changes. </param>
+        /// <param name="targetCanvas"> The canvas to render this UI on. </param>
         public void Initialize(Hero targetHero, RectTransform targetCanvas) {
             this._hero = targetHero;
             this._objectToFollow = targetHero.transform;
@@ -75,6 +78,7 @@ namespace KrillOrBeKrilled.UI {
                 .SetEase(Ease.InOutCubic);
         }
         
+        /// <summary> Destroys this GameObject. </summary>
         /// <remarks> Subscribed to the <see cref="Hero.OnHeroDied"/> event. </remarks>
         private void OnDeath(Hero _) {
             Destroy(this.gameObject);

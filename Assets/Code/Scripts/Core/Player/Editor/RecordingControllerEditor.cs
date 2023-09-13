@@ -10,7 +10,7 @@ namespace KrillOrBeKrilled.Core.Player {
     /// </summary>
     [CustomEditor(typeof(RecordingController))]
     [CanEditMultipleObjects]
-    public class RecordingControllerEditor : UnityEditor.Editor {
+    public class RecordingControllerEditor : Editor {
         SerializedProperty RecordingFile;
         SerializedProperty _filePath;
     
@@ -19,10 +19,11 @@ namespace KrillOrBeKrilled.Core.Player {
             EditorGUILayout.PropertyField(_filePath);
             
             DrawDefaultInspector();
-    
-            if (!RecordingFile.objectReferenceValue) 
+
+            if (!RecordingFile.objectReferenceValue) {
                 return;
-    
+            }
+
             _filePath.stringValue = AssetDatabase.GetAssetPath(RecordingFile.objectReferenceValue.GetInstanceID());
             serializedObject.ApplyModifiedProperties();
         }

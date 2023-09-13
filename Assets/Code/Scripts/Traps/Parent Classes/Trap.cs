@@ -1,6 +1,5 @@
 using KrillOrBeKrilled.Common;
 using KrillOrBeKrilled.Managers;
-using KrillOrBeKrilled.Managers.Audio;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
@@ -66,6 +65,7 @@ namespace KrillOrBeKrilled.Traps {
         // Trap Surveying
         //========================================
 
+#region Trap Surveying
         /// <summary>
         /// Retrieves the tilemap grid offset points for trap deployment when the player faces the negative
         /// direction along the x-axis.
@@ -97,11 +97,13 @@ namespace KrillOrBeKrilled.Traps {
         public bool IsValidScore(int score) {
             return score >= ValidationScore;
         }
+#endregion
         
         //========================================
         // Trap Deployment / Building
         //========================================
 
+#region Trap Deployment & Building
         /// <summary>
         /// Acts as a constructor, initializing all bookkeeping data upon trap prefab instantiation. Upon trap
         /// deployment, destroys level tiles for traps built into the ground, creates trap build completion UI,
@@ -179,11 +181,13 @@ namespace KrillOrBeKrilled.Traps {
         /// when a trap stands ready for detonation. 
         /// </summary>
         protected abstract void SetUpTrap();
+#endregion
         
         //========================================
         // Trap Detonation
         //========================================
         
+#region Trap Detonation
         /// <summary>
         /// Applies any SFX, animations, updates to physics, and logic to the trap when it is being detonated,
         /// or unleashed on a <see cref="Hero"/>. 
@@ -240,5 +244,6 @@ namespace KrillOrBeKrilled.Traps {
                 this.OnExitedTrap(damageActor);
             }
         }
+#endregion
     }
 }

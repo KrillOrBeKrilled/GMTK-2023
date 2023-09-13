@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using KrillOrBeKrilled.Managers;
-using KrillOrBeKrilled.Managers.Audio;
 using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
@@ -21,7 +19,7 @@ namespace KrillOrBeKrilled.Dialogue {
         public static YarnCharacterView instance;
         
         [Tooltip("List of all YarnCharacters in the scene, who register themselves in YarnCharacter.Start().")]
-        public List<YarnCharacter> allCharacters = new List<YarnCharacter>();
+        [SerializeField] internal List<YarnCharacter> allCharacters = new List<YarnCharacter>();
         
         // This script assumes you are using a full-screen Unity UI canvas along with a full-screen game camera
         private Camera worldCamera;
@@ -30,15 +28,15 @@ namespace KrillOrBeKrilled.Dialogue {
         public YarnCharacter playerCharacter;
         YarnCharacter speakerCharacter;
 
-        public Canvas canvas;
-        public CanvasScaler canvasScaler;
+        [SerializeField] internal Canvas canvas;
+        [SerializeField] internal CanvasScaler canvasScaler;
 
         [Tooltip("For best results, set the rectTransform anchors to middle-center, and make sure the " +
                  "rectTransform's pivot Y is set to 0.")]
-        public RectTransform dialogueBubbleRect, optionsBubbleRect;
+        [SerializeField] internal RectTransform dialogueBubbleRect, optionsBubbleRect;
 
         [Tooltip("Margin is 0-1.0 (0.1 means 10% of screen space)... -1 lets dialogue bubbles appear offscreen or get cutoff.")]
-        public float bubbleMargin = 0.1f;
+        [SerializeField] internal float bubbleMargin = 0.1f;
 
         private DialogueSoundsController _soundsController;
 

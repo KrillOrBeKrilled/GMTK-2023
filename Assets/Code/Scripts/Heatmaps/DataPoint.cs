@@ -33,7 +33,7 @@ namespace Heatmaps {
         /// <see cref="DataPoint"/> and its color, scale, and concentration configurations. </param>
         /// <remarks> Invoked by <see cref="DataPointCollection"/> every time the scene is updated in the
         /// Unity Editor. </remarks>
-        public void UpdatePoint(DataPointCollection pointCollection) {
+        internal void UpdatePoint(DataPointCollection pointCollection) {
             this._pointCollection = pointCollection;
 
             // Check how many points are nearby and adjust the size and color accordingly

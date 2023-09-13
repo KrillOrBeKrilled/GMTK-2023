@@ -28,13 +28,20 @@ namespace KrillOrBeKrilled.UI {
         }
 
         /// <summary> Updates the skip dialogue sequence settings through <see cref="PlayerPrefsManager"/>. </summary>
-        /// <param name="value"> Whether the option to skip the dialogue sequence is toggled or not. </param>
+        /// <param name="skipDialogue"> Whether the option to skip the dialogue sequence is toggled or not. </param>
         /// <remarks> Subscribed to the <see cref="Toggle.onValueChanged"/> event for the
         /// <see cref="_skipDialogueToggle"/>. </remarks>
         private void OnSkipToggleValueChanged(bool skipDialogue) {
             PlayerPrefsManager.SetSkipDialogue(skipDialogue);
         }
 
+        /// <summary>
+        /// Updates the mute music settings through <see cref="PlayerPrefsManager"/> and updates the music
+        /// output accordingly.
+        /// </summary>
+        /// <param name="muteMusic"> Whether the option to mute the music is toggled or not. </param>
+        /// <remarks> Subscribed to the <see cref="Toggle.onValueChanged"/> event for the
+        /// <see cref="_muteMusicToggle"/>. </remarks>
         private void OnMuteMusicToggleValueChanged(bool muteMusic) {
             PlayerPrefsManager.SetMuteMusic(muteMusic);
 
@@ -45,6 +52,10 @@ namespace KrillOrBeKrilled.UI {
             }
         }
 
+        /// <summary> Updates the mute SFX settings through <see cref="PlayerPrefsManager"/>. </summary>
+        /// <param name="muteSfx"> Whether the option to mute the SFX is toggled or not. </param>
+        /// <remarks> Subscribed to the <see cref="Toggle.onValueChanged"/> event for the
+        /// <see cref="_muteSfxToggle"/>. </remarks>
         private void OnMuteSfxToggleValueChanged(bool muteSfx) {
             PlayerPrefsManager.SetMuteSfx(muteSfx);
         }

@@ -12,7 +12,7 @@ namespace KrillOrBeKrilled.Core.Player {
     /// <remarks> Exposes methods to the PlayerController that invoke the UnityEvents the
     /// AudioManager is subscribed to. </remarks>
     /// </summary>
-    public class PlayerSoundsController : MonoBehaviour {
+    internal class PlayerSoundsController : MonoBehaviour {
         [SerializeField] private UnityEvent
             _onTileSelectMove,
             _onTileSelectConfirm,
@@ -23,25 +23,25 @@ namespace KrillOrBeKrilled.Core.Player {
         /// Plays SFX associated with changing the selected tile for deployment on the tilemap grid.
         /// </summary>
         /// <remarks> Invokes the <see cref="_onTileSelectMove"/> event. </remarks>
-        public void OnTileSelectMove() {
+        internal void OnTileSelectMove() {
             this._onTileSelectMove?.Invoke();
         }
 
         /// <summary> Plays SFX associated with deploying a trap on selected tile spaces. </summary>
         /// <remarks> Invokes the <see cref="_onTileSelectConfirm"/> event. </remarks>
-        public void OnTileSelectConfirm() {
+        internal void OnTileSelectConfirm() {
             this._onTileSelectConfirm?.Invoke();
         }
 
         /// <summary> Plays character SFX associated with death. </summary>
         /// <remarks> Invokes the <see cref="_onHenDeath"/> event. </remarks>
-        public void OnHenDeath() {
+        internal void OnHenDeath() {
             this._onHenDeath?.Invoke();
         }
 
         /// <summary> Plays character SFX associated with jumping. </summary>
         /// <remarks> Invokes the <see cref="_onHenJump"/> event. </remarks>
-        public void OnHenJump() {
+        internal void OnHenJump() {
             this._onHenJump?.Invoke();
         }
     }

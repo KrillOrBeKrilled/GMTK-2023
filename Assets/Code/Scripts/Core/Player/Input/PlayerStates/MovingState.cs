@@ -10,9 +10,7 @@ namespace KrillOrBeKrilled.Core.Player {
         // TODO: Adjust multiplier values here
         private readonly float _stateSpeed;
 
-        /// <summary>
-        /// Constructor to set bookkeeping data related to this state to act on the player.
-        /// </summary>
+        /// <summary> Constructor to set bookkeeping data related to this state to act on the player. </summary>
         /// <param name="stateSpeed"> The movement speed of the player to be executed in this state. </param>
         public MovingState(float stateSpeed) {
             this._stateSpeed = stateSpeed;

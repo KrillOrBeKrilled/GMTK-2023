@@ -20,19 +20,19 @@ namespace KrillOrBeKrilled.Heroes {
         
         /// <summary> Plays SFX associated with the hero taking damage. </summary>
         /// <remarks> Invokes the <see cref="_onTakeDamage"/> event. </remarks>
-        public void OnTakeDamage() {
+        internal void OnTakeDamage() {
             this._onTakeDamage?.Invoke();
         }
         
         /// <summary> Plays SFX associated with the hero jumping. </summary>
         /// <remarks> Invokes the <see cref="_onHeroJump"/> event. </remarks>
-        public void OnHeroJump() {
+        internal void OnHeroJump() {
             this._onHeroJump?.Invoke();
         }
         
         /// <summary> Plays SFX associated with the hero dying. </summary>
         /// <remarks> Invokes the <see cref="_onHeroDeath"/> event. </remarks>
-        public void OnHeroDeath() {
+        internal void OnHeroDeath() {
             this._onHeroDeath?.Invoke();
         }
     }

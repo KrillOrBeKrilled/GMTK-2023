@@ -15,13 +15,13 @@ namespace KrillOrBeKrilled.Tiles {
     [CreateAssetMenu(menuName = "2D/Custom Tiles/Custom Ground Rule Tile")]
     public class CustomGroundRuleTile : RuleTile<CustomGroundRuleTile.Neighbor> {
         [Tooltip("Neighboring tile types that can be considered as Null.")]
-        public TileBase[] tileTypesToConnect;
+        [SerializeField] internal TileBase[] tileTypesToConnect;
 
         [Tooltip("Neighboring tile types that can be considered as Ground.")]
-        public TileBase[] groundTileTypes;
+        [SerializeField] internal TileBase[] groundTileTypes;
 
         [Tooltip("Neighboring tile types that can be considered as Dungeon.")]
-        public TileBase[] dungeonTileTypes;
+        [SerializeField] internal TileBase[] dungeonTileTypes;
 
         public class Neighbor : RuleTile.TilingRule.Neighbor {
             public const int Null = 1;

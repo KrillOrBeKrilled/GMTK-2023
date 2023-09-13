@@ -12,7 +12,7 @@ namespace KrillOrBeKrilled.Dialogue {
     /// <remarks> Exposes methods to the Hero that invoke the UnityEvents the
     /// AudioManager is subscribed to. </remarks>
     /// </summary>
-    public class DialogueSoundsController : MonoBehaviour {
+    internal class DialogueSoundsController : MonoBehaviour {
         [SerializeField] private UnityEvent
             _onHenSpeak,
             _onHeroSpeak,
@@ -20,19 +20,19 @@ namespace KrillOrBeKrilled.Dialogue {
         
         /// <summary> Plays SFX associated with the hen (Hendall) speaking dialogue. </summary>
         /// <remarks> Invokes the <see cref="_onHenSpeak"/> event. </remarks>
-        public void OnHenSpeak() {
+        internal void OnHenSpeak() {
             this._onHenSpeak?.Invoke();
         }
         
         /// <summary> Plays SFX associated with the hero speaking dialogue. </summary>
         /// <remarks> Invokes the <see cref="_onHeroSpeak"/> event. </remarks>
-        public void OnHeroSpeak() {
+        internal void OnHeroSpeak() {
             this._onHeroSpeak?.Invoke();
         }
         
         /// <summary> Plays SFX associated with the boss (Dogan) speaking dialogue. </summary>
         /// <remarks> Invokes the <see cref="_onBossSpeak"/> event. </remarks>
-        public void OnBossSpeak() {
+        internal void OnBossSpeak() {
             this._onBossSpeak?.Invoke();
         }
     }

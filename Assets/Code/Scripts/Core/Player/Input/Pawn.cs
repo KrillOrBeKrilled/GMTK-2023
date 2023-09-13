@@ -38,10 +38,12 @@ namespace KrillOrBeKrilled.Core.Player {
             this.RBody.AddForce(Vector2.up * this.JumpingForce);
         }
         
+        /// <summary> Freezes the character position through the <see cref="Rigidbody2D"/>. </summary>
         public virtual void FreezePosition() {
             this.RBody.constraints = RigidbodyConstraints2D.FreezeAll;
         }
 
+        /// <summary> Unfreezes the character position through the <see cref="Rigidbody2D"/>. </summary>
         public virtual void UnfreezePosition() {
             this.RBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         }

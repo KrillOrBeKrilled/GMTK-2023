@@ -1,3 +1,5 @@
+using UnityEngine;
+
 //*******************************************************************************************
 // Jukebox
 //*******************************************************************************************
@@ -9,7 +11,7 @@ namespace KrillOrBeKrilled.Managers.Audio {
     /// </summary>
     /// <remarks> The GameObject associated with this class will persist through scene loads. </remarks>
     public class Jukebox : Singleton<Jukebox> {
-        public AK.Wwise.Event PlayMusicEvent, PauseMusicEvent, UnpauseMusicEvent, StopMusicEvent;
+        [SerializeField] private AK.Wwise.Event PlayMusicEvent, PauseMusicEvent, UnpauseMusicEvent, StopMusicEvent;
 
         public static bool IsLoaded;
         private bool _isMusicMuted;
@@ -25,37 +27,33 @@ namespace KrillOrBeKrilled.Managers.Audio {
             IsLoaded = true;
         }
 
-        /// <summary>
-        /// Plays the main game music.
-        /// </summary>
+        /// <summary> Plays the main game music. </summary>
         public void PlayMusic() {
             if (!this._isMusicMuted) {
                 this.PlayMusicEvent.Post(this.gameObject);
             }
         }
 
-        /// <summary>
-        /// Pauses the main game music.
-        /// </summary>
-        public void PauseMusic() {
+        /// <summary> Pauses the main game music. </summary>
+        internal void PauseMusic() {
             this.PauseMusicEvent.Post(this.gameObject);
         }
 
-        /// <summary>
-        /// Plays the main game music, leaving off from when it was paused.
-        /// </summary>
-        public void UnpauseMusic() {
+        /// <summary> Plays the main game music, leaving off from when it was paused. </summary>
+        internal void UnpauseMusic() {
             this.UnpauseMusicEvent.Post(this.gameObject);
         }
 
-        /// <summary>
-        /// Stops the main game music.
-        /// </summary>
+        /// <summary> Stops the main game music. </summary>
         public void StopMusic() {
             this.StopMusicEvent.Post(this.gameObject);
         }
         
-        public void SetIsMusicMuted(bool isMuted) {
+        /// <summary> Toggles the setting to mute the game music, muting the game music. </summary>
+        /// <param name="isMuted"> If the game music is muted. </param>
+        /// <remarks> Set in the settings/pause menu, which will invoke <see cref="PlayMusic"/> when reentering
+        /// the game. </remarks>
+        internal void SetIsMusicMuted(bool isMuted) {
             this._isMusicMuted = isMuted;
         }
     }

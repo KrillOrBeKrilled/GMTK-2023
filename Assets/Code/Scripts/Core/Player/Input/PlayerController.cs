@@ -1,9 +1,7 @@
 using System;
 using System.IO;
-using KrillOrBeKrilled.Managers.Audio;
 using KrillOrBeKrilled.Common;
 using KrillOrBeKrilled.Input;
-using KrillOrBeKrilled.Managers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -29,7 +27,7 @@ namespace KrillOrBeKrilled.Core.Player {
         private IPlayerState _state;
         
         [Tooltip("Tracks when the player state changes.")]
-        public UnityEvent<IPlayerState, float, float, float> OnPlayerStateChanged { get; private set; }
+        internal UnityEvent<IPlayerState, float, float, float> OnPlayerStateChanged { get; private set; }
 
         // ----------------- Command -----------------
         // Stateless commands; can be copied in the list of previous commands
@@ -46,9 +44,9 @@ namespace KrillOrBeKrilled.Core.Player {
         private bool _isGrounded = true;
         
         [Tooltip("Tracks when a new trap is selected.")]
-        public UnityEvent<int> OnSelectedTrapIndexChanged;
+        internal UnityEvent<int> OnSelectedTrapIndexChanged;
         [Tooltip("Tracks when a trap has been deployed.")]
-        public UnityEvent<int> OnTrapDeployed { get; private set; }
+        internal UnityEvent<int> OnTrapDeployed { get; private set; }
 
         private TrapController _trapController;
 
@@ -83,13 +81,17 @@ namespace KrillOrBeKrilled.Core.Player {
             _animator.SetBool("is_grounded", _isGrounded);
         }
 
+        /// <summary> Sets up all listeners to operate the <see cref="PlayerController"/>. </summary>
+        /// <param name="gameManager"> Provides events related to the game state to subscribe to. </param>
+        internal void Initialize(GameManager gameManager) {
+            gameManager.OnHenWon.AddListener(this.StopSession);
+            gameManager.OnHenLost.AddListener(this.StopSession);
+        }
+
         /// <remarks> Invokes the <see cref="OnSelectedTrapIndexChanged"/> event. </remarks>
         private void Start() {
             this._jumpCommand = new JumpCommand(this);
             this._deployCommand = new DeployCommand(this);
-
-            GameManager.Instance.OnHenWon.AddListener(this.StopSession);
-            GameManager.Instance.OnHenLost.AddListener(this.StopSession);
 
             // Need this due to race condition during scene Awake->OnEnable calls
             this._playerInputActions = PlayerInputController.Instance.PlayerInputActions;
@@ -115,55 +117,43 @@ namespace KrillOrBeKrilled.Core.Player {
         // Getters
         //========================================
 
+#region Getters
         /// <summary> Retrieves the current <see cref="IPlayerState"/> stored in <see cref="_state"/>. </summary>
         /// <returns> The <see cref="IPlayerState"/> that is currently being executed. </returns>
-        public IPlayerState GetPlayerState() {
+        internal IPlayerState GetPlayerState() {
             return this._state;
         }
 
         /// <summary> Retrieves the cost of the current selected trap through the <see cref="TrapController"/>. </summary>
         /// <returns> The cost of the current selected trap. </returns>
-        public int GetTrapCost() {
+        internal int GetTrapCost() {
             return this._trapController.GetCurrentTrapCost();
         }
 
         /// <summary> Disables the retrieval of controller input in <see cref="PlayerInputActions"/>. </summary>
-        public void DisablePlayerInput() {
+        internal void DisablePlayerInput() {
             this._playerInputActions.Disable();
         }
+#endregion
 
         //========================================
         // Animator
         //========================================
 
+#region Animator
         /// <summary> Adjusts the <see cref="Animator"/> speed and direction values. </summary>
         /// <param name="inputDirection"> The vector x-value associated with the player's current movement. </param>
         private void SetAnimatorValues(float inputDirection) {
             this._animator.SetFloat("speed", Mathf.Abs(inputDirection));
             this._animator.SetFloat("direction", this._direction);
         }
-        
-        /// <summary>
-        /// Helper method for setting the animation controller state and clearing the trap deployment
-        /// markers depending on whether the player has touched the ground or not.
-        /// </summary>
-        /// <param name="isGrounded"> If the player is currently touching the ground. </param>
-        public void SetGroundedStatus(bool isGrounded) {
-            this._isGrounded = isGrounded;
-            this._animator.SetBool("is_grounded", this._isGrounded);
-
-            if (isGrounded) {
-                return;
-            }
-            
-            // Left the ground, so trap deployment isn't possible anymore
-            this._trapController.DisableTrapDeployment();
-        }
+#endregion
 
         //========================================
         // Input
         //========================================
 
+#region Input
         /// <summary> Changes the current <see cref="IPlayerState"/> to the idle state. </summary>
         /// <remarks> Invokes the <see cref="OnPlayerStateChanged"/> event. </remarks>
         private void Idle(InputAction.CallbackContext obj) {
@@ -223,11 +213,13 @@ namespace KrillOrBeKrilled.Core.Player {
             var command = new SetTrapCommand(this, 2);
             this.ExecuteCommand(command);
         }
+#endregion
 
         //========================================
         // Pawn Inherited Methods
         //========================================
 
+#region Pawn Inherited Methods
         /// <inheritdoc cref="Pawn.Jump"/>
         /// <remarks> Additionally updates the player <see cref="Animator"/>, plays associated SFX, and disables
         /// <see cref="TrapController"/> trap deployment abilities. </remarks>
@@ -248,8 +240,9 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <remarks> Delegates trap deployment execution to <see cref="TrapController.DeployTrap"/>.
         /// Invokes the <see cref="OnTrapDeployed"/> event. </remarks>
         public override void DeployTrap() {
-            if (_trapController.DeployTrap(_direction, out var trapIndex)) 
+            if (_trapController.DeployTrap(_direction, out var trapIndex)) {
                 this.OnTrapDeployed?.Invoke(trapIndex);
+            }
         }
 
         /// <inheritdoc cref="Pawn.ChangeTrap"/>
@@ -260,12 +253,18 @@ namespace KrillOrBeKrilled.Core.Player {
             this._trapController.ChangeTrap(trapIndex);
             this.OnSelectedTrapIndexChanged?.Invoke(trapIndex);
         }
+#endregion
         
         //========================================
         // IDamageable Implementations
         //========================================
         
+#region IDamageable Implementations
         // TODO: Do we want the player to have a health bar?
+        public int GetHealth() {
+            return -1;
+        }
+
         public void TakeDamage(int amount) {}
 
         public void ThrowActorBack(float stunDuration, float throwForce) {}
@@ -289,36 +288,61 @@ namespace KrillOrBeKrilled.Core.Player {
             var currentPos = this.transform.position;
             this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
         }
+#endregion
         
         //========================================
         // ITrapBuilder Implementations
         //========================================
         
+#region ITrapBuilder Implementations
+        /// <summary> Checks that the player is Idle. </summary>
+        /// <returns> If the player is currently in an idle state. </returns>
         public bool CanBuildTrap() {
             return this._state is IdleState;
         }
+        
+        /// <summary>
+        /// Sets the animation controller state and clears the trap deployment markers depending on whether the
+        /// player has touched the ground or not.
+        /// </summary>
+        /// <param name="isGrounded"> If the player is currently touching the ground. </param>
+        public void SetGroundedStatus(bool isGrounded) {
+            this._isGrounded = isGrounded;
+            this._animator.SetBool("is_grounded", this._isGrounded);
+
+            if (isGrounded) {
+                return;
+            }
+            
+            // Left the ground, so trap deployment isn't possible anymore
+            this._trapController.DisableTrapDeployment();
+        }
+#endregion
 
         //========================================
         // Command
         //========================================
 
+#region Command
         /// <summary> Executes an <see cref="ICommand"/>. </summary>
         /// <param name="command"> The <see cref="ICommand"/> to be executed. </param>
         /// <remarks> Can be extended to record each command to a list to implement redo/undo logic, especially
         /// sorted by type. </remarks>
-        public void ExecuteCommand(ICommand command) {
+        internal void ExecuteCommand(ICommand command) {
             command.Execute();
         }
+#endregion
 
         //========================================
         // Recording
         //========================================
 
+#region Recording
         /// <summary>
         /// Begins recording all player input with timestamps via the <see cref="InputEventTrace"/> and enables
         /// all controls from the <see cref="PlayerInputActions"/>.
         /// </summary>
-        public virtual void StartSession() {
+        internal virtual void StartSession() {
             this.InputRecorder.Enable();
 
             this.EnableControls();
@@ -332,8 +356,6 @@ namespace KrillOrBeKrilled.Core.Player {
         /// events. </remarks>
         protected virtual void StopSession(string message) {
             this.InputRecorder.Disable();
-
-            // Create a new playtest session recording file
             this.CreateRecordingFile();
 
             // Prevent memory leaks!
@@ -374,13 +396,17 @@ namespace KrillOrBeKrilled.Core.Player {
 
             this.InputRecorder.WriteTo(path + fileName);
         }
+#endregion
 
         //========================================
         // Collisions
         //========================================
+        
+#region Collisions
         private void OnCollisionEnter2D(Collision2D collision) {
-            if (this._isGrounded) 
+            if (this._isGrounded) {
                 return;
+            }
 
             for (var i = 0; i < collision.GetContacts(collision.contacts); i++) {
                 var contactPosition = (Vector3)collision.GetContact(i).point + (Vector3.down * .15f);
@@ -412,11 +438,13 @@ namespace KrillOrBeKrilled.Core.Player {
             
             this.SetGroundedStatus(false);
         }
+#endregion
 
         //========================================
         // Control bindings, etc.
         //========================================
 
+#region Control Bindings
         private void OnEnable() {
             // OnEnable called before Start
             // PlayerInputController.Instance and this._playerInputController may be uninitialized
@@ -459,5 +487,6 @@ namespace KrillOrBeKrilled.Core.Player {
             this._playerInputActions.Player.SetTrap2.performed -= this.SetTrap2;
             this._playerInputActions.Player.SetTrap3.performed -= this.SetTrap3;
         }
+#endregion
     }
 }

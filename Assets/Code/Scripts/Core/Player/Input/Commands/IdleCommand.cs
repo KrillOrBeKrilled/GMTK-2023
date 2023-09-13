@@ -6,7 +6,7 @@ namespace KrillOrBeKrilled.Core.Player {
     /// Implements <see cref="ICommand"/> to execute the player action for standing idle.
     /// </summary>
     public class IdleCommand : ICommand {
-        // Reference to the player Pawn to control.
+        /// Reference to the player Pawn to control.
         private readonly Pawn _controlledObject;
 
         /// <summary> Constructor to set references required for this command to act on a <see cref="Pawn"/>. </summary>

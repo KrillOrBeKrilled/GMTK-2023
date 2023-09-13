@@ -11,7 +11,8 @@ namespace KrillOrBeKrilled.Cameras {
     /// Handles adjustments to the Perlin Noise applied to all the cameras managed by the
     /// <see cref="CameraSwitcher"/>.
     /// </summary>
-    /// <remarks> Access to the cameras is provided through the <see cref="CameraSwitcher"/>.
+    /// <remarks> Access to the cameras is provided through the
+    /// <see cref="CameraSwitcher"/>.
     /// </remarks>
     public class CameraShaker : MonoBehaviour {
         [Tooltip("The Perlin Noise intensity to apply to the camera to cause camera shakes.")]
@@ -26,7 +27,8 @@ namespace KrillOrBeKrilled.Cameras {
             this.TryGetComponent(out this._switcher);
     
             // record all camera noise controllers
-            this._noiseControllers = new();
+            this._noiseControllers = new List<CinemachineBasicMultiChannelPerlin>();
+            
             CinemachineVirtualCamera vcam;
             this._switcher.PlayerCamera.TryGetComponent(out vcam);
             this._noiseControllers.Add(vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>());

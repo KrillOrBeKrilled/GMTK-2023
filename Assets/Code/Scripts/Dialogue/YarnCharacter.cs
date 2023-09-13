@@ -11,14 +11,14 @@ namespace KrillOrBeKrilled.Dialogue {
     /// <remarks> Put this script on your various NPC gameObjects. </remarks>
     public class YarnCharacter : MonoBehaviour {
         [Tooltip("This must match the character name used in Yarn dialogue scripts.")]
-        public string characterName = "MyName";
+        [SerializeField] internal string characterName = "MyName";
 
         [Tooltip("When positioning the message bubble in world space, YarnCharacterManager adds this additional " +
                  "offset to this gameObject's position. Taller characters should use taller offsets, etc.")]
-        public Vector3 messageBubbleOffset = new Vector3(0f, 3f, 0f);
+        [SerializeField] internal Vector3 messageBubbleOffset = new Vector3(0f, 3f, 0f);
 
         [Tooltip("If true, then apply messageBubbleOffset relative to this transform's rotation and scale.")]
-        public bool offsetUsesRotation = false;
+        [SerializeField] internal bool offsetUsesRotation = false;
 
         // bwaaaah ugly ugly ugly
         private Vector3 _prevPosition;
@@ -33,7 +33,7 @@ namespace KrillOrBeKrilled.Dialogue {
         /// </summary>
         /// <returns> The position for the dialogue message bubble associated with this character to
         /// be anchored to. </returns>
-        public Vector3 positionWithOffset {
+        internal Vector3 positionWithOffset {
             get {
                 if (!this.offsetUsesRotation)
                     return this._dampenedPosition + this.messageBubbleOffset;

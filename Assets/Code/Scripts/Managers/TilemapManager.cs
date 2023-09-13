@@ -1,4 +1,3 @@
-using KrillOrBeKrilled.Common;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -64,6 +63,7 @@ namespace KrillOrBeKrilled.Managers {
         // Setting Tiles
         //========================================
         
+#region Setting Tiles
         /// <summary>
         /// Removes the tiles at the tile positions in the level tilemap and invalidates the same tile positions
         /// in the trap tilemap.
@@ -95,5 +95,6 @@ namespace KrillOrBeKrilled.Managers {
                 _trapTileMap.SetTileFlags(position, TileFlags.None);
             }
         }
+#endregion
     }
 }

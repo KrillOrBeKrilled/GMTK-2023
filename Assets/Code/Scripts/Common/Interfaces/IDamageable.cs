@@ -1,7 +1,7 @@
 //*******************************************************************************************
 // IDamageable
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Common {
+namespace KrillOrBeKrilled.Common.Interfaces {
     /// <summary>
     /// Interfaces any actor that can be damaged by traps and/or environmental factors.
     /// Encapsulates all logic associated with actors taking damage, debuffs, and dying.

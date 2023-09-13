@@ -1,4 +1,4 @@
-using KrillOrBeKrilled.Common;
+using KrillOrBeKrilled.Common.Interfaces;
 using KrillOrBeKrilled.Managers;
 using System.Collections.Generic;
 using DG.Tweening;

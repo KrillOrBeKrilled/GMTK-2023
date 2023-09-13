@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using KrillOrBeKrilled.Common;
+using KrillOrBeKrilled.Common.Interfaces;
 using KrillOrBeKrilled.Common.Commands;
 using KrillOrBeKrilled.Input;
 using UnityEngine;

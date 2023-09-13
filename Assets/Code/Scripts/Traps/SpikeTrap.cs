@@ -1,4 +1,4 @@
-using KrillOrBeKrilled.Common;
+using KrillOrBeKrilled.Common.Interfaces;
 using DG.Tweening;
 using UnityEngine;
 

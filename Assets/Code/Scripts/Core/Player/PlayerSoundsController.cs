@@ -8,9 +8,9 @@ namespace KrillOrBeKrilled.Core.Player {
     /// <summary>
     /// Holds all UnityEvents used to communicate with the AudioManager to fire
     /// off Wwise sound events associated with the player, acting as an intermediary
-    /// between the AudioManager and PlayerController classes.
-    /// <remarks> Exposes methods to the PlayerController that invoke the UnityEvents the
-    /// AudioManager is subscribed to. </remarks>
+    /// between the AudioManager and <see cref="PlayerController"/> classes.
+    /// <remarks> Exposes methods to the <see cref="PlayerController"/> that invoke the
+    /// UnityEvents the AudioManager is subscribed to. </remarks>
     /// </summary>
     internal class PlayerSoundsController : MonoBehaviour {
         [SerializeField] private UnityEvent

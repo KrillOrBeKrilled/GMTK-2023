@@ -1,10 +1,11 @@
-using UnityEngine;
+using KrillOrBeKrilled.Heatmaps;
 using UnityEditor;
+using UnityEngine;
 
 //*******************************************************************************************
 // HeatmapEditor
 //*******************************************************************************************
-namespace Heatmaps {
+namespace KrillOrBeKrilled.Editor {
     /// <summary>
     /// A subclass of <see cref="Editor"/> to draw extra buttons and fields in the inspector
     /// for <see cref="Heatmap"/>. Includes buttons for generating and clearing the heatmap
@@ -13,7 +14,7 @@ namespace Heatmaps {
     /// </summary>
     [CustomEditor(typeof(Heatmap))]
     [CanEditMultipleObjects]
-    public class HeatmapEditor : Editor {
+    public class HeatmapEditor : UnityEditor.Editor {
         SerializedProperty Heatmap;
         SerializedProperty CSVFile;
         SerializedProperty _filePath;

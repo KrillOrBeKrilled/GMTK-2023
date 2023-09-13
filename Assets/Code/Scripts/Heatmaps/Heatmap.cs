@@ -4,7 +4,7 @@ using UnityEngine;
 //*******************************************************************************************
 // Heatmap
 //*******************************************************************************************
-namespace Heatmaps {
+namespace KrillOrBeKrilled.Heatmaps {
     /// <summary>
     /// Parses csv files created from the UGS Analytics SQL Explorer queries of
     /// position data to generate a heatmap of
@@ -35,7 +35,7 @@ namespace Heatmaps {
         /// <p> Logs the file that was parsed for record keeping when aggregating data from multiple files. </p>
         /// </summary>
         /// <remarks> Invoked when the "Generate Heatmap" button is pressed in the inspector. </remarks>
-        internal void GenerateHeatmap() {
+        public void GenerateHeatmap() {
             var lines = System.IO.File.ReadAllLines(this._filePath);
 
             for (var lineNumber = 0; lineNumber < lines.Length; lineNumber++) {
@@ -62,7 +62,7 @@ namespace Heatmaps {
         /// and empties <see cref="FilesParsed"/>.
         /// </summary>
         /// <remarks> Invoked when the "Clear Heatmap" button is pressed in the inspector. </remarks>
-        internal void ClearHeatmap() {
+        public void ClearHeatmap() {
             this.PointCollection.ClearPoints();
             this.FilesParsed.Clear();
         }

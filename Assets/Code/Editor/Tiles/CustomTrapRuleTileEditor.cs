@@ -1,10 +1,11 @@
+using KrillOrBeKrilled.Tiles;
 using UnityEngine;
 using UnityEditor;
 
 //*******************************************************************************************
 // CustomTrapRuleTileEditor
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Tiles {
+namespace KrillOrBeKrilled.Editor {
     /// <summary>
     /// A subclass of <see cref="RuleTileEditor"/> that provides custom sprites for the
     /// CustomTrapRuleTile class neighboring tile rule visualizer in the inspector.

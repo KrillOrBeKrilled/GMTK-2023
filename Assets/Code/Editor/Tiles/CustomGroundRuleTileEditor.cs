@@ -1,10 +1,11 @@
+using KrillOrBeKrilled.Tiles;
 using UnityEngine;
 using UnityEditor;
 
 //*******************************************************************************************
 // CustomGroundRuleTileEditor
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Tiles {
+namespace KrillOrBeKrilled.Editor {
     /// <summary>
     /// A subclass of <see cref="RuleTileEditor"/> that provides custom sprites for the
     /// CustomGroundRuleTile class neighboring tile rule visualizer in the inspector.

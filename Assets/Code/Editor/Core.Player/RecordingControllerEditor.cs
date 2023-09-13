@@ -1,16 +1,17 @@
+using KrillOrBeKrilled.Core.Player;
 using UnityEditor;
 
 //*******************************************************************************************
 // RecordingControllerEditor
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Core.Player {
+namespace KrillOrBeKrilled.Editor {
     /// <summary>
     /// A subclass of <see cref="Editor"/> to autogenerate a file path from the
     /// <see cref="RecordingFile"/> reference for <see cref="RecordingController"/>.
     /// </summary>
     [CustomEditor(typeof(RecordingController))]
     [CanEditMultipleObjects]
-    public class RecordingControllerEditor : Editor {
+    public class RecordingControllerEditor : UnityEditor.Editor {
         SerializedProperty RecordingFile;
         SerializedProperty _filePath;
     

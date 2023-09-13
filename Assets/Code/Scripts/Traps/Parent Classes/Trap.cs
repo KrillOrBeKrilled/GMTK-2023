@@ -35,7 +35,7 @@ namespace KrillOrBeKrilled.Traps {
         protected Vector3 SpawnPosition;
         protected Vector3Int[] TilePositions;
         protected Slider BuildCompletionBar;
-        protected PlayerSoundsController SoundsController;
+        protected TrapSoundsController SoundsController;
         protected float ConstructionCompletion, t;
         protected bool IsBuilding, IsReady;
 
@@ -112,7 +112,7 @@ namespace KrillOrBeKrilled.Traps {
         /// <param name="tilePositions"> The tilemap positions corresponding to the tiles to alter in the tilemap. </param>
         /// <param name="soundsController"> The controller used to play all trap-related SFX. </param>
         public virtual void Construct(Vector3 spawnPosition, Canvas canvas, 
-            Vector3Int[] tilePositions, PlayerSoundsController soundsController) {
+            Vector3Int[] tilePositions, TrapSoundsController soundsController) {
             // Initialize all the bookkeeping structures we will need
             SpawnPosition = spawnPosition;
             TilePositions = tilePositions;

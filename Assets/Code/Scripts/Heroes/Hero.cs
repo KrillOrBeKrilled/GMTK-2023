@@ -1,5 +1,6 @@
 using KrillOrBeKrilled.Common;
 using KrillOrBeKrilled.Managers;
+using KrillOrBeKrilled.Managers.Audio;
 using KrillOrBeKrilled.Model;
 using System.Collections;
 using UnityEngine;
@@ -14,8 +15,7 @@ namespace KrillOrBeKrilled.Heroes {
     /// tracking health and playing associated SFX. Manipulates movement in the
     /// narrative sequences through <see cref="HeroMovement"/>.
     /// </summary>
-    public class Hero : MonoBehaviour, IDamageable
-    {
+    public class Hero : MonoBehaviour, IDamageable {
         public HeroMovement HeroMovement => this._heroMovement;
         private HeroMovement _heroMovement;
 
@@ -46,9 +46,9 @@ namespace KrillOrBeKrilled.Heroes {
 
         // ----------------- Data --------------------
         public HeroData.HeroType Type { get; private set; }
-
-        // ------------------ SFX --------------------
-        public AK.Wwise.Event HeroHurtEvent;
+        
+        // ------------- Sound Effects ---------------
+        private HeroSoundsController _soundsController;
 
         // ----------------- Events ------------------
         [Tooltip("Tracks when the hero's health changes.")]
@@ -63,17 +63,18 @@ namespace KrillOrBeKrilled.Heroes {
         [Tooltip("Tracks when the hero initialization is complete.")]
         public UnityEvent OnHeroReset;
 
-        private void Awake()
-        {
+        private void Awake() {
             this.TryGetComponent(out this._heroMovement);
             this.TryGetComponent(out this._animator);
             this.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
         }
 
-        public void Initialize(HeroData heroData)
-        {
+        public void Initialize(HeroData heroData, HeroSoundsController soundsController) {
             this.Health = heroData.Health;
             this.Type = heroData.Type;
+            this._soundsController = soundsController;
+
+            this._heroMovement.Initialize(soundsController);
         }
 
         /// <summary>
@@ -145,9 +146,7 @@ namespace KrillOrBeKrilled.Heroes {
         public void TakeDamage(int amount) {
             this.Health -= amount;
 
-            if (!AudioManager.Instance.AreSfxMuted) {
-                this.HeroHurtEvent.Post(this.gameObject);
-            }
+            _soundsController.OnTakeDamage();
 
             this.OnHealthChanged?.Invoke(this.Health);
 
@@ -164,9 +163,7 @@ namespace KrillOrBeKrilled.Heroes {
         /// <remarks> Invokes the <see cref="OnHeroDied"/> event. If the number of lives are reduced to
         /// zero, invokes the <see cref="OnGameOver"/> event. </remarks>
         public void Die() {
-            if (!AudioManager.Instance.AreSfxMuted) {
-                this.HeroHurtEvent.Post(this.gameObject);
-            }
+            _soundsController.OnHeroDeath();
 
             CoinManager.Instance.EarnCoins(CoinsEarnedOnDeath);
 

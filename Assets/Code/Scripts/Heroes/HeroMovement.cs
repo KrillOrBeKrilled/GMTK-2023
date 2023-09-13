@@ -1,4 +1,5 @@
 using KrillOrBeKrilled.Managers;
+using KrillOrBeKrilled.Managers.Audio;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -25,9 +26,6 @@ namespace KrillOrBeKrilled.Heroes {
         private static readonly int JumpKey = Animator.StringToHash("jump");
         private static readonly int XSpeedKey = Animator.StringToHash("xSpeed");
         private static readonly int YSpeedKey = Animator.StringToHash("ySpeed");
-        
-        // ------------------ SFX --------------------
-        public AK.Wwise.Event HeroJumpEvent;
 
         // -------------- Trap Effects ---------------
         private bool _isStunned;
@@ -38,6 +36,9 @@ namespace KrillOrBeKrilled.Heroes {
         // - 0.7 is 70% speed reduction
         [Tooltip("Clamped between [0,1] as a speed reduction percentage.")]
         private float _speedPenalty = 0f;
+        
+        // ------------- Sound Effects ---------------
+        private HeroSoundsController _soundsController;
         
         // -------------- UGS Analytics --------------
         [Tooltip("Duration of time before confirming that the hero is stuck in the same position.")]
@@ -59,6 +60,10 @@ namespace KrillOrBeKrilled.Heroes {
             this.OnHeroIsStuck = new UnityEvent<float, float, float>();
             this._isStunned = false;
             this._isMoving = true;
+        }
+        
+        public void Initialize(HeroSoundsController soundsController) {
+            this._soundsController = soundsController;
         }
 
         private void Update() {
@@ -108,10 +113,8 @@ namespace KrillOrBeKrilled.Heroes {
                 _rigidbody.AddForce(Vector2.up * (JumpForce + JumpForce * _speedPenalty / 2f));
         
             _animator.SetTrigger(JumpKey);
-        
-            if (!AudioManager.Instance.AreSfxMuted) {
-                HeroJumpEvent.Post(gameObject);
-            }
+
+            _soundsController.OnHeroJump();
         }
 
         //========================================

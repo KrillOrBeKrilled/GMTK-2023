@@ -1,7 +1,6 @@
 using System.Collections;
 using KrillOrBeKrilled.Common;
 using KrillOrBeKrilled.Managers;
-using KrillOrBeKrilled.Managers.Audio;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,7 +41,7 @@ namespace KrillOrBeKrilled.Traps {
         /// <inheritdoc cref="Trap.Construct"/>
         /// <remarks> Extended to change the shader animations for the acid liquid. </remarks>
         public override void Construct(Vector3 spawnPosition, Canvas canvas, 
-            Vector3Int[] tilePositions, PlayerSoundsController soundsController) {
+            Vector3Int[] tilePositions, TrapSoundsController soundsController) {
             // Initialize all the bookkeeping structures we will need
             SpawnPosition = spawnPosition;
             TilePositions = tilePositions;

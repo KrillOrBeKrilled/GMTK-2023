@@ -14,12 +14,12 @@ GameObject:
   - component: {fileID: 1717153536710988940}
   - component: {fileID: 686051568901768547}
   - component: {fileID: 6881718048625000024}
+  - component: {fileID: 5736380308539490052}
   - component: {fileID: 7820116121340408506}
   - component: {fileID: 5929949226365127913}
   - component: {fileID: 1431151410556034827}
   - component: {fileID: 845186409547286209}
   - component: {fileID: 5037012343675419090}
-  - component: {fileID: 7980182352267082349}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -178,6 +178,24 @@ MonoBehaviour:
   _onTileSelectConfirm:
     m_PersistentCalls:
       m_Calls: []
+  _onHenDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHenJump:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &5736380308539490052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5438100687898551652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0945c3acb3e777447b14ce0ec2364d82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _onStartBuild:
     m_PersistentCalls:
       m_Calls: []
@@ -185,12 +203,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _onBuildComplete:
-    m_PersistentCalls:
-      m_Calls: []
-  _onHenDeath:
-    m_PersistentCalls:
-      m_Calls: []
-  _onHenJump:
     m_PersistentCalls:
       m_Calls: []
 --- !u!95 &7820116121340408506
@@ -300,51 +312,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ba532d93edf40458c6fa50d279b5efe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &7980182352267082349
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5438100687898551652}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.0041661263, y: -0.813661}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.5, y: 3.5}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 9.212825, y: 2.6210353}
-  m_EdgeRadius: 0
 --- !u!1 &6238511859256710560
 GameObject:
   m_ObjectHideFlags: 0

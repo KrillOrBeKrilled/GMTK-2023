@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using KrillOrBeKrilled.Managers;
+using KrillOrBeKrilled.Managers.Audio;
 using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
@@ -16,10 +17,10 @@ namespace KrillOrBeKrilled.Dialogue {
     /// <remarks> Inherits from <see cref="DialogueViewBase"/> to receive data directly
     /// from <see cref="DialogueRunner"/>. </remarks>
     public class YarnCharacterView : DialogueViewBase {
-        // Very minimal implementation of singleton manager (initialized lazily in Awake)
+        [Tooltip("Very minimal implementation of singleton manager (initialized lazily in Awake).")]
         public static YarnCharacterView instance;
         
-        // List of all YarnCharacters in the scene, who register themselves in YarnCharacter.Start()
+        [Tooltip("List of all YarnCharacters in the scene, who register themselves in YarnCharacter.Start().")]
         public List<YarnCharacter> allCharacters = new List<YarnCharacter>();
         
         // This script assumes you are using a full-screen Unity UI canvas along with a full-screen game camera
@@ -39,12 +40,11 @@ namespace KrillOrBeKrilled.Dialogue {
         [Tooltip("Margin is 0-1.0 (0.1 means 10% of screen space)... -1 lets dialogue bubbles appear offscreen or get cutoff.")]
         public float bubbleMargin = 0.1f;
 
-        // ------------------ SFX --------------------
-        public AK.Wwise.Event HenDialogueEvent;
-        public AK.Wwise.Event BossDialogueEvent;
-        public AK.Wwise.Event HeroDialogueEvent;
+        private DialogueSoundsController _soundsController;
 
         private void Awake() {
+            TryGetComponent(out _soundsController);
+            
             // ... this is important because we must set the static "instance" here, before any YarnCharacter.Start() can use it
             instance = this;
             this.worldCamera = Camera.main;
@@ -107,16 +107,17 @@ namespace KrillOrBeKrilled.Dialogue {
             this.speakerCharacter = !string.IsNullOrEmpty(characterName) ? this.FindCharacter(characterName) : null;
 
             // Run Voice Events
-            AK.Wwise.Event dialogueEvent = characterName switch {
-                "Hero" => this.HeroDialogueEvent,
-                "Hendall" => this.HenDialogueEvent,
-                "Dogan" => this.BossDialogueEvent,
-                _ => null
+            switch(characterName) {
+                case "Hendall":
+                    _soundsController.OnHenSpeak();
+                    break;
+                case "Hero":
+                    _soundsController.OnHeroSpeak();
+                    break;
+                case "Dogan":
+                    _soundsController.OnBossSpeak();
+                    break;
             };
-
-            if (!AudioManager.Instance.AreSfxMuted) {
-                dialogueEvent?.Post(this.gameObject);
-            }
 
             // IMPORTANT: we must mark this view as having finished its work, or else the DialogueRunner gets stuck forever
             onDialogueLineFinished();

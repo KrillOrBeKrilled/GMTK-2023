@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using KrillOrBeKrilled.Managers;
-using KrillOrBeKrilled.Managers.Audio;
 using KrillOrBeKrilled.Tiles;
 using KrillOrBeKrilled.Traps;
 using UnityEngine;
@@ -19,6 +18,7 @@ namespace KrillOrBeKrilled.Core.Player {
     public class TrapController : MonoBehaviour {
         // ------------- Sound Effects ---------------
         private PlayerSoundsController _soundsController;
+        private TrapSoundsController _trapSoundsController;
 
         // ------------- Trap Deployment -------------
         [Tooltip("The trap prefabs to be deployed in the level.")]
@@ -45,7 +45,8 @@ namespace KrillOrBeKrilled.Core.Player {
         private bool _isSelectingTileSFX, _canDeploy;
 
         private void Awake() {
-            this._soundsController = this.GetComponent<PlayerSoundsController>();
+            TryGetComponent(out this._soundsController);
+            TryGetComponent(out this._trapSoundsController);
 
             this._previousTilePositions = new List<Vector3Int>();
         }
@@ -148,7 +149,7 @@ namespace KrillOrBeKrilled.Core.Player {
 
             var trapGameObject = Instantiate(trapToSpawn.gameObject);
             trapGameObject.GetComponent<Trap>().Construct(spawnPosition, this._trapCanvas, 
-                this._previousTilePositions.ToArray(), this._soundsController);
+                this._previousTilePositions.ToArray(), _trapSoundsController);
 
             CoinManager.Instance.ConsumeCoins(trapScript.Cost);
             this._soundsController.OnTileSelectConfirm();

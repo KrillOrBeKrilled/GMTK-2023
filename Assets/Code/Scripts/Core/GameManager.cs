@@ -43,6 +43,8 @@ namespace KrillOrBeKrilled.Core {
         [SerializeField] private RespawnPoint _respawnPointPrefab;
         [SerializeField] private EndgameTarget _endgameTargetPrefab;
 
+        // ------------- Sound Effects ---------------
+        private HeroSoundsController _heroSoundsController;
 
         // ----------------- Events ------------------
         [Tooltip("Tracks when hero and UI data are set up and this manager sets up other critical gameplay system " +
@@ -75,6 +77,8 @@ namespace KrillOrBeKrilled.Core {
         
         protected override void Awake() {
             base.Awake();
+            TryGetComponent(out this._heroSoundsController);
+            
             this.OnSetupComplete = new UnityEvent();
             this.OnStartLevel = new UnityEvent();
             this.OnHenWon = new UnityEvent<string>();
@@ -260,7 +264,7 @@ namespace KrillOrBeKrilled.Core {
             }
 
             Hero newHero = Instantiate(heroPrefab, this._activeRespawnPoint.transform);
-            newHero.Initialize(heroData);
+            newHero.Initialize(heroData, _heroSoundsController);
             newHero.OnHeroDied.AddListener(this.OnHeroDied);
             newHero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 

@@ -1,25 +1,48 @@
-using Heroes;
 using System.Collections;
-using Audio;
+using KrillOrBeKrilled.Common.Interfaces;
+using KrillOrBeKrilled.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Traps
-{
+//*******************************************************************************************
+// AcidPitTrap
+//*******************************************************************************************
+namespace KrillOrBeKrilled.Traps {
+    /// <summary>
+    /// A subclass of <see cref="InGroundTrap"/> that fills a permanent 2x2 grounded
+    /// square of liquid into the ground and damages the <see cref="IDamageable"/> in
+    /// intervals with a speed penalty. 
+    /// </summary>
+    /// <remarks> The default building animations are overrided with shader support
+    /// to fill the pit with liquid and heat haze effects. </remarks>
     public class AcidPitTrap : InGroundTrap {
+        // --------------- Animations ----------------
+        [Tooltip("Holds the reference to the acid liquid material to be adjusted during trap building process.")]
         [SerializeField] private MeshRenderer _acidLiquid;
+        [Tooltip("Holds the reference to the heat haze material to be adjusted during trap building process.")]
         [SerializeField] private SpriteRenderer _heatEmanating;
+        [Tooltip("Holds the reference to the animated bubbles GameObject to be adjusted during trap building process.")]
         [SerializeField] private GameObject _bubbles;
         private Vector3 _bubblesStartPos;
+        
+        // -------------- Hero Effects ---------------
+        [Tooltip("Interval damage to be applied to the Hero upon collision.")]
         [SerializeField] private int _damageAmount;
+        [Tooltip("The HeroJumpPad used to allow the hero to bypass the pit before the building process is completed.")]
         [SerializeField] private GameObject _pitAvoidanceJumpPad;
 
         private readonly WaitForSeconds _waitForOneSecond = new WaitForSeconds(1f);
         private Coroutine _intervalDamageCoroutine;
+        
+        //========================================
+        // Trap Deployment / Building
+        //========================================
 
+#region Trap Deployment & Building
+        /// <inheritdoc cref="Trap.Construct"/>
+        /// <remarks> Extended to change the shader animations for the acid liquid. </remarks>
         public override void Construct(Vector3 spawnPosition, Canvas canvas, 
-            Vector3Int[] tilePositions, PlayerSoundsController soundsController)
-        {
+            Vector3Int[] tilePositions, TrapSoundsController soundsController) {
             // Initialize all the bookkeeping structures we will need
             SpawnPosition = spawnPosition;
             TilePositions = tilePositions;
@@ -45,10 +68,13 @@ namespace Traps
             // Initiate the build time countdown
             ConstructionCompletion = 0;
         }
-
-        // Animation to fill the pit with acid and heat haze
-        protected override void BuildTrap()
-        {
+        
+        /// <inheritdoc cref="Trap.BuildTrap"/>
+        /// <summary>
+        /// Overridden to create a new build animation to fill the pit with acid and heat haze, while adjusting the
+        /// position of the rising bubbles.
+        /// </summary>
+        protected override void BuildTrap() {
             // Clamp the acid depth to prevent the acid from looking strange around tile edges
             var targetDepth = Mathf.Clamp(ConstructionCompletion, 0, 0.8f);
 
@@ -58,62 +84,76 @@ namespace Traps
             _acidLiquid.material.SetFloat("_Depth", targetDepth);
             _heatEmanating.material.SetFloat("_HazeRange", targetHeatHazeRange);
 
-            if (!_bubbles.activeSelf && targetDepth > 0.05f)
-            {
+            if (!_bubbles.activeSelf && targetDepth > 0.05f) {
               _bubbles.SetActive(true);
             }
 
             _bubbles.transform.position = new Vector3(_bubblesStartPos.x, _bubblesStartPos.y + targetDepth * 1.8f,
                                                       _bubblesStartPos.z);
         }
-      
-        public override Vector3 GetLeftSpawnPoint(Vector3 origin)
-        {
-            return origin + LeftSpawnOffset;
-        }
 
-        public override Vector3 GetRightSpawnPoint(Vector3 origin)
-        {
-            return origin + this.RightSpawnOffset;
-        }
-
-        protected override void SetUpTrap()
-        {
+        /// <inheritdoc cref="Trap.SetUpTrap"/>
+        /// <remarks> Disables the <see cref="HeroJumpPad"/> that allows a hero to avoid this trap. </remarks>
+        protected override void SetUpTrap() {
             _pitAvoidanceJumpPad.SetActive(false);
         }
+#endregion
+        
+        //========================================
+        // Trap Detonation
+        //========================================
 
-        protected override void DetonateTrap()
-        {
+#region Trap Detonation
+        /// <inheritdoc cref="Trap.DetonateTrap"/>
+        /// <remarks> This trap cannot be detonated and forever stays dug into the ground with moving liquid. </remarks>
+        protected override void DetonateTrap() {}
 
-        }
+        /// <inheritdoc cref="Trap.OnEnteredTrap"/>
+        /// <summary>
+        /// This trap applies an 80% speed reduction to the <see cref="HeroMovement"/> and interval damage to the
+        /// <see cref="Hero"/> every second the <see cref="Hero"/> remains in the acid.
+        /// </summary>
+        protected override void OnEnteredTrap(IDamageable actor) {
+            if (!this.IsReady) 
+                return;
 
-        protected override void OnEnteredTrap(Hero hero) {
-            if (!this.IsReady) return;
-
-            hero.HeroMovement.SetSpeedPenalty(0.8f);
+            actor.ApplySpeedPenalty(0.8f);
 
             if (this._intervalDamageCoroutine != null) {
               this.StopCoroutine(this._intervalDamageCoroutine);
             }
-            this._intervalDamageCoroutine = this.StartCoroutine(this.DealIntervalDamage(hero));
+            this._intervalDamageCoroutine = this.StartCoroutine(this.DealIntervalDamage(actor));
         }
 
-        protected override void OnExitedTrap(Hero hero) {
-            if (!this.IsReady) return;
+        /// <inheritdoc cref="Trap.OnExitedTrap"/>
+        /// <summary>
+        /// Resets the speed reduction through <see cref="HeroMovement"/> and stops dealing damage to the
+        /// <see cref="Hero"/>.
+        /// </summary>
+        protected override void OnExitedTrap(IDamageable actor) {
+            if (!this.IsReady) 
+                return;
 
-            hero.HeroMovement.ResetSpeedPenalty();
+            actor.ResetSpeedPenalty();
 
             if (this._intervalDamageCoroutine != null)
                 this.StopCoroutine(this._intervalDamageCoroutine);
         }
 
-        private IEnumerator DealIntervalDamage(Hero hero) {
-            while (hero.Health > 0) {
-              hero.TakeDamage(this._damageAmount);
-              yield return this._waitForOneSecond;
+        /// <summary>
+        /// Deals damage to the <see cref="IDamageable"/> each second for as long as its health remains
+        /// greater than zero.
+        /// </summary>
+        /// <param name="hero"> The hero receiving damage. </param>
+        /// <remarks> The coroutine is started and stopped by <see cref="OnEnteredTrap"/>. </remarks>
+        private IEnumerator DealIntervalDamage(IDamageable actor) {
+            while (actor.GetHealth() > 0) {
+                actor.TakeDamage(this._damageAmount);
+                yield return this._waitForOneSecond;
             }
-
+            
             this._intervalDamageCoroutine = null;
         }
+#endregion
     }
 }

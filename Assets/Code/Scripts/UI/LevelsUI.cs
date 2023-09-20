@@ -1,33 +1,44 @@
 using DG.Tweening;
-using Managers;
+using KrillOrBeKrilled.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI {
-  public class LevelsUI : MonoBehaviour {
-    [SerializeField] private Image _foreground;
+//*******************************************************************************************
+// LevelsUI
+//*******************************************************************************************
+namespace KrillOrBeKrilled.UI {
+    /// <summary>
+    /// Handles the fading transitions of the Levels scene, along with loading the
+    /// game scene through the <see cref="SceneNavigationManager"/>.
+    /// </summary>
+    public class LevelsUI : MonoBehaviour {
+        [Tooltip("Used to fade the scene in and out.")] 
+        [SerializeField] private Image _foreground;
 
-    private const float FadeDuration = 0.5f;
+        private const float FadeDuration = 0.5f;
 
-    public void LoadMainMenu() {
-      this._foreground.gameObject.SetActive(true);
-      this._foreground
-        .DOFade(1, FadeDuration)
-        .OnComplete(SceneNavigationManager.Instance.LoadMainMenuScene);
+        /// <summary> Fades in the screen and loads the MainMenu scene upon completion. </summary>
+        public void LoadMainMenu() {
+            this._foreground.gameObject.SetActive(true);
+            this._foreground
+                .DOFade(1, FadeDuration)
+                .OnComplete(SceneNavigationManager.Instance.LoadMainMenuScene);
+        }
+
+        /// <summary> Fades in the screen and loads a level upon completion. </summary>
+        /// <param name="levelName"> The name of the level corresponding to the LevelData name. </param>
+        public void LoadLevel(string levelName) {
+            this._foreground.gameObject.SetActive(true);
+            this._foreground
+                .DOFade(1, FadeDuration)
+                .OnComplete(() => LevelManager.Instance.LoadLevel(levelName));
+        }
+
+        private void Awake() {
+            this._foreground.gameObject.SetActive(true);
+            this._foreground
+                .DOFade(0, FadeDuration)
+                .OnComplete(() => this._foreground.gameObject.SetActive(false));
+        }
     }
-
-    public void LoadLevel(string levelName) {
-      this._foreground.gameObject.SetActive(true);
-      this._foreground
-        .DOFade(1, FadeDuration)
-        .OnComplete(() => LevelManager.Instance.LoadLevel(levelName));
-    }
-
-    private void Awake() {
-      this._foreground.gameObject.SetActive(true);
-      this._foreground
-        .DOFade(0, FadeDuration)
-        .OnComplete(() => this._foreground.gameObject.SetActive(false));
-    }
-  }
 }

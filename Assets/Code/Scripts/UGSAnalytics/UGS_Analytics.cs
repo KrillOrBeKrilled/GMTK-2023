@@ -1,14 +1,23 @@
 using System.Collections.Generic;
+using KrillOrBeKrilled.Managers;
 using Unity.Services.Analytics;
 using Unity.Services.Core;
 using UnityEngine;
 
-namespace UGSAnalytics {
-    public class UGS_Analytics : Singleton<UGS_Analytics>
-    {
-        private async void Start()
-        {
-            try{
+//*******************************************************************************************
+// UGSAnalytics
+//*******************************************************************************************
+namespace KrillOrBeKrilled.UGSAnalytics {
+    /// <summary>
+    /// Manages all initialization and data collection for <see cref="AnalyticsService"/>
+    /// to collect gameplay analytics data that can be accessed through the UGS Analytics
+    /// dashboard.
+    /// </summary>
+    /// <remarks> Direct access to data collection methods is handled by the
+    /// GameManager. </remarks>
+    public class UGS_Analytics : Singleton<UGS_Analytics> {
+        private async void Start() {
+            try {
                 await UnityServices.InitializeAsync();
             } catch (ConsentCheckException e) {
                 Debug.Log(e.ToString());
@@ -22,10 +31,15 @@ namespace UGSAnalytics {
             AnalyticsService.Instance.StartDataCollection();
         }
 
-        public static void PlayerDeathByHeroCustomEvent(int coinBalance, float xPos, float yPos, float zPos)
-        {
-            var eventParameters = new Dictionary<string, object>
-            {
+        /// <summary>
+        /// Packages player death by hero position and coin data to send to the UGS Analytics server.
+        /// </summary>
+        /// <param name="coinBalance"> The number of coins in the player's position at the time of death. </param>
+        /// <param name="xPos"> The player's current position along the x-axis. </param>
+        /// <param name="yPos"> The player's current position along the y-axis. </param>
+        /// <param name="zPos"> The player's current position along the z-axis. </param>
+        public static void PlayerDeathByHeroCustomEvent(int coinBalance, float xPos, float yPos, float zPos) {
+            var eventParameters = new Dictionary<string, object> {
                 { "coinBalance", coinBalance },
                 { "xPos", xPos },
                 { "yPos", yPos },
@@ -43,10 +57,15 @@ namespace UGSAnalytics {
             // AnalyticsService.Instance.Flush();
         }
 
-        public static void PlayerDeathByBoundaryCustomEvent(int coinBalance, float xPos, float yPos, float zPos)
-        {
-            var eventParameters = new Dictionary<string, object>
-            {
+        /// <summary>
+        /// Packages player death by boundary position and coin data to send to the UGS Analytics server.
+        /// </summary>
+        /// <param name="coinBalance"> The number of coins in the player's position at the time of death. </param>
+        /// <param name="xPos"> The player's current position along the x-axis. </param>
+        /// <param name="yPos"> The player's current position along the y-axis. </param>
+        /// <param name="zPos"> The player's current position along the z-axis. </param>
+        public static void PlayerDeathByBoundaryCustomEvent(int coinBalance, float xPos, float yPos, float zPos) {
+            var eventParameters = new Dictionary<string, object> {
                 { "coinBalance", coinBalance },
                 { "xPos", xPos },
                 { "yPos", yPos },
@@ -60,10 +79,15 @@ namespace UGSAnalytics {
             }
         }
 
-        public static void HeroDiedCustomEvent(float xPos, float yPos, float zPos)
-        {
-            var eventParameters = new Dictionary<string, object>
-            {
+        /// <summary>
+        /// Packages hero death position data to send to the UGS Analytics server.
+        /// </summary>
+        /// <param name="numberLivesLeft"> The number of remaining lives the hero has at the time of death. </param>
+        /// <param name="xPos"> The hero's current position along the x-axis. </param>
+        /// <param name="yPos"> The hero's current position along the y-axis. </param>
+        /// <param name="zPos"> The hero's current position along the z-axis. </param>
+        public static void HeroDiedCustomEvent(float xPos, float yPos, float zPos) {
+            var eventParameters = new Dictionary<string, object> {
                 { "xPos", xPos },
                 { "yPos", yPos },
                 { "zPos", zPos }
@@ -76,10 +100,14 @@ namespace UGSAnalytics {
             }
         }
 
-        public static void HeroIsStuckCustomEvent(float xPos, float yPos, float zPos)
-        {
-            var eventParameters = new Dictionary<string, object>
-            {
+        /// <summary>
+        /// Packages hero stuck position data to send to the UGS Analytics server.
+        /// </summary>
+        /// <param name="xPos"> The hero's current position along the x-axis. </param>
+        /// <param name="yPos"> The hero's current position along the y-axis. </param>
+        /// <param name="zPos"> The hero's current position along the z-axis. </param>
+        public static void HeroIsStuckCustomEvent(float xPos, float yPos, float zPos) {
+            var eventParameters = new Dictionary<string, object> {
                 { "xPos", xPos },
                 { "yPos", yPos },
                 { "zPos", zPos }
@@ -92,12 +120,14 @@ namespace UGSAnalytics {
             }
         }
 
-        public static void DeployTrapCustomEvent(int trapType)
-        {
+        /// <summary>
+        /// Packages trap deployment type data to send to the UGS Analytics server.
+        /// </summary>
+        /// <param name="trapType"> The index of the trap that has been deployed. </param>
+        public static void DeployTrapCustomEvent(int trapType) {
             var trapName = GenerateTrapName(trapType);
 
-            var eventParameters = new Dictionary<string, object>
-            {
+            var eventParameters = new Dictionary<string, object> {
                 { "trapType", trapName }
             };
 
@@ -108,12 +138,15 @@ namespace UGSAnalytics {
             }
         }
 
-        public static void SwitchTrapCustomEvent(int trapType, bool isAffordable)
-        {
+        /// <summary>
+        /// Packages trap selection type and cost data to send to the UGS Analytics server.
+        /// </summary>
+        /// <param name="trapType"> The index of the trap that has been selected. </param>
+        /// <param name="isAffordable"> If the selected trap cost can be afforded with the current coin balance. </param>
+        public static void SwitchTrapCustomEvent(int trapType, bool isAffordable) {
             var trapName = GenerateTrapName(trapType);
 
-            var eventParameters = new Dictionary<string, object>
-            {
+            var eventParameters = new Dictionary<string, object> {
                 { "trapType", trapName },
                 { "canAfford", isAffordable }
             };
@@ -125,10 +158,11 @@ namespace UGSAnalytics {
             }
         }
 
-        private static string GenerateTrapName(int trapType)
-        {
-            switch (trapType)
-            {
+        /// <summary> Helper method that generates a string name for a given trap index. </summary>
+        /// <param name="trapType"> The index of the trap. </param>
+        /// <returns> The trap name corresponding to the trap index. </returns>
+        private static string GenerateTrapName(int trapType) {
+            switch (trapType) {
                 case 0:
                     return "Spike Trap";
                 case 1:

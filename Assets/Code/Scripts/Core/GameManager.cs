@@ -124,12 +124,11 @@ namespace KrillOrBeKrilled.Core {
                 this._firstRespawnPoint.transform, this._endgameTarget.transform,
                 this._playerManager.PlayerController.SetTrap);
 
-            this._playerManager.PlayerController.Initialize(this);
-
             this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
             this._playerManager.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
             this._playerManager.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
             this._playerManager.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
+            this._playerManager.PlayerController.Initialize(this);
 
             this.OnSetupComplete?.Invoke();
 

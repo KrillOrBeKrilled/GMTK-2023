@@ -89,6 +89,7 @@ namespace KrillOrBeKrilled.Core.Player {
         internal void Initialize(GameManager gameManager) {
             gameManager.OnHenWon.AddListener(this.StopSession);
             gameManager.OnHenLost.AddListener(this.StopSession);
+            this.OnSelectedTrapIndexChanged?.Invoke(this._trapController.CurrentTrapIndex);
         }
 
         /// <remarks> Invokes the <see cref="OnSelectedTrapIndexChanged"/> event. </remarks>
@@ -98,7 +99,6 @@ namespace KrillOrBeKrilled.Core.Player {
 
             // Need this due to race condition during scene Awake->OnEnable calls
             this._playerInputActions = PlayerInputController.Instance.PlayerInputActions;
-            this.OnSelectedTrapIndexChanged?.Invoke(this._trapController.CurrentTrapIndex);
             this.OnEnable();
         }
 

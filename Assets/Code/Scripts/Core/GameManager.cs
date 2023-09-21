@@ -39,27 +39,27 @@ namespace KrillOrBeKrilled.Core {
         [Header("Heroes")]
         [SerializeField] private Hero _defaultHeroPrefab;
         [SerializeField] private Hero _druidHeroPrefab;
-        
+
         [Header("Level")]
         [SerializeField] private RespawnPoint _respawnPointPrefab;
         [SerializeField] private EndgameTarget _endgameTargetPrefab;
-        
+
         /// The instantiated endgameTargetPrefab.
         private EndgameTarget _endgameTarget;
         /// The instantiated defaultHeroPrefab used for story mode dialogue sequences.
         private Hero _heroActor;
-        
+
         // ------------- Wave Spawning ---------------
         /// Tracks the active heroes on the level map at any given time.
         private readonly List<Hero> _heroes = new List<Hero>();
-        
+
         /// Tracks the active hero respawn points at any given time.
         private readonly List<RespawnPoint> _respawnPoints = new List<RespawnPoint>();
         /// Spawns a hero used for story mode dialogue sequences.
         private RespawnPoint _firstRespawnPoint;
         /// Spawns heroes actively throughout the level gameplay.
         private RespawnPoint _activeRespawnPoint;
-        
+
         /// Contains all data on the waves and hero settings to spawn per wave that constitutes a playable level.
         private LevelData _levelData;
         private Queue<WaveData> _nextWavesDataQueue;
@@ -87,14 +87,14 @@ namespace KrillOrBeKrilled.Core {
 
         private void Awake() {
             TryGetComponent(out this._heroSoundsController);
-            
+
             this.OnSetupComplete = new UnityEvent();
             this.OnStartLevel = new UnityEvent();
             this.OnHenWon = new UnityEvent<string>();
             this.OnHenLost = new UnityEvent<string>();
             this.OnHeroSpawned = new UnityEvent<Hero>();
         }
-        
+
         /// <remarks> Invokes the <see cref="OnSetupComplete"/> event. </remarks>
         private void Start() {
             // Create a copy to avoid modifying source
@@ -105,11 +105,11 @@ namespace KrillOrBeKrilled.Core {
             this._levelData.RespawnPositions = sourceData.RespawnPositions.ToList();
             this._levelData.EndgameTargetPosition = sourceData.EndgameTargetPosition;
             this._levelData.WavesData = new WavesData() { WavesList = sourceData.WavesData.WavesList.ToList() };
-            
+
             this._nextWavesDataQueue = new Queue<WaveData>(this._levelData.WavesData.WavesList);
             this._lastWavesDataQueue = new Queue<WaveData>(this._levelData.WavesData.WavesList);
             this._endgameTarget = Instantiate(this._endgameTargetPrefab, this._levelData.EndgameTargetPosition, Quaternion.identity, this.transform);
-            
+
             foreach (Vector3 respawnPosition in this._levelData.RespawnPositions) {
                 RespawnPoint newPoint = Instantiate(this._respawnPointPrefab, respawnPosition, Quaternion.identity, this.transform);
                 this._respawnPoints.Add(newPoint);
@@ -117,12 +117,13 @@ namespace KrillOrBeKrilled.Core {
 
             this._activeRespawnPoint = this._respawnPoints.First();
             this._firstRespawnPoint = this._activeRespawnPoint;
-            
-            this._gameUI.Initialize(OnSetupComplete, OnHenWon, OnHenLost, OnHeroSpawned, 
-                this._playerManager.PlayerController.OnSelectedTrapIndexChanged, 
+
+            this._gameUI.Initialize(OnSetupComplete, OnHenWon, OnHenLost, OnHeroSpawned,
+                this._playerManager.PlayerController.OnSelectedTrapIndexChanged,
                 this._playerManager.TrapController.Traps, OnStartLevel, SkipDialogue, this._playerManager.transform,
-                this._firstRespawnPoint.transform, this._endgameTarget.transform);
-            
+                this._firstRespawnPoint.transform, this._endgameTarget.transform,
+                this._playerManager.PlayerController.SetTrap);
+
             this._playerManager.PlayerController.Initialize(this);
 
             this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
@@ -144,7 +145,7 @@ namespace KrillOrBeKrilled.Core {
         //========================================
         // Scene Management
         //========================================
-        
+
 #region Scene Management
         /// <summary> Disables pause controls and loads the MainMenu scene. </summary>
         public void LoadMainMenu() {
@@ -165,11 +166,11 @@ namespace KrillOrBeKrilled.Core {
             this._gameUI.FadeInSceneCover(SceneNavigationManager.Instance.ReloadCurrentScene);
         }
 #endregion
-        
+
         //========================================
         // Level Sequence
         //========================================
-        
+
 #region Level Sequence
         /// <summary> Spawns a new hero from the level data at the corresponding spawn point. </summary>
         /// <remarks> Can be accessed as a YarnCommand. </remarks>
@@ -182,7 +183,7 @@ namespace KrillOrBeKrilled.Core {
                 YarnCharacterView.instance.playerCharacter = newYarnCharacter;
             }
         }
-        
+
         /// <summary> Triggers the sequence to make the hero enter the level. </summary>
         /// <remarks> Can be accessed as a YarnCommand. </remarks>
         [YarnCommand("enter_hero_actor")]
@@ -212,7 +213,7 @@ namespace KrillOrBeKrilled.Core {
         private void SkipDialogue() {
             this.StartCoroutine(this.SkipDialogueCoroutine());
         }
-        
+
         /// <summary>
         /// Aborts the dialogue player if the dialogue is actively running and immediately focuses the camera
         /// on the player before beginning the level spawners and gameplay.
@@ -232,7 +233,7 @@ namespace KrillOrBeKrilled.Core {
             this._waveSpawnCoroutine = this.SpawnNextWave();
             this.StartCoroutine(this._waveSpawnCoroutine);
         }
-        
+
         /// <summary>
         /// Skips the dialogue associated with the level story event if the <see cref="PlayerPrefsManager"/>
         /// settings are enabled. Otherwise, begins playing the level dialogue.
@@ -250,7 +251,7 @@ namespace KrillOrBeKrilled.Core {
 
             this._dialogueRunner.StartDialogue(this._levelData.DialogueName);
         }
-        
+
         /// <summary> Skips the dialogue for the level. </summary>
         /// <remarks> The endless level settings will skip story dialogue by default. </remarks>
         private void StartEndlessLevel() {
@@ -261,7 +262,7 @@ namespace KrillOrBeKrilled.Core {
         //========================================
         // Wave Spawning
         //========================================
-        
+
 #region Wave Spawning
         /// <summary>
         /// Parses the next <see cref="WaveData"/> to spawn all the associated heroes in intervals denoted by the
@@ -296,7 +297,7 @@ namespace KrillOrBeKrilled.Core {
             this._waveSpawnCoroutine = this.SpawnNextWave();
             yield return this._waveSpawnCoroutine;
         }
-        
+
         /// <summary>
         /// Instantiates a new hero according to the <see cref="HeroData.Type"/> at the
         /// <see cref="_activeRespawnPoint"/> and registers the hero in bookkeeping structures, event listeners,
@@ -321,7 +322,7 @@ namespace KrillOrBeKrilled.Core {
             this.OnHeroSpawned.Invoke(newHero);
             return newHero;
         }
-        
+
         /// <summary>
         /// Generates a new Queue of <see cref="WaveData"/> containing identical <see cref="WaveData"/> and
         /// <see cref="HeroData"/> to the previous Queue, but with scaled <see cref="HeroData.Health"/> values
@@ -356,14 +357,14 @@ namespace KrillOrBeKrilled.Core {
             this._lastWavesDataQueue = new Queue<WaveData>(this._nextWavesDataQueue);
         }
 #endregion
-        
+
         //========================================
         // Event Listeners: UGSAnalytics & Game Over
         //========================================
 
 #region Event Listeners
         /// <summary>
-        /// Ends the game and records analytics player death data if the player state is <see cref="GameOverState"/>. 
+        /// Ends the game and records analytics player death data if the player state is <see cref="GameOverState"/>.
         /// </summary>
         /// <param name="state"> The <see cref="PlayerController"/> state. </param>
         /// <param name="xPos"> The player's current position along the x-axis. </param>
@@ -382,7 +383,7 @@ namespace KrillOrBeKrilled.Core {
             }
             UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins, xPos, yPos, zPos);
         }
-        
+
         /// <summary>
         /// Disables the player input and hero movement, destroying the player GameObject, and triggers the loss UI.
         /// </summary>
@@ -421,7 +422,7 @@ namespace KrillOrBeKrilled.Core {
 
             UGS_Analytics.DeployTrapCustomEvent(trapIndex);
         }
-        
+
         /// <summary> Records analytics hero death data. </summary>
         /// <param name="numberLives"> The number of lives remaining for the hero. </param>
         /// <param name="xPos"> The hero's current position along the x-axis. </param>
@@ -466,7 +467,7 @@ namespace KrillOrBeKrilled.Core {
         private void HeroReachedLevelEnd() {
             this.HenLost("The Hero managed to reach his goal and do heroic things.\nHendall, you failed me!");
         }
-        
+
         /// <summary>
         /// Disables the player input and wave spawner, and disables the hero movement before triggering the win UI.
         /// </summary>
@@ -482,14 +483,14 @@ namespace KrillOrBeKrilled.Core {
             this.StopAllHeroes();
             this.OnHenLost?.Invoke(endgameMessage);
         }
-        
+
         /// <summary> Disables movement for every hero currently active in the level. </summary>
         private void StopAllHeroes() {
             foreach (var hero in this._heroes) {
                 hero.HeroMovement.ToggleMoving(false);
             }
         }
-        
+
         /// <summary> Disables and freezes player input and triggers the win UI. </summary>
         /// <param name="message"> The message to be displayed on the win UI. </param>
         /// <remarks> Invokes the <see cref="OnHenWon"/> event.

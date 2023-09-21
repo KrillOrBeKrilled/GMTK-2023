@@ -3,6 +3,7 @@ using DG.Tweening;
 using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Traps;
 using KrillOrBeKrilled.Heroes;
+using System.Collections.ObjectModel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -52,17 +53,18 @@ namespace KrillOrBeKrilled.UI {
         /// </summary>
         /// <param name="gameManager"> Provides events related to the game state to subscribe to. </param>
         /// <param name="playerManager"> Provides events related to the trap system to subscribe to. </param>
-        public void Initialize(UnityEvent setupComplete, UnityEvent<string> henWon, UnityEvent<string> henLost, 
+        public void Initialize(UnityEvent setupComplete, UnityEvent<string> henWon, UnityEvent<string> henLost,
             UnityEvent<Hero> heroSpawned,
-            UnityEvent<int> trapIndexChanged, List<Trap> traps,
+            UnityEvent<int> trapIndexChanged, ReadOnlyCollection<Trap> traps,
             UnityEvent onStartLevel, UnityAction onSkipDialogue,
-            Transform playerTransform, Transform levelStartTransform, Transform levelEndTransform) {
+            Transform playerTransform, Transform levelStartTransform, Transform levelEndTransform,
+            UnityAction<Trap> selectTrapAction) {
             setupComplete.AddListener(this.OnGameSetupComplete);
             henWon.AddListener(this.OnHenWon);
             henLost.AddListener(this.OnHenLost);
             heroSpawned.AddListener(this.OnHeroSpawned);
 
-            this._trapSelectionBar.Initialize(trapIndexChanged, traps);
+            this._trapSelectionBar.Initialize(trapIndexChanged, traps, selectTrapAction);
             this._skipDialogueUI.Initialize(onStartLevel, onSkipDialogue);
             this._mapUI.Initialize(playerTransform, levelStartTransform.position.x, levelEndTransform.position.x);
         }
@@ -75,7 +77,7 @@ namespace KrillOrBeKrilled.UI {
                 .DOFade(1, FadeDuration)
                 .OnComplete(() => onComplete?.Invoke());
         }
-        
+
         private void Awake() {
             this._foregroundImage.gameObject.SetActive(true);
         }

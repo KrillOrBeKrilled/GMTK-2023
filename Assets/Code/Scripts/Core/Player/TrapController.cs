@@ -3,6 +3,7 @@ using System.Linq;
 using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Tiles;
 using KrillOrBeKrilled.Traps;
+using System.Collections.ObjectModel;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -21,11 +22,11 @@ namespace KrillOrBeKrilled.Core.Player {
         private TrapSoundsController _trapSoundsController;
 
         // ------------- Trap Deployment -------------
+        public ReadOnlyCollection<Trap> Traps;
+
         [Tooltip("The trap prefabs to be deployed in the level.")]
-        [SerializeField] private List<GameObject> _trapPrefabs;
-        
-        [Tooltip("The Trap script attached to each trap prefab.")]
-        internal List<Trap> Traps => this._trapPrefabs.Select(prefab => prefab.GetComponent<Trap>()).ToList();
+        [SerializeField] private List<Trap> _trapPrefabs;
+
         [Tooltip("The index of the current selected trap.")]
         internal int CurrentTrapIndex { get; private set; }
 
@@ -33,7 +34,7 @@ namespace KrillOrBeKrilled.Core.Player {
         [SerializeField] internal Tilemap TrapTilemap;
         [Tooltip("The level tilemap for the environment and its colliders.")]
         [SerializeField] internal Tilemap GroundTilemap;
-        
+
         [Tooltip("The canvas to spawn trap UI (e.g. building completion bars).")]
         [SerializeField] private Canvas _trapCanvas;
 
@@ -49,8 +50,9 @@ namespace KrillOrBeKrilled.Core.Player {
             TryGetComponent(out this._trapSoundsController);
 
             this._previousTilePositions = new List<Vector3Int>();
+            this.Traps = this._trapPrefabs.AsReadOnly();
         }
-        
+
         //========================================
         // Trap Deployment
         //========================================
@@ -84,7 +86,7 @@ namespace KrillOrBeKrilled.Core.Player {
             // Ensure that there are no query results yet or that the deploymentOrigin has changed
             if (this._previousTilePositions.Count >= 1 && deploymentOrigin == this._previousTilePositions[0]) {
                 return;
-            }   
+            }
 
             // The tile changed, so flush the tint on the previous tiles and reset the collision status
             this.ClearTrapDeployment();
@@ -96,7 +98,7 @@ namespace KrillOrBeKrilled.Core.Player {
             }
 
             // Get the grid placement data for the selected prefab
-            var selectedTrapPrefab = this.Traps[CurrentTrapIndex];
+            var selectedTrapPrefab = this._trapPrefabs[CurrentTrapIndex];
             var prefabPoints = direction < 0
                 ? selectedTrapPrefab.GetLeftGridPoints()
                 : selectedTrapPrefab.GetRightGridPoints();
@@ -119,7 +121,7 @@ namespace KrillOrBeKrilled.Core.Player {
                 this.InvalidateTrapDeployment();
             } else {
                 this.ValidateTrapDeployment();
-            }  
+            }
         }
 
         /// <summary>
@@ -134,7 +136,7 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <see cref="trapIndex"/>. </remarks>
         internal bool DeployTrap(float playerDirection, out int trapIndex) {
             trapIndex = this.CurrentTrapIndex;
-            
+
             // Left out of State pattern to allow this during movement
             if(!this._canDeploy || this._previousTilePositions.Count < 1) {
                 // TODO: Make an animation for this!
@@ -142,10 +144,9 @@ namespace KrillOrBeKrilled.Core.Player {
                 return false;
             }
 
-            var trapToSpawn = this._trapPrefabs[this.CurrentTrapIndex];
-            var trapScript = this.Traps[this.CurrentTrapIndex];
-            
-            if (!CoinManager.Instance.CanAfford(trapScript.Cost)) {
+            Trap trapToSpawn = this._trapPrefabs[this.CurrentTrapIndex];
+
+            if (!CoinManager.Instance.CanAfford(trapToSpawn.Cost)) {
                 print("Can't afford the trap!");
                 return false;
             }
@@ -153,14 +154,13 @@ namespace KrillOrBeKrilled.Core.Player {
             // Convert the origin tile position to world space
             var deploymentOrigin = this.TrapTilemap.CellToWorld(_previousTilePositions[0]);
             var spawnPosition = playerDirection < 0
-                ? trapScript.GetLeftSpawnPoint(deploymentOrigin)
-                : trapScript.GetRightSpawnPoint(deploymentOrigin);
+                ? trapToSpawn.GetLeftSpawnPoint(deploymentOrigin)
+                : trapToSpawn.GetRightSpawnPoint(deploymentOrigin);
 
-            var trapGameObject = Instantiate(trapToSpawn.gameObject);
-            trapGameObject.GetComponent<Trap>().Construct(spawnPosition, this._trapCanvas, 
-                this._previousTilePositions.ToArray(), _trapSoundsController);
+            Trap spawnedTrap = Instantiate(trapToSpawn);
+            spawnedTrap.Construct(spawnPosition, this._trapCanvas, this._previousTilePositions.ToArray(), _trapSoundsController);
 
-            CoinManager.Instance.ConsumeCoins(trapScript.Cost);
+            CoinManager.Instance.ConsumeCoins(trapToSpawn.Cost);
             this._soundsController.OnTileSelectConfirm();
 
             return true;
@@ -212,22 +212,22 @@ namespace KrillOrBeKrilled.Core.Player {
         private void ClearTrapDeployment() {
             TilemapManager.Instance.PaintTilesBlank(_previousTilePositions);
             this._canDeploy = false;
-        
+
             // Clear the data of the previous tile
             this._previousTilePositions.Clear();
         }
-        
+
         /// <summary> Helper method for clearing the painted trap tilemap tiles and disabling trap surveying SFX. </summary>
         internal void DisableTrapDeployment() {
             ClearTrapDeployment();
             this._isSelectingTileSFX = false;
         }
 #endregion
-        
+
         //========================================
         // Ground Tiles
         //========================================
-        
+
 #region Ground Tiles
         /// <summary>
         /// Locates a tilemap tile from a world space position and checks that it's a
@@ -237,7 +237,7 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <returns> If the tile in question is a <see cref="CustomGroundRuleTile"/>. </returns>
         internal bool CheckForGroundTile(Vector3 position) {
             var contactTilePosition = this.GroundTilemap.WorldToCell(position);
-            
+
             return IsTileOfType<CustomGroundRuleTile>(this.GroundTilemap, contactTilePosition);
         }
 #endregion
@@ -245,12 +245,12 @@ namespace KrillOrBeKrilled.Core.Player {
         //========================================
         // Getters & Setters
         //========================================
-        
+
 #region Getters and Setters
         /// <summary> Retrieves the cost of the current selected trap. </summary>
         /// <returns> The cost of the current selected trap. </returns>
         internal int GetCurrentTrapCost() {
-            return this.Traps[this.CurrentTrapIndex].Cost;
+            return this._trapPrefabs[this.CurrentTrapIndex].Cost;
         }
 #endregion
     }

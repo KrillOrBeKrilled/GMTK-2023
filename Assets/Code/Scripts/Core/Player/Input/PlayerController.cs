@@ -4,7 +4,6 @@ using KrillOrBeKrilled.Common.Interfaces;
 using KrillOrBeKrilled.Common.Commands;
 using KrillOrBeKrilled.Input;
 using KrillOrBeKrilled.Traps;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;

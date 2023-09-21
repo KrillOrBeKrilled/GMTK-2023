@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using DG.Tweening;
 using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Traps;

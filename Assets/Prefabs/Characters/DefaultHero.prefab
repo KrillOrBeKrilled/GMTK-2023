@@ -37,7 +37,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6730592024519559614
 SpriteRenderer:
@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b421e70e82414b06bc073c6f15af941f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RespawnPoint: {fileID: 0}
+  RespawnTime: 3
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -199,11 +199,6 @@ MonoBehaviour:
   OnHeroReset:
     m_PersistentCalls:
       m_Calls: []
-  RespawnTime: 3
-  HeroHurtEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 5ac2bf606307a47b2a29782958c7db68, type: 2}
 --- !u!114 &6252492113441919208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,10 +215,6 @@ MonoBehaviour:
   JumpForce: 80
   StuckTimerThreshold: 5
   _positionThreshold: 0.1
-  HeroJumpEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 3cdda45bcab2f4f738df1bc1039774d7, type: 2}
   OnHeroIsStuck:
     m_PersistentCalls:
       m_Calls: []

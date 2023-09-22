@@ -1,31 +1,34 @@
-using Player;
+using KrillOrBeKrilled.Common.Interfaces;
 using UnityEngine;
 
-namespace Traps
-{
-    public abstract class InGroundTrap : Trap
-    {
-        protected override void OnTriggerStay2D(Collider2D other)
-        {
-            if (!other.CompareTag("Player")) return;
-            
-            // If the player itself collides with this trap, treat this trap as a non-ground tile
-            if (other.TryGetComponent(out PlayerController playerController))
-            {
-                playerController.SetGroundedStatus(false);
+//*******************************************************************************************
+// InGroundTrap
+//*******************************************************************************************
+namespace KrillOrBeKrilled.Traps {
+    /// <summary>
+    /// Abstract class extension of <see cref="Trap"/> that sets the player grounded
+    /// status to <see langword="false"/> upon contact with the player.
+    /// </summary>
+    public abstract class InGroundTrap : Trap {
+        protected override void OnTriggerStay2D(Collider2D other) {
+            ITrapBuilder actor;
+            if (other.TryGetComponent(out actor)) {
+                // Treat this trap as a non-ground tile if the actor itself collides with this trap
+                actor.SetGroundedStatus(false);
             }
-            else 
-            {
-                playerController = other.GetComponentInParent<PlayerController>();
-            }
-            
-            var playerState = playerController.GetPlayerState();
-            
-            // If the trap is not ready and the player is idle, start building the trap
-            if (IsReady || playerState is not IdleState) return;
 
-            IsBuilding = true;
-            SoundsController.OnStartBuild();
+            if (IsReady) {
+                return;
+            }
+            
+            if (actor is null && !other.CompareTag("Builder Range")) {
+                return;
+            } else {
+                actor = other.GetComponentInParent<ITrapBuilder>();
+            }
+            
+            IsBuilding = actor.CanBuildTrap();
+            SoundsController.OnBuild(IsBuilding);
         }
     }
 }

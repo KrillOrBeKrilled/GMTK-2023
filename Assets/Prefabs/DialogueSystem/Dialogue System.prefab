@@ -906,6 +906,7 @@ GameObject:
   - component: {fileID: 3741743096958657520}
   - component: {fileID: 6711672230207336559}
   - component: {fileID: 3741743096958657521}
+  - component: {fileID: 7146563170792796774}
   - component: {fileID: 3741743096958657527}
   - component: {fileID: 9042731078904656191}
   m_Layer: 0
@@ -951,18 +952,6 @@ MonoBehaviour:
   dialogueBubbleRect: {fileID: 3741743096415219988}
   optionsBubbleRect: {fileID: 1222408367283395131}
   bubbleMargin: 0.15
-  HenDialogueEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: de1eef44fcdd04ee28fa89aaa021100d, type: 2}
-  BossDialogueEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: f67edc7697cc44b95a6e73cb1aa7b062, type: 2}
-  HeroDialogueEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: ef58f8f9ce86149d9ad45e812b3e6673, type: 2}
 --- !u!114 &3741743096958657521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -999,6 +988,27 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onCommand:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &7146563170792796774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3741743096958657524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2e65fd0083240641950122e42a233bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onHenSpeak:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHeroSpeak:
+    m_PersistentCalls:
+      m_Calls: []
+  _onBossSpeak:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &3741743096958657527
@@ -1519,5 +1529,5 @@ Transform:
   - {fileID: 3741743097333894311}
   - {fileID: 6373560024111600768}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

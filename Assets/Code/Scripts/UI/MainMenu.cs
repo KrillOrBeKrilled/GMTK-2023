@@ -1,26 +1,35 @@
+using KrillOrBeKrilled.Managers;
 using DG.Tweening;
-using Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI {
-  public class MainMenu : MonoBehaviour {
-    [SerializeField] private Image _foreground;
+//*******************************************************************************************
+// MainMenu
+//*******************************************************************************************
+namespace KrillOrBeKrilled.UI {
+    /// <summary>
+    /// Handles the fading transitions of the MainMenu scene, along with loading the
+    /// levels scene through the <see cref="SceneNavigationManager"/>.
+    /// </summary>
+    public class MainMenu : MonoBehaviour {
+        [Tooltip("Used to fade the scene in and out.")] 
+        [SerializeField] private Image _foreground;
 
-    private const float FadeDuration = 0.5f;
+        private const float FadeDuration = 0.5f;
 
-    public void OnPlay() {
-      this._foreground.gameObject.SetActive(true);
-      this._foreground
-        .DOFade(1, FadeDuration)
-        .OnComplete(SceneNavigationManager.Instance.LoadLevelsScene);
+        private void Awake() {
+            this._foreground.gameObject.SetActive(true);
+            this._foreground
+                .DOFade(0, FadeDuration)
+                .OnComplete(() => this._foreground.gameObject.SetActive(false));
+        }
+
+        /// <summary> Fades in the screen and loads the Levels scene upon completion. </summary>
+        public void OnPlay() {
+            this._foreground.gameObject.SetActive(true);
+            this._foreground
+                .DOFade(1, FadeDuration)
+                .OnComplete(SceneNavigationManager.Instance.LoadLevelsScene);
+        }
     }
-
-    private void Awake() {
-      this._foreground.gameObject.SetActive(true);
-      this._foreground
-        .DOFade(0, FadeDuration)
-        .OnComplete(() => this._foreground.gameObject.SetActive(false));
-    }
-  }
 }

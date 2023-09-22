@@ -3,6 +3,7 @@ using System.IO;
 using KrillOrBeKrilled.Common.Interfaces;
 using KrillOrBeKrilled.Common.Commands;
 using KrillOrBeKrilled.Input;
+using KrillOrBeKrilled.Traps;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -26,7 +27,7 @@ namespace KrillOrBeKrilled.Core.Player {
         private static MovingState _moving;
         private static GameOverState _gameOver;
         private IPlayerState _state;
-        
+
         [Tooltip("Tracks when the player state changes.")]
         internal UnityEvent<IPlayerState, float, float, float> OnPlayerStateChanged { get; private set; }
 
@@ -43,7 +44,7 @@ namespace KrillOrBeKrilled.Core.Player {
         // ------------- Trap Deployment ------------
         private float _direction = -1;
         private bool _isGrounded = true;
-        
+
         [Tooltip("Tracks when a new trap is selected.")]
         internal UnityEvent<int> OnSelectedTrapIndexChanged;
         [Tooltip("Tracks when a trap has been deployed.")]
@@ -87,6 +88,7 @@ namespace KrillOrBeKrilled.Core.Player {
         internal void Initialize(GameManager gameManager) {
             gameManager.OnHenWon.AddListener(this.StopSession);
             gameManager.OnHenLost.AddListener(this.StopSession);
+            this.OnSelectedTrapIndexChanged?.Invoke(this._trapController.CurrentTrapIndex);
         }
 
         /// <remarks> Invokes the <see cref="OnSelectedTrapIndexChanged"/> event. </remarks>
@@ -96,7 +98,6 @@ namespace KrillOrBeKrilled.Core.Player {
 
             // Need this due to race condition during scene Awake->OnEnable calls
             this._playerInputActions = PlayerInputController.Instance.PlayerInputActions;
-            this.OnSelectedTrapIndexChanged?.Invoke(this._trapController.CurrentTrapIndex);
             this.OnEnable();
         }
 
@@ -190,7 +191,12 @@ namespace KrillOrBeKrilled.Core.Player {
         private void DeployTrap(InputAction.CallbackContext obj) {
             this.ExecuteCommand(this._deployCommand);
         }
-        
+
+        public void SetTrap(Trap selectedTrap) {
+            var command = new SetTrapCommand(this, this._trapController.Traps.IndexOf(selectedTrap));
+            this.ExecuteCommand(command);
+        }
+
         /// <summary>
         /// Selects the first trap from <see cref="TrapController.Traps"/>, executing the <see cref="SetTrapCommand"/>.
         /// </summary>
@@ -255,11 +261,11 @@ namespace KrillOrBeKrilled.Core.Player {
             this.OnSelectedTrapIndexChanged?.Invoke(trapIndex);
         }
 #endregion
-        
+
         //========================================
         // IDamageable Implementations
         //========================================
-        
+
 #region IDamageable Implementations
         // TODO: Do we want the player to have a health bar?
         public int GetHealth() {
@@ -273,7 +279,7 @@ namespace KrillOrBeKrilled.Core.Player {
         public void ApplySpeedPenalty(float penalty) {}
 
         public void ResetSpeedPenalty() {}
-        
+
         /// <summary>
         /// Changes the current <see cref="IPlayerState"/> to the death state and plays associated SFX.
         /// </summary>
@@ -290,18 +296,18 @@ namespace KrillOrBeKrilled.Core.Player {
             this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
         }
 #endregion
-        
+
         //========================================
         // ITrapBuilder Implementations
         //========================================
-        
+
 #region ITrapBuilder Implementations
         /// <summary> Checks that the player is Idle. </summary>
         /// <returns> If the player is currently in an idle state. </returns>
         public bool CanBuildTrap() {
             return this._state is IdleState;
         }
-        
+
         /// <summary>
         /// Sets the animation controller state and clears the trap deployment markers depending on whether the
         /// player has touched the ground or not.
@@ -314,7 +320,7 @@ namespace KrillOrBeKrilled.Core.Player {
             if (isGrounded) {
                 return;
             }
-            
+
             // Left the ground, so trap deployment isn't possible anymore
             this._trapController.DisableTrapDeployment();
         }
@@ -402,7 +408,7 @@ namespace KrillOrBeKrilled.Core.Player {
         //========================================
         // Collisions
         //========================================
-        
+
 #region Collisions
         private void OnCollisionEnter2D(Collision2D collision) {
             if (this._isGrounded) {
@@ -411,11 +417,11 @@ namespace KrillOrBeKrilled.Core.Player {
 
             for (var i = 0; i < collision.GetContacts(collision.contacts); i++) {
                 var contactPosition = (Vector3)collision.GetContact(i).point + (Vector3.down * .15f);
-                
+
                 if (!this._trapController.CheckForGroundTile(contactPosition)) {
                     continue;
                 }
-                
+
                 this.SetGroundedStatus(true);
                 return;
             }
@@ -429,14 +435,14 @@ namespace KrillOrBeKrilled.Core.Player {
         private void OnCollisionExit2D(Collision2D collision) {
             if (!this._isGrounded) {
                 return;
-            }  
-            
+            }
+
             var contactPosition = (Vector3)this._lastContact.point + (Vector3.down * .05f);
-             
+
             if (!this._trapController.CheckForGroundTile(contactPosition)) {
                 return;
             }
-            
+
             this.SetGroundedStatus(false);
         }
 #endregion

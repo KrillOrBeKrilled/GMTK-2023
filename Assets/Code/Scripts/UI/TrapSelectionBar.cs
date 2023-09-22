@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Traps;
+using System.Collections.ObjectModel;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -23,12 +24,15 @@ namespace KrillOrBeKrilled.UI {
         /// </summary>
         /// <param name="playerManager"> Provides event and data references related to the trap system to subscribe
         /// to and link trap icons. </param>
-        public void Initialize(UnityEvent<int> trapIndexChanged, List<Trap> traps) {
+        /// <param name="trapIndexChanged">Event triggered when selected trap index was updated. </param>
+        /// <param name="traps">A list of all traps. </param>
+        /// <param name="selectTrapAction">A callback which is invoked when a Trap Icon is clicked. </param>
+        public void Initialize(UnityEvent<int> trapIndexChanged, ReadOnlyCollection<Trap> traps, UnityAction<Trap> selectTrapAction) {
             trapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
             CoinManager.Instance.OnCoinAmountChanged.AddListener(this.OnCoinAmountChanged);
-            
+
             for (int i = 0; i < this._trapBarIcons.Count; i++) {
-                this._trapBarIcons[i].Initialize(traps[i]);
+                this._trapBarIcons[i].Initialize(traps[i], selectTrapAction);
             }
         }
 

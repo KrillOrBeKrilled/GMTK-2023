@@ -102,7 +102,8 @@ namespace KrillOrBeKrilled.Core.Player {
         }
 
         protected virtual void FixedUpdate() {
-            var directionInput = this._playerInputActions.Player.Move.ReadValue<float>();
+            Vector2 moveInput = this._playerInputActions.Player.Move.ReadValue<Vector2>();
+            float directionInput = moveInput.x;
             this._direction = directionInput != 0 ? directionInput : this._direction;
 
             // Set animation values

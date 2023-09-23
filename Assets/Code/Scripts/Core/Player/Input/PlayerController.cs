@@ -29,7 +29,7 @@ namespace KrillOrBeKrilled.Core.Player {
         private IPlayerState _state;
 
         [Tooltip("Tracks when the player state changes.")]
-        internal UnityEvent<IPlayerState, float, float, float> OnPlayerStateChanged { get; private set; }
+        internal UnityEvent<IPlayerState, Vector3> OnPlayerStateChanged { get; private set; }
 
         // ----------------- Command -----------------
         // Stateless commands; can be copied in the list of previous commands
@@ -76,7 +76,7 @@ namespace KrillOrBeKrilled.Core.Player {
             _gameOver = new GameOverState();
 
             this._state = _idle;
-            this.OnPlayerStateChanged = new UnityEvent<IPlayerState, float, float, float>();
+            this.OnPlayerStateChanged = new UnityEvent<IPlayerState, Vector3>();
             this.OnTrapDeployed = new UnityEvent<Trap>();
             this.OnSelectedTrapIndexChanged = new UnityEvent<Trap>();
 
@@ -166,8 +166,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this._state = _idle;
             this._state.OnEnter(prevState);
 
-            var currentPos = this.transform.position;
-            this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
+            this.OnPlayerStateChanged?.Invoke(this._state, this.transform.position);
         }
 
         /// <summary> Changes the current <see cref="IPlayerState"/> to the moving state. </summary>
@@ -179,8 +178,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this._state = _moving;
             this._state.OnEnter(prevState);
 
-            var currentPos = this.transform.position;
-            this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
+            this.OnPlayerStateChanged?.Invoke(this._state, this.transform.position);
         }
 
         /// <summary> Executes the <see cref="JumpCommand"/>. </summary>
@@ -293,8 +291,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this._state = _gameOver;
             this._state.OnEnter(prevState);
 
-            var currentPos = this.transform.position;
-            this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
+            this.OnPlayerStateChanged?.Invoke(this._state, this.transform.position);
         }
 #endregion
 

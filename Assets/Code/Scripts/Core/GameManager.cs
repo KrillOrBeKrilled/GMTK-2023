@@ -367,11 +367,9 @@ namespace KrillOrBeKrilled.Core {
         /// Ends the game and records analytics player death data if the player state is <see cref="GameOverState"/>.
         /// </summary>
         /// <param name="state"> The <see cref="PlayerController"/> state. </param>
-        /// <param name="xPos"> The player's current position along the x-axis. </param>
-        /// <param name="yPos"> The player's current position along the y-axis. </param>
-        /// <param name="zPos"> The player's current position along the z-axis. </param>
+        /// <param name="pos"> The player's current position. </param>
         /// <remarks> Subscribed to the <see cref="PlayerController.OnPlayerStateChanged"/> event. </remarks>
-        private void OnPlayerStateChanged(IPlayerState state, float xPos, float yPos, float zPos) {
+        private void OnPlayerStateChanged(IPlayerState state, Vector3 pos) {
             if (state is not GameOverState) {
                 return;
             }
@@ -381,7 +379,8 @@ namespace KrillOrBeKrilled.Core {
             if (UGS_Analytics.Instance is null) {
                 return;
             }
-            UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins, xPos, yPos, zPos);
+
+            UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins, pos);
         }
 
         /// <summary>

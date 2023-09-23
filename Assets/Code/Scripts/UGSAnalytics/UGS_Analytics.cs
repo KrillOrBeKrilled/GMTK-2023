@@ -35,15 +35,13 @@ namespace KrillOrBeKrilled.UGSAnalytics {
         /// Packages player death by hero position and coin data to send to the UGS Analytics server.
         /// </summary>
         /// <param name="coinBalance"> The number of coins in the player's position at the time of death. </param>
-        /// <param name="xPos"> The player's current position along the x-axis. </param>
-        /// <param name="yPos"> The player's current position along the y-axis. </param>
-        /// <param name="zPos"> The player's current position along the z-axis. </param>
-        public static void PlayerDeathByHeroCustomEvent(int coinBalance, float xPos, float yPos, float zPos) {
+        /// <param name="pos"> The player's current position. </param>
+        public static void PlayerDeathByHeroCustomEvent(int coinBalance, Vector3 pos) {
             var eventParameters = new Dictionary<string, object> {
                 { "coinBalance", coinBalance },
-                { "xPos", xPos },
-                { "yPos", yPos },
-                { "zPos", zPos }
+                { "xPos", pos.x },
+                { "yPos", pos.y },
+                { "zPos", pos.z }
             };
 
             // The ‘touchHeroDeath’ event will get cached locally and sent during the next scheduled upload, within 1 minute

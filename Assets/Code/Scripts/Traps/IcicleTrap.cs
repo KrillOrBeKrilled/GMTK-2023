@@ -17,9 +17,7 @@ namespace KrillOrBeKrilled.Traps {
         
         /// <inheritdoc cref="Trap.SetUpTrap"/>
         /// <remarks> No additional responses at the moment. </remarks>
-        protected override void SetUpTrap() {
-            
-        }
+        protected override void SetUpTrap() {}
 
         /// <inheritdoc cref="Trap.DetonateTrap"/>
         /// <remarks> Plays the trap detonation animation through the <see cref="Animator"/>. </remarks>

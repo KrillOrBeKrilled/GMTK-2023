@@ -1,7 +1,8 @@
 using System;
 using System.IO;
 using KrillOrBeKrilled.Common.Interfaces;
-using KrillOrBeKrilled.Common.Commands;
+using KrillOrBeKrilled.Core.Commands;
+using KrillOrBeKrilled.Core.Commands.Interfaces;
 using KrillOrBeKrilled.Input;
 using KrillOrBeKrilled.Traps;
 using UnityEngine;
@@ -192,31 +193,7 @@ namespace KrillOrBeKrilled.Core.Player {
         }
 
         public void SetTrap(Trap selectedTrap) {
-            var command = new SetTrapCommand(this, this._trapController.Traps.IndexOf(selectedTrap));
-            this.ExecuteCommand(command);
-        }
-
-        /// <summary>
-        /// Selects the first trap from <see cref="TrapController.Traps"/>, executing the <see cref="SetTrapCommand"/>.
-        /// </summary>
-        private void SetTrap1(InputAction.CallbackContext obj) {
-            var command = new SetTrapCommand(this, 0);
-            this.ExecuteCommand(command);
-        }
-
-        /// <summary>
-        /// Selects the second trap from <see cref="TrapController.Traps"/>, executing the <see cref="SetTrapCommand"/>.
-        /// </summary>
-        private void SetTrap2(InputAction.CallbackContext obj) {
-            var command = new SetTrapCommand(this, 1);
-            this.ExecuteCommand(command);
-        }
-
-        /// <summary>
-        /// Selects the third trap from <see cref="TrapController.Traps"/>, executing the <see cref="SetTrapCommand"/>.
-        /// </summary>
-        private void SetTrap3(InputAction.CallbackContext obj) {
-            var command = new SetTrapCommand(this, 2);
+            var command = new SetTrapCommand(this, selectedTrap);
             this.ExecuteCommand(command);
         }
 #endregion
@@ -246,18 +223,18 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <remarks> Delegates trap deployment execution to <see cref="TrapController.DeployTrap"/>.
         /// Invokes the <see cref="OnTrapDeployed"/> event. </remarks>
         public override void DeployTrap() {
-            if (_trapController.DeployTrap(_direction, out var trapIndex)) {
-                this.OnTrapDeployed?.Invoke(this._trapController.Traps[trapIndex]);
+            if (_trapController.DeployTrap(_direction, out Trap trap)) {
+                this.OnTrapDeployed?.Invoke(trap);
             }
         }
 
         /// <inheritdoc cref="Pawn.ChangeTrap"/>
         /// <remarks> Delegates trap selection execution to the <see cref="TrapController"/>.
         /// Invokes the <see cref="OnSelectedTrapIndexChanged"/> event.</remarks>
-        public override void ChangeTrap(int trapIndex) {
+        public override void ChangeTrap(Trap trap) {
             // Delegate setting trap to TrapController for better encapsulation and efficiency
-            this._trapController.ChangeTrap(trapIndex);
-            this.OnSelectedTrapIndexChanged?.Invoke(this._trapController.Traps[trapIndex]);
+            this._trapController.ChangeTrap(trap);
+            this.OnSelectedTrapIndexChanged?.Invoke(trap);
         }
 #endregion
 
@@ -469,11 +446,6 @@ namespace KrillOrBeKrilled.Core.Player {
             this._playerInputActions.Player.Move.canceled += this.Idle;
             this._playerInputActions.Player.Jump.performed += this.Jump;
             this._playerInputActions.Player.PlaceTrap.performed += this.DeployTrap;
-
-            // Test functions to set the traps
-            this._playerInputActions.Player.SetTrap1.performed += this.SetTrap1;
-            this._playerInputActions.Player.SetTrap2.performed += this.SetTrap2;
-            this._playerInputActions.Player.SetTrap3.performed += this.SetTrap3;
         }
 
         private void OnDisable() {
@@ -488,9 +460,6 @@ namespace KrillOrBeKrilled.Core.Player {
             this._playerInputActions.Player.Move.canceled -= this.Idle;
             this._playerInputActions.Player.Jump.performed -= this.Jump;
             this._playerInputActions.Player.PlaceTrap.performed -= this.DeployTrap;
-            this._playerInputActions.Player.SetTrap1.performed -= this.SetTrap1;
-            this._playerInputActions.Player.SetTrap2.performed -= this.SetTrap2;
-            this._playerInputActions.Player.SetTrap3.performed -= this.SetTrap3;
         }
 #endregion
     }

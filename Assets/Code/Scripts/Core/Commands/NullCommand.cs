@@ -1,7 +1,9 @@
 //*******************************************************************************************
 // NullCommand
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Common.Commands {
+using KrillOrBeKrilled.Core.Commands.Interfaces;
+
+namespace KrillOrBeKrilled.Core.Commands {
     /// <summary>
     /// A Null Object Command that implements <see cref="ICommand"/> to do nothing.
     /// </summary>

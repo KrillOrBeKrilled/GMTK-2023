@@ -3,6 +3,7 @@ using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Tiles;
 using KrillOrBeKrilled.Traps;
 using System.Collections.ObjectModel;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -22,13 +23,10 @@ namespace KrillOrBeKrilled.Core.Player {
 
         // ------------- Trap Deployment -------------
         public ReadOnlyCollection<Trap> Traps;
-        public Trap CurrentTrap => this._trapPrefabs[this.CurrentTrapIndex];
+        public Trap CurrentTrap { get; private set; }
 
         [Tooltip("The trap prefabs to be deployed in the level.")]
         [SerializeField] private List<Trap> _trapPrefabs;
-
-        [Tooltip("The index of the current selected trap.")]
-        internal int CurrentTrapIndex { get; private set; }
 
         [Tooltip("The invisible tilemap for checking trap deployment validity and painting tiles.")]
         [SerializeField] internal Tilemap TrapTilemap;
@@ -51,6 +49,7 @@ namespace KrillOrBeKrilled.Core.Player {
 
             this._previousTilePositions = new List<Vector3Int>();
             this.Traps = this._trapPrefabs.AsReadOnly();
+            this.CurrentTrap = this._trapPrefabs.First();
         }
 
         //========================================
@@ -98,10 +97,9 @@ namespace KrillOrBeKrilled.Core.Player {
             }
 
             // Get the grid placement data for the selected prefab
-            var selectedTrapPrefab = this._trapPrefabs[CurrentTrapIndex];
             var prefabPoints = direction < 0
-                ? selectedTrapPrefab.GetLeftGridPoints()
-                : selectedTrapPrefab.GetRightGridPoints();
+                ? this.CurrentTrap.GetLeftGridPoints()
+                : this.CurrentTrap.GetRightGridPoints();
 
             // Validate the deployment of the trap with a validation score
             var validationScore = 0;
@@ -117,7 +115,7 @@ namespace KrillOrBeKrilled.Core.Player {
             }
 
             // If the validation score isn't high enough, paint the selected tiles an invalid color
-            if (!selectedTrapPrefab.IsValidScore(validationScore)) {
+            if (!this.CurrentTrap.IsValidScore(validationScore)) {
                 this.InvalidateTrapDeployment();
             } else {
                 this.ValidateTrapDeployment();
@@ -134,8 +132,8 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <returns> If the trap is successfully deployed. </returns>
         /// <remarks> Trap deployment ends with the instantiation of the trap prefab corresponding to the
         /// <see cref="trapIndex"/>. </remarks>
-        internal bool DeployTrap(float playerDirection, out int trapIndex) {
-            trapIndex = this.CurrentTrapIndex;
+        internal bool DeployTrap(float playerDirection, out Trap trap) {
+            trap = this.CurrentTrap;
 
             // Left out of State pattern to allow this during movement
             if(!this._canDeploy || this._previousTilePositions.Count < 1) {
@@ -144,9 +142,7 @@ namespace KrillOrBeKrilled.Core.Player {
                 return false;
             }
 
-            Trap trapToSpawn = this._trapPrefabs[this.CurrentTrapIndex];
-
-            if (!CoinManager.Instance.CanAfford(trapToSpawn.Cost)) {
+            if (!CoinManager.Instance.CanAfford(this.CurrentTrap.Cost)) {
                 print("Can't afford the trap!");
                 return false;
             }
@@ -154,23 +150,23 @@ namespace KrillOrBeKrilled.Core.Player {
             // Convert the origin tile position to world space
             var deploymentOrigin = this.TrapTilemap.CellToWorld(_previousTilePositions[0]);
             var spawnPosition = playerDirection < 0
-                ? trapToSpawn.GetLeftSpawnPoint(deploymentOrigin)
-                : trapToSpawn.GetRightSpawnPoint(deploymentOrigin);
+                ? this.CurrentTrap.GetLeftSpawnPoint(deploymentOrigin)
+                : this.CurrentTrap.GetRightSpawnPoint(deploymentOrigin);
 
-            Trap spawnedTrap = Instantiate(trapToSpawn);
+            Trap spawnedTrap = Instantiate(this.CurrentTrap);
             spawnedTrap.Construct(spawnPosition, this._trapCanvas, this._previousTilePositions.ToArray(), _trapSoundsController);
 
-            CoinManager.Instance.ConsumeCoins(trapToSpawn.Cost);
+            CoinManager.Instance.ConsumeCoins(this.CurrentTrap.Cost);
             this._soundsController.OnTileSelectConfirm();
 
             return true;
         }
 
-        /// <summary> Sets the <see cref="CurrentTrapIndex"/> and resets the painted trap tilemap tiles. </summary>
-        /// <param name="trapIndex"> The index of the trap to be selected. </param>
-        internal void ChangeTrap(int trapIndex) {
-            this.CurrentTrapIndex = trapIndex;
-            DisableTrapDeployment();
+        /// <summary> Sets the <see cref="CurrentTrap"/> and resets the painted trap tilemap tiles. </summary>
+        /// <param name="trap">Trap to be selected.</param>
+        internal void ChangeTrap(Trap trap) {
+            this.CurrentTrap = trap;
+            this.DisableTrapDeployment();
         }
 #endregion
 
@@ -250,7 +246,7 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <summary> Retrieves the cost of the current selected trap. </summary>
         /// <returns> The cost of the current selected trap. </returns>
         internal int GetCurrentTrapCost() {
-            return this._trapPrefabs[this.CurrentTrapIndex].Cost;
+            return this.CurrentTrap.Cost;
         }
 #endregion
     }

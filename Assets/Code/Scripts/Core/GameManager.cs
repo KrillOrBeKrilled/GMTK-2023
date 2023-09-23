@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using KrillOrBeKrilled.Cameras;
-using KrillOrBeKrilled.Common.Commands;
+using KrillOrBeKrilled.Core.Commands;
 using KrillOrBeKrilled.Core.Player;
 using KrillOrBeKrilled.Dialogue;
 using KrillOrBeKrilled.Environment;

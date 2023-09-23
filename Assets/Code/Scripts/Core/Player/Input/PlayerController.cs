@@ -220,6 +220,14 @@ namespace KrillOrBeKrilled.Core.Player {
             var command = new SetTrapCommand(this, 2);
             this.ExecuteCommand(command);
         }
+        
+        /// <summary>
+        /// Selects the fourth trap from <see cref="TrapController.Traps"/>, executing the <see cref="SetTrapCommand"/>.
+        /// </summary>
+        private void SetTrap4(InputAction.CallbackContext obj) {
+            var command = new SetTrapCommand(this, 3);
+            this.ExecuteCommand(command);
+        }
 #endregion
 
         //========================================
@@ -476,6 +484,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this._playerInputActions.Player.SetTrap1.performed += this.SetTrap1;
             this._playerInputActions.Player.SetTrap2.performed += this.SetTrap2;
             this._playerInputActions.Player.SetTrap3.performed += this.SetTrap3;
+            this._playerInputActions.Player.SetTrap4.performed += this.SetTrap4;
         }
 
         private void OnDisable() {
@@ -493,6 +502,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this._playerInputActions.Player.SetTrap1.performed -= this.SetTrap1;
             this._playerInputActions.Player.SetTrap2.performed -= this.SetTrap2;
             this._playerInputActions.Player.SetTrap3.performed -= this.SetTrap3;
+            this._playerInputActions.Player.SetTrap4.performed -= this.SetTrap4;
         }
 #endregion
     }

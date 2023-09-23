@@ -121,7 +121,7 @@ namespace KrillOrBeKrilled.UGSAnalytics {
         /// <summary>
         /// Packages trap deployment type data to send to the UGS Analytics server.
         /// </summary>
-        /// <param name="trapType"> The index of the trap that has been deployed. </param>
+        /// <param name="trapName"> The name of the trap that has been deployed. </param>
         public static void DeployTrapCustomEvent(string trapName) {
             var eventParameters = new Dictionary<string, object> {
                 { "trapType", trapName }
@@ -137,7 +137,7 @@ namespace KrillOrBeKrilled.UGSAnalytics {
         /// <summary>
         /// Packages trap selection type and cost data to send to the UGS Analytics server.
         /// </summary>
-        /// <param name="trapType"> The index of the trap that has been selected. </param>
+        /// <param name="trapName"> The name of the trap that has been selected. </param>
         /// <param name="isAffordable"> If the selected trap cost can be afforded with the current coin balance. </param>
         public static void SwitchTrapCustomEvent(string trapName, bool isAffordable) {
             var eventParameters = new Dictionary<string, object> {

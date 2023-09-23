@@ -127,11 +127,11 @@ namespace KrillOrBeKrilled.Core.Player {
         /// is toggled and the trap cost is affordable.
         /// </summary>
         /// <param name="playerDirection"> The direction for the player to deploy the trap. </param>
-        /// <param name="trapIndex"> Stores the index of the trap when it is deployed. If trap deployment
+        /// <param name="trap"> Stores the trap when it is deployed. If trap deployment
         /// is invalid, this parameter remains unchanged. </param>
         /// <returns> If the trap is successfully deployed. </returns>
         /// <remarks> Trap deployment ends with the instantiation of the trap prefab corresponding to the
-        /// <see cref="trapIndex"/>. </remarks>
+        /// <see cref="CurrentTrap"/>. </remarks>
         internal bool DeployTrap(float playerDirection, out Trap trap) {
             trap = this.CurrentTrap;
 

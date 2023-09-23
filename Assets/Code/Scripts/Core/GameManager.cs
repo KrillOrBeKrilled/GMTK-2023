@@ -400,10 +400,9 @@ namespace KrillOrBeKrilled.Core {
         }
 
         /// <summary> Records analytics trap switching data. </summary>
-        /// <param name="trapIndex"> The most recently selected trap index. </param>
+        /// <param name="trap"> The most recently selected trap. </param>
         /// <remarks> Subscribed to the <see cref="PlayerController.OnSelectedTrapIndexChanged"/> event. </remarks>
         private void SelectedTrapIndexChanged(Trap trap) {
-            print($"<color=cyan>Selected: Trap: {trap.gameObject.name}</color>");
             if (UGS_Analytics.Instance is null) {
                 return;
             }
@@ -413,10 +412,9 @@ namespace KrillOrBeKrilled.Core {
         }
 
         /// <summary> Records analytics trap deployment data. </summary>
-        /// <param name="trapIndex"> The most recently selected trap index. </param>
+        /// <param name="trap"> The most recently selected trap. </param>
         /// <remarks> Subscribed to the <see cref="PlayerController.OnTrapDeployed"/> event. </remarks>
         private void OnTrapDeployed(Trap trap) {
-            print($"<color=yellow>Deployed: Trap: {trap.gameObject.name}</color>");
             if (UGS_Analytics.Instance is null) {
                 return;
             }

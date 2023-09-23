@@ -55,7 +55,7 @@ namespace KrillOrBeKrilled.Core.Commands {
         }
 
         /// <summary> Selects or equips a new trap. </summary>
-        /// <param name="trapIndex"> The index of the trap to be selected. </param>
+        /// <param name="trap"> The trap to be selected. </param>
         public virtual void ChangeTrap(Trap trap) {
             // Particular to the hen, so will be overrided instead
         }

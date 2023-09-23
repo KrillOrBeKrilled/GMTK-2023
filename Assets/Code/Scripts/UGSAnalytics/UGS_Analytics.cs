@@ -124,9 +124,7 @@ namespace KrillOrBeKrilled.UGSAnalytics {
         /// Packages trap deployment type data to send to the UGS Analytics server.
         /// </summary>
         /// <param name="trapType"> The index of the trap that has been deployed. </param>
-        public static void DeployTrapCustomEvent(int trapType) {
-            var trapName = GenerateTrapName(trapType);
-
+        public static void DeployTrapCustomEvent(string trapName) {
             var eventParameters = new Dictionary<string, object> {
                 { "trapType", trapName }
             };
@@ -143,9 +141,7 @@ namespace KrillOrBeKrilled.UGSAnalytics {
         /// </summary>
         /// <param name="trapType"> The index of the trap that has been selected. </param>
         /// <param name="isAffordable"> If the selected trap cost can be afforded with the current coin balance. </param>
-        public static void SwitchTrapCustomEvent(int trapType, bool isAffordable) {
-            var trapName = GenerateTrapName(trapType);
-
+        public static void SwitchTrapCustomEvent(string trapName, bool isAffordable) {
             var eventParameters = new Dictionary<string, object> {
                 { "trapType", trapName },
                 { "canAfford", isAffordable }
@@ -156,22 +152,6 @@ namespace KrillOrBeKrilled.UGSAnalytics {
             } catch (ServicesInitializationException e) {
                 Debug.Log("<color=red>AnalyticsService Initialization Failed</color>");
             }
-        }
-
-        /// <summary> Helper method that generates a string name for a given trap index. </summary>
-        /// <param name="trapType"> The index of the trap. </param>
-        /// <returns> The trap name corresponding to the trap index. </returns>
-        private static string GenerateTrapName(int trapType) {
-            switch (trapType) {
-                case 0:
-                    return "Spike Trap";
-                case 1:
-                    return "Swinging Axe Trap";
-                case 2:
-                    return "Acid Pit Trap";
-            }
-
-            return "";
         }
     }
 }

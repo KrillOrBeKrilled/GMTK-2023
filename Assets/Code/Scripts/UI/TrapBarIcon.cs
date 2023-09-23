@@ -34,8 +34,9 @@ namespace KrillOrBeKrilled.UI {
         }
 
         /// <summary> Outlines this icon if the corresponding trap is currently selected. </summary>
-        /// <param name="isSelected"> If the trap type associated with this icon is currently selected. </param>
-        public void OnSelectedChanged(bool isSelected) {
+        /// <param name="newTrap">The newly selected trap.</param>
+        public void OnSelectedChanged(Trap newTrap) {
+            bool isSelected = newTrap == this._assignedTrap;
             Color targetColor = isSelected ? this._selectedColor : this._defaultColor;
             this._selectionOutline.DOColor(targetColor, 0.3f);
 

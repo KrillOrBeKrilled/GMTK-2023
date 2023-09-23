@@ -46,9 +46,9 @@ namespace KrillOrBeKrilled.Core.Player {
         private bool _isGrounded = true;
 
         [Tooltip("Tracks when a new trap is selected.")]
-        internal UnityEvent<int> OnSelectedTrapIndexChanged;
+        internal UnityEvent<Trap> OnSelectedTrapIndexChanged;
         [Tooltip("Tracks when a trap has been deployed.")]
-        internal UnityEvent<int> OnTrapDeployed { get; private set; }
+        internal UnityEvent<Trap> OnTrapDeployed { get; private set; }
 
         private TrapController _trapController;
 
@@ -77,8 +77,8 @@ namespace KrillOrBeKrilled.Core.Player {
 
             this._state = _idle;
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState, float, float, float>();
-            this.OnTrapDeployed = new UnityEvent<int>();
-            this.OnSelectedTrapIndexChanged = new UnityEvent<int>();
+            this.OnTrapDeployed = new UnityEvent<Trap>();
+            this.OnSelectedTrapIndexChanged = new UnityEvent<Trap>();
 
             _animator.SetBool("is_grounded", _isGrounded);
         }
@@ -88,7 +88,8 @@ namespace KrillOrBeKrilled.Core.Player {
         internal void Initialize(GameManager gameManager) {
             gameManager.OnHenWon.AddListener(this.StopSession);
             gameManager.OnHenLost.AddListener(this.StopSession);
-            this.OnSelectedTrapIndexChanged?.Invoke(this._trapController.CurrentTrapIndex);
+
+            this.OnSelectedTrapIndexChanged?.Invoke(this._trapController.CurrentTrap);
         }
 
         /// <remarks> Invokes the <see cref="OnSelectedTrapIndexChanged"/> event. </remarks>
@@ -248,7 +249,7 @@ namespace KrillOrBeKrilled.Core.Player {
         /// Invokes the <see cref="OnTrapDeployed"/> event. </remarks>
         public override void DeployTrap() {
             if (_trapController.DeployTrap(_direction, out var trapIndex)) {
-                this.OnTrapDeployed?.Invoke(trapIndex);
+                this.OnTrapDeployed?.Invoke(this._trapController.Traps[trapIndex]);
             }
         }
 
@@ -258,7 +259,7 @@ namespace KrillOrBeKrilled.Core.Player {
         public override void ChangeTrap(int trapIndex) {
             // Delegate setting trap to TrapController for better encapsulation and efficiency
             this._trapController.ChangeTrap(trapIndex);
-            this.OnSelectedTrapIndexChanged?.Invoke(trapIndex);
+            this.OnSelectedTrapIndexChanged?.Invoke(this._trapController.Traps[trapIndex]);
         }
 #endregion
 

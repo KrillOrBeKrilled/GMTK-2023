@@ -22,6 +22,7 @@ namespace KrillOrBeKrilled.Core.Player {
 
         // ------------- Trap Deployment -------------
         public ReadOnlyCollection<Trap> Traps;
+        public Trap CurrentTrap => this._trapPrefabs[this.CurrentTrapIndex];
 
         [Tooltip("The trap prefabs to be deployed in the level.")]
         [SerializeField] private List<Trap> _trapPrefabs;

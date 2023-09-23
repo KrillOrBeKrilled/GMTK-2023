@@ -9,6 +9,7 @@ using KrillOrBeKrilled.Environment;
 using KrillOrBeKrilled.Heroes;
 using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Model;
+using KrillOrBeKrilled.Traps;
 using KrillOrBeKrilled.UGSAnalytics;
 using KrillOrBeKrilled.UI;
 using UnityEngine;
@@ -402,24 +403,26 @@ namespace KrillOrBeKrilled.Core {
         /// <summary> Records analytics trap switching data. </summary>
         /// <param name="trapIndex"> The most recently selected trap index. </param>
         /// <remarks> Subscribed to the <see cref="PlayerController.OnSelectedTrapIndexChanged"/> event. </remarks>
-        private void SelectedTrapIndexChanged(int trapIndex) {
+        private void SelectedTrapIndexChanged(Trap trap) {
+            print($"<color=cyan>Selected: Trap: {trap.gameObject.name}</color>");
             if (UGS_Analytics.Instance is null) {
                 return;
             }
 
             var isAffordable = this._playerManager.PlayerController.GetTrapCost() >= CoinManager.Instance.Coins;
-            UGS_Analytics.SwitchTrapCustomEvent(trapIndex, isAffordable);
+            UGS_Analytics.SwitchTrapCustomEvent(trap.gameObject.name, isAffordable);
         }
 
         /// <summary> Records analytics trap deployment data. </summary>
         /// <param name="trapIndex"> The most recently selected trap index. </param>
         /// <remarks> Subscribed to the <see cref="PlayerController.OnTrapDeployed"/> event. </remarks>
-        private void OnTrapDeployed(int trapIndex) {
+        private void OnTrapDeployed(Trap trap) {
+            print($"<color=yellow>Deployed: Trap: {trap.gameObject.name}</color>");
             if (UGS_Analytics.Instance is null) {
                 return;
             }
 
-            UGS_Analytics.DeployTrapCustomEvent(trapIndex);
+            UGS_Analytics.DeployTrapCustomEvent(trap.gameObject.name);
         }
 
         /// <summary> Records analytics hero death data. </summary>

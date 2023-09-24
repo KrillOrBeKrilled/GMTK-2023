@@ -1,9 +1,10 @@
+using KrillOrBeKrilled.Traps;
 using UnityEngine;
 
 //*******************************************************************************************
 // Pawn
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Common.Commands {
+namespace KrillOrBeKrilled.Core.Commands {
     /// <summary>
     /// Parent class to handle simple movement methods for controlling a character
     /// adapted to the Command pattern for easy command execution.
@@ -37,7 +38,7 @@ namespace KrillOrBeKrilled.Common.Commands {
         public virtual void Jump() {
             this.RBody.AddForce(Vector2.up * this.JumpingForce);
         }
-        
+
         /// <summary> Freezes the character position through the <see cref="Rigidbody2D"/>. </summary>
         public virtual void FreezePosition() {
             this.RBody.constraints = RigidbodyConstraints2D.FreezeAll;
@@ -54,8 +55,8 @@ namespace KrillOrBeKrilled.Common.Commands {
         }
 
         /// <summary> Selects or equips a new trap. </summary>
-        /// <param name="trapIndex"> The index of the trap to be selected. </param>
-        public virtual void ChangeTrap(int trapIndex) {
+        /// <param name="trap"> The trap to be selected. </param>
+        public virtual void ChangeTrap(Trap trap) {
             // Particular to the hen, so will be overrided instead
         }
     }

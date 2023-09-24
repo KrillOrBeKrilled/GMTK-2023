@@ -1,7 +1,8 @@
 using System;
 using System.IO;
 using KrillOrBeKrilled.Common.Interfaces;
-using KrillOrBeKrilled.Common.Commands;
+using KrillOrBeKrilled.Core.Commands;
+using KrillOrBeKrilled.Core.Commands.Interfaces;
 using KrillOrBeKrilled.Input;
 using KrillOrBeKrilled.Traps;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace KrillOrBeKrilled.Core.Player {
         private IPlayerState _state;
 
         [Tooltip("Tracks when the player state changes.")]
-        internal UnityEvent<IPlayerState, float, float, float> OnPlayerStateChanged { get; private set; }
+        internal UnityEvent<IPlayerState, Vector3> OnPlayerStateChanged { get; private set; }
 
         // ----------------- Command -----------------
         // Stateless commands; can be copied in the list of previous commands
@@ -46,9 +47,9 @@ namespace KrillOrBeKrilled.Core.Player {
         private bool _isGrounded = true;
 
         [Tooltip("Tracks when a new trap is selected.")]
-        internal UnityEvent<int> OnSelectedTrapIndexChanged;
+        internal UnityEvent<Trap> OnSelectedTrapIndexChanged;
         [Tooltip("Tracks when a trap has been deployed.")]
-        internal UnityEvent<int> OnTrapDeployed { get; private set; }
+        internal UnityEvent<Trap> OnTrapDeployed { get; private set; }
 
         private TrapController _trapController;
 
@@ -76,9 +77,9 @@ namespace KrillOrBeKrilled.Core.Player {
             _gameOver = new GameOverState();
 
             this._state = _idle;
-            this.OnPlayerStateChanged = new UnityEvent<IPlayerState, float, float, float>();
-            this.OnTrapDeployed = new UnityEvent<int>();
-            this.OnSelectedTrapIndexChanged = new UnityEvent<int>();
+            this.OnPlayerStateChanged = new UnityEvent<IPlayerState, Vector3>();
+            this.OnTrapDeployed = new UnityEvent<Trap>();
+            this.OnSelectedTrapIndexChanged = new UnityEvent<Trap>();
 
             _animator.SetBool("is_grounded", _isGrounded);
         }
@@ -88,7 +89,8 @@ namespace KrillOrBeKrilled.Core.Player {
         internal void Initialize(GameManager gameManager) {
             gameManager.OnHenWon.AddListener(this.StopSession);
             gameManager.OnHenLost.AddListener(this.StopSession);
-            this.OnSelectedTrapIndexChanged?.Invoke(this._trapController.CurrentTrapIndex);
+
+            this.OnSelectedTrapIndexChanged?.Invoke(this._trapController.CurrentTrap);
         }
 
         /// <remarks> Invokes the <see cref="OnSelectedTrapIndexChanged"/> event. </remarks>
@@ -165,8 +167,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this._state = _idle;
             this._state.OnEnter(prevState);
 
-            var currentPos = this.transform.position;
-            this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
+            this.OnPlayerStateChanged?.Invoke(this._state, this.transform.position);
         }
 
         /// <summary> Changes the current <see cref="IPlayerState"/> to the moving state. </summary>
@@ -178,8 +179,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this._state = _moving;
             this._state.OnEnter(prevState);
 
-            var currentPos = this.transform.position;
-            this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
+            this.OnPlayerStateChanged?.Invoke(this._state, this.transform.position);
         }
 
         /// <summary> Executes the <see cref="JumpCommand"/>. </summary>
@@ -193,31 +193,7 @@ namespace KrillOrBeKrilled.Core.Player {
         }
 
         public void SetTrap(Trap selectedTrap) {
-            var command = new SetTrapCommand(this, this._trapController.Traps.IndexOf(selectedTrap));
-            this.ExecuteCommand(command);
-        }
-
-        /// <summary>
-        /// Selects the first trap from <see cref="TrapController.Traps"/>, executing the <see cref="SetTrapCommand"/>.
-        /// </summary>
-        private void SetTrap1(InputAction.CallbackContext obj) {
-            var command = new SetTrapCommand(this, 0);
-            this.ExecuteCommand(command);
-        }
-
-        /// <summary>
-        /// Selects the second trap from <see cref="TrapController.Traps"/>, executing the <see cref="SetTrapCommand"/>.
-        /// </summary>
-        private void SetTrap2(InputAction.CallbackContext obj) {
-            var command = new SetTrapCommand(this, 1);
-            this.ExecuteCommand(command);
-        }
-
-        /// <summary>
-        /// Selects the third trap from <see cref="TrapController.Traps"/>, executing the <see cref="SetTrapCommand"/>.
-        /// </summary>
-        private void SetTrap3(InputAction.CallbackContext obj) {
-            var command = new SetTrapCommand(this, 2);
+            var command = new SetTrapCommand(this, selectedTrap);
             this.ExecuteCommand(command);
         }
 #endregion
@@ -247,18 +223,18 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <remarks> Delegates trap deployment execution to <see cref="TrapController.DeployTrap"/>.
         /// Invokes the <see cref="OnTrapDeployed"/> event. </remarks>
         public override void DeployTrap() {
-            if (_trapController.DeployTrap(_direction, out var trapIndex)) {
-                this.OnTrapDeployed?.Invoke(trapIndex);
+            if (_trapController.DeployTrap(_direction, out Trap trap)) {
+                this.OnTrapDeployed?.Invoke(trap);
             }
         }
 
         /// <inheritdoc cref="Pawn.ChangeTrap"/>
         /// <remarks> Delegates trap selection execution to the <see cref="TrapController"/>.
         /// Invokes the <see cref="OnSelectedTrapIndexChanged"/> event.</remarks>
-        public override void ChangeTrap(int trapIndex) {
+        public override void ChangeTrap(Trap trap) {
             // Delegate setting trap to TrapController for better encapsulation and efficiency
-            this._trapController.ChangeTrap(trapIndex);
-            this.OnSelectedTrapIndexChanged?.Invoke(trapIndex);
+            this._trapController.ChangeTrap(trap);
+            this.OnSelectedTrapIndexChanged?.Invoke(trap);
         }
 #endregion
 
@@ -292,8 +268,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this._state = _gameOver;
             this._state.OnEnter(prevState);
 
-            var currentPos = this.transform.position;
-            this.OnPlayerStateChanged?.Invoke(this._state, currentPos.x, currentPos.y, currentPos.z);
+            this.OnPlayerStateChanged?.Invoke(this._state, this.transform.position);
         }
 #endregion
 
@@ -471,11 +446,6 @@ namespace KrillOrBeKrilled.Core.Player {
             this._playerInputActions.Player.Move.canceled += this.Idle;
             this._playerInputActions.Player.Jump.performed += this.Jump;
             this._playerInputActions.Player.PlaceTrap.performed += this.DeployTrap;
-
-            // Test functions to set the traps
-            this._playerInputActions.Player.SetTrap1.performed += this.SetTrap1;
-            this._playerInputActions.Player.SetTrap2.performed += this.SetTrap2;
-            this._playerInputActions.Player.SetTrap3.performed += this.SetTrap3;
         }
 
         private void OnDisable() {
@@ -490,9 +460,6 @@ namespace KrillOrBeKrilled.Core.Player {
             this._playerInputActions.Player.Move.canceled -= this.Idle;
             this._playerInputActions.Player.Jump.performed -= this.Jump;
             this._playerInputActions.Player.PlaceTrap.performed -= this.DeployTrap;
-            this._playerInputActions.Player.SetTrap1.performed -= this.SetTrap1;
-            this._playerInputActions.Player.SetTrap2.performed -= this.SetTrap2;
-            this._playerInputActions.Player.SetTrap3.performed -= this.SetTrap3;
         }
 #endregion
     }

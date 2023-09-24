@@ -24,11 +24,11 @@ namespace KrillOrBeKrilled.UI {
         /// </summary>
         /// <param name="playerManager"> Provides event and data references related to the trap system to subscribe
         /// to and link trap icons. </param>
-        /// <param name="trapIndexChanged">Event triggered when selected trap index was updated. </param>
+        /// <param name="trapChanged">Event triggered when selected trap index was updated. </param>
         /// <param name="traps">A list of all traps. </param>
         /// <param name="selectTrapAction">A callback which is invoked when a Trap Icon is clicked. </param>
-        public void Initialize(UnityEvent<int> trapIndexChanged, ReadOnlyCollection<Trap> traps, UnityAction<Trap> selectTrapAction) {
-            trapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
+        public void Initialize(UnityEvent<Trap> trapChanged, ReadOnlyCollection<Trap> traps, UnityAction<Trap> selectTrapAction) {
+            trapChanged.AddListener(this.SelectedTrapIndexChanged);
             CoinManager.Instance.OnCoinAmountChanged.AddListener(this.OnCoinAmountChanged);
 
             for (int i = 0; i < this._trapBarIcons.Count; i++) {
@@ -39,9 +39,9 @@ namespace KrillOrBeKrilled.UI {
         /// <summary> Updates each <see cref="TrapBarIcon"/> when a new trap is selected. </summary>
         /// <param name="newIndex"> The index of the current selected trap. </param>
         /// <remarks> Listens on the <see cref="PlayerController.OnSelectedTrapIndexChanged"/> event. </remarks>
-        private void SelectedTrapIndexChanged(int newIndex) {
+        private void SelectedTrapIndexChanged(Trap newTrap) {
             for (int i = 0; i < this._trapBarIcons.Count; i++) {
-                this._trapBarIcons[i].OnSelectedChanged(i == newIndex);
+                this._trapBarIcons[i].OnSelectedChanged(newTrap);
             }
         }
 

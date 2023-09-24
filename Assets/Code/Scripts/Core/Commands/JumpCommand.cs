@@ -1,7 +1,9 @@
 //*******************************************************************************************
 // JumpCommand
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Common.Commands {
+using KrillOrBeKrilled.Core.Commands.Interfaces;
+
+namespace KrillOrBeKrilled.Core.Commands {
     /// <summary>
     /// Implements <see cref="ICommand"/> to execute the player action for jumping.
     /// </summary>

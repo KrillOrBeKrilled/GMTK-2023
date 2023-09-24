@@ -35,15 +35,13 @@ namespace KrillOrBeKrilled.UGSAnalytics {
         /// Packages player death by hero position and coin data to send to the UGS Analytics server.
         /// </summary>
         /// <param name="coinBalance"> The number of coins in the player's position at the time of death. </param>
-        /// <param name="xPos"> The player's current position along the x-axis. </param>
-        /// <param name="yPos"> The player's current position along the y-axis. </param>
-        /// <param name="zPos"> The player's current position along the z-axis. </param>
-        public static void PlayerDeathByHeroCustomEvent(int coinBalance, float xPos, float yPos, float zPos) {
+        /// <param name="pos"> The player's current position. </param>
+        public static void PlayerDeathByHeroCustomEvent(int coinBalance, Vector3 pos) {
             var eventParameters = new Dictionary<string, object> {
                 { "coinBalance", coinBalance },
-                { "xPos", xPos },
-                { "yPos", yPos },
-                { "zPos", zPos }
+                { "xPos", pos.x },
+                { "yPos", pos.y },
+                { "zPos", pos.z }
             };
 
             // The ‘touchHeroDeath’ event will get cached locally and sent during the next scheduled upload, within 1 minute
@@ -123,10 +121,8 @@ namespace KrillOrBeKrilled.UGSAnalytics {
         /// <summary>
         /// Packages trap deployment type data to send to the UGS Analytics server.
         /// </summary>
-        /// <param name="trapType"> The index of the trap that has been deployed. </param>
-        public static void DeployTrapCustomEvent(int trapType) {
-            var trapName = GenerateTrapName(trapType);
-
+        /// <param name="trapName"> The name of the trap that has been deployed. </param>
+        public static void DeployTrapCustomEvent(string trapName) {
             var eventParameters = new Dictionary<string, object> {
                 { "trapType", trapName }
             };
@@ -141,11 +137,9 @@ namespace KrillOrBeKrilled.UGSAnalytics {
         /// <summary>
         /// Packages trap selection type and cost data to send to the UGS Analytics server.
         /// </summary>
-        /// <param name="trapType"> The index of the trap that has been selected. </param>
+        /// <param name="trapName"> The name of the trap that has been selected. </param>
         /// <param name="isAffordable"> If the selected trap cost can be afforded with the current coin balance. </param>
-        public static void SwitchTrapCustomEvent(int trapType, bool isAffordable) {
-            var trapName = GenerateTrapName(trapType);
-
+        public static void SwitchTrapCustomEvent(string trapName, bool isAffordable) {
             var eventParameters = new Dictionary<string, object> {
                 { "trapType", trapName },
                 { "canAfford", isAffordable }
@@ -156,22 +150,6 @@ namespace KrillOrBeKrilled.UGSAnalytics {
             } catch (ServicesInitializationException e) {
                 Debug.Log("<color=red>AnalyticsService Initialization Failed</color>");
             }
-        }
-
-        /// <summary> Helper method that generates a string name for a given trap index. </summary>
-        /// <param name="trapType"> The index of the trap. </param>
-        /// <returns> The trap name corresponding to the trap index. </returns>
-        private static string GenerateTrapName(int trapType) {
-            switch (trapType) {
-                case 0:
-                    return "Spike Trap";
-                case 1:
-                    return "Swinging Axe Trap";
-                case 2:
-                    return "Acid Pit Trap";
-            }
-
-            return "";
         }
     }
 }

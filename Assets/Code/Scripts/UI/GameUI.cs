@@ -54,7 +54,7 @@ namespace KrillOrBeKrilled.UI {
         /// <param name="playerManager"> Provides events related to the trap system to subscribe to. </param>
         public void Initialize(UnityEvent setupComplete, UnityEvent<string> henWon, UnityEvent<string> henLost,
             UnityEvent<Hero> heroSpawned,
-            UnityEvent<int> trapIndexChanged, ReadOnlyCollection<Trap> traps,
+            UnityEvent<Trap> trapChanged, ReadOnlyCollection<Trap> traps,
             UnityEvent onStartLevel, UnityAction onSkipDialogue,
             Transform playerTransform, Transform levelStartTransform, Transform levelEndTransform,
             UnityAction<Trap> selectTrapAction) {
@@ -63,7 +63,7 @@ namespace KrillOrBeKrilled.UI {
             henLost.AddListener(this.OnHenLost);
             heroSpawned.AddListener(this.OnHeroSpawned);
 
-            this._trapSelectionBar.Initialize(trapIndexChanged, traps, selectTrapAction);
+            this._trapSelectionBar.Initialize(trapChanged, traps, selectTrapAction);
             this._skipDialogueUI.Initialize(onStartLevel, onSkipDialogue);
             this._mapUI.Initialize(playerTransform, levelStartTransform.position.x, levelEndTransform.position.x);
         }

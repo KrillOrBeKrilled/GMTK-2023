@@ -1,14 +1,16 @@
 //*******************************************************************************************
 // MoveCommand
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Common.Commands {
+using KrillOrBeKrilled.Core.Commands.Interfaces;
+
+namespace KrillOrBeKrilled.Core.Commands {
     /// <summary>
     /// Implements <see cref="ICommand"/> to execute the player action for movement.
     /// </summary>
     public class MoveCommand : ICommand {
         /// Reference to the player Pawn to control.
         private readonly Pawn _controlledObject;
-        
+
         /// Direction for the player Pawn to move towards on execution of this command.
         private readonly float _inputDirection;
 
@@ -19,7 +21,7 @@ namespace KrillOrBeKrilled.Common.Commands {
             this._controlledObject = controlledObject;
             this._inputDirection = inputDirection;
         }
-        
+
         public float GetDirection() {
             return this._inputDirection;
         }

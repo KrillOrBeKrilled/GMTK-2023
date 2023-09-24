@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using KrillOrBeKrilled.Cameras;
-using KrillOrBeKrilled.Common.Commands;
+using KrillOrBeKrilled.Core.Commands;
 using KrillOrBeKrilled.Core.Player;
 using KrillOrBeKrilled.Dialogue;
 using KrillOrBeKrilled.Environment;
 using KrillOrBeKrilled.Heroes;
 using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Model;
+using KrillOrBeKrilled.Traps;
 using KrillOrBeKrilled.UGSAnalytics;
 using KrillOrBeKrilled.UI;
 using UnityEngine;
@@ -366,11 +367,9 @@ namespace KrillOrBeKrilled.Core {
         /// Ends the game and records analytics player death data if the player state is <see cref="GameOverState"/>.
         /// </summary>
         /// <param name="state"> The <see cref="PlayerController"/> state. </param>
-        /// <param name="xPos"> The player's current position along the x-axis. </param>
-        /// <param name="yPos"> The player's current position along the y-axis. </param>
-        /// <param name="zPos"> The player's current position along the z-axis. </param>
+        /// <param name="pos"> The player's current position. </param>
         /// <remarks> Subscribed to the <see cref="PlayerController.OnPlayerStateChanged"/> event. </remarks>
-        private void OnPlayerStateChanged(IPlayerState state, float xPos, float yPos, float zPos) {
+        private void OnPlayerStateChanged(IPlayerState state, Vector3 pos) {
             if (state is not GameOverState) {
                 return;
             }
@@ -380,7 +379,8 @@ namespace KrillOrBeKrilled.Core {
             if (UGS_Analytics.Instance is null) {
                 return;
             }
-            UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins, xPos, yPos, zPos);
+
+            UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins, pos);
         }
 
         /// <summary>
@@ -400,26 +400,26 @@ namespace KrillOrBeKrilled.Core {
         }
 
         /// <summary> Records analytics trap switching data. </summary>
-        /// <param name="trapIndex"> The most recently selected trap index. </param>
+        /// <param name="trap"> The most recently selected trap. </param>
         /// <remarks> Subscribed to the <see cref="PlayerController.OnSelectedTrapIndexChanged"/> event. </remarks>
-        private void SelectedTrapIndexChanged(int trapIndex) {
+        private void SelectedTrapIndexChanged(Trap trap) {
             if (UGS_Analytics.Instance is null) {
                 return;
             }
 
             var isAffordable = this._playerManager.PlayerController.GetTrapCost() >= CoinManager.Instance.Coins;
-            UGS_Analytics.SwitchTrapCustomEvent(trapIndex, isAffordable);
+            UGS_Analytics.SwitchTrapCustomEvent(trap.gameObject.name, isAffordable);
         }
 
         /// <summary> Records analytics trap deployment data. </summary>
-        /// <param name="trapIndex"> The most recently selected trap index. </param>
+        /// <param name="trap"> The most recently selected trap. </param>
         /// <remarks> Subscribed to the <see cref="PlayerController.OnTrapDeployed"/> event. </remarks>
-        private void OnTrapDeployed(int trapIndex) {
+        private void OnTrapDeployed(Trap trap) {
             if (UGS_Analytics.Instance is null) {
                 return;
             }
 
-            UGS_Analytics.DeployTrapCustomEvent(trapIndex);
+            UGS_Analytics.DeployTrapCustomEvent(trap.gameObject.name);
         }
 
         /// <summary> Records analytics hero death data. </summary>

@@ -16,8 +16,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
 namespace KrillOrBeKrilled.Input {
-    public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
-    {
+    public partial class @PlayerInputActions : IInputActionCollection2, IDisposable {
         public InputActionAsset asset { get; }
 
         public @PlayerInputActions() {
@@ -78,42 +77,6 @@ namespace KrillOrBeKrilled.Input {
                     ""name"": ""Place Trap"",
                     ""type"": ""Button"",
                     ""id"": ""e1376b3a-294c-4275-a518-15da36561a08"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SetTrap1"",
-                    ""type"": ""Button"",
-                    ""id"": ""305dacb5-ed5b-4481-8288-e8545653e14d"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SetTrap2"",
-                    ""type"": ""Button"",
-                    ""id"": ""c2643fb8-7d4f-49b3-b78b-a0863b323b31"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SetTrap3"",
-                    ""type"": ""Button"",
-                    ""id"": ""f1219c89-a821-4b7a-929a-271c65ddbd04"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SetTrap4"",
-                    ""type"": ""Button"",
-                    ""id"": ""774868ad-cd88-42dc-b7c8-8e3bbb69e96d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -208,50 +171,6 @@ namespace KrillOrBeKrilled.Input {
                     ""action"": ""Place Trap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8d6d22d8-6090-45e2-80a8-6dc1d73d9b3f"",
-                    ""path"": ""<Keyboard>/1"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SetTrap1"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8f1097bb-af4b-466d-a626-56d67a45262a"",
-                    ""path"": ""<Keyboard>/2"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SetTrap2"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""292f8c6a-f504-480c-9977-edf7e692f23c"",
-                    ""path"": ""<Keyboard>/3"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SetTrap3"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""a6fa72de-77c4-447f-8cb9-d681ff5d842f"",
-                    ""path"": ""<Keyboard>/4"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SetTrap4"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -294,10 +213,6 @@ namespace KrillOrBeKrilled.Input {
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
             m_Player_PlaceTrap = m_Player.FindAction("Place Trap", throwIfNotFound: true);
-            m_Player_SetTrap1 = m_Player.FindAction("SetTrap1", throwIfNotFound: true);
-            m_Player_SetTrap2 = m_Player.FindAction("SetTrap2", throwIfNotFound: true);
-            m_Player_SetTrap3 = m_Player.FindAction("SetTrap3", throwIfNotFound: true);
-            m_Player_SetTrap4 = m_Player.FindAction("SetTrap4", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_AdvanceDialogue = m_UI.FindAction("Advance Dialogue", throwIfNotFound: true);
@@ -307,14 +222,12 @@ namespace KrillOrBeKrilled.Input {
             UnityEngine.Object.Destroy(asset);
         }
 
-        public InputBinding? bindingMask
-        {
+        public InputBinding? bindingMask {
             get => asset.bindingMask;
             set => asset.bindingMask = value;
         }
 
-        public ReadOnlyArray<InputDevice>? devices
-        {
+        public ReadOnlyArray<InputDevice>? devices {
             get => asset.devices;
             set => asset.devices = value;
         }
@@ -419,13 +332,7 @@ namespace KrillOrBeKrilled.Input {
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Jump;
         private readonly InputAction m_Player_PlaceTrap;
-        private readonly InputAction m_Player_SetTrap1;
-        private readonly InputAction m_Player_SetTrap2;
-        private readonly InputAction m_Player_SetTrap3;
-        private readonly InputAction m_Player_SetTrap4;
-
-        public struct PlayerActions
-        {
+        public struct PlayerActions {
             private @PlayerInputActions m_Wrapper;
 
             public PlayerActions(@PlayerInputActions wrapper) {
@@ -435,23 +342,9 @@ namespace KrillOrBeKrilled.Input {
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Jump => m_Wrapper.m_Player_Jump;
             public InputAction @PlaceTrap => m_Wrapper.m_Player_PlaceTrap;
-            public InputAction @SetTrap1 => m_Wrapper.m_Player_SetTrap1;
-            public InputAction @SetTrap2 => m_Wrapper.m_Player_SetTrap2;
-            public InputAction @SetTrap3 => m_Wrapper.m_Player_SetTrap3;
-            public InputAction @SetTrap4 => m_Wrapper.m_Player_SetTrap4;
-
-            public InputActionMap Get() {
-                return m_Wrapper.m_Player;
-            }
-
-            public void Enable() {
-                Get().Enable();
-            }
-
-            public void Disable() {
-                Get().Disable();
-            }
-
+            public InputActionMap Get() { return m_Wrapper.m_Player; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
             public bool enabled => Get().enabled;
 
             public static implicit operator InputActionMap(PlayerActions set) {
@@ -470,18 +363,6 @@ namespace KrillOrBeKrilled.Input {
                 @PlaceTrap.started += instance.OnPlaceTrap;
                 @PlaceTrap.performed += instance.OnPlaceTrap;
                 @PlaceTrap.canceled += instance.OnPlaceTrap;
-                @SetTrap1.started += instance.OnSetTrap1;
-                @SetTrap1.performed += instance.OnSetTrap1;
-                @SetTrap1.canceled += instance.OnSetTrap1;
-                @SetTrap2.started += instance.OnSetTrap2;
-                @SetTrap2.performed += instance.OnSetTrap2;
-                @SetTrap2.canceled += instance.OnSetTrap2;
-                @SetTrap3.started += instance.OnSetTrap3;
-                @SetTrap3.performed += instance.OnSetTrap3;
-                @SetTrap3.canceled += instance.OnSetTrap3;
-                @SetTrap4.started += instance.OnSetTrap4;
-                @SetTrap4.performed += instance.OnSetTrap4;
-                @SetTrap4.canceled += instance.OnSetTrap4;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance) {
@@ -494,18 +375,6 @@ namespace KrillOrBeKrilled.Input {
                 @PlaceTrap.started -= instance.OnPlaceTrap;
                 @PlaceTrap.performed -= instance.OnPlaceTrap;
                 @PlaceTrap.canceled -= instance.OnPlaceTrap;
-                @SetTrap1.started -= instance.OnSetTrap1;
-                @SetTrap1.performed -= instance.OnSetTrap1;
-                @SetTrap1.canceled -= instance.OnSetTrap1;
-                @SetTrap2.started -= instance.OnSetTrap2;
-                @SetTrap2.performed -= instance.OnSetTrap2;
-                @SetTrap2.canceled -= instance.OnSetTrap2;
-                @SetTrap3.started -= instance.OnSetTrap3;
-                @SetTrap3.performed -= instance.OnSetTrap3;
-                @SetTrap3.canceled -= instance.OnSetTrap3;
-                @SetTrap4.started -= instance.OnSetTrap4;
-                @SetTrap4.performed -= instance.OnSetTrap4;
-                @SetTrap4.canceled -= instance.OnSetTrap4;
             }
 
             public void RemoveCallbacks(IPlayerActions instance) {
@@ -595,10 +464,6 @@ namespace KrillOrBeKrilled.Input {
             void OnMove(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
             void OnPlaceTrap(InputAction.CallbackContext context);
-            void OnSetTrap1(InputAction.CallbackContext context);
-            void OnSetTrap2(InputAction.CallbackContext context);
-            void OnSetTrap3(InputAction.CallbackContext context);
-            void OnSetTrap4(InputAction.CallbackContext context);
         }
 
         public interface IUIActions

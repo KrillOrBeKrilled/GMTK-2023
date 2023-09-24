@@ -196,14 +196,6 @@ namespace KrillOrBeKrilled.Core.Player {
             var command = new SetTrapCommand(this, selectedTrap);
             this.ExecuteCommand(command);
         }
-        
-        /// <summary>
-        /// Selects the fourth trap from <see cref="TrapController.Traps"/>, executing the <see cref="SetTrapCommand"/>.
-        /// </summary>
-        private void SetTrap4(InputAction.CallbackContext obj) {
-            var command = new SetTrapCommand(this, 3);
-            this.ExecuteCommand(command);
-        }
 #endregion
 
         //========================================

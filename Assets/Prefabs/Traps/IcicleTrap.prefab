@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc9e72b7c1714aaca10bea8c5d2df93c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cost: 1
+  Cost: 3
   LeftGridPoints:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 1, z: 0}
@@ -230,12 +230,12 @@ MonoBehaviour:
   - {x: 1, y: 0, z: 0}
   - {x: 1, y: 1, z: 0}
   ValidationScore: 2
-  LeftSpawnOffset: {x: -1.5, y: 11.5, z: 0}
-  RightSpawnOffset: {x: 1.5, y: 11.5, z: 0}
+  LeftSpawnOffset: {x: -1.5, y: 11.65, z: 0}
+  RightSpawnOffset: {x: 1.5, y: 11.65, z: 0}
   AnimationOffset: {x: 0, y: 0, z: 0}
   BuildingDuration: 3
   SliderBar: {fileID: 8689842051725396054, guid: 730a5177b6878c7479dff24b13199c1c, type: 3}
-  _damageAmount: 10
+  _damageAmount: 15
 --- !u!95 &5914186572757083417
 Animator:
   serializedVersion: 5

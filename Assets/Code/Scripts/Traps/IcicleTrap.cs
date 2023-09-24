@@ -1,7 +1,5 @@
-using System;
 using KrillOrBeKrilled.Common.Interfaces;
 using KrillOrBeKrilled.Managers;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using UnityEngine;
 
 //*******************************************************************************************
@@ -20,6 +18,7 @@ namespace KrillOrBeKrilled.Traps {
 
         private void Awake() {
             _rigidbody2D = GetComponent<Rigidbody2D>();
+            // Suspend trap in mid-air at the beginning.
             _rigidbody2D.gravityScale = 0;
         }
 
@@ -28,15 +27,15 @@ namespace KrillOrBeKrilled.Traps {
         protected override void SetUpTrap() {}
 
         /// <inheritdoc cref="Trap.DetonateTrap"/>
-        /// <remarks> Plays the trap detonation animation through the <see cref="Animator"/>. </remarks>
+        /// <remarks> Give this trap a gravity scale so that it starts falling. </remarks>
         protected override void DetonateTrap() {
-            print("Trap detonating");
             _rigidbody2D.gravityScale = 3;
         }
 
         /// <inheritdoc cref="Trap.OnEnteredTrap"/>
         /// <summary>
-        /// This trap does a flat damage to the <see cref="Hero"/>. No special effects at the moment.
+        /// This trap starts falling when it detects an <see cref="IDamageable"/>
+        /// instance (e.g. a <see cref="Hero"/>).
         /// </summary>
         protected override void OnEnteredTrap(IDamageable actor) {
             if (!IsReady) {
@@ -50,6 +49,10 @@ namespace KrillOrBeKrilled.Traps {
         /// <summary> No responses for exiting the trap. </summary>
         protected override void OnExitedTrap(IDamageable actor) {}
 
+        /// <summary>
+        /// This trap does a flat damage to the <see cref="Hero"/>, and it happens upon collision.
+        /// No other special effects at the moment.
+        /// </summary>
         protected void OnCollisionEnter2D(Collision2D other) {
             if (!other.gameObject.CompareTag("Hero") ||
                 !other.gameObject.TryGetComponent(out IDamageable actor)) {

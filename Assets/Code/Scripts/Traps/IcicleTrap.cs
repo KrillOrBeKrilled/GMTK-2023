@@ -1,5 +1,7 @@
+using System;
 using KrillOrBeKrilled.Common.Interfaces;
 using KrillOrBeKrilled.Managers;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using UnityEngine;
 
 //*******************************************************************************************
@@ -13,8 +15,14 @@ namespace KrillOrBeKrilled.Traps {
     public class IcicleTrap : Trap {
         [Tooltip("The damage to be applied to the Hero upon collision.")]
         [SerializeField] private int _damageAmount;
-        [SerializeField] private Animator _animator;
-        
+
+        private Rigidbody2D _rigidbody2D;
+
+        private void Awake() {
+            _rigidbody2D = GetComponent<Rigidbody2D>();
+            _rigidbody2D.gravityScale = 0;
+        }
+
         /// <inheritdoc cref="Trap.SetUpTrap"/>
         /// <remarks> No additional responses at the moment. </remarks>
         protected override void SetUpTrap() {}
@@ -23,7 +31,7 @@ namespace KrillOrBeKrilled.Traps {
         /// <remarks> Plays the trap detonation animation through the <see cref="Animator"/>. </remarks>
         protected override void DetonateTrap() {
             print("Trap detonating");
-            _animator.SetBool("IsDetonating", true);
+            _rigidbody2D.gravityScale = 3;
         }
 
         /// <inheritdoc cref="Trap.OnEnteredTrap"/>
@@ -39,14 +47,16 @@ namespace KrillOrBeKrilled.Traps {
         }
 
         /// <inheritdoc cref="Trap.OnExitedTrap"/>
-        /// <summary> Damage the <see cref="Hero"/> when the hero leaves the trap, because
-        /// this is in sync with the animation. </summary>
-        protected override void OnExitedTrap(IDamageable actor) {
-            actor.TakeDamage(_damageAmount);
-        }
+        /// <summary> No responses for exiting the trap. </summary>
+        protected override void OnExitedTrap(IDamageable actor) {}
 
-        protected override void OnDetonateTrapAnimationCompete() {
-            print("Animation Complete");
+        protected void OnCollisionEnter2D(Collision2D other) {
+            if (!other.gameObject.CompareTag("Hero") ||
+                !other.gameObject.TryGetComponent(out IDamageable actor)) {
+                return;
+            }
+                
+            actor.TakeDamage(_damageAmount);
             TilemapManager.Instance.ResetTrapTiles(TilePositions);
             Destroy(gameObject);
         }

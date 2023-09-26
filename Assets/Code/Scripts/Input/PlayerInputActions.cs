@@ -59,7 +59,7 @@ namespace KrillOrBeKrilled.Input {
                     ""type"": ""Value"",
                     ""id"": ""9a008c45-096e-4cba-866c-c9cad56d3083"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
@@ -76,33 +76,6 @@ namespace KrillOrBeKrilled.Input {
                     ""name"": ""Place Trap"",
                     ""type"": ""Button"",
                     ""id"": ""e1376b3a-294c-4275-a518-15da36561a08"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SetTrap1"",
-                    ""type"": ""Button"",
-                    ""id"": ""305dacb5-ed5b-4481-8288-e8545653e14d"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SetTrap2"",
-                    ""type"": ""Button"",
-                    ""id"": ""c2643fb8-7d4f-49b3-b78b-a0863b323b31"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SetTrap3"",
-                    ""type"": ""Button"",
-                    ""id"": ""f1219c89-a821-4b7a-929a-271c65ddbd04"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -133,9 +106,9 @@ namespace KrillOrBeKrilled.Input {
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""up"",
+                    ""name"": ""Up"",
                     ""id"": ""5c671a0f-4e70-4ee2-9804-1e93fb11a806"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -144,9 +117,9 @@ namespace KrillOrBeKrilled.Input {
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""down"",
+                    ""name"": ""Down"",
                     ""id"": ""c76a922f-cf00-444d-ba96-f09bde0c2688"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -155,8 +128,8 @@ namespace KrillOrBeKrilled.Input {
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""left"",
-                    ""id"": ""6eb0174d-e20b-41c3-8412-893a82deee23"",
+                    ""name"": ""Left"",
+                    ""id"": ""440f7961-1e98-4022-8d47-240ac517a945"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -166,9 +139,64 @@ namespace KrillOrBeKrilled.Input {
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""right"",
-                    ""id"": ""09f6ff8f-a740-4c80-a8db-af0945b80ae9"",
+                    ""name"": ""Right"",
+                    ""id"": ""c11211a8-0ea1-4c84-bd44-4e5f81c4ea82"",
                     ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Keyboard Arrows"",
+                    ""id"": ""4a384b1a-5b17-4774-be57-935f097e5ef3"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""c2514f03-786b-4f4f-ab53-8b9de91e3bfa"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""34ba55da-75b2-4596-b15e-b21bf954648f"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""ff292eb9-178a-4130-8cc9-cf17fbbb1146"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""38db4233-ee59-488f-8f24-c3cb01709735"",
+                    ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -206,39 +234,6 @@ namespace KrillOrBeKrilled.Input {
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Place Trap"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8d6d22d8-6090-45e2-80a8-6dc1d73d9b3f"",
-                    ""path"": ""<Keyboard>/1"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SetTrap1"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8f1097bb-af4b-466d-a626-56d67a45262a"",
-                    ""path"": ""<Keyboard>/2"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SetTrap2"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""292f8c6a-f504-480c-9977-edf7e692f23c"",
-                    ""path"": ""<Keyboard>/3"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SetTrap3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -283,9 +278,6 @@ namespace KrillOrBeKrilled.Input {
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
             m_Player_PlaceTrap = m_Player.FindAction("Place Trap", throwIfNotFound: true);
-            m_Player_SetTrap1 = m_Player.FindAction("SetTrap1", throwIfNotFound: true);
-            m_Player_SetTrap2 = m_Player.FindAction("SetTrap2", throwIfNotFound: true);
-            m_Player_SetTrap3 = m_Player.FindAction("SetTrap3", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_AdvanceDialogue = m_UI.FindAction("Advance Dialogue", throwIfNotFound: true);
@@ -384,18 +376,12 @@ namespace KrillOrBeKrilled.Input {
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Jump;
         private readonly InputAction m_Player_PlaceTrap;
-        private readonly InputAction m_Player_SetTrap1;
-        private readonly InputAction m_Player_SetTrap2;
-        private readonly InputAction m_Player_SetTrap3;
         public struct PlayerActions {
             private @PlayerInputActions m_Wrapper;
             public PlayerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Jump => m_Wrapper.m_Player_Jump;
             public InputAction @PlaceTrap => m_Wrapper.m_Player_PlaceTrap;
-            public InputAction @SetTrap1 => m_Wrapper.m_Player_SetTrap1;
-            public InputAction @SetTrap2 => m_Wrapper.m_Player_SetTrap2;
-            public InputAction @SetTrap3 => m_Wrapper.m_Player_SetTrap3;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -413,15 +399,6 @@ namespace KrillOrBeKrilled.Input {
                 @PlaceTrap.started += instance.OnPlaceTrap;
                 @PlaceTrap.performed += instance.OnPlaceTrap;
                 @PlaceTrap.canceled += instance.OnPlaceTrap;
-                @SetTrap1.started += instance.OnSetTrap1;
-                @SetTrap1.performed += instance.OnSetTrap1;
-                @SetTrap1.canceled += instance.OnSetTrap1;
-                @SetTrap2.started += instance.OnSetTrap2;
-                @SetTrap2.performed += instance.OnSetTrap2;
-                @SetTrap2.canceled += instance.OnSetTrap2;
-                @SetTrap3.started += instance.OnSetTrap3;
-                @SetTrap3.performed += instance.OnSetTrap3;
-                @SetTrap3.canceled += instance.OnSetTrap3;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance) {
@@ -434,15 +411,6 @@ namespace KrillOrBeKrilled.Input {
                 @PlaceTrap.started -= instance.OnPlaceTrap;
                 @PlaceTrap.performed -= instance.OnPlaceTrap;
                 @PlaceTrap.canceled -= instance.OnPlaceTrap;
-                @SetTrap1.started -= instance.OnSetTrap1;
-                @SetTrap1.performed -= instance.OnSetTrap1;
-                @SetTrap1.canceled -= instance.OnSetTrap1;
-                @SetTrap2.started -= instance.OnSetTrap2;
-                @SetTrap2.performed -= instance.OnSetTrap2;
-                @SetTrap2.canceled -= instance.OnSetTrap2;
-                @SetTrap3.started -= instance.OnSetTrap3;
-                @SetTrap3.performed -= instance.OnSetTrap3;
-                @SetTrap3.canceled -= instance.OnSetTrap3;
             }
 
             public void RemoveCallbacks(IPlayerActions instance) {
@@ -506,9 +474,6 @@ namespace KrillOrBeKrilled.Input {
             void OnMove(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
             void OnPlaceTrap(InputAction.CallbackContext context);
-            void OnSetTrap1(InputAction.CallbackContext context);
-            void OnSetTrap2(InputAction.CallbackContext context);
-            void OnSetTrap3(InputAction.CallbackContext context);
         }
         public interface IUIActions {
             void OnAdvanceDialogue(InputAction.CallbackContext context);

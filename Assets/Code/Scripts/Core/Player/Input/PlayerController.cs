@@ -102,15 +102,18 @@ namespace KrillOrBeKrilled.Core.Player {
         }
 
         protected virtual void FixedUpdate() {
-            Vector2 moveInput = this._playerInputActions.Player.Move.ReadValue<Vector2>();
-            float directionInput = moveInput.x;
-            this._direction = directionInput != 0 ? directionInput : this._direction;
+            Vector2 moveVectorInput = this._playerInputActions.Player.Move.ReadValue<Vector2>();
+            float moveInput = moveVectorInput.x;
+
+            if (!Mathf.Approximately(moveInput, 0f)) {
+                this._direction = moveInput > 0 ? 1 : -1;
+            }
 
             // Set animation values
-            this.SetAnimatorValues(directionInput);
+            this.SetAnimatorValues(moveInput);
 
             // Delegate movement behaviour to state classes
-            this._state.Act(this, this._direction);
+            this._state.Act(this, moveInput);
 
             // Check trap deployment eligibility
             this._trapController.SurveyTrapDeployment(this._isGrounded, this._direction);
@@ -472,11 +475,6 @@ namespace KrillOrBeKrilled.Core.Player {
             this._playerInputActions.Player.Move.canceled += this.Idle;
             this._playerInputActions.Player.Jump.performed += this.Jump;
             this._playerInputActions.Player.PlaceTrap.performed += this.DeployTrap;
-
-            // Test functions to set the traps
-            this._playerInputActions.Player.SetTrap1.performed += this.SetTrap1;
-            this._playerInputActions.Player.SetTrap2.performed += this.SetTrap2;
-            this._playerInputActions.Player.SetTrap3.performed += this.SetTrap3;
         }
 
         private void OnDisable() {
@@ -491,9 +489,6 @@ namespace KrillOrBeKrilled.Core.Player {
             this._playerInputActions.Player.Move.canceled -= this.Idle;
             this._playerInputActions.Player.Jump.performed -= this.Jump;
             this._playerInputActions.Player.PlaceTrap.performed -= this.DeployTrap;
-            this._playerInputActions.Player.SetTrap1.performed -= this.SetTrap1;
-            this._playerInputActions.Player.SetTrap2.performed -= this.SetTrap2;
-            this._playerInputActions.Player.SetTrap3.performed -= this.SetTrap3;
         }
 #endregion
     }

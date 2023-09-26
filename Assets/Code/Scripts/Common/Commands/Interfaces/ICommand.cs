@@ -13,7 +13,7 @@ namespace KrillOrBeKrilled.Common.Commands {
 
         /// <summary> Retrieves the current direction of the player. </summary>
         /// <returns> The direction the player is facing on the x-axis. </returns>
-        public float GetDirection() {
+        public float GetMoveInput() {
             return 0f;
         }
 

@@ -11,7 +11,7 @@ namespace KrillOrBeKrilled.Managers.Audio {
     /// <see cref="Jukebox"/> to provide methods for listening in on events invoked
     /// during gameplay that handle all the Wwise sound events.
     /// </summary>
-    internal class AudioManager : Singleton<AudioManager> {
+    public class AudioManager : Singleton<AudioManager> {
         // ------------ UI Sound Effects -------------
         [Tooltip("SFX associated with the UI.")]
         [SerializeField] private AK.Wwise.Event
@@ -84,9 +84,10 @@ namespace KrillOrBeKrilled.Managers.Audio {
             }
         }
 
-        /// <summary> Plays SFX associated with hovering over or selecting a UI button. </summary>
+        /// <summary> Deprecated: Plays SFX associated with hovering over or selecting a UI button. </summary>
         /// <param name="audioSource"> The GameObject that's the source of this SFX. </param>
-        public void PlayUIHover(GameObject audioSource) {
+        /// <remarks> Deprecated due to transitioning to Mobile target. </remarks>
+        internal void PlayUIHover(GameObject audioSource) {
             if (!this.AreSfxMuted) {
                 this._playUISelectEvent.Post(audioSource);
             }

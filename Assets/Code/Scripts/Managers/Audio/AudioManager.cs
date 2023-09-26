@@ -21,7 +21,7 @@ namespace KrillOrBeKrilled.Managers.Audio {
             _playUITileSelectConfirmEvent,
             _playUIPauseEvent,
             _playUIUnpauseEvent;
-        
+
         // --------- Dialogue Sound Effects ----------
         [Tooltip("SFX associated with the dialogue.")]
         [SerializeField] private AK.Wwise.Event
@@ -37,11 +37,11 @@ namespace KrillOrBeKrilled.Managers.Audio {
             _buildCompleteEvent,
             _henDeathEvent,
             _henFlapEvent;
-        
+
         // ----------- Hero Sound Effects ------------
         [Tooltip("SFX associated with the hero.")]
         [SerializeField] private AK.Wwise.Event
-            _heroHurtEvent, 
+            _heroHurtEvent,
             _heroJumpEvent,
             _heroDeathEvent;
 
@@ -50,7 +50,7 @@ namespace KrillOrBeKrilled.Managers.Audio {
 
         /// Tracks the trap building status to manipulate the trap building SFX for durations of time.
         private bool _isBuilding;
-        
+
         /// Manages all the BGM.
         private Jukebox _jukebox;
 
@@ -78,7 +78,7 @@ namespace KrillOrBeKrilled.Managers.Audio {
 #region UI Sound Events Methods
         /// <summary> Plays SFX associated with pressing a UI button. </summary>
         /// <param name="audioSource"> The GameObject that's the source of this SFX. </param>
-        internal void PlayUIClick(GameObject audioSource) {
+        public void PlayUIClick(GameObject audioSource) {
             if (!this.AreSfxMuted) {
                 this._playUIConfirmEvent.Post(audioSource);
             }
@@ -86,7 +86,7 @@ namespace KrillOrBeKrilled.Managers.Audio {
 
         /// <summary> Plays SFX associated with hovering over or selecting a UI button. </summary>
         /// <param name="audioSource"> The GameObject that's the source of this SFX. </param>
-        internal void PlayUIHover(GameObject audioSource) {
+        public void PlayUIHover(GameObject audioSource) {
             if (!this.AreSfxMuted) {
                 this._playUISelectEvent.Post(audioSource);
             }
@@ -164,11 +164,11 @@ namespace KrillOrBeKrilled.Managers.Audio {
             }
         }
 #endregion
-        
+
         //========================================
         // Hen Sound Event Methods
         //========================================
-        
+
 #region Hen Sound Events Methods
         /// <summary> Plays SFX associated with building a trap after deployment to set it up. </summary>
         /// <param name="audioSource"> The GameObject that's the source of this SFX. </param>
@@ -236,7 +236,7 @@ namespace KrillOrBeKrilled.Managers.Audio {
         //========================================
         // Hero Sound Event Methods
         //========================================
-        
+
 #region Hero Sound Events Methods
         /// <summary> Plays SFX associated with the hero taking damage. </summary>
         /// <param name="audioSource"> The GameObject that's the source of this SFX. </param>
@@ -253,7 +253,7 @@ namespace KrillOrBeKrilled.Managers.Audio {
                 this._heroJumpEvent.Post(audioSource);
             }
         }
-        
+
         /// <summary> Plays character SFX associated with the hero dying. </summary>
         /// <param name="audioSource"> The GameObject that's the source of this SFX. </param>
         internal void PlayHeroDeath(GameObject audioSource) {

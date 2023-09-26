@@ -139,14 +139,12 @@ namespace KrillOrBeKrilled.Core.Player {
             // Left out of State pattern to allow this during movement
             if(!this._canDeploy || this._previousTilePositions.Count < 1) {
                 // TODO: Make an animation for this!
-                print("Can't Deploy Trap!");
                 return false;
             }
 
             Trap trapToSpawn = this._trapPrefabs[this.CurrentTrapIndex];
 
             if (!CoinManager.Instance.CanAfford(trapToSpawn.Cost)) {
-                print("Can't afford the trap!");
                 return false;
             }
 

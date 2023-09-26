@@ -24,7 +24,7 @@ namespace KrillOrBeKrilled.UI {
 
         private const float ScaleUpValue = 1.1f;
         private const float ScaleDownValue = 0.9f;
-        private const float AnimationDuration = 0.05f;
+        private const float AnimationDuration = 0.07f;
         private RectTransform _rectTransform;
 
         private Sequence _tweenSequence;
@@ -44,6 +44,7 @@ namespace KrillOrBeKrilled.UI {
                 this._tweenSequence = null;
                 this._onClickComplete?.Invoke();
             });
+            this._tweenSequence.SetEase(Ease.InOutSine);
             this._tweenSequence.Play();
 
             AudioManager.Instance.PlayUIClick(this.gameObject);

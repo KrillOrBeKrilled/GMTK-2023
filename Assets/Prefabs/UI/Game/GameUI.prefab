@@ -234,12 +234,6 @@ MonoBehaviour:
   _skipDialogueUI: {fileID: 3836053563677021556}
   _healthBarsContainer: {fileID: 5362244279306275188}
   _mapUI: {fileID: 1717459162070282995}
-  _onPaused:
-    m_PersistentCalls:
-      m_Calls: []
-  _onUnpaused:
-    m_PersistentCalls:
-      m_Calls: []
   _healthBarUIPrefab: {fileID: 5468232764469143830, guid: 962e39104bcbb4854a430b5dde8d623b, type: 3}
 --- !u!1 &2098875572824297075
 GameObject:

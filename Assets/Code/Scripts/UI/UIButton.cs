@@ -20,7 +20,7 @@ namespace KrillOrBeKrilled.UI {
         [Tooltip("Invoked as soon as the button is pressed.")]
         [SerializeField] private UnityEvent _onClickImmediate;
         [Tooltip("Invoked after the press animation is completed.")]
-        [FormerlySerializedAs("_onClick")] [SerializeField] private UnityEvent _onClickComplete;
+        [SerializeField] private UnityEvent _onClickComplete;
 
         private const float ScaleUpValue = 1.1f;
         private const float ScaleDownValue = 0.9f;

@@ -16,16 +16,26 @@ namespace KrillOrBeKrilled.Core.Commands {
         /// Index of the trap for the player Pawn to equip on execution of this command.
         private readonly Trap _trap;
 
-        /// <summary> Constructor to set references required for this command to act on a <see cref="Pawn"/>. </summary>
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+
+        public void Execute() {
+            this._controlledObject.ChangeTrap(this._trap);
+        }
+        
+        /// <summary>
+        /// Constructor to set references required for this command to act on a <see cref="Pawn"/>.
+        /// </summary>
         /// <param name="controlledObject"> The player <see cref="Pawn"/> associated with this set trap command. </param>
         /// <param name="trap"> The trap to equip on command execution. </param>
         public SetTrapCommand(Pawn controlledObject, Trap trap) {
             this._controlledObject = controlledObject;
             this._trap = trap;
         }
-
-        public void Execute() {
-            this._controlledObject.ChangeTrap(this._trap);
-        }
+        
+        #endregion
     }
 }

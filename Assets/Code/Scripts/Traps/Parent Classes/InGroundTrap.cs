@@ -10,6 +10,13 @@ namespace KrillOrBeKrilled.Traps {
     /// status to <see langword="false"/> upon contact with the player.
     /// </summary>
     public abstract class InGroundTrap : Trap {
+        
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         protected override void OnTriggerStay2D(Collider2D other) {
             ITrapBuilder actor;
             if (other.TryGetComponent(out actor)) {
@@ -30,5 +37,7 @@ namespace KrillOrBeKrilled.Traps {
             IsBuilding = actor.CanBuildTrap();
             SoundsController.OnBuild(IsBuilding);
         }
+        
+        #endregion
     }
 }

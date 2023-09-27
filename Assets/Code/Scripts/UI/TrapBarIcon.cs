@@ -24,16 +24,43 @@ namespace KrillOrBeKrilled.UI {
 
         private UnityAction<Trap> _selectTrapAction;
         private Trap _assignedTrap;
-
-        /// <summary> Sets a reference to the trap this icon represents. </summary>
+        
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+        
+        /// <summary>
+        /// Sets a reference to the trap this icon represents.
+        /// </summary>
         /// <param name="trap"> The <see cref="Trap"/> associated with the trap type prefab. </param>
         /// <param name="selectTrapAction"> The callback this UI Icon invokes upon being clicked. </param>
         public void Initialize(Trap trap, UnityAction<Trap> selectTrapAction) {
             this._assignedTrap = trap;
             this._selectTrapAction = selectTrapAction;
         }
+        
+        /// <summary>
+        /// Adds a tint to this icon if the corresponding trap is not affordable.
+        /// </summary>
+        /// <param name="newAmount"> The current number of coins available. </param>
+        public void OnCanAffordChanged(int newAmount) {
+            this._tint.gameObject.SetActive(newAmount < this._assignedTrap.Cost);
+        }
+        
+        /// <summary>
+        /// Triggered by Unity when this icon is clicked.
+        /// </summary>
+        /// <param name="eventData"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void OnPointerClick(PointerEventData eventData) {
+            this._selectTrapAction?.Invoke(this._assignedTrap);
+        }
 
-        /// <summary> Outlines this icon if the corresponding trap is currently selected. </summary>
+        /// <summary>
+        /// Outlines this icon if the corresponding trap is currently selected.
+        /// </summary>
         /// <param name="newTrap">The newly selected trap.</param>
         public void OnSelectedChanged(Trap newTrap) {
             bool isSelected = newTrap == this._assignedTrap;
@@ -46,20 +73,7 @@ namespace KrillOrBeKrilled.UI {
                 sequence.Append(this._icon.rectTransform.DOScale(new Vector3(1f, 1f, 1f), 0.3f));
             }
         }
-
-        /// <summary> Adds a tint to this icon if the corresponding trap is not affordable. </summary>
-        /// <param name="newAmount"> The current number of coins available. </param>
-        public void OnCanAffordChanged(int newAmount) {
-            this._tint.gameObject.SetActive(newAmount < this._assignedTrap.Cost);
-        }
-
-        /// <summary>
-        /// Triggered by Unity when this icon is clicked.
-        /// </summary>
-        /// <param name="eventData"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        public void OnPointerClick(PointerEventData eventData) {
-            this._selectTrapAction?.Invoke(this._assignedTrap);
-        }
+        
+        #endregion
     }
 }

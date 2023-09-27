@@ -13,9 +13,11 @@ namespace KrillOrBeKrilled.Traps {
     /// Abstract class that handles general logic for trap surveying, spawning, building,
     /// and collisions.
     /// </summary>
-    /// <remarks> Trap setup, detonation, and impact on the <see cref="Hero"/> are
+    /// <remarks>
+    /// Trap setup, detonation, and impact on the <see cref="Hero"/> are
     /// specific to the type of trap, and are left abstract to be implemented in
-    /// subclasses.</remarks>
+    /// subclasses.
+    /// </remarks>
     public abstract class Trap : MonoBehaviour {
         [Tooltip("The cost to deploy this trap in coins managed by the CoinManager.")]
         [SerializeField] public int Cost;
@@ -38,6 +40,12 @@ namespace KrillOrBeKrilled.Traps {
         protected float ConstructionCompletion, t;
         protected bool IsBuilding, IsReady;
 
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         public void Update() {
             if (!IsReady && IsBuilding) {
                 ConstructionCompletion = Mathf.Lerp(ConstructionCompletion, 1f, t / BuildingDuration);
@@ -61,49 +69,50 @@ namespace KrillOrBeKrilled.Traps {
             }
         }
         
-        //========================================
-        // Trap Surveying
-        //========================================
-
-#region Trap Surveying
-        /// <summary>
-        /// Retrieves the tilemap grid offset points for trap deployment when the player faces the negative
-        /// direction along the x-axis.
-        /// </summary>
-        /// <returns> A list of tilemap offsets to pinpoint tiles needed for trap deployment. </returns>
-        /// <remarks> Depending on the shape and extent of the trap, the offsets will vary between trap types. </remarks>
-        public List<Vector3Int> GetLeftGridPoints() {
-            return LeftGridPoints;
+        private void OnTriggerEnter2D(Collider2D other) {
+            if (other.CompareTag("Hero") && other.TryGetComponent(out IDamageable actor)) {
+                this.OnEnteredTrap(actor);
+            }
         }
 
-        /// <summary>
-        /// Retrieves the tilemap grid offset points for trap deployment when the player faces the positive
-        /// direction along the x-axis.
-        /// </summary>
-        /// <returns> A list of tilemap offsets to pinpoint tiles needed for trap deployment. </returns>
-        /// <remarks> Depending on the shape and extent of the trap, the offsets will vary between trap types. </remarks>
-        public List<Vector3Int> GetRightGridPoints() {
-            return RightGridPoints;
+        protected virtual void OnTriggerStay2D(Collider2D other) {
+            if (IsReady) {
+                return;
+            }
+            
+            ITrapBuilder actor;
+            if (other.CompareTag("Builder Range")) {
+                actor = other.GetComponentInParent<ITrapBuilder>();
+            } else if (!other.TryGetComponent(out actor)) {
+                return;
+            }
+            
+            IsBuilding = actor.CanBuildTrap();
+            SoundsController.OnBuild(IsBuilding);
         }
 
-        /// <summary>
-        /// Checks that a score reaches the <see cref="ValidationScore"/> threshold required to deploy this trap.
-        /// </summary>
-        /// <param name="score"> The current validation score to compare against the requirement. </param>
-        /// <returns> If the score is greater than or equal to the <see cref="ValidationScore"/>. </returns>
-        /// <remarks> A <see cref="ValidationScore"/> is the minimum number of TrapTile tile types that this
-        /// trap must overlap to be successfully deployed. Depending on the shape and extent of the trap, this
-        /// validation score will vary between trap types. </remarks>
-        public bool IsValidScore(int score) {
-            return score >= ValidationScore;
+        private void OnTriggerExit2D(Collider2D other) {
+            if (other.CompareTag("Builder Range")) {
+                IsBuilding = false;
+                SoundsController.OnBuild(IsBuilding);
+                return;
+            }
+
+            if (other.TryGetComponent(out IDamageable damageActor)) {
+                this.OnExitedTrap(damageActor);
+            }
         }
-#endregion
         
-        //========================================
-        // Trap Deployment / Building
-        //========================================
+        #endregion
 
-#region Trap Deployment & Building
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+        
+        #region Trap Deployment
+        
         /// <summary>
         /// Acts as a constructor, initializing all bookkeeping data upon trap prefab instantiation. Upon trap
         /// deployment, destroys level tiles for traps built into the ground, creates trap build completion UI,
@@ -161,6 +170,56 @@ namespace KrillOrBeKrilled.Traps {
         public Vector3 GetRightSpawnPoint(Vector3 origin) {
             return origin + this.RightSpawnOffset;
         }
+
+        #endregion
+        
+        #region Trap Surveying
+        
+        /// <summary>
+        /// Retrieves the tilemap grid offset points for trap deployment when the player faces the negative
+        /// direction along the x-axis.
+        /// </summary>
+        /// <returns> A list of tilemap offsets to pinpoint tiles needed for trap deployment. </returns>
+        /// <remarks> Depending on the shape and extent of the trap, the offsets will vary between trap types. </remarks>
+        public List<Vector3Int> GetLeftGridPoints() {
+            return LeftGridPoints;
+        }
+
+        /// <summary>
+        /// Retrieves the tilemap grid offset points for trap deployment when the player faces the positive
+        /// direction along the x-axis.
+        /// </summary>
+        /// <returns> A list of tilemap offsets to pinpoint tiles needed for trap deployment. </returns>
+        /// <remarks> Depending on the shape and extent of the trap, the offsets will vary between trap types. </remarks>
+        public List<Vector3Int> GetRightGridPoints() {
+            return RightGridPoints;
+        }
+
+        /// <summary>
+        /// Checks that a score reaches the <see cref="ValidationScore"/> threshold required to deploy this trap.
+        /// </summary>
+        /// <param name="score"> The current validation score to compare against the requirement. </param>
+        /// <returns> If the score is greater than or equal to the <see cref="ValidationScore"/>. </returns>
+        /// <remarks>
+        /// A <see cref="ValidationScore"/> is the minimum number of TrapTile tile types that this trap must overlap
+        /// to be successfully deployed. Depending on the shape and extent of the trap, this validation score
+        /// will vary between trap types.
+        /// </remarks>
+        public bool IsValidScore(int score) {
+            return score >= ValidationScore;
+        }
+        
+        #endregion
+        
+        #endregion
+        
+        //========================================
+        // Protected Methods
+        //========================================
+        
+        #region Protected Methods
+        
+        #region Trap Building
         
         /// <summary>
         /// Applies an animation to the trap while it's being built.
@@ -181,18 +240,21 @@ namespace KrillOrBeKrilled.Traps {
         /// when a trap stands ready for detonation. 
         /// </summary>
         protected abstract void SetUpTrap();
-#endregion
         
-        //========================================
-        // Trap Detonation
-        //========================================
+        #endregion
         
-#region Trap Detonation
+        #region Trap Detonation
+        
         /// <summary>
         /// Applies any SFX, animations, updates to physics, and logic to the trap when it is being detonated,
         /// or unleashed on a <see cref="Hero"/>. 
         /// </summary>
         protected abstract void DetonateTrap();
+
+        /// <summary>
+        /// Cleans up the trap data and frees the used trap tiles upon the completion of the trap detonation animation.
+        /// </summary>
+        protected virtual void OnDetonateTrapAnimationCompete() {}
         
         /// <summary>
         /// Applies resulting effects and reactions to the <see cref="Hero"/> upon trap detonation. 
@@ -205,45 +267,9 @@ namespace KrillOrBeKrilled.Traps {
         /// </summary>
         /// <remarks> Invoked upon exiting a trigger collision with a <see cref="Hero"/>. </remarks>
         protected abstract void OnExitedTrap(IDamageable actor);
-
-        /// <summary>
-        /// Cleans up the trap data and frees the used trap tiles upon the completion of the trap detonation animation.
-        /// </summary>
-        protected virtual void OnDetonateTrapAnimationCompete() {}
-
-        private void OnTriggerEnter2D(Collider2D other) {
-            if (other.CompareTag("Hero") && other.TryGetComponent(out IDamageable actor)) {
-                this.OnEnteredTrap(actor);
-            }
-        }
-
-        protected virtual void OnTriggerStay2D(Collider2D other) {
-            if (IsReady) {
-                return;
-            }
-            
-            ITrapBuilder actor;
-            if (other.CompareTag("Builder Range")) {
-                actor = other.GetComponentInParent<ITrapBuilder>();
-            } else if (!other.TryGetComponent(out actor)) {
-                return;
-            }
-            
-            IsBuilding = actor.CanBuildTrap();
-            SoundsController.OnBuild(IsBuilding);
-        }
-
-        private void OnTriggerExit2D(Collider2D other) {
-            if (other.CompareTag("Builder Range")) {
-                IsBuilding = false;
-                SoundsController.OnBuild(IsBuilding);
-                return;
-            }
-
-            if (other.TryGetComponent(out IDamageable damageActor)) {
-                this.OnExitedTrap(damageActor);
-            }
-        }
-#endregion
+        
+        #endregion
+        
+        #endregion
     }
 }

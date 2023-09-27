@@ -13,12 +13,12 @@ namespace KrillOrBeKrilled.Traps {
     public class SpikeTrap : Trap {
         [Tooltip("The damage to be applied to the Hero upon collision.")]
         [SerializeField] private int _damageAmount;
-
-        /// <inheritdoc cref="Trap.SetUpTrap"/>
-        /// <remarks> Pulls the spike back into the ground in wait of the hero to walk over them. </remarks>
-        protected override void SetUpTrap() {
-            transform.DOMove(SpawnPosition + Vector3.down * 0.2f, 1f);
-        }
+        
+        //========================================
+        // Protected Methods
+        //========================================
+        
+        #region Protected Methods
         
         /// <inheritdoc cref="Trap.DetonateTrap"/>
         /// <remarks> Immediately juts the spikes out when the hero walks over them. </remarks>
@@ -49,5 +49,13 @@ namespace KrillOrBeKrilled.Traps {
 
             actor.ResetSpeedPenalty();
         }
+        
+        /// <inheritdoc cref="Trap.SetUpTrap"/>
+        /// <remarks> Pulls the spike back into the ground in wait of the hero to walk over them. </remarks>
+        protected override void SetUpTrap() {
+            transform.DOMove(SpawnPosition + Vector3.down * 0.2f, 1f);
+        }
+        
+        #endregion
     }
 }

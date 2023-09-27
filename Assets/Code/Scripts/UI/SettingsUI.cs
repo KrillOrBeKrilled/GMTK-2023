@@ -16,6 +16,12 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private Toggle _muteMusicToggle;
         [SerializeField] private Toggle _muteSfxToggle;
 
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         private void Awake() {
             this._skipDialogueToggle.isOn = PlayerPrefsManager.ShouldSkipDialogue();
             this._skipDialogueToggle.onValueChanged.AddListener(this.OnSkipToggleValueChanged);
@@ -26,15 +32,15 @@ namespace KrillOrBeKrilled.UI {
             this._muteSfxToggle.isOn = PlayerPrefsManager.AreSfxMuted();
             this._muteSfxToggle.onValueChanged.AddListener(this.OnMuteSfxToggleValueChanged);
         }
-
-        /// <summary> Updates the skip dialogue sequence settings through <see cref="PlayerPrefsManager"/>. </summary>
-        /// <param name="skipDialogue"> Whether the option to skip the dialogue sequence is toggled or not. </param>
-        /// <remarks> Subscribed to the <see cref="Toggle.onValueChanged"/> event for the
-        /// <see cref="_skipDialogueToggle"/>. </remarks>
-        private void OnSkipToggleValueChanged(bool skipDialogue) {
-            PlayerPrefsManager.SetSkipDialogue(skipDialogue);
-        }
-
+        
+        #endregion
+        
+        //========================================
+        // Private Methods
+        //========================================
+        
+        #region Private Methods
+        
         /// <summary>
         /// Updates the mute music settings through <see cref="PlayerPrefsManager"/> and updates the music
         /// output accordingly.
@@ -52,12 +58,26 @@ namespace KrillOrBeKrilled.UI {
             }
         }
 
-        /// <summary> Updates the mute SFX settings through <see cref="PlayerPrefsManager"/>. </summary>
+        /// <summary>
+        /// Updates the mute SFX settings through <see cref="PlayerPrefsManager"/>.
+        /// </summary>
         /// <param name="muteSfx"> Whether the option to mute the SFX is toggled or not. </param>
         /// <remarks> Subscribed to the <see cref="Toggle.onValueChanged"/> event for the
         /// <see cref="_muteSfxToggle"/>. </remarks>
         private void OnMuteSfxToggleValueChanged(bool muteSfx) {
             PlayerPrefsManager.SetMuteSfx(muteSfx);
         }
+        
+        /// <summary>
+        /// Updates the skip dialogue sequence settings through <see cref="PlayerPrefsManager"/>.
+        /// </summary>
+        /// <param name="skipDialogue"> Whether the option to skip the dialogue sequence is toggled or not. </param>
+        /// <remarks> Subscribed to the <see cref="Toggle.onValueChanged"/> event for the
+        /// <see cref="_skipDialogueToggle"/>. </remarks>
+        private void OnSkipToggleValueChanged(bool skipDialogue) {
+            PlayerPrefsManager.SetSkipDialogue(skipDialogue);
+        }
+        
+        #endregion
     }
 }

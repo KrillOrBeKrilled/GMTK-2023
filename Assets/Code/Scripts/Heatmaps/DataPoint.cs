@@ -13,17 +13,32 @@ namespace KrillOrBeKrilled.Heatmaps {
     public class DataPoint : MonoBehaviour {
         private DataPointCollection _pointCollection;
 
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         private void Awake() {
             this._pointCollection = FindObjectOfType<DataPointCollection>();
         }
 
         private void OnDrawGizmos() {
-            if (!this._pointCollection.VisualizeTargetRadius) 
+            if (!this._pointCollection.VisualizeTargetRadius) {
                 return;
+            }
 
             Gizmos.DrawWireSphere(this.transform.position, this._pointCollection.PointTargetRadius);
         }
-
+        
+        #endregion
+        
+        //========================================
+        // Internal Methods
+        //========================================
+        
+        #region Internal Methods
+        
         /// <summary>
         /// Calculates the concentration of points around this <see cref="DataPoint"/> and interpolates
         /// the color and scale between maximum and minimum values specified in the provided
@@ -31,8 +46,9 @@ namespace KrillOrBeKrilled.Heatmaps {
         /// </summary>
         /// <param name="pointCollection"> The <see cref="DataPointCollection"/> containing this
         /// <see cref="DataPoint"/> and its color, scale, and concentration configurations. </param>
-        /// <remarks> Invoked by <see cref="DataPointCollection"/> every time the scene is updated in the
-        /// Unity Editor. </remarks>
+        /// <remarks>
+        /// Invoked by <see cref="DataPointCollection"/> every time the scene is updated in the Unity Editor.
+        /// </remarks>
         internal void UpdatePoint(DataPointCollection pointCollection) {
             this._pointCollection = pointCollection;
 
@@ -56,5 +72,7 @@ namespace KrillOrBeKrilled.Heatmaps {
             this.transform.localScale = pointCollection.PointBaseScale +
                 Vector3.Lerp(Vector3.zero, pointCollection.MaxScaleSpectrum, concentrationSpectrum);
         }
+        
+        #endregion
     }
 }

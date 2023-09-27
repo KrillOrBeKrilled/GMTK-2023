@@ -45,7 +45,41 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private HealthBarUI _healthBarUIPrefab;
 
         private const float FadeDuration = 0.5f;
+        
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
+        private void Awake() {
+            this._foregroundImage.gameObject.SetActive(true);
+        }
 
+        private void Start() {
+            CoinManager.Instance.OnCoinAmountChanged.AddListener(this.OnCoinsUpdated);
+            PauseManager.Instance.OnPauseToggled.AddListener(this.OnPauseToggled);
+        }
+        
+        #endregion
+        
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+        
+        /// <summary>
+        /// Fades in the screen and invokes a function upon completion.
+        /// </summary>
+        /// <param name="onComplete"> The function to invoke once the fade-in effect has been completed. </param>
+        public void FadeInSceneCover(UnityAction onComplete) {
+            this._foregroundImage.gameObject.SetActive(true);
+            this._foregroundImage
+                .DOFade(1, FadeDuration)
+                .OnComplete(() => onComplete?.Invoke());
+        }
+        
         /// <summary>
         /// Sets up all references and listeners to operate the game UI, also invoking the initialization methods
         /// through the <see cref="TrapSelectionBar"/> and <see cref="SkipDialogueUI"/>.
@@ -68,42 +102,64 @@ namespace KrillOrBeKrilled.UI {
             this._mapUI.Initialize(playerTransform, levelStartTransform.position.x, levelEndTransform.position.x);
         }
 
-        /// <summary> Fades in the screen and invokes a function upon completion. </summary>
-        /// <param name="onComplete"> The function to invoke once the fade-in effect has been completed. </param>
-        public void FadeInSceneCover(UnityAction onComplete) {
-            this._foregroundImage.gameObject.SetActive(true);
-            this._foregroundImage
-                .DOFade(1, FadeDuration)
-                .OnComplete(() => onComplete?.Invoke());
-        }
+        #endregion
 
-        private void Awake() {
-            this._foregroundImage.gameObject.SetActive(true);
-        }
-
-        private void Start() {
-            CoinManager.Instance.OnCoinAmountChanged.AddListener(this.OnCoinsUpdated);
-            PauseManager.Instance.OnPauseToggled.AddListener(this.OnPauseToggled);
-        }
-
-        /// <summary> Updates the coin counter UI text. </summary>
+        //========================================
+        // Private Methods
+        //========================================
+        
+        #region Private Methods
+        
+        /// <summary>
+        /// Updates the coin counter UI text.
+        /// </summary>
         /// <param name="amount"> The new coin count to display on the coin counter UI. </param>
         /// <remarks> Subscribed to the <see cref="CoinManager.OnCoinAmountChanged"/> event. </remarks>
         private void OnCoinsUpdated(int amount) {
             this._coinsText.SetText($"{amount}");
         }
 
-        /// <summary> Fades out the screen and disables the fade image upon completion. </summary>
+        /// <summary>
+        /// Fades out the screen and disables the fade image upon completion.
+        /// </summary>
         /// <remarks> Listens on the <see cref="GameManager.OnSetupComplete"/> event. </remarks>
         private void OnGameSetupComplete() {
             this._foregroundImage
                 .DOFade(0, FadeDuration)
                 .OnComplete(() => {
-                this._foregroundImage.gameObject.SetActive(false);
+                    this._foregroundImage.gameObject.SetActive(false);
                 });
         }
+        
+        /// <summary>
+        /// Opens the Game Over menu with a custom text message.
+        /// </summary>
+        /// <param name="message"> The message to display when the player has lost the level. </param>
+        private void OnHenLost(string message) {
+            this._endgameUI.ShowHenLost(message);
+        }
+        
+        /// <summary>
+        /// Opens the Game Over menu with a custom text message.
+        /// </summary>
+        /// <param name="message"> The message to display when the player has beat the level. </param>
+        private void OnHenWon(string message) {
+            this._endgameUI.ShowHenWon(message);
+        }
+        
+        /// <summary>
+        /// Creates a health bar for the associated <see cref="Hero"/> and registers the hero to be represented
+        /// on the <see cref="MapUI"/>.
+        /// </summary>
+        /// <param name="hero"> The newly spawned <see cref="Hero"/>. </param>
+        private void OnHeroSpawned(Hero hero) {
+            this.SetupHealthBar(hero);
+            this._mapUI.RegisterHero(hero);
+        }
 
-        /// <summary> Enables or disables the Pause menu UI. </summary>
+        /// <summary>
+        /// Enables or disables the Pause menu UI.
+        /// </summary>
         /// <param name="isPaused"> Whether the game is currently paused or not. </param>
         /// <remarks> Subscribed to the <see cref="PauseManager.OnPauseToggled"/> event. Invokes the
         /// <see cref="_onPaused"/> and <see cref="_onUnpaused"/> events. </remarks>
@@ -116,29 +172,7 @@ namespace KrillOrBeKrilled.UI {
                 this._onUnpaused?.Invoke();
             }
         }
-
-        /// <summary> Opens the Game Over menu with a custom text message. </summary>
-        /// <param name="message"> The message to display when the player has beat the level. </param>
-        private void OnHenWon(string message) {
-            this._endgameUI.ShowHenWon(message);
-        }
-
-        /// <summary> Opens the Game Over menu with a custom text message. </summary>
-        /// <param name="message"> The message to display when the player has lost the level. </param>
-        private void OnHenLost(string message) {
-            this._endgameUI.ShowHenLost(message);
-        }
-
-        /// <summary>
-        /// Creates a health bar for the associated <see cref="Hero"/> and registers the hero to be represented
-        /// on the <see cref="MapUI"/>.
-        /// </summary>
-        /// <param name="hero"> The newly spawned <see cref="Hero"/>. </param>
-        private void OnHeroSpawned(Hero hero) {
-            this.SetupHealthBar(hero);
-            this._mapUI.RegisterHero(hero);
-        }
-
+        
         /// <summary>
         /// Instantiates a new health bar and links it to the assigned <see cref="Hero"/> <see cref="Transform"/>.
         /// </summary>
@@ -147,5 +181,7 @@ namespace KrillOrBeKrilled.UI {
             HealthBarUI newBar = Instantiate(this._healthBarUIPrefab, this._healthBarsContainer);
             newBar.Initialize(hero, (RectTransform)this.transform);
         }
+        
+        #endregion
     }
 }

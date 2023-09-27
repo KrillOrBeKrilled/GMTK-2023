@@ -17,20 +17,24 @@ namespace KrillOrBeKrilled.Traps {
         [SerializeField] private int _damageAmount = 10;
         [SerializeField] private Animator _animator;
 
-        /// <inheritdoc cref="Trap.SetUpTrap"/>
-        /// <remarks> Plays the trap readying animation through the <see cref="Animator"/>. </remarks>
-        protected override void SetUpTrap() {
-            // Trigger the axe set up animation
-            print("Setting up trap");
-            _animator.SetTrigger("SetTrap");
-        }
-
+        //========================================
+        // Protected Methods
+        //========================================
+        
+        #region Protected Methods
+        
         /// <inheritdoc cref="Trap.DetonateTrap"/>
         /// <remarks> Plays the trap detonation animation through the <see cref="Animator"/>. </remarks>
         protected override void DetonateTrap() {
             // Trigger the axe detonation animation
             print("Trap detonated");
             _animator.SetBool("IsDetonating", true);
+        }
+        
+        protected override void OnDetonateTrapAnimationCompete() {
+            print("Detonate competed");
+            TilemapManager.Instance.ResetTrapTiles(TilePositions);
+            Destroy(this.gameObject);
         }
 
         /// <inheritdoc cref="Trap.OnEnteredTrap"/>
@@ -50,11 +54,15 @@ namespace KrillOrBeKrilled.Traps {
         }
 
         protected override void OnExitedTrap(IDamageable actor) {}
-
-        protected override void OnDetonateTrapAnimationCompete() {
-            print("Detonate competed");
-            TilemapManager.Instance.ResetTrapTiles(TilePositions);
-            Destroy(this.gameObject);
+        
+        /// <inheritdoc cref="Trap.SetUpTrap"/>
+        /// <remarks> Plays the trap readying animation through the <see cref="Animator"/>. </remarks>
+        protected override void SetUpTrap() {
+            // Trigger the axe set up animation
+            print("Setting up trap");
+            _animator.SetTrigger("SetTrap");
         }
+        
+        #endregion
     }
 }

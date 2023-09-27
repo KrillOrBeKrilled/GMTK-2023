@@ -16,7 +16,26 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private GameObject _nextLevelButton;
         [Tooltip("Button to replay the level.")]
         [SerializeField] private GameObject _playAgainButton;
+        
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+        
+        /// <summary>
+        /// Displays the Game Over menu with text and enables the button to replay the level.
+        /// </summary>
+        /// <param name="message"> The text message to be displayed on the Game Over menu. </param>
+        /// <remarks> Prevents the player from advancing to the next level by disabling the associated button. </remarks>
+        public void ShowHenLost(string message) {
+            this.gameObject.SetActive(true);
+            this._titleText.text = message;
 
+            this._nextLevelButton.SetActive(false);
+            this._playAgainButton.SetActive(true);
+        }
+        
         /// <summary>
         /// Displays the Game Over menu with text and enables the button to advance to the next level.
         /// </summary>
@@ -29,16 +48,7 @@ namespace KrillOrBeKrilled.UI {
             this._nextLevelButton.SetActive(true);
             this._playAgainButton.SetActive(false);
         }
-
-        /// <summary> Displays the Game Over menu with text and enables the button to replay the level. </summary>
-        /// <param name="message"> The text message to be displayed on the Game Over menu. </param>
-        /// <remarks> Prevents the player from advancing to the next level by disabling the associated button. </remarks>
-        public void ShowHenLost(string message) {
-            this.gameObject.SetActive(true);
-            this._titleText.text = message;
-
-            this._nextLevelButton.SetActive(false);
-            this._playAgainButton.SetActive(true);
-        }
+        
+        #endregion
     }
 }

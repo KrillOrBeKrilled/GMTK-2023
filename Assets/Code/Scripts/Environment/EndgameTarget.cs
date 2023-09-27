@@ -12,12 +12,20 @@ namespace KrillOrBeKrilled.Environment {
         [Tooltip("Tracks when the hero reaches the level goal.")]
         public UnityEvent OnHeroReachedEndgameTarget { get; private set; }
     
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         private void Awake() {
             this.OnHeroReachedEndgameTarget = new UnityEvent();
         }
     
-        /// <remarks> Invokes the <see cref="OnHeroReachedEndgameTarget"/> event on triggered collision with
-        /// a GameObject in the "Hero" layer. </remarks>
+        /// <remarks>
+        /// Invokes the <see cref="OnHeroReachedEndgameTarget"/> event on triggered collision with
+        /// a GameObject in the "Hero" layer.
+        /// </remarks>
         private void OnTriggerEnter2D(Collider2D other) {
             if (other.gameObject.layer != LayerMask.NameToLayer("Hero")) {
                 return;
@@ -25,6 +33,8 @@ namespace KrillOrBeKrilled.Environment {
     
             this.OnHeroReachedEndgameTarget?.Invoke();
         }
+        
+        #endregion
     }
 }
 

@@ -9,8 +9,10 @@ namespace KrillOrBeKrilled.Heroes {
     /// trigger hero jumps upon collision triggers with a GameObject associated with
     /// <see cref="HeroMovement"/>.
     /// </summary>
-    /// <remarks> The region <see cref="BoxCollider2D"/> size and offset are automatically
-    /// adjusted by <see cref="Offset"/> and <see cref="Size"/> at runtime. </remarks>
+    /// <remarks>
+    /// The region <see cref="BoxCollider2D"/> size and offset are automatically
+    /// adjusted by <see cref="Offset"/> and <see cref="Size"/> at runtime.
+    /// </remarks>
     public class HeroJumpPad : MonoBehaviour {
         [SerializeField] internal Vector2 Offset = Vector2.zero;
         [SerializeField] internal Vector2 Size = Vector2.one;
@@ -20,6 +22,12 @@ namespace KrillOrBeKrilled.Heroes {
 
         private BoxCollider2D _collider;
 
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         private void Awake() {
             this.TryGetComponent(out this._collider);
 
@@ -44,5 +52,7 @@ namespace KrillOrBeKrilled.Heroes {
             var cubePosition = this.transform.position + new Vector3(this.Offset.x, this.Offset.y, 0);
             Gizmos.DrawWireCube(cubePosition, this.Size);
         }
+        
+        #endregion
     }
 }

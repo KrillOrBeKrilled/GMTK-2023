@@ -15,6 +15,12 @@ namespace KrillOrBeKrilled.Core.Player {
         [Tooltip("The TrapController associated with the player GameObject.")]
         internal TrapController TrapController { get; private set; }
 
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         private void Awake() {
             this.PlayerController = this.GetComponent<PlayerController>();
             this.TrapController = this.GetComponent<TrapController>();
@@ -27,5 +33,7 @@ namespace KrillOrBeKrilled.Core.Player {
 
             this.PlayerController.Die();
         }
+        
+        #endregion
     }
 }

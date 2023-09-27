@@ -27,7 +27,13 @@ namespace KrillOrBeKrilled.UI {
 
         private Tween _sliderTween;
         private Tween _moveTween;
-
+        
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         private void Awake() {
             this._mainCamera = Camera.main;
             this._healthBar = this.GetComponent<Slider>();
@@ -39,8 +45,27 @@ namespace KrillOrBeKrilled.UI {
 
             this.RepositionHealthBar();
         }
-
-        /// <summary> Sets up all references and listeners to operate this health bar UI. </summary>
+        
+        private void Update() {
+            this.RepositionHealthBar();
+        }
+        
+        private void OnDisable() {
+            this._hero.OnHealthChanged.RemoveListener(this.OnHealthChanged);
+            this._hero.OnHeroDied.RemoveListener(this.OnDeath);
+        }
+        
+        #endregion
+        
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+        
+        /// <summary>
+        /// Sets up all references and listeners to operate this health bar UI.
+        /// </summary>
         /// <param name="targetHero"> The hero to track for positional changes and health value changes. </param>
         /// <param name="targetCanvas"> The canvas to render this UI on. </param>
         public void Initialize(Hero targetHero, RectTransform targetCanvas) {
@@ -55,15 +80,22 @@ namespace KrillOrBeKrilled.UI {
             this._healthBar.value = targetHero.Health;
         }
         
-        private void Update() {
-            this.RepositionHealthBar();
+        #endregion
+        
+        //========================================
+        // Private Methods
+        //========================================
+        
+        #region Private Methods
+        
+        /// <summary>
+        /// Destroys this GameObject.
+        /// </summary>
+        /// <remarks> Subscribed to the <see cref="Hero.OnHeroDied"/> event. </remarks>
+        private void OnDeath(Hero _) {
+            Destroy(this.gameObject);
         }
         
-        private void OnDisable() {
-            this._hero.OnHealthChanged.RemoveListener(this.OnHealthChanged);
-            this._hero.OnHeroDied.RemoveListener(this.OnDeath);
-        }
-
         /// <summary>
         /// Sets the hero health bar slider value with a new tween.
         /// </summary>
@@ -77,12 +109,6 @@ namespace KrillOrBeKrilled.UI {
                 .DOValue(health, tweenDuration)
                 .SetEase(Ease.InOutCubic);
         }
-        
-        /// <summary> Destroys this GameObject. </summary>
-        /// <remarks> Subscribed to the <see cref="Hero.OnHeroDied"/> event. </remarks>
-        private void OnDeath(Hero _) {
-            Destroy(this.gameObject);
-        }
 
         /// <summary>
         /// Updates the hero health bar UI position according to the position of <see cref="_objectToFollow"/>.
@@ -95,12 +121,14 @@ namespace KrillOrBeKrilled.UI {
             Vector2 viewportPosition = this._mainCamera.WorldToViewportPoint(this._objectToFollow.position);
             Vector2 sizeDelta = this._targetCanvas.sizeDelta;
             Vector2 worldObjectScreenPosition =
-            new Vector2(viewportPosition.x * sizeDelta.x - sizeDelta.x * 0.5f,
-              viewportPosition.y * sizeDelta.y - sizeDelta.y * 0.5f);
+                new Vector2(viewportPosition.x * sizeDelta.x - sizeDelta.x * 0.5f,
+                    viewportPosition.y * sizeDelta.y - sizeDelta.y * 0.5f);
             worldObjectScreenPosition += this._positionOffset;
 
             // this._rectTransform.DOAnchorPos(worldObjectScreenPosition, 0.1f);
             this._rectTransform.anchoredPosition = worldObjectScreenPosition;
         }
+        
+        #endregion
     }
 }

@@ -15,6 +15,12 @@ namespace KrillOrBeKrilled.Editor {
         SerializedProperty RecordingFile;
         SerializedProperty _filePath;
     
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         public override void OnInspectorGUI() {
             serializedObject.Update();
             EditorGUILayout.PropertyField(_filePath);
@@ -33,6 +39,8 @@ namespace KrillOrBeKrilled.Editor {
             RecordingFile = serializedObject.FindProperty("RecordingFile");
             _filePath = serializedObject.FindProperty("_filePath");
         }
+        
+        #endregion
     }
 }
 

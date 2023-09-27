@@ -15,7 +15,11 @@ namespace KrillOrBeKrilled.Traps {
         [Tooltip("The damage to be applied to the Hero upon collision.")]
         [SerializeField] private int _damageAmount = 10;
         
-        protected override void SetUpTrap() {}
+        //========================================
+        // Protected Methods
+        //========================================
+        
+        #region Protected Methods
         
         protected override void DetonateTrap() {}
 
@@ -34,5 +38,9 @@ namespace KrillOrBeKrilled.Traps {
         }
 
         protected override void OnExitedTrap(IDamageable actor) {}
+        
+        protected override void SetUpTrap() {}
+        
+        #endregion
     }
 }

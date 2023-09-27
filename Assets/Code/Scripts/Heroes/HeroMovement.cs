@@ -50,20 +50,22 @@ namespace KrillOrBeKrilled.Heroes {
         private bool _maybeStuck;
 
         [Tooltip("Tracks when the hero gets stuck.")]
-        public UnityEvent<float, float, float> OnHeroIsStuck;
+        public UnityEvent<Vector3> OnHeroIsStuck;
 
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         private void Awake() {
             this.TryGetComponent(out this._rigidbody);
             this.TryGetComponent(out this._animator);
-            this.OnHeroIsStuck = new UnityEvent<float, float, float>();
+            this.OnHeroIsStuck = new UnityEvent<Vector3>();
             this._isStunned = false;
             this._isMoving = true;
         }
         
-        internal void Initialize(HeroSoundsController soundsController) {
-            this._soundsController = soundsController;
-        }
-
         private void Update() {
             if (this._isStunned) {
                 return;
@@ -91,15 +93,73 @@ namespace KrillOrBeKrilled.Heroes {
             this._prevPosition = this.transform.position;
         }
         
+        #endregion
+        
         //========================================
-        // Movement
+        // Public Methods
         //========================================
         
-#region Movement
+        #region Public Methods
+        
         /// <summary> Enables or disables the hero's ability to move. </summary>
         /// <param name="isMoving"> The hero's new movement status. </param>
         public void ToggleMoving(bool isMoving) {
             this._isMoving = isMoving;
+        }
+        
+        #endregion
+        
+        //========================================
+        // Internal Methods
+        //========================================
+        
+        #region Internal Methods
+        
+        #region Trap Effects
+        
+        /// <summary>
+        /// Increments the <see cref="_speedPenalty"/> to reduce the hero movement speed.
+        /// </summary>
+        /// <param name="amount"> The speed penalty value to increment the current <see cref="_speedPenalty"/> to
+        /// limit hero movement. </param>
+        /// <remarks> The incremented speed penalty is clamped between [0,1] as a percentage value. </remarks>
+        internal void AddSpeedPenalty(float amount) {
+            this._speedPenalty += amount;
+            this._speedPenalty = Mathf.Clamp(this._speedPenalty, 0f, 1f);
+        }
+        
+        /// <summary>
+        /// Resets the <see cref="_speedPenalty"/> to return the hero movement speed to normal.
+        /// </summary>
+        internal void ResetSpeedPenalty() {
+            this._speedPenalty = 0f;
+        }
+        
+        /// <summary>
+        /// Sets the <see cref="_speedPenalty"/> to reduce the hero movement speed.
+        /// </summary>
+        /// <param name="newPenalty"> The new speed penalty to limit hero movement. </param>
+        /// <remarks> The provided speed penalty is clamped between [0,1] as a percentage value. </remarks>
+        internal void SetSpeedPenalty(float newPenalty) {
+            this._speedPenalty = newPenalty;
+            this._speedPenalty = Mathf.Clamp(this._speedPenalty, 0f, 1f);
+        }
+
+        /// <summary>
+        /// Applies a force along the negative x-axis and positive y-axis to the hero and stuns the hero.
+        /// </summary>
+        /// <param name="stunDuration"> The duration of time to stun the hero. </param>
+        /// <param name="throwForce"> Scales the knock back force applied to the hero. </param>
+        internal void ThrowHeroBack(float stunDuration, float throwForce) {
+            this.Stun(stunDuration);
+            Vector2 explosionVector = new Vector2(-1f, 0.7f) * throwForce;
+            this._rigidbody.AddForce(explosionVector, ForceMode2D.Impulse);
+        }
+        
+        #endregion
+        
+        internal void Initialize(HeroSoundsController soundsController) {
+            this._soundsController = soundsController;
         }
         
         /// <summary>
@@ -121,45 +181,16 @@ namespace KrillOrBeKrilled.Heroes {
 
             _soundsController.OnHeroJump();
         }
-#endregion
-
-        //========================================
-        // Trap Effects
-        //========================================
-
-#region Trap Effects
-        /// <summary> Sets the <see cref="_speedPenalty"/> to reduce the hero movement speed. </summary>
-        /// <param name="newPenalty"> The new speed penalty to limit hero movement. </param>
-        /// <remarks> The provided speed penalty is clamped between [0,1] as a percentage value. </remarks>
-        internal void SetSpeedPenalty(float newPenalty) {
-            this._speedPenalty = newPenalty;
-            this._speedPenalty = Mathf.Clamp(this._speedPenalty, 0f, 1f);
-        }
-
-        /// <summary> Increments the <see cref="_speedPenalty"/> to reduce the hero movement speed. </summary>
-        /// <param name="amount"> The speed penalty value to increment the current <see cref="_speedPenalty"/> to
-        /// limit hero movement. </param>
-        /// <remarks> The incremented speed penalty is clamped between [0,1] as a percentage value. </remarks>
-        internal void AddSpeedPenalty(float amount) {
-            this._speedPenalty += amount;
-            this._speedPenalty = Mathf.Clamp(this._speedPenalty, 0f, 1f);
-        }
         
-        /// <summary> Resets the <see cref="_speedPenalty"/> to return the hero movement speed to normal. </summary>
-        internal void ResetSpeedPenalty() {
-            this._speedPenalty = 0f;
-        }
-
-        /// <summary>
-        /// Applies a force along the negative x-axis and positive y-axis to the hero and stuns the hero.
-        /// </summary>
-        /// <param name="stunDuration"> The duration of time to stun the hero. </param>
-        /// <param name="throwForce"> Scales the knock back force applied to the hero. </param>
-        internal void ThrowHeroBack(float stunDuration, float throwForce) {
-            this.Stun(stunDuration);
-            Vector2 explosionVector = new Vector2(-1f, 0.7f) * throwForce;
-            this._rigidbody.AddForce(explosionVector, ForceMode2D.Impulse);
-        }
+        #endregion
+        
+        //========================================
+        // Private Methods
+        //========================================
+        
+        #region Private Methods
+        
+        #region Trap Effects
 
         /// <summary>
         /// Resets the stun duration if the hero is currently stunned and stuns the hero for a new duration of time.
@@ -173,7 +204,9 @@ namespace KrillOrBeKrilled.Heroes {
             this._stunCoroutine = this.StartCoroutine(this.StunCoroutine(duration));
         }
 
-        /// <summary> Freezes the hero is place for a duration of time. </summary>
+        /// <summary>
+        /// Freezes the hero is place for a duration of time.
+        /// </summary>
         /// <param name="duration"> The duration of time to stun the hero in place. </param>
         /// <remarks> The coroutine is started by <see cref="Stun"/>. </remarks>
         private IEnumerator StunCoroutine(float duration) {
@@ -182,20 +215,18 @@ namespace KrillOrBeKrilled.Heroes {
             this._isStunned = false;
             this._stunCoroutine = null;
         }
-#endregion
         
-        //========================================
-        // UGS Analytics
-        //========================================
-
-#region UGS Analytics
+        #endregion
+        
         /// <summary>
         /// Checks that the hero has remained within the distance range defined by <see cref="_positionThreshold"/>
         /// for <see cref="StuckTimerThreshold"/> duration of time.
         /// </summary>
-        /// <remarks> If the hero remains in a similar position for the duration of time, invokes the
-        /// <see cref="OnHeroIsStuck"/> event to send hero stuck positional data to UGS analytics.
-        /// The coroutine is started by <see cref="FixedUpdate"/>. </remarks>
+        /// <remarks>
+        /// If the hero remains in a similar position for the duration of time, invokes the <see cref="OnHeroIsStuck"/>
+        /// event to send hero stuck positional data to UGS analytics.
+        /// The coroutine is started by <see cref="FixedUpdate"/>.
+        /// </remarks>
         private IEnumerator ConfirmHeroIsStuck() {
             yield return new WaitForSeconds(this.StuckTimerThreshold);
 
@@ -204,11 +235,11 @@ namespace KrillOrBeKrilled.Heroes {
                 yield break;
             }
 
-            var position = this.transform.position;
-            this.OnHeroIsStuck.Invoke(position.x, position.y, position.z);
+            this.OnHeroIsStuck.Invoke(this.transform.position);
 
             this._maybeStuck = false;
         }
-#endregion
+        
+        #endregion
     }
 }

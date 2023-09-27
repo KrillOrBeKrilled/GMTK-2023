@@ -28,7 +28,13 @@ namespace KrillOrBeKrilled.Tiles {
             public const int Ground = 3;
             public const int Dungeon = 4;
         }
-
+        
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         public override bool RuleMatch(int neighbor, TileBase tile) {
             switch (neighbor) {
                 case Neighbor.Null:
@@ -43,18 +49,43 @@ namespace KrillOrBeKrilled.Tiles {
 
             return base.RuleMatch(neighbor, tile);
         }
-
+        
+        #endregion
+        
         //========================================
-        // Rule Match Helpers
+        // Private Methods
         //========================================
+        
+        #region Private Methods
+        
+        #region Rule Match
+        
+        /// <summary>
+        /// Checks that the neighboring tile is contained within <see cref="dungeonTileTypes"/>.
+        /// </summary>
+        /// <param name="tile"> The neighboring tile in question. </param>
+        /// <returns> If the neighboring tile is contained in <see cref="dungeonTileTypes"/>. </returns>
+        private bool CheckDungeon(TileBase tile) {
+            return dungeonTileTypes.Contains(tile);
+        }
 
+        /// <summary>
+        /// Checks that the neighboring tile is contained within <see cref="groundTileTypes"/>.
+        /// </summary>
+        /// <param name="tile"> The neighboring tile in question. </param>
+        /// <returns> If the neighboring tile is contained in <see cref="groundTileTypes"/>. </returns>
+        private bool CheckGround(TileBase tile) {
+            return groundTileTypes.Contains(tile);
+        }
+        
         /// <summary>
         /// Checks that the neighboring tile is the same type as this tile or is contained within
         /// <see cref="tileTypesToConnect"/>.
         /// </summary>
         /// <param name="tile"> The neighboring tile in question. </param>
-        /// <returns> If the neighboring tile is the same type as this tile or contained in
-        /// <see cref="tileTypesToConnect"/>. </returns>
+        /// <returns>
+        /// If the neighboring tile is the same type as this tile or contained in <see cref="tileTypesToConnect"/>.
+        /// </returns>
         private bool CheckThis(TileBase tile) {
             return tileTypesToConnect.Contains(tile) || tile == this;
         }
@@ -65,19 +96,9 @@ namespace KrillOrBeKrilled.Tiles {
         private bool CheckNotThis(TileBase tile) {
             return tile != this;
         }
-
-        /// <summary> Checks that the neighboring tile is contained within <see cref="dungeonTileTypes"/>. </summary>
-        /// <param name="tile"> The neighboring tile in question. </param>
-        /// <returns> If the neighboring tile is contained in <see cref="dungeonTileTypes"/>. </returns>
-        private bool CheckDungeon(TileBase tile) {
-            return dungeonTileTypes.Contains(tile);
-        }
-
-        /// <summary> Checks that the neighboring tile is contained within <see cref="groundTileTypes"/>. </summary>
-        /// <param name="tile"> The neighboring tile in question. </param>
-        /// <returns> If the neighboring tile is contained in <see cref="groundTileTypes"/>. </returns>
-        private bool CheckGround(TileBase tile) {
-            return groundTileTypes.Contains(tile);
-        }
+        
+        #endregion
+        
+        #endregion
     }
 }

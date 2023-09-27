@@ -35,10 +35,13 @@ namespace KrillOrBeKrilled.Traps {
         private Coroutine _intervalDamageCoroutine;
         
         //========================================
-        // Trap Deployment / Building
+        // Public Methods
         //========================================
-
-#region Trap Deployment & Building
+        
+        #region Public Methods
+        
+        #region Trap Deployment
+        
         /// <inheritdoc cref="Trap.Construct"/>
         /// <remarks> Extended to change the shader animations for the acid liquid. </remarks>
         public override void Construct(Vector3 spawnPosition, Canvas canvas, 
@@ -68,42 +71,19 @@ namespace KrillOrBeKrilled.Traps {
             // Initiate the build time countdown
             ConstructionCompletion = 0;
         }
+
+        #endregion
         
-        /// <inheritdoc cref="Trap.BuildTrap"/>
-        /// <summary>
-        /// Overridden to create a new build animation to fill the pit with acid and heat haze, while adjusting the
-        /// position of the rising bubbles.
-        /// </summary>
-        protected override void BuildTrap() {
-            // Clamp the acid depth to prevent the acid from looking strange around tile edges
-            var targetDepth = Mathf.Clamp(ConstructionCompletion, 0, 0.8f);
-
-            // Magic ratio to avoid making the haze too intense
-            var targetHeatHazeRange = Mathf.Clamp(targetDepth / 3.8f, 0, 1);
-
-            _acidLiquid.material.SetFloat("_Depth", targetDepth);
-            _heatEmanating.material.SetFloat("_HazeRange", targetHeatHazeRange);
-
-            if (!_bubbles.activeSelf && targetDepth > 0.05f) {
-              _bubbles.SetActive(true);
-            }
-
-            _bubbles.transform.position = new Vector3(_bubblesStartPos.x, _bubblesStartPos.y + targetDepth * 1.8f,
-                                                      _bubblesStartPos.z);
-        }
-
-        /// <inheritdoc cref="Trap.SetUpTrap"/>
-        /// <remarks> Disables the <see cref="HeroJumpPad"/> that allows a hero to avoid this trap. </remarks>
-        protected override void SetUpTrap() {
-            _pitAvoidanceJumpPad.SetActive(false);
-        }
-#endregion
+        #endregion
         
         //========================================
-        // Trap Detonation
+        // Protected Methods
         //========================================
-
-#region Trap Detonation
+        
+        #region Protected Methods
+        
+        #region Trap Detonation
+        
         /// <inheritdoc cref="Trap.DetonateTrap"/>
         /// <remarks> This trap cannot be detonated and forever stays dug into the ground with moving liquid. </remarks>
         protected override void DetonateTrap() {}
@@ -120,7 +100,7 @@ namespace KrillOrBeKrilled.Traps {
             actor.ApplySpeedPenalty(0.8f);
 
             if (this._intervalDamageCoroutine != null) {
-              this.StopCoroutine(this._intervalDamageCoroutine);
+                this.StopCoroutine(this._intervalDamageCoroutine);
             }
             this._intervalDamageCoroutine = this.StartCoroutine(this.DealIntervalDamage(actor));
         }
@@ -140,6 +120,48 @@ namespace KrillOrBeKrilled.Traps {
                 this.StopCoroutine(this._intervalDamageCoroutine);
         }
 
+        #endregion
+        
+        #region Trap Building
+
+        /// <inheritdoc cref="Trap.BuildTrap"/>
+        /// <summary>
+        /// Overridden to create a new build animation to fill the pit with acid and heat haze, while adjusting the
+        /// position of the rising bubbles.
+        /// </summary>
+        protected override void BuildTrap() {
+            // Clamp the acid depth to prevent the acid from looking strange around tile edges
+            var targetDepth = Mathf.Clamp(ConstructionCompletion, 0, 0.8f);
+
+            // Magic ratio to avoid making the haze too intense
+            var targetHeatHazeRange = Mathf.Clamp(targetDepth / 3.8f, 0, 1);
+
+            _acidLiquid.material.SetFloat("_Depth", targetDepth);
+            _heatEmanating.material.SetFloat("_HazeRange", targetHeatHazeRange);
+
+            if (!_bubbles.activeSelf && targetDepth > 0.05f) {
+                _bubbles.SetActive(true);
+            }
+
+            _bubbles.transform.position = new Vector3(_bubblesStartPos.x, _bubblesStartPos.y + targetDepth * 1.8f,
+                _bubblesStartPos.z);
+        }
+
+        /// <inheritdoc cref="Trap.SetUpTrap"/>
+        /// <remarks> Disables the <see cref="HeroJumpPad"/> that allows a hero to avoid this trap. </remarks>
+        protected override void SetUpTrap() {
+            _pitAvoidanceJumpPad.SetActive(false);
+        }
+        #endregion
+        
+        #endregion
+        
+        //========================================
+        // Private Methods
+        //========================================
+        
+        #region Private Methods
+        
         /// <summary>
         /// Deals damage to the <see cref="IDamageable"/> each second for as long as its health remains
         /// greater than zero.
@@ -154,6 +176,7 @@ namespace KrillOrBeKrilled.Traps {
             
             this._intervalDamageCoroutine = null;
         }
-#endregion
+        
+        #endregion
     }
 }

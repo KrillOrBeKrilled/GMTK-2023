@@ -6,7 +6,16 @@ namespace KrillOrBeKrilled.Common.Interfaces {
     /// Interfaces any actor that has the ability to build traps.
     /// </summary>
     public interface ITrapBuilder {
-        /// <summary> Determines if the actor can build the trap at the current time. </summary>
+        
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+        
+        /// <summary>
+        /// Determines if the actor can build the trap at the current time.
+        /// </summary>
         /// <returns> If the actor can currently build the trap. </returns>
         /// <remarks> Availability to build the trap is heavily dependent on the actor state. </remarks>
         public bool CanBuildTrap();
@@ -17,5 +26,7 @@ namespace KrillOrBeKrilled.Common.Interfaces {
         /// </summary>
         /// <param name="isGrounded"> If the actor is currently touching the ground. </param>
         public void SetGroundedStatus(bool isGrounded);
+        
+        #endregion
     }
 }

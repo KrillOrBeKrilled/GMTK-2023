@@ -28,11 +28,24 @@ namespace KrillOrBeKrilled.UI {
         private RectTransform _rectTransform;
 
         private Sequence _tweenSequence;
+        private bool _isInteractable = true;
+
+        /// <summary>
+        /// Sets this button to be interactable or un-interactable.
+        /// </summary>
+        /// <param name="isInteractable">Value to set the buttons interactable property to.</param>
+        public void SetInteractable(bool isInteractable) {
+            this._isInteractable = isInteractable;
+        }
 
         // The OnClicked event of the UI.Button component can also be used directly
         /// <summary> Invokes the <see cref="_onClick"/> event. </summary>
         /// <param name="eventData"> The data associated with the button touch event. </param>
         public void OnPointerClick(PointerEventData eventData) {
+            if (!this._isInteractable) {
+                return;
+            }
+
             this._onClickImmediate?.Invoke();
             this._tweenSequence?.Kill();
 

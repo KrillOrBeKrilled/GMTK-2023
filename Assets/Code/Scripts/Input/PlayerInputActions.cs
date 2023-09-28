@@ -23,34 +23,6 @@ namespace KrillOrBeKrilled.Input {
     ""name"": ""PlayerInputActions"",
     ""maps"": [
         {
-            ""name"": ""Pause"",
-            ""id"": ""28ab8866-a0dc-4951-9647-4489288076d9"",
-            ""actions"": [
-                {
-                    ""name"": ""PauseAction"",
-                    ""type"": ""Button"",
-                    ""id"": ""0cb36920-d0ac-46f3-a1d0-351fbe82427f"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""b2c5250e-a660-4dc1-bc19-c907e60e8ffc"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PauseAction"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
             ""name"": ""Player"",
             ""id"": ""e46362e4-df9e-47f5-9ac3-ca18a3dd3154"",
             ""actions"": [
@@ -270,9 +242,6 @@ namespace KrillOrBeKrilled.Input {
     ],
     ""controlSchemes"": []
 }");
-            // Pause
-            m_Pause = asset.FindActionMap("Pause", throwIfNotFound: true);
-            m_Pause_PauseAction = m_Pause.FindAction("PauseAction", throwIfNotFound: true);
             // Player
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
@@ -328,47 +297,6 @@ namespace KrillOrBeKrilled.Input {
         public int FindBinding(InputBinding bindingMask, out InputAction action) {
             return asset.FindBinding(bindingMask, out action);
         }
-
-        // Pause
-        private readonly InputActionMap m_Pause;
-        private List<IPauseActions> m_PauseActionsCallbackInterfaces = new List<IPauseActions>();
-        private readonly InputAction m_Pause_PauseAction;
-        public struct PauseActions {
-            private @PlayerInputActions m_Wrapper;
-            public PauseActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-            public InputAction @PauseAction => m_Wrapper.m_Pause_PauseAction;
-            public InputActionMap Get() { return m_Wrapper.m_Pause; }
-            public void Enable() { Get().Enable(); }
-            public void Disable() { Get().Disable(); }
-            public bool enabled => Get().enabled;
-            public static implicit operator InputActionMap(PauseActions set) { return set.Get(); }
-            public void AddCallbacks(IPauseActions instance) {
-                if (instance == null || m_Wrapper.m_PauseActionsCallbackInterfaces.Contains(instance)) return;
-                m_Wrapper.m_PauseActionsCallbackInterfaces.Add(instance);
-                @PauseAction.started += instance.OnPauseAction;
-                @PauseAction.performed += instance.OnPauseAction;
-                @PauseAction.canceled += instance.OnPauseAction;
-            }
-
-            private void UnregisterCallbacks(IPauseActions instance) {
-                @PauseAction.started -= instance.OnPauseAction;
-                @PauseAction.performed -= instance.OnPauseAction;
-                @PauseAction.canceled -= instance.OnPauseAction;
-            }
-
-            public void RemoveCallbacks(IPauseActions instance) {
-                if (m_Wrapper.m_PauseActionsCallbackInterfaces.Remove(instance))
-                    UnregisterCallbacks(instance);
-            }
-
-            public void SetCallbacks(IPauseActions instance) {
-                foreach (var item in m_Wrapper.m_PauseActionsCallbackInterfaces)
-                    UnregisterCallbacks(item);
-                m_Wrapper.m_PauseActionsCallbackInterfaces.Clear();
-                AddCallbacks(instance);
-            }
-        }
-        public PauseActions @Pause => new PauseActions(this);
 
         // Player
         private readonly InputActionMap m_Player;
@@ -467,9 +395,6 @@ namespace KrillOrBeKrilled.Input {
             }
         }
         public UIActions @UI => new UIActions(this);
-        public interface IPauseActions {
-            void OnPauseAction(InputAction.CallbackContext context);
-        }
         public interface IPlayerActions {
             void OnMove(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);

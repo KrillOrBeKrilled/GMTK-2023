@@ -21,6 +21,8 @@ namespace KrillOrBeKrilled.UI {
     public class GameUI : MonoBehaviour {
         [Header("Game UI References")]
         [Tooltip("Used to fade the scene in and out.")]
+        [SerializeField] private Image _backgroundImage;
+        [SerializeField] private Image _backgroundTintImage;
         [SerializeField] private Image _foregroundImage;
         [Tooltip("Pause menu UI.")]
         [SerializeField] private GameObject _pauseUI;
@@ -104,6 +106,7 @@ namespace KrillOrBeKrilled.UI {
             if (isPaused) {
                 // TODO: Play short modal show animation
                 this._pauseUI.SetActive(true);
+                this._backgroundTintImage.gameObject.SetActive(true);
             }
         }
 

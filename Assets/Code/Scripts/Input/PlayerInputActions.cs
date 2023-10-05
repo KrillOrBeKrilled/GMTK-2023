@@ -18,6 +18,7 @@ using UnityEngine.InputSystem.Utilities;
 namespace KrillOrBeKrilled.Input {
     public partial class @PlayerInputActions : IInputActionCollection2, IDisposable {
         public InputActionAsset asset { get; }
+
         public @PlayerInputActions() {
             asset = InputActionAsset.FromJson(@"{
     ""name"": ""PlayerInputActions"",
@@ -297,7 +298,6 @@ namespace KrillOrBeKrilled.Input {
         public int FindBinding(InputBinding bindingMask, out InputAction action) {
             return asset.FindBinding(bindingMask, out action);
         }
-
         // Player
         private readonly InputActionMap m_Player;
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
@@ -306,7 +306,11 @@ namespace KrillOrBeKrilled.Input {
         private readonly InputAction m_Player_PlaceTrap;
         public struct PlayerActions {
             private @PlayerInputActions m_Wrapper;
-            public PlayerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+
+            public PlayerActions(@PlayerInputActions wrapper) {
+                m_Wrapper = wrapper;
+            }
+
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Jump => m_Wrapper.m_Player_Jump;
             public InputAction @PlaceTrap => m_Wrapper.m_Player_PlaceTrap;
@@ -314,7 +318,11 @@ namespace KrillOrBeKrilled.Input {
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
             public bool enabled => Get().enabled;
-            public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
+
+            public static implicit operator InputActionMap(PlayerActions set) {
+                return set.Get();
+            }
+
             public void AddCallbacks(IPlayerActions instance) {
                 if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
                 m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
@@ -353,21 +361,42 @@ namespace KrillOrBeKrilled.Input {
                 AddCallbacks(instance);
             }
         }
+
         public PlayerActions @Player => new PlayerActions(this);
 
         // UI
         private readonly InputActionMap m_UI;
         private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
         private readonly InputAction m_UI_AdvanceDialogue;
-        public struct UIActions {
+
+        public struct UIActions
+        {
             private @PlayerInputActions m_Wrapper;
-            public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+
+            public UIActions(@PlayerInputActions wrapper) {
+                m_Wrapper = wrapper;
+            }
+
             public InputAction @AdvanceDialogue => m_Wrapper.m_UI_AdvanceDialogue;
-            public InputActionMap Get() { return m_Wrapper.m_UI; }
-            public void Enable() { Get().Enable(); }
-            public void Disable() { Get().Disable(); }
+
+            public InputActionMap Get() {
+                return m_Wrapper.m_UI;
+            }
+
+            public void Enable() {
+                Get().Enable();
+            }
+
+            public void Disable() {
+                Get().Disable();
+            }
+
             public bool enabled => Get().enabled;
-            public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+
+            public static implicit operator InputActionMap(UIActions set) {
+                return set.Get();
+            }
+
             public void AddCallbacks(IUIActions instance) {
                 if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
                 m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
@@ -394,13 +423,16 @@ namespace KrillOrBeKrilled.Input {
                 AddCallbacks(instance);
             }
         }
+
         public UIActions @UI => new UIActions(this);
         public interface IPlayerActions {
             void OnMove(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
             void OnPlaceTrap(InputAction.CallbackContext context);
         }
-        public interface IUIActions {
+
+        public interface IUIActions
+        {
             void OnAdvanceDialogue(InputAction.CallbackContext context);
         }
     }

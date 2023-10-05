@@ -34,8 +34,8 @@ RectTransform:
   m_Children:
   - {fileID: 6948605599787067487}
   - {fileID: 5216411717999565681}
-  - {fileID: 578757948630318387}
   - {fileID: 1357499863341449287}
+  - {fileID: 578757948630318387}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
@@ -501,7 +501,7 @@ PrefabInstance:
     - target: {fileID: 971724375425135701, guid: 650d42dc717d9470295ab752e68c7e8d, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 061d53a50995e46c981f7cbcf71f95b8, type: 3}
+      objectReference: {fileID: 21300000, guid: c7e0c10978a314a0e9f12d7b6751188e, type: 3}
     - target: {fileID: 1501688950925544695, guid: 650d42dc717d9470295ab752e68c7e8d, type: 3}
       propertyPath: m_Name
       value: Icicle

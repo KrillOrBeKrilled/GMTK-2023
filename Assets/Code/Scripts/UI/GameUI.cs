@@ -21,6 +21,8 @@ namespace KrillOrBeKrilled.UI {
     public class GameUI : MonoBehaviour {
         [Header("Game UI References")]
         [Tooltip("Used to fade the scene in and out.")]
+        [SerializeField] private Image _backgroundImage;
+        [SerializeField] private Image _backgroundTintImage;
         [SerializeField] private Image _foregroundImage;
         [Tooltip("Pause menu UI.")]
         [SerializeField] private GameObject _pauseUI;
@@ -34,12 +36,6 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private SkipDialogueUI _skipDialogueUI;
         [SerializeField] private Transform _healthBarsContainer;
         [SerializeField] private MapUI _mapUI;
-
-        [Header("Pause UI Events")]
-        [Tooltip("Tracks when the game is paused.")]
-        [SerializeField] private UnityEvent _onPaused;
-        [Tooltip("Tracks when the game is unpaused.")]
-        [SerializeField] private UnityEvent _onUnpaused;
 
         [Header("Prefabs")]
         [SerializeField] private HealthBarUI _healthBarUIPrefab;
@@ -105,15 +101,12 @@ namespace KrillOrBeKrilled.UI {
 
         /// <summary> Enables or disables the Pause menu UI. </summary>
         /// <param name="isPaused"> Whether the game is currently paused or not. </param>
-        /// <remarks> Subscribed to the <see cref="PauseManager.OnPauseToggled"/> event. Invokes the
-        /// <see cref="_onPaused"/> and <see cref="_onUnpaused"/> events. </remarks>
+        /// <remarks> Subscribed to the <see cref="PauseManager.OnPauseToggled"/> event. </remarks>
         private void OnPauseToggled(bool isPaused) {
-            this._pauseUI.SetActive(isPaused);
-
             if (isPaused) {
-                this._onPaused?.Invoke();
-            } else {
-                this._onUnpaused?.Invoke();
+                // TODO: Play short modal show animation
+                this._pauseUI.SetActive(true);
+                this._backgroundTintImage.gameObject.SetActive(true);
             }
         }
 

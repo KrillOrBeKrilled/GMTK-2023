@@ -1,7 +1,5 @@
-using KrillOrBeKrilled.Input;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 //*******************************************************************************************
 // PauseManager
@@ -20,8 +18,6 @@ namespace KrillOrBeKrilled.Managers {
         // Denotes whether or not the game is currently paused.
         private bool _isPaused;
 
-        private PlayerInputActions _playerInputActions;
-
         /// <summary>
         /// Enables or disables the ability to pause the game.
         /// </summary>
@@ -29,10 +25,14 @@ namespace KrillOrBeKrilled.Managers {
         public void SetIsPausable(bool isPausable) {
             this._isPausable = isPausable;
         }
-        
+
         /// <summary> Sets the <see cref="Time.timeScale"/> to zero and toggles <see cref="_isPaused"/>. </summary>
         /// <remarks> Invokes the <see cref="OnPauseToggled"/> event. </remarks>
         public void PauseGame() {
+            if (!this._isPausable) {
+                return;
+            }
+
             Time.timeScale = 0f;
             this._isPaused = true;
             this.OnPauseToggled?.Invoke(this._isPaused);
@@ -48,36 +48,7 @@ namespace KrillOrBeKrilled.Managers {
 
         protected override void Awake() {
             base.Awake();
-
-            this._playerInputActions = new PlayerInputActions();
             this.OnPauseToggled = new UnityEvent<bool>();
-        }
-
-        private void OnEnable() {
-            this._playerInputActions.Enable();
-            this._playerInputActions.Pause.PauseAction.performed += this.TogglePausedState;
-        }
-
-        private void OnDisable() {
-            this._playerInputActions.Disable();
-            this._playerInputActions.Pause.PauseAction.performed += this.TogglePausedState;
-        }
-
-        /// <summary>
-        /// Pauses the game when it's not already paused and vice versa, provided that <see cref="_isPausable"/>
-        /// is toggled.
-        /// </summary>
-        /// <remarks> Subscribed to the <see cref="PlayerInputActions"/> pause input event. </remarks>
-        private void TogglePausedState(InputAction.CallbackContext ctx) {
-            if (!this._isPausable) {
-                return;
-            }
-
-            if (this._isPaused) {
-                this.UnpauseGame();
-            } else {
-                this.PauseGame();
-            }
         }
     }
 }

@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 486222141146097442}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -9.497, y: 0.499, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &242171671378228480
 SpriteRenderer:
@@ -143,10 +143,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2364130e71125946b074338d05c00fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _leftGridPoints:
-  - {x: 0, y: 0, z: 0}
-  _rightGridPoints:
-  - {x: 0, y: 0, z: 0}
-  _validationScore: 1
-  _leftSpawnOffset: {x: 0.5, y: 0.5, z: 0}
-  _rightSpawnOffset: {x: 0.5, y: 0.5, z: 0}
+  Cost: 0
+  LeftGridPoints: []
+  RightGridPoints: []
+  ValidationScore: 0
+  LeftSpawnOffset: {x: 0, y: 0, z: 0}
+  RightSpawnOffset: {x: 0, y: 0, z: 0}
+  AnimationOffset: {x: 0, y: 0, z: 0}
+  BuildingDuration: 0
+  SliderBar: {fileID: 0}

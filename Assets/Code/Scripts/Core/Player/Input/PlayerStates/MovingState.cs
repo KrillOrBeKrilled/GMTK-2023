@@ -1,4 +1,4 @@
-using KrillOrBeKrilled.Common.Commands;
+using KrillOrBeKrilled.Core.Commands;
 
 //*******************************************************************************************
 // MovingState

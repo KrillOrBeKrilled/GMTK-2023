@@ -30,15 +30,5 @@ namespace KrillOrBeKrilled.Core.Player {
         internal void EnablePlayerControls() {
             this.PlayerInputActions.Player.Enable();
         }
-
-        /// <summary> Disables the pause input retrieval through the <see cref="PlayerInputActions"/> asset. </summary>
-        internal void DisableUIControls() {
-            this.PlayerInputActions.Pause.Disable();
-        }
-
-        /// <summary> Enables the pause input retrieval through the <see cref="PlayerInputActions"/> asset. </summary>
-        internal void EnableUIControls() {
-            this.PlayerInputActions.Pause.Enable();
-        }
     }
 }

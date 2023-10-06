@@ -12,9 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e90c72ba9e4daeb0a80224c2883d32, type: 3}
   m_Name: ActiveLevelData
   m_EditorClassIdentifier: 
-  Type: 0
-  DialogueName: 
-  EndgameTargetPosition: {x: 0, y: 0, z: 0}
-  RespawnPositions: []
+  Type: 1
+  DialogueName: TutorialDialogue
+  EndgameTargetPosition: {x: 380, y: -0.5, z: 0}
+  RespawnPositions:
+  - {x: -8.05, y: -0.39, z: 0}
   WavesData:
-    WavesList: []
+    WavesList:
+    - Heroes:
+      - Health: 50
+        Type: 0
+      - Health: 50
+        Type: 1
+      - Health: 50
+        Type: 2
+      HeroSpawnDelayInSeconds: 2
+      NextWaveSpawnDelayInSeconds: -1

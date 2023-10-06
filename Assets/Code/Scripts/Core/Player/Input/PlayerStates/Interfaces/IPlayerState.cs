@@ -8,7 +8,33 @@ namespace KrillOrBeKrilled.Core.Player {
     /// pinpoint bugs easily, plus specialize behaviours to specific states.
     /// </summary>
     public interface IPlayerState {
-        /// <summary> Retrieves the player movement speed specific to the current state executed. </summary>
+        
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+        
+        /// <summary>
+        /// Adjust the player movement speed and actions depending on the current state of the player.
+        /// <list type="bullet">
+        /// <item> Idle: Player stands still, can transition to any other state in this state. </item>
+        /// <item> Moving: Player moves in this state in a given direction along the x-axis. </item>
+        /// <item> GameOver: Player has perished, thus ending the game. </item>
+        /// </list>
+        /// </summary>
+        /// <param name="playerController"> The <see cref="PlayerController"/> executing this state. </param>
+        /// <param name="direction"> The direction the player is currently facing when this state is executed. </param>
+        /// <remarks>
+        /// The player <b>jumping</b> and <b>trap deployment</b> abilities are left out of the state
+        /// pattern to be executed concurrently with the other states within the same frames for reduced
+        /// latency.
+        /// </remarks>
+        public void Act(PlayerController playerController, float direction);
+        
+        /// <summary>
+        /// Retrieves the player movement speed specific to the current state executed.
+        /// </summary>
         /// <returns> The speed setting for the player to move. </returns>
         public float GetMovementSpeed();
 
@@ -24,19 +50,6 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <param name="newState"> The <see cref="IPlayerState"/> that will be entered from this state. </param>
         public void OnExit(IPlayerState newState) {}
 
-        /// <summary>
-        /// Adjust the player movement speed and actions depending on the current state of the player.
-        /// <list type="bullet">
-        /// <item> Idle: Player stands still, can transition to any other state in this state. </item>
-        /// <item> Moving: Player moves in this state in a given direction along the x-axis. </item>
-        /// <item> GameOver: Player has perished, thus ending the game. </item>
-        /// </list>
-        /// </summary>
-        /// <param name="playerController"> The <see cref="PlayerController"/> executing this state. </param>
-        /// <param name="direction"> The direction the player is currently facing when this state is executed. </param>
-        /// <remarks> The player <b>jumping</b> and <b>trap deployment</b> abilities are left out of the state
-        /// pattern to be executed concurrently with the other states within the same frames for reduced
-        /// latency. </remarks>
-        public void Act(PlayerController playerController, float direction);
+        #endregion
     }
 }

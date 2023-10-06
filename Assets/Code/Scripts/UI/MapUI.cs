@@ -42,6 +42,46 @@ namespace KrillOrBeKrilled.UI {
         /// Padding value will be applied from the left and right.
         /// </summary>
         private const int IconPositionPadding = 15;
+        
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+
+        private void Start() {
+            this._progressSlider.value = 0f;
+            this._sliderLength = ((RectTransform)this.transform).rect.width - IconPositionPadding * 2;
+            print(this._sliderLength);
+        }
+
+        private void Update() {
+            // Update icon position of each hero based on their progress
+            float greatestProgress = 0f;
+            foreach (KeyValuePair<Hero,Image> kvp in this._heroToIconDict) {
+                Hero hero = kvp.Key;
+                Image image = kvp.Value;
+
+                float heroMapProgress = this.GetHeroMapProgress(hero);
+                image.rectTransform.anchoredPosition = new Vector2(this._sliderLength * heroMapProgress, 0);
+                greatestProgress = Mathf.Max(greatestProgress, heroMapProgress);
+            }
+
+            this.SetFillAreaColor(greatestProgress);
+
+            if (this._player != null) {
+                this._playerIcon.rectTransform.anchoredPosition =
+                    new Vector2(this._sliderLength * this.GetHeroMapProgress(this._player), 0);
+            }
+        }
+        
+        #endregion
+        
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
 
         /// <summary> Sets up all references to operate the map UI. </summary>
         /// <param name="player"> The player GameObject <see cref="Transform"/> to track for positional changes. </param>
@@ -78,31 +118,24 @@ namespace KrillOrBeKrilled.UI {
             Image newIcon = Instantiate(heroIconPrefab, this._heroIconsParent);
             this._heroToIconDict.Add(newHero, newIcon);
         }
-
-        private void Start() {
-            this._progressSlider.value = 0f;
-            this._sliderLength = ((RectTransform)this.transform).rect.width - IconPositionPadding * 2;
-            print(this._sliderLength);
-        }
-
-        private void Update() {
-            // Update icon position of each hero based on their progress
-            float greatestProgress = 0f;
-            foreach (KeyValuePair<Hero,Image> kvp in this._heroToIconDict) {
-                Hero hero = kvp.Key;
-                Image image = kvp.Value;
-
-                float heroMapProgress = this.GetHeroMapProgress(hero);
-                image.rectTransform.anchoredPosition = new Vector2(this._sliderLength * heroMapProgress, 0);
-                greatestProgress = Mathf.Max(greatestProgress, heroMapProgress);
-            }
-
-            this.SetFillAreaColor(greatestProgress);
-
-            if (this._player != null) {
-                this._playerIcon.rectTransform.anchoredPosition =
-                    new Vector2(this._sliderLength * this.GetHeroMapProgress(this._player), 0);
-            }
+        
+        #endregion
+        
+        //========================================
+        // Private Methods
+        //========================================
+        
+        #region Private Methods
+        
+        /// <summary>
+        /// Helper method for <see cref="Update"/> that calculates the progress of a GameObject between the start
+        /// and end goal of the level as a percentage.
+        /// </summary>
+        /// <param name="character"> A component associated with the GameObject to get the position data from. </param>
+        /// <returns> The distance covered towards the level end goal as a percentage. </returns>
+        private float GetHeroMapProgress(Component character) {
+            float mapProgress = (character.transform.position.x - this._levelStartX) / (this._levelEndX - this._levelStartX);
+            return Mathf.Clamp(mapProgress, 0f, 1f);
         }
 
         /// <summary>
@@ -130,16 +163,7 @@ namespace KrillOrBeKrilled.UI {
 
             this._heroToIconDict.Remove(diedHero);
         }
-
-        /// <summary>
-        /// Helper method for <see cref="Update"/> that calculates the progress of a GameObject between the start
-        /// and end goal of the level as a percentage.
-        /// </summary>
-        /// <param name="character"> A component associated with the GameObject to get the position data from. </param>
-        /// <returns> The distance covered towards the level end goal as a percentage. </returns>
-        private float GetHeroMapProgress(Component character) {
-            float mapProgress = (character.transform.position.x - this._levelStartX) / (this._levelEndX - this._levelStartX);
-            return Mathf.Clamp(mapProgress, 0f, 1f);
-        }
+        
+        #endregion
     }
 }

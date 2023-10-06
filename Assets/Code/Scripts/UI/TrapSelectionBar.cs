@@ -17,7 +17,13 @@ namespace KrillOrBeKrilled.UI {
     public class TrapSelectionBar : MonoBehaviour {
         [Tooltip("Stores each trap icon contained within the trap selection toolbar.")]
         [SerializeField] private List<TrapBarIcon> _trapBarIcons;
-
+        
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+        
         /// <summary>
         /// Sets up all references and listeners to operate the trap selection toolbar, also initializing each
         /// <see cref="TrapBarIcon"/>.
@@ -35,8 +41,27 @@ namespace KrillOrBeKrilled.UI {
                 this._trapBarIcons[i].Initialize(traps[i], selectTrapAction);
             }
         }
+        
+        #endregion
 
-        /// <summary> Updates each <see cref="TrapBarIcon"/> when a new trap is selected. </summary>
+        //========================================
+        // Private Methods
+        //========================================
+        
+        #region Private Methods
+        
+        /// <summary>
+        /// Updates each <see cref="TrapBarIcon"/> tint when the coin balance updates.
+        /// </summary>
+        /// <param name="newAmount"> The current number of coins available from the <see cref="CoinManager"/>. </param>
+        /// <remarks> Listens on the <see cref="CoinManager.OnCoinAmountChanged"/> event. </remarks>
+        private void OnCoinAmountChanged(int newAmount) {
+            this._trapBarIcons.ForEach(trapBarIcon => trapBarIcon.OnCanAffordChanged(newAmount));
+        }
+        
+        /// <summary>
+        /// Updates each <see cref="TrapBarIcon"/> when a new trap is selected.
+        /// </summary>
         /// <param name="newIndex"> The index of the current selected trap. </param>
         /// <remarks> Listens on the <see cref="PlayerController.OnSelectedTrapIndexChanged"/> event. </remarks>
         private void SelectedTrapIndexChanged(Trap newTrap) {
@@ -44,12 +69,7 @@ namespace KrillOrBeKrilled.UI {
                 this._trapBarIcons[i].OnSelectedChanged(newTrap);
             }
         }
-
-        /// <summary> Updates each <see cref="TrapBarIcon"/> tint when the coin balance updates. </summary>
-        /// <param name="newAmount"> The current number of coins available from the <see cref="CoinManager"/>. </param>
-        /// <remarks> Listens on the <see cref="CoinManager.OnCoinAmountChanged"/> event. </remarks>
-        private void OnCoinAmountChanged(int newAmount) {
-            this._trapBarIcons.ForEach(trapBarIcon => trapBarIcon.OnCanAffordChanged(newAmount));
-        }
+        
+        #endregion
     }
 }

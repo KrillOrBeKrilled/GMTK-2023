@@ -19,6 +19,12 @@ namespace KrillOrBeKrilled.Editor {
         SerializedProperty CSVFile;
         SerializedProperty _filePath;
     
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         public override void OnInspectorGUI() {
             serializedObject.Update();
             EditorGUILayout.PropertyField(_filePath);
@@ -45,6 +51,8 @@ namespace KrillOrBeKrilled.Editor {
             CSVFile = serializedObject.FindProperty("CSVFile");
             _filePath = serializedObject.FindProperty("_filePath");
         }
+        
+        #endregion
     }
 }
 

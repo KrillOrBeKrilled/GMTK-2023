@@ -9,12 +9,21 @@ namespace KrillOrBeKrilled.Traps {
     /// deployment and detonation scenarios. 
     /// </summary>
     public class TestTrap1 : Trap {
-        protected override void SetUpTrap() {}
-
+        
+        //========================================
+        // Protected Methods
+        //========================================
+        
+        #region Protected Methods
+        
         protected override void DetonateTrap() {}
 
         protected  override void OnEnteredTrap(IDamageable actor) {}
 
         protected override void OnExitedTrap(IDamageable actor) {}
+        
+        protected override void SetUpTrap() {}
+        
+        #endregion
     }
 }

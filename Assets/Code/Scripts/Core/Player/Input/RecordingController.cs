@@ -19,28 +19,64 @@ namespace KrillOrBeKrilled.Core.Player {
 
         private InputEventTrace.ReplayController _replayController;
 
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         protected override void Awake() {
             base.Awake();
             this.ParseControls();
         }
-
-        /// <summary> Begins the recording playback with a slight delay. </summary>
-        internal override void StartSession() {
-            this.StartCoroutine(this.ReplayDelay());
-        }
-
-        /// <remarks> Subscribed to the <see cref="GameManager.OnHenWon"/> and <see cref="GameManager.OnHenLost"/>
+        
+        #endregion
+        
+        //========================================
+        // Protected Methods
+        //========================================
+        
+        #region Protected Methods
+        
+        /// <remarks>
+        /// Subscribed to the <see cref="GameManager.OnHenWon"/> and <see cref="GameManager.OnHenLost"/>
         /// events. Overrides <see cref="PlayerController.StopSession"/> to prevent the duplication of recording
-        /// files. </remarks>
+        /// files.
+        /// </remarks>
         protected override void StopSession(string message) {
             // Make this blank to prevent the creation of the input recording script from the parent class
         }
+        
+        #endregion
+        
+        //========================================
+        // Internal Methods
+        //========================================
+        
+        #region Internal Methods
+        
+        /// <summary>
+        /// Begins the recording playback with a slight delay.
+        /// </summary>
+        internal override void StartSession() {
+            this.StartCoroutine(this.ReplayDelay());
+        }
+        
+        #endregion
 
+        //========================================
+        // Private Methods
+        //========================================
+        
+        #region Private Methods
+        
         /// <summary>
         /// Parses the <see cref="RecordingFile"/> and stores the player input data via <see cref="InputEventTrace"/>.
         /// </summary>
-        /// <remarks> If the file is invalid or the <see cref="InputEventTrace"/> could not register any input
-        /// events, logs the error to the engine console. </remarks>
+        /// <remarks>
+        /// If the file is invalid or the <see cref="InputEventTrace"/> could not register any input
+        /// events, logs the error to the engine console.
+        /// </remarks>
         private void ParseControls() {
             this.InputRecorder = InputEventTrace.LoadFrom(this._filePath);
 
@@ -59,7 +95,9 @@ namespace KrillOrBeKrilled.Core.Player {
             this._replayController.PlayAllEventsAccordingToTimestamps();
         }
 
-        /// <summary> Delays for a duration of time and begins replaying the input recording data. </summary>
+        /// <summary>
+        /// Delays for a duration of time and begins replaying the input recording data.
+        /// </summary>
         /// <remarks> The coroutine is started by <see cref="StartSession"/>. </remarks>
         private IEnumerator ReplayDelay() {
             // Slight delay to give more precision to combat a margin of error in the timing of the execution
@@ -67,5 +105,7 @@ namespace KrillOrBeKrilled.Core.Player {
             yield return new WaitForSeconds(0.02f);
             this.Replay();
         }
+        
+        #endregion
     }
 }

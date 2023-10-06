@@ -17,15 +17,26 @@ namespace KrillOrBeKrilled.Managers {
         private bool _isPausable;
         // Denotes whether or not the game is currently paused.
         private bool _isPaused;
+        
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
 
-        /// <summary>
-        /// Enables or disables the ability to pause the game.
-        /// </summary>
-        /// <param name="isPausable"> Whether or not the game can be paused. </param>
-        public void SetIsPausable(bool isPausable) {
-            this._isPausable = isPausable;
+        protected override void Awake() {
+            base.Awake();
+            this.OnPauseToggled = new UnityEvent<bool>();
         }
 
+        #endregion
+        
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+        
         /// <summary> Sets the <see cref="Time.timeScale"/> to zero and toggles <see cref="_isPaused"/>. </summary>
         /// <remarks> Invokes the <see cref="OnPauseToggled"/> event. </remarks>
         public void PauseGame() {
@@ -37,7 +48,15 @@ namespace KrillOrBeKrilled.Managers {
             this._isPaused = true;
             this.OnPauseToggled?.Invoke(this._isPaused);
         }
-
+        
+        /// <summary>
+        /// Enables or disables the ability to pause the game.
+        /// </summary>
+        /// <param name="isPausable"> Whether or not the game can be paused. </param>
+        public void SetIsPausable(bool isPausable) {
+            this._isPausable = isPausable;
+        }
+        
         /// <summary> Resets the <see cref="Time.timeScale"/> and resets <see cref="_isPaused"/>. </summary>
         /// <remarks> Invokes the <see cref="OnPauseToggled"/> event. </remarks>
         public void UnpauseGame() {
@@ -45,10 +64,7 @@ namespace KrillOrBeKrilled.Managers {
             this._isPaused = false;
             this.OnPauseToggled?.Invoke(this._isPaused);
         }
-
-        protected override void Awake() {
-            base.Awake();
-            this.OnPauseToggled = new UnityEvent<bool>();
-        }
+        
+        #endregion
     }
 }

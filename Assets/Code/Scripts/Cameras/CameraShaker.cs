@@ -23,6 +23,12 @@ namespace KrillOrBeKrilled.Cameras {
         /// Noise control settings for each camera in the camera switcher.
         private List<CinemachineBasicMultiChannelPerlin> _noiseControllers;
     
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         private void Awake() {
             this.TryGetComponent(out this._switcher);
     
@@ -37,7 +43,15 @@ namespace KrillOrBeKrilled.Cameras {
             this._switcher.EndCamera.TryGetComponent(out vcam);
             this._noiseControllers.Add(vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>());
         }
-    
+        
+        #endregion
+
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+        
         /// <summary>
         /// Triggers a camera shake via the <see cref="CinemachineBasicMultiChannelPerlin"/> for each
         /// camera associated with the CameraSwitcher.
@@ -61,5 +75,7 @@ namespace KrillOrBeKrilled.Cameras {
                 noise.m_AmplitudeGain = 0;
             }
         }
+        
+        #endregion
     }
 }

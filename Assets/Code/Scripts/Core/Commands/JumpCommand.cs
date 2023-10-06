@@ -11,14 +11,24 @@ namespace KrillOrBeKrilled.Core.Commands {
         /// Reference to the player Pawn to control.
         private readonly Pawn _controlledObject;
 
-        /// <summary> Constructor to set references required for this command to act on a <see cref="Pawn"/>. </summary>
-        /// <param name="controlledObject"> The player <see cref="Pawn"/> associated with this jump command. </param>
-        public JumpCommand(Pawn controlledObject) {
-            this._controlledObject = controlledObject;
-        }
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
 
         public void Execute() {
             this._controlledObject.Jump();
         }
+        
+        /// <summary>
+        /// Constructor to set references required for this command to act on a <see cref="Pawn"/>.
+        /// </summary>
+        /// <param name="controlledObject"> The player <see cref="Pawn"/> associated with this jump command. </param>
+        public JumpCommand(Pawn controlledObject) {
+            this._controlledObject = controlledObject;
+        }
+        
+        #endregion
     }
 }

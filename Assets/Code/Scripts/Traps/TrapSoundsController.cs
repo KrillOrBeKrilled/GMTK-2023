@@ -18,8 +18,16 @@ namespace KrillOrBeKrilled.Traps {
             _onStopBuild,
             _onBuildComplete;
         
+        //========================================
+        // Internal Methods
+        //========================================
+        
+        #region Internal Methods
+        
         // TODO: Update this!
-        /// <summary> Plays or stops SFX associated with the building of traps. </summary>
+        /// <summary>
+        /// Plays or stops SFX associated with the building of traps.
+        /// </summary>
         /// <remarks> Invokes the <see cref="_onStartBuild"/> or <see cref="_onStopBuild"/> event. </remarks>
         internal void OnBuild(bool status) {
             if (status) {
@@ -29,10 +37,14 @@ namespace KrillOrBeKrilled.Traps {
             }
         }
 
-        /// <summary> Plays SFX associated with completing the building of traps. </summary>
+        /// <summary>
+        /// Plays SFX associated with completing the building of traps.
+        /// </summary>
         /// <remarks> Invokes the <see cref="_onBuildComplete"/> event. </remarks>
         internal void OnBuildComplete() {
             this._onBuildComplete?.Invoke();
         }
+        
+        #endregion
     }
 }

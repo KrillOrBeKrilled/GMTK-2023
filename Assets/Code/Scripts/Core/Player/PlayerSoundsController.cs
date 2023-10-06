@@ -19,6 +19,36 @@ namespace KrillOrBeKrilled.Core.Player {
             _onHenDeath,
             _onHenJump;
 
+        //========================================
+        // Internal Methods
+        //========================================
+        
+        #region Internal Methods
+        
+        /// <summary>
+        /// Plays character SFX associated with death.
+        /// </summary>
+        /// <remarks> Invokes the <see cref="_onHenDeath"/> event. </remarks>
+        internal void OnHenDeath() {
+            this._onHenDeath?.Invoke();
+        }
+
+        /// <summary>
+        /// Plays character SFX associated with jumping.
+        /// </summary>
+        /// <remarks> Invokes the <see cref="_onHenJump"/> event. </remarks>
+        internal void OnHenJump() {
+            this._onHenJump?.Invoke();
+        }
+        
+        /// <summary>
+        /// Plays SFX associated with deploying a trap on selected tile spaces.
+        /// </summary>
+        /// <remarks> Invokes the <see cref="_onTileSelectConfirm"/> event. </remarks>
+        internal void OnTileSelectConfirm() {
+            this._onTileSelectConfirm?.Invoke();
+        }
+        
         /// <summary>
         /// Plays SFX associated with changing the selected tile for deployment on the tilemap grid.
         /// </summary>
@@ -27,22 +57,6 @@ namespace KrillOrBeKrilled.Core.Player {
             this._onTileSelectMove?.Invoke();
         }
 
-        /// <summary> Plays SFX associated with deploying a trap on selected tile spaces. </summary>
-        /// <remarks> Invokes the <see cref="_onTileSelectConfirm"/> event. </remarks>
-        internal void OnTileSelectConfirm() {
-            this._onTileSelectConfirm?.Invoke();
-        }
-
-        /// <summary> Plays character SFX associated with death. </summary>
-        /// <remarks> Invokes the <see cref="_onHenDeath"/> event. </remarks>
-        internal void OnHenDeath() {
-            this._onHenDeath?.Invoke();
-        }
-
-        /// <summary> Plays character SFX associated with jumping. </summary>
-        /// <remarks> Invokes the <see cref="_onHenJump"/> event. </remarks>
-        internal void OnHenJump() {
-            this._onHenJump?.Invoke();
-        }
+        #endregion
     }
 }

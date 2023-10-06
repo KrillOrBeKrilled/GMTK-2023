@@ -23,6 +23,12 @@ namespace KrillOrBeKrilled.Common {
     
         private Transform _transform;
     
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         private void Awake() {
             this._transform = this.transform;
         }
@@ -49,6 +55,8 @@ namespace KrillOrBeKrilled.Common {
     
             this._transform.position = newPosition;
         }
+        
+        #endregion
     }
 }
 

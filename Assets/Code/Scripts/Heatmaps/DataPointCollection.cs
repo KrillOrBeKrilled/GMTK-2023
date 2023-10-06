@@ -31,6 +31,32 @@ namespace KrillOrBeKrilled.Heatmaps {
         [Tooltip("Scale scheme, ranging between the PointBaseScale to the MaxScaleSpectrum")]
         [SerializeField] internal Vector3 PointBaseScale, MaxScaleSpectrum;
 
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
+        private void OnEnable() {
+            #if UNITY_EDITOR
+                EditorApplication.hierarchyChanged += this.OnHierarchyChanged;
+            #endif
+        }
+
+        private void OnDisable() {
+            #if UNITY_EDITOR
+                EditorApplication.hierarchyChanged -= this.OnHierarchyChanged;
+            #endif
+        }
+        
+        #endregion
+        
+        //========================================
+        // Internal Methods
+        //========================================
+        
+        #region Internal Methods
+        
         /// <summary>
         /// Destroys all the <see cref="DataPoint">DataPoints</see> recorded in <see cref="DataPoints"/>.
         /// </summary>
@@ -40,7 +66,15 @@ namespace KrillOrBeKrilled.Heatmaps {
                 DestroyImmediate(point.gameObject);
             }
         }
-
+        
+        #endregion
+        
+        //========================================
+        // Private Methods
+        //========================================
+        
+        #region Private Methods
+        
         /// <summary>
         /// Updates the list of <see cref="DataPoint">DataPoints</see> and each <see cref="DataPoint"/>.
         /// </summary>
@@ -55,17 +89,7 @@ namespace KrillOrBeKrilled.Heatmaps {
                 point.UpdatePoint(this);
             }
         }
-
-        private void OnEnable() {
-            #if UNITY_EDITOR
-                EditorApplication.hierarchyChanged += this.OnHierarchyChanged;
-            #endif
-        }
-
-        private void OnDisable() {
-            #if UNITY_EDITOR
-                EditorApplication.hierarchyChanged -= this.OnHierarchyChanged;
-            #endif
-        }
+        
+        #endregion
     }
 }

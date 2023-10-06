@@ -15,17 +15,42 @@ namespace KrillOrBeKrilled.Traps {
         [SerializeField] private int _damageAmount;
 
         private Rigidbody2D _rigidbody2D;
-
+        
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         private void Awake() {
             _rigidbody2D = GetComponent<Rigidbody2D>();
             // Suspend trap in mid-air at the beginning.
             _rigidbody2D.gravityScale = 0;
         }
-
-        /// <inheritdoc cref="Trap.SetUpTrap"/>
-        /// <remarks> No additional responses at the moment. </remarks>
-        protected override void SetUpTrap() {}
-
+        
+        /// <summary>
+        /// This trap does a flat damage to the <see cref="Hero"/>, and it happens upon collision.
+        /// No other special effects at the moment.
+        /// </summary>
+        protected void OnCollisionEnter2D(Collision2D other) {
+            if (!other.gameObject.CompareTag("Hero") ||
+                !other.gameObject.TryGetComponent(out IDamageable actor)) {
+                return;
+            }
+                
+            actor.TakeDamage(_damageAmount);
+            TilemapManager.Instance.ResetTrapTiles(TilePositions);
+            Destroy(gameObject);
+        }
+        
+        #endregion
+        
+        //========================================
+        // Protected Methods
+        //========================================
+        
+        #region Protected Methods
+        
         /// <inheritdoc cref="Trap.DetonateTrap"/>
         /// <remarks> Give this trap a gravity scale so that it starts falling. </remarks>
         protected override void DetonateTrap() {
@@ -48,20 +73,11 @@ namespace KrillOrBeKrilled.Traps {
         /// <inheritdoc cref="Trap.OnExitedTrap"/>
         /// <summary> No responses for exiting the trap. </summary>
         protected override void OnExitedTrap(IDamageable actor) {}
+        
+        /// <inheritdoc cref="Trap.SetUpTrap"/>
+        /// <remarks> No additional responses at the moment. </remarks>
+        protected override void SetUpTrap() {}
 
-        /// <summary>
-        /// This trap does a flat damage to the <see cref="Hero"/>, and it happens upon collision.
-        /// No other special effects at the moment.
-        /// </summary>
-        protected void OnCollisionEnter2D(Collision2D other) {
-            if (!other.gameObject.CompareTag("Hero") ||
-                !other.gameObject.TryGetComponent(out IDamageable actor)) {
-                return;
-            }
-                
-            actor.TakeDamage(_damageAmount);
-            TilemapManager.Instance.ResetTrapTiles(TilePositions);
-            Destroy(gameObject);
-        }
+        #endregion
     }
 }

@@ -22,7 +22,33 @@ namespace KrillOrBeKrilled.Managers {
         public UnityEvent<int> OnCoinAmountChanged;
 
         private WaitForSeconds _waitInterval;
-
+        
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
+        protected override void Awake() {
+            base.Awake();
+            this.OnCoinAmountChanged = new UnityEvent<int>();
+            this._waitInterval = new WaitForSeconds(this._earnCoinInterval);
+        }
+        
+        /// <remarks> Invokes the <see cref="OnCoinAmountChanged"/> event. </remarks>
+        private void Start() {
+            this.Coins = 1;
+            this.OnCoinAmountChanged?.Invoke(1);
+        }
+        
+        #endregion
+        
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+        
         /// <summary>
         /// Checks the current number of <see cref="Coins"/> against a cost and evaluates affordability.
         /// </summary>
@@ -31,7 +57,20 @@ namespace KrillOrBeKrilled.Managers {
         public bool CanAfford(int cost) {
             return this.Coins >= cost;
         }
-
+        
+        /// <summary>
+        /// Decrements the current number of coins.
+        /// </summary>
+        /// <param name="amount"> The number of coins to decrease the amount of <see cref="Coins"/>. </param>
+        /// <remarks>
+        /// Invokes the <see cref="OnCoinAmountChanged"/> event. This method should only be used if
+        /// <see cref="CanAfford"/> passes.
+        /// </remarks>
+        public void ConsumeCoins(int amount) {
+            this.Coins -= amount;
+            this.OnCoinAmountChanged?.Invoke(this.Coins);
+        }
+        
         /// <summary>
         /// Increments the current number of coins.
         /// </summary>
@@ -41,17 +80,6 @@ namespace KrillOrBeKrilled.Managers {
             this.Coins += amount;
             this.OnCoinAmountChanged?.Invoke(this.Coins);
         }
-
-        /// <summary>
-        /// Decrements the current number of coins.
-        /// </summary>
-        /// <param name="amount"> The number of coins to decrease the amount of <see cref="Coins"/>. </param>
-        /// <remarks> Invokes the <see cref="OnCoinAmountChanged"/> event. This method should only be
-        /// used if <see cref="CanAfford"/> passes. </remarks>
-        public void ConsumeCoins(int amount) {
-            this.Coins -= amount;
-            this.OnCoinAmountChanged?.Invoke(this.Coins);
-        }
         
         /// <summary>
         /// Begins the coroutine to earn coins.
@@ -59,19 +87,15 @@ namespace KrillOrBeKrilled.Managers {
         public void StartCoinEarning() {
             this.StartCoroutine(this.EarnCoinCoroutine());
         }
+        
+        #endregion
 
-        protected override void Awake() {
-            base.Awake();
-            this.OnCoinAmountChanged = new UnityEvent<int>();
-            this._waitInterval = new WaitForSeconds(this._earnCoinInterval);
-        }
-
-        /// <remarks> Invokes the <see cref="OnCoinAmountChanged"/> event. </remarks>
-        private void Start() {
-            this.Coins = 1;
-            this.OnCoinAmountChanged?.Invoke(1);
-        }
-
+        //========================================
+        // Private Methods
+        //========================================
+        
+        #region Private Methods
+        
         /// <summary>
         /// Indefinitely increments the <see cref="Coins"/> between
         /// <see cref="_earnCoinInterval">_earnCoinIntervals</see> of time.
@@ -83,5 +107,7 @@ namespace KrillOrBeKrilled.Managers {
                 this.EarnCoins(1);
             }
         }
+        
+        #endregion
     }
 }

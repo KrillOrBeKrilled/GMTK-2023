@@ -8,10 +8,11 @@ namespace KrillOrBeKrilled.Editor {
     public class FindMissingScriptsRecursively : EditorWindow {
         static int _goCount = 0, _componentsCount = 0, _missingCount = 0;
 
-        [MenuItem("Window/FindMissingScriptsRecursively")]
-        public static void ShowWindow() {
-            GetWindow(typeof(FindMissingScriptsRecursively));
-        }
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
 
         public void OnGUI() {
             if (GUILayout.Button("Find Missing Scripts in selected GameObjects")) {
@@ -40,7 +41,39 @@ namespace KrillOrBeKrilled.Editor {
             }
             EditorGUILayout.EndHorizontal();
         }
+        
+        #endregion
 
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+        
+        public static Object[] LoadAllAssetsAtPath(string assetPath) {
+            return typeof(SceneAsset).Equals(AssetDatabase.GetMainAssetTypeAtPath(assetPath))
+                ?
+                // prevent error "Do not use readobjectthreaded on scene objects!"
+                new[] {AssetDatabase.LoadMainAssetAtPath(assetPath)}
+                : AssetDatabase.LoadAllAssetsAtPath(assetPath);
+        }
+        
+        /// <summary>
+        /// Opens the menu to run this tool in the editor.
+        /// </summary>
+        [MenuItem("Window/FindMissingScriptsRecursively")]
+        public static void ShowWindow() {
+            GetWindow(typeof(FindMissingScriptsRecursively));
+        }
+        
+        #endregion
+
+        //========================================
+        // Private Methods
+        //========================================
+        
+        #region Private Methods
+        
         private static void FindAll() {
             _componentsCount = 0;
             _goCount = 0;
@@ -57,26 +90,6 @@ namespace KrillOrBeKrilled.Editor {
                         }
                     }
                 }
-            }
-
-            Debug.Log($"Searched {_goCount} GameObjects, {_componentsCount} components, found {_missingCount} missing");
-        }
-
-        public static Object[] LoadAllAssetsAtPath(string assetPath) {
-            return typeof(SceneAsset).Equals(AssetDatabase.GetMainAssetTypeAtPath(assetPath))
-                ?
-                // prevent error "Do not use readobjectthreaded on scene objects!"
-                new[] {AssetDatabase.LoadMainAssetAtPath(assetPath)}
-                : AssetDatabase.LoadAllAssetsAtPath(assetPath);
-        }
-
-        private static void FindInSelected() {
-            GameObject[] go = Selection.gameObjects;
-            _goCount = 0;
-            _componentsCount = 0;
-            _missingCount = 0;
-            foreach (GameObject g in go) {
-                FindInGO(g);
             }
 
             Debug.Log($"Searched {_goCount} GameObjects, {_componentsCount} components, found {_missingCount} missing");
@@ -107,5 +120,19 @@ namespace KrillOrBeKrilled.Editor {
                 FindInGO(childT.gameObject);
             }
         }
+        
+        private static void FindInSelected() {
+            GameObject[] go = Selection.gameObjects;
+            _goCount = 0;
+            _componentsCount = 0;
+            _missingCount = 0;
+            foreach (GameObject g in go) {
+                FindInGO(g);
+            }
+
+            Debug.Log($"Searched {_goCount} GameObjects, {_componentsCount} components, found {_missingCount} missing");
+        }
+        
+        #endregion
     }
 }

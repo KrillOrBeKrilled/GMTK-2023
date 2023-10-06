@@ -12,19 +12,18 @@ namespace KrillOrBeKrilled.Core.Player {
         // TODO: Adjust multiplier values here
         private readonly float _stateSpeed;
 
-        /// <summary> Constructor to set bookkeeping data related to this state to act on the player. </summary>
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+        
+        /// <summary>
+        /// Constructor to set bookkeeping data related to this state to act on the player.
+        /// </summary>
         /// <param name="stateSpeed"> The movement speed of the player to be executed in this state. </param>
         public MovingState(float stateSpeed) {
             this._stateSpeed = stateSpeed;
-        }
-
-        public void OnEnter(IPlayerState prevState) {
-            // TODO: When the Player moves...what should happen? music? visual animations? Does it matter from which
-            // state?
-        }
-
-        public float GetMovementSpeed() {
-            return this._stateSpeed;
         }
 
         /// <inheritdoc cref="IPlayerState.Act"/>
@@ -35,9 +34,20 @@ namespace KrillOrBeKrilled.Core.Player {
             playerController.ExecuteCommand(command);
         }
 
+        public float GetMovementSpeed() {
+            return this._stateSpeed;
+        }
+
+        public void OnEnter(IPlayerState prevState) {
+            // TODO: When the Player moves...what should happen? music? visual animations? Does it matter from which
+            // state?
+        }
+
         public void OnExit(IPlayerState newState) {
             // TODO: When the Player stops moving...what should happen? music? visual animations? Does
             // it matter to which state?
         }
+        
+        #endregion
     }
 }

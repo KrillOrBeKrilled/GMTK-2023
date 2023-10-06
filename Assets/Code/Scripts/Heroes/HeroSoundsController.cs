@@ -19,22 +19,36 @@ namespace KrillOrBeKrilled.Heroes {
             _onHeroJump,
             _onHeroDeath;
         
-        /// <summary> Plays SFX associated with the hero taking damage. </summary>
-        /// <remarks> Invokes the <see cref="_onTakeDamage"/> event. </remarks>
-        internal void OnTakeDamage() {
-            this._onTakeDamage?.Invoke();
+        //========================================
+        // Internal Methods
+        //========================================
+        
+        #region Internal Methods
+        
+        /// <summary>
+        /// Plays SFX associated with the hero dying.
+        /// </summary>
+        /// <remarks> Invokes the <see cref="_onHeroDeath"/> event. </remarks>
+        internal void OnHeroDeath() {
+            this._onHeroDeath?.Invoke();
         }
         
-        /// <summary> Plays SFX associated with the hero jumping. </summary>
+        /// <summary>
+        /// Plays SFX associated with the hero jumping.
+        /// </summary>
         /// <remarks> Invokes the <see cref="_onHeroJump"/> event. </remarks>
         internal void OnHeroJump() {
             this._onHeroJump?.Invoke();
         }
         
-        /// <summary> Plays SFX associated with the hero dying. </summary>
-        /// <remarks> Invokes the <see cref="_onHeroDeath"/> event. </remarks>
-        internal void OnHeroDeath() {
-            this._onHeroDeath?.Invoke();
+        /// <summary>
+        /// Plays SFX associated with the hero taking damage.
+        /// </summary>
+        /// <remarks> Invokes the <see cref="_onTakeDamage"/> event. </remarks>
+        internal void OnTakeDamage() {
+            this._onTakeDamage?.Invoke();
         }
+        
+        #endregion
     }
 }

@@ -53,57 +53,56 @@ namespace KrillOrBeKrilled.Heroes {
         [Tooltip("Tracks when the hero initialization is complete.")]
         public UnityEvent OnHeroReset;
 
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         private void Awake() {
             this.TryGetComponent(out this._heroMovement);
             this.TryGetComponent(out this._animator);
             this.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
         }
-
-        public void Initialize(HeroData heroData, HeroSoundsController soundsController) {
-            this.Health = heroData.Health;
-            this.Type = heroData.Type;
-            this._soundsController = soundsController;
-
-            this._heroMovement.Initialize(soundsController);
-        }
-
+        
+        #endregion
+        
         //========================================
-        // Level Dialogue Sequence
+        // Public Methods
         //========================================
-
-#region Level Dialogue Sequence
-        /// <summary> Enables movement until the hero enters the level. </summary>
-        public void EnterLevel() {
-            this.StartCoroutine(this.EnterLevelAnimation());
+        
+        #region Public Methods
+        
+        #region IDamageable Implementations
+        
+        public void ApplySpeedPenalty(float penalty) {
+            this._heroMovement.SetSpeedPenalty(penalty);
         }
-
+        
         /// <summary>
-        /// Enables movement through <see cref="HeroMovement"/> for a duration of time and then disables
-        /// movement.
+        /// Decrements the hero's number of lives, playing associated SFX. If the number of lives are
+        /// reduced to zero, broadcasts the endgame and destroys this GameObject. Otherwise, respawns
+        /// the hero.
         /// </summary>
-        /// <remarks> The coroutine is started by <see cref="EnterLevel"/>. </remarks>
-        private IEnumerator EnterLevelAnimation() {
-            this._heroMovement.ToggleMoving(true);
+        /// <remarks>
+        /// Invokes the <see cref="OnHeroDied"/> event. If the number of lives are reduced to zero,
+        /// invokes the <see cref="OnGameOver"/> event.
+        /// </remarks>
+        public void Die() {
+            _soundsController.OnHeroDeath();
 
-            yield return new WaitForSeconds(2f);
+            CoinManager.Instance.EarnCoins(CoinsEarnedOnDeath);
 
-            this._heroMovement.ToggleMoving(false);
+            this.OnHeroDied?.Invoke(this);
+            Destroy(this.gameObject);
         }
-
-        /// <summary> Enables movement through <see cref="HeroMovement"/>. </summary>
-        public void StartRunning() {
-            this.StopAllCoroutines();
-            this._heroMovement.ToggleMoving(true);
-        }
-#endregion
-
-        //========================================
-        // IDamageable Implementations
-        //========================================
-
-#region IDamageable Implementations
+        
         public int GetHealth() {
             return this.Health;
+        }
+        
+        public void ResetSpeedPenalty() {
+            this._heroMovement.ResetSpeedPenalty();
         }
         
         /// <summary>
@@ -124,47 +123,64 @@ namespace KrillOrBeKrilled.Heroes {
             }
         }
 
-        /// <summary>
-        /// Decrements the hero's number of lives, playing associated SFX. If the number of lives are
-        /// reduced to zero, broadcasts the endgame and destroys this GameObject. Otherwise, respawns
-        /// the hero.
-        /// </summary>
-        /// <remarks> Invokes the <see cref="OnHeroDied"/> event. If the number of lives are reduced to
-        /// zero, invokes the <see cref="OnGameOver"/> event. </remarks>
-        public void Die() {
-            _soundsController.OnHeroDeath();
-
-            CoinManager.Instance.EarnCoins(CoinsEarnedOnDeath);
-
-            this.OnHeroDied?.Invoke(this);
-            Destroy(this.gameObject);
-        }
-
         public void ThrowActorBack(float stunDuration, float throwForce) {
             this._heroMovement.ThrowHeroBack(stunDuration, throwForce);
         }
 
-        public void ApplySpeedPenalty(float penalty) {
-            this._heroMovement.SetSpeedPenalty(penalty);
+        #endregion
+        
+        /// <summary>
+        /// Enables movement until the hero enters the level.
+        /// </summary>
+        public void EnterLevel() {
+            this.StartCoroutine(this.EnterLevelAnimation());
         }
+        
+        public void Initialize(HeroData heroData, HeroSoundsController soundsController) {
+            this.Health = heroData.Health;
+            this.Type = heroData.Type;
+            this._soundsController = soundsController;
 
-        public void ResetSpeedPenalty() {
-            this._heroMovement.ResetSpeedPenalty();
+            this._heroMovement.Initialize(soundsController);
         }
-#endregion
+        
+        /// <summary>
+        /// Enables movement through <see cref="HeroMovement"/>.
+        /// </summary>
+        public void StartRunning() {
+            this.StopAllCoroutines();
+            this._heroMovement.ToggleMoving(true);
+        }
+        
+        #endregion
 
         //========================================
-        // Gameplay Loop
+        // Private Methods
         //========================================
         
-#region Gameplay Loop
+        #region Private Methods
+        
+        /// <summary>
+        /// Enables movement through <see cref="HeroMovement"/> for a duration of time and then disables
+        /// movement.
+        /// </summary>
+        /// <remarks> The coroutine is started by <see cref="EnterLevel"/>. </remarks>
+        private IEnumerator EnterLevelAnimation() {
+            this._heroMovement.ToggleMoving(true);
+
+            yield return new WaitForSeconds(2f);
+
+            this._heroMovement.ToggleMoving(false);
+        }
+        
         /// <summary>
         /// Triggers hero death through <see cref="Die"/>.
         /// </summary>
         /// <remarks> Subscribed to the <see cref="HeroMovement.OnHeroIsStuck"/> event. </remarks>
-        private void OnHeroIsStuck(float xPos, float yPos, float zPos) {
+        private void OnHeroIsStuck(Vector3 pos) {
             this.Die();
         }
-#endregion
+        
+        #endregion
     }
 }

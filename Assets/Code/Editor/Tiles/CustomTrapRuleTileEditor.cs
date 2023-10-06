@@ -16,6 +16,12 @@ namespace KrillOrBeKrilled.Editor {
         [Tooltip("Sprites to signify the extended rule tile rules.")]
         public Texture2D ground, dungeon;
     
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         public override void RuleOnGUI(Rect rect, Vector3Int position, int neighbor) {
             switch (neighbor) {
                 case 3:
@@ -28,6 +34,8 @@ namespace KrillOrBeKrilled.Editor {
             
             base.RuleOnGUI(rect, position, neighbor);
         }
+        
+        #endregion
     }
 }
 

@@ -10,10 +10,12 @@ namespace KrillOrBeKrilled.Managers {
     /// Handles all logic that directly alters the tilemaps crucial to the tile-based
     /// gameplay.
     /// </summary>
-    /// <remarks> Use cases include the visual representation of the ability or lack
+    /// <remarks>
+    /// Use cases include the visual representation of the ability or lack
     /// of to deploy traps in the current position, replacing or setting TrapTile types
     /// to revoke or reset validation scores in the PlayerController class, and placing
-    /// or removing tiles in the level tilemap to dynamically alter the environment. </remarks>
+    /// or removing tiles in the level tilemap to dynamically alter the environment.
+    /// </remarks>
     public class TilemapManager : Singleton<TilemapManager> {
         // ----------------- Tilemaps ----------------
         [Header("Tilemaps")] 
@@ -28,42 +30,15 @@ namespace KrillOrBeKrilled.Managers {
         // ------------- Painting Colors -------------
         [Header("Painting Colors")] 
         public Color ConfirmationColor, RejectionColor;
-
-        /// <summary>
-        /// Paints the tiles at the tile positions in the trap tilemap the <see cref="ConfirmationColor"/>.
-        /// </summary>
-        /// <param name="tilePositions"> A list of tile positions corresponding to a tilemap to paint. </param>
-        public void PaintTilesConfirmationColor(IEnumerable<Vector3Int> tilePositions) {
-            foreach (var position in tilePositions) {
-                _trapTileMap.SetColor(position, ConfirmationColor);
-            }
-        }
-
-        /// <summary>
-        /// Paints the tiles at the tile positions in the trap tilemap the <see cref="RejectionColor"/>.
-        /// </summary>
-        /// <param name="tilePositions"> A list of tile positions corresponding to a tilemap to paint. </param>
-        public void PaintTilesRejectionColor(IEnumerable<Vector3Int> tilePositions) {
-            foreach (var position in tilePositions) {
-                _trapTileMap.SetColor(position, RejectionColor);
-            }
-        }
-
-        /// <summary>
-        /// Paints the tiles at the tile positions in the trap tilemap transparent.
-        /// </summary>
-        /// <param name="tilePositions"> A list of tile positions corresponding to a tilemap to paint. </param>
-        public void PaintTilesBlank(IEnumerable<Vector3Int> tilePositions) {
-            foreach (var position in tilePositions) {
-                _trapTileMap.SetColor(position, new Color(1, 1, 1, 0));
-            }
-        }
-
+        
         //========================================
-        // Setting Tiles
+        // Public Methods
         //========================================
         
-#region Setting Tiles
+        #region Public Methods
+        
+        #region Set Tiles
+        
         /// <summary>
         /// Removes the tiles at the tile positions in the level tilemap and invalidates the same tile positions
         /// in the trap tilemap.
@@ -95,6 +70,43 @@ namespace KrillOrBeKrilled.Managers {
                 _trapTileMap.SetTileFlags(position, TileFlags.None);
             }
         }
-#endregion
+        
+        #endregion
+        
+        #region Paint Tiles
+        
+        /// <summary>
+        /// Paints the tiles at the tile positions in the trap tilemap transparent.
+        /// </summary>
+        /// <param name="tilePositions"> A list of tile positions corresponding to a tilemap to paint. </param>
+        public void PaintTilesBlank(IEnumerable<Vector3Int> tilePositions) {
+            foreach (var position in tilePositions) {
+                _trapTileMap.SetColor(position, new Color(1, 1, 1, 0));
+            }
+        }
+        
+        /// <summary>
+        /// Paints the tiles at the tile positions in the trap tilemap the <see cref="ConfirmationColor"/>.
+        /// </summary>
+        /// <param name="tilePositions"> A list of tile positions corresponding to a tilemap to paint. </param>
+        public void PaintTilesConfirmationColor(IEnumerable<Vector3Int> tilePositions) {
+            foreach (var position in tilePositions) {
+                _trapTileMap.SetColor(position, ConfirmationColor);
+            }
+        }
+
+        /// <summary>
+        /// Paints the tiles at the tile positions in the trap tilemap the <see cref="RejectionColor"/>.
+        /// </summary>
+        /// <param name="tilePositions"> A list of tile positions corresponding to a tilemap to paint. </param>
+        public void PaintTilesRejectionColor(IEnumerable<Vector3Int> tilePositions) {
+            foreach (var position in tilePositions) {
+                _trapTileMap.SetColor(position, RejectionColor);
+            }
+        }
+        
+        #endregion
+
+        #endregion
     }
 }

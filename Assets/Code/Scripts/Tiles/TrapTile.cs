@@ -12,6 +12,13 @@ namespace KrillOrBeKrilled.Tiles {
     /// PlayerController class.
     /// </summary>
     public class TrapTile : Tile {
+        
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+
         public override void RefreshTile(Vector3Int position, ITilemap tilemap) {
             base.RefreshTile(position, tilemap);
         }
@@ -19,7 +26,15 @@ namespace KrillOrBeKrilled.Tiles {
         public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData) {
             base.GetTileData(position, tilemap, ref tileData);
         }
-
+        
+        #endregion
+        
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+        
         /// <summary>
         /// Gives access to a menu item in the editor to create a <see cref="TrapTile"/> asset.
         /// </summary>
@@ -34,5 +49,7 @@ namespace KrillOrBeKrilled.Tiles {
             AssetDatabase.CreateAsset(CreateInstance<TrapTile>(), path);
         }
     #endif
+        
+        #endregion
     }
 }

@@ -12,8 +12,10 @@ namespace KrillOrBeKrilled.Dialogue {
     /// Manager singleton that repositions DialogueUI window in 3D world space, based on
     /// whoever is speaking. Put this script on the same gameObject as your DialogueUI.
     /// </summary>
-    /// <remarks> Inherits from <see cref="DialogueViewBase"/> to receive data directly
-    /// from <see cref="DialogueRunner"/>. </remarks>
+    /// <remarks>
+    /// Inherits from <see cref="DialogueViewBase"/> to receive data directly
+    /// from <see cref="DialogueRunner"/>.
+    /// </remarks>
     public class YarnCharacterView : DialogueViewBase {
         [Tooltip("Very minimal implementation of singleton manager (initialized lazily in Awake).")]
         public static YarnCharacterView instance;
@@ -40,6 +42,12 @@ namespace KrillOrBeKrilled.Dialogue {
 
         private DialogueSoundsController _soundsController;
 
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
         private void Awake() {
             TryGetComponent(out _soundsController);
             
@@ -67,19 +75,15 @@ namespace KrillOrBeKrilled.Dialogue {
                     this.optionsBubbleRect, this.playerCharacter.positionWithOffset, this.bubbleMargin);
             }
         }
-
-        /// <summary>
-        /// Registers a character to track dialogue lines spoken by this character if the character is not
-        /// currently registered.
-        /// </summary>
-        /// <param name="newCharacter"> The YarnCharacter to be registered. </param>
-        /// <remarks> Automatically called by YarnCharacter.Start() so that YarnCharacterView knows they exist. </remarks>
-        public void RegisterYarnCharacter(YarnCharacter newCharacter) {
-            if (!YarnCharacterView.instance.allCharacters.Contains(newCharacter)) {
-                this.allCharacters.Add(newCharacter);
-            }
-        }
-
+        
+        #endregion
+        
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+        
         /// <summary>
         /// Unregisters a character to stop tracking dialogue lines spoken by this character if the
         /// character is currently registered.
@@ -89,6 +93,18 @@ namespace KrillOrBeKrilled.Dialogue {
         public void ForgetYarnCharacter(YarnCharacter deletedCharacter) {
             if (YarnCharacterView.instance.allCharacters.Contains(deletedCharacter)) {
                 this.allCharacters.Remove(deletedCharacter);
+            }
+        }
+        
+        /// <summary>
+        /// Registers a character to track dialogue lines spoken by this character if the character is not
+        /// currently registered.
+        /// </summary>
+        /// <param name="newCharacter"> The YarnCharacter to be registered. </param>
+        /// <remarks> Automatically called by YarnCharacter.Start() so that YarnCharacterView knows they exist. </remarks>
+        public void RegisterYarnCharacter(YarnCharacter newCharacter) {
+            if (!YarnCharacterView.instance.allCharacters.Contains(newCharacter)) {
+                this.allCharacters.Add(newCharacter);
             }
         }
         
@@ -120,8 +136,18 @@ namespace KrillOrBeKrilled.Dialogue {
             // IMPORTANT: we must mark this view as having finished its work, or else the DialogueRunner gets stuck forever
             onDialogueLineFinished();
         }
-
-        /// <summary> Simple search through <see cref="allCharacters"/> list for a matching name. </summary>
+        
+        #endregion
+        
+        //========================================
+        // Private Methods
+        //========================================
+        
+        #region Private Methods
+        
+        /// <summary>
+        /// Simple search through <see cref="allCharacters"/> list for a matching name.
+        /// </summary>
         /// <param name="searchName"> The name to identify a <see cref="YarnCharacter"/>. </param>
         /// <returns> The <see cref="YarnCharacter"/> with a name matching the provided name. </returns>
         /// <remarks> Returns <see langword="null"/> and LogWarning if no match is found. </remarks>
@@ -143,8 +169,10 @@ namespace KrillOrBeKrilled.Dialogue {
         /// <param name="worldPos"> The world space position to place the dialogue bubble. </param>
         /// <param name="constrainToViewportMargin"> Screen margins to confine the dialogue bubble. </param>
         /// <returns> The position to render the dialogue bubble in world space. </returns>
-        /// <remarks> Ensure <see cref="constrainToViewportMargin"/> is between <b>0.0f-1.0f (% of screen)</b> to
-        /// constrain to screen; the value of <b>-1</b> lets the bubble go off-screen. </remarks>
+        /// <remarks>
+        /// Ensure <see cref="constrainToViewportMargin"/> is between <b>0.0f-1.0f (% of screen)</b> to
+        /// constrain to screen; the value of <b>-1</b> lets the bubble go off-screen.
+        /// </remarks>
         private Vector2 WorldToAnchoredPosition(RectTransform bubble, Vector3 worldPos, float constrainToViewportMargin = -1f) {
             Camera canvasCamera = this.worldCamera;
             // Canvas "Overlay" mode is special case for ScreenPointToLocalPointInRectangle (see the Unity docs)
@@ -198,5 +226,7 @@ namespace KrillOrBeKrilled.Dialogue {
 
             return screenPos;
         }
+        
+        #endregion
     }
 }

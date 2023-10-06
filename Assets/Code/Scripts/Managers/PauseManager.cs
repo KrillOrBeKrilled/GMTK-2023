@@ -17,8 +17,6 @@ namespace KrillOrBeKrilled.Managers {
         private bool _isPausable;
         // Denotes whether or not the game is currently paused.
         private bool _isPaused;
-
-        private PlayerInputActions _playerInputActions;
         
         //========================================
         // Unity Methods
@@ -31,16 +29,6 @@ namespace KrillOrBeKrilled.Managers {
             this.OnPauseToggled = new UnityEvent<bool>();
         }
 
-        private void OnEnable() {
-            this._playerInputActions.Enable();
-            this._playerInputActions.Pause.PauseAction.performed += this.TogglePausedState;
-        }
-
-        private void OnDisable() {
-            this._playerInputActions.Disable();
-            this._playerInputActions.Pause.PauseAction.performed += this.TogglePausedState;
-        }
-        
         #endregion
         
         //========================================
@@ -75,31 +63,6 @@ namespace KrillOrBeKrilled.Managers {
             Time.timeScale = 1f;
             this._isPaused = false;
             this.OnPauseToggled?.Invoke(this._isPaused);
-        }
-        
-        #endregion
-        
-        //========================================
-        // Private Methods
-        //========================================
-        
-        #region Private Methods
-        
-        /// <summary>
-        /// Pauses the game when it's not already paused and vice versa, provided that <see cref="_isPausable"/>
-        /// is toggled.
-        /// </summary>
-        /// <remarks> Subscribed to the <see cref="PlayerInputActions"/> pause input event. </remarks>
-        private void TogglePausedState(InputAction.CallbackContext ctx) {
-            if (!this._isPausable) {
-                return;
-            }
-
-            if (this._isPaused) {
-                this.UnpauseGame();
-            } else {
-                this.PauseGame();
-            }
         }
         
         #endregion

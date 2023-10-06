@@ -23,30 +23,6 @@ namespace KrillOrBeKrilled.UI {
         //========================================
         
         #region Unity Methods
-        
-
-        /// <summary> Begins the skip dialogue timer. </summary>
-        /// <param name="eventData"> The data associated with the image touch event. </param>
-        public void OnPointerDown(PointerEventData eventData) {
-            this._skipStartTime = Time.time;
-        }
-
-        /// <summary> Resets the skip dialogue timer. </summary>
-        /// <param name="eventData"> The data associated with the image touch event. </param>
-        public void OnPointerUp(PointerEventData eventData) {
-            this.OnHoldStopped();
-        }
-
-        /// <summary>
-        /// Sets up references and listeners to notify observers of the skip dialogue completion and track
-        /// when the level starts.
-        /// </summary>
-        /// <param name="onStartLevel"> Tracks when the level begins. </param>
-        /// <param name="onSkipComplete"> Tracks when the skip dialogue timer is completed. </param>
-        public void Initialize(UnityEvent onStartLevel, UnityAction onSkipComplete) {
-            this._onSkipComplete = onSkipComplete;
-            onStartLevel.AddListener(this.OnStartLevel);
-        }
 
         private void Awake() {
             if (PlayerPrefsManager.ShouldSkipDialogue()) {
@@ -93,18 +69,13 @@ namespace KrillOrBeKrilled.UI {
             onStartLevel.AddListener(this.OnStartLevel);
         }
         
-        /// <summary>
-        /// Begins the skip dialogue timer.
-        /// </summary>
+        /// <summary> Begins the skip dialogue timer. </summary>
         /// <param name="eventData"> The data associated with the image touch event. </param>
         public void OnPointerDown(PointerEventData eventData) {
             this._skipStartTime = Time.time;
-            this._completionImage.gameObject.SetActive(true);
         }
 
-        /// <summary>
-        /// Resets the skip dialogue timer.
-        /// </summary>
+        /// <summary> Resets the skip dialogue timer. </summary>
         /// <param name="eventData"> The data associated with the image touch event. </param>
         public void OnPointerUp(PointerEventData eventData) {
             this.OnHoldStopped();

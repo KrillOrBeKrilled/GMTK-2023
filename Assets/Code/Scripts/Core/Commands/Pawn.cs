@@ -65,9 +65,9 @@ namespace KrillOrBeKrilled.Core.Commands {
         /// <summary>
         /// Sets the character velocity to <see cref="Speed"/> through the <see cref="Rigidbody2D"/>.
         /// </summary>
-        /// <param name="direction"> The direction for the character to move; to be multiplied to the speed. </param>
-        public virtual void Move(float direction) {
-            this.RBody.velocity = new Vector2(direction * this.Speed, this.RBody.velocity.y);
+        /// <param name="moveInput"> The move input value for the character to move by; to be multiplied to the speed. </param>
+        public virtual void Move(float moveInput) {
+            this.RBody.velocity = new Vector2(moveInput * this.Speed, this.RBody.velocity.y);
         }
 
         /// <summary>

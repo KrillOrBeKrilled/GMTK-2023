@@ -84,8 +84,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 10
   JumpingForce: 700
-  _trapCanvas: {fileID: 0}
-  OnSelectedTrapIndexChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  FilePath: Playtest 07-18-2023 15-32-39
+  RecordingFile: {fileID: 0}
+  _filePath: 

@@ -103,14 +103,18 @@ namespace KrillOrBeKrilled.Core.Player {
         }
         
         protected virtual void FixedUpdate() {
-            var directionInput = this._playerInputActions.Player.Move.ReadValue<float>();
-            this._direction = directionInput != 0 ? directionInput : this._direction;
+            Vector2 moveVectorInput = this._playerInputActions.Player.Move.ReadValue<Vector2>();
+            float moveInput = moveVectorInput.x;
+
+            if (!Mathf.Approximately(moveInput, 0f)) {
+                this._direction = moveInput > 0 ? 1 : -1;
+            }
 
             // Set animation values
-            this.SetAnimatorValues(directionInput);
+            this.SetAnimatorValues(moveInput);
 
             // Delegate movement behaviour to state classes
-            this._state.Act(this, this._direction);
+            this._state.Act(this, moveInput);
 
             // Check trap deployment eligibility
             this._trapController.SurveyTrapDeployment(this._isGrounded, this._direction);

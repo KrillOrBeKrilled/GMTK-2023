@@ -19,8 +19,6 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private Image _playerIcon;
         [SerializeField] private Slider _progressSlider;
         [SerializeField] private Transform _heroIconsParent;
-        [SerializeField] private RectTransform _minPosition;
-        [SerializeField] private RectTransform _maxPosition;
 
         [Header("Color Settings")]
         [SerializeField] private Image _fillArea;
@@ -38,16 +36,23 @@ namespace KrillOrBeKrilled.UI {
 
         private float _levelStartX;
         private float _levelEndX;
+
+        /// <summary>
+        /// The padding of the hero and hen icons on the map.
+        /// Padding value will be applied from the left and right.
+        /// </summary>
+        private const int IconPositionPadding = 15;
         
         //========================================
         // Unity Methods
         //========================================
         
         #region Unity Methods
-        
-        private void Awake() {
+
+        private void Start() {
             this._progressSlider.value = 0f;
-            this._sliderLength = this._maxPosition.anchoredPosition.x - this._minPosition.anchoredPosition.x;
+            this._sliderLength = ((RectTransform)this.transform).rect.width - IconPositionPadding * 2;
+            print(this._sliderLength);
         }
 
         private void Update() {
@@ -65,7 +70,7 @@ namespace KrillOrBeKrilled.UI {
             this.SetFillAreaColor(greatestProgress);
 
             if (this._player != null) {
-                this._playerIcon.rectTransform.anchoredPosition = 
+                this._playerIcon.rectTransform.anchoredPosition =
                     new Vector2(this._sliderLength * this.GetHeroMapProgress(this._player), 0);
             }
         }
@@ -77,7 +82,7 @@ namespace KrillOrBeKrilled.UI {
         //========================================
         
         #region Public Methods
-        
+
         /// <summary> Sets up all references to operate the map UI. </summary>
         /// <param name="player"> The player GameObject <see cref="Transform"/> to track for positional changes. </param>
         /// <param name="levelStartX"> The beginning position of the level along the x-axis. </param>
@@ -132,7 +137,7 @@ namespace KrillOrBeKrilled.UI {
             float mapProgress = (character.transform.position.x - this._levelStartX) / (this._levelEndX - this._levelStartX);
             return Mathf.Clamp(mapProgress, 0f, 1f);
         }
-        
+
         /// <summary>
         /// Updates the fill amount and color of the map UI slider according to the greatest distance percentage
         /// covered by the heroes.

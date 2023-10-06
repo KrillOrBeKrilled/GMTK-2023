@@ -28,9 +28,9 @@ namespace KrillOrBeKrilled.Core.Player {
 
         /// <inheritdoc cref="IPlayerState.Act"/>
         /// <description> Executes the <see cref="MoveCommand"/>. </description>
-        public void Act(PlayerController playerController, float direction) {
+        public void Act(PlayerController playerController, float moveInput) {
             // Create command and execute it
-            var command = new MoveCommand(playerController, direction);
+            var command = new MoveCommand(playerController, moveInput);
             playerController.ExecuteCommand(command);
         }
 

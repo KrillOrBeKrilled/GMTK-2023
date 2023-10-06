@@ -10,7 +10,7 @@ using UnityEngine.UI;
 namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// Handles the skip dialogue HUD hold timer logic and associated timer completion
-    /// status animations. 
+    /// status animations.
     /// </summary>
     public class SkipDialogueUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         [SerializeField] private Image _completionImage;
@@ -24,6 +24,30 @@ namespace KrillOrBeKrilled.UI {
         
         #region Unity Methods
         
+
+        /// <summary> Begins the skip dialogue timer. </summary>
+        /// <param name="eventData"> The data associated with the image touch event. </param>
+        public void OnPointerDown(PointerEventData eventData) {
+            this._skipStartTime = Time.time;
+        }
+
+        /// <summary> Resets the skip dialogue timer. </summary>
+        /// <param name="eventData"> The data associated with the image touch event. </param>
+        public void OnPointerUp(PointerEventData eventData) {
+            this.OnHoldStopped();
+        }
+
+        /// <summary>
+        /// Sets up references and listeners to notify observers of the skip dialogue completion and track
+        /// when the level starts.
+        /// </summary>
+        /// <param name="onStartLevel"> Tracks when the level begins. </param>
+        /// <param name="onSkipComplete"> Tracks when the skip dialogue timer is completed. </param>
+        public void Initialize(UnityEvent onStartLevel, UnityAction onSkipComplete) {
+            this._onSkipComplete = onSkipComplete;
+            onStartLevel.AddListener(this.OnStartLevel);
+        }
+
         private void Awake() {
             if (PlayerPrefsManager.ShouldSkipDialogue()) {
                 this.gameObject.SetActive(false);
@@ -100,7 +124,6 @@ namespace KrillOrBeKrilled.UI {
         private void OnHoldStopped() {
             this._skipStartTime = -1f;
             this._completionImage.fillAmount = 0f;
-            this._completionImage.gameObject.SetActive(false);
         }
 
         /// <summary>

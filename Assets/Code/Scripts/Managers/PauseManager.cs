@@ -1,7 +1,5 @@
-using KrillOrBeKrilled.Input;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 //*******************************************************************************************
 // PauseManager
@@ -27,11 +25,9 @@ namespace KrillOrBeKrilled.Managers {
         //========================================
         
         #region Unity Methods
-        
+
         protected override void Awake() {
             base.Awake();
-
-            this._playerInputActions = new PlayerInputActions();
             this.OnPauseToggled = new UnityEvent<bool>();
         }
 
@@ -53,11 +49,13 @@ namespace KrillOrBeKrilled.Managers {
         
         #region Public Methods
         
-        /// <summary>
-        /// Sets the <see cref="Time.timeScale"/> to zero and toggles <see cref="_isPaused"/>.
-        /// </summary>
+        /// <summary> Sets the <see cref="Time.timeScale"/> to zero and toggles <see cref="_isPaused"/>. </summary>
         /// <remarks> Invokes the <see cref="OnPauseToggled"/> event. </remarks>
         public void PauseGame() {
+            if (!this._isPausable) {
+                return;
+            }
+
             Time.timeScale = 0f;
             this._isPaused = true;
             this.OnPauseToggled?.Invoke(this._isPaused);
@@ -71,9 +69,7 @@ namespace KrillOrBeKrilled.Managers {
             this._isPausable = isPausable;
         }
         
-        /// <summary>
-        /// Resets the <see cref="Time.timeScale"/> and resets <see cref="_isPaused"/>.
-        /// </summary>
+        /// <summary> Resets the <see cref="Time.timeScale"/> and resets <see cref="_isPaused"/>. </summary>
         /// <remarks> Invokes the <see cref="OnPauseToggled"/> event. </remarks>
         public void UnpauseGame() {
             Time.timeScale = 1f;

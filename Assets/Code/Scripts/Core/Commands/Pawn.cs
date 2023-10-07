@@ -11,27 +11,27 @@ namespace KrillOrBeKrilled.Core.Commands {
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
     public class Pawn : MonoBehaviour {
-        [SerializeField] protected float Speed, JumpingForce;
+        [SerializeField] protected float Speed, JumpingForce, MaxJumpForceDuration;
         protected Rigidbody2D RBody;
 
         //========================================
         // Unity Methods
         //========================================
-        
+
         #region Unity Methods
-        
+
         private void Awake() {
             this.RBody = this.GetComponent<Rigidbody2D>();
         }
-        
+
         #endregion
 
         //========================================
         // Public Methods
         //========================================
-        
+
         #region Public Methods
-        
+
         /// <summary>
         /// Selects or equips a new trap.
         /// </summary>
@@ -39,21 +39,21 @@ namespace KrillOrBeKrilled.Core.Commands {
         public virtual void ChangeTrap(Trap trap) {
             // Particular to the hen, so will be overrided instead
         }
-        
+
         /// <summary>
         /// Deploys the equipped trap in the selected tile positions.
         /// </summary>
         public virtual void DeployTrap() {
             // Particular to the hen, so will be overrided instead
         }
-        
+
         /// <summary>
         /// Freezes the character position through the <see cref="Rigidbody2D"/>.
         /// </summary>
         public virtual void FreezePosition() {
             this.RBody.constraints = RigidbodyConstraints2D.FreezeAll;
         }
-        
+
         /// <summary>
         /// Adds a force of <see cref="JumpingForce"/> to the character along the y-axis through the
         /// <see cref="Rigidbody2D"/>.
@@ -76,14 +76,14 @@ namespace KrillOrBeKrilled.Core.Commands {
         public void StandIdle() {
             this.RBody.velocity = new Vector2(0f, this.RBody.velocity.y);
         }
-        
+
         /// <summary>
         /// Unfreezes the character position through the <see cref="Rigidbody2D"/>.
         /// </summary>
         public virtual void UnfreezePosition() {
             this.RBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
-        
+
         #endregion
     }
 }

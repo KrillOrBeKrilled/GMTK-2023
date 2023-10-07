@@ -9,11 +9,11 @@ namespace KrillOrBeKrilled.Core.Player {
     /// associated with the player idle state.
     /// </summary>
     public class IdleState : IPlayerState {
-        
+
         //========================================
         // Public Methods
         //========================================
-        
+
         #region Public Methods
 
         /// <inheritdoc cref="IPlayerState.Act"/>
@@ -27,7 +27,7 @@ namespace KrillOrBeKrilled.Core.Player {
         public float GetMovementSpeed() {
             return 0f;
         }
-        
+
         public void OnEnter(IPlayerState prevState) {
             // TODO: When the Player walks...what should happen? music? visual animations? Does it matter from which
             // state?
@@ -37,7 +37,12 @@ namespace KrillOrBeKrilled.Core.Player {
             // TODO: When the Player stops idling...what should happen? music? visual animations? Does
             // it matter to which state?
         }
-        
+
+        public bool ShouldExit() {
+            // No exit conditions for this state
+            return false;
+        }
+
         #endregion
     }
 }

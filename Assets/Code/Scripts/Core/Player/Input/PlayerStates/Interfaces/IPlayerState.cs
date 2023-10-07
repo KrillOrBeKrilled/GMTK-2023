@@ -8,13 +8,13 @@ namespace KrillOrBeKrilled.Core.Player {
     /// pinpoint bugs easily, plus specialize behaviours to specific states.
     /// </summary>
     public interface IPlayerState {
-        
+
         //========================================
         // Public Methods
         //========================================
-        
+
         #region Public Methods
-        
+
         /// <summary>
         /// Adjust the player movement speed and actions depending on the current state of the player.
         /// <list type="bullet">
@@ -31,7 +31,7 @@ namespace KrillOrBeKrilled.Core.Player {
         /// latency.
         /// </remarks>
         public void Act(PlayerController playerController, float direction);
-        
+
         /// <summary>
         /// Retrieves the player movement speed specific to the current state executed.
         /// </summary>
@@ -42,13 +42,18 @@ namespace KrillOrBeKrilled.Core.Player {
         /// Executes animations, SFX, logic, and so forth associated with the entry into this player state.
         /// </summary>
         /// <param name="prevState"> The <see cref="IPlayerState"/> that was exited to enter this state. </param>
-        public void OnEnter(IPlayerState prevState) {}
-        
+        public void OnEnter(IPlayerState prevState);
+
         /// <summary>
         /// Executes animations, SFX, logic, and so forth associated with the exit out of this player state.
         /// </summary>
         /// <param name="newState"> The <see cref="IPlayerState"/> that will be entered from this state. </param>
-        public void OnExit(IPlayerState newState) {}
+        public void OnExit(IPlayerState newState);
+
+        /// <summary>
+        /// Returns true if this state should be exited.
+        /// </summary>
+        public bool ShouldExit();
 
         #endregion
     }

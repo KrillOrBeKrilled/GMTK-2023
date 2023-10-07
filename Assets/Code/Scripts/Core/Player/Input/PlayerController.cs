@@ -29,6 +29,7 @@ namespace KrillOrBeKrilled.Core.Player {
         private static IdleState _idle;
         private static MovingState _moving;
         private static GameOverState _gameOver;
+        private static JumpingState _jumpingState;
         private IPlayerState _state;
 
         [Tooltip("Tracks when the player state changes.")]
@@ -36,7 +37,6 @@ namespace KrillOrBeKrilled.Core.Player {
 
         // ----------------- Command -----------------
         // Stateless commands; can be copied in the list of previous commands
-        private ICommand _jumpCommand;
         private ICommand _deployCommand;
 
         // TODO: Consider undoing and redoing actions?
@@ -66,13 +66,13 @@ namespace KrillOrBeKrilled.Core.Player {
 
         private PlayerInputActions _playerInputActions;
         private const string BaseFolder = "InputRecordings";
-        
+
         //========================================
         // Unity Methods
         //========================================
-        
+
         #region Unity Methods
-        
+
         protected virtual void Awake() {
             this.RBody = this.GetComponent<Rigidbody2D>();
             this._animator = this.GetComponent<Animator>();
@@ -83,6 +83,7 @@ namespace KrillOrBeKrilled.Core.Player {
             _idle = new IdleState();
             _moving = new MovingState(this.Speed);
             _gameOver = new GameOverState();
+            _jumpingState = new JumpingState(this.Speed, this.MaxJumpForceDuration);
 
             this._state = _idle;
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState, Vector3>();
@@ -91,17 +92,16 @@ namespace KrillOrBeKrilled.Core.Player {
 
             _animator.SetBool("is_grounded", _isGrounded);
         }
-        
+
         /// <remarks> Invokes the <see cref="OnSelectedTrapIndexChanged"/> event. </remarks>
         private void Start() {
-            this._jumpCommand = new JumpCommand(this);
             this._deployCommand = new DeployCommand(this);
 
             // Need this due to race condition during scene Awake->OnEnable calls
             this._playerInputActions = PlayerInputController.Instance.PlayerInputActions;
             this.OnEnable();
         }
-        
+
         protected virtual void FixedUpdate() {
             Vector2 moveVectorInput = this._playerInputActions.Player.Move.ReadValue<Vector2>();
             float moveInput = moveVectorInput.x;
@@ -112,6 +112,9 @@ namespace KrillOrBeKrilled.Core.Player {
 
             // Set animation values
             this.SetAnimatorValues(moveInput);
+
+            // Determine if need to change states
+            this.CheckStateExitCondition();
 
             // Delegate movement behaviour to state classes
             this._state.Act(this, moveInput);
@@ -155,7 +158,7 @@ namespace KrillOrBeKrilled.Core.Player {
 
             this.SetGroundedStatus(false);
         }
-        
+
         private void OnEnable() {
             // OnEnable called before Start
             // PlayerInputController.Instance and this._playerInputController may be uninitialized
@@ -166,23 +169,23 @@ namespace KrillOrBeKrilled.Core.Player {
 
             this.EnableControls();
         }
-        
+
         private void OnDisable() {
             this.DisableControls();
         }
-        
+
         #endregion
 
         //========================================
         // Public Methods
         //========================================
-        
+
         #region Public Methods
 
         #region IDamageable Implementations
 
         public void ApplySpeedPenalty(float penalty) {}
-        
+
         /// <summary>
         /// Changes the current <see cref="IPlayerState"/> to the death state and plays associated SFX.
         /// </summary>
@@ -197,12 +200,12 @@ namespace KrillOrBeKrilled.Core.Player {
 
             this.OnPlayerStateChanged?.Invoke(this._state, this.transform.position);
         }
-        
+
         // TODO: Do we want the player to have a health bar?
         public int GetHealth() {
             return -1;
         }
-        
+
         public void ResetSpeedPenalty() {}
 
         public void TakeDamage(int amount) {}
@@ -237,9 +240,9 @@ namespace KrillOrBeKrilled.Core.Player {
             // Left the ground, so trap deployment isn't possible anymore
             this._trapController.DisableTrapDeployment();
         }
-        
+
         #endregion
-        
+
         #region Pawn Inherited Methods
 
         /// <inheritdoc cref="Pawn.ChangeTrap"/>
@@ -263,7 +266,7 @@ namespace KrillOrBeKrilled.Core.Player {
                 this.OnTrapDeployed?.Invoke(trap);
             }
         }
-        
+
         /// <inheritdoc cref="Pawn.Jump"/>
         /// <remarks>
         /// Additionally updates the player <see cref="Animator"/>, plays associated SFX, and disables
@@ -283,20 +286,20 @@ namespace KrillOrBeKrilled.Core.Player {
         }
 
         #endregion
-        
+
         public void SetTrap(Trap selectedTrap) {
             var command = new SetTrapCommand(this, selectedTrap);
             this.ExecuteCommand(command);
         }
 
         #endregion
-        
+
         //========================================
         // Protected Methods
         //========================================
-        
+
         #region Protected Methods
-        
+
         /// <summary>
         /// Stops recording play input via the <see cref="InputEventTrace"/>, creates a file for the recorded input,
         /// and frees the memory used for the recording process.
@@ -311,13 +314,13 @@ namespace KrillOrBeKrilled.Core.Player {
             // Prevent memory leaks!
             this.InputRecorder.Dispose();
         }
-        
+
         #endregion
-        
+
         //========================================
         // Internal Methods
         //========================================
-        
+
         #region Internal Methods
 
         #region Getters
@@ -339,14 +342,14 @@ namespace KrillOrBeKrilled.Core.Player {
         }
 
         #endregion
-        
+
         /// <summary>
         /// Disables the retrieval of controller input in <see cref="PlayerInputActions"/>.
         /// </summary>
         internal void DisablePlayerInput() {
             this._playerInputActions.Disable();
         }
-        
+
         /// <summary>
         /// Executes an <see cref="ICommand"/>.
         /// </summary>
@@ -357,7 +360,7 @@ namespace KrillOrBeKrilled.Core.Player {
         internal void ExecuteCommand(ICommand command) {
             command.Execute();
         }
-        
+
         /// <summary>
         /// Sets up all listeners to operate the <see cref="PlayerController"/>.
         /// </summary>
@@ -368,7 +371,7 @@ namespace KrillOrBeKrilled.Core.Player {
 
             this.OnSelectedTrapIndexChanged?.Invoke(this._trapController.CurrentTrap);
         }
-        
+
         /// <summary>
         /// Begins recording all player input with timestamps via the <see cref="InputEventTrace"/> and enables
         /// all controls from the <see cref="PlayerInputActions"/>.
@@ -380,41 +383,38 @@ namespace KrillOrBeKrilled.Core.Player {
         }
 
         #endregion
-        
+
         //========================================
         // Private Methods
         //========================================
-        
+
         #region Private Methods
-        
+
         #region Input
-        
+
         /// <summary>
         /// Executes the <see cref="DeployCommand"/>.
         /// </summary>
         private void DeployTrap(InputAction.CallbackContext obj) {
             this.ExecuteCommand(this._deployCommand);
         }
-        
+
         /// <summary>
         /// Changes the current <see cref="IPlayerState"/> to the idle state.
         /// </summary>
         /// <remarks> Invokes the <see cref="OnPlayerStateChanged"/> event. </remarks>
         private void Idle(InputAction.CallbackContext obj) {
-            // Cache previous state and call OnExit and OnEnter
-            var prevState = this._state;
-            this._state.OnExit(_idle);
-            this._state = _idle;
-            this._state.OnEnter(prevState);
-
-            this.OnPlayerStateChanged?.Invoke(this._state, this.transform.position);
+            print("Idle");
+            this.ChangeState(_idle);
         }
-        
+
         /// <summary>
-        /// Executes the <see cref="JumpCommand"/>.
+        /// Changes the current <see cref="IPlayerState"/> to the jumping state.
         /// </summary>
+        /// <remarks> Invokes the <see cref="OnPlayerStateChanged"/> event. </remarks>
         private void Jump(InputAction.CallbackContext obj) {
-            this.ExecuteCommand(this._jumpCommand);
+            print("Jump");
+            this.ChangeState(_jumpingState);
         }
 
         /// <summary>
@@ -422,17 +422,40 @@ namespace KrillOrBeKrilled.Core.Player {
         /// </summary>
         /// <remarks> Invokes the <see cref="OnPlayerStateChanged"/> event. </remarks>
         private void Move(InputAction.CallbackContext obj) {
-            // Cache previous state and call OnExit and OnEnter
-            var prevState = this._state;
-            this._state.OnExit(_moving);
-            this._state = _moving;
-            this._state.OnEnter(prevState);
+            print("Move");
+            this.ChangeState(_moving);
+        }
 
+        /// <summary>
+        /// Changes the current <see cref="IPlayerState"/> to the <paramref name="newState"/>.
+        /// </summary>
+        /// <param name="newState"> the new state to change to. </param>
+        /// <remarks> Invokes the <see cref="OnPlayerStateChanged"/> event. </remarks>
+        private void ChangeState(IPlayerState newState) {
+            IPlayerState prevState = this._state;
+            this._state.OnExit(_moving);
+            this._state = newState;
+            this._state.OnEnter(prevState);
             this.OnPlayerStateChanged?.Invoke(this._state, this.transform.position);
         }
 
+        private void CheckStateExitCondition() {
+            switch (this._state) {
+                case JumpingState:
+                    if (this._state.ShouldExit()) {
+                        print("Exit timed out, exiting jumping state");
+                        this.ChangeState(_moving);
+                    }
+                    break;
+                case IdleState:
+                case MovingState:
+                case GameOverState:
+                    break;
+            }
+        }
+
         #endregion
-        
+
         /// <summary>
         /// Helper method for creating a file for the player input recording based on platform the game was played on.
         /// </summary>
@@ -468,7 +491,7 @@ namespace KrillOrBeKrilled.Core.Player {
 
             this.InputRecorder.WriteTo(path + fileName);
         }
-        
+
         /// <summary>
         /// Unsubscribes all the input methods from the <see cref="PlayerInputActions"/> input action bindings.
         /// </summary>
@@ -476,9 +499,10 @@ namespace KrillOrBeKrilled.Core.Player {
             this._playerInputActions.Player.Move.performed -= this.Move;
             this._playerInputActions.Player.Move.canceled -= this.Idle;
             this._playerInputActions.Player.Jump.performed -= this.Jump;
+            this._playerInputActions.Player.Jump.canceled -= this.Move;
             this._playerInputActions.Player.PlaceTrap.performed -= this.DeployTrap;
         }
-        
+
         /// <summary>
         /// Subscribes all the input methods to the <see cref="PlayerInputActions"/> input action bindings.
         /// </summary>
@@ -486,6 +510,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this._playerInputActions.Player.Move.performed += this.Move;
             this._playerInputActions.Player.Move.canceled += this.Idle;
             this._playerInputActions.Player.Jump.performed += this.Jump;
+            this._playerInputActions.Player.Jump.canceled += this.Move;
             this._playerInputActions.Player.PlaceTrap.performed += this.DeployTrap;
         }
 

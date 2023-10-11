@@ -23,10 +23,9 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <item> GameOver: Player has perished, thus ending the game. </item>
         /// </list>
         /// </summary>
-        /// <param name="playerController"> The <see cref="PlayerController"/> executing this state. </param>
         /// <param name="moveInput"> The move input. </param>
         /// <param name="jumpTriggered">A bool indicating if the jump input triggered</param>
-        public void Act(PlayerController playerController, float moveInput, bool jumpTriggered);
+        public void Act(float moveInput, bool jumpTriggered);
 
         /// <summary>
         /// Executes animations, SFX, logic, and so forth associated with the entry into this player state.

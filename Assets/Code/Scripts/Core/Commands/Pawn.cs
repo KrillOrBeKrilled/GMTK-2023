@@ -11,7 +11,7 @@ namespace KrillOrBeKrilled.Core.Commands {
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
     public class Pawn : MonoBehaviour {
-        [SerializeField] protected float Speed, JumpingForce, MaxJumpForceDuration;
+        [SerializeField] protected float Speed, JumpingForce;
         protected Rigidbody2D RBody;
 
         //========================================
@@ -58,8 +58,9 @@ namespace KrillOrBeKrilled.Core.Commands {
         /// Adds a force of <see cref="JumpingForce"/> to the character along the y-axis through the
         /// <see cref="Rigidbody2D"/>.
         /// </summary>
-        public virtual void Jump() {
-            this.RBody.AddForce(Vector2.up * this.JumpingForce);
+        /// <param name="forceMultiplier">The multiplier to apply to the force</param>
+        public virtual void Jump(float forceMultiplier) {
+            this.RBody.AddForce(this.JumpingForce * forceMultiplier * Vector2.up);
         }
 
         /// <summary>

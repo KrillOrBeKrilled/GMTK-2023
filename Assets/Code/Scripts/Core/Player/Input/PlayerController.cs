@@ -5,6 +5,7 @@ using KrillOrBeKrilled.Core.Commands;
 using KrillOrBeKrilled.Core.Commands.Interfaces;
 using KrillOrBeKrilled.Input;
 using KrillOrBeKrilled.Traps;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -26,6 +27,8 @@ namespace KrillOrBeKrilled.Core.Player {
     /// animations and sound.
     /// </remarks>
     public class PlayerController : Pawn, IDamageable, ITrapBuilder {
+        public bool IsGrounded => this._isGrounded;
+
         // --------------- Player State --------------
         public enum State {
             Idle,
@@ -90,10 +93,10 @@ namespace KrillOrBeKrilled.Core.Player {
             this._soundsController = this.GetComponent<PlayerSoundsController>();
             this.InputRecorder = new InputEventTrace();
 
-            this._idle = new IdleState();
-            this._moving = new MovingState();
+            this._idle = new IdleState(this);
+            this._moving = new MovingState(this);
             this._gameOver = new GameOverState();
-            this._jumpingState = new JumpingState(this.MaxJumpForceDuration);
+            this._jumpingState = new JumpingState(this);
 
             this._states = new Dictionary<State, IPlayerState>() {
                 { State.Idle, this._idle },
@@ -136,7 +139,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this.SetAnimatorValues(moveInput);
 
             // Delegate behaviour to the current state
-            this._state.Act(this, moveInput, jumpTriggered);
+            this._state.Act(moveInput, jumpTriggered);
 
             // Check trap deployment eligibility
             this._trapController.SurveyTrapDeployment(this._isGrounded, this._direction);
@@ -274,6 +277,18 @@ namespace KrillOrBeKrilled.Core.Player {
             this.OnPlayerStateChanged?.Invoke(this._state, this.transform.position);
         }
 
+        public void OnJumpStart() {
+            this._isGrounded = false;
+            this._animator.SetBool("is_grounded", this._isGrounded);
+
+            // Left the ground, so trap deployment isn't possible anymore
+            this._trapController.DisableTrapDeployment();
+        }
+
+        public void PlayJumpSound() {
+            this._soundsController.OnHenJump();
+        }
+
         #endregion
 
         #region Pawn Inherited Methods
@@ -298,23 +313,6 @@ namespace KrillOrBeKrilled.Core.Player {
             if (_trapController.DeployTrap(_direction, out Trap trap)) {
                 this.OnTrapDeployed?.Invoke(trap);
             }
-        }
-
-        /// <inheritdoc cref="Pawn.Jump"/>
-        /// <remarks>
-        /// Additionally updates the player <see cref="Animator"/>, plays associated SFX, and disables
-        /// <see cref="TrapController"/> trap deployment abilities.
-        /// </remarks>
-        public override void Jump() {
-            this.RBody.AddForce(Vector2.up * this.JumpingForce);
-            this._isGrounded = false;
-
-            this._animator.SetBool("is_grounded", this._isGrounded);
-
-            this._soundsController.OnHenJump();
-
-            // Left the ground, so trap deployment isn't possible anymore
-            this._trapController.DisableTrapDeployment();
         }
 
         #endregion

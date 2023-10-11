@@ -11,8 +11,11 @@ namespace KrillOrBeKrilled.Core.Commands {
         /// Reference to the player Pawn to control.
         private readonly Pawn _controlledObject;
 
-        /// Direction for the player Pawn to move towards on execution of this command.
+        /// The move input for this command.
         private readonly float _moveInput;
+
+        /// The jump multiplier for this command.
+        private readonly float _jumpMultiplier;
 
         //========================================
         // Public Methods
@@ -22,17 +25,20 @@ namespace KrillOrBeKrilled.Core.Commands {
 
         public void Execute() {
             this._controlledObject.Move(this._moveInput);
-            this._controlledObject.Jump();
+            this._controlledObject.Jump(this._jumpMultiplier);
         }
 
         /// <summary>
         /// Constructor to set references required for this command to act on a <see cref="Pawn"/>.
         /// </summary>
         /// <param name="controlledObject"> The player <see cref="Pawn"/> associated with this jump command. </param>
-        /// <param name="moveInput"> The direction to move the player <see cref="Pawn"/> on command execution. </param>;
-        public JumpCommand(Pawn controlledObject, float moveInput) {
+        /// <param name="moveInput"> The direction to move the player <see cref="Pawn"/> on command execution. </param>
+        /// <param name="jumpMultiplier"> The multiplier for the jump force. </param>
+        /// ;
+        public JumpCommand(Pawn controlledObject, float moveInput, float jumpMultiplier) {
             this._controlledObject = controlledObject;
             this._moveInput = moveInput;
+            this._jumpMultiplier = jumpMultiplier;
         }
 
         #endregion

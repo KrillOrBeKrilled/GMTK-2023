@@ -10,6 +10,7 @@ namespace KrillOrBeKrilled.Core.Player {
     /// associated with the player idle state.
     /// </summary>
     public class IdleState : IPlayerState {
+        private readonly PlayerController _playerController;
 
         //========================================
         // Public Methods
@@ -17,34 +18,35 @@ namespace KrillOrBeKrilled.Core.Player {
 
         #region Public Methods
 
+        public IdleState(PlayerController playerController) {
+            this._playerController = playerController;
+        }
+
         /// <inheritdoc cref="IPlayerState.Act"/>
         /// <description> Executes the <see cref="IdleCommand"/>. </description>
-        public void Act(PlayerController playerController, float moveInput, bool jumpTriggered) {
+        public void Act(float moveInput, bool jumpTriggered) {
             // Check if need to change state
-            if (jumpTriggered) {
-                playerController.ChangeState(PlayerController.State.Jumping);
+            if (jumpTriggered && this._playerController.IsGrounded) {
+                this._playerController.ChangeState(PlayerController.State.Jumping);
                 return;
             }
 
             if (!Mathf.Approximately(moveInput, 0f)) {
-                playerController.ChangeState(PlayerController.State.Moving);
+                this._playerController.ChangeState(PlayerController.State.Moving);
                 return;
             }
 
             // Create command and execute it
-            var command = new IdleCommand(playerController);
-            playerController.ExecuteCommand(command);
+            var command = new IdleCommand(this._playerController);
+            this._playerController.ExecuteCommand(command);
         }
 
         public void OnEnter(IPlayerState prevState) {
-            // TODO: When the Player walks...what should happen? music? visual animations? Does it matter from which
-            // state?
             Debug.Log("Idle");
         }
 
         public void OnExit(IPlayerState newState) {
-            // TODO: When the Player stops idling...what should happen? music? visual animations? Does
-            // it matter to which state?
+
         }
 
         #endregion

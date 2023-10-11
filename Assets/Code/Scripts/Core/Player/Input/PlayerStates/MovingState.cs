@@ -11,6 +11,7 @@ namespace KrillOrBeKrilled.Core.Player {
     /// </summary>
     public class MovingState : IPlayerState {
         // TODO: Adjust multiplier values here
+        private readonly PlayerController _playerController;
 
         //========================================
         // Public Methods
@@ -18,34 +19,35 @@ namespace KrillOrBeKrilled.Core.Player {
 
         #region Public Methods
 
+        public MovingState(PlayerController playerController) {
+            this._playerController = playerController;
+        }
+
         /// <inheritdoc cref="IPlayerState.Act"/>
         /// <description> Executes the <see cref="MoveCommand"/>.</description>
-        public void Act(PlayerController playerController, float moveInput, bool jumpTriggered) {
+        public void Act(float moveInput, bool jumpTriggered) {
             // Check if need to change state
-            if (jumpTriggered) {
-                playerController.ChangeState(PlayerController.State.Jumping);
+            if (jumpTriggered && this._playerController.IsGrounded) {
+                this._playerController.ChangeState(PlayerController.State.Jumping);
                 return;
             }
 
             if (Mathf.Approximately(moveInput, 0f)) {
-                playerController.ChangeState(PlayerController.State.Idle);
+                this._playerController.ChangeState(PlayerController.State.Idle);
                 return;
             }
 
             // Create command and execute it
-            var command = new MoveCommand(playerController, moveInput);
-            playerController.ExecuteCommand(command);
+            var command = new MoveCommand(this._playerController, moveInput);
+            this._playerController.ExecuteCommand(command);
         }
 
         public void OnEnter(IPlayerState prevState) {
-            // TODO: When the Player moves...what should happen? music? visual animations? Does it matter from which
-            // state?
             Debug.Log("Move");
         }
 
         public void OnExit(IPlayerState newState) {
-            // TODO: When the Player stops moving...what should happen? music? visual animations? Does
-            // it matter to which state?
+
         }
 
         #endregion

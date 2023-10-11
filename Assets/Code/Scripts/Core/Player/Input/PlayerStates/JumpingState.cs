@@ -1,6 +1,4 @@
-using Codice.Client.BaseCommands;
 using KrillOrBeKrilled.Core.Commands;
-using System.Collections;
 using UnityEngine;
 
 //*******************************************************************************************
@@ -12,8 +10,14 @@ namespace KrillOrBeKrilled.Core.Player {
     /// associated with the player jumping state.
     /// </summary>
     public class JumpingState : IPlayerState {
+        private readonly PlayerController _playerController;
+
+        private const float SoundInterval = 0.25f;
+        private const float JumpForceMaxDuration = 0.6f;
+        private const float FinalJumpForceReductionPercent = 0.8f;
+
         private float _jumpStartTime;
-        private readonly float _jumpForceMaxDuration;
+        private float _jumpSoundPlayTime;
 
         //========================================
         // Public Methods
@@ -24,43 +28,51 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <summary>
         /// Constructor to set bookkeeping data related to this state to act on the player.
         /// </summary>
-        /// <param name="jumpForceMaxDuration"> The</param>
-        public JumpingState(float jumpForceMaxDuration) {
-            this._jumpForceMaxDuration = jumpForceMaxDuration;
+        public JumpingState(PlayerController playerController) {
+            this._playerController = playerController;
         }
 
         /// <inheritdoc cref="IPlayerState.Act"/>
         /// <description> Executes the <see cref="JumpCommand"/>. </description>
-        /// <param name="playerController"></param>
         /// <param name="moveInput"></param>
         /// <param name="jumpTriggered"></param>
-        public void Act(PlayerController playerController, float moveInput, bool jumpTriggered) {
+        public void Act(float moveInput, bool jumpTriggered) {
             // Check if need to change state
             bool noMovement = Mathf.Approximately(moveInput, 0f);
             if (!jumpTriggered && noMovement) {
-                playerController.ChangeState(PlayerController.State.Idle);
+                this._playerController.ChangeState(PlayerController.State.Idle);
                 return;
             }
 
-            if (!jumpTriggered) {
-                playerController.ChangeState(PlayerController.State.Moving);
+            bool jumpTimeExceeded = Time.time > this._jumpStartTime + JumpForceMaxDuration;
+            if (!jumpTriggered || jumpTimeExceeded) {
+                this._playerController.ChangeState(PlayerController.State.Moving);
+                return;
+            }
+
+            bool shouldPlaySound = Time.time > this._jumpSoundPlayTime + SoundInterval;
+            if (shouldPlaySound) {
+                this._jumpSoundPlayTime = Time.time;
+                this._playerController.PlayJumpSound();
             }
 
             // Create command and execute it
-            var command = new JumpCommand(playerController, moveInput);
-            playerController.ExecuteCommand(command);
+            float timePassedPercentage = (Time.time - this._jumpStartTime) / JumpForceMaxDuration;
+            float jumpForceMultiplier = 1f - timePassedPercentage * FinalJumpForceReductionPercent;
+            var command = new JumpCommand(this._playerController, moveInput, jumpForceMultiplier);
+            this._playerController.ExecuteCommand(command);
         }
 
         public void OnEnter(IPlayerState prevState) {
-            // TODO: When the Player moves...what should happen? music? visual animations? Does it matter from which
-            // state?
-            this._jumpStartTime = Time.time;
             Debug.Log("Jump");
+            this._jumpStartTime = Time.time;
+            this._jumpSoundPlayTime = Time.time;
+            this._playerController.OnJumpStart();
+            this._playerController.PlayJumpSound();
         }
 
         public void OnExit(IPlayerState newState) {
-            // TODO: When the Player stops moving...what should happen? music? visual animations? Does
-            // it matter to which state?
+
         }
 
         #endregion

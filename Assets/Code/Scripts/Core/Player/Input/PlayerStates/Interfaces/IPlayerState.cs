@@ -24,19 +24,9 @@ namespace KrillOrBeKrilled.Core.Player {
         /// </list>
         /// </summary>
         /// <param name="playerController"> The <see cref="PlayerController"/> executing this state. </param>
-        /// <param name="direction"> The direction the player is currently facing when this state is executed. </param>
-        /// <remarks>
-        /// The player <b>jumping</b> and <b>trap deployment</b> abilities are left out of the state
-        /// pattern to be executed concurrently with the other states within the same frames for reduced
-        /// latency.
-        /// </remarks>
-        public void Act(PlayerController playerController, float direction);
-
-        /// <summary>
-        /// Retrieves the player movement speed specific to the current state executed.
-        /// </summary>
-        /// <returns> The speed setting for the player to move. </returns>
-        public float GetMovementSpeed();
+        /// <param name="moveInput"> The move input. </param>
+        /// <param name="jumpTriggered">A bool indicating if the jump input triggered</param>
+        public void Act(PlayerController playerController, float moveInput, bool jumpTriggered);
 
         /// <summary>
         /// Executes animations, SFX, logic, and so forth associated with the entry into this player state.
@@ -49,11 +39,6 @@ namespace KrillOrBeKrilled.Core.Player {
         /// </summary>
         /// <param name="newState"> The <see cref="IPlayerState"/> that will be entered from this state. </param>
         public void OnExit(IPlayerState newState);
-
-        /// <summary>
-        /// Returns true if this state should be exited.
-        /// </summary>
-        public bool ShouldExit();
 
         #endregion
     }

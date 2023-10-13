@@ -29,10 +29,11 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <inheritdoc cref="IPlayerState.Act"/>
         /// <description> Executes the <see cref="GlideCommand"/> </description>
         /// <param name="moveInput"></param>
-        /// <param name="jumpTriggered"></param>
-        public void Act(float moveInput, bool jumpTriggered) {
+        /// <param name="jumpPressed"></param>
+        /// <param name="jumpPressedThisFrame"></param>
+        public void Act(float moveInput, bool jumpPressed, bool jumpPressedThisFrame) {
             // Check if need to change state
-            if (this._playerController.IsGrounded || !jumpTriggered) {
+            if (this._playerController.IsGrounded || !jumpPressed) {
                 bool isMoving = !Mathf.Approximately(moveInput, 0f);
                 this._playerController.ChangeState(isMoving ? State.Moving : State.Idle);
                 return;
@@ -44,7 +45,7 @@ namespace KrillOrBeKrilled.Core.Player {
         }
 
         public void OnEnter(IPlayerState prevState) {
-            Debug.Log("Glide");
+
         }
 
         public void OnExit(IPlayerState newState) {

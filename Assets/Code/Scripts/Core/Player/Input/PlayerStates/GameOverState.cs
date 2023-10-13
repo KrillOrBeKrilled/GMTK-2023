@@ -16,12 +16,12 @@ namespace KrillOrBeKrilled.Core.Player {
 
         #region Public Methods
 
-        public void Act(float moveInput, bool jumpTriggered) {
+        public void Act(float moveInput, bool jumpPressed, bool jumpPressedThisFrame) {
             // The game is over! Maybe the player shouldn't do anything anymore and some UI opens or something
         }
 
         public void OnEnter(IPlayerState prevState) {
-            Debug.Log("Game Over");
+
         }
 
         public void OnExit(IPlayerState newState) {

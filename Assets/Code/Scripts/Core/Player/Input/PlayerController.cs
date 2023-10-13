@@ -129,9 +129,9 @@ namespace KrillOrBeKrilled.Core.Player {
             // Read Input
             Vector2 moveVectorInput = this._playerInputActions.Player.Move.ReadValue<Vector2>();
             float moveInput = moveVectorInput.x;
-            // Must be read as float.
-            // Reading value from jump returns 0 for NOT pressed, 1 otherwise.
-            bool jumpTriggered = this._playerInputActions.Player.Jump.ReadValue<float>() > 0.2f;
+
+            bool jumpPressed = this._playerInputActions.Player.Jump.IsPressed();
+            bool jumpPressedThisFrame = this._playerInputActions.Player.Jump.WasPerformedThisFrame();
 
             if (!Mathf.Approximately(moveInput, 0f)) {
                 this._direction = moveInput > 0 ? 1 : -1;
@@ -141,7 +141,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this.SetAnimatorValues(moveInput);
 
             // Delegate behaviour to the current state
-            this._state.Act(moveInput, jumpTriggered);
+            this._state.Act(moveInput, jumpPressed, jumpPressedThisFrame);
 
             // Check trap deployment eligibility
             this._trapController.SurveyTrapDeployment(this.IsGrounded, this._direction);

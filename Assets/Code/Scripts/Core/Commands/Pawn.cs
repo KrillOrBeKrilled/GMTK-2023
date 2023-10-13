@@ -78,7 +78,6 @@ namespace KrillOrBeKrilled.Core.Commands {
         public virtual void Glide(float moveInput) {
             float clampedYVelocity = Mathf.Max(this.RBody.velocity.y, this.GlideVelocityLimit);
             this.RBody.velocity = new Vector2(moveInput * this.Speed, clampedYVelocity);
-            print(this.RBody.velocity);
         }
 
         /// <summary>

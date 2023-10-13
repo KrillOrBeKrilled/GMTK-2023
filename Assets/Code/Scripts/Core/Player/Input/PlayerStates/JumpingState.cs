@@ -36,8 +36,9 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <inheritdoc cref="IPlayerState.Act"/>
         /// <description> Executes the <see cref="JumpCommand"/>. </description>
         /// <param name="moveInput"></param>
-        /// <param name="jumpTriggered"></param>
-        public void Act(float moveInput, bool jumpTriggered) {
+        /// <param name="jumpPressed"></param>
+        /// <param name="jumpPressedThisFrame"></param>
+        public void Act(float moveInput, bool jumpPressed, bool jumpPressedThisFrame) {
             // Check if need to change state
             bool jumpTimeExceeded = Time.time > this._jumpStartTime + JumpForceMaxDuration;
             if (this._playerController.IsFalling || jumpTimeExceeded) {
@@ -46,7 +47,7 @@ namespace KrillOrBeKrilled.Core.Player {
             }
 
             bool noMovement = Mathf.Approximately(moveInput, 0f);
-            if (!jumpTriggered) {
+            if (!jumpPressed) {
                 State nextState = noMovement ? State.Idle : State.Moving;
                 this._playerController.ChangeState(nextState);
                 return;
@@ -66,7 +67,6 @@ namespace KrillOrBeKrilled.Core.Player {
         }
 
         public void OnEnter(IPlayerState prevState) {
-            Debug.Log("Jump");
             this._jumpStartTime = Time.time;
             this._jumpSoundPlayTime = Time.time;
             this._playerController.OnJumpStart();

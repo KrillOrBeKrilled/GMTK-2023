@@ -24,8 +24,9 @@ namespace KrillOrBeKrilled.Core.Player {
         /// </list>
         /// </summary>
         /// <param name="moveInput"> The move input. </param>
-        /// <param name="jumpTriggered">A bool indicating if the jump input triggered</param>
-        public void Act(float moveInput, bool jumpTriggered);
+        /// <param name="jumpPressed"> Whether jump button is pressed. </param>
+        /// <param name="jumpPressedThisFrame"> Whether jump button was pressed this frame. </param>
+        public void Act(float moveInput, bool jumpPressed, bool jumpPressedThisFrame);
 
         /// <summary>
         /// Executes animations, SFX, logic, and so forth associated with the entry into this player state.

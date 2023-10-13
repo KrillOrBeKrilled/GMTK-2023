@@ -266,8 +266,6 @@ namespace KrillOrBeKrilled.Core {
             yield return null;
             this.StartLevel();
 
-            yield break;
-
             this._waveSpawnCoroutine = this.SpawnNextWave();
             this.StartCoroutine(this._waveSpawnCoroutine);
         }
@@ -449,7 +447,7 @@ namespace KrillOrBeKrilled.Core {
         /// <param name="pos"> The player's current position. </param>
         /// <remarks> Subscribed to the <see cref="PlayerController.OnPlayerStateChanged"/> event. </remarks>
         private void OnPlayerStateChanged(IPlayerState state, Vector3 pos) {
-            if (state is not GameOverState) {
+            if (state is not DeadState) {
                 return;
             }
 
@@ -533,9 +531,6 @@ namespace KrillOrBeKrilled.Core {
         /// Otherwise, stops recording the player input and creates a file for the recorded input. </p>
         /// </remarks>
         private void HenWon(string message) {
-            this._playerManager.PlayerController.DisablePlayerInput();
-            var freezeCommand = new FreezeCommand(this._playerManager.PlayerController);
-            this._playerManager.PlayerController.ExecuteCommand(freezeCommand);
             this.OnHenWon?.Invoke(message);
         }
 

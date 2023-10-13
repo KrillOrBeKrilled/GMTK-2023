@@ -30,16 +30,18 @@ namespace KrillOrBeKrilled.Core.Player {
         public enum State {
             Idle,
             Moving,
+            Dead,
             GameOver,
             Jumping,
             Gliding,
         }
 
-        private IdleState _idle;
-        private MovingState _moving;
-        private GameOverState _gameOver;
+        private IdleState _idleState;
+        private MovingState _movingState;
         private JumpingState _jumpingState;
         private GlidingState _glidingState;
+        private DeadState _deadState;
+        private GameOverState _gameOverState;
 
         private IPlayerState _state;
         private Dictionary<State, IPlayerState> _states;
@@ -56,11 +58,14 @@ namespace KrillOrBeKrilled.Core.Player {
         // ---------------- Replaying ----------------
         protected InputEventTrace InputRecorder;
 
-        // ------------- Trap Deployment ------------
-        private float _direction = -1;
+        // ----------------- Flags -------------------
         public bool IsGrounded { get; private set; } = true;
         public bool IsFalling => this.RBody.velocity.y < -0.1f;
+        private bool IsFrozen = false;
 
+        private float _direction = -1;
+
+        // ------------- Trap Deployment ------------
         [Tooltip("Tracks when a new trap is selected.")]
         internal UnityEvent<Trap> OnSelectedTrapIndexChanged;
         [Tooltip("Tracks when a trap has been deployed.")]
@@ -93,18 +98,20 @@ namespace KrillOrBeKrilled.Core.Player {
             this._soundsController = this.GetComponent<PlayerSoundsController>();
             this.InputRecorder = new InputEventTrace();
 
-            this._idle = new IdleState(this);
-            this._moving = new MovingState(this);
-            this._gameOver = new GameOverState();
+            this._idleState = new IdleState(this);
+            this._movingState = new MovingState(this);
             this._jumpingState = new JumpingState(this);
             this._glidingState = new GlidingState(this);
+            this._deadState = new DeadState();
+            this._gameOverState = new GameOverState(this);
 
             this._states = new Dictionary<State, IPlayerState>() {
-                { State.Idle, this._idle },
-                { State.Moving, this._moving },
-                { State.GameOver, this._gameOver },
+                { State.Idle, this._idleState },
+                { State.Moving, this._movingState },
                 { State.Jumping, this._jumpingState },
-                { State.Gliding, this._glidingState}
+                { State.Gliding, this._glidingState},
+                { State.Dead, this._deadState },
+                { State.GameOver, this._gameOverState },
             };
 
             this.ChangeState(State.Idle);
@@ -126,6 +133,10 @@ namespace KrillOrBeKrilled.Core.Player {
         }
 
         protected virtual void FixedUpdate() {
+            if (this.IsFrozen) {
+                return;
+            }
+
             // Read Input
             Vector2 moveVectorInput = this._playerInputActions.Player.Move.ReadValue<Vector2>();
             float moveInput = moveVectorInput.x;
@@ -216,13 +227,7 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <remarks> Invokes the <see cref="OnPlayerStateChanged"/> event. </remarks>
         public void Die() {
             this._soundsController.OnHenDeath();
-
-            var prevState = this._state;
-            this._state.OnExit(_gameOver);
-            this._state = _gameOver;
-            this._state.OnEnter(prevState);
-
-            this.OnPlayerStateChanged?.Invoke(this._state, this.transform.position);
+            this.ChangeState(State.Dead);
         }
 
         // TODO: Do we want the player to have a health bar?
@@ -273,7 +278,7 @@ namespace KrillOrBeKrilled.Core.Player {
         public void ChangeState(State newState) {
             IPlayerState nextState = this._states[newState];
             IPlayerState prevState = this._state;
-            this._state?.OnExit(_moving);
+            this._state?.OnExit(nextState);
             this._state = nextState;
             this._state?.OnEnter(prevState);
             this.OnPlayerStateChanged?.Invoke(this._state, this.transform.position);
@@ -315,6 +320,11 @@ namespace KrillOrBeKrilled.Core.Player {
             if (_trapController.DeployTrap(_direction, out Trap trap)) {
                 this.OnTrapDeployed?.Invoke(trap);
             }
+        }
+
+        public override void FreezePosition() {
+            base.FreezePosition();
+            this.IsFrozen = true;
         }
 
         #endregion
@@ -399,6 +409,7 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <param name="gameManager"> Provides events related to the game state to subscribe to. </param>
         internal void Initialize(GameManager gameManager) {
             gameManager.OnHenWon.AddListener(this.StopSession);
+            gameManager.OnHenWon.AddListener(this.GameOver);
             gameManager.OnHenLost.AddListener(this.StopSession);
 
             this.OnSelectedTrapIndexChanged?.Invoke(this._trapController.CurrentTrap);
@@ -490,6 +501,10 @@ namespace KrillOrBeKrilled.Core.Player {
         private void SetAnimatorValues(float inputDirection) {
             this._animator.SetFloat("speed", Mathf.Abs(inputDirection));
             this._animator.SetFloat("direction", this._direction);
+        }
+
+        private void GameOver(string _) {
+            this.ChangeState(State.GameOver);
         }
 
         #endregion

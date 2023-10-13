@@ -284,14 +284,6 @@ namespace KrillOrBeKrilled.Core.Player {
             this.OnPlayerStateChanged?.Invoke(this._state, this.transform.position);
         }
 
-        public void OnJumpStart() {
-            this.IsGrounded = false;
-            this._animator.SetBool("is_grounded", this.IsGrounded);
-
-            // Left the ground, so trap deployment isn't possible anymore
-            this._trapController.DisableTrapDeployment();
-        }
-
         public void PlayJumpSound() {
             this._soundsController.OnHenJump();
         }

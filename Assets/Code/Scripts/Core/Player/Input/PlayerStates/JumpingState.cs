@@ -69,7 +69,7 @@ namespace KrillOrBeKrilled.Core.Player {
         public void OnEnter(IPlayerState prevState) {
             this._jumpStartTime = Time.time;
             this._jumpSoundPlayTime = Time.time;
-            this._playerController.OnJumpStart();
+            this._playerController.SetGroundedStatus(false);
             this._playerController.PlayJumpSound();
         }
 

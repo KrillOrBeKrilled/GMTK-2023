@@ -3,14 +3,14 @@ using State = KrillOrBeKrilled.Core.Player.PlayerController.State;
 using UnityEngine;
 
 //*******************************************************************************************
-// IdleState
+// JumpingState
 //*******************************************************************************************
 namespace KrillOrBeKrilled.Core.Player {
     /// <summary>
     /// Implements <see cref="IPlayerState"/> to encapsulate logic, visuals, and sounds
-    /// associated with the player idle state.
+    /// associated with the player jumping state.
     /// </summary>
-    public class IdleState : IPlayerState {
+    public class GlidingState : IPlayerState {
         private readonly PlayerController _playerController;
 
         //========================================
@@ -19,32 +19,32 @@ namespace KrillOrBeKrilled.Core.Player {
 
         #region Public Methods
 
-        public IdleState(PlayerController playerController) {
+        /// <summary>
+        /// Constructor to set bookkeeping data related to this state to act on the player.
+        /// </summary>
+        public GlidingState(PlayerController playerController) {
             this._playerController = playerController;
         }
 
         /// <inheritdoc cref="IPlayerState.Act"/>
-        /// <description> Executes the <see cref="IdleCommand"/>. </description>
+        /// <description> Executes the <see cref="GlideCommand"/> </description>
+        /// <param name="moveInput"></param>
+        /// <param name="jumpTriggered"></param>
         public void Act(float moveInput, bool jumpTriggered) {
             // Check if need to change state
-            if (jumpTriggered) {
-                State nextState = this._playerController.IsGrounded ? State.Jumping : State.Gliding;
-                this._playerController.ChangeState(nextState);
-                return;
-            }
-
-            if (!Mathf.Approximately(moveInput, 0f)) {
-                this._playerController.ChangeState(State.Moving);
+            if (this._playerController.IsGrounded || !jumpTriggered) {
+                bool isMoving = !Mathf.Approximately(moveInput, 0f);
+                this._playerController.ChangeState(isMoving ? State.Moving : State.Idle);
                 return;
             }
 
             // Create command and execute it
-            var command = new IdleCommand(this._playerController);
+            var command = new GlideCommand(this._playerController, moveInput);
             this._playerController.ExecuteCommand(command);
         }
 
         public void OnEnter(IPlayerState prevState) {
-            Debug.Log("Idle");
+            Debug.Log("Glide");
         }
 
         public void OnExit(IPlayerState newState) {

@@ -5,7 +5,6 @@ using KrillOrBeKrilled.Core.Commands;
 using KrillOrBeKrilled.Core.Commands.Interfaces;
 using KrillOrBeKrilled.Input;
 using KrillOrBeKrilled.Traps;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -27,22 +26,22 @@ namespace KrillOrBeKrilled.Core.Player {
     /// animations and sound.
     /// </remarks>
     public class PlayerController : Pawn, IDamageable, ITrapBuilder {
-        public bool IsGrounded => this._isGrounded;
-
         // --------------- Player State --------------
         public enum State {
             Idle,
             Moving,
             GameOver,
-            Jumping
+            Jumping,
+            Gliding,
         }
 
         private IdleState _idle;
         private MovingState _moving;
         private GameOverState _gameOver;
         private JumpingState _jumpingState;
-        private IPlayerState _state;
+        private GlidingState _glidingState;
 
+        private IPlayerState _state;
         private Dictionary<State, IPlayerState> _states;
 
         [Tooltip("Tracks when the player state changes.")]
@@ -59,7 +58,8 @@ namespace KrillOrBeKrilled.Core.Player {
 
         // ------------- Trap Deployment ------------
         private float _direction = -1;
-        private bool _isGrounded = true;
+        public bool IsGrounded { get; private set; } = true;
+        public bool IsFalling => this.RBody.velocity.y < -0.1f;
 
         [Tooltip("Tracks when a new trap is selected.")]
         internal UnityEvent<Trap> OnSelectedTrapIndexChanged;
@@ -97,12 +97,14 @@ namespace KrillOrBeKrilled.Core.Player {
             this._moving = new MovingState(this);
             this._gameOver = new GameOverState();
             this._jumpingState = new JumpingState(this);
+            this._glidingState = new GlidingState(this);
 
             this._states = new Dictionary<State, IPlayerState>() {
                 { State.Idle, this._idle },
                 { State.Moving, this._moving },
                 { State.GameOver, this._gameOver },
                 { State.Jumping, this._jumpingState },
+                { State.Gliding, this._glidingState}
             };
 
             this.ChangeState(State.Idle);
@@ -111,7 +113,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this.OnTrapDeployed = new UnityEvent<Trap>();
             this.OnSelectedTrapIndexChanged = new UnityEvent<Trap>();
 
-            _animator.SetBool("is_grounded", _isGrounded);
+            _animator.SetBool("is_grounded", this.IsGrounded);
         }
 
         /// <remarks> Invokes the <see cref="OnSelectedTrapIndexChanged"/> event. </remarks>
@@ -142,11 +144,11 @@ namespace KrillOrBeKrilled.Core.Player {
             this._state.Act(moveInput, jumpTriggered);
 
             // Check trap deployment eligibility
-            this._trapController.SurveyTrapDeployment(this._isGrounded, this._direction);
+            this._trapController.SurveyTrapDeployment(this.IsGrounded, this._direction);
         }
 
         private void OnCollisionEnter2D(Collision2D collision) {
-            if (this._isGrounded) {
+            if (this.IsGrounded) {
                 return;
             }
 
@@ -168,7 +170,7 @@ namespace KrillOrBeKrilled.Core.Player {
 
         // Called one frame after the collision, so fetch contact point from the last frame;
         private void OnCollisionExit2D(Collision2D collision) {
-            if (!this._isGrounded) {
+            if (!this.IsGrounded) {
                 return;
             }
 
@@ -252,8 +254,8 @@ namespace KrillOrBeKrilled.Core.Player {
         /// </summary>
         /// <param name="isGrounded"> If the player is currently touching the ground. </param>
         public void SetGroundedStatus(bool isGrounded) {
-            this._isGrounded = isGrounded;
-            this._animator.SetBool("is_grounded", this._isGrounded);
+            this.IsGrounded = isGrounded;
+            this._animator.SetBool("is_grounded", this.IsGrounded);
 
             if (isGrounded) {
                 return;
@@ -278,8 +280,8 @@ namespace KrillOrBeKrilled.Core.Player {
         }
 
         public void OnJumpStart() {
-            this._isGrounded = false;
-            this._animator.SetBool("is_grounded", this._isGrounded);
+            this.IsGrounded = false;
+            this._animator.SetBool("is_grounded", this.IsGrounded);
 
             // Left the ground, so trap deployment isn't possible anymore
             this._trapController.DisableTrapDeployment();

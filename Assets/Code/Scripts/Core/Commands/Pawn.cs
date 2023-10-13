@@ -11,7 +11,7 @@ namespace KrillOrBeKrilled.Core.Commands {
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
     public class Pawn : MonoBehaviour {
-        [SerializeField] protected float Speed, JumpingForce;
+        [SerializeField] protected float Speed, JumpingForce, GlideVelocityLimit;
         protected Rigidbody2D RBody;
 
         //========================================
@@ -69,6 +69,16 @@ namespace KrillOrBeKrilled.Core.Commands {
         /// <param name="moveInput"> The move input value for the character to move by; to be multiplied to the speed. </param>
         public virtual void Move(float moveInput) {
             this.RBody.velocity = new Vector2(moveInput * this.Speed, this.RBody.velocity.y);
+        }
+
+        /// <summary>
+        /// Sets the character velocity to <see cref="Speed"/> through the <see cref="Rigidbody2D"/>.
+        /// </summary>
+        /// <param name="moveInput"> The move input value for the character to move by; to be multiplied to the speed. </param>
+        public virtual void Glide(float moveInput) {
+            float clampedYVelocity = Mathf.Max(this.RBody.velocity.y, this.GlideVelocityLimit);
+            this.RBody.velocity = new Vector2(moveInput * this.Speed, clampedYVelocity);
+            print(this.RBody.velocity);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 using KrillOrBeKrilled.Core.Commands;
+using State = KrillOrBeKrilled.Core.Player.PlayerController.State;
 using UnityEngine;
 
 //*******************************************************************************************
@@ -38,15 +39,16 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <param name="jumpTriggered"></param>
         public void Act(float moveInput, bool jumpTriggered) {
             // Check if need to change state
-            bool noMovement = Mathf.Approximately(moveInput, 0f);
-            if (!jumpTriggered && noMovement) {
-                this._playerController.ChangeState(PlayerController.State.Idle);
+            bool jumpTimeExceeded = Time.time > this._jumpStartTime + JumpForceMaxDuration;
+            if (this._playerController.IsFalling || jumpTimeExceeded) {
+                this._playerController.ChangeState(State.Gliding);
                 return;
             }
 
-            bool jumpTimeExceeded = Time.time > this._jumpStartTime + JumpForceMaxDuration;
-            if (!jumpTriggered || jumpTimeExceeded) {
-                this._playerController.ChangeState(PlayerController.State.Moving);
+            bool noMovement = Mathf.Approximately(moveInput, 0f);
+            if (!jumpTriggered) {
+                State nextState = noMovement ? State.Idle : State.Moving;
+                this._playerController.ChangeState(nextState);
                 return;
             }
 

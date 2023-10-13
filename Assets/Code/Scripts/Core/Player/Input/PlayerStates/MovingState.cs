@@ -1,5 +1,6 @@
 using KrillOrBeKrilled.Core.Commands;
 using UnityEngine;
+using State = KrillOrBeKrilled.Core.Player.PlayerController.State;
 
 //*******************************************************************************************
 // MovingState
@@ -27,13 +28,14 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <description> Executes the <see cref="MoveCommand"/>.</description>
         public void Act(float moveInput, bool jumpTriggered) {
             // Check if need to change state
-            if (jumpTriggered && this._playerController.IsGrounded) {
-                this._playerController.ChangeState(PlayerController.State.Jumping);
+            if (jumpTriggered) {
+                State nextState = this._playerController.IsGrounded ? State.Jumping : State.Gliding;
+                this._playerController.ChangeState(nextState);
                 return;
             }
 
             if (Mathf.Approximately(moveInput, 0f)) {
-                this._playerController.ChangeState(PlayerController.State.Idle);
+                this._playerController.ChangeState(State.Idle);
                 return;
             }
 

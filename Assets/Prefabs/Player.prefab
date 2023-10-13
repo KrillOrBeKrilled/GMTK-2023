@@ -136,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 10
   JumpingForce: 100
+  GlideVelocityLimit: -0.5
 --- !u!114 &686051568901768547
 MonoBehaviour:
   m_ObjectHideFlags: 0

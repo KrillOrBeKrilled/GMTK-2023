@@ -41,7 +41,7 @@ namespace KrillOrBeKrilled.Core.Player {
         public void Act(float moveInput, bool jumpPressed, bool jumpPressedThisFrame) {
             // Check if need to change state
             bool jumpTimeExceeded = Time.time > this._jumpStartTime + JumpForceMaxDuration;
-            if (this._playerController.IsFalling || jumpTimeExceeded) {
+            if ((!this._playerController.IsGrounded && this._playerController.IsFalling) || jumpTimeExceeded) {
                 this._playerController.ChangeState(State.Gliding);
                 return;
             }
@@ -69,8 +69,8 @@ namespace KrillOrBeKrilled.Core.Player {
         public void OnEnter(IPlayerState prevState) {
             this._jumpStartTime = Time.time;
             this._jumpSoundPlayTime = Time.time;
-            this._playerController.SetGroundedStatus(false);
             this._playerController.PlayJumpSound();
+            this._playerController.StopFalling();
         }
 
         public void OnExit(IPlayerState newState) {

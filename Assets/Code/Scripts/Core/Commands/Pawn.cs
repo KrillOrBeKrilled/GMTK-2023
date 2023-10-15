@@ -12,6 +12,9 @@ namespace KrillOrBeKrilled.Core.Commands {
     [RequireComponent(typeof(Rigidbody2D))]
     public class Pawn : MonoBehaviour {
         [SerializeField] protected float Speed, JumpingForce, GlideVelocityLimit;
+        [SerializeField] protected Vector2 GroundedCheckBoxSize;
+        [SerializeField] protected Vector2 GroundedCheckBoxOffset;
+        [SerializeField] protected LayerMask GroundedLayerMask;
         protected Rigidbody2D RBody;
 
         //========================================

@@ -111,7 +111,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 4
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 1048e8206d908514cbdd34f7f5f218a0, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -137,6 +137,11 @@ MonoBehaviour:
   Speed: 10
   JumpingForce: 100
   GlideVelocityLimit: -2.5
+  GroundedCheckBoxSize: {x: 0.6, y: 0.3}
+  GroundedCheckBoxOffset: {x: 0, y: -1.3}
+  GroundedLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &686051568901768547
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,7 +5,9 @@ using KrillOrBeKrilled.Core.Commands;
 using KrillOrBeKrilled.Core.Commands.Interfaces;
 using KrillOrBeKrilled.Input;
 using KrillOrBeKrilled.Traps;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -59,11 +61,15 @@ namespace KrillOrBeKrilled.Core.Player {
         protected InputEventTrace InputRecorder;
 
         // ----------------- Flags -------------------
+        private bool _isFrozen = false;
+        private float _direction = -1;
+
+        // ---------- Grounded & Coyote Time --------
         public bool IsGrounded { get; private set; } = true;
         public bool IsFalling => this.RBody.velocity.y < -0.1f;
-        private bool IsFrozen = false;
 
-        private float _direction = -1;
+        private const float CoyoteTimeDuration = 0.08f;
+        private IEnumerator _coyoteTimeCoroutine = null;
 
         // ------------- Trap Deployment ------------
         [Tooltip("Tracks when a new trap is selected.")]
@@ -81,7 +87,6 @@ namespace KrillOrBeKrilled.Core.Player {
 
         // --------------- Bookkeeping ---------------
         private Animator _animator;
-
         private PlayerInputActions _playerInputActions;
         private const string BaseFolder = "InputRecordings";
 
@@ -133,23 +138,18 @@ namespace KrillOrBeKrilled.Core.Player {
         }
 
         protected virtual void FixedUpdate() {
-            if (this.IsFrozen) {
+            if (this._isFrozen) {
                 return;
             }
 
             // Read Input
-            Vector2 moveVectorInput = this._playerInputActions.Player.Move.ReadValue<Vector2>();
-            float moveInput = moveVectorInput.x;
-
-            bool jumpPressed = this._playerInputActions.Player.Jump.IsPressed();
-            bool jumpPressedThisFrame = this._playerInputActions.Player.Jump.WasPerformedThisFrame();
-
-            if (!Mathf.Approximately(moveInput, 0f)) {
-                this._direction = moveInput > 0 ? 1 : -1;
-            }
+            this.GatherInput(out float moveInput, out bool jumpPressed, out bool jumpPressedThisFrame);
 
             // Set animation values
             this.SetAnimatorValues(moveInput);
+
+            // Check Grounded
+            this.UpdateGrounded();
 
             // Delegate behaviour to the current state
             this._state.Act(moveInput, jumpPressed, jumpPressedThisFrame);
@@ -158,40 +158,8 @@ namespace KrillOrBeKrilled.Core.Player {
             this._trapController.SurveyTrapDeployment(this.IsGrounded, this._direction);
         }
 
-        private void OnCollisionEnter2D(Collision2D collision) {
-            if (this.IsGrounded) {
-                return;
-            }
-
-            for (var i = 0; i < collision.GetContacts(collision.contacts); i++) {
-                var contactPosition = (Vector3)collision.GetContact(i).point + (Vector3.down * .15f);
-
-                if (!this._trapController.CheckForGroundTile(contactPosition)) {
-                    continue;
-                }
-
-                this.SetGroundedStatus(true);
-                return;
-            }
-        }
-
         private void OnCollisionStay2D(Collision2D collision) {
             this._lastContact = collision.GetContact(0);
-        }
-
-        // Called one frame after the collision, so fetch contact point from the last frame;
-        private void OnCollisionExit2D(Collision2D collision) {
-            if (!this.IsGrounded) {
-                return;
-            }
-
-            var contactPosition = (Vector3)this._lastContact.point + (Vector3.down * .05f);
-
-            if (!this._trapController.CheckForGroundTile(contactPosition)) {
-                return;
-            }
-
-            this.SetGroundedStatus(false);
         }
 
         private void OnEnable() {
@@ -208,6 +176,21 @@ namespace KrillOrBeKrilled.Core.Player {
         private void OnDisable() {
             this.DisableControls();
         }
+
+        #if UNITY_EDITOR
+        private void OnDrawGizmosSelected() {
+            float halfWidth = this.GroundedCheckBoxSize.x / 2;
+            float halfHeight = this.GroundedCheckBoxSize.y / 2;
+            Vector3 origin = this.GroundedCheckBoxOffset + (Vector2)this.transform.position;
+            Vector3 p1 = origin + new Vector3(-halfWidth, halfHeight, 0f);
+            Vector3 p2 = origin + new Vector3(halfWidth, halfHeight, 0f);
+            Vector3 p3 = origin + new Vector3(halfWidth, -halfHeight, 0f);
+            Vector3 p4 = origin + new Vector3(-halfWidth, -halfHeight, 0f);
+
+            Handles.color = Color.yellow;
+            Handles.DrawLines(new[] {p1, p2, p2, p3, p3, p4, p4, p1});
+        }
+        #endif
 
         #endregion
 
@@ -288,6 +271,10 @@ namespace KrillOrBeKrilled.Core.Player {
             this._soundsController.OnHenJump();
         }
 
+        public void StopFalling() {
+            this.RBody.velocity = new Vector2(this.RBody.velocity.x, 0f);
+        }
+
         #endregion
 
         #region Pawn Inherited Methods
@@ -316,7 +303,7 @@ namespace KrillOrBeKrilled.Core.Player {
 
         public override void FreezePosition() {
             base.FreezePosition();
-            this.IsFrozen = true;
+            this._isFrozen = true;
         }
 
         #endregion
@@ -434,6 +421,18 @@ namespace KrillOrBeKrilled.Core.Player {
             this.ExecuteCommand(this._deployCommand);
         }
 
+        private void GatherInput(out float moveInput, out bool jumpPressed, out bool jumpPressedThisFrame) {
+            Vector2 moveVectorInput = this._playerInputActions.Player.Move.ReadValue<Vector2>();
+            moveInput = moveVectorInput.x;
+
+            jumpPressed = this._playerInputActions.Player.Jump.IsPressed();
+            jumpPressedThisFrame = this._playerInputActions.Player.Jump.WasPerformedThisFrame();
+
+            if (!Mathf.Approximately(moveInput, 0f)) {
+                this._direction = moveInput > 0 ? 1 : -1;
+            }
+        }
+
         #endregion
 
         /// <summary>
@@ -497,6 +496,34 @@ namespace KrillOrBeKrilled.Core.Player {
 
         private void GameOver(string _) {
             this.ChangeState(State.GameOver);
+        }
+
+        private void UpdateGrounded() {
+            RaycastHit2D hitInfo = Physics2D.BoxCast((Vector2)this.transform.position + this.GroundedCheckBoxOffset, this.GroundedCheckBoxSize, 0f, Vector2.zero, 0.1f, this.GroundedLayerMask);
+            bool grounded = hitInfo.collider != null;
+            bool becameNotGrounded = this.IsGrounded && !grounded;
+            bool becameGrounded = !this.IsGrounded && grounded;
+
+            if (becameNotGrounded) {
+                if (this._coyoteTimeCoroutine == null) {
+                    this._coyoteTimeCoroutine = this.CoyoteTimeCoroutine();
+                    this.StartCoroutine(this._coyoteTimeCoroutine);
+                }
+
+                return;
+            }
+
+            if (becameGrounded && this._coyoteTimeCoroutine != null) {
+                this.StopCoroutine(this._coyoteTimeCoroutine);
+                this._coyoteTimeCoroutine = null;
+            }
+
+            this.SetGroundedStatus(grounded);
+        }
+
+        private IEnumerator CoyoteTimeCoroutine() {
+            yield return new WaitForSeconds(CoyoteTimeDuration);
+            this.SetGroundedStatus(false);
         }
 
         #endregion

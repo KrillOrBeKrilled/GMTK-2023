@@ -138,7 +138,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this.OnEnable();
         }
 
-        protected virtual void FixedUpdate() {
+        protected override void FixedUpdate() {
             if (this._isFrozen) {
                 return;
             }
@@ -164,6 +164,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this._trapController.SurveyTrapDeployment(this.IsGrounded, this._direction);
 
             this._stateChangedThisFrame = false;
+            base.FixedUpdate();
         }
 
         private void OnCollisionStay2D(Collision2D collision) {

@@ -12,6 +12,7 @@ namespace KrillOrBeKrilled.Core.Commands {
     [RequireComponent(typeof(Rigidbody2D))]
     public class Pawn : MonoBehaviour {
         [SerializeField] protected float Speed;
+        [SerializeField] protected float FallVelocityLimit;
         [SerializeField] protected float GlideVelocityLimit;
         [SerializeField] protected Vector2 GroundedCheckBoxSize;
         [SerializeField] protected Vector2 GroundedCheckBoxOffset;
@@ -26,6 +27,12 @@ namespace KrillOrBeKrilled.Core.Commands {
 
         private void Awake() {
             this.RBody = this.GetComponent<Rigidbody2D>();
+        }
+
+        protected virtual void FixedUpdate() {
+            if (this.RBody.velocity.y < this.FallVelocityLimit) {
+                this.RBody.velocity = new Vector2(this.RBody.velocity.x, this.FallVelocityLimit);
+            }
         }
 
         #endregion

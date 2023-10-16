@@ -14,8 +14,8 @@ namespace KrillOrBeKrilled.Core.Commands {
         /// The move input for this command.
         private readonly float _moveInput;
 
-        /// The jump multiplier for this command.
-        private readonly float _jumpMultiplier;
+        /// The jump force for this command.
+        private readonly float _jumpForce;
 
         //========================================
         // Public Methods
@@ -25,7 +25,7 @@ namespace KrillOrBeKrilled.Core.Commands {
 
         public void Execute() {
             this._controlledObject.Move(this._moveInput);
-            this._controlledObject.Jump(this._jumpMultiplier);
+            this._controlledObject.Jump(this._jumpForce);
         }
 
         /// <summary>
@@ -33,12 +33,12 @@ namespace KrillOrBeKrilled.Core.Commands {
         /// </summary>
         /// <param name="controlledObject"> The player <see cref="Pawn"/> associated with this jump command. </param>
         /// <param name="moveInput"> The direction to move the player <see cref="Pawn"/> on command execution. </param>
-        /// <param name="jumpMultiplier"> The multiplier for the jump force. </param>
+        /// <param name="jumpForce"> The jump force. </param>
         /// ;
-        public JumpCommand(Pawn controlledObject, float moveInput, float jumpMultiplier) {
+        public JumpCommand(Pawn controlledObject, float moveInput, float jumpForce) {
             this._controlledObject = controlledObject;
             this._moveInput = moveInput;
-            this._jumpMultiplier = jumpMultiplier;
+            this._jumpForce = jumpForce;
         }
 
         #endregion

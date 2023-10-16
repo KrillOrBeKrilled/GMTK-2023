@@ -63,6 +63,7 @@ namespace KrillOrBeKrilled.Core.Player {
         // ----------------- Flags -------------------
         private bool _isFrozen = false;
         private float _direction = -1;
+        private bool _stateChangedThisFrame = false;
 
         // ---------- Grounded & Coyote Time --------
         public bool IsGrounded { get; private set; } = true;
@@ -154,8 +155,15 @@ namespace KrillOrBeKrilled.Core.Player {
             // Delegate behaviour to the current state
             this._state.Act(moveInput, jumpPressed, jumpPressedThisFrame);
 
+            // Call Act method on the new state
+            if (this._stateChangedThisFrame) {
+                this._state.Act(moveInput, jumpPressed, jumpPressedThisFrame);
+            }
+
             // Check trap deployment eligibility
             this._trapController.SurveyTrapDeployment(this.IsGrounded, this._direction);
+
+            this._stateChangedThisFrame = false;
         }
 
         private void OnCollisionStay2D(Collision2D collision) {
@@ -264,6 +272,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this._state?.OnExit(nextState);
             this._state = nextState;
             this._state?.OnEnter(prevState);
+            this._stateChangedThisFrame = true;
             this.OnPlayerStateChanged?.Invoke(this._state, this.transform.position);
         }
 

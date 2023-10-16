@@ -13,9 +13,10 @@ namespace KrillOrBeKrilled.Core.Player {
     public class JumpingState : IPlayerState {
         private readonly PlayerController _playerController;
 
+        private const float JumpStartForce = 20f;
+        private const float JumpHoldForce = 1f;
         private const float SoundInterval = 0.25f;
-        private const float JumpForceMaxDuration = 0.6f;
-        private const float FinalJumpForceReductionPercent = 0.8f;
+        private const float JumpForceMaxDuration = 0.2f;
 
         private float _jumpStartTime;
         private float _jumpSoundPlayTime;
@@ -60,9 +61,8 @@ namespace KrillOrBeKrilled.Core.Player {
             }
 
             // Create command and execute it
-            float timePassedPercentage = (Time.time - this._jumpStartTime) / JumpForceMaxDuration;
-            float jumpForceMultiplier = 1f - timePassedPercentage * FinalJumpForceReductionPercent;
-            var command = new JumpCommand(this._playerController, moveInput, jumpForceMultiplier);
+            float jumpForce = jumpPressedThisFrame ? JumpStartForce : JumpHoldForce;
+            var command = new JumpCommand(this._playerController, moveInput, jumpForce);
             this._playerController.ExecuteCommand(command);
         }
 

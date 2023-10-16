@@ -1,0 +1,152 @@
+//-------------------------------------------------------------------------------------------
+// DISCLAIMER: The tools included in this namespace have been adapted from
+// https://www.youtube.com/watch?v=aR6wt5BlE-E
+//-------------------------------------------------------------------------------------------
+
+using System.Collections.Generic;
+
+//*******************************************************************************************
+// Node
+//*******************************************************************************************
+namespace KrillOrBeKrilled.Heroes.BehaviourTree {
+    /// <summary>
+    /// Represents the execution state of the node computed by evaluation.
+    /// <list type="bullet">
+    /// <item> <b>RUNNING</b>: The node is currently running. </item>
+    /// <item> <b>SUCCESS</b>: The node evaluates to "true", completing its action. </item>
+    /// <item> <b>FAILURE</b>: The node evaluates to "false", forfeiting its action. </item>
+    /// </list>
+    /// </summary>
+    public enum NodeStatus {
+        RUNNING,
+        SUCCESS,
+        FAILURE
+    }
+    
+    /// <summary>
+    /// Makes up a Behaviour Tree as units encapsulating composite type selectors, sequences, etc., decorator type
+    /// inverters, succeeders, etc., and leaves.
+    /// </summary>
+    public class Node {
+        /// The current state of this node to communicate to other composite and decorator Nodes during evaluation.
+        protected NodeStatus Status;
+        
+        /// Reference to the parent Node for ease of access and the sharing of data through composite and decorator
+        /// nodes.
+        internal Node Parent;
+        
+        /// The children associated with this Node.
+        protected List<Node> Children = new List<Node>();
+
+        // Allows for the sharing of data between Nodes in key-value pairs.
+        private readonly Dictionary<string, object> _dataContext = new Dictionary<string, object>();
+        
+        internal Node() {
+            Parent = null;
+        }
+
+        internal Node(List<Node> children) {
+            foreach (var child in children) {
+                AddChild(child);
+            }
+        }
+
+        //========================================
+        // Internal Methods
+        //========================================
+        
+        #region Internal Methods
+        
+        /// <summary>
+        /// Attempts to recursively delete the data associated with the provided key from this node and all parent
+        /// nodes of the upper levels. 
+        /// </summary>
+        /// <param name="key"> The unique name to access the target data. </param>
+        /// <returns> If the key-value pair of data has been successfully removed. </returns>
+        internal bool ClearData(string key) {
+            if (_dataContext.ContainsKey(key)) {
+                _dataContext.Remove(key);
+                return true;
+            }
+            
+            var currNode = Parent;
+            while (currNode != null) {
+                var cleared = currNode.ClearData(key);
+                
+                if (cleared) {
+                    return true;
+                }
+
+                currNode = currNode.Parent;
+            }
+
+            return false;
+        }
+
+        // Each derived Node class can override this Evaluate method to specify different logic to be executed in the 
+        // Behaviour Tree.
+        /// <summary>
+        /// Executes the action associated with this node.
+        /// </summary>
+        /// <returns> The status of this <see cref="Node"/> after evaluation. </returns>
+        /// <remarks> Executed on Update. </remarks>
+        internal virtual NodeStatus Evaluate() => NodeStatus.FAILURE;
+
+        /// <summary>
+        /// Attempts to recursively retrieve the data associated with the provided key from this node and all parent
+        /// nodes of the upper levels. 
+        /// </summary>
+        /// <param name="key"> The unique name to access the target data. </param>
+        /// <returns>
+        /// The data associated with the provided key. If no such key exists within any of the searched
+        /// nodes, returns <b>null</b>.
+        /// </returns>
+        internal object GetData(string key) {
+            if (_dataContext.TryGetValue(key, out var value)) {
+                return value;
+            }
+            
+            var currNode = Parent;
+            while (currNode != null) {
+                value = currNode.GetData(key);
+                
+                if (value != null) {
+                    return value;
+                }
+
+                currNode = currNode.Parent;
+            }
+
+            return null;
+        }
+        
+        /// <summary>
+        /// Adds data or updates the associated data if the provided key already exists to the <see cref="Node"/>
+        /// bookkeeping structures.
+        /// </summary>
+        /// <param name="key"> The unique name to access the target data. </param>
+        /// <param name="value"> The new value to overwrite the data associated with the provided key. </param>
+        internal void SetData(string key, object value) {
+            _dataContext[key] = value;
+        }
+
+        #endregion
+        
+        //========================================
+        // Private Methods
+        //========================================
+        
+        #region Private Methods
+        
+        /// <summary>
+        /// Creates an edge between this node and its new child.
+        /// </summary>
+        /// <param name="node"> The node to be added as a new child to this <see cref="Node"/>. </param>
+        private void AddChild(Node node) {
+            node.Parent = this;
+            Children.Add(node);
+        }
+        
+        #endregion
+    }
+}

@@ -4,20 +4,21 @@
 //-------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using UnityEngine;
 
 //*******************************************************************************************
-// Sequence
+// RandomSelector
 //*******************************************************************************************
 namespace KrillOrBeKrilled.Heroes.BehaviourTree {
     /// <summary>
-    /// A composite node that acts as an AND logic gate, evaluating the children
-    /// <see cref="Node">Nodes</see> in sequence and succeeding only if all
-    /// <see cref="Node">Nodes</see> take on the <see cref="NodeStatus.SUCCESS"/> status.
+    /// A composite node that acts as an OR logic gate, evaluating the children
+    /// <see cref="Node">Nodes</see> at random and succeeding if at least one
+    /// <see cref="Node"/> takes on the <see cref="NodeStatus.SUCCESS"/> status.
     /// </summary>
-    public class Sequence : Node {
+    public class RandomSelector : Composite {
         
-        public Sequence() : base() {}
-        public Sequence(List<Node> children) : base(children) {}
+        public RandomSelector() : base() {}
+        public RandomSelector(List<Node> children) : base(children) {}
         
         //========================================
         // Internal Methods
@@ -26,32 +27,36 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         #region Internal Methods
         
         /// <summary>
-        /// Iterates through and evaluates all child <see cref="Node">Nodes</see> unless one returns the
-        /// <see cref="NodeStatus.FAILURE"/> or <see cref="NodeStatus.RUNNING"/> status and takes on that status. 
+        /// Iterates through and evaluates all child <see cref="Node">Nodes</see> at random unless one returns the
+        /// <see cref="NodeStatus.SUCCESS"/> or <see cref="NodeStatus.RUNNING"/> status and takes on that status. 
         /// </summary>
         /// <returns>
-        /// The <see cref="NodeStatus.FAILURE"/> or <see cref="NodeStatus.RUNNING"/> states if any of the child
+        /// The <see cref="NodeStatus.SUCCESS"/> or <see cref="NodeStatus.RUNNING"/> states if any of the child
         /// <see cref="Node">Nodes</see> return such a status. If all children are evaluated without returning,
-        /// returns the <see cref="NodeStatus.SUCCESS"/> status.
+        /// returns the <see cref="NodeStatus.FAILURE"/> status.
         /// </returns>
         internal override NodeStatus Evaluate() {
-            foreach (var node in Children) {
+            var nodes = new List<Node>(Children);
+            
+            for (var i = 0; i < Children.Count; i++) {
+                var node = nodes[Random.Range(0, nodes.Count - 1)];
+                nodes.Remove(node);
+                    
                 switch (node.Evaluate()) {
                     case NodeStatus.FAILURE:
-                        Status = NodeStatus.FAILURE;
-                        return Status;
-                    case NodeStatus.SUCCESS:
                         continue;
+                    case NodeStatus.SUCCESS:
+                        Status = NodeStatus.SUCCESS;
+                        return Status;
                     case NodeStatus.RUNNING:
                         Status = NodeStatus.RUNNING;
                         return Status;
                     default:
-                        Status = NodeStatus.SUCCESS;
-                        return Status;
+                        continue;
                 }
             }
 
-            Status = NodeStatus.SUCCESS;
+            Status = NodeStatus.FAILURE;
             return Status;
         }
         

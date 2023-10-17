@@ -14,7 +14,7 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
     /// <see cref="Node">Nodes</see> in sequence and succeeding if at least one
     /// <see cref="Node"/> takes on the <see cref="NodeStatus.SUCCESS"/> status.
     /// </summary>
-    public class Selector : Node {
+    public class Selector : Composite {
         
         public Selector() : base() {}
         public Selector(List<Node> children) : base(children) {}
@@ -27,8 +27,7 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         
         /// <summary>
         /// Iterates through and evaluates all child <see cref="Node">Nodes</see> unless one returns the
-        /// <see cref="NodeStatus.SUCCESS"/> or <see cref="NodeStatus.RUNNING"/> status and
-        /// takes on that status. 
+        /// <see cref="NodeStatus.SUCCESS"/> or <see cref="NodeStatus.RUNNING"/> status and takes on that status. 
         /// </summary>
         /// <returns>
         /// The <see cref="NodeStatus.SUCCESS"/> or <see cref="NodeStatus.RUNNING"/> states if any of the child
@@ -36,7 +35,6 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         /// returns the <see cref="NodeStatus.FAILURE"/> status.
         /// </returns>
         internal override NodeStatus Evaluate() {
-            // Return early when the child has succeeded or is running
             foreach (var node in Children) {
                 switch (node.Evaluate()) {
                     case NodeStatus.FAILURE:

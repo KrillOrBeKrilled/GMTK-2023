@@ -34,21 +34,12 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         /// Reference to the parent Node for ease of access and the sharing of data through composite and decorator
         /// nodes.
         internal Node Parent;
-        
-        /// The children associated with this Node.
-        protected List<Node> Children = new List<Node>();
 
         // Allows for the sharing of data between Nodes in key-value pairs.
         private readonly Dictionary<string, object> _dataContext = new Dictionary<string, object>();
         
         internal Node() {
             Parent = null;
-        }
-
-        internal Node(List<Node> children) {
-            foreach (var child in children) {
-                AddChild(child);
-            }
         }
 
         //========================================
@@ -130,23 +121,6 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
             _dataContext[key] = value;
         }
 
-        #endregion
-        
-        //========================================
-        // Private Methods
-        //========================================
-        
-        #region Private Methods
-        
-        /// <summary>
-        /// Creates an edge between this node and its new child.
-        /// </summary>
-        /// <param name="node"> The node to be added as a new child to this <see cref="Node"/>. </param>
-        private void AddChild(Node node) {
-            node.Parent = this;
-            Children.Add(node);
-        }
-        
         #endregion
     }
 }

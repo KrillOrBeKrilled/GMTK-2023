@@ -17,6 +17,9 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         /// The child associated with this Node.
         protected Node Child;
         
+        /// If this node has links to any child nodes.
+        protected readonly bool HasChildren;
+        
         internal Decorator() : base() {}
         
         /// <summary>
@@ -25,6 +28,7 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         /// <param name="child"> The <see cref="Node"/> to link to this <see cref="Node"/> as children. </param>
         internal Decorator(Node child) {
             AddChild(child);
+            HasChildren = true;
         }
         
         //========================================

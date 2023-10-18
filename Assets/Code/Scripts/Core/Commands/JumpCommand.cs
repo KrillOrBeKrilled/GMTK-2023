@@ -23,11 +23,6 @@ namespace KrillOrBeKrilled.Core.Commands {
 
         #region Public Methods
 
-        public void Execute() {
-            this._controlledObject.Move(this._moveInput);
-            this._controlledObject.Jump(this._jumpForce);
-        }
-
         /// <summary>
         /// Constructor to set references required for this command to act on a <see cref="Pawn"/>.
         /// </summary>
@@ -39,6 +34,11 @@ namespace KrillOrBeKrilled.Core.Commands {
             this._controlledObject = controlledObject;
             this._moveInput = moveInput;
             this._jumpForce = jumpForce;
+        }
+
+        public void Execute() {
+            this._controlledObject.Move(this._moveInput);
+            this._controlledObject.Jump(this._jumpForce);
         }
 
         #endregion

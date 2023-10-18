@@ -34,11 +34,6 @@ namespace KrillOrBeKrilled.Core.Player {
             this._playerController = playerController;
         }
 
-        /// <inheritdoc cref="IPlayerState.Act"/>
-        /// <description> Executes the <see cref="GlideCommand"/> </description>
-        /// <param name="moveInput"></param>
-        /// <param name="jumpPressed"></param>
-        /// <param name="jumpPressedThisFrame"></param>
         public void Act(float moveInput, bool jumpPressed, bool jumpPressedThisFrame) {
             // Check if need to change state
             if (this._playerController.IsGrounded || !jumpPressed) {

@@ -20,10 +20,6 @@ namespace KrillOrBeKrilled.Core.Commands {
 
         #region Public Methods
 
-        public void Execute() {
-            this._controlledObject.Move(this._inputDirection);
-        }
-
         /// <summary>
         /// Constructor to set references required for this command to act on a <see cref="Pawn"/>.
         /// </summary>
@@ -32,6 +28,10 @@ namespace KrillOrBeKrilled.Core.Commands {
         public MoveCommand(Pawn controlledObject, float inputDirection) {
             this._controlledObject = controlledObject;
             this._inputDirection = inputDirection;
+        }
+
+        public void Execute() {
+            this._controlledObject.Move(this._inputDirection);
         }
 
         #endregion

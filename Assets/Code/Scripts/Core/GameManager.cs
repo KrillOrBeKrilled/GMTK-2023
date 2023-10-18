@@ -89,7 +89,6 @@ namespace KrillOrBeKrilled.Core {
         [Tooltip("Tracks when the player loses the game.")]
         public UnityEvent<string> OnHenLost { get; private set; }
         public UnityEvent<Hero> OnHeroSpawned { get; private set; }
-
         public UnityEvent<UnityAction> OnSceneWillChange { get; private set; }
 
         //========================================
@@ -239,14 +238,6 @@ namespace KrillOrBeKrilled.Core {
             PauseManager.Instance.UnpauseGame();
             PauseManager.Instance.SetIsPausable(false);
             this.OnSceneWillChange?.Invoke(SceneNavigationManager.Instance.ReloadCurrentScene);
-        }
-
-        #endregion
-
-        #region Setup
-
-        public void SubscribeUI() {
-
         }
 
         #endregion

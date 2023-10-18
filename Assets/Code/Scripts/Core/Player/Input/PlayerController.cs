@@ -159,7 +159,7 @@ namespace KrillOrBeKrilled.Core.Player {
             // Delegate behaviour to the current state
             this._state.Act(moveInput, jumpPressed, jumpPressedThisFrame);
 
-            // Call Act method on the new state
+            // If state changed => call Act method on the new state
             if (this._stateChangedThisFrame) {
                 this._state.Act(moveInput, jumpPressed, jumpPressedThisFrame);
             }
@@ -281,6 +281,9 @@ namespace KrillOrBeKrilled.Core.Player {
             this._soundsController.OnHenJump();
         }
 
+        /// <summary>
+        /// Resets vertical velocity to 0. Needed when jumping after started falling when vertical velocity is already negative.
+        /// </summary>
         public void StopFalling() {
             this.RBody.velocity = new Vector2(this.RBody.velocity.x, 0f);
         }
@@ -431,6 +434,12 @@ namespace KrillOrBeKrilled.Core.Player {
             this.ExecuteCommand(this._deployCommand);
         }
 
+        /// <summary>
+        /// Reads input for move and jump. Puts read values in the <c>out</c> variables.
+        /// </summary>
+        /// <param name="moveInput"> Move input is saved into this variable. </param>
+        /// <param name="jumpPressed"> Jump Button pressed is saved into this variable. </param>
+        /// <param name="jumpPressedThisFrame"> Jump Button pressed this frame is saved into this variable. </param>
         private void GatherInput(out float moveInput, out bool jumpPressed, out bool jumpPressedThisFrame) {
             Vector2 moveVectorInput = this._playerInputActions.Player.Move.ReadValue<Vector2>();
             moveInput = moveVectorInput.x;
@@ -508,6 +517,10 @@ namespace KrillOrBeKrilled.Core.Player {
             this.ChangeState(State.GameOver);
         }
 
+        /// <summary>
+        /// Casts a box below the player to check whether player is grounded. Updates the <see cref="IsGrounded"/> variable.
+        /// </summary>
+        /// <remarks> Invokes <see cref="OnPlayerGrounded"/>. </remarks>
         private void UpdateGrounded() {
             RaycastHit2D hitInfo = Physics2D.BoxCast((Vector2)this.transform.position + this.GroundedCheckBoxOffset, this.GroundedCheckBoxSize, 0f, Vector2.zero, 0.1f, this.GroundedLayerMask);
             bool grounded = hitInfo.collider != null;
@@ -535,6 +548,10 @@ namespace KrillOrBeKrilled.Core.Player {
             this.SetGroundedStatus(grounded);
         }
 
+        /// <summary>
+        /// Checks if the player is falling. Updates <see cref="IsFalling"/>.
+        /// </summary>
+        /// <remarks> If player started falling this frame, invokes <see cref="OnPlayerFalling"/> </remarks>
         private void UpdateFalling() {
             bool falling = this.RBody.velocity.y < -0.1f;
             bool becameFalling = !this.IsFalling && falling;
@@ -546,6 +563,9 @@ namespace KrillOrBeKrilled.Core.Player {
             this.IsFalling = falling;
         }
 
+        /// <summary>
+        /// A coroutine that holds <see cref="IsGrounded"/> as <c>true</c> during coyote timer.
+        /// </summary>
         private IEnumerator CoyoteTimeCoroutine() {
             yield return new WaitForSeconds(CoyoteTimeDuration);
             this.SetGroundedStatus(false);

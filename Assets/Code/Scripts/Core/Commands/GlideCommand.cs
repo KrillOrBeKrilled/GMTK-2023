@@ -14,6 +14,7 @@ namespace KrillOrBeKrilled.Core.Commands {
         /// The move input for this command.
         private readonly float _moveInput;
 
+        /// The speed multiplier to apply while gliding.
         private readonly float _glideSpeedMultiplier;
 
         //========================================
@@ -21,10 +22,6 @@ namespace KrillOrBeKrilled.Core.Commands {
         //========================================
 
         #region Public Methods
-
-        public void Execute() {
-            this._controlledObject.Glide(this._moveInput, this._glideSpeedMultiplier);
-        }
 
         /// <summary>
         /// Constructor to set references required for this command to act on a <see cref="Pawn"/>.
@@ -37,6 +34,10 @@ namespace KrillOrBeKrilled.Core.Commands {
             this._controlledObject = controlledObject;
             this._moveInput = moveInput;
             this._glideSpeedMultiplier = glideSpeedMultiplier;
+        }
+
+        public void Execute() {
+            this._controlledObject.Glide(this._moveInput, this._glideSpeedMultiplier);
         }
 
         #endregion

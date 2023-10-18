@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using KrillOrBeKrilled.Cameras;
-using KrillOrBeKrilled.Core.Commands;
 using KrillOrBeKrilled.Core.Player;
 using KrillOrBeKrilled.Dialogue;
 using KrillOrBeKrilled.Environment;
@@ -11,7 +10,6 @@ using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Traps;
 using KrillOrBeKrilled.UGSAnalytics;
-using KrillOrBeKrilled.UI;
 using UnityEngine;
 using UnityEngine.Events;
 using Yarn.Unity;
@@ -29,7 +27,6 @@ namespace KrillOrBeKrilled.Core {
     /// other actors of the level to collect and send data. </remarks>
     public class GameManager : MonoBehaviour {
         [Header("References")]
-        [SerializeField] private GameUI _gameUI;
         [SerializeField] private PlayerManager _playerManager;
 
         [Header("Dialogue References")]
@@ -44,6 +41,13 @@ namespace KrillOrBeKrilled.Core {
         [Header("Level")]
         [SerializeField] private RespawnPoint _respawnPointPrefab;
         [SerializeField] private EndgameTarget _endgameTargetPrefab;
+
+        public PlayerManager PlayerManager => this._playerManager;
+        public PlayerController PlayerController => this._playerManager.PlayerController;
+        public TrapController TrapController => this._playerManager.TrapController;
+
+        public Transform LevelStart => this._firstRespawnPoint.transform;
+        public Transform LevelEnd => this._endgameTarget.transform;
 
         /// The instantiated endgameTargetPrefab.
         private EndgameTarget _endgameTarget;
@@ -69,7 +73,7 @@ namespace KrillOrBeKrilled.Core {
 
         private const float EndlessLevelHealthIncreaseRate = 1.5f;
 
-        private IEnumerator _waveSpawnCoroutine = null;
+        private IEnumerator _waveSpawnCoroutine;
 
         // ------------- Sound Effects ---------------
         private HeroSoundsController _heroSoundsController;
@@ -77,14 +81,16 @@ namespace KrillOrBeKrilled.Core {
         // ----------------- Events ------------------
         [Tooltip("Tracks when hero and UI data are set up and this manager sets up other critical gameplay system " +
                  "references.")]
-        internal UnityEvent OnSetupComplete { get; private set; }
+        public UnityEvent OnSetupComplete { get; private set; }
         [Tooltip("Tracks when the main gameplay loop begins.")]
-        internal UnityEvent OnStartLevel { get; private set; }
+        public UnityEvent OnStartLevel { get; private set; }
         [Tooltip("Tracks when the player beats the game.")]
-        internal UnityEvent<string> OnHenWon { get; private set; }
+        public UnityEvent<string> OnHenWon { get; private set; }
         [Tooltip("Tracks when the player loses the game.")]
-        internal UnityEvent<string> OnHenLost { get; private set; }
-        internal UnityEvent<Hero> OnHeroSpawned { get; private set; }
+        public UnityEvent<string> OnHenLost { get; private set; }
+        public UnityEvent<Hero> OnHeroSpawned { get; private set; }
+
+        public UnityEvent<UnityAction> OnSceneWillChange { get; private set; }
 
         //========================================
         // Unity Methods
@@ -100,10 +106,11 @@ namespace KrillOrBeKrilled.Core {
             this.OnHenWon = new UnityEvent<string>();
             this.OnHenLost = new UnityEvent<string>();
             this.OnHeroSpawned = new UnityEvent<Hero>();
+            this.OnSceneWillChange = new UnityEvent<UnityAction>();
         }
 
         /// <remarks> Invokes the <see cref="OnSetupComplete"/> event. </remarks>
-        private void Start() {
+        private IEnumerator Start() {
             // Create a copy to avoid modifying source
             LevelData sourceData = LevelManager.Instance.GetActiveLevelData();
             this._levelData = ScriptableObject.CreateInstance<LevelData>();
@@ -125,18 +132,15 @@ namespace KrillOrBeKrilled.Core {
             this._activeRespawnPoint = this._respawnPoints.First();
             this._firstRespawnPoint = this._activeRespawnPoint;
 
-            this._gameUI.Initialize(OnSetupComplete, OnHenWon, OnHenLost, OnHeroSpawned,
-                this._playerManager.PlayerController.OnSelectedTrapIndexChanged,
-                this._playerManager.TrapController.Traps, OnStartLevel, SkipDialogue, this._playerManager.transform,
-                this._firstRespawnPoint.transform, this._endgameTarget.transform,
-                this._playerManager.PlayerController.SetTrap);
-
             this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
             this._playerManager.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
             this._playerManager.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
             this._playerManager.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
-            this._playerManager.PlayerController.Initialize(this);
 
+            // Wait for a frame so that all other scripts complete Start() method.
+            yield return null;
+
+            this._playerManager.PlayerController.Initialize(this);
             this.OnSetupComplete?.Invoke();
 
             if (this._levelData.Type == LevelData.LevelType.Story) {
@@ -201,6 +205,13 @@ namespace KrillOrBeKrilled.Core {
             this.OnStartLevel?.Invoke();
         }
 
+        /// <summary>
+        /// Aborts the dialogue player if the dialogue is actively running and starts the level.
+        /// </summary>
+        public void SkipDialogue() {
+            this.StartCoroutine(this.SkipDialogueCoroutine());
+        }
+
         #endregion
 
         #region Scene Management
@@ -211,7 +222,7 @@ namespace KrillOrBeKrilled.Core {
         public void LoadMainMenu() {
             PauseManager.Instance.UnpauseGame();
             PauseManager.Instance.SetIsPausable(false);
-            this._gameUI.FadeInSceneCover(SceneNavigationManager.Instance.LoadLevelsScene);
+            this.OnSceneWillChange?.Invoke(SceneNavigationManager.Instance.LoadLevelsScene);
         }
 
         /// <summary>
@@ -227,7 +238,15 @@ namespace KrillOrBeKrilled.Core {
         public void ReloadThisLevel() {
             PauseManager.Instance.UnpauseGame();
             PauseManager.Instance.SetIsPausable(false);
-            this._gameUI.FadeInSceneCover(SceneNavigationManager.Instance.ReloadCurrentScene);
+            this.OnSceneWillChange?.Invoke(SceneNavigationManager.Instance.ReloadCurrentScene);
+        }
+
+        #endregion
+
+        #region Setup
+
+        public void SubscribeUI() {
+
         }
 
         #endregion
@@ -241,13 +260,6 @@ namespace KrillOrBeKrilled.Core {
         #region Private Methods
 
         #region Level Sequence
-
-        /// <summary>
-        /// Aborts the dialogue player if the dialogue is actively running and starts the level.
-        /// </summary>
-        private void SkipDialogue() {
-            this.StartCoroutine(this.SkipDialogueCoroutine());
-        }
 
         /// <summary>
         /// Aborts the dialogue player if the dialogue is actively running and immediately focuses the camera

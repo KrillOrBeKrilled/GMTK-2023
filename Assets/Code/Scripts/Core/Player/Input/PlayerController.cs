@@ -74,7 +74,7 @@ namespace KrillOrBeKrilled.Core.Player {
 
         // ------------- Trap Deployment ------------
         [Tooltip("Tracks when a new trap is selected.")]
-        internal UnityEvent<Trap> OnSelectedTrapIndexChanged;
+        public UnityEvent<Trap> OnSelectedTrapIndexChanged;
         [Tooltip("Tracks when a trap has been deployed.")]
         internal UnityEvent<Trap> OnTrapDeployed { get; private set; }
 
@@ -82,9 +82,6 @@ namespace KrillOrBeKrilled.Core.Player {
 
         // ------------- Sound Effects ---------------
         private PlayerSoundsController _soundsController;
-
-        // --------------- Collision -----------------
-        private ContactPoint2D _lastContact;
 
         // --------------- Bookkeeping ---------------
         private Animator _animator;
@@ -165,10 +162,6 @@ namespace KrillOrBeKrilled.Core.Player {
 
             this._stateChangedThisFrame = false;
             base.FixedUpdate();
-        }
-
-        private void OnCollisionStay2D(Collision2D collision) {
-            this._lastContact = collision.GetContact(0);
         }
 
         private void OnEnable() {
@@ -515,11 +508,12 @@ namespace KrillOrBeKrilled.Core.Player {
             bool becameGrounded = !this.IsGrounded && grounded;
 
             if (becameNotGrounded) {
-                if (this._coyoteTimeCoroutine == null) {
-                    this._coyoteTimeCoroutine = this.CoyoteTimeCoroutine();
-                    this.StartCoroutine(this._coyoteTimeCoroutine);
+                if (this._coyoteTimeCoroutine != null) {
+                    return;
                 }
 
+                this._coyoteTimeCoroutine = this.CoyoteTimeCoroutine();
+                this.StartCoroutine(this._coyoteTimeCoroutine);
                 return;
             }
 

@@ -1,8 +1,7 @@
 using DG.Tweening;
+using KrillOrBeKrilled.Core;
 using KrillOrBeKrilled.Managers;
-using KrillOrBeKrilled.Traps;
 using KrillOrBeKrilled.Heroes;
-using System.Collections.ObjectModel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -20,6 +19,7 @@ namespace KrillOrBeKrilled.UI {
     /// are exposed for external use. </remarks>
     public class GameUI : MonoBehaviour {
         [Header("Game UI References")]
+        [SerializeField] private GameManager _gameManager;
         [Tooltip("Used to fade the scene in and out.")]
         [SerializeField] private Image _backgroundImage;
         [SerializeField] private Image _backgroundTintImage;
@@ -41,71 +41,66 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private HealthBarUI _healthBarUIPrefab;
 
         private const float FadeDuration = 0.5f;
-        
+
         //========================================
         // Unity Methods
         //========================================
-        
+
         #region Unity Methods
-        
+
         private void Awake() {
             this._foregroundImage.gameObject.SetActive(true);
         }
 
         private void Start() {
+            this._gameManager.OnSetupComplete.AddListener(this.OnGameSetupComplete);
+            this._gameManager.OnHenWon.AddListener(this.OnHenWon);
+            this._gameManager.OnHenLost.AddListener(this.OnHenLost);
+            this._gameManager.OnHeroSpawned.AddListener(this.OnHeroSpawned);
+            this._gameManager.OnSceneWillChange.AddListener(this.FadeInSceneCover);
+
+            this._trapSelectionBar.Initialize(
+                this._gameManager.PlayerController.OnSelectedTrapIndexChanged,
+                this._gameManager.TrapController.Traps,
+                this._gameManager.PlayerController.SetTrap
+            );
+
+            this._skipDialogueUI.Initialize(this._gameManager.OnStartLevel, this._gameManager.SkipDialogue);
+            this._mapUI.Initialize(
+                this._gameManager.PlayerManager.transform,
+                this._gameManager.LevelStart.position.x,
+                this._gameManager.LevelEnd.position.x
+            );
+
             CoinManager.Instance.OnCoinAmountChanged.AddListener(this.OnCoinsUpdated);
             PauseManager.Instance.OnPauseToggled.AddListener(this.OnPauseToggled);
         }
-        
+
         #endregion
-        
+
         //========================================
         // Public Methods
         //========================================
-        
-        #region Public Methods
-        
+
+        // No public methods
+
+        //========================================
+        // Private Methods
+        //========================================
+
+        #region Private Methods
+
         /// <summary>
         /// Fades in the screen and invokes a function upon completion.
         /// </summary>
         /// <param name="onComplete"> The function to invoke once the fade-in effect has been completed. </param>
-        public void FadeInSceneCover(UnityAction onComplete) {
+        private void FadeInSceneCover(UnityAction onComplete) {
             this._foregroundImage.gameObject.SetActive(true);
             this._foregroundImage
                 .DOFade(1, FadeDuration)
                 .OnComplete(() => onComplete?.Invoke());
         }
-        
-        /// <summary>
-        /// Sets up all references and listeners to operate the game UI, also invoking the initialization methods
-        /// through the <see cref="TrapSelectionBar"/> and <see cref="SkipDialogueUI"/>.
-        /// </summary>
-        /// <param name="gameManager"> Provides events related to the game state to subscribe to. </param>
-        /// <param name="playerManager"> Provides events related to the trap system to subscribe to. </param>
-        public void Initialize(UnityEvent setupComplete, UnityEvent<string> henWon, UnityEvent<string> henLost,
-            UnityEvent<Hero> heroSpawned,
-            UnityEvent<Trap> trapChanged, ReadOnlyCollection<Trap> traps,
-            UnityEvent onStartLevel, UnityAction onSkipDialogue,
-            Transform playerTransform, Transform levelStartTransform, Transform levelEndTransform,
-            UnityAction<Trap> selectTrapAction) {
-            setupComplete.AddListener(this.OnGameSetupComplete);
-            henWon.AddListener(this.OnHenWon);
-            henLost.AddListener(this.OnHenLost);
-            heroSpawned.AddListener(this.OnHeroSpawned);
 
-            this._trapSelectionBar.Initialize(trapChanged, traps, selectTrapAction);
-            this._skipDialogueUI.Initialize(onStartLevel, onSkipDialogue);
-            this._mapUI.Initialize(playerTransform, levelStartTransform.position.x, levelEndTransform.position.x);
-        }
-
-        #endregion
-
-        //========================================
-        // Private Methods
-        //========================================
-        
-        #region Private Methods
-        
         /// <summary>
         /// Updates the coin counter UI text.
         /// </summary>
@@ -126,7 +121,7 @@ namespace KrillOrBeKrilled.UI {
                     this._foregroundImage.gameObject.SetActive(false);
                 });
         }
-        
+
         /// <summary>
         /// Opens the Game Over menu with a custom text message.
         /// </summary>
@@ -134,7 +129,7 @@ namespace KrillOrBeKrilled.UI {
         private void OnHenLost(string message) {
             this._endgameUI.ShowHenLost(message);
         }
-        
+
         /// <summary>
         /// Opens the Game Over menu with a custom text message.
         /// </summary>
@@ -142,7 +137,7 @@ namespace KrillOrBeKrilled.UI {
         private void OnHenWon(string message) {
             this._endgameUI.ShowHenWon(message);
         }
-        
+
         /// <summary>
         /// Creates a health bar for the associated <see cref="Hero"/> and registers the hero to be represented
         /// on the <see cref="MapUI"/>.
@@ -165,7 +160,7 @@ namespace KrillOrBeKrilled.UI {
                 this._backgroundTintImage.gameObject.SetActive(true);
             }
         }
-        
+
         /// <summary>
         /// Instantiates a new health bar and links it to the assigned <see cref="Hero"/> <see cref="Transform"/>.
         /// </summary>
@@ -174,7 +169,7 @@ namespace KrillOrBeKrilled.UI {
             HealthBarUI newBar = Instantiate(this._healthBarUIPrefab, this._healthBarsContainer);
             newBar.Initialize(hero, (RectTransform)this.transform);
         }
-        
+
         #endregion
     }
 }

@@ -6544,6 +6544,10 @@ PrefabInstance:
       propertyPath: _onHover.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 9186954324187263670, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _gameManager
+      value: 
+      objectReference: {fileID: 777455261}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

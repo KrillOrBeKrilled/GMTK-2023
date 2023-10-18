@@ -86,9 +86,10 @@ namespace KrillOrBeKrilled.Core.Commands {
         /// Sets the character velocity to <see cref="Speed"/> through the <see cref="Rigidbody2D"/>.
         /// </summary>
         /// <param name="moveInput"> The move input value for the character to move by; to be multiplied to the speed. </param>
-        public virtual void Glide(float moveInput) {
+        /// <param name="glideSpeedMultiplier"> The multiplier for the x-Axis speed. </param>
+        public virtual void Glide(float moveInput, float glideSpeedMultiplier) {
             float clampedYVelocity = Mathf.Max(this.RBody.velocity.y, this.GlideVelocityLimit);
-            this.RBody.velocity = new Vector2(moveInput * this.Speed, clampedYVelocity);
+            this.RBody.velocity = new Vector2(moveInput * glideSpeedMultiplier * this.Speed, clampedYVelocity);
         }
 
         /// <summary>

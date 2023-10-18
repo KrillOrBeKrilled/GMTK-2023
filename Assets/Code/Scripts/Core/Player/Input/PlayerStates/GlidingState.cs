@@ -1,3 +1,4 @@
+using DG.Tweening;
 using KrillOrBeKrilled.Core.Commands;
 using State = KrillOrBeKrilled.Core.Player.PlayerController.State;
 using UnityEngine;
@@ -12,6 +13,13 @@ namespace KrillOrBeKrilled.Core.Player {
     /// </summary>
     public class GlidingState : IPlayerState {
         private readonly PlayerController _playerController;
+
+        private float _glideSpeedMultiplier = 1f;
+        private const float GlideSpeedMultiplierStart = 1f;
+        private const float GlideSpeedMultiplierEnd = 1.3f;
+        private const float GlideMultiplierTweenDuration = 1f;
+
+        private Tween _glideTween;
 
         //========================================
         // Public Methods
@@ -40,16 +48,19 @@ namespace KrillOrBeKrilled.Core.Player {
             }
 
             // Create command and execute it
-            var command = new GlideCommand(this._playerController, moveInput);
+            var command = new GlideCommand(this._playerController, moveInput, this._glideSpeedMultiplier);
             this._playerController.ExecuteCommand(command);
         }
 
         public void OnEnter(IPlayerState prevState) {
-
+            this._glideTween = DOVirtual
+                .Float(GlideSpeedMultiplierStart, GlideSpeedMultiplierEnd, GlideMultiplierTweenDuration,
+                    newMultiplier => { this._glideSpeedMultiplier = newMultiplier; })
+                .SetEase(Ease.OutExpo);
         }
 
         public void OnExit(IPlayerState newState) {
-
+            this._glideTween.Kill();
         }
 
         #endregion

@@ -36,6 +36,7 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private SkipDialogueUI _skipDialogueUI;
         [SerializeField] private Transform _healthBarsContainer;
         [SerializeField] private MapUI _mapUI;
+        [SerializeField] private ControlsUI _controlsUI;
 
         [Header("Prefabs")]
         [SerializeField] private HealthBarUI _healthBarUIPrefab;
@@ -71,6 +72,8 @@ namespace KrillOrBeKrilled.UI {
                 this._gameManager.LevelStart.position.x,
                 this._gameManager.LevelEnd.position.x
             );
+
+            this._controlsUI.Initialize(this._gameManager.PlayerController);
 
             CoinManager.Instance.OnCoinAmountChanged.AddListener(this.OnCoinsUpdated);
             PauseManager.Instance.OnPauseToggled.AddListener(this.OnPauseToggled);

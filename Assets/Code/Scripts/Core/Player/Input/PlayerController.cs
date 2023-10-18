@@ -49,7 +49,9 @@ namespace KrillOrBeKrilled.Core.Player {
         private Dictionary<State, IPlayerState> _states;
 
         [Tooltip("Tracks when the player state changes.")]
-        internal UnityEvent<IPlayerState, Vector3> OnPlayerStateChanged { get; private set; }
+        public UnityEvent<IPlayerState, Vector3> OnPlayerStateChanged { get; private set; }
+        public UnityEvent OnPlayerGrounded { get; private set; }
+        public UnityEvent OnPlayerFalling { get; private set; }
 
         // ----------------- Command -----------------
         // Stateless commands; can be copied in the list of previous commands
@@ -67,7 +69,7 @@ namespace KrillOrBeKrilled.Core.Player {
 
         // ---------- Grounded & Coyote Time --------
         public bool IsGrounded { get; private set; } = true;
-        public bool IsFalling => this.RBody.velocity.y < -0.1f;
+        public bool IsFalling { get; private set; } = false;
 
         private const float CoyoteTimeDuration = 0.08f;
         private IEnumerator _coyoteTimeCoroutine = null;
@@ -122,6 +124,8 @@ namespace KrillOrBeKrilled.Core.Player {
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState, Vector3>();
             this.OnTrapDeployed = new UnityEvent<Trap>();
             this.OnSelectedTrapIndexChanged = new UnityEvent<Trap>();
+            this.OnPlayerGrounded = new UnityEvent();
+            this.OnPlayerFalling = new UnityEvent();
 
             _animator.SetBool("is_grounded", this.IsGrounded);
         }
@@ -148,6 +152,9 @@ namespace KrillOrBeKrilled.Core.Player {
 
             // Check Grounded
             this.UpdateGrounded();
+
+            // Check Falling
+            this.UpdateFalling();
 
             // Delegate behaviour to the current state
             this._state.Act(moveInput, jumpPressed, jumpPressedThisFrame);
@@ -517,12 +524,26 @@ namespace KrillOrBeKrilled.Core.Player {
                 return;
             }
 
-            if (becameGrounded && this._coyoteTimeCoroutine != null) {
-                this.StopCoroutine(this._coyoteTimeCoroutine);
-                this._coyoteTimeCoroutine = null;
+            if (becameGrounded) {
+                this.OnPlayerGrounded?.Invoke();
+                if (this._coyoteTimeCoroutine != null) {
+                    this.StopCoroutine(this._coyoteTimeCoroutine);
+                    this._coyoteTimeCoroutine = null;
+                }
             }
 
             this.SetGroundedStatus(grounded);
+        }
+
+        private void UpdateFalling() {
+            bool falling = this.RBody.velocity.y < -0.1f;
+            bool becameFalling = !this.IsFalling && falling;
+
+            if (becameFalling) {
+                this.OnPlayerFalling?.Invoke();
+            }
+
+            this.IsFalling = falling;
         }
 
         private IEnumerator CoyoteTimeCoroutine() {

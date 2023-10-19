@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2712812935163825547}
   - component: {fileID: 5931316982898380116}
   - component: {fileID: 6633526710175920506}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hot Air Filter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 1746895265372372950}
   - component: {fileID: 3300786230066892583}
   - component: {fileID: 2193056460249221245}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Bubbling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -339,7 +339,7 @@ Transform:
   m_GameObject: {fileID: 8431635930419567876}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.84, y: -1.16, z: -0.73}
+  m_LocalPosition: {x: 7.84, y: -1.16, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -459,7 +459,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6311759303802772288, guid: 8c823611921986e48986fbaaa282b939, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7313791761958765132, guid: 8c823611921986e48986fbaaa282b939, type: 3}
       propertyPath: m_RootOrder
@@ -557,7 +557,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6311759303802772288, guid: 8c823611921986e48986fbaaa282b939, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7313791761958765132, guid: 8c823611921986e48986fbaaa282b939, type: 3}
       propertyPath: m_RootOrder

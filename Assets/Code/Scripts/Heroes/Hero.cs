@@ -15,8 +15,9 @@ namespace KrillOrBeKrilled.Heroes {
     /// narrative sequences through <see cref="HeroMovement"/>.
     /// </summary>
     public class Hero : MonoBehaviour, IDamageable {
-        public HeroMovement HeroMovement => this._heroMovement;
-        private HeroMovement _heroMovement;
+        // public HeroMovement HeroMovement => this._heroMovement;
+        // private HeroMovement _heroMovement;
+        private BehaviourTree.BehaviourTree _heroBrain;
 
         private Animator _animator;
         private const int CoinsEarnedOnDeath = 2;
@@ -60,9 +61,10 @@ namespace KrillOrBeKrilled.Heroes {
         #region Unity Methods
         
         private void Awake() {
-            this.TryGetComponent(out this._heroMovement);
+            // this.TryGetComponent(out this._heroMovement);
+            this.TryGetComponent(out this._heroBrain);
             this.TryGetComponent(out this._animator);
-            this.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
+            // this.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
         }
         
         #endregion
@@ -76,7 +78,7 @@ namespace KrillOrBeKrilled.Heroes {
         #region IDamageable Implementations
         
         public void ApplySpeedPenalty(float penalty) {
-            this._heroMovement.SetSpeedPenalty(penalty);
+            this._heroBrain.UpdateData("SpeedPenalty", Mathf.Clamp(penalty, 0f, 1f));
         }
         
         /// <summary>
@@ -102,7 +104,7 @@ namespace KrillOrBeKrilled.Heroes {
         }
         
         public void ResetSpeedPenalty() {
-            this._heroMovement.ResetSpeedPenalty();
+            this._heroBrain.UpdateData("SpeedPenalty", 0f);
         }
         
         /// <summary>
@@ -124,7 +126,7 @@ namespace KrillOrBeKrilled.Heroes {
         }
 
         public void ThrowActorBack(float stunDuration, float throwForce) {
-            this._heroMovement.ThrowHeroBack(stunDuration, throwForce);
+            // this._heroMovement.ThrowHeroBack(stunDuration, throwForce);
         }
 
         #endregion
@@ -141,15 +143,22 @@ namespace KrillOrBeKrilled.Heroes {
             this.Type = heroData.Type;
             this._soundsController = soundsController;
 
-            this._heroMovement.Initialize(soundsController);
+            // this._heroMovement.Initialize(soundsController);
         }
         
         /// <summary>
-        /// Enables movement through <see cref="HeroMovement"/>.
+        /// Enables movement through <see cref="_heroBrain"/>.
         /// </summary>
         public void StartRunning() {
             this.StopAllCoroutines();
-            this._heroMovement.ToggleMoving(true);
+            this._heroBrain.UpdateData("IsMoving", true);
+        }
+        
+        /// <summary>
+        /// Disables movement through <see cref="_heroBrain"/>.
+        /// </summary>
+        public void StopRunning() {
+            this._heroBrain.UpdateData("IsMoving", false);
         }
         
         #endregion
@@ -166,20 +175,20 @@ namespace KrillOrBeKrilled.Heroes {
         /// </summary>
         /// <remarks> The coroutine is started by <see cref="EnterLevel"/>. </remarks>
         private IEnumerator EnterLevelAnimation() {
-            this._heroMovement.ToggleMoving(true);
+            this._heroBrain.UpdateData("IsMoving", true);
 
             yield return new WaitForSeconds(2f);
-
-            this._heroMovement.ToggleMoving(false);
+            
+            this._heroBrain.UpdateData("IsMoving", false);
         }
         
-        /// <summary>
-        /// Triggers hero death through <see cref="Die"/>.
-        /// </summary>
-        /// <remarks> Subscribed to the <see cref="HeroMovement.OnHeroIsStuck"/> event. </remarks>
-        private void OnHeroIsStuck(Vector3 pos) {
-            this.Die();
-        }
+        // /// <summary>
+        // /// Triggers hero death through <see cref="Die"/>.
+        // /// </summary>
+        // /// <remarks> Subscribed to the <see cref="HeroMovement.OnHeroIsStuck"/> event. </remarks>
+        // private void OnHeroIsStuck(Vector3 pos) {
+        //     this.Die();
+        // }
         
         #endregion
     }

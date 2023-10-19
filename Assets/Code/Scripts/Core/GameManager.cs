@@ -351,7 +351,7 @@ namespace KrillOrBeKrilled.Core {
             var newHero = Instantiate(heroPrefab, this._activeRespawnPoint.transform);
             newHero.Initialize(heroData, _heroSoundsController);
             newHero.OnHeroDied.AddListener(this.OnHeroDied);
-            newHero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
+            // newHero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 
             this._heroes.Add(newHero);
             this.OnHeroSpawned.Invoke(newHero);
@@ -549,7 +549,7 @@ namespace KrillOrBeKrilled.Core {
         /// </summary>
         private void StopAllHeroes() {
             foreach (var hero in this._heroes) {
-                hero.HeroMovement.ToggleMoving(false);
+                hero.StopRunning();
             }
         }
 

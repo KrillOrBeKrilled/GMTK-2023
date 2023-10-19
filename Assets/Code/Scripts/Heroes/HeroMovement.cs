@@ -101,11 +101,11 @@ namespace KrillOrBeKrilled.Heroes {
         
         #region Public Methods
         
-        /// <summary> Enables or disables the hero's ability to move. </summary>
-        /// <param name="isMoving"> The hero's new movement status. </param>
-        public void ToggleMoving(bool isMoving) {
-            this._isMoving = isMoving;
-        }
+        // /// <summary> Enables or disables the hero's ability to move. </summary>
+        // /// <param name="isMoving"> The hero's new movement status. </param>
+        // public void ToggleMoving(bool isMoving) {
+        //     this._isMoving = isMoving;
+        // }
         
         #endregion
         
@@ -128,22 +128,22 @@ namespace KrillOrBeKrilled.Heroes {
             this._speedPenalty = Mathf.Clamp(this._speedPenalty, 0f, 1f);
         }
         
-        /// <summary>
-        /// Resets the <see cref="_speedPenalty"/> to return the hero movement speed to normal.
-        /// </summary>
-        internal void ResetSpeedPenalty() {
-            this._speedPenalty = 0f;
-        }
+        // /// <summary>
+        // /// Resets the <see cref="_speedPenalty"/> to return the hero movement speed to normal.
+        // /// </summary>
+        // internal void ResetSpeedPenalty() {
+        //     this._speedPenalty = 0f;
+        // }
         
-        /// <summary>
-        /// Sets the <see cref="_speedPenalty"/> to reduce the hero movement speed.
-        /// </summary>
-        /// <param name="newPenalty"> The new speed penalty to limit hero movement. </param>
-        /// <remarks> The provided speed penalty is clamped between [0,1] as a percentage value. </remarks>
-        internal void SetSpeedPenalty(float newPenalty) {
-            this._speedPenalty = newPenalty;
-            this._speedPenalty = Mathf.Clamp(this._speedPenalty, 0f, 1f);
-        }
+        // /// <summary>
+        // /// Sets the <see cref="_speedPenalty"/> to reduce the hero movement speed.
+        // /// </summary>
+        // /// <param name="newPenalty"> The new speed penalty to limit hero movement. </param>
+        // /// <remarks> The provided speed penalty is clamped between [0,1] as a percentage value. </remarks>
+        // internal void SetSpeedPenalty(float newPenalty) {
+        //     this._speedPenalty = newPenalty;
+        //     this._speedPenalty = Mathf.Clamp(this._speedPenalty, 0f, 1f);
+        // }
 
         /// <summary>
         /// Applies a force along the negative x-axis and positive y-axis to the hero and stuns the hero.

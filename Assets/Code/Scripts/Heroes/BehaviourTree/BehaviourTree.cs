@@ -46,5 +46,20 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         protected abstract Node SetupTree();
         
         #endregion
+        
+        //========================================
+        // Internal Methods
+        //========================================
+        
+        #region Internal Methods
+
+        /// <summary>
+        /// Upserts the data in the root <see cref="Node"/> of this Behaviour Tree if such a root exists.
+        /// </summary>
+        internal void UpdateData(string key, object value) {
+            _root?.SetData(key, value);
+        }
+        
+        #endregion
     }
 }

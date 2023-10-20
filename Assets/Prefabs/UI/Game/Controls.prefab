@@ -268,6 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 682652d564cb45089eb2fa8bbf92b5d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _muteClickSfx: 1
   _onClickImmediate:
     m_PersistentCalls:
       m_Calls: []
@@ -388,6 +389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 682652d564cb45089eb2fa8bbf92b5d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _muteClickSfx: 1
   _onClickImmediate:
     m_PersistentCalls:
       m_Calls: []

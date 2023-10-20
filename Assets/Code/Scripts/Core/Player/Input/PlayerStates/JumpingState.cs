@@ -13,10 +13,10 @@ namespace KrillOrBeKrilled.Core.Player {
     public class JumpingState : IPlayerState {
         private readonly PlayerController _playerController;
 
-        private const float JumpStartForce = 20f;
+        private const float JumpStartForce = 15f;
         private const float JumpHoldForce = 1f;
-        private const float SoundInterval = 0.25f;
-        private const float JumpForceMaxDuration = 0.2f;
+        private const float SoundInterval = 0.15f;
+        private const float JumpForceMaxDuration = 0.35f;
 
         private float _jumpStartTime;
         private float _jumpSoundPlayTime;

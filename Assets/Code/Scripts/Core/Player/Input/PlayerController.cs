@@ -156,6 +156,11 @@ namespace KrillOrBeKrilled.Core.Player {
             // Check Falling
             this.UpdateFalling();
 
+            // Check trap deployment eligibility
+            if (!jumpPressed) {
+                this._trapController.SurveyTrapDeployment(this.IsGrounded, this._direction);
+            }
+
             // Delegate behaviour to the current state
             this._state.Act(moveInput, jumpPressed, jumpPressedThisFrame);
 
@@ -163,9 +168,6 @@ namespace KrillOrBeKrilled.Core.Player {
             if (this._stateChangedThisFrame) {
                 this._state.Act(moveInput, jumpPressed, jumpPressedThisFrame);
             }
-
-            // Check trap deployment eligibility
-            this._trapController.SurveyTrapDeployment(this.IsGrounded, this._direction);
 
             this._stateChangedThisFrame = false;
             base.FixedUpdate();

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using KrillOrBeKrilled.Cameras;
-using KrillOrBeKrilled.Core.Commands;
 using KrillOrBeKrilled.Core.Player;
 using KrillOrBeKrilled.Dialogue;
 using KrillOrBeKrilled.Environment;
@@ -11,7 +10,6 @@ using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Traps;
 using KrillOrBeKrilled.UGSAnalytics;
-using KrillOrBeKrilled.UI;
 using UnityEngine;
 using UnityEngine.Events;
 using Yarn.Unity;
@@ -29,7 +27,6 @@ namespace KrillOrBeKrilled.Core {
     /// other actors of the level to collect and send data. </remarks>
     public class GameManager : MonoBehaviour {
         [Header("References")]
-        [SerializeField] private GameUI _gameUI;
         [SerializeField] private PlayerManager _playerManager;
 
         [Header("Dialogue References")]
@@ -44,6 +41,13 @@ namespace KrillOrBeKrilled.Core {
         [Header("Level")]
         [SerializeField] private RespawnPoint _respawnPointPrefab;
         [SerializeField] private EndgameTarget _endgameTargetPrefab;
+
+        public PlayerManager PlayerManager => this._playerManager;
+        public PlayerController PlayerController => this._playerManager.PlayerController;
+        public TrapController TrapController => this._playerManager.TrapController;
+
+        public Transform LevelStart => this._firstRespawnPoint.transform;
+        public Transform LevelEnd => this._endgameTarget.transform;
 
         /// The instantiated endgameTargetPrefab.
         private EndgameTarget _endgameTarget;
@@ -69,7 +73,7 @@ namespace KrillOrBeKrilled.Core {
 
         private const float EndlessLevelHealthIncreaseRate = 1.5f;
 
-        private IEnumerator _waveSpawnCoroutine = null;
+        private IEnumerator _waveSpawnCoroutine;
 
         // ------------- Sound Effects ---------------
         private HeroSoundsController _heroSoundsController;
@@ -77,21 +81,22 @@ namespace KrillOrBeKrilled.Core {
         // ----------------- Events ------------------
         [Tooltip("Tracks when hero and UI data are set up and this manager sets up other critical gameplay system " +
                  "references.")]
-        internal UnityEvent OnSetupComplete { get; private set; }
+        public UnityEvent OnSetupComplete { get; private set; }
         [Tooltip("Tracks when the main gameplay loop begins.")]
-        internal UnityEvent OnStartLevel { get; private set; }
+        public UnityEvent OnStartLevel { get; private set; }
         [Tooltip("Tracks when the player beats the game.")]
-        internal UnityEvent<string> OnHenWon { get; private set; }
+        public UnityEvent<string> OnHenWon { get; private set; }
         [Tooltip("Tracks when the player loses the game.")]
-        internal UnityEvent<string> OnHenLost { get; private set; }
-        internal UnityEvent<Hero> OnHeroSpawned { get; private set; }
+        public UnityEvent<string> OnHenLost { get; private set; }
+        public UnityEvent<Hero> OnHeroSpawned { get; private set; }
+        public UnityEvent<UnityAction> OnSceneWillChange { get; private set; }
 
         //========================================
         // Unity Methods
         //========================================
-        
+
         #region Unity Methods
-        
+
         private void Awake() {
             TryGetComponent(out this._heroSoundsController);
 
@@ -100,10 +105,11 @@ namespace KrillOrBeKrilled.Core {
             this.OnHenWon = new UnityEvent<string>();
             this.OnHenLost = new UnityEvent<string>();
             this.OnHeroSpawned = new UnityEvent<Hero>();
+            this.OnSceneWillChange = new UnityEvent<UnityAction>();
         }
-        
+
         /// <remarks> Invokes the <see cref="OnSetupComplete"/> event. </remarks>
-        private void Start() {
+        private IEnumerator Start() {
             // Create a copy to avoid modifying source
             LevelData sourceData = LevelManager.Instance.GetActiveLevelData();
             this._levelData = ScriptableObject.CreateInstance<LevelData>();
@@ -125,18 +131,15 @@ namespace KrillOrBeKrilled.Core {
             this._activeRespawnPoint = this._respawnPoints.First();
             this._firstRespawnPoint = this._activeRespawnPoint;
 
-            this._gameUI.Initialize(OnSetupComplete, OnHenWon, OnHenLost, OnHeroSpawned,
-                this._playerManager.PlayerController.OnSelectedTrapIndexChanged,
-                this._playerManager.TrapController.Traps, OnStartLevel, SkipDialogue, this._playerManager.transform,
-                this._firstRespawnPoint.transform, this._endgameTarget.transform,
-                this._playerManager.PlayerController.SetTrap);
-
             this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
             this._playerManager.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
             this._playerManager.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
             this._playerManager.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
-            this._playerManager.PlayerController.Initialize(this);
 
+            // Wait for a frame so that all other scripts complete Start() method.
+            yield return null;
+
+            this._playerManager.PlayerController.Initialize(this);
             this.OnSetupComplete?.Invoke();
 
             if (this._levelData.Type == LevelData.LevelType.Story) {
@@ -147,17 +150,17 @@ namespace KrillOrBeKrilled.Core {
 
             PauseManager.Instance.SetIsPausable(true);
         }
-        
+
         #endregion
-        
+
         //========================================
         // Public Methods
         //========================================
-        
+
         #region Public Methods
-        
+
         #region Level Sequence
-        
+
         /// <summary>
         /// Triggers the sequence to make the hero enter the level.
         /// </summary>
@@ -166,7 +169,7 @@ namespace KrillOrBeKrilled.Core {
         public void EnterHero() {
             this._heroActor.EnterLevel();
         }
-        
+
         /// <summary>
         /// Spawns a new hero from the level data at the corresponding spawn point.
         /// </summary>
@@ -200,18 +203,25 @@ namespace KrillOrBeKrilled.Core {
             CoinManager.Instance.StartCoinEarning();
             this.OnStartLevel?.Invoke();
         }
-        
+
+        /// <summary>
+        /// Aborts the dialogue player if the dialogue is actively running and starts the level.
+        /// </summary>
+        public void SkipDialogue() {
+            this.StartCoroutine(this.SkipDialogueCoroutine());
+        }
+
         #endregion
-        
+
         #region Scene Management
-        
+
         /// <summary>
         /// Disables pause controls and loads the MainMenu scene.
         /// </summary>
         public void LoadMainMenu() {
             PauseManager.Instance.UnpauseGame();
             PauseManager.Instance.SetIsPausable(false);
-            this._gameUI.FadeInSceneCover(SceneNavigationManager.Instance.LoadLevelsScene);
+            this.OnSceneWillChange?.Invoke(SceneNavigationManager.Instance.LoadLevelsScene);
         }
 
         /// <summary>
@@ -227,27 +237,20 @@ namespace KrillOrBeKrilled.Core {
         public void ReloadThisLevel() {
             PauseManager.Instance.UnpauseGame();
             PauseManager.Instance.SetIsPausable(false);
-            this._gameUI.FadeInSceneCover(SceneNavigationManager.Instance.ReloadCurrentScene);
+            this.OnSceneWillChange?.Invoke(SceneNavigationManager.Instance.ReloadCurrentScene);
         }
-        
+
         #endregion
 
         #endregion
-        
+
         //========================================
         // Private Methods
         //========================================
-        
-        #region Private Methods
-        
-        #region Level Sequence
 
-        /// <summary>
-        /// Aborts the dialogue player if the dialogue is actively running and starts the level.
-        /// </summary>
-        private void SkipDialogue() {
-            this.StartCoroutine(this.SkipDialogueCoroutine());
-        }
+        #region Private Methods
+
+        #region Level Sequence
 
         /// <summary>
         /// Aborts the dialogue player if the dialogue is actively running and immediately focuses the camera
@@ -265,10 +268,11 @@ namespace KrillOrBeKrilled.Core {
             // Skip a frame to ensure all scripts have initialized and called Start()
             yield return null;
             this.StartLevel();
+
             this._waveSpawnCoroutine = this.SpawnNextWave();
             this.StartCoroutine(this._waveSpawnCoroutine);
         }
-        
+
         /// <summary>
         /// Skips the dialogue for the level.
         /// </summary>
@@ -298,7 +302,7 @@ namespace KrillOrBeKrilled.Core {
         #endregion
 
         #region Wave Spawning
-        
+
         /// <summary>
         /// Generates a new Queue of <see cref="WaveData"/> containing identical <see cref="WaveData"/> and
         /// <see cref="HeroData"/> to the previous Queue, but with scaled <see cref="HeroData.Health"/> values
@@ -332,7 +336,7 @@ namespace KrillOrBeKrilled.Core {
 
             this._lastWavesDataQueue = new Queue<WaveData>(this._nextWavesDataQueue);
         }
-        
+
         /// <summary>
         /// Instantiates a new hero according to the <see cref="HeroData.Type"/> at the
         /// <see cref="_activeRespawnPoint"/> and registers the hero in bookkeeping structures, event listeners,
@@ -357,7 +361,7 @@ namespace KrillOrBeKrilled.Core {
             this.OnHeroSpawned.Invoke(newHero);
             return newHero;
         }
-        
+
         /// <summary>
         /// Parses the next <see cref="WaveData"/> to spawn all the associated heroes in intervals denoted by the
         /// <see cref="WaveData.HeroSpawnDelayInSeconds"/>. Spawns the next wave if
@@ -395,7 +399,7 @@ namespace KrillOrBeKrilled.Core {
         }
 
         #endregion
-        
+
         #region UGSAnalytics
 
         /// <summary>
@@ -422,10 +426,10 @@ namespace KrillOrBeKrilled.Core {
             if (UGS_Analytics.Instance is null) {
                 return;
             }
-            
+
             UGS_Analytics.HeroDiedCustomEvent(hero.transform.position);
         }
-        
+
         /// <summary>
         /// Records analytics hero stuck data.
         /// </summary>
@@ -435,10 +439,10 @@ namespace KrillOrBeKrilled.Core {
             if (UGS_Analytics.Instance is null) {
                 return;
             }
-            
+
             UGS_Analytics.HeroIsStuckCustomEvent(pos);
         }
-        
+
         /// <summary>
         /// Ends the game and records analytics player death data if the player state is <see cref="GameOverState"/>.
         /// </summary>
@@ -446,7 +450,7 @@ namespace KrillOrBeKrilled.Core {
         /// <param name="pos"> The player's current position. </param>
         /// <remarks> Subscribed to the <see cref="PlayerController.OnPlayerStateChanged"/> event. </remarks>
         private void OnPlayerStateChanged(IPlayerState state, Vector3 pos) {
-            if (state is not GameOverState) {
+            if (state is not DeadState) {
                 return;
             }
 
@@ -458,7 +462,7 @@ namespace KrillOrBeKrilled.Core {
 
             UGS_Analytics.PlayerDeathByHeroCustomEvent(CoinManager.Instance.Coins, pos);
         }
-        
+
         /// <summary>
         /// Records analytics trap deployment data.
         /// </summary>
@@ -471,7 +475,7 @@ namespace KrillOrBeKrilled.Core {
 
             UGS_Analytics.DeployTrapCustomEvent(trap.gameObject.name);
         }
-        
+
         /// <summary>
         /// Records analytics trap switching data.
         /// </summary>
@@ -487,7 +491,7 @@ namespace KrillOrBeKrilled.Core {
         }
 
         #endregion
-        
+
         /// <summary>
         /// Disables the player input and hero movement, destroying the player GameObject, and triggers the loss UI.
         /// </summary>
@@ -503,7 +507,7 @@ namespace KrillOrBeKrilled.Core {
             this._dialogueRunner.Stop();
             this.HenLost(message);
         }
-        
+
         /// <summary>
         /// Disables the player input and wave spawner, and disables the hero movement before triggering the win UI.
         /// </summary>
@@ -519,7 +523,7 @@ namespace KrillOrBeKrilled.Core {
             this.StopAllHeroes();
             this.OnHenLost?.Invoke(endgameMessage);
         }
-        
+
         /// <summary>
         /// Disables and freezes player input and triggers the win UI.
         /// </summary>
@@ -530,12 +534,9 @@ namespace KrillOrBeKrilled.Core {
         /// Otherwise, stops recording the player input and creates a file for the recorded input. </p>
         /// </remarks>
         private void HenWon(string message) {
-            this._playerManager.PlayerController.DisablePlayerInput();
-            var freezeCommand = new FreezeCommand(this._playerManager.PlayerController);
-            this._playerManager.PlayerController.ExecuteCommand(freezeCommand);
             this.OnHenWon?.Invoke(message);
         }
-        
+
         /// <summary>
         /// Disables the player input and hero movement, and triggers the loss UI.
         /// </summary>

@@ -1,4 +1,6 @@
 using KrillOrBeKrilled.Core.Commands;
+using UnityEngine;
+using State = KrillOrBeKrilled.Core.Player.PlayerController.State;
 
 //*******************************************************************************************
 // MovingState
@@ -10,44 +12,46 @@ namespace KrillOrBeKrilled.Core.Player {
     /// </summary>
     public class MovingState : IPlayerState {
         // TODO: Adjust multiplier values here
-        private readonly float _stateSpeed;
+        private readonly PlayerController _playerController;
 
         //========================================
         // Public Methods
         //========================================
-        
+
         #region Public Methods
-        
-        /// <summary>
-        /// Constructor to set bookkeeping data related to this state to act on the player.
-        /// </summary>
-        /// <param name="stateSpeed"> The movement speed of the player to be executed in this state. </param>
-        public MovingState(float stateSpeed) {
-            this._stateSpeed = stateSpeed;
+
+        public MovingState(PlayerController playerController) {
+            this._playerController = playerController;
         }
 
         /// <inheritdoc cref="IPlayerState.Act"/>
-        /// <description> Executes the <see cref="MoveCommand"/>. </description>
-        public void Act(PlayerController playerController, float moveInput) {
-            // Create command and execute it
-            var command = new MoveCommand(playerController, moveInput);
-            playerController.ExecuteCommand(command);
-        }
+        /// <description> Executes the <see cref="MoveCommand"/>.</description>
+        public void Act(float moveInput, bool jumpPressed, bool jumpPressedThisFrame) {
+            // Check if need to change state
+            if (jumpPressedThisFrame) {
+                State nextState = this._playerController.IsGrounded ? State.Jumping : State.Gliding;
+                this._playerController.ChangeState(nextState);
+                return;
+            }
 
-        public float GetMovementSpeed() {
-            return this._stateSpeed;
+            if (Mathf.Approximately(moveInput, 0f)) {
+                this._playerController.ChangeState(State.Idle);
+                return;
+            }
+
+            // Create command and execute it
+            var command = new MoveCommand(this._playerController, moveInput);
+            this._playerController.ExecuteCommand(command);
         }
 
         public void OnEnter(IPlayerState prevState) {
-            // TODO: When the Player moves...what should happen? music? visual animations? Does it matter from which
-            // state?
+
         }
 
         public void OnExit(IPlayerState newState) {
-            // TODO: When the Player stops moving...what should happen? music? visual animations? Does
-            // it matter to which state?
+
         }
-        
+
         #endregion
     }
 }

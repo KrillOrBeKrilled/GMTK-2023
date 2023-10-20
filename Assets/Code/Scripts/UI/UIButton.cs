@@ -4,7 +4,6 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using KrillOrBeKrilled.Managers.Audio;
-using UnityEngine.Serialization;
 
 //*******************************************************************************************
 // UIButton
@@ -17,6 +16,8 @@ namespace KrillOrBeKrilled.UI {
 
     [RequireComponent(typeof(Image))]
     public class UIButton : MonoBehaviour, IPointerClickHandler {
+        [SerializeField] private bool _muteClickSfx;
+
         [Tooltip("Invoked as soon as the button is pressed.")]
         [SerializeField] private UnityEvent _onClickImmediate;
         [Tooltip("Invoked after the press animation is completed.")]
@@ -60,7 +61,9 @@ namespace KrillOrBeKrilled.UI {
             this._tweenSequence.SetEase(Ease.InOutSine);
             this._tweenSequence.Play();
 
-            AudioManager.Instance.PlayUIClick(this.gameObject);
+            if (!this._muteClickSfx) {
+                AudioManager.Instance.PlayUIClick(this.gameObject);
+            }
         }
 
         private void Awake() {

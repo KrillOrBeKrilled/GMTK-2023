@@ -7,6 +7,10 @@ namespace KrillOrBeKrilled.Heroes {
         [Header("Debug")]
         [Tooltip("Draws the field of view area in the scene view and highlights sighted objects.")]
         public bool Debug;
+        [Tooltip("Highlights the field of view area when there are sighted objects.")]
+        public bool ObjectCheck;
+        [Tooltip("Highlights the field of view area when the ground has been sighted.")]
+        public bool GroundCheck;
         [Tooltip("The layer of GameObjects to sight in the debug view.")]
         public LayerMask TargetMask;
         
@@ -20,7 +24,7 @@ namespace KrillOrBeKrilled.Heroes {
         public float OuterRadius = 6;
 
         [Tooltip("The angle of the field of view wedge area.")]
-        [Range(0, 180)]
+        [Range(45, 180)]
         public float FovDegree = 45;
         
         [Tooltip("The maximum number of targets this GameObject can denote within the field of view.")]
@@ -34,7 +38,7 @@ namespace KrillOrBeKrilled.Heroes {
         //========================================
         
         #region Unity Methods
-        
+
         private void OnDrawGizmos() {
             if (!Debug) {
                 return;
@@ -45,8 +49,18 @@ namespace KrillOrBeKrilled.Heroes {
             // Draw OverlapCircle boundaries
             Gizmos.color = Color.white;
             Gizmos.DrawWireSphere(Offset, OuterRadius);
+
+            var targets = new List<Collider2D>();
+            var hit = new RaycastHit2D();
+
+            var foundTarget = ObjectCheck && FOVContains(out targets, TargetMask);
+            var foundGround = GroundCheck && CheckForGround(out hit, TargetMask);
             
-            Gizmos.color = Handles.color = FOVContains(out var targets, TargetMask) ? Color.red : Color.magenta;
+            if (foundGround || foundTarget) {
+                Gizmos.color = Handles.color = Color.red;
+            } else {
+                Gizmos.color = Handles.color = Color.magenta;
+            }
 
             // Draw origin of the FOV wedge
             Gizmos.DrawSphere(Offset, 0.1f);
@@ -72,6 +86,10 @@ namespace KrillOrBeKrilled.Heroes {
             // Draw points for each target that lies inside the vision wedge
             foreach (var sightedTarget in targets) {
                 Gizmos.DrawSphere(sightedTarget.bounds.center - transform.position, .2f);
+            }
+
+            if (foundGround) {
+                Gizmos.DrawSphere(new Vector3(hit.point.x, hit.point.y, 0) - transform.position, .2f);
             }
         }
         
@@ -102,7 +120,7 @@ namespace KrillOrBeKrilled.Heroes {
                 
                 // Test that no other collider is obscuring the targeted collider
                 var hit = Physics2D.Raycast(eyeOrigin, (broadPhaseTarget.bounds.center - eyeOrigin).normalized, OuterRadius * 2f, layer);
-                if (hit.collider.gameObject != broadPhaseTarget.gameObject) {
+                if (hit && hit.collider.gameObject != broadPhaseTarget.gameObject) {
                     continue;
                 }
 
@@ -140,6 +158,22 @@ namespace KrillOrBeKrilled.Heroes {
             }
 
             return (targets.Count > 0);
+        }
+        
+        internal bool CheckForGround(out RaycastHit2D hitData, LayerMask layer) {
+            var eyeOrigin = Offset + transform.position;
+            
+            // Calculate directional vector to 45 degree angle to get maximum view of the landscape regardless of
+            // FovDegree
+            var p = Mathf.Cos((45 * Mathf.Deg2Rad) / 2);
+            var x = Mathf.Sqrt(1 - p * p);
+            
+            var vGroundCheckDir = new Vector3(p, -x, 0);
+
+            // Raycast as far as the FoV permits
+            hitData = Physics2D.Raycast(eyeOrigin, vGroundCheckDir, OuterRadius, layer);
+
+            return hitData && hitData.collider.gameObject.CompareTag("Ground");
         }
         
         #endregion

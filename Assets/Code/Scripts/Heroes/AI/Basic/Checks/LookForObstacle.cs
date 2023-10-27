@@ -16,7 +16,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
         }
         
         internal override NodeStatus Evaluate() {
-            Debug.Log("CanJump: " + (bool)GetData("CanJump"));
+            // Debug.Log("CanJump: " + (bool)GetData("CanJump"));
             
             // Abort jump logic if the hero is still falling
             if (!(bool)GetData("CanJump")) {
@@ -30,10 +30,10 @@ namespace KrillOrBeKrilled.Heroes.AI {
 
             // Check for pit data first because if a trap is never placed, the hero will never jump
             if (jumpStartPos != Vector3.zero) {
-                Debug.Log("jumpStartPos already logged");
+                // Debug.Log("jumpStartPos already logged");
                 return NodeStatus.SUCCESS;
             } else if (pitQueue.Count > 0) {
-                Debug.Log("Proceeding to approach target");
+                // Debug.Log("Proceeding to approach target");
                 // Only dequeue this when the jump is actually executed because traps can always be built in front
                 var pitData = pitQueue.Peek();
                 Parent.SetData("JumpLaunchPoint", pitData.Item1);

@@ -28,6 +28,10 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 // Debug.Log(prevGroundPos);
                 // Debug.Log(currGroundPos);
                 // Debug.Log(prevGroundPos.y - currGroundPos.y);
+                if (!(bool)GetData("CanJump")) {
+                    Parent.SetData("LastSeenGroundPos", (Vector3)groundHitData.point);
+                    return NodeStatus.SUCCESS;
+                }
 
                 if ((bool)GetData("IsTrackingPit")) {
                     // The pit has ended, so add the complete pit data to the PitQueue
@@ -41,7 +45,9 @@ namespace KrillOrBeKrilled.Heroes.AI {
 
                     var nextLedgePos = _groundTilemap.GetCellCenterWorld(tilePos);
                     nextLedgePos.y += 1.5f;
-                    // Debug.Log("Target jump position: " + nextLedgePos);
+                    
+                    Debug.Log("Launch point: " + ledgePos);
+                    Debug.Log("Target jump position: " + nextLedgePos);
                     Debug.Log("Push to Queue");
                     
                     pitQueue.Enqueue((ledgePos, nextLedgePos));
@@ -58,7 +64,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
                     // start tracking for a pit when there's a great disparity in the elevation
                     Parent.SetData("IsTrackingPit", true);
                     
-                    Debug.Log("Begin tracking pit");
+                    // Debug.Log("Begin tracking pit");
 
                     return NodeStatus.SUCCESS;
                 }
@@ -71,7 +77,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
                     var pitQueue = (Queue<(Vector3, Vector3)>)GetData("PitQueue");
                     var ledgePos = (Vector3)GetData("LastSeenGroundPos");
                     
-                    Debug.Log("Abort tracking enqueue");
+                    // Debug.Log("Abort tracking enqueue");
                     pitQueue.Enqueue((ledgePos, Vector3.zero));
                     
                     Parent.SetData("LastSeenGroundPos", Vector3.zero);
@@ -82,7 +88,11 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 }
 
                 // If the ground is not seen this frame, notify the system that a pit is coming up
-                Parent.SetData("IsTrackingPit", true);
+                // Note that the tracking can only be triggered when the hero is on the ground because otherwise the
+                // jumping will be registered as not seeing the ground and therefore assuming there's a pit
+                if ((bool)GetData("CanJump")) {
+                    Parent.SetData("IsTrackingPit", true);
+                }
             }
             
             return NodeStatus.SUCCESS;

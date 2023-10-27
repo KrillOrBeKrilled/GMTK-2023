@@ -39,16 +39,22 @@ namespace KrillOrBeKrilled.Heroes.AI {
             var heroTransform = transform;
             
             var jumping = new Sequence(new List<Node> {
-                new LookForPit(HeroSight, GroundTilemap, GroundToSight, ElevationDisparityThreshold),
                 new LookForObstacle(HeroSight, ObstaclesToSight),
                 new ApproachTarget(heroTransform, Rigidbody, AnimController, DashSpeed),
                 new DecideJumpForce(heroTransform, MinJumpForce, MaxJumpForce, JumpAngle, JumpMarginOfError, DashSpeed),
                 new Jump(Rigidbody, AnimController, SoundsController)
             });
+
+            var jumpAndFall = new Sequence(new List<Node> {
+                new LookForPit(HeroSight, GroundTilemap, GroundToSight, ElevationDisparityThreshold),
+                new Selector(new List<Node> {
+                    new Fall(heroTransform, Rigidbody, GroundToSight),
+                    jumping
+                })
+            });
             
             var root = new Selector(new List<Node> {
-                new Fall(heroTransform, Rigidbody, GroundToSight),
-                jumping,
+                jumpAndFall,
                 new Run(Rigidbody, AnimController, MovementSpeed),
                 new Idle(Rigidbody, AnimController)
             });
@@ -58,12 +64,13 @@ namespace KrillOrBeKrilled.Heroes.AI {
             root.SetData("YSpeedKey", YSpeedKey);
             root.SetData("IsMoving", true);
             root.SetData("SpeedPenalty", 0f);
-            root.SetData("CanJump", true);
             
-            jumping.SetData("PitQueue", new Queue<(Vector3, Vector3)>());
-            jumping.SetData("LastSeenGroundPos", Vector3.zero);
-            jumping.SetData("IsTrackingPit", false);
-            jumping.SetData("AbortPitTracking", false);
+            jumpAndFall.SetData("PitQueue", new Queue<(Vector3, Vector3)>());
+            jumpAndFall.SetData("CanJump", false);
+            jumpAndFall.SetData("LastSeenGroundPos", Vector3.zero);
+            jumpAndFall.SetData("IsTrackingPit", false);
+            jumpAndFall.SetData("AbortPitTracking", false);
+            
             jumping.SetData("JumpLaunchPoint", Vector3.zero);
             jumping.SetData("JumpLandPoint", Vector3.zero);
             jumping.SetData("JumpInitialMinHeight", Vector3.zero);

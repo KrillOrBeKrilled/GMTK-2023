@@ -58,6 +58,17 @@ namespace KrillOrBeKrilled.Heroes.AI {
             // Adjust the velocity depending on the elevation difference
             v0 -= (targetPos.y - heroPos.y) * 0.55f;
             
+            // Abort jump if the jumpForce is negligible
+            if (v0 < 1f) {
+                Parent.Parent.Parent.SetData("CanJump", false);
+                Parent.SetData("JumpLaunchPoint", Vector3.zero);
+                Parent.SetData("JumpLandPoint", Vector3.zero);
+                Parent.SetData("JumpInitialMinHeight", Vector3.zero);
+                Parent.SetData("JumpApexMinHeight", Vector3.zero);
+
+                return NodeStatus.FAILURE;
+            }
+            
             Parent.SetData("JumpForce", Mathf.Clamp(v0, _minJumpForce, _maxJumpForce));
             
             // Note that we will have to compare the maximum jumpForce between the initial velocity needed to clear the

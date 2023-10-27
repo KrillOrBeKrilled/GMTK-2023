@@ -18,14 +18,17 @@ namespace KrillOrBeKrilled.Heroes.AI {
         }
         
         internal override NodeStatus Evaluate() {
-            if (_rigidbody.velocity.y > 0.01f || !Physics2D.Raycast(_heroTransform.position, Vector2.down, 2f, _groundLayers)) {
+            // Check if the hero is currently on the ground
+            var hit = Physics2D.Raycast(_heroTransform.position, Vector2.down, 2f, _groundLayers);
+            
+            if (_rigidbody.velocity.y > 0.01f || !hit) {
                 return NodeStatus.SUCCESS;
+            } else {
+                // Hero is touching the ground
+                Parent.Parent.SetData("CanJump", true);
             }
 
-            // If the y velocity is near zero, then the hero is not falling
-            Parent.SetData("CanJump", true);
-            
-            Debug.Log("Set CanJump to true!");
+            // Debug.Log("Set CanJump to true!");
             return NodeStatus.FAILURE;
         }
     }

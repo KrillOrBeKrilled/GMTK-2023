@@ -31,7 +31,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             // Jump will be complete, no matter what so do all the dequeue stuff here
             pitQueue.Dequeue();
             
-            Parent.Parent.SetData("CanJump", false);
+            Parent.Parent.Parent.SetData("CanJump", false);
             Parent.SetData("JumpLaunchPoint", Vector3.zero);
             Parent.SetData("JumpLandPoint", Vector3.zero);
             Parent.SetData("JumpInitialMinHeight", Vector3.zero);

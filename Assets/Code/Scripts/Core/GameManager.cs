@@ -349,7 +349,7 @@ namespace KrillOrBeKrilled.Core {
             }
 
             var newHero = Instantiate(heroPrefab, this._activeRespawnPoint.transform);
-            newHero.Initialize(heroData, _heroSoundsController);
+            newHero.Initialize(heroData, _heroSoundsController, _playerManager.TrapController.GroundTilemap);
             newHero.OnHeroDied.AddListener(this.OnHeroDied);
             // newHero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 

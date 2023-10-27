@@ -3,45 +3,73 @@ using KrillOrBeKrilled.Heroes.BehaviourTree;
 using UnityEngine;
 
 namespace KrillOrBeKrilled.Heroes.AI {
-    public class BasicBT : BehaviourTree.BehaviourTree  {
+    public class BasicBT : HeroBT  {
         [Header("Debug")]
         public bool Debug = false;
         
-        // --------------- Animation -----------------
-        [Header("Animation")]
-        private Animator _animController;
-        private int _jumpKey = Animator.StringToHash("jump");
-        private int _xSpeedKey = Animator.StringToHash("xSpeed");
-        private int _ySpeedKey = Animator.StringToHash("ySpeed");
+        // ------------ External Systems -------------
+        [Header("External Systems")]
+
+        // --------------- Hero Sight ----------------
+        [Header("Eyesight")]
+        [SerializeField] internal LayerMask ObstaclesToSight;
+        [SerializeField] internal LayerMask GroundToSight;
 
         // ---------------- Movement -----------------
         [Header("Movement")]
-        private Rigidbody2D _rigidbody;
         [SerializeField] internal float MovementSpeed = 4f;
+        [SerializeField] internal float DashSpeed = 6f;
         
         // Examples
         // - 0.2 is 20% speed reduction
         // - 0.7 is 70% speed reduction
         [Tooltip("Clamped between [0,1] as a speed reduction percentage.")]
         private float _speedPenalty = 0f;
-
-        private void Awake() {
-            _animController = GetComponent<Animator>();
-            _rigidbody = GetComponent<Rigidbody2D>();
-        }
+        
+        // ---------------- Jumping ------------------
+        [Header("Jumps")]
+        [SerializeField] internal float MinJumpForce = 0f;
+        [SerializeField] internal float MaxJumpForce = 80f;
+        [Range(1, 89)]
+        [SerializeField] internal float JumpAngle = 88f;
+        [SerializeField] internal float JumpMarginOfError = 5f;
+        [SerializeField] internal float ElevationDisparityThreshold = 5f;
 
         protected override Node SetupTree() {
-            var root = new Selector(new List<Node> {
-                new Run(_rigidbody, _animController, MovementSpeed),
-                new Idle(_rigidbody, _animController)
+            var heroTransform = transform;
+            
+            var jumping = new Sequence(new List<Node> {
+                new LookForPit(HeroSight, GroundTilemap, GroundToSight, ElevationDisparityThreshold),
+                new LookForObstacle(HeroSight, ObstaclesToSight),
+                new ApproachTarget(heroTransform, Rigidbody, AnimController, DashSpeed),
+                new DecideJumpForce(heroTransform, MinJumpForce, MaxJumpForce, JumpAngle, JumpMarginOfError, DashSpeed),
+                new Jump(Rigidbody, AnimController, SoundsController)
             });
             
-            root.SetData("JumpKey", _jumpKey);
-            root.SetData("XSpeedKey", _xSpeedKey);
-            root.SetData("YSpeedKey", _ySpeedKey);
+            var root = new Selector(new List<Node> {
+                new Fall(heroTransform, Rigidbody, GroundToSight),
+                jumping,
+                new Run(Rigidbody, AnimController, MovementSpeed),
+                new Idle(Rigidbody, AnimController)
+            });
             
+            root.SetData("JumpKey", JumpKey);
+            root.SetData("XSpeedKey", XSpeedKey);
+            root.SetData("YSpeedKey", YSpeedKey);
             root.SetData("IsMoving", true);
             root.SetData("SpeedPenalty", 0f);
+            root.SetData("CanJump", true);
+            
+            jumping.SetData("PitQueue", new Queue<(Vector3, Vector3)>());
+            jumping.SetData("LastSeenGroundPos", Vector3.zero);
+            jumping.SetData("IsTrackingPit", false);
+            jumping.SetData("AbortPitTracking", false);
+            jumping.SetData("JumpLaunchPoint", Vector3.zero);
+            jumping.SetData("JumpLandPoint", Vector3.zero);
+            jumping.SetData("JumpInitialMinHeight", Vector3.zero);
+            jumping.SetData("JumpApexMinHeight", Vector3.zero);
+            jumping.SetData("JumpApexMaxHeight", Vector3.zero);
+            jumping.SetData("JumpForce", -1f);
 
             return root;
         }

@@ -2,7 +2,7 @@ using KrillOrBeKrilled.Heroes.BehaviourTree;
 using UnityEngine;
 
 //*******************************************************************************************
-// Idle
+// Run
 //*******************************************************************************************
 namespace KrillOrBeKrilled.Heroes.AI {
     public class Run : Node {
@@ -20,11 +20,9 @@ namespace KrillOrBeKrilled.Heroes.AI {
         
         internal override NodeStatus Evaluate() {
             if (!(bool)GetData("IsMoving")) {
-                this._rigidbody.velocity = Vector2.zero;
+                // this._rigidbody.velocity = Vector2.zero;
                 return NodeStatus.FAILURE;
             }
-            
-            Debug.Log("Running");
             
             var speed = this._movementSpeed * (1f - (float)GetData("SpeedPenalty"));
             this._rigidbody.velocity = new Vector2(speed, this._rigidbody.velocity.y);

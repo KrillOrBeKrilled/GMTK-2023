@@ -1,9 +1,11 @@
 using KrillOrBeKrilled.Common.Interfaces;
 using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Model;
+using KrillOrBeKrilled.Heroes.AI;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Tilemaps;
 
 //*******************************************************************************************
 // Hero
@@ -17,7 +19,7 @@ namespace KrillOrBeKrilled.Heroes {
     public class Hero : MonoBehaviour, IDamageable {
         // public HeroMovement HeroMovement => this._heroMovement;
         // private HeroMovement _heroMovement;
-        private BehaviourTree.BehaviourTree _heroBrain;
+        private HeroBT _heroBrain;
 
         private Animator _animator;
         private const int CoinsEarnedOnDeath = 2;
@@ -138,12 +140,12 @@ namespace KrillOrBeKrilled.Heroes {
             this.StartCoroutine(this.EnterLevelAnimation());
         }
         
-        public void Initialize(HeroData heroData, HeroSoundsController soundsController) {
+        public void Initialize(HeroData heroData, HeroSoundsController soundsController, Tilemap groundTilemap) {
             this.Health = heroData.Health;
             this.Type = heroData.Type;
             this._soundsController = soundsController;
 
-            // this._heroMovement.Initialize(soundsController);
+            this._heroBrain.Initialize(soundsController, groundTilemap);
         }
         
         /// <summary>

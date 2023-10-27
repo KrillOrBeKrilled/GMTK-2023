@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -30,6 +31,8 @@ namespace KrillOrBeKrilled.Heroes {
         [Tooltip("The maximum number of targets this GameObject can denote within the field of view.")]
         public int TargetThreshold = 10;
         
+        public float LineStuff = 6;
+        
         private float FovRadians => FovDegree * Mathf.Deg2Rad;
         private float AngThreshold => Mathf.Cos(FovRadians / 2);
 
@@ -43,7 +46,12 @@ namespace KrillOrBeKrilled.Heroes {
             if (!Debug) {
                 return;
             }
+            
+            Gizmos.color = Color.green;
+            // Draw the raycast to check when the hero touches the ground
+            Gizmos.DrawLine(transform.position, transform.position + (Vector3.down * LineStuff));
 
+            // Perform calculations in local space
             Gizmos.matrix = Handles.matrix = transform.localToWorldMatrix;
             
             // Draw OverlapCircle boundaries
@@ -124,7 +132,6 @@ namespace KrillOrBeKrilled.Heroes {
                     continue;
                 }
 
-                var isSighted = false;
                 var bounds = broadPhaseTarget.bounds;
                 var targetPos = bounds.center;
                 var colliderExtents = bounds.extents;
@@ -154,8 +161,12 @@ namespace KrillOrBeKrilled.Heroes {
                     }
 
                     targets.Add(broadPhaseTarget);
+                    break;
                 }
             }
+            
+            // Once the targets have been sighted, order them by approximate distance from this GameObject
+            targets = targets.OrderBy(target => (eyeOrigin - target.bounds.center).sqrMagnitude).ToList();
 
             return (targets.Count > 0);
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace KrillOrBeKrilled
 {
-    public class SearchForHen : MonoBehaviour
+    public class LookForHen : MonoBehaviour
     {
         // Start is called before the first frame update
         void Start()

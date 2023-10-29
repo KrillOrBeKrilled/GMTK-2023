@@ -30,6 +30,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
 
             // If no jump endpoint has been defined, the hero will jump with maximum force
             if (targetPos == Vector3.zero) {
+                Debug.Log("No target jump force registered!");
                 Parent.SetData("JumpForce", _maxJumpForce);
                 return NodeStatus.SUCCESS;
             } else {
@@ -56,20 +57,13 @@ namespace KrillOrBeKrilled.Heroes.AI {
                      (Mathf.Sin(jumpAngle) * (distance / _dashSpeed));
             
             // Adjust the velocity depending on the elevation difference
-            v0 -= (targetPos.y - heroPos.y) * 0.55f;
-            
-            // Abort jump if the jumpForce is negligible
-            if (v0 < 1f) {
-                Parent.Parent.Parent.SetData("CanJump", false);
-                Parent.SetData("JumpLaunchPoint", Vector3.zero);
-                Parent.SetData("JumpLandPoint", Vector3.zero);
-                Parent.SetData("JumpInitialMinHeight", Vector3.zero);
-                Parent.SetData("JumpApexMinHeight", Vector3.zero);
+            v0 -= (targetPos.y - heroPos.y) * 0.55f; // 0.55f
 
-                return NodeStatus.FAILURE;
-            }
-            
             Parent.SetData("JumpForce", Mathf.Clamp(v0, _minJumpForce, _maxJumpForce));
+            
+            // Debug.Log("Target: " + targetPos);
+            // Debug.Log("Launch position: " + heroPos);
+            // Debug.Log("Jump force: " + v0);
             
             // Note that we will have to compare the maximum jumpForce between the initial velocity needed to clear the
             // tallest trap and the target point to reach

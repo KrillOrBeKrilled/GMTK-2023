@@ -23,12 +23,11 @@ namespace KrillOrBeKrilled.Heroes.AI {
             
             if (_rigidbody.velocity.y > 0.01f || !hit) {
                 return NodeStatus.SUCCESS;
-            } else {
-                // Hero is touching the ground
-                Parent.Parent.SetData("CanJump", true);
             }
-
-            // Debug.Log("Set CanJump to true!");
+            
+            // Hero is touching the ground
+            // Parent.Parent.SetData("CanJump", true);
+            
             return NodeStatus.FAILURE;
         }
     }

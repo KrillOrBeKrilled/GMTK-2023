@@ -16,21 +16,17 @@ namespace KrillOrBeKrilled.Heroes.AI {
         }
         
         internal override NodeStatus Evaluate() {
-            // Debug.Log("CanJump: " + (bool)GetData("CanJump"));
-            
             // Abort jump logic if the hero is still falling
-            if (!(bool)GetData("CanJump")) {
-                return NodeStatus.FAILURE;
-            }
+            // if (!(bool)GetData("CanJump")) {
+            //     return NodeStatus.FAILURE;
+            // }
             
             var jumpStartPos = (Vector3)GetData("JumpLaunchPoint");
             var pitQueue = (Queue<(Vector3, Vector3)>)GetData("PitQueue");
             
             // Debug.Log("PitQueue count: " + pitQueue.Count);
-
-            // Check for pit data first because if a trap is never placed, the hero will never jump
+            
             if (jumpStartPos != Vector3.zero) {
-                // Debug.Log("jumpStartPos already logged");
                 return NodeStatus.SUCCESS;
             } else if (pitQueue.Count > 0) {
                 // Debug.Log("Proceeding to approach target");
@@ -38,6 +34,9 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 var pitData = pitQueue.Peek();
                 Parent.SetData("JumpLaunchPoint", pitData.Item1);
                 Parent.SetData("JumpLandPoint", pitData.Item2);
+                
+                Debug.Log("Set launch position to track: " + pitData.Item1);
+                Debug.Log("Set land position to track: " + pitData.Item2);
                 
                 return NodeStatus.SUCCESS;
             }

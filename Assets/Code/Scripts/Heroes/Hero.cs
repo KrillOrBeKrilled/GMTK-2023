@@ -20,6 +20,7 @@ namespace KrillOrBeKrilled.Heroes {
         // public HeroMovement HeroMovement => this._heroMovement;
         // private HeroMovement _heroMovement;
         private HeroBT _heroBrain;
+        private FieldOfView _heroSight;
 
         private Animator _animator;
         private const int CoinsEarnedOnDeath = 2;
@@ -65,6 +66,7 @@ namespace KrillOrBeKrilled.Heroes {
         private void Awake() {
             // this.TryGetComponent(out this._heroMovement);
             this.TryGetComponent(out this._heroBrain);
+            this.TryGetComponent(out this._heroSight);
             this.TryGetComponent(out this._animator);
             // this.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
         }
@@ -146,6 +148,7 @@ namespace KrillOrBeKrilled.Heroes {
             this._soundsController = soundsController;
 
             this._heroBrain.Initialize(soundsController, groundTilemap);
+            this._heroSight.Initialize(groundTilemap);
         }
         
         /// <summary>

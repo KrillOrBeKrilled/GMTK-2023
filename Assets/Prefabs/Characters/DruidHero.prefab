@@ -221,9 +221,9 @@ MonoBehaviour:
     m_Bits: 512
   MovementSpeed: 4
   DashSpeed: 8
-  MinJumpForce: 0
+  MinJumpForce: 1.5
   MaxJumpForce: 80
-  MaxJumpAngle: 76
+  JumpAngle: 88
   JumpMarginOfError: 5
   ElevationDisparityThreshold: 2.2
 --- !u!114 &5626127196762350909
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15b2b0018dfc75944b8bd1b5130c145a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Debug: 1
+  Debug: 0
   ObjectCheck: 1
   GroundCheck: 1
   TargetMask:

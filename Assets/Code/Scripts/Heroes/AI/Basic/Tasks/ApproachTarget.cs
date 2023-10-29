@@ -27,27 +27,23 @@ namespace KrillOrBeKrilled.Heroes.AI {
             var targetPos = (Vector3)GetData("JumpLaunchPoint");
             var pitQueue = (Queue<(Vector3, Vector3)>)GetData("PitQueue");
 
-            // // TODO: If the hero gets dangerously close to a pit that hasn't been fully mapped out, emergency push
-            // // to the PitQueue with unfinished data -> Update "AbortPitTracking"
-            // // Pushing the pit track data should get the LookForObstacle script to update the next jump point right 
-            // // away, so DecideJumpForce would know
-            // if (targetPos.x - heroPos.x < 1f) {
-            //     Parent.SetData("AbortPitTracking", true);
-            // }
-
-            if (targetPos.x - heroPos.x < 0.5f) {
+            // Ensure the hero is generally around the same position as the launch point
+            if (Mathf.Abs(targetPos.x - heroPos.x) < 0.5f && Mathf.Abs(targetPos.y - heroPos.y) < 2f) {
                 // It's jumping time!
+                Debug.Log("Prepare to jump!");
                 return NodeStatus.SUCCESS;
             }
             
+            // If the hero passes the target point, forget it and switch to another target the next frame
             if (targetPos.x < heroPos.x) {
-                // For any reason, the hero walked past the jump point
-                Debug.Log("Dashed past the target!");
-                Debug.Log("Target: " + targetPos);
-                Debug.Log("Hero transform: " + heroPos);
+                Parent.SetData("JumpLaunchPoint", Vector3.zero);
+                Parent.SetData("JumpLandPoint", Vector3.zero);
+                Parent.SetData("JumpInitialMinHeight", Vector3.zero);
+                Parent.SetData("JumpApexMinHeight", Vector3.zero);
+
                 return NodeStatus.FAILURE;
             }
-            
+
             var speed = this._dashSpeed * (1f - (float)GetData("SpeedPenalty"));
             this._rigidbody.velocity = new Vector2(speed, this._rigidbody.velocity.y);
 

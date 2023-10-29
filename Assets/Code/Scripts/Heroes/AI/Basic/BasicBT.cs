@@ -46,7 +46,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             });
 
             var jumpAndFall = new Sequence(new List<Node> {
-                new LookForPit(HeroSight, GroundTilemap, GroundToSight, ElevationDisparityThreshold),
+                new LookForPit(heroTransform, HeroSight, GroundToSight),
                 new Selector(new List<Node> {
                     new Fall(heroTransform, Rigidbody, GroundToSight),
                     jumping
@@ -68,6 +68,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             jumpAndFall.SetData("PitQueue", new Queue<(Vector3, Vector3)>());
             jumpAndFall.SetData("CanJump", false);
             jumpAndFall.SetData("LastSeenGroundPos", Vector3.zero);
+            jumpAndFall.SetData("LastSeenLedge", Vector3.zero);
             jumpAndFall.SetData("IsTrackingPit", false);
             jumpAndFall.SetData("AbortPitTracking", false);
             

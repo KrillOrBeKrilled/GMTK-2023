@@ -10,16 +10,14 @@ namespace KrillOrBeKrilled.Heroes.AI {
         private Transform _heroTransform;
         private float _maxJumpForce, _minJumpForce; 
         private float _jumpAngle;
-        private float _jumpErrorMargin;
         
         private float _dashSpeed;
         
-        public DecideJumpForce(Transform heroTransform, float minJumpForce, float maxJumpForce, float jumpAngle, float jumpErrorMargin, float dashSpeed) {
+        public DecideJumpForce(Transform heroTransform, float minJumpForce, float maxJumpForce, float jumpAngle, float dashSpeed) {
             _heroTransform = heroTransform;
             _maxJumpForce = maxJumpForce;
             _minJumpForce = minJumpForce;
             _jumpAngle = jumpAngle;
-            _jumpErrorMargin = jumpErrorMargin;
 
             _dashSpeed = dashSpeed;
         }
@@ -27,39 +25,68 @@ namespace KrillOrBeKrilled.Heroes.AI {
         internal override NodeStatus Evaluate() {
             var targetPos = (Vector3)GetData("JumpLandPoint");
             var launchPos = (Vector3)GetData("JumpLaunchPoint");
+            
+            // Debug.Log("Jumping to: " + targetPos);
+            // Debug.Log("From: " + launchPos);
 
             // If no jump endpoint has been defined, the hero will jump with maximum force
             if (targetPos == Vector3.zero) {
                 Debug.Log("No target jump force registered!");
-                Parent.SetData("JumpForce", _maxJumpForce);
+                Parent.SetData("JumpAngle", new Vector3(_dashSpeed, 0, 0));
                 return NodeStatus.SUCCESS;
-            } else {
-                // TODO: There's always some margin of error in jumping
-                // targetPos.x = Random.Range(targetPos.x - _jumpErrorMargin, targetPos.x + _jumpErrorMargin);
             }
 
             var heroPos = _heroTransform.position;
-            var initialMinHeight = (Vector3)GetData("JumpInitialMinHeight");
-            var totalMinHeight = (Vector3)GetData("JumpApexMinHeight");
-            
-            var jumpAngle = _jumpAngle * Mathf.Deg2Rad;
-            var gravity = Physics.gravity.magnitude;
-            
-            // Formula retrieved by: 
-            // 1. Time in the air in the y-direction equation
-            // => (target y) = (initial y) + (v0 * sin(jumpAngle) * t) - 1/2gt^2, where v0 = initial velocity
-            // 2. Solve for the time in the air in the x-direction -> _dashSpeed is the velocity in the x-direction
-            // => t = (distance) / (_dashSpeed)
-            // 3. Substitute #2 back into #1 and solve for v0
-            
-            var distance = targetPos.x - heroPos.x;
-            var v0 = (targetPos.y - heroPos.y + (0.5f * gravity * Mathf.Pow(distance / _dashSpeed, 2))) /
-                     (Mathf.Sin(jumpAngle) * (distance / _dashSpeed));
-            
-            // Adjust the velocity depending on the elevation difference
-            v0 -= (targetPos.y - heroPos.y) * 0.55f; // 0.55f
+            var distance = targetPos.x - launchPos.x;
 
-            Parent.SetData("JumpForce", Mathf.Clamp(v0, _minJumpForce, _maxJumpForce));
+            // TODO: Have different formulas for jumping to higher heights and to lower heights
+            Vector3 initialVelocity;
+            var gravity = Physics.gravity.magnitude * 3f;
+            var elevationDifference = targetPos.y - launchPos.y;
+
+            if (elevationDifference > 1f && distance < 2.5f || distance > 5.5f) {
+                var jumpApex = targetPos.y < launchPos.y
+                    ? new Vector3(
+                        (distance - 6.35f) * 0.34f + 1.5f,
+                        launchPos.y + (distance - 6.35f) * 0.02f + Mathf.Abs(1 / elevationDifference) * ((distance - 6.35f) * 0.4f + 1.4f),
+                        0
+                    )
+                    : new Vector3(
+                        distance * 0.5f,
+                        elevationDifference + elevationDifference * 0.1f + distance * 0.32f + 2.5f,
+                        0
+                    );
+                
+                Debug.Log("ElevationDifference: " + elevationDifference);
+                Debug.Log("Distance: " + distance);
+
+                var jumpAngle = Mathf.Asin(jumpApex.normalized.y);
+
+                // Use Toricelli's formula to get initial velocity to reach the apex
+                var v0 = Mathf.Sqrt(2 * gravity * Mathf.Max(0, jumpApex.y));
+                v0 = Mathf.Max(_minJumpForce, v0);
+
+                initialVelocity = new Vector3(v0 * Mathf.Cos(jumpAngle), v0 * Mathf.Sin(jumpAngle), 0);
+            } else {
+                Debug.Log("Heighty jump");
+                var jumpAngle = _jumpAngle * Mathf.Deg2Rad;
+                
+                // Tune jump height
+                targetPos.y += elevationDifference * 2f + distance * 2f;
+                
+                // Formula retrieved by: 
+                // 1. Time in the air in the y-direction equation
+                // => (target y) = (initial y) + (v0 * sin(jumpAngle) * t) - 1/2gt^2, where v0 = initial velocity
+                // 2. Solve for the time in the air in the x-direction -> _dashSpeed is the velocity in the x-direction
+                // => t = (distance) / (_dashSpeed)
+                // 3. Substitute #2 back into #1 and solve for v0
+                var v0 = (targetPos.y - heroPos.y + 0.5f * gravity * (distance / _dashSpeed * distance / _dashSpeed)) /
+                         (Mathf.Sin(jumpAngle) * (distance / _dashSpeed));
+
+                initialVelocity = new Vector3(_dashSpeed, Mathf.Max(_minJumpForce, v0) * Mathf.Sin(jumpAngle), 0);
+            }
+            
+            Parent.SetData("JumpAngle", initialVelocity);
             
             // Debug.Log("Target: " + targetPos);
             // Debug.Log("Launch position: " + heroPos);

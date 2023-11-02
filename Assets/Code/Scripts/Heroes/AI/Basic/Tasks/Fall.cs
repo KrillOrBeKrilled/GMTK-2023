@@ -21,12 +21,9 @@ namespace KrillOrBeKrilled.Heroes.AI {
             // Check if the hero is currently on the ground
             var hit = Physics2D.Raycast(_heroTransform.position, Vector2.down, 2f, _groundLayers);
             
-            if (_rigidbody.velocity.y > 0.01f || !hit) {
+            if (_rigidbody.velocity.y > 0.1f || !hit) {
                 return NodeStatus.SUCCESS;
             }
-            
-            // Hero is touching the ground
-            // Parent.Parent.SetData("CanJump", true);
             
             return NodeStatus.FAILURE;
         }

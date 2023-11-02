@@ -104,7 +104,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 3
@@ -221,11 +221,11 @@ MonoBehaviour:
     m_Bits: 512
   MovementSpeed: 4
   DashSpeed: 6
-  MinJumpForce: 1.5
-  MaxJumpForce: 20
-  JumpAngle: 88
+  MinJumpForce: 5
+  MaxJumpForce: 80
+  JumpAngle: 89
   JumpMarginOfError: 5
-  ElevationDisparityThreshold: 1
+  ElevationDisparityThreshold: 0
 --- !u!114 &-3164917331191428471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,17 +238,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15b2b0018dfc75944b8bd1b5130c145a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Debug: 0
-  ObjectCheck: 1
-  GroundCheck: 1
+  Debug: 1
+  ObjectCheck: 0
+  PitCheck: 1
   TargetMask:
     serializedVersion: 2
     m_Bits: 640
   Offset: {x: 0.3, y: 0.45, z: 0}
   InnerRadius: 0
-  OuterRadius: 17
+  OuterRadius: 40
   FovDegree: 91
   TargetThreshold: 10
+  pitOptionDistanceThreshold: 0
   LineStuff: 1.937
 --- !u!114 &786636109395665214
 MonoBehaviour:

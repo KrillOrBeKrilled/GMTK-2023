@@ -41,7 +41,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             var jumping = new Sequence(new List<Node> {
                 new LookForObstacle(HeroSight, ObstaclesToSight),
                 new ApproachTarget(heroTransform, Rigidbody, AnimController, DashSpeed),
-                new DecideJumpForce(heroTransform, MinJumpForce, MaxJumpForce, JumpAngle, JumpMarginOfError, DashSpeed),
+                new DecideJumpForce(heroTransform, MinJumpForce, MaxJumpForce, JumpAngle, DashSpeed),
                 new Jump(Rigidbody, AnimController, SoundsController)
             });
 
@@ -65,7 +65,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             root.SetData("IsMoving", true);
             root.SetData("SpeedPenalty", 0f);
             
-            jumpAndFall.SetData("PitQueue", new Queue<(Vector3, Vector3)>());
+            jumpAndFall.SetData("PitList", new List<(Vector3, Vector3)>());
             jumpAndFall.SetData("CanJump", false);
             jumpAndFall.SetData("LastSeenGroundPos", Vector3.zero);
             jumpAndFall.SetData("LastSeenLedge", Vector3.zero);
@@ -78,6 +78,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             jumping.SetData("JumpApexMinHeight", Vector3.zero);
             jumping.SetData("JumpApexMaxHeight", Vector3.zero);
             jumping.SetData("JumpForce", -1f);
+            jumping.SetData("JumpAngle", Vector3.zero);
 
             return root;
         }

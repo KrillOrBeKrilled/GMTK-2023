@@ -12,7 +12,7 @@ namespace KrillOrBeKrilled.Heroes {
         [Tooltip("Highlights the field of view area when there are sighted objects.")]
         public bool ObjectCheck;
         [Tooltip("Highlights the field of view area when the ground has been sighted.")]
-        public bool GroundCheck;
+        public bool PitCheck;
         [Tooltip("The layer of GameObjects to sight in the debug view.")]
         public LayerMask TargetMask;
         
@@ -31,6 +31,10 @@ namespace KrillOrBeKrilled.Heroes {
         
         [Tooltip("The maximum number of targets this GameObject can denote within the field of view.")]
         public int TargetThreshold = 10;
+
+        [Tooltip("The minimum distance required between this GameObject and the target land point to consider as a " +
+                 "viable option to jump past a pit.")]
+        public float pitOptionDistanceThreshold;
         
         public float LineStuff = 6;
         
@@ -65,7 +69,7 @@ namespace KrillOrBeKrilled.Heroes {
             var pitEndpoints = new List<Vector2>();
 
             var foundTarget = ObjectCheck && FOVContains(out targets, TargetMask);
-            var foundGround = GroundCheck && CheckForPit(out var pitOptions, out hit, out pitEndpoints, TargetMask);
+            var foundGround = PitCheck && CheckForPit(out var pitOptions, out hit, out pitEndpoints, TargetMask);
             
             if (foundGround || foundTarget) {
                 Gizmos.color = Handles.color = Color.red;
@@ -187,8 +191,6 @@ namespace KrillOrBeKrilled.Heroes {
             pitEndpoints = new List<Vector2>();
             var eyeOrigin = Offset + transform.position;
             
-            // Calculate directional vector to 45 degree angle to get maximum view of the landscape regardless of
-            // FovDegree
             var p = AngThreshold;
             var x = Mathf.Sqrt(1 - p * p);
             
@@ -203,33 +205,39 @@ namespace KrillOrBeKrilled.Heroes {
             }
             
             // Sometimes the point is on the edge and tracks the wrong tile, so slightly adjust the position
-            var hitTilePos = hitData.point;
+            var sightedGroundPos = hitData.point;
+            var hitTilePos = sightedGroundPos;
             hitTilePos.y -= 0.5f;
             var tilePos = _groundTilemap.WorldToCell(hitTilePos);
             tilePos.x += 1;
 
-            // Peer down the pit for the extent of the FoV radius left
+            if (_groundTilemap.GetTile(tilePos)) {
+                pitOptions = 0;
+                return false;
+            }
+            
+            var vBottomDir = new Vector3(p, -x, 0);
+            var vBottomOuter = vBottomDir * OuterRadius;
+            
             pitOptions = 0;
-            var remainingSightDepth = Mathf.Abs((int)(eyeOrigin.y - OuterRadius - hitData.point.y));
-            var remainingSightExtent = eyeOrigin.x + OuterRadius - hitData.point.x;
+            var tileLedgeHeight = tilePos.y;
+            var tileHeightDistance = Mathf.Abs((int)(vBottomOuter.y - eyeOrigin.y));
+            var tilesToGround = Mathf.Abs((int)(eyeOrigin.y - sightedGroundPos.y));
+            var remainingSightExtent = eyeOrigin.x + OuterRadius - sightedGroundPos.x;
             var lastPitEndpoint = Vector3.zero;
             
-            for (var i = 0; i < remainingSightDepth; i++) {
-                if (_groundTilemap.GetTile(tilePos)) {
-                    if (i < 1) {
-                        // There is no ledge, given this tile is directly to the right and not null
-                        pitOptions = 0;
-                        return false;
-                    }
-                    
-                    // The bottom has been reached, so the pit no longer needs to be traced
-                    pitEndpoints.Add(_groundTilemap.GetCellCenterWorld(tilePos));
-                    pitOptions++;
-                    break;
+            var currTilePos = tilePos;
+            currTilePos.y += tileHeightDistance + tilesToGround;
+            
+            // Search for the closest platform above the ground the GameObject is standing on
+            for (var i = 0; i < tileHeightDistance + tilesToGround; i++) {
+                if (_groundTilemap.GetTile(currTilePos)) {
+                    // If this tile is not null raycasting will hit the other end of the collider, so skip this entry
+                    continue;
                 }
 
-                var origin = _groundTilemap.GetCellCenterWorld(tilePos);
-                tilePos.y--;
+                var origin = _groundTilemap.GetCellCenterWorld(currTilePos);
+                currTilePos.y--;
                 
                 // Since there's no tile to the right, raycast as far as the FoV allows to find the end of the pit
                 var pitEndpointCheck = Physics2D.Raycast(origin, Vector2.right, remainingSightExtent, layer);
@@ -238,13 +246,53 @@ namespace KrillOrBeKrilled.Heroes {
                     // Couldn't find the end of the pit, so disregard this unit and continue checking downward
                     continue;
                 }
-
+                
+                // Only register the end of the pit if it's the first endpoint or if the endpoint is closer than the last
                 if (lastPitEndpoint != Vector3.zero && (!(pitEndpointCheck.point.x < lastPitEndpoint.x) || 
                     (lastPitEndpoint.x - pitEndpointCheck.point.x) < 0.5f)) {
                     continue;
                 }
+
+                lastPitEndpoint = pitEndpointCheck.point;
+            }
+
+            if (lastPitEndpoint != Vector3.zero) {
+                pitEndpoints.Add(lastPitEndpoint);
+                pitOptions++;
+            }
+            
+
+            currTilePos = tilePos;
+
+            for (var i = 0; i < tileHeightDistance - tilesToGround; i++) {
+                if (_groundTilemap.GetTile(currTilePos) && currTilePos.y < tileLedgeHeight) {
+                    // Before adding the bottom of the pit, make sure that it extends long enough to walk through safely
+                    var groundPos = _groundTilemap.GetCellCenterWorld(currTilePos);
+                    
+                    pitEndpoints.Add(groundPos);
+                    pitOptions++;
+
+                    // The bottom has been reached, so the pit no longer needs to be traced
+                    break;
+                }
+
+                var origin = _groundTilemap.GetCellCenterWorld(currTilePos);
+                currTilePos.y--;
+                
+                // Since there's no tile to the right, raycast as far as the FoV allows to find the end of the pit
+                var pitEndpointCheck = Physics2D.Raycast(origin, Vector2.right, remainingSightExtent, layer);
+
+                if (!pitEndpointCheck) {
+                    // Couldn't find the end of the pit, so disregard this unit and continue checking downward
+                    continue;
+                }
                 
                 // Only register the end of the pit if it's the first endpoint or if the endpoint is closer than the last
+                if (lastPitEndpoint != Vector3.zero && (!(pitEndpointCheck.point.x < lastPitEndpoint.x) || 
+                    (lastPitEndpoint.x - pitEndpointCheck.point.x) < 0.5f)) {
+                    continue;
+                }
+
                 lastPitEndpoint = pitEndpointCheck.point;
                 pitEndpoints.Add(lastPitEndpoint);
                 pitOptions++;

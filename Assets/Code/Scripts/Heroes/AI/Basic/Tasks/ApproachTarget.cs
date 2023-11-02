@@ -25,10 +25,10 @@ namespace KrillOrBeKrilled.Heroes.AI {
         internal override NodeStatus Evaluate() {
             var heroPos = _heroTransform.position;
             var targetPos = (Vector3)GetData("JumpLaunchPoint");
-            var pitQueue = (Queue<(Vector3, Vector3)>)GetData("PitQueue");
+            var pitList = (List<(Vector3, Vector3)>)GetData("PitList");
 
             // Ensure the hero is generally around the same position as the launch point
-            if (Mathf.Abs(targetPos.x - heroPos.x) < 0.5f && Mathf.Abs(targetPos.y - heroPos.y) < 2f) {
+            if (targetPos.x < heroPos.x && Mathf.Abs(targetPos.y - heroPos.y) < 2f) {
                 // It's jumping time!
                 Debug.Log("Prepare to jump!");
                 return NodeStatus.SUCCESS;

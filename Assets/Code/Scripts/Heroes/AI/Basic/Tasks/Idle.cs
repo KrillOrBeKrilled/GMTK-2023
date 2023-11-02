@@ -16,7 +16,6 @@ namespace KrillOrBeKrilled.Heroes.AI {
         }
         
         internal override NodeStatus Evaluate() {
-            Debug.Log("Idle");
             this._rigidbody.velocity = Vector2.zero;
             
             this._animController.SetFloat((int)GetData("XSpeedKey"), Mathf.Abs(this._rigidbody.velocity.x));

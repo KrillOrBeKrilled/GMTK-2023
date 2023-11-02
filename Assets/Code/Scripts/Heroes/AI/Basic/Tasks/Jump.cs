@@ -19,20 +19,15 @@ namespace KrillOrBeKrilled.Heroes.AI {
         
         internal override NodeStatus Evaluate() {
             var jumpForce = (float)GetData("JumpForce");
-            Debug.Log("Jump force: " + jumpForce);
+            var finalVelocity = (Vector3)GetData("JumpAngle");
             
-            _rigidbody.AddForce(Vector2.up * (jumpForce * _rigidbody.mass * _rigidbody.gravityScale), ForceMode2D.Impulse);
+            _rigidbody.velocity = finalVelocity;
 
             _animController.SetTrigger((int)GetData("JumpKey"));
             _soundController.OnHeroJump();
             
-            var pitQueue = (Queue<(Vector3, Vector3)>)GetData("PitQueue");
+            var pitList = (List<(Vector3, Vector3)>)GetData("PitList");
             
-            // TODO: Dequeue here for now but probably dequeue this when the jump is complete next
-            // Jump will be complete, no matter what so do all the dequeue stuff here
-            pitQueue.Dequeue();
-            
-            // Parent.Parent.Parent.SetData("CanJump", false);
             Parent.SetData("JumpLaunchPoint", Vector3.zero);
             Parent.SetData("JumpLandPoint", Vector3.zero);
             Parent.SetData("JumpInitialMinHeight", Vector3.zero);

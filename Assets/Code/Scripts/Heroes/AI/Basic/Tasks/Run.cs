@@ -20,7 +20,6 @@ namespace KrillOrBeKrilled.Heroes.AI {
         
         internal override NodeStatus Evaluate() {
             if (!(bool)GetData("IsMoving")) {
-                // this._rigidbody.velocity = Vector2.zero;
                 return NodeStatus.FAILURE;
             }
             

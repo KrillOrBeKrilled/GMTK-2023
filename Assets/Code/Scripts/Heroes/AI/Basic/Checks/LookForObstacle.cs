@@ -22,24 +22,28 @@ namespace KrillOrBeKrilled.Heroes.AI {
             // }
             
             var jumpStartPos = (Vector3)GetData("JumpLaunchPoint");
-            var pitQueue = (Queue<(Vector3, Vector3)>)GetData("PitQueue");
+            var pitList = (List<(Vector3, Vector3)>)GetData("PitList");
             
-            // Debug.Log("PitQueue count: " + pitQueue.Count);
+            // Debug.Log("PitQueue count: " + pitList.Count);
             
             if (jumpStartPos != Vector3.zero) {
                 return NodeStatus.SUCCESS;
-            } else if (pitQueue.Count > 0) {
-                // Debug.Log("Proceeding to approach target");
-                // Only dequeue this when the jump is actually executed because traps can always be built in front
-                var pitData = pitQueue.Peek();
-                Parent.SetData("JumpLaunchPoint", pitData.Item1);
-                Parent.SetData("JumpLandPoint", pitData.Item2);
-                
-                Debug.Log("Set launch position to track: " + pitData.Item1);
-                Debug.Log("Set land position to track: " + pitData.Item2);
-                
-                return NodeStatus.SUCCESS;
             }
+
+            if (pitList.Count < 1) {
+                return NodeStatus.FAILURE;
+            }
+            
+            // Debug.Log("Proceeding to approach target");
+            // Only dequeue this when the jump is actually executed because traps can always be built in front
+            var pitData = pitList[0];
+            Parent.SetData("JumpLaunchPoint", pitData.Item1);
+            Parent.SetData("JumpLandPoint", pitData.Item2);
+                
+            // Debug.Log("Set launch position to track: " + pitData.Item1);
+            // Debug.Log("Set land position to track: " + pitData.Item2);
+                
+            return NodeStatus.SUCCESS;
 
             // // Check for updates that can be made to the jump start point and end point every frame
             // if (_heroSight.FOVContains(out var obstacles, _obstacleLayers)) {
@@ -92,8 +96,6 @@ namespace KrillOrBeKrilled.Heroes.AI {
             //         // Maybe save whether this happened or not as a bool for the DecideJumpForce to take into account
             //     }
             // }
-
-            return NodeStatus.FAILURE;
         }
     }
 }

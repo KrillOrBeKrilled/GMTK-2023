@@ -46,7 +46,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             });
 
             var jumpAndFall = new Sequence(new List<Node> {
-                new LookForPit(heroTransform, HeroSight, GroundToSight),
+                new LookForGround(heroTransform, HeroSight, GroundToSight),
                 new Selector(new List<Node> {
                     new Fall(heroTransform, Rigidbody, GroundToSight),
                     jumping

@@ -260,7 +260,6 @@ namespace KrillOrBeKrilled.Heroes {
                 pitEndpoints.Add(lastPitEndpoint);
                 pitOptions++;
             }
-            
 
             currTilePos = tilePos;
 

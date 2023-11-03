@@ -6,12 +6,12 @@ using UnityEngine;
 // LookForPit
 //*******************************************************************************************
 namespace KrillOrBeKrilled.Heroes.AI {
-    public class LookForPit : Node {
+    public class LookForGround : Node {
         private readonly Transform _heroTransform;
         private readonly FieldOfView _heroSight;
         private readonly LayerMask _groundLayers;
         
-        public LookForPit(Transform heroTransform, FieldOfView heroSight, LayerMask groundLayers) {
+        public LookForGround(Transform heroTransform, FieldOfView heroSight, LayerMask groundLayers) {
             _heroTransform = heroTransform;
             _heroSight = heroSight;
             _groundLayers = groundLayers;
@@ -30,29 +30,55 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 }
             }
 
-            if (!_heroSight.CheckForPit(out var optionCount, out var groundHitData, out var pitEndpoints, _groundLayers)) {
-                return NodeStatus.SUCCESS;
-            }
+            // Check if a wall is in front of the hero
+            var wallHit = Physics2D.Raycast(
+                _heroTransform.position + Vector3.down * 1.8f, 
+                Vector2.right, 
+                8f, 
+                _groundLayers
+            );
 
             var lastLedge = (Vector3)GetData("LastSeenLedge");
+            var launchLedgePos = Vector3.zero;
+            var targetLedgePos = Vector3.zero;
+
+            if (_heroSight.CheckForPit(out var optionCount, out var groundHitData, out var pitEndpoints, _groundLayers)) {
+                // Before adding it to the list, make sure this action is not already registered
+                if (lastLedge != Vector3.zero && groundHitData.point.x - lastLedge.x < 1.1f) {
+                    return NodeStatus.SUCCESS;
+                }
+
+                launchLedgePos = (Vector3)groundHitData.point;
+
+                // Set the jump land endpoint if there are any that have been sighted. Otherwise, leave it blank
+                targetLedgePos = Vector3.zero;
+                if (optionCount > 0) {
+                    // The jump land point will be selected randomly for now
+                    var randomNum = Random.Range(0, optionCount);
+                    var pitToJump = pitEndpoints[randomNum];
             
-            // Before adding it to the list, make sure this action is not already registered
-            if (groundHitData.point.x - lastLedge.x < 1.1f) {
-                return NodeStatus.SUCCESS;
+                    targetLedgePos = _heroSight.FindJumpEndpoint(pitToJump);
+                }
+            } else if (wallHit) {
+                var jumpPos = wallHit.point + Vector2.left * 1.3f;
+                
+                // Before adding it to the list, make sure this action is not already registered
+                if (lastLedge != Vector3.zero && jumpPos.x - lastLedge.x < 1.1f) {
+                    return NodeStatus.SUCCESS;
+                }
+                
+                launchLedgePos = jumpPos;
+
+                var adjustedHitPos = wallHit.point;
+                adjustedHitPos.x += 0.5f;
+                targetLedgePos = _heroSight.FindJumpEndpoint(adjustedHitPos);
+                
+                Debug.Log("Jump position: " + wallHit.point);
+                Debug.Log("Endpoint: " + targetLedgePos);
             }
 
-            // Make a slight adjustment to the jump launch position
-            var launchLedgePos = (Vector3)groundHitData.point;
-            // launchLedgePos.x += 0.5f;
-
-            // Set the jump land endpoint if there are any that have been sighted. Otherwise, leave it blank
-            var targetLedgePos = Vector3.zero;
-            if (optionCount > 0) {
-                // The jump land point will be selected randomly for now
-                var randomNum = Random.Range(0, optionCount);
-                var pitToJump = pitEndpoints[randomNum];
-            
-                targetLedgePos = _heroSight.FindJumpEndpoint(pitToJump);
+            if (targetLedgePos == Vector3.zero) {
+                return NodeStatus.SUCCESS;
             }
             
             // Insert in an orderly fashion
@@ -71,7 +97,6 @@ namespace KrillOrBeKrilled.Heroes.AI {
             }
             
             pitList.Insert(i, (launchLedgePos, targetLedgePos));
-            // Debug.Log(pitList.Count);
             Parent.SetData("LastSeenLedge", launchLedgePos);
 
             // Debug.Log("Enqueued!");

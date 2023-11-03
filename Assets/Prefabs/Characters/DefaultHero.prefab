@@ -220,7 +220,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   MovementSpeed: 4
-  DashSpeed: 6
+  DashSpeed: 8
   MinJumpForce: 5
   MaxJumpForce: 80
   JumpAngle: 89
@@ -246,7 +246,7 @@ MonoBehaviour:
     m_Bits: 640
   Offset: {x: 0.3, y: 0.45, z: 0}
   InnerRadius: 0
-  OuterRadius: 40
+  OuterRadius: 20
   FovDegree: 91
   TargetThreshold: 10
   pitOptionDistanceThreshold: 0

@@ -57,8 +57,8 @@ namespace KrillOrBeKrilled.Heroes.AI {
                         0
                     );
                 
-                Debug.Log("ElevationDifference: " + elevationDifference);
-                Debug.Log("Distance: " + distance);
+                // Debug.Log("ElevationDifference: " + elevationDifference);
+                // Debug.Log("Distance: " + distance);
                 // Debug.Log("Jump apex: " + jumpApex);
 
                 var jumpAngle = Mathf.Asin(jumpApex.normalized.y);
@@ -69,13 +69,14 @@ namespace KrillOrBeKrilled.Heroes.AI {
 
                 initialVelocity = new Vector3(v0 * Mathf.Cos(jumpAngle), v0 * Mathf.Sin(jumpAngle), 0);
                 
-                Debug.Log("initialVelocity: " + initialVelocity);
+                // Debug.Log("initialVelocity: " + initialVelocity);
             } else {
                 Debug.Log("Heighty jump");
+                Debug.Log("Elevation difference: " + elevationDifference);
                 var jumpAngle = _jumpAngle * Mathf.Deg2Rad;
                 
                 // Tune jump height
-                targetPos.y += elevationDifference * 2f + distance * 2f;
+                targetPos.y += Mathf.Abs(elevationDifference - 0.5f) * 0.3f + (distance - 2.5f) * 0.9f;
                 
                 // Formula retrieved by: 
                 // 1. Time in the air in the y-direction equation

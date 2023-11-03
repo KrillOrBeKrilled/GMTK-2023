@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 2520007285119138520}
   - component: {fileID: 6031035429420839677}
   - component: {fileID: 4773728292545531315}
-  - component: {fileID: 5765715400669023922}
-  - component: {fileID: 5626127196762350909}
+  - component: {fileID: -3778636298799151207}
+  - component: {fileID: -3164917331191428471}
   - component: {fileID: 786636109395665214}
   - component: {fileID: 8167547464770034347}
   m_Layer: 6
@@ -200,7 +200,7 @@ MonoBehaviour:
   OnHeroReset:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &5765715400669023922
+--- !u!114 &-3778636298799151207
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -220,13 +220,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   MovementSpeed: 4
-  DashSpeed: 6
+  DashSpeed: 8
   MinJumpForce: 5
-  MaxJumpForce: 20
-  JumpAngle: 88
+  MaxJumpForce: 80
+  JumpAngle: 89
   JumpMarginOfError: 5
-  ElevationDisparityThreshold: 2.2
---- !u!114 &5626127196762350909
+  ElevationDisparityThreshold: 0
+--- !u!114 &-3164917331191428471
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -246,11 +246,11 @@ MonoBehaviour:
     m_Bits: 640
   Offset: {x: 0.3, y: 0.45, z: 0}
   InnerRadius: 0
-  OuterRadius: 7.6
-  FovDegree: 76
+  OuterRadius: 20
+  FovDegree: 91
   TargetThreshold: 10
   pitOptionDistanceThreshold: 0
-  LineStuff: 6
+  LineStuff: 1.937
 --- !u!114 &786636109395665214
 MonoBehaviour:
   m_ObjectHideFlags: 0

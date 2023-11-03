@@ -54,13 +54,14 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 targetLedgePos = Vector3.zero;
                 if (optionCount > 0) {
                     // The jump land point will be selected randomly for now
-                    var randomNum = Random.Range(0, optionCount);
+                    // var randomNum = Random.Range(0, optionCount);
+                    var randomNum = 0;
                     var pitToJump = pitEndpoints[randomNum];
             
                     targetLedgePos = _heroSight.FindJumpEndpoint(pitToJump);
                 }
             } else if (wallHit) {
-                var jumpPos = wallHit.point + Vector2.left * 1.3f;
+                var jumpPos = wallHit.point + Vector2.left * 2f;
                 
                 // Before adding it to the list, make sure this action is not already registered
                 if (lastLedge != Vector3.zero && jumpPos.x - lastLedge.x < 1.1f) {

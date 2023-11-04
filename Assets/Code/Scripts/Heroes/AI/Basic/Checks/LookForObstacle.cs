@@ -16,26 +16,26 @@ namespace KrillOrBeKrilled.Heroes.AI {
         }
         
         internal override NodeStatus Evaluate() {
-            // Abort jump logic if the hero is still falling
-            // if (!(bool)GetData("CanJump")) {
-            //     return NodeStatus.FAILURE;
-            // }
-            
             var jumpStartPos = (Vector3)GetData("JumpLaunchPoint");
             var pitList = (List<(Vector3, Vector3)>)GetData("PitList");
-            
-            // Debug.Log("PitQueue count: " + pitList.Count);
+            var pitsFound = pitList.Count > 0;
             
             if (jumpStartPos != Vector3.zero) {
+                // Check if a new entry in the pitList is closer than the current jump target
+                if (!pitsFound || !(pitList[0].Item1.x < jumpStartPos.x)) {
+                    return NodeStatus.SUCCESS;
+                }
+                
+                Parent.SetData("JumpLaunchPoint", pitList[0].Item1);
+                Parent.SetData("JumpLandPoint", pitList[0].Item2);
+
                 return NodeStatus.SUCCESS;
             }
-
-            if (pitList.Count < 1) {
+            
+            if (!pitsFound) {
                 return NodeStatus.FAILURE;
             }
             
-            // Debug.Log("Proceeding to approach target");
-            // Only dequeue this when the jump is actually executed because traps can always be built in front
             var pitData = pitList[0];
             Parent.SetData("JumpLaunchPoint", pitData.Item1);
             Parent.SetData("JumpLandPoint", pitData.Item2);

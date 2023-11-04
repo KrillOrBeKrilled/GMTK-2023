@@ -227,17 +227,17 @@ namespace KrillOrBeKrilled.Heroes {
             var lastPitEndpoint = Vector3.zero;
             
             var currTilePos = tilePos;
-            currTilePos.y += tileHeightDistance + tilesToGround;
+            currTilePos.y += 1;
             
             // Search for the closest platform above the ground the GameObject is standing on
             for (var i = 0; i < tileHeightDistance + tilesToGround; i++) {
                 if (_groundTilemap.GetTile(currTilePos)) {
-                    // If this tile is not null raycasting will hit the other end of the collider, so skip this entry
-                    continue;
+                    // If this tile is not null, the GameObject will be blocked by this platform from jumping any higher
+                    break;
                 }
 
                 var origin = _groundTilemap.GetCellCenterWorld(currTilePos);
-                currTilePos.y--;
+                currTilePos.y++;
                 
                 // Since there's no tile to the right, raycast as far as the FoV allows to find the end of the pit
                 var pitEndpointCheck = Physics2D.Raycast(origin, Vector2.right, remainingSightExtent, layer);

@@ -30,12 +30,14 @@ namespace KrillOrBeKrilled.Heroes.AI {
             // Ensure the hero is generally around the same position as the launch point
             if (targetPos.x < heroPos.x && Mathf.Abs(targetPos.y - heroPos.y) < 2f) {
                 // It's jumping time!
-                Debug.Log("Prepare to jump!");
+                // Debug.Log("Prepare to jump!");
+                // Debug.Log("Target position: " + );
+                // Debug.Log("Prepare to jump!");
                 return NodeStatus.SUCCESS;
             }
             
             // If the hero passes the target point, forget it and switch to another target the next frame
-            if (targetPos.x < heroPos.x) {
+            if (targetPos.x < heroPos.x || Mathf.Abs(targetPos.y - heroPos.y) > 2f) {
                 Parent.SetData("JumpLaunchPoint", Vector3.zero);
                 Parent.SetData("JumpLandPoint", Vector3.zero);
                 Parent.SetData("JumpInitialMinHeight", Vector3.zero);

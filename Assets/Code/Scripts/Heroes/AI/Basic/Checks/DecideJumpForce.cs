@@ -45,15 +45,16 @@ namespace KrillOrBeKrilled.Heroes.AI {
             var elevationDifference = targetPos.y - launchPos.y;
 
             if (elevationDifference > 1f && distance < 2.5f || distance > 5.5f) {
+                var positiveElevationDifference = Mathf.Abs(elevationDifference);
                 var jumpApex = targetPos.y < launchPos.y
                     ? new Vector3(
                         (distance - 6.35f) * 0.34f + 1.5f,
-                        launchPos.y + (distance - 6.35f) * 0.02f + Mathf.Abs(1 / elevationDifference) * ((distance - 6.35f) * 0.5f + 1.5f),
+                        launchPos.y + (distance - 6.35f) * 0.02f + 1 / positiveElevationDifference * ((distance - 6.35f) * 0.5f + 1.5f),
                         0
                     )
                     : new Vector3(
                         distance * 0.5f,
-                        elevationDifference + elevationDifference * 0.1f + distance * 0.32f + 2.5f,
+                        positiveElevationDifference + positiveElevationDifference * 0.03f + distance * 0.3f + 2.5f,
                         0
                     );
                 
@@ -71,8 +72,8 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 
                 // Debug.Log("initialVelocity: " + initialVelocity);
             } else {
-                Debug.Log("Heighty jump");
-                Debug.Log("Elevation difference: " + elevationDifference);
+                // Debug.Log("Heighty jump");
+                // Debug.Log("Elevation difference: " + elevationDifference);
                 var jumpAngle = _jumpAngle * Mathf.Deg2Rad;
                 
                 // Tune jump height

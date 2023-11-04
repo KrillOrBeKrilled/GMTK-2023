@@ -22,9 +22,11 @@ namespace KrillOrBeKrilled.Heroes.AI {
             var hit = Physics2D.Raycast(_heroTransform.position, Vector2.down, 2f, _groundLayers);
             
             if (_rigidbody.velocity.y > 0.1f || !hit) {
+                Parent.Parent.SetData("IsFalling", true);
                 return NodeStatus.SUCCESS;
             }
             
+            Parent.Parent.SetData("IsFalling", false);
             return NodeStatus.FAILURE;
         }
     }

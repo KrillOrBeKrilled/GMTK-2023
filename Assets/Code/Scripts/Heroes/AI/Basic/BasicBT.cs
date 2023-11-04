@@ -66,7 +66,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             root.SetData("SpeedPenalty", 0f);
             
             jumpAndFall.SetData("PitList", new List<(Vector3, Vector3)>());
-            jumpAndFall.SetData("CanJump", false);
+            jumpAndFall.SetData("IsFalling", false);
             jumpAndFall.SetData("LastSeenGroundPos", Vector3.zero);
             jumpAndFall.SetData("LastSeenLedge", Vector3.zero);
             jumpAndFall.SetData("IsTrackingPit", false);

@@ -32,8 +32,6 @@ namespace KrillOrBeKrilled.Heroes.AI {
         [SerializeField] internal float MaxJumpForce = 80f;
         [Range(1, 89)]
         [SerializeField] internal float JumpAngle = 88f;
-        [SerializeField] internal float JumpMarginOfError = 5f;
-        [SerializeField] internal float ElevationDisparityThreshold = 5f;
 
         protected override Node SetupTree() {
             var heroTransform = transform;
@@ -45,16 +43,18 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 new Jump(Rigidbody, AnimController, SoundsController)
             });
 
-            var jumpAndFall = new Sequence(new List<Node> {
+            var jumpAndFall = new Selector(new List<Node> {
+                new Fall(heroTransform, Rigidbody, GroundToSight),
+                jumping
+            });
+                
+            var groundJumping = new Sequence(new List<Node> {
                 new LookForGround(heroTransform, HeroSight, GroundToSight),
-                new Selector(new List<Node> {
-                    new Fall(heroTransform, Rigidbody, GroundToSight),
-                    jumping
-                })
+                jumpAndFall
             });
             
             var root = new Selector(new List<Node> {
-                jumpAndFall,
+                groundJumping,
                 new Run(Rigidbody, AnimController, MovementSpeed),
                 new Idle(Rigidbody, AnimController)
             });
@@ -64,21 +64,14 @@ namespace KrillOrBeKrilled.Heroes.AI {
             root.SetData("YSpeedKey", YSpeedKey);
             root.SetData("IsMoving", true);
             root.SetData("SpeedPenalty", 0f);
-            
-            jumpAndFall.SetData("PitList", new List<(Vector3, Vector3)>());
-            jumpAndFall.SetData("IsFalling", false);
-            jumpAndFall.SetData("LastSeenGroundPos", Vector3.zero);
-            jumpAndFall.SetData("LastSeenLedge", Vector3.zero);
-            jumpAndFall.SetData("IsTrackingPit", false);
-            jumpAndFall.SetData("AbortPitTracking", false);
-            
+
             jumping.SetData("JumpLaunchPoint", Vector3.zero);
-            jumping.SetData("JumpLandPoint", Vector3.zero);
-            jumping.SetData("JumpInitialMinHeight", Vector3.zero);
-            jumping.SetData("JumpApexMinHeight", Vector3.zero);
-            jumping.SetData("JumpApexMaxHeight", Vector3.zero);
-            jumping.SetData("JumpForce", -1f);
-            jumping.SetData("JumpAngle", Vector3.zero);
+            jumping.SetData("JumpVelocity", Vector3.zero);
+            
+            jumpAndFall.SetData("JumpLandPoint", Vector3.zero);
+            
+            groundJumping.SetData("PitList", new List<(Vector3, Vector3)>());
+            groundJumping.SetData("IsFalling", false);
 
             return root;
         }

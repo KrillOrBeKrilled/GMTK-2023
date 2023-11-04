@@ -39,9 +39,6 @@ namespace KrillOrBeKrilled.Heroes.AI {
             // If the hero passes the target point, forget it and switch to another target the next frame
             if (targetPos.x < heroPos.x || Mathf.Abs(targetPos.y - heroPos.y) > 2f) {
                 Parent.SetData("JumpLaunchPoint", Vector3.zero);
-                Parent.SetData("JumpLandPoint", Vector3.zero);
-                Parent.SetData("JumpInitialMinHeight", Vector3.zero);
-                Parent.SetData("JumpApexMinHeight", Vector3.zero);
 
                 return NodeStatus.FAILURE;
             }

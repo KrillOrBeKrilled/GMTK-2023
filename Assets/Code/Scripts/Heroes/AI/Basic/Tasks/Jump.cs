@@ -18,20 +18,14 @@ namespace KrillOrBeKrilled.Heroes.AI {
         }
         
         internal override NodeStatus Evaluate() {
-            var jumpForce = (float)GetData("JumpForce");
-            var finalVelocity = (Vector3)GetData("JumpAngle");
+            var finalVelocity = (Vector3)GetData("JumpVelocity");
             
             _rigidbody.velocity = finalVelocity;
 
             _animController.SetTrigger((int)GetData("JumpKey"));
             _soundController.OnHeroJump();
             
-            var pitList = (List<(Vector3, Vector3)>)GetData("PitList");
-            
             Parent.SetData("JumpLaunchPoint", Vector3.zero);
-            Parent.SetData("JumpLandPoint", Vector3.zero);
-            Parent.SetData("JumpInitialMinHeight", Vector3.zero);
-            Parent.SetData("JumpApexMinHeight", Vector3.zero);
             
             return NodeStatus.SUCCESS;
         }

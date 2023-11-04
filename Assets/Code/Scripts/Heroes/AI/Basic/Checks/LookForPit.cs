@@ -65,8 +65,8 @@ namespace KrillOrBeKrilled.Heroes.AI {
             
                     targetLedgePos = _heroSight.FindJumpEndpoint(pitToJump);
                     
-                    Debug.Log("Pit jump position: " + launchLedgePos);
-                    Debug.Log("Pit jump endpoint: " + targetLedgePos);
+                    // Debug.Log("Pit jump position: " + launchLedgePos);
+                    // Debug.Log("Pit jump endpoint: " + targetLedgePos);
                 }
             } else if (wallHit && !(bool)GetData("IsFalling")) {
                 var jumpPos = wallHit.point + Vector2.left * 3.5f;
@@ -83,8 +83,8 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 adjustedHitPos.x += 0.5f;
                 targetLedgePos = _heroSight.FindJumpEndpoint(adjustedHitPos);
                 
-                Debug.Log("Wall jump position: " + launchLedgePos);
-                Debug.Log("Wall jump endpoint: " + targetLedgePos);
+                // Debug.Log("Wall jump position: " + launchLedgePos);
+                // Debug.Log("Wall jump endpoint: " + targetLedgePos);
             }
 
             if (targetLedgePos == Vector3.zero) {
@@ -92,26 +92,26 @@ namespace KrillOrBeKrilled.Heroes.AI {
             }
             
             // Insert in an orderly fashion
-            Debug.Log("Inserting into list!");
+            // Debug.Log("Inserting into list!");
             int i;
             for (i = 0; i < pitList.Count; i++) {
                 var jumpLaunchPoint = pitList[i].Item1;
                 
-                Debug.Log("Jump point: " + jumpLaunchPoint);
-                Debug.Log("End point: " + pitList[i].Item2);
+                // Debug.Log("Jump point: " + jumpLaunchPoint);
+                // Debug.Log("End point: " + pitList[i].Item2);
 
                 if (launchLedgePos.x > jumpLaunchPoint.x) {
                     continue;
                 }
                 
-                Debug.Log("launch ledge position to be added: " + launchLedgePos);
-                Debug.Log("jump launch position to be compared: " + jumpLaunchPoint);
+                // Debug.Log("launch ledge position to be added: " + launchLedgePos);
+                // Debug.Log("jump launch position to be compared: " + jumpLaunchPoint);
 
                 break;
             }
             
-            Debug.Log("jump position being added: " + launchLedgePos);
-            Debug.Log("jump end position being added: " + targetLedgePos);
+            // Debug.Log("jump position being added: " + launchLedgePos);
+            // Debug.Log("jump end position being added: " + targetLedgePos);
             
             pitList.Insert(i, (launchLedgePos, targetLedgePos));
             

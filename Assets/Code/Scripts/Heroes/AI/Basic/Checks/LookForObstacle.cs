@@ -27,7 +27,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 }
                 
                 Parent.SetData("JumpLaunchPoint", pitList[0].Item1);
-                Parent.SetData("JumpLandPoint", pitList[0].Item2);
+                Parent.Parent.SetData("JumpLandPoint", pitList[0].Item2);
 
                 return NodeStatus.SUCCESS;
             }
@@ -38,7 +38,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             
             var pitData = pitList[0];
             Parent.SetData("JumpLaunchPoint", pitData.Item1);
-            Parent.SetData("JumpLandPoint", pitData.Item2);
+            Parent.Parent.SetData("JumpLandPoint", pitData.Item2);
                 
             // Debug.Log("Set launch position to track: " + pitData.Item1);
             // Debug.Log("Set land position to track: " + pitData.Item2);

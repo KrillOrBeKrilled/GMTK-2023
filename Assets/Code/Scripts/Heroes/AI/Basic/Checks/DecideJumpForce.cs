@@ -31,8 +31,9 @@ namespace KrillOrBeKrilled.Heroes.AI {
 
             // If no jump endpoint has been defined, the hero will jump with maximum force
             if (targetPos == Vector3.zero) {
-                Debug.Log("No target jump force registered!");
-                Parent.SetData("JumpAngle", new Vector3(_dashSpeed, 0, 0));
+                Debug.LogError("Hero cannot find a target platform!");
+                
+                Parent.SetData("JumpVelocity", new Vector3(_dashSpeed, 0, 0));
                 return NodeStatus.SUCCESS;
             }
 
@@ -91,7 +92,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 initialVelocity = new Vector3(_dashSpeed, Mathf.Max(_minJumpForce, v0) * Mathf.Sin(jumpAngle), 0);
             }
             
-            Parent.SetData("JumpAngle", initialVelocity);
+            Parent.SetData("JumpVelocity", initialVelocity);
             
             // Debug.Log("Target: " + targetPos);
             // Debug.Log("Launch position: " + heroPos);

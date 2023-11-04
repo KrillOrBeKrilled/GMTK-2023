@@ -266,10 +266,16 @@ namespace KrillOrBeKrilled.Heroes {
             for (var i = 0; i < tileHeightDistance - tilesToGround; i++) {
                 if (_groundTilemap.GetTile(currTilePos) && currTilePos.y < tileLedgeHeight) {
                     // Before adding the bottom of the pit, make sure that it extends long enough to walk through safely
+                    // after landing
                     var groundPos = _groundTilemap.GetCellCenterWorld(currTilePos);
-                    
-                    pitEndpoints.Add(groundPos);
-                    pitOptions++;
+                    var otherSideOfGround = 
+                        Physics2D.Raycast(groundPos, Vector2.right, remainingSightExtent, layer).point;
+
+                    if (otherSideOfGround.x - groundPos.x > i * 0.65f + 3f) {
+                        groundPos.x += i * 0.65f * 0.35f;
+                        pitEndpoints.Add(groundPos);
+                        pitOptions++;
+                    }
 
                     // The bottom has been reached, so the pit no longer needs to be traced
                     break;

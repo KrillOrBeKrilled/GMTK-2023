@@ -287,6 +287,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _defaultImage: {fileID: 21300000, guid: 778dd597d081b483fb265fbc3d86ff28, type: 3}
+  _pressedImage: {fileID: 21300000, guid: d2420f62fc4ae4e53bbb481af00b8148, type: 3}
 --- !u!1 &2825717058300614814
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,6 +410,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _defaultImage: {fileID: 21300000, guid: f37ac20730c824149b893eafee2c13f0, type: 3}
+  _pressedImage: {fileID: 21300000, guid: e69480c56411a4831bfcd210ddbc5f6e, type: 3}
 --- !u!1 &8958131537979665556
 GameObject:
   m_ObjectHideFlags: 0

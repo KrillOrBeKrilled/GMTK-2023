@@ -10,14 +10,16 @@ namespace KrillOrBeKrilled.Heroes.AI {
         private readonly Transform _heroTransform;
         private readonly FieldOfView _heroSight;
         private readonly LayerMask _groundLayers;
+        private readonly LayerMask _trapLayers;
 
         private Vector3 _lastSeenLedge = Vector3.zero;
         private Vector3 _lastSeenWall = Vector3.zero;
         
-        public LookForGround(Transform heroTransform, FieldOfView heroSight, LayerMask groundLayers) {
+        public LookForGround(Transform heroTransform, FieldOfView heroSight, LayerMask groundLayers, LayerMask trapLayers) {
             _heroTransform = heroTransform;
             _heroSight = heroSight;
             _groundLayers = groundLayers;
+            _trapLayers = trapLayers;
         }
         
         internal override NodeStatus Evaluate() {
@@ -45,7 +47,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             var targetLedgePos = Vector3.zero;
             var sawPit = false;
 
-            if (_heroSight.CheckForPit(out var optionCount, out var groundHitData, out var pitEndpoints, _groundLayers)) {
+            if (_heroSight.CheckForPit(out var optionCount, out var groundHitData, out var pitEndpoints, _groundLayers, _trapLayers)) {
                 sawPit = true;
                 
                 // Before adding it to the list, make sure this action is not already registered

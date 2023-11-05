@@ -14,7 +14,8 @@ namespace KrillOrBeKrilled.Heroes {
         [Tooltip("Highlights the field of view area when the ground has been sighted.")]
         public bool PitCheck;
         [Tooltip("The layer of GameObjects to sight in the debug view.")]
-        public LayerMask TargetMask;
+        public LayerMask TrapTargetMask;
+        public LayerMask GroundTargetMask;
         
         [Header("Field of View Configuration")]
         [Tooltip("Offsets the position of this GameObject to act as the origin of the field of view area.")]
@@ -68,8 +69,9 @@ namespace KrillOrBeKrilled.Heroes {
             var hit = new RaycastHit2D();
             var pitEndpoints = new List<Vector2>();
 
-            var foundTarget = ObjectCheck && FOVContains(out targets, TargetMask);
-            var foundGround = PitCheck && CheckForPit(out var pitOptions, out hit, out pitEndpoints, TargetMask);
+            var foundTarget = ObjectCheck && FOVContains(out targets, TrapTargetMask);
+            var foundGround = 
+                PitCheck && CheckForPit(out var pitOptions, out hit, out pitEndpoints, GroundTargetMask, TrapTargetMask);
             
             if (foundGround || foundTarget) {
                 Gizmos.color = Handles.color = Color.red;
@@ -187,7 +189,8 @@ namespace KrillOrBeKrilled.Heroes {
             return (targets.Count > 0);
         }
         
-        internal bool CheckForPit(out int pitOptions, out RaycastHit2D hitData, out List<Vector2> pitEndpoints, LayerMask layer) {
+        internal bool CheckForPit(out int pitOptions, out RaycastHit2D hitData, out List<Vector2> pitEndpoints, 
+            LayerMask groundLayer, LayerMask trapLayer) {
             pitEndpoints = new List<Vector2>();
             var eyeOrigin = Offset + transform.position;
             
@@ -197,7 +200,7 @@ namespace KrillOrBeKrilled.Heroes {
             var vGroundCheckDir = new Vector3(p, -x, 0);
 
             // Raycast as far as the FoV permits
-            hitData = Physics2D.Raycast(eyeOrigin, vGroundCheckDir, OuterRadius, layer);
+            hitData = Physics2D.Raycast(eyeOrigin, vGroundCheckDir, OuterRadius, groundLayer);
 
             if (!hitData) {
                 pitOptions = 0;
@@ -240,7 +243,7 @@ namespace KrillOrBeKrilled.Heroes {
                 currTilePos.y++;
                 
                 // Since there's no tile to the right, raycast as far as the FoV allows to find the end of the pit
-                var pitEndpointCheck = Physics2D.Raycast(origin, Vector2.right, remainingSightExtent, layer);
+                var pitEndpointCheck = Physics2D.Raycast(origin, Vector2.right, remainingSightExtent, groundLayer);
 
                 if (!pitEndpointCheck) {
                     // Couldn't find the end of the pit, so disregard this unit and continue checking downward
@@ -269,9 +272,15 @@ namespace KrillOrBeKrilled.Heroes {
                     // after landing
                     var groundPos = _groundTilemap.GetCellCenterWorld(currTilePos);
                     var otherSideOfGround = 
-                        Physics2D.Raycast(groundPos, Vector2.right, remainingSightExtent, layer).point;
+                        Physics2D.Raycast(groundPos, Vector2.right, remainingSightExtent, groundLayer);
+                    
+                    var collidedTrap = Physics2D.OverlapCircle(groundPos + Vector3.up, 0.5f, trapLayer);
 
-                    if (otherSideOfGround.x - groundPos.x > i * 0.65f + 3f) {
+                    if (collidedTrap && collidedTrap.gameObject.CompareTag("Trap")) {
+                        break;
+                    } 
+                    
+                    if (otherSideOfGround && otherSideOfGround.point.x - groundPos.x > i * 0.65f + 3f) {
                         groundPos.x += i * 0.65f * 0.35f;
                         pitEndpoints.Add(groundPos);
                         pitOptions++;
@@ -285,7 +294,7 @@ namespace KrillOrBeKrilled.Heroes {
                 currTilePos.y--;
                 
                 // Since there's no tile to the right, raycast as far as the FoV allows to find the end of the pit
-                var pitEndpointCheck = Physics2D.Raycast(origin, Vector2.right, remainingSightExtent, layer);
+                var pitEndpointCheck = Physics2D.Raycast(origin, Vector2.right, remainingSightExtent, groundLayer);
 
                 if (!pitEndpointCheck) {
                     // Couldn't find the end of the pit, so disregard this unit and continue checking downward

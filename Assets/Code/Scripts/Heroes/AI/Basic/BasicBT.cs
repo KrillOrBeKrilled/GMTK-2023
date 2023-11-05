@@ -49,7 +49,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             });
                 
             var groundJumping = new Sequence(new List<Node> {
-                new LookForGround(heroTransform, HeroSight, GroundToSight),
+                new LookForGround(heroTransform, HeroSight, GroundToSight, ObstaclesToSight),
                 jumpAndFall
             });
             

@@ -224,8 +224,6 @@ MonoBehaviour:
   MinJumpForce: 5
   MaxJumpForce: 80
   JumpAngle: 89
-  JumpMarginOfError: 5
-  ElevationDisparityThreshold: 0
 --- !u!114 &-3164917331191428471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,9 +239,12 @@ MonoBehaviour:
   Debug: 1
   ObjectCheck: 0
   PitCheck: 1
-  TargetMask:
+  TrapTargetMask:
     serializedVersion: 2
-    m_Bits: 640
+    m_Bits: 128
+  GroundTargetMask:
+    serializedVersion: 2
+    m_Bits: 512
   Offset: {x: 0.3, y: 0.45, z: 0}
   InnerRadius: 0
   OuterRadius: 20

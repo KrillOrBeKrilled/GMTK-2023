@@ -4,7 +4,17 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+//*******************************************************************************************
+// FieldOfView
+//*******************************************************************************************
 namespace KrillOrBeKrilled.Heroes {
+    /// <summary>
+    /// Acts as a GameObject's line of sight, containing methods to sight obstacles and
+    /// gaps in the ground. 
+    /// </summary>
+    /// <remarks> Includes a debug mode that continuously draws the FoV target area and
+    /// updates its visuals according to any enabled sighting settings in the scene view.
+    /// </remarks>
     public class FieldOfView : MonoBehaviour {
         [Header("Debug")]
         [Tooltip("Draws the field of view area in the scene view and highlights sighted objects.")]
@@ -32,12 +42,6 @@ namespace KrillOrBeKrilled.Heroes {
         
         [Tooltip("The maximum number of targets this GameObject can denote within the field of view.")]
         public int TargetThreshold = 10;
-
-        [Tooltip("The minimum distance required between this GameObject and the target land point to consider as a " +
-                 "viable option to jump past a pit.")]
-        public float pitOptionDistanceThreshold;
-        
-        public float LineStuff = 6;
         
         private float FovRadians => FovDegree * Mathf.Deg2Rad;
         private float AngThreshold => Mathf.Cos(FovRadians / 2);
@@ -53,10 +57,6 @@ namespace KrillOrBeKrilled.Heroes {
             if (!Debug) {
                 return;
             }
-            
-            Gizmos.color = Color.green;
-            // Draw the raycast to check when the hero touches the ground
-            Gizmos.DrawLine(transform.position, transform.position + (Vector3.down * LineStuff));
 
             // Perform calculations in local space
             Gizmos.matrix = Handles.matrix = transform.localToWorldMatrix;
@@ -127,6 +127,15 @@ namespace KrillOrBeKrilled.Heroes {
         
         #region Internal Methods
         
+        /// <summary>
+        /// Records any colliders on a specified layer that fall within the FoV area.
+        /// </summary>
+        /// <remarks>
+        /// Disregards any colliders that fall within the FoV area but are obscured by another obstacle.
+        /// </remarks>
+        /// <param name="targets"> The list needed to contain the references to the sighted colliders. </param>
+        /// <param name="layer"> The LayerMask used to specify which types of colliders should be tracked. </param>
+        /// <returns> If any colliders have been sighted and added to the targets list. </returns>
         internal bool FOVContains(out List<Collider2D> targets, LayerMask layer) {
             var eyeOrigin = Offset + transform.position;
             targets = new List<Collider2D>();
@@ -189,6 +198,23 @@ namespace KrillOrBeKrilled.Heroes {
             return (targets.Count > 0);
         }
         
+        /// <summary>
+        /// Scans the colliders of the groundLayer to track gaps and records all possible gap endpoint platforms that
+        /// fall within the FoV area. Also tracks in-ground traps and disregards any options that fall within their
+        /// extents.
+        /// </summary>
+        /// <remarks>
+        /// Implemented specifically for level platform tracking through the Tilemap component. 
+        /// </remarks>
+        /// <param name="pitOptions"> The number of endpoints available for the sighted pit. </param>
+        /// <param name="hitData"> The raycast data associated with the sighted pit ledge. </param>
+        /// <param name="pitEndpoints"> The endpoint platform raycast hit positions in world space recorded for the
+        /// sighted pit. </param>
+        /// <param name="groundLayer"> The LayerMask used to specify which types of colliders should be tracked as the
+        /// ground platforms. </param>
+        /// <param name="trapLayer"> The LayerMask used to specify which types of colliders should be tracked as the
+        /// traps. </param>
+        /// <returns> If a pit ledge has been sighted. </returns>
         internal bool CheckForPit(out int pitOptions, out RaycastHit2D hitData, out List<Vector2> pitEndpoints, 
             LayerMask groundLayer, LayerMask trapLayer) {
             pitEndpoints = new List<Vector2>();
@@ -199,7 +225,7 @@ namespace KrillOrBeKrilled.Heroes {
             
             var vGroundCheckDir = new Vector3(p, -x, 0);
 
-            // Raycast as far as the FoV permits
+            // Raycast as far as the FoV permits to check for the ground
             hitData = Physics2D.Raycast(eyeOrigin, vGroundCheckDir, OuterRadius, groundLayer);
 
             if (!hitData) {
@@ -214,6 +240,7 @@ namespace KrillOrBeKrilled.Heroes {
             var tilePos = _groundTilemap.WorldToCell(hitTilePos);
             tilePos.x += 1;
 
+            // If a platform tile is directly to the right, this is not a ledge and there is no pit.
             if (_groundTilemap.GetTile(tilePos)) {
                 pitOptions = 0;
                 return false;
@@ -268,17 +295,18 @@ namespace KrillOrBeKrilled.Heroes {
 
             for (var i = 0; i < tileHeightDistance - tilesToGround; i++) {
                 if (_groundTilemap.GetTile(currTilePos) && currTilePos.y < tileLedgeHeight) {
-                    // Before adding the bottom of the pit, make sure that it extends long enough to walk through safely
-                    // after landing
                     var groundPos = _groundTilemap.GetCellCenterWorld(currTilePos);
-                    var otherSideOfGround = 
-                        Physics2D.Raycast(groundPos, Vector2.right, remainingSightExtent, groundLayer);
-                    
                     var collidedTrap = Physics2D.OverlapCircle(groundPos + Vector3.up, 0.5f, trapLayer);
 
+                    // If the bottom of the pit is a trap, rule that option out 
                     if (collidedTrap && collidedTrap.gameObject.CompareTag("Trap")) {
                         break;
                     } 
+                    
+                    // Before adding the bottom of the pit, make sure that it extends long enough to walk through safely
+                    // after landing
+                    var otherSideOfGround = 
+                        Physics2D.Raycast(groundPos, Vector2.right, remainingSightExtent, groundLayer);
                     
                     if (otherSideOfGround && otherSideOfGround.point.x - groundPos.x > i * 0.65f + 3f) {
                         groundPos.x += i * 0.65f * 0.35f;
@@ -286,22 +314,18 @@ namespace KrillOrBeKrilled.Heroes {
                         pitOptions++;
                     }
 
-                    // The bottom has been reached, so the pit no longer needs to be traced
                     break;
                 }
 
                 var origin = _groundTilemap.GetCellCenterWorld(currTilePos);
                 currTilePos.y--;
                 
-                // Since there's no tile to the right, raycast as far as the FoV allows to find the end of the pit
                 var pitEndpointCheck = Physics2D.Raycast(origin, Vector2.right, remainingSightExtent, groundLayer);
 
                 if (!pitEndpointCheck) {
-                    // Couldn't find the end of the pit, so disregard this unit and continue checking downward
                     continue;
                 }
                 
-                // Only register the end of the pit if it's the first endpoint or if the endpoint is closer than the last
                 if (lastPitEndpoint != Vector3.zero && (!(pitEndpointCheck.point.x < lastPitEndpoint.x) || 
                     (lastPitEndpoint.x - pitEndpointCheck.point.x) < 0.5f)) {
                     continue;
@@ -315,8 +339,14 @@ namespace KrillOrBeKrilled.Heroes {
             return true;
         }
 
-        internal Vector3 FindJumpEndpoint(Vector3 position) {
-            var tilePos = _groundTilemap.WorldToCell(position);
+        /// <summary>
+        /// Finds the first empty tile position directly above the provided position. Used to find the top of
+        /// platforms. 
+        /// </summary>
+        /// <param name="hitPosition"> The position of a platform in world space. </param>
+        /// <returns> The center of the empty tile in world space. </returns>
+        internal Vector3 FindJumpEndpoint(Vector3 hitPosition) {
+            var tilePos = _groundTilemap.WorldToCell(hitPosition);
             while (_groundTilemap.GetTile(tilePos)) {
                 tilePos.y += 1;
             }
@@ -324,6 +354,10 @@ namespace KrillOrBeKrilled.Heroes {
             return _groundTilemap.GetCellCenterWorld(tilePos);
         }
         
+        /// <summary>
+        /// Sets up all the required references to operate the FoV from <see cref="Hero"/> on instantiation.
+        /// </summary>
+        /// <param name="groundTilemap"> The Tilemap associated with the level environment. </param>
         internal void Initialize(Tilemap groundTilemap) {
             _groundTilemap = groundTilemap;
         }

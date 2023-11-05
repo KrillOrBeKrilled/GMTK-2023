@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using KrillOrBeKrilled.Heroes.BehaviourTree;
 using UnityEngine;
 
@@ -6,41 +5,49 @@ using UnityEngine;
 // DecideJumpForce
 //*******************************************************************************************
 namespace KrillOrBeKrilled.Heroes.AI {
+    /// <summary>
+    /// A checker node used to operate the hero AI that governs the hero's calculation
+    /// of the force required to successfully make the current jump in question. The
+    /// hero will choose between jump types to make based on the jump landing position.
+    /// </summary>
     public class DecideJumpForce : Node {
         private Transform _heroTransform;
         private float _maxJumpForce, _minJumpForce; 
         private float _jumpAngle;
         
-        private float _dashSpeed;
+        private const float _dashSpeed = 8f;
         
-        public DecideJumpForce(Transform heroTransform, float minJumpForce, float maxJumpForce, float jumpAngle, float dashSpeed) {
+        public DecideJumpForce(Transform heroTransform, float minJumpForce, float maxJumpForce, float jumpAngle) {
             _heroTransform = heroTransform;
             _maxJumpForce = maxJumpForce;
             _minJumpForce = minJumpForce;
             _jumpAngle = jumpAngle;
-
-            _dashSpeed = dashSpeed;
         }
         
+        /// <summary>
+        /// Gauges the distance and elevation difference between the jump launch position and the jump target position
+        /// and chooses a jump type calculation to commence to reach the respective target successfully.
+        /// </summary>
+        /// <remarks> The first formula to be used for short distance jumps to reach higher elevations and longer
+        /// distance jumps calculates the initial velocity needed to reach a target apex. The second formula forms
+        /// a heighty and fluttery jump by calculating the initial velocity in the vertical direction required to
+        /// reach the jump land point. </remarks>
+        /// <returns> The <b>success</b> status. </returns>
         internal override NodeStatus Evaluate() {
             var targetPos = (Vector3)GetData("JumpLandPoint");
             var launchPos = (Vector3)GetData("JumpLaunchPoint");
-            
-            // Debug.Log("Jumping to: " + targetPos);
-            // Debug.Log("From: " + launchPos);
 
             // If no jump endpoint has been defined, the hero will jump with maximum force
             if (targetPos == Vector3.zero) {
                 Debug.LogError("Hero cannot find a target platform!");
                 
-                Parent.SetData("JumpVelocity", new Vector3(_dashSpeed, 0, 0));
+                Parent.SetData("JumpVelocity", new Vector3(_dashSpeed, _maxJumpForce, 0));
                 return NodeStatus.SUCCESS;
             }
 
             var heroPos = _heroTransform.position;
             var distance = targetPos.x - launchPos.x;
 
-            // TODO: Have different formulas for jumping to higher heights and to lower heights
             Vector3 initialVelocity;
             var gravity = Physics.gravity.magnitude * 3f;
             var elevationDifference = targetPos.y - launchPos.y;
@@ -58,23 +65,15 @@ namespace KrillOrBeKrilled.Heroes.AI {
                         positiveElevationDifference + positiveElevationDifference * 0.03f + distance * 0.3f + 2.5f,
                         0
                     );
-                
-                // Debug.Log("ElevationDifference: " + elevationDifference);
-                // Debug.Log("Distance: " + distance);
-                // Debug.Log("Jump apex: " + jumpApex);
 
                 var jumpAngle = Mathf.Asin(jumpApex.normalized.y);
 
                 // Use Toricelli's formula to get initial velocity to reach the apex
                 var v0 = Mathf.Sqrt(2 * gravity * Mathf.Max(0, jumpApex.y));
-                v0 = Mathf.Max(_minJumpForce, v0);
+                v0 = Mathf.Clamp(v0, _minJumpForce, _maxJumpForce);
 
                 initialVelocity = new Vector3(v0 * Mathf.Cos(jumpAngle), v0 * Mathf.Sin(jumpAngle), 0);
-                
-                // Debug.Log("initialVelocity: " + initialVelocity);
             } else {
-                // Debug.Log("Heighty jump");
-                // Debug.Log("Elevation difference: " + elevationDifference);
                 var jumpAngle = _jumpAngle * Mathf.Deg2Rad;
                 
                 // Tune jump height
@@ -86,20 +85,14 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 // 2. Solve for the time in the air in the x-direction -> _dashSpeed is the velocity in the x-direction
                 // => t = (distance) / (_dashSpeed)
                 // 3. Substitute #2 back into #1 and solve for v0
-                var v0 = (targetPos.y - heroPos.y + 0.5f * gravity * (distance / _dashSpeed * distance / _dashSpeed)) /
+                var v0 = (targetPos.y - heroPos.y + 0.5f * gravity * (distance / 8f * distance / _dashSpeed)) /
                          (Mathf.Sin(jumpAngle) * (distance / _dashSpeed));
+                v0 = Mathf.Clamp(v0, _minJumpForce, _maxJumpForce);
 
-                initialVelocity = new Vector3(_dashSpeed, Mathf.Max(_minJumpForce, v0) * Mathf.Sin(jumpAngle), 0);
+                initialVelocity = new Vector3(_dashSpeed, v0 * Mathf.Sin(jumpAngle), 0);
             }
             
             Parent.SetData("JumpVelocity", initialVelocity);
-            
-            // Debug.Log("Target: " + targetPos);
-            // Debug.Log("Launch position: " + heroPos);
-            // Debug.Log("Jump force: " + v0);
-            
-            // Note that we will have to compare the maximum jumpForce between the initial velocity needed to clear the
-            // tallest trap and the target point to reach
 
             return NodeStatus.SUCCESS;
         }

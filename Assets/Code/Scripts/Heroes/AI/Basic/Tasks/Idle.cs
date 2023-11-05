@@ -1,4 +1,3 @@
-using Codice.Client.BaseCommands;
 using KrillOrBeKrilled.Heroes.BehaviourTree;
 using UnityEngine;
 
@@ -6,6 +5,10 @@ using UnityEngine;
 // Idle
 //*******************************************************************************************
 namespace KrillOrBeKrilled.Heroes.AI {
+    /// <summary>
+    /// A task node used to operate the hero AI that governs the hero's ability to stay
+    /// idle.
+    /// </summary>
     public class Idle : Node {
         private Rigidbody2D _rigidbody;
         private Animator _animController;
@@ -15,6 +18,10 @@ namespace KrillOrBeKrilled.Heroes.AI {
             _animController = animController;
         }
         
+        /// <summary>
+        /// Clears the hero's velocity and updates the animation controller accordingly.
+        /// </summary>
+        /// <returns> The <b>success</b> status. </returns>
         internal override NodeStatus Evaluate() {
             this._rigidbody.velocity = Vector2.zero;
             

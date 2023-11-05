@@ -147,7 +147,7 @@ namespace KrillOrBeKrilled.Heroes {
             this.Type = heroData.Type;
             this._soundsController = soundsController;
 
-            this._heroBrain.Initialize(soundsController, groundTilemap);
+            this._heroBrain.Initialize(soundsController);
             this._heroSight.Initialize(groundTilemap);
         }
         

@@ -2,7 +2,15 @@ using System.Collections.Generic;
 using KrillOrBeKrilled.Heroes.BehaviourTree;
 using UnityEngine;
 
+//*******************************************************************************************
+// BasicBT
+//*******************************************************************************************
 namespace KrillOrBeKrilled.Heroes.AI {
+    /// <summary>
+    /// A <see cref="HeroBT"/> subclass that performs the functionality of a basic hero
+    /// type, including nodes to handle idle, running, pit tracking, and jumping
+    /// behaviours.
+    /// </summary>
     public class BasicBT : HeroBT  {
         [Header("Debug")]
         public bool Debug = false;
@@ -18,7 +26,6 @@ namespace KrillOrBeKrilled.Heroes.AI {
         // ---------------- Movement -----------------
         [Header("Movement")]
         [SerializeField] internal float MovementSpeed = 4f;
-        [SerializeField] internal float DashSpeed = 6f;
         
         // Examples
         // - 0.2 is 20% speed reduction
@@ -37,9 +44,9 @@ namespace KrillOrBeKrilled.Heroes.AI {
             var heroTransform = transform;
             
             var jumping = new Sequence(new List<Node> {
-                new LookForObstacle(HeroSight, ObstaclesToSight),
-                new ApproachTarget(heroTransform, Rigidbody, AnimController, DashSpeed),
-                new DecideJumpForce(heroTransform, MinJumpForce, MaxJumpForce, JumpAngle, DashSpeed),
+                new LookForObstacle(),
+                new ApproachTarget(heroTransform, Rigidbody, AnimController),
+                new DecideJumpForce(heroTransform, MinJumpForce, MaxJumpForce, JumpAngle),
                 new Jump(Rigidbody, AnimController, SoundsController)
             });
 

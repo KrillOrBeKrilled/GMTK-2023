@@ -3,9 +3,13 @@ using KrillOrBeKrilled.Heroes.BehaviourTree;
 using UnityEngine;
 
 //*******************************************************************************************
-// LookForPit
+// LookForGround
 //*******************************************************************************************
 namespace KrillOrBeKrilled.Heroes.AI {
+    /// <summary>
+    /// A checker node used to operate the hero AI that governs the hero's sighting of
+    /// pits and walls and ability to choose the jump path out of the options available.
+    /// </summary>
     public class LookForGround : Node {
         private readonly Transform _heroTransform;
         private readonly FieldOfView _heroSight;
@@ -22,6 +26,15 @@ namespace KrillOrBeKrilled.Heroes.AI {
             _trapLayers = trapLayers;
         }
         
+        /// <summary>
+        /// Checks for a pit in the ground and registers a jump action with a jump endpoint of choice from the
+        /// sighting data. If a pit is not found, checks for a wall directly ahead of the hero and registers
+        /// its start and endpoint as a jump action when found.
+        /// </summary>
+        /// <remarks> The pit endpoint of choice is selected randomly. When a new jump action is registered, the
+        /// action is recorded in the managed bookkeeping structure in order of horizontal distance from the hero,
+        /// where the closest jump launch position is at the front. </remarks>
+        /// <returns> The <b>success</b> status. </returns>
         internal override NodeStatus Evaluate() {
             var pitList = (List<(Vector3, Vector3)>)GetData("PitList");
 
@@ -56,7 +69,6 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 }
 
                 launchLedgePos = (Vector3)groundHitData.point;
-                // launchLedgePos.x -= 0.2f;
 
                 // Set the jump land endpoint if there are any that have been sighted. Otherwise, leave it blank
                 targetLedgePos = Vector3.zero;
@@ -66,9 +78,6 @@ namespace KrillOrBeKrilled.Heroes.AI {
                     var pitToJump = pitEndpoints[randomNum];
             
                     targetLedgePos = _heroSight.FindJumpEndpoint(pitToJump);
-                    
-                    // Debug.Log("Pit jump position: " + launchLedgePos);
-                    // Debug.Log("Pit jump endpoint: " + targetLedgePos);
                 }
             } else if (wallHit && !(bool)GetData("IsFalling")) {
                 var jumpPos = wallHit.point + Vector2.left * 3.5f;
@@ -79,41 +88,26 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 }
                 
                 launchLedgePos = jumpPos;
-                // launchLedgePos.x -= 0.2f;
 
                 var adjustedHitPos = wallHit.point;
                 adjustedHitPos.x += 0.5f;
                 targetLedgePos = _heroSight.FindJumpEndpoint(adjustedHitPos);
-                
-                // Debug.Log("Wall jump position: " + launchLedgePos);
-                // Debug.Log("Wall jump endpoint: " + targetLedgePos);
             }
 
             if (targetLedgePos == Vector3.zero) {
                 return NodeStatus.SUCCESS;
             }
             
-            // Insert in an orderly fashion
-            // Debug.Log("Inserting into list!");
             int i;
             for (i = 0; i < pitList.Count; i++) {
                 var jumpLaunchPoint = pitList[i].Item1;
-                
-                // Debug.Log("Jump point: " + jumpLaunchPoint);
-                // Debug.Log("End point: " + pitList[i].Item2);
 
                 if (launchLedgePos.x > jumpLaunchPoint.x) {
                     continue;
                 }
-                
-                // Debug.Log("launch ledge position to be added: " + launchLedgePos);
-                // Debug.Log("jump launch position to be compared: " + jumpLaunchPoint);
 
                 break;
             }
-            
-            // Debug.Log("jump position being added: " + launchLedgePos);
-            // Debug.Log("jump end position being added: " + targetLedgePos);
             
             pitList.Insert(i, (launchLedgePos, targetLedgePos));
             
@@ -122,10 +116,6 @@ namespace KrillOrBeKrilled.Heroes.AI {
             } else {
                 _lastSeenWall = launchLedgePos;
             }
-
-            // Debug.Log("Enqueued!");
-            // Debug.Log("Launch position: " + launchLedgePos);
-            // Debug.Log("Land position: " + targetLedgePos);
 
             return NodeStatus.SUCCESS;
         }

@@ -42,17 +42,16 @@ namespace KrillOrBeKrilled.UI {
         /// Padding value will be applied from the left and right.
         /// </summary>
         private const int IconPositionPadding = 15;
-        
+
         //========================================
         // Unity Methods
         //========================================
-        
+
         #region Unity Methods
 
         private void Start() {
             this._progressSlider.value = 0f;
             this._sliderLength = ((RectTransform)this.transform).rect.width - IconPositionPadding * 2;
-            print(this._sliderLength);
         }
 
         private void Update() {
@@ -74,13 +73,13 @@ namespace KrillOrBeKrilled.UI {
                     new Vector2(this._sliderLength * this.GetHeroMapProgress(this._player), 0);
             }
         }
-        
+
         #endregion
-        
+
         //========================================
         // Public Methods
         //========================================
-        
+
         #region Public Methods
 
         /// <summary> Sets up all references to operate the map UI. </summary>
@@ -118,15 +117,15 @@ namespace KrillOrBeKrilled.UI {
             Image newIcon = Instantiate(heroIconPrefab, this._heroIconsParent);
             this._heroToIconDict.Add(newHero, newIcon);
         }
-        
+
         #endregion
-        
+
         //========================================
         // Private Methods
         //========================================
-        
+
         #region Private Methods
-        
+
         /// <summary>
         /// Helper method for <see cref="Update"/> that calculates the progress of a GameObject between the start
         /// and end goal of the level as a percentage.
@@ -163,7 +162,7 @@ namespace KrillOrBeKrilled.UI {
 
             this._heroToIconDict.Remove(diedHero);
         }
-        
+
         #endregion
     }
 }

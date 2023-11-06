@@ -42,13 +42,13 @@ namespace KrillOrBeKrilled.Core.Player {
         [SerializeField] private Vector3 _leftDeployPosition, _rightDeployPosition;
 
         private bool _isSelectingTileSFX, _canDeploy;
-        
+
         //========================================
         // Unity Methods
         //========================================
-        
+
         #region Unity Methods
-        
+
         private void Awake() {
             TryGetComponent(out this._soundsController);
             TryGetComponent(out this._trapSoundsController);
@@ -57,17 +57,17 @@ namespace KrillOrBeKrilled.Core.Player {
             this.Traps = this._trapPrefabs.AsReadOnly();
             this.CurrentTrap = this._trapPrefabs.First();
         }
-        
+
         #endregion
 
         //========================================
         // Internal Methods
         //========================================
-        
+
         #region Internal Methods
-        
+
         #region Trap Deployment
-        
+
         /// <summary>
         /// Sets the <see cref="CurrentTrap"/> and resets the painted trap tilemap tiles.
         /// </summary>
@@ -76,7 +76,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this.CurrentTrap = trap;
             this.DisableTrapDeployment();
         }
-        
+
         /// <summary>
         /// Deploys the current selected trap with associated SFX, provided that <see cref="_canDeploy"/>
         /// is toggled and the trap cost is affordable.
@@ -95,12 +95,10 @@ namespace KrillOrBeKrilled.Core.Player {
             // Left out of State pattern to allow this during movement
             if(!this._canDeploy || this._previousTilePositions.Count < 1) {
                 // TODO: Make an animation for this!
-                print("Can't Deploy Trap!");
                 return false;
             }
 
             if (!CoinManager.Instance.CanAfford(this.CurrentTrap.Cost)) {
-                print("Can't afford the trap!");
                 return false;
             }
 
@@ -118,7 +116,7 @@ namespace KrillOrBeKrilled.Core.Player {
 
             return true;
         }
-        
+
         /// <summary>
         /// Helper method for clearing the painted trap tilemap tiles and disabling trap surveying SFX.
         /// </summary>
@@ -194,7 +192,7 @@ namespace KrillOrBeKrilled.Core.Player {
         }
 
         #endregion
-        
+
         /// <summary>
         /// Locates a tilemap tile from a world space position and checks that it's a <see cref="CustomGroundRuleTile"/>.
         /// </summary>
@@ -213,13 +211,13 @@ namespace KrillOrBeKrilled.Core.Player {
         internal int GetCurrentTrapCost() {
             return this.CurrentTrap.Cost;
         }
-        
+
         #endregion
 
         //========================================
         // Private Methods
         //========================================
-        
+
         #region Private Methods
 
         /// <summary>
@@ -233,7 +231,7 @@ namespace KrillOrBeKrilled.Core.Player {
             // Clear the data of the previous tile
             this._previousTilePositions.Clear();
         }
-        
+
         /// <summary>
         /// Resets trap deployment validity and paints the selected tiles in the tilemap a rejection color.
         /// </summary>
@@ -241,7 +239,7 @@ namespace KrillOrBeKrilled.Core.Player {
             TilemapManager.Instance.PaintTilesRejectionColor(_previousTilePositions);
             this._canDeploy = false;
         }
-        
+
         /// <summary>
         /// Helper method for comparing a tilemap tile to a target tile type.
         /// </summary>

@@ -25,13 +25,13 @@ namespace KrillOrBeKrilled.Dialogue {
         private Vector3 _prevPrevPosition;
         private Vector3 _prevPrevPrevPosition;
         private Vector3 _dampenedPosition;
-        
+
         //========================================
         // Unity Methods
         //========================================
-        
+
         #region Unity Methods
-        
+
         // Start is called before the first frame update, but AFTER Awake()
         // ... this is important because YarnCharacterManager.Awake() must run before YarnCharacter.Start()
         private void Start() {
@@ -64,20 +64,19 @@ namespace KrillOrBeKrilled.Dialogue {
         /// Unregisters this character from the YarnCharacterView.
         /// </summary>
         private void OnDestroy() {
-            print("Forgetting Yarn Character");
             if (YarnCharacterView.instance is not null) {
                 YarnCharacterView.instance.ForgetYarnCharacter(this);
             }
         }
-        
+
         #endregion
-        
+
         //========================================
         // Internal Methods
         //========================================
-        
+
         #region Internal Methods
-        
+
         /// <summary>
         /// Calculates the positioning of dialogue message bubbles with respect to the specified
         /// <see cref="messageBubbleOffset"/> in local or world space depending on
@@ -92,12 +91,12 @@ namespace KrillOrBeKrilled.Dialogue {
                 if (!this.offsetUsesRotation) {
                     return this._dampenedPosition + this.messageBubbleOffset;
                 }
-                
+
                 // convert offset into local space
                 return this._dampenedPosition + this.transform.TransformPoint(this.messageBubbleOffset);
             }
         }
-        
+
         #endregion
     }
 }

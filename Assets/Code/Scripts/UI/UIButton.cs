@@ -33,6 +33,7 @@ namespace KrillOrBeKrilled.UI {
 
         private Sequence _tweenSequence;
         private bool _isInteractable = true;
+        private bool _isPressed;
 
         /// <summary>
         /// Sets this button to be interactable or un-interactable.
@@ -42,11 +43,19 @@ namespace KrillOrBeKrilled.UI {
             this._isInteractable = isInteractable;
         }
 
+        public void SetButtonSprites(Sprite defaultImage, Sprite pressedImage) {
+            this._defaultImage = defaultImage;
+            this._pressedImage = pressedImage;
+
+            this._image.sprite = this._isPressed ? this._pressedImage : this._defaultImage;
+        }
+
         public void OnPointerDown(PointerEventData eventData) {
             if (!this._isInteractable) {
                 return;
             }
 
+            this._isPressed = true;
             this._onClickImmediate?.Invoke();
             this._image.sprite = this._pressedImage;
 
@@ -69,6 +78,7 @@ namespace KrillOrBeKrilled.UI {
                 return;
             }
 
+            this._isPressed = false;
             this._image.sprite = this._defaultImage;
             this._onClickComplete?.Invoke();
 

@@ -51,9 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd4fcb4c527455b9d7c21097312bd1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpButton: {fileID: 6446662107135496682}
+  _jumpButton: {fileID: 7196689273298660623}
   _jumpImage: {fileID: 21300000, guid: 778dd597d081b483fb265fbc3d86ff28, type: 3}
-  _glideImage: {fileID: 21300000, guid: eeb72ef7ddeb64e238eb6a76d9c0df12, type: 3}
+  _jumpHighlightedImage: {fileID: 21300000, guid: d2420f62fc4ae4e53bbb481af00b8148, type: 3}
+  _glideImage: {fileID: 21300000, guid: 2b1b69aa943714194a37462ca33a2dc0, type: 3}
+  _glideHighlightedImage: {fileID: 21300000, guid: 40487b5d66c6f4f63afc2dd7d3e13c56, type: 3}
 --- !u!1 &1118857018013559983
 GameObject:
   m_ObjectHideFlags: 0

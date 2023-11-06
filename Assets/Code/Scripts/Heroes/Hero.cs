@@ -17,12 +17,10 @@ namespace KrillOrBeKrilled.Heroes {
     /// narrative sequences through <see cref="HeroMovement"/>.
     /// </summary>
     public class Hero : MonoBehaviour, IDamageable {
-        // public HeroMovement HeroMovement => this._heroMovement;
-        // private HeroMovement _heroMovement;
+        private Rigidbody2D _rigidbody;
         private HeroBT _heroBrain;
         private FieldOfView _heroSight;
-
-        private Animator _animator;
+        
         private const int CoinsEarnedOnDeath = 2;
 
         // ---------------- Spawning -----------------
@@ -64,11 +62,9 @@ namespace KrillOrBeKrilled.Heroes {
         #region Unity Methods
         
         private void Awake() {
-            // this.TryGetComponent(out this._heroMovement);
+            this.TryGetComponent(out this._rigidbody);
             this.TryGetComponent(out this._heroBrain);
             this.TryGetComponent(out this._heroSight);
-            this.TryGetComponent(out this._animator);
-            // this.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
         }
         
         #endregion
@@ -130,7 +126,11 @@ namespace KrillOrBeKrilled.Heroes {
         }
 
         public void ThrowActorBack(float stunDuration, float throwForce) {
-            // this._heroMovement.ThrowHeroBack(stunDuration, throwForce);
+            this._heroBrain.UpdateData("IsStunned", true);
+            this._heroBrain.UpdateData("StunDuration", stunDuration);
+            
+            Vector2 explosionVector = new Vector2(-1f, 0.7f) * throwForce;
+            this._rigidbody.AddForce(explosionVector, ForceMode2D.Impulse);
         }
 
         #endregion

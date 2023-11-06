@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Net.Sockets;
 using KrillOrBeKrilled.Heroes.BehaviourTree;
 using UnityEngine;
 
@@ -12,8 +13,6 @@ namespace KrillOrBeKrilled.Heroes.AI {
     /// behaviours.
     /// </summary>
     public class BasicBT : HeroBT  {
-        [Header("Debug")]
-        public bool Debug = false;
         
         // ------------ External Systems -------------
         [Header("External Systems")]
@@ -26,12 +25,6 @@ namespace KrillOrBeKrilled.Heroes.AI {
         // ---------------- Movement -----------------
         [Header("Movement")]
         [SerializeField] internal float MovementSpeed = 4f;
-        
-        // Examples
-        // - 0.2 is 20% speed reduction
-        // - 0.7 is 70% speed reduction
-        [Tooltip("Clamped between [0,1] as a speed reduction percentage.")]
-        private float _speedPenalty = 0f;
         
         // ---------------- Jumping ------------------
         [Header("Jumps")]
@@ -61,6 +54,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             });
             
             var root = new Selector(new List<Node> {
+                new Stun(),
                 groundJumping,
                 new Run(Rigidbody, AnimController, MovementSpeed),
                 new Idle(Rigidbody, AnimController)
@@ -70,6 +64,8 @@ namespace KrillOrBeKrilled.Heroes.AI {
             root.SetData("XSpeedKey", XSpeedKey);
             root.SetData("YSpeedKey", YSpeedKey);
             root.SetData("IsMoving", true);
+            root.SetData("IsStunned", false);
+            root.SetData("StunDuration", 0f);
             root.SetData("SpeedPenalty", 0f);
 
             jumping.SetData("JumpLaunchPoint", Vector3.zero);

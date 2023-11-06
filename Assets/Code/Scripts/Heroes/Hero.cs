@@ -133,6 +133,11 @@ namespace KrillOrBeKrilled.Heroes {
             this._rigidbody.AddForce(explosionVector, ForceMode2D.Impulse);
         }
 
+        public void ThrowActorForward(float throwForce) {
+            Vector2 leapVector = new Vector2(0.75f, 2f) * throwForce;
+            this._rigidbody.AddForce(leapVector, ForceMode2D.Impulse);
+        }
+
         #endregion
         
         /// <summary>

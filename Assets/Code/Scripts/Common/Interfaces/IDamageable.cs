@@ -48,6 +48,12 @@ namespace KrillOrBeKrilled.Common.Interfaces {
         /// <param name="stunDuration"> The duration of time to stun the actor. </param>
         /// <param name="throwForce"> Scales the knock back force applied to the actor. </param>
         public void ThrowActorBack(float stunDuration, float throwForce);
+        
+        /// <summary>
+        /// Applies a force to make the actor leap forward.
+        /// </summary>
+        /// <param name="throwForce"> Scales the force applied to the actor. </param>
+        public void ThrowActorForward(float throwForce);
 
         #endregion
     }

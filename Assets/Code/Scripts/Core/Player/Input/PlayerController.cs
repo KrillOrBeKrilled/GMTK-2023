@@ -208,6 +208,8 @@ namespace KrillOrBeKrilled.Core.Player {
         public void TakeDamage(int amount) {}
 
         public void ThrowActorBack(float stunDuration, float throwForce) {}
+        
+        public void ThrowActorForward(float throwForce) {}
 
         #endregion
 

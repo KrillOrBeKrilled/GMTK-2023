@@ -97,6 +97,8 @@ namespace KrillOrBeKrilled.Traps {
             if (!this.IsReady) 
                 return;
 
+            // Make the hero reflexively leap out of the burning acid pit
+            actor.ThrowActorForward(1f);
             actor.ApplySpeedPenalty(0.8f);
 
             if (this._intervalDamageCoroutine != null) {
@@ -146,12 +148,9 @@ namespace KrillOrBeKrilled.Traps {
             _bubbles.transform.position = new Vector3(_bubblesStartPos.x, _bubblesStartPos.y + targetDepth * 1.8f,
                 _bubblesStartPos.z);
         }
-
-        /// <inheritdoc cref="Trap.SetUpTrap"/>
-        /// <remarks> Disables the <see cref="HeroJumpPad"/> that allows a hero to avoid this trap. </remarks>
-        protected override void SetUpTrap() {
-            _pitAvoidanceJumpPad.SetActive(false);
-        }
+        
+        protected override void SetUpTrap() {}
+        
         #endregion
         
         #endregion

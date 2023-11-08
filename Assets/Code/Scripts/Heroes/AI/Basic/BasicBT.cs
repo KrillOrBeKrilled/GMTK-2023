@@ -13,9 +13,6 @@ namespace KrillOrBeKrilled.Heroes.AI {
     /// behaviours.
     /// </summary>
     public class BasicBT : HeroBT  {
-        
-        // ------------ External Systems -------------
-        [Header("External Systems")]
 
         // --------------- Hero Sight ----------------
         [Header("Eyesight")]
@@ -25,6 +22,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
         // ---------------- Movement -----------------
         [Header("Movement")]
         [SerializeField] internal float MovementSpeed = 4f;
+        [SerializeField] internal float SpeedBlendDuration = 0.5f;
         
         // ---------------- Jumping ------------------
         [Header("Jumps")]
@@ -38,7 +36,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             
             var jumping = new Sequence(new List<Node> {
                 new LookForObstacle(),
-                new ApproachTarget(heroTransform, Rigidbody, AnimController),
+                new ApproachTarget(heroTransform, Rigidbody, AnimController, MovementSpeed, SpeedBlendDuration),
                 new DecideJumpForce(heroTransform, MinJumpForce, MaxJumpForce, JumpAngle),
                 new Jump(Rigidbody, AnimController, SoundsController)
             });

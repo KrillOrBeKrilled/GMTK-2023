@@ -14,13 +14,20 @@ namespace KrillOrBeKrilled.Heroes.AI {
         private readonly Transform _heroTransform;
         private readonly Rigidbody2D _rigidbody;
         private readonly Animator _animController;
-        
-        private const float _dashSpeed = 8f;
 
-        public ApproachTarget(Transform heroTransform, Rigidbody2D rigidbody, Animator animController) {
+        private readonly float _movementSpeed;
+        private readonly float _speedBlendDuration;
+        private const float _dashSpeed = 8f;
+        private float _currentSpeed, _t;
+
+        public ApproachTarget(Transform heroTransform, Rigidbody2D rigidbody, Animator animController, 
+            float movementSpeed, float speedBlendDuration) {
             _heroTransform = heroTransform;
             _rigidbody = rigidbody;
             _animController = animController;
+            
+            _movementSpeed = movementSpeed;
+            _speedBlendDuration = speedBlendDuration;
         }
         
         /// <summary>
@@ -37,6 +44,8 @@ namespace KrillOrBeKrilled.Heroes.AI {
 
             // Ensure the hero is generally around the same position as the launch point before jumping
             if (targetPos.x < heroPos.x && Mathf.Abs(targetPos.y - heroPos.y) < 2f) {
+                _currentSpeed = _movementSpeed;
+                _t = 0;
                 return NodeStatus.SUCCESS;
             }
             
@@ -46,8 +55,13 @@ namespace KrillOrBeKrilled.Heroes.AI {
 
                 return NodeStatus.FAILURE;
             }
+            
+            if (_t < 1) {
+                _currentSpeed = Mathf.SmoothStep(_currentSpeed, _dashSpeed, _t / _speedBlendDuration);
+                _t += Time.deltaTime;
+            }
 
-            var speed = _dashSpeed * (1f - (float)GetData("SpeedPenalty"));
+            var speed = _currentSpeed * (1f - (float)GetData("SpeedPenalty"));
             this._rigidbody.velocity = new Vector2(speed, this._rigidbody.velocity.y);
 
             this._animController.SetFloat((int)GetData("XSpeedKey"), Mathf.Abs(this._rigidbody.velocity.x));

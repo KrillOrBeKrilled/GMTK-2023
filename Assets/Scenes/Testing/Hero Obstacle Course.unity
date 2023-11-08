@@ -2575,8 +2575,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1445894700}
     - target: {fileID: 1717153536710988940, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
+      propertyPath: GroundedCheckBoxSize.x
+      value: 0.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717153536710988940, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
       propertyPath: _trapPrefabs.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717153536710988940, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
+      propertyPath: GroundedCheckBoxOffset.y
+      value: -1.35
       objectReference: {fileID: 0}
     - target: {fileID: 1717153536710988940, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
       propertyPath: _trapPrefabs.Array.data[0]
@@ -5576,6 +5584,10 @@ PrefabInstance:
       propertyPath: _onHover.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 9186954324187263670, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _gameManager
+      value: 
+      objectReference: {fileID: 777455261}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -9,7 +9,6 @@ namespace KrillOrBeKrilled.UI {
 
     private Sequence _tweenSequence;
     private const float ScaleUpValue = 1.05f;
-    private const float ScaleDownValue = 0.95f;
     private const float AnimationDuration = 0.05f;
     private RectTransform _rectTransform;
 
@@ -41,7 +40,6 @@ namespace KrillOrBeKrilled.UI {
       this._tweenSequence?.Kill();
       this._tweenSequence = DOTween.Sequence();
       this._tweenSequence.Append(this._rectTransform.DOScale(new Vector3(ScaleUpValue, ScaleUpValue, 1f), AnimationDuration));
-      //this._tweenSequence.Append(this._rectTransform.DOScale(new Vector3(ScaleDownValue, ScaleDownValue, 1f), AnimationDuration));
       this._tweenSequence.Append(this._rectTransform.DOScale(Vector3.one, AnimationDuration));
       this._tweenSequence.OnComplete(() => {
         this._tweenSequence = null;

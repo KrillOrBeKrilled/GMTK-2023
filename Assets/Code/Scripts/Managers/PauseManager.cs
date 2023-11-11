@@ -1,44 +1,27 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 //*******************************************************************************************
 // PauseManager
 //*******************************************************************************************
 namespace KrillOrBeKrilled.Managers {
     /// <summary>
-    /// Manages the pausing and unpausing mechanics of the game through direct
+    /// Manages the pausing and un-pausing mechanics of the game through direct
     /// manipulation of <see cref="Time.timeScale"/>.
     /// </summary>
-    public class PauseManager: Singleton<PauseManager> {
-        [Tooltip("Tracks when the game is paused and unpaused.")]
-        public UnityEvent<bool> OnPauseToggled;
-
+    public class PauseManager : MonoBehaviour {
         // Denotes if the game can be paused.
         private bool _isPausable;
         // Denotes whether or not the game is currently paused.
         private bool _isPaused;
-        
-        //========================================
-        // Unity Methods
-        //========================================
-        
-        #region Unity Methods
 
-        protected override void Awake() {
-            base.Awake();
-            this.OnPauseToggled = new UnityEvent<bool>();
-        }
-
-        #endregion
-        
         //========================================
         // Public Methods
         //========================================
-        
+
         #region Public Methods
-        
+
         /// <summary> Sets the <see cref="Time.timeScale"/> to zero and toggles <see cref="_isPaused"/>. </summary>
-        /// <remarks> Invokes the <see cref="OnPauseToggled"/> event. </remarks>
+        /// <remarks> Invokes the <see cref="PauseToggledEvent"/> event. </remarks>
         public void PauseGame() {
             if (!this._isPausable) {
                 return;
@@ -46,9 +29,9 @@ namespace KrillOrBeKrilled.Managers {
 
             Time.timeScale = 0f;
             this._isPaused = true;
-            this.OnPauseToggled?.Invoke(this._isPaused);
+            EventManager.Instance.PauseToggledEvent?.Invoke(this._isPaused);
         }
-        
+
         /// <summary>
         /// Enables or disables the ability to pause the game.
         /// </summary>
@@ -56,15 +39,15 @@ namespace KrillOrBeKrilled.Managers {
         public void SetIsPausable(bool isPausable) {
             this._isPausable = isPausable;
         }
-        
+
         /// <summary> Resets the <see cref="Time.timeScale"/> and resets <see cref="_isPaused"/>. </summary>
-        /// <remarks> Invokes the <see cref="OnPauseToggled"/> event. </remarks>
+        /// <remarks> Invokes the <see cref="PauseToggledEvent"/> event. </remarks>
         public void UnpauseGame() {
             Time.timeScale = 1f;
             this._isPaused = false;
-            this.OnPauseToggled?.Invoke(this._isPaused);
+            EventManager.Instance.PauseToggledEvent?.Invoke(this._isPaused);
         }
-        
+
         #endregion
     }
 }

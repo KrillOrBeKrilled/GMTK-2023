@@ -3,8 +3,9 @@ namespace KrillOrBeKrilled.Managers {
     public static EventManager Instance => _instance ??= new EventManager();
     private static EventManager _instance;
 
-    // Game Manager Events
+    // Game Events
     public readonly GameOverEvent GameOverEvent;
+    public readonly PauseToggledEvent PauseToggledEvent;
 
     // Coins & Resources
     public readonly CoinAmountChangedEvent CoinAmountChangedEvent;
@@ -13,8 +14,9 @@ namespace KrillOrBeKrilled.Managers {
     // UI Events
 
     private EventManager() {
-      // Game Manager Events
+      // Game Events
       this.GameOverEvent = new GameOverEvent();
+      this.PauseToggledEvent = new PauseToggledEvent();
 
       // Coins & Resources
       this.CoinAmountChangedEvent = new CoinAmountChangedEvent();

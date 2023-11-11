@@ -12,4 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: ResourceTypeData
   m_EditorClassIdentifier: Traps:KrillOrBeKrilled.Traps:ResourceTypeData
-  _icons: []
+  _icons:
+  - Type: 0
+    Icon: {fileID: 21300000, guid: 22667369ab6464fb3a433e5a37f48f03, type: 3}
+  - Type: 1
+    Icon: {fileID: 21300000, guid: 152da6cc0b6744d32a0d0dc71b7fc14b, type: 3}
+  - Type: 2
+    Icon: {fileID: 21300000, guid: 41b93bfb5e543434d8a228677972150d, type: 3}
+  - Type: 3
+    Icon: {fileID: 21300000, guid: b746cc370e10e4f0c96195e064d6ae39, type: 3}
+  - Type: 4
+    Icon: {fileID: 21300000, guid: f649aea67ece7460cb7707cc354c8936, type: 3}

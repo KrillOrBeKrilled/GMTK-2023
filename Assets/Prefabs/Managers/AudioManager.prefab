@@ -96,15 +96,15 @@ MonoBehaviour:
   _henDialogueEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: de1eef44fcdd04ee28fa89aaa021100d, type: 2}
   _heroDialogueEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: ef58f8f9ce86149d9ad45e812b3e6673, type: 2}
   _bossDialogueEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: f67edc7697cc44b95a6e73cb1aa7b062, type: 2}
   _startBuildEvent:
     idInternal: 0
     valueGuidInternal: 
@@ -128,12 +128,12 @@ MonoBehaviour:
   _heroHurtEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 5ac2bf606307a47b2a29782958c7db68, type: 2}
   _heroJumpEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 3cdda45bcab2f4f738df1bc1039774d7, type: 2}
   _heroDeathEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 31453c1d4aeb8c940a1c539c55946da1, type: 2}

@@ -22,7 +22,6 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private GameManager _gameManager;
         [Tooltip("Used to fade the scene in and out.")]
         [SerializeField] private Image _backgroundImage;
-        [SerializeField] private Image _backgroundTintImage;
         [SerializeField] private Image _foregroundImage;
         [Tooltip("Pause menu UI.")]
         [SerializeField] private GameObject _pauseUI;
@@ -76,7 +75,7 @@ namespace KrillOrBeKrilled.UI {
             this._controlsUI.Initialize(this._gameManager.PlayerController);
 
             EventManager.Instance.CoinAmountChangedEvent.AddListener(this.OnCoinsUpdated);
-            PauseManager.Instance.OnPauseToggled.AddListener(this.OnPauseToggled);
+            EventManager.Instance.PauseToggledEvent.AddListener(this.OnPauseToggled);
         }
 
         #endregion
@@ -155,12 +154,11 @@ namespace KrillOrBeKrilled.UI {
         /// Enables or disables the Pause menu UI.
         /// </summary>
         /// <param name="isPaused"> Whether the game is currently paused or not. </param>
-        /// <remarks> Subscribed to the <see cref="PauseManager.OnPauseToggled"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="PauseToggledEvent"/> event. </remarks>
         private void OnPauseToggled(bool isPaused) {
             if (isPaused) {
                 // TODO: Play short modal show animation
                 this._pauseUI.SetActive(true);
-                this._backgroundTintImage.gameObject.SetActive(true);
             }
         }
 

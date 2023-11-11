@@ -28,6 +28,7 @@ namespace KrillOrBeKrilled.Core {
     public class GameManager : MonoBehaviour {
         [Header("References")]
         [SerializeField] private PlayerManager _playerManager;
+        [SerializeField] private PauseManager _pauseManager;
 
         [Header("Dialogue References")]
         [SerializeField] private DialogueRunner _dialogueRunner;
@@ -148,7 +149,7 @@ namespace KrillOrBeKrilled.Core {
                 this.StartEndlessLevel();
             }
 
-            PauseManager.Instance.SetIsPausable(true);
+            this._pauseManager.SetIsPausable(true);
         }
 
         #endregion
@@ -219,8 +220,8 @@ namespace KrillOrBeKrilled.Core {
         /// Disables pause controls and loads the MainMenu scene.
         /// </summary>
         public void LoadMainMenu() {
-            PauseManager.Instance.UnpauseGame();
-            PauseManager.Instance.SetIsPausable(false);
+            this._pauseManager.UnpauseGame();
+            this._pauseManager.SetIsPausable(false);
             this.OnSceneWillChange?.Invoke(SceneNavigationManager.Instance.LoadLevelsScene);
         }
 
@@ -228,15 +229,15 @@ namespace KrillOrBeKrilled.Core {
         /// Unpauses the game.
         /// </summary>
         public void LoadNextLevel() {
-            PauseManager.Instance.UnpauseGame();
+            this._pauseManager.UnpauseGame();
         }
 
         /// <summary>
         /// Disables pause controls and reloads the current level.
         /// </summary>
         public void ReloadThisLevel() {
-            PauseManager.Instance.UnpauseGame();
-            PauseManager.Instance.SetIsPausable(false);
+            this._pauseManager.UnpauseGame();
+            this._pauseManager.SetIsPausable(false);
             this.OnSceneWillChange?.Invoke(SceneNavigationManager.Instance.ReloadCurrentScene);
         }
 

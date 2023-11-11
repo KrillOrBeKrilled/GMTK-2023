@@ -416,6 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 682652d564cb45089eb2fa8bbf92b5d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _muteClickSfx: 0
   _onClickImmediate:
     m_PersistentCalls:
       m_Calls: []
@@ -434,6 +435,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _defaultImage: {fileID: 0}
+  _pressedImage: {fileID: 0}
 --- !u!1 &2302179177251992078
 GameObject:
   m_ObjectHideFlags: 0

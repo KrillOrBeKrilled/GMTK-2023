@@ -2,9 +2,11 @@ using DG.Tweening;
 using KrillOrBeKrilled.Traps;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace KrillOrBeKrilled.UI {
   public class TrapRequirementsUI : MonoBehaviour {
+    [SerializeField] private Image _trapIcon;
     [SerializeField] private List<TrapRequirementUI> _trapRequirements;
 
     private Sequence _tweenSequence;
@@ -21,6 +23,7 @@ namespace KrillOrBeKrilled.UI {
     }
 
     private void Start() {
+      this.gameObject.SetActive(false);
       this._trapRequirements[0].SetIconAmount(ResourceType.ScrapMetal, 5);
       this._trapRequirements[1].SetIconAmount(ResourceType.WoodStick, 6);
       this._trapRequirements[2].SetIconAmount(ResourceType.Slime, 7);
@@ -47,6 +50,10 @@ namespace KrillOrBeKrilled.UI {
       });
       this._tweenSequence.SetEase(Ease.InOutSine);
       this._tweenSequence.Play();
+    }
+
+    public void SetTrap(Trap trap) {
+      
     }
   }
 }

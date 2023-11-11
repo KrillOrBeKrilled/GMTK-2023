@@ -522,6 +522,7 @@ namespace KrillOrBeKrilled.Core {
 
             this.StopAllHeroes();
             this.OnHenLost?.Invoke(endgameMessage);
+            EventManager.Instance.GameOverEvent?.Invoke();
         }
 
         /// <summary>

@@ -75,7 +75,7 @@ namespace KrillOrBeKrilled.UI {
 
             this._controlsUI.Initialize(this._gameManager.PlayerController);
 
-            CoinManager.Instance.OnCoinAmountChanged.AddListener(this.OnCoinsUpdated);
+            EventManager.Instance.CoinAmountChangedEvent.AddListener(this.OnCoinsUpdated);
             PauseManager.Instance.OnPauseToggled.AddListener(this.OnPauseToggled);
         }
 
@@ -108,7 +108,7 @@ namespace KrillOrBeKrilled.UI {
         /// Updates the coin counter UI text.
         /// </summary>
         /// <param name="amount"> The new coin count to display on the coin counter UI. </param>
-        /// <remarks> Subscribed to the <see cref="CoinManager.OnCoinAmountChanged"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="CoinAmountChangedEvent"/> event. </remarks>
         private void OnCoinsUpdated(int amount) {
             this._coinsText.SetText($"{amount}");
         }

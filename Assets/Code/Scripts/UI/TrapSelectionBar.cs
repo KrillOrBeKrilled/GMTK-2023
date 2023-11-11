@@ -17,13 +17,13 @@ namespace KrillOrBeKrilled.UI {
     public class TrapSelectionBar : MonoBehaviour {
         [Tooltip("Stores each trap icon contained within the trap selection toolbar.")]
         [SerializeField] private List<TrapBarIcon> _trapBarIcons;
-        
+
         //========================================
         // Public Methods
         //========================================
-        
+
         #region Public Methods
-        
+
         /// <summary>
         /// Sets up all references and listeners to operate the trap selection toolbar, also initializing each
         /// <see cref="TrapBarIcon"/>.
@@ -35,41 +35,41 @@ namespace KrillOrBeKrilled.UI {
         /// <param name="selectTrapAction">A callback which is invoked when a Trap Icon is clicked. </param>
         public void Initialize(UnityEvent<Trap> trapChanged, ReadOnlyCollection<Trap> traps, UnityAction<Trap> selectTrapAction) {
             trapChanged.AddListener(this.SelectedTrapIndexChanged);
-            CoinManager.Instance.OnCoinAmountChanged.AddListener(this.OnCoinAmountChanged);
+            EventManager.Instance.CoinAmountChangedEvent.AddListener(this.OnCoinAmountChanged);
 
             for (int i = 0; i < this._trapBarIcons.Count; i++) {
                 this._trapBarIcons[i].Initialize(traps[i], selectTrapAction);
             }
         }
-        
+
         #endregion
 
         //========================================
         // Private Methods
         //========================================
-        
+
         #region Private Methods
-        
+
         /// <summary>
         /// Updates each <see cref="TrapBarIcon"/> tint when the coin balance updates.
         /// </summary>
         /// <param name="newAmount"> The current number of coins available from the <see cref="CoinManager"/>. </param>
-        /// <remarks> Listens on the <see cref="CoinManager.OnCoinAmountChanged"/> event. </remarks>
+        /// <remarks> Listens on the <see cref="CoinAmountChangedEvent"/> event. </remarks>
         private void OnCoinAmountChanged(int newAmount) {
             this._trapBarIcons.ForEach(trapBarIcon => trapBarIcon.OnCanAffordChanged(newAmount));
         }
-        
+
         /// <summary>
         /// Updates each <see cref="TrapBarIcon"/> when a new trap is selected.
         /// </summary>
-        /// <param name="newIndex"> The index of the current selected trap. </param>
+        /// <param name="newTrap"> The newly selected trap. </param>
         /// <remarks> Listens on the <see cref="PlayerController.OnSelectedTrapIndexChanged"/> event. </remarks>
         private void SelectedTrapIndexChanged(Trap newTrap) {
-            for (int i = 0; i < this._trapBarIcons.Count; i++) {
-                this._trapBarIcons[i].OnSelectedChanged(newTrap);
+            foreach (TrapBarIcon trapIcon in this._trapBarIcons) {
+                trapIcon.OnSelectedChanged(newTrap);
             }
         }
-        
+
         #endregion
     }
 }

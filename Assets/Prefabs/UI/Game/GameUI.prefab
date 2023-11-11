@@ -738,7 +738,19 @@ MonoBehaviour:
       m_Calls: []
   _onClickComplete:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4732524151187949244}
+        m_TargetAssemblyTypeName: KrillOrBeKrilled.UI.TrapRequirementsUI, UI
+        m_MethodName: ToggleActive
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _defaultImage: {fileID: 21300000, guid: 5861b4ed5e99344408c69b6cbe1a8ad0, type: 3}
   _pressedImage: {fileID: 21300000, guid: 4c83dabce43f34140bcc6e40748a3e7b, type: 3}
 --- !u!1 &8683800672699941134
@@ -2203,6 +2215,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3187234166899608935, guid: 0d27556458185421da541242e74589d2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3900317955870236048, guid: 0d27556458185421da541242e74589d2, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2391,6 +2407,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6750728237346275797, guid: 0d27556458185421da541242e74589d2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7357738914584134847, guid: 0d27556458185421da541242e74589d2, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2413,6 +2433,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7357738914584134847, guid: 0d27556458185421da541242e74589d2, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7357738914584134847, guid: 0d27556458185421da541242e74589d2, type: 3}
+      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7895862436056400230, guid: 0d27556458185421da541242e74589d2, type: 3}
@@ -2448,6 +2472,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d27556458185421da541242e74589d2, type: 3}
+--- !u!114 &4732524151187949244 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8165498319154416637, guid: 0d27556458185421da541242e74589d2, type: 3}
+  m_PrefabInstance: {fileID: 3529943397777034561}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 583cc6bfb09544c2b3b18bc8f9549ff9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &9028379403263150232 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5600190861016581593, guid: 0d27556458185421da541242e74589d2, type: 3}

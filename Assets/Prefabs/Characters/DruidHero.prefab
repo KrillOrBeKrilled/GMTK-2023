@@ -214,13 +214,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObstaclesToSight:
     serializedVersion: 2
-    m_Bits: 640
+    m_Bits: 128
   GroundToSight:
     serializedVersion: 2
     m_Bits: 512
   MovementSpeed: 4
   SpeedBlendDuration: 0.4
-  MinJumpForce: 5.3
+  MinJumpForce: 5.4
   MaxJumpForce: 80
   JumpAngle: 89
 --- !u!114 &-3164917331191428471

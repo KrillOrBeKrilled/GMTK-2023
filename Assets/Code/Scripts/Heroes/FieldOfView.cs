@@ -296,7 +296,7 @@ namespace KrillOrBeKrilled.Heroes {
             for (var i = 0; i < tileHeightDistance - tilesToGround; i++) {
                 if (_groundTilemap.GetTile(currTilePos) && currTilePos.y < tileLedgeHeight) {
                     var groundPos = _groundTilemap.GetCellCenterWorld(currTilePos);
-                    var collidedTrap = Physics2D.OverlapCircle(groundPos + Vector3.up, 0.5f, trapLayer);
+                    var collidedTrap = Physics2D.OverlapCircle(groundPos + Vector3.up, 0.7f, trapLayer);
 
                     // If the bottom of the pit is a trap, rule that option out 
                     if (collidedTrap && collidedTrap.gameObject.CompareTag("Trap")) {

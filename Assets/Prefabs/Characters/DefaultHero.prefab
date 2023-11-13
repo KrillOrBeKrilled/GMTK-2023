@@ -220,13 +220,9 @@ MonoBehaviour:
     m_Bits: 512
   MovementSpeed: 4
   SpeedBlendDuration: 0.4
-  MinJumpForce: 5.3
+  MinJumpForce: 5.4
   MaxJumpForce: 80
   JumpAngle: 89
-  ApexDistance: 0.28
-  HeightOffset: 1
-  ElevationMultiplier: 0.3
-  DistanceMultiplier: 0.65
 --- !u!114 &-3164917331191428471
 MonoBehaviour:
   m_ObjectHideFlags: 0

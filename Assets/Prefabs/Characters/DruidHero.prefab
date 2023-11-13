@@ -212,7 +212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2829dfd8cbee124ebb02f223985b334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Debug: 1
   ObstaclesToSight:
     serializedVersion: 2
     m_Bits: 640
@@ -220,8 +219,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   MovementSpeed: 4
-  DashSpeed: 8
-  MinJumpForce: 5
+  SpeedBlendDuration: 0.4
+  MinJumpForce: 5.3
   MaxJumpForce: 80
   JumpAngle: 89
 --- !u!114 &-3164917331191428471
@@ -250,8 +249,6 @@ MonoBehaviour:
   OuterRadius: 20
   FovDegree: 91
   TargetThreshold: 10
-  pitOptionDistanceThreshold: 0
-  LineStuff: 1.937
 --- !u!114 &786636109395665214
 MonoBehaviour:
   m_ObjectHideFlags: 0

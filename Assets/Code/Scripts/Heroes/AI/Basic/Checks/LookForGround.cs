@@ -80,7 +80,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
                     targetLedgePos = _heroSight.FindJumpEndpoint(pitToJump);
                 }
             } else if (wallHit && !(bool)GetData("IsFalling")) {
-                var jumpPos = wallHit.point + Vector2.left * 3.5f;
+                var jumpPos = wallHit.point + Vector2.left * 2f;
                 
                 // Before adding it to the list, make sure this action is not already registered
                 if (_lastSeenWall != Vector3.zero && jumpPos.x - _lastSeenWall.x < 1.1f) {

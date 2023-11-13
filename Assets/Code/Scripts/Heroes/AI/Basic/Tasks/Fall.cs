@@ -36,14 +36,6 @@ namespace KrillOrBeKrilled.Heroes.AI {
             var hit = Physics2D.Raycast(heroPos, Vector2.down, 2f, _groundLayers);
             
             if (!hit || velocity.y > 0.1f) {
-                var landPos = (Vector3)GetData("JumpLandPoint");
-                
-                // Dampen hero movement past the target land point to make more accurate jumps
-                if (landPos != Vector3.zero && velocity.x > 0.04f && heroPos.x > landPos.x) {
-                    velocity.x -= 0.04f;
-                    _rigidbody.velocity = velocity;
-                }
-                
                 Parent.Parent.SetData("IsFalling", true);
                 return NodeStatus.SUCCESS;
             }

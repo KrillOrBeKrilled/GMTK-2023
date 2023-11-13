@@ -41,7 +41,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             });
 
             var jumpAndFall = new Selector(new List<Node> {
-                new Fall(heroTransform, Rigidbody, GroundToSight),
+                new Fall(heroTransform, Rigidbody, AnimController, GroundToSight),
                 jumping
             });
                 

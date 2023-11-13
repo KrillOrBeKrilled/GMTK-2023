@@ -12,11 +12,13 @@ namespace KrillOrBeKrilled.Heroes.AI {
     public class Fall : Node {
         private readonly Transform _heroTransform;
         private readonly Rigidbody2D _rigidbody;
+        private readonly Animator _animController;
         private readonly LayerMask _groundLayers;
 
-        public Fall(Transform heroTransform, Rigidbody2D rigidbody, LayerMask groundLayers) {
+        public Fall(Transform heroTransform, Rigidbody2D rigidbody, Animator animController, LayerMask groundLayers) {
             _heroTransform = heroTransform;
             _rigidbody = rigidbody;
+            _animController = animController;
             _groundLayers = groundLayers;
         }
         
@@ -31,6 +33,8 @@ namespace KrillOrBeKrilled.Heroes.AI {
         internal override NodeStatus Evaluate() {
             var heroPos = _heroTransform.position;
             var velocity = _rigidbody.velocity;
+            
+            this._animController.SetFloat((int)GetData("YSpeedKey"), Mathf.Abs(this._rigidbody.velocity.y));
             
             // Check if the hero is currently on the ground
             var hit = Physics2D.Raycast(heroPos, Vector2.down, 2f, _groundLayers);

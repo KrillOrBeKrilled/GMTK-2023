@@ -52,7 +52,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             var gravity = Physics.gravity.magnitude * 3f;
             var elevationDifference = targetPos.y - launchPos.y;
 
-            if (elevationDifference > 1f || distance > 5.5f) {
+            if (elevationDifference > 1f || distance > 6.5f) {
                 var positiveElevationDifference = Mathf.Abs(elevationDifference);
                 var jumpApex = targetPos.y < launchPos.y
                     ? new Vector3(
@@ -77,7 +77,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 var jumpAngle = _jumpAngle * Mathf.Deg2Rad;
                 
                 // Tune jump height
-                targetPos.y += Mathf.Abs(elevationDifference - 0.5f) * 0.3f + (distance - 2.5f) * 0.65f;
+                targetPos.y += Mathf.Abs(elevationDifference - 0.5f) * 0.3f + (distance - 2.5f) * 0.7f;
                 
                 // Formula retrieved by: 
                 // 1. Time in the air in the y-direction equation

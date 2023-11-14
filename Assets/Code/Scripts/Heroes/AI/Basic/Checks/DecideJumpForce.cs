@@ -12,16 +12,18 @@ namespace KrillOrBeKrilled.Heroes.AI {
     /// </summary>
     public class DecideJumpForce : Node {
         private Transform _heroTransform;
-        private float _maxJumpForce, _minJumpForce; 
-        private float _jumpAngle;
+        private readonly Rigidbody2D _rigidbody;
+        private readonly float _maxJumpForce, _minJumpForce; 
         
+        private float _gravity => Physics.gravity.magnitude * _rigidbody.gravityScale;
+        private const float _radJumpAngle = 89f * Mathf.Deg2Rad;
         private const float _dashSpeed = 8f;
         
-        public DecideJumpForce(Transform heroTransform, float minJumpForce, float maxJumpForce, float jumpAngle) {
+        public DecideJumpForce(Transform heroTransform, Rigidbody2D rigidbody, float minJumpForce, float maxJumpForce) {
             _heroTransform = heroTransform;
+            _rigidbody = rigidbody;
             _maxJumpForce = maxJumpForce;
             _minJumpForce = minJumpForce;
-            _jumpAngle = jumpAngle;
         }
         
         /// <summary>
@@ -41,7 +43,9 @@ namespace KrillOrBeKrilled.Heroes.AI {
             if (targetPos == Vector3.zero) {
                 Debug.LogError("Hero cannot find a target platform!");
                 
-                Parent.SetData("JumpVelocity", new Vector3(_dashSpeed, _maxJumpForce, 0));
+                Parent.SetData("JumpVelocity", 
+                    new Vector3(_maxJumpForce / 2, _maxJumpForce * Mathf.Sin(_radJumpAngle), 0));
+                
                 return NodeStatus.SUCCESS;
             }
 
@@ -49,11 +53,12 @@ namespace KrillOrBeKrilled.Heroes.AI {
             var distance = targetPos.x - launchPos.x;
 
             Vector3 initialVelocity;
-            var gravity = Physics.gravity.magnitude * 3f;
             var elevationDifference = targetPos.y - launchPos.y;
 
             if (elevationDifference > 1f || distance > 6.5f) {
                 var positiveElevationDifference = Mathf.Abs(elevationDifference);
+                
+                // Magic calculation to offset the target apex position to successfully land atop the platform
                 var jumpApex = targetPos.y < launchPos.y
                     ? new Vector3(
                         distance * 1 / positiveElevationDifference * 0.28f + (distance - 6.35f) * 0.28f + 0.92f,
@@ -69,14 +74,12 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 var jumpAngle = Mathf.Asin(jumpApex.normalized.y);
 
                 // Use Toricelli's formula to get initial velocity to reach the apex
-                var v0 = Mathf.Sqrt(2 * gravity * Mathf.Max(0, jumpApex.y));
+                var v0 = Mathf.Sqrt(2 * _gravity * Mathf.Max(0, jumpApex.y));
                 v0 = Mathf.Clamp(v0, _minJumpForce, _maxJumpForce);
 
                 initialVelocity = new Vector3(v0 * Mathf.Cos(jumpAngle), v0 * Mathf.Sin(jumpAngle), 0);
             } else {
-                var jumpAngle = _jumpAngle * Mathf.Deg2Rad;
-                
-                // Tune jump height
+                // Magic calculation to offset the target landing position to successfully land atop the platform
                 targetPos.y += Mathf.Abs(elevationDifference - 0.5f) * 0.3f + (distance - 2.5f) * 0.7f;
                 
                 // Formula retrieved by: 
@@ -86,11 +89,11 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 // => t = (distance) / (_dashSpeed)
                 // 3. Substitute #2 back into #1 and solve for v0
                 var vx = distance / _dashSpeed;
-                var v0 = (targetPos.y - heroPos.y + 0.5f * gravity * (vx * vx)) /
-                         (Mathf.Sin(jumpAngle) * vx);
+                var v0 = (targetPos.y - heroPos.y + 0.5f * _gravity * (vx * vx)) /
+                         (Mathf.Sin(_radJumpAngle) * vx);
                 v0 = Mathf.Clamp(v0, _minJumpForce, _maxJumpForce);
             
-                initialVelocity = new Vector3(_dashSpeed, v0 * Mathf.Sin(jumpAngle), 0);
+                initialVelocity = new Vector3(_dashSpeed, v0 * Mathf.Sin(_radJumpAngle), 0);
             }
             
             Parent.SetData("JumpVelocity", initialVelocity);

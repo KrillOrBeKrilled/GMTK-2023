@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using KrillOrBeKrilled.Heroes.BehaviourTree;
 using UnityEngine;
 
@@ -42,19 +43,25 @@ namespace KrillOrBeKrilled.Heroes.AI {
             var heroPos = _heroTransform.position;
             var targetPos = (Vector3)GetData("JumpLaunchPoint");
 
-            // Ensure the hero is generally around the same position as the launch point before jumping
-            if (targetPos.x < heroPos.x && Mathf.Abs(targetPos.y - heroPos.y) < 2f) {
-                _currentSpeed = _movementSpeed;
-                _t = 0;
-                return NodeStatus.SUCCESS;
-            }
-            
-            // If the hero passes the target point, forget it and switch to another target the next frame
-            if (targetPos.x < heroPos.x || Mathf.Abs(targetPos.y - heroPos.y) > 2f) {
-                Parent.SetData("JumpLaunchPoint", Vector3.zero);
+            var isHeroPastLaunch = targetPos.x < heroPos.x;
+            var isHeroOnPlatform = Mathf.Abs(targetPos.y - heroPos.y) < 2f;
 
-                return NodeStatus.FAILURE;
+            switch (isHeroPastLaunch) {
+                // Ensure the hero is generally around the same position as the launch point before jumping
+                case true when isHeroOnPlatform:
+                    _currentSpeed = _movementSpeed;
+                    _t = 0;
+                    return NodeStatus.SUCCESS;
+                // If the hero passes the target point, forget it and switch to another target the next frame
+                case true:
+                    var pitList = (List<(Vector3, Vector3)>)GetData("PitList");
+                    pitList.RemoveAt(0);
+                    
+                    Parent.SetData("JumpLaunchPoint", Vector3.zero);
+
+                    return NodeStatus.FAILURE;
             }
+
             
             if (_t < 1) {
                 _currentSpeed = Mathf.SmoothStep(_currentSpeed, _dashSpeed, _t / _speedBlendDuration);

@@ -20,6 +20,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
 
         // ---------------- Movement -----------------
         [Header("Movement")]
+        [Range(0, 7)]
         [SerializeField] internal float MovementSpeed = 4f;
         [SerializeField] internal float SpeedBlendDuration = 0.5f;
         
@@ -27,8 +28,6 @@ namespace KrillOrBeKrilled.Heroes.AI {
         [Header("Jumps")]
         [SerializeField] internal float MinJumpForce = 0f;
         [SerializeField] internal float MaxJumpForce = 80f;
-        [Range(1, 89)]
-        [SerializeField] internal float JumpAngle = 88f;
 
         protected override Node SetupTree() {
             var heroTransform = transform;
@@ -36,7 +35,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             var jumping = new Sequence(new List<Node> {
                 new LookForObstacle(),
                 new ApproachTarget(heroTransform, Rigidbody, AnimController, MovementSpeed, SpeedBlendDuration),
-                new DecideJumpForce(heroTransform, MinJumpForce, MaxJumpForce, JumpAngle),
+                new DecideJumpForce(heroTransform, Rigidbody, MinJumpForce, MaxJumpForce),
                 new Jump(Rigidbody, AnimController, SoundsController)
             });
 

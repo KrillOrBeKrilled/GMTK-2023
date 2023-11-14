@@ -23,8 +23,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
         }
         
         /// <summary>
-        /// Checks when the hero is midair or grounded and updates its status accordingly. When midair, slows the
-        /// hero's horizontal movement if it has passed the target land position to increase jump accuracy.
+        /// Checks when the hero is midair or grounded and updates its status accordingly.
         /// </summary>
         /// <returns>
         /// The <b>success</b> status if the hero is currently midair and falling.
@@ -36,10 +35,9 @@ namespace KrillOrBeKrilled.Heroes.AI {
             
             this._animController.SetFloat((int)GetData("YSpeedKey"), Mathf.Abs(this._rigidbody.velocity.y));
             
-            // Check if the hero is currently on the ground
-            var hit = Physics2D.Raycast(heroPos, Vector2.down, 2f, _groundLayers);
-            
-            if (!hit || velocity.y > 0.1f) {
+            // Check if the hero is currently midair, not touching the ground
+            if (!Physics2D.Raycast(heroPos, Vector2.down, 2f, _groundLayers) 
+                || velocity.y > 0.1f) {
                 Parent.Parent.SetData("IsFalling", true);
                 return NodeStatus.SUCCESS;
             }

@@ -13,6 +13,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
         private readonly Animator _animController;
 
         private readonly float _movementSpeed;
+        private float _penaltySpeed => _movementSpeed * (1f - (float)GetData("SpeedPenalty"));
 
         public Run(Rigidbody2D rigidbody, Animator animController, float movementSpeed) {
             _rigidbody = rigidbody;
@@ -34,8 +35,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 return NodeStatus.FAILURE;
             }
             
-            var speed = this._movementSpeed * (1f - (float)GetData("SpeedPenalty"));
-            this._rigidbody.velocity = new Vector2(speed, this._rigidbody.velocity.y);
+            this._rigidbody.velocity = new Vector2(_penaltySpeed, this._rigidbody.velocity.y);
 
             this._animController.SetFloat((int)GetData("XSpeedKey"), Mathf.Abs(this._rigidbody.velocity.x));
             this._animController.SetFloat((int)GetData("YSpeedKey"), Mathf.Abs(this._rigidbody.velocity.y));

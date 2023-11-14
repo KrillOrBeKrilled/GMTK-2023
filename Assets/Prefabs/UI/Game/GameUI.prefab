@@ -1924,6 +1924,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1504524895553785631, guid: 4bf0f26bd052d46969693994d6b92c64, type: 3}
+      propertyPath: _trapBarIcons.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1504524895553785631, guid: 4bf0f26bd052d46969693994d6b92c64, type: 3}
+      propertyPath: _trapBarIcons.Array.data[3]
+      value: 
+      objectReference: {fileID: 5879982547246386485}
     - target: {fileID: 5216411717999565681, guid: 4bf0f26bd052d46969693994d6b92c64, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2077,6 +2085,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6242123103412075249, guid: 4bf0f26bd052d46969693994d6b92c64, type: 3}
   m_PrefabInstance: {fileID: 1968256102917347193}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5879982547246386485 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5388911574423181900, guid: 4bf0f26bd052d46969693994d6b92c64, type: 3}
+  m_PrefabInstance: {fileID: 1968256102917347193}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12aae32388d340d9b46e9d0749df2ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3529943397777034561
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2879,15 +2898,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1372892859920381689, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 195.10764
+      value: 195.09512
       objectReference: {fileID: 0}
     - target: {fileID: 1372892859920381689, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1286.5078
+      value: 1286.4581
       objectReference: {fileID: 0}
     - target: {fileID: 1372892859920381689, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -97.55382
+      value: -97.54756
       objectReference: {fileID: 0}
     - target: {fileID: 1887147019099259122, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
       propertyPath: m_Pivot.x
@@ -2977,6 +2996,30 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5315837942081140489, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5315837942081140489, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5315837942081140489, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5315837942081140489, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadNextLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5315837942081140489, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KrillOrBeKrilled.Core.GameManager, Core
+      objectReference: {fileID: 0}
+    - target: {fileID: 5315837942081140489, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5466498742081742525, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -2997,9 +3040,57 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 62.575523
       objectReference: {fileID: 0}
+    - target: {fileID: 6982243023965001987, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6982243023965001987, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6982243023965001987, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6982243023965001987, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReloadThisLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6982243023965001987, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KrillOrBeKrilled.Core.GameManager, Core
+      objectReference: {fileID: 0}
+    - target: {fileID: 6982243023965001987, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7464330692741777393, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
       propertyPath: m_fontSize
       value: 74
+      objectReference: {fileID: 0}
+    - target: {fileID: 8216625781546082919, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8216625781546082919, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8216625781546082919, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8216625781546082919, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadMainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8216625781546082919, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KrillOrBeKrilled.Core.GameManager, Core
+      objectReference: {fileID: 0}
+    - target: {fileID: 8216625781546082919, guid: 1d56fb57f850d4a4da918983f6163265, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

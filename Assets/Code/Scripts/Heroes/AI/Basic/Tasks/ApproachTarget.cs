@@ -17,7 +17,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
 
         private readonly float _movementSpeed;
         private readonly float _speedBlendDuration;
-        private const float _dashSpeed = 8f;
+        private const float _dashSpeed = 7f;
         private float _currentSpeed, _t;
 
         public ApproachTarget(Transform heroTransform, Rigidbody2D rigidbody, Animator animController, 

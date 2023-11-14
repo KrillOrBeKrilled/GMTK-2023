@@ -52,7 +52,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             var wallHit = Physics2D.Raycast(
                 _heroTransform.position + Vector3.down * 1.6f, 
                 Vector2.right, 
-                8f, 
+                4f, 
                 _groundLayers
             );
             
@@ -69,6 +69,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 }
 
                 launchLedgePos = (Vector3)groundHitData.point;
+                launchLedgePos.x -= 0.26f;
 
                 // Set the jump land endpoint if there are any that have been sighted. Otherwise, leave it blank
                 targetLedgePos = Vector3.zero;

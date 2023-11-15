@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3097dd5c76034d549674c15dd0496e29, type: 3}
+  m_Name: TrapIconData
+  m_EditorClassIdentifier: 
+  _icons:
+  - TrapName: SpikeTrap
+    Icon: {fileID: 21300000, guid: d92c5e62087b84ea4a1d546cb0c3da01, type: 3}
+  - TrapName: SwingingAxeTrap
+    Icon: {fileID: 21300000, guid: d4586e751276645fa9219da567a8d663, type: 3}
+  - TrapName: IcicleTrap
+    Icon: {fileID: 21300000, guid: c7e0c10978a314a0e9f12d7b6751188e, type: 3}
+  - TrapName: AcidPitTrap
+    Icon: {fileID: 21300000, guid: 80992e2240c2245f4b7253f0d7decf43, type: 3}

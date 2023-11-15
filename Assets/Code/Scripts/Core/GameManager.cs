@@ -134,7 +134,7 @@ namespace KrillOrBeKrilled.Core {
 
             this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
             this._playerManager.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
-            this._playerManager.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
+            this._playerManager.PlayerController.OnSelectedTrapChanged.AddListener(this.SelectedTrapIndexChanged);
             this._playerManager.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
 
             // Wait for a frame so that all other scripts complete Start() method.
@@ -481,7 +481,7 @@ namespace KrillOrBeKrilled.Core {
         /// Records analytics trap switching data.
         /// </summary>
         /// <param name="trap"> The most recently selected trap. </param>
-        /// <remarks> Subscribed to the <see cref="PlayerController.OnSelectedTrapIndexChanged"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="Player.PlayerController.OnSelectedTrapChanged"/> event. </remarks>
         private void SelectedTrapIndexChanged(Trap trap) {
             if (UGS_Analytics.Instance is null) {
                 return;

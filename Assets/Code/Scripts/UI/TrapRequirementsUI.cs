@@ -2,12 +2,14 @@ using DG.Tweening;
 using KrillOrBeKrilled.Traps;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace KrillOrBeKrilled.UI {
   public class TrapRequirementsUI : MonoBehaviour {
     [SerializeField] private Image _trapIcon;
     [SerializeField] private List<TrapRequirementUI> _trapRequirements;
+    [SerializeField] private TrapIconData _trapIconData;
 
     private Sequence _tweenSequence;
     private const float ScaleUpValue = 1.05f;
@@ -33,6 +35,10 @@ namespace KrillOrBeKrilled.UI {
     //========================================
     // Public Methods
     //========================================
+    public void Initialize(UnityEvent<Trap> trapChanged) {
+      trapChanged.AddListener(this.SetTrap);
+    }
+
     public void ToggleActive() {
       if (this.gameObject.activeSelf) {
         this.gameObject.SetActive(false);
@@ -52,8 +58,37 @@ namespace KrillOrBeKrilled.UI {
       this._tweenSequence.Play();
     }
 
-    public void SetTrap(Trap trap) {
-      
+    private void SetTrap(Trap trap) {
+      this._trapIcon.sprite = this._trapIconData.TrapToImage(trap);
+
+      switch (trap) {
+        // TODO: replace this logic later to use new resource system
+        case SpikeTrap:
+          this._trapRequirements[0].SetIconAmount(ResourceType.ScrapMetal, 2);
+          this._trapRequirements[1].Hide();
+          this._trapRequirements[2].Hide();
+          break;
+        case SwingingAxeTrap:
+          this._trapRequirements[0].SetIconAmount(ResourceType.ScrapMetal, 1);
+          this._trapRequirements[1].SetIconAmount(ResourceType.WoodStick, 1);
+          this._trapRequirements[1].SetIconAmount(ResourceType.Dynamite, 1);
+          break;
+        case IcicleTrap:
+          this._trapRequirements[0].SetIconAmount(ResourceType.IceShards, 2);
+          this._trapRequirements[1].SetIconAmount(ResourceType.Slime, 1);
+          this._trapRequirements[2].Hide();
+          break;
+        case AcidPitTrap:
+          this._trapRequirements[0].SetIconAmount(ResourceType.ScrapMetal, 1);
+          this._trapRequirements[1].SetIconAmount(ResourceType.WoodStick, 1);
+          this._trapRequirements[2].SetIconAmount(ResourceType.Slime, 4);
+          break;
+        default:
+          this._trapRequirements[0].Hide();
+          this._trapRequirements[1].Hide();
+          this._trapRequirements[2].Hide();
+          break;
+      }
     }
   }
 }

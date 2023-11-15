@@ -164,6 +164,7 @@ MonoBehaviour:
   _healthBarsContainer: {fileID: 5362244279306275188}
   _mapUI: {fileID: 1717459162070282995}
   _controlsUI: {fileID: 755170300387895703}
+  _trapRequirementsUI: {fileID: 4732524151187949244}
   _healthBarUIPrefab: {fileID: 5468232764469143830, guid: 962e39104bcbb4854a430b5dde8d623b, type: 3}
 --- !u!1 &1778198517836550647
 GameObject:

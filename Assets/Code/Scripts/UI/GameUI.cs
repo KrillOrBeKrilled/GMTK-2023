@@ -36,6 +36,7 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private Transform _healthBarsContainer;
         [SerializeField] private MapUI _mapUI;
         [SerializeField] private ControlsUI _controlsUI;
+        [SerializeField] private TrapRequirementsUI _trapRequirementsUI;
 
         [Header("Prefabs")]
         [SerializeField] private HealthBarUI _healthBarUIPrefab;
@@ -59,8 +60,9 @@ namespace KrillOrBeKrilled.UI {
             this._gameManager.OnHeroSpawned.AddListener(this.OnHeroSpawned);
             this._gameManager.OnSceneWillChange.AddListener(this.FadeInSceneCover);
 
+            this._trapRequirementsUI.Initialize(this._gameManager.PlayerController.OnSelectedTrapChanged);
             this._trapSelectionBar.Initialize(
-                this._gameManager.PlayerController.OnSelectedTrapIndexChanged,
+                this._gameManager.PlayerController.OnSelectedTrapChanged,
                 this._gameManager.TrapController.Traps,
                 this._gameManager.PlayerController.SetTrap
             );

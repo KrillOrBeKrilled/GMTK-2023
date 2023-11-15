@@ -455,7 +455,7 @@ namespace KrillOrBeKrilled.Core {
                 return;
             }
 
-            this.HenDied("The Hero managed to take you down Hendall.\nDon't you dream about that promotion I mentioned last time!");
+            this.HenDied("I'm thinking of reconsidering that promotion I mentioned earlier!");
 
             if (UGS_Analytics.Instance is null) {
                 return;

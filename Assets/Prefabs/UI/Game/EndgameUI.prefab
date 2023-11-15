@@ -104,9 +104,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3902265991684520923}
-  - {fileID: 6488384001831360618}
   - {fileID: 1336790400713055994}
+  - {fileID: 6488384001831360618}
+  - {fileID: 3902265991684520923}
   m_Father: {fileID: 5466498742081742525}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 2325486549067831088}
   - component: {fileID: 7464330692741777393}
   m_Layer: 5
-  m_Name: HenWonText
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -408,8 +408,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The Hero managed to take you down Hendall.\nDon't you dream about that
-    promotion I mentioned last time!
+  m_text: I'm thinking of reconsidering that promotion I mentioned earlier!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b999f77db697649458a45ff5e9186708, type: 2}
   m_sharedMaterial: {fileID: -5313253438172520628, guid: b999f77db697649458a45ff5e9186708, type: 2}
@@ -436,7 +435,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 74
+  m_fontSize: 80
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

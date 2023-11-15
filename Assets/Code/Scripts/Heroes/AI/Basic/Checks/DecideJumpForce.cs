@@ -90,7 +90,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 initialVelocity = new Vector3(v0 * Mathf.Cos(jumpAngle), v0 * Mathf.Sin(jumpAngle), 0);
             } else {
                 // Magic calculation to offset the target landing position to successfully land atop the platform
-                targetPos.y += Mathf.Abs(elevationDifference - 0.5f) * 0.3f + (distance - 2.5f) * 0.7f;
+                targetPos.y += Mathf.Abs(elevationDifference - 0.5f) * 0.3f + (distance - 2.5f) * 0.3f + 0.07f;
                 
                 // Formula retrieved by: 
                 // 1. Time in the air in the y-direction equation

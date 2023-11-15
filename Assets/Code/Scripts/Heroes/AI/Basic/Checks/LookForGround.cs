@@ -68,18 +68,16 @@ namespace KrillOrBeKrilled.Heroes.AI {
             
             var launchLedgePos = Vector3.zero;
             var targetLedgePos = Vector3.zero;
-            var sawPit = false;
 
-            if (_heroSight.CheckForPit(out var optionCount, out var groundHitData, out var pitEndpoints, _groundLayers, _trapLayers)) {
-                sawPit = true;
-                
+            if (_heroSight.CheckForPit(out var optionCount, out var groundHitData, 
+                    out var pitEndpoints, _groundLayers, _trapLayers)) {
                 // Before adding it to the list, make sure this action is not already registered
                 if (_lastSeenLedge != Vector3.zero && groundHitData.point.x - _lastSeenLedge.x < 1.1f) {
                     return NodeStatus.SUCCESS;
                 }
 
                 launchLedgePos = groundHitData.point;
-                launchLedgePos.x -= 0.26f;
+                launchLedgePos.x -= 0.3f;
 
                 // Set the jump land endpoint if there are any that have been sighted. Otherwise, leave it blank
                 targetLedgePos = Vector3.zero;
@@ -90,6 +88,8 @@ namespace KrillOrBeKrilled.Heroes.AI {
             
                     targetLedgePos = _heroSight.FindJumpEndpoint(pitToJump);
                 }
+                
+                _lastSeenLedge = launchLedgePos;
             } else if (wallHit && !(bool)GetData("IsFalling")) {
                 var jumpPos = wallHit.point + Vector2.left * 2f;
                 
@@ -103,6 +103,8 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 var adjustedHitPos = wallHit.point;
                 adjustedHitPos.x += 0.5f;
                 targetLedgePos = _heroSight.FindJumpEndpoint(adjustedHitPos);
+                
+                _lastSeenWall = launchLedgePos;
             }
 
             if (targetLedgePos == Vector3.zero) {
@@ -121,12 +123,6 @@ namespace KrillOrBeKrilled.Heroes.AI {
             }
             
             pitList.Insert(i, (launchLedgePos, targetLedgePos));
-            
-            if (sawPit) {
-                _lastSeenLedge = launchLedgePos;
-            } else {
-                _lastSeenWall = launchLedgePos;
-            }
 
             return NodeStatus.SUCCESS;
         }

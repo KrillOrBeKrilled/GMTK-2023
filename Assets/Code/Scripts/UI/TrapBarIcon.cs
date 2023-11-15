@@ -1,9 +1,7 @@
 using DG.Tweening;
 using KrillOrBeKrilled.Traps;
-using System;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 //*******************************************************************************************
@@ -15,28 +13,21 @@ namespace KrillOrBeKrilled.UI {
     /// upon trap selection and tinting out the icon when the corresponding trap is
     /// not affordable.
     /// </summary>
-    public class TrapBarIcon : MonoBehaviour, IPointerClickHandler {
+    public class TrapBarIcon : MonoBehaviour {
         [SerializeField] private Image _selectionOutline;
         [SerializeField] private Image _tint;
-        [SerializeField] private Image _icon;
         [SerializeField] private Color _selectedColor;
         [SerializeField] private Color _defaultColor;
 
         private UnityAction<Trap> _selectTrapAction;
         private Trap _assignedTrap;
 
-        private const float ScaleUpValue = 1.05f;
-        private const float ScaleDownValue = 0.9f;
-        private const float AnimationDuration = 0.07f;
-
-        private Sequence _tweenSequence;
-        
         //========================================
         // Public Methods
         //========================================
-        
+
         #region Public Methods
-        
+
         /// <summary>
         /// Sets a reference to the trap this icon represents.
         /// </summary>
@@ -46,7 +37,7 @@ namespace KrillOrBeKrilled.UI {
             this._assignedTrap = trap;
             this._selectTrapAction = selectTrapAction;
         }
-        
+
         /// <summary>
         /// Adds a tint to this icon if the corresponding trap is not affordable.
         /// </summary>
@@ -54,13 +45,11 @@ namespace KrillOrBeKrilled.UI {
         public void OnCanAffordChanged(int newAmount) {
             this._tint.gameObject.SetActive(newAmount < this._assignedTrap.Cost);
         }
-        
+
         /// <summary>
-        /// Triggered by Unity when this icon is clicked.
+        /// Triggers the selection of this trap
         /// </summary>
-        /// <param name="eventData"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        public void OnPointerClick(PointerEventData eventData) {
+        public void SelectTrap() {
             this._selectTrapAction?.Invoke(this._assignedTrap);
         }
 
@@ -70,21 +59,13 @@ namespace KrillOrBeKrilled.UI {
         /// <param name="newTrap">The newly selected trap.</param>
         public void OnSelectedChanged(Trap newTrap) {
             bool isSelected = newTrap == this._assignedTrap;
-            Color targetColor = isSelected ? this._selectedColor : this._defaultColor;
-            this._selectionOutline.DOColor(targetColor, 0.3f);
-
-            if (!isSelected) return;
-
-            this._tweenSequence?.Kill();
-            this._tweenSequence = DOTween.Sequence();
-            this._tweenSequence.Append(this._icon.rectTransform.DOScale(new Vector3(ScaleUpValue, ScaleUpValue, 1f), AnimationDuration));
-            this._tweenSequence.Append(this._icon.rectTransform.DOScale(new Vector3(ScaleDownValue, ScaleDownValue, 1f), AnimationDuration));
-            this._tweenSequence.Append(this._icon.rectTransform.DOScale(Vector3.one, AnimationDuration));
-            this._tweenSequence.OnComplete(() => this._tweenSequence = null);
-            this._tweenSequence.SetEase(Ease.InOutSine);
-            this._tweenSequence.Play();
+            if (isSelected) {
+                this._selectionOutline.DOColor(this._selectedColor, 0.4f);
+            } else {
+                this._selectionOutline.DOColor(this._defaultColor, 0.1f);
+            }
         }
-        
+
         #endregion
     }
 }

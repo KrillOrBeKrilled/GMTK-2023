@@ -14,7 +14,7 @@ namespace KrillOrBeKrilled.Heroes {
     /// <summary>
     /// Manages the states of the hero throughout narrative sequences and gameplay,
     /// tracking health and playing associated SFX. Manipulates movement in the
-    /// narrative sequences through <see cref="HeroMovement"/>.
+    /// narrative sequences through the <see cref="HeroBT"/>.
     /// </summary>
     public class Hero : MonoBehaviour, IDamageable {
         private Rigidbody2D _rigidbody;
@@ -24,9 +24,6 @@ namespace KrillOrBeKrilled.Heroes {
         private const int CoinsEarnedOnDeath = 2;
 
         // ---------------- Spawning -----------------
-        // [Tooltip("Determines the position to respawn the hero.")]
-        // public HeroRespawnPoint RespawnPoint;
-
         [Tooltip("Duration of time for the hero to recover at the RespawnPoint before moving again.")]
         [SerializeField] internal float RespawnTime = 3;
 
@@ -158,7 +155,7 @@ namespace KrillOrBeKrilled.Heroes {
         }
         
         /// <summary>
-        /// Enables movement through <see cref="_heroBrain"/>.
+        /// Enables movement through the <see cref="HeroBT"/>.
         /// </summary>
         public void StartRunning() {
             this.StopAllCoroutines();
@@ -166,7 +163,7 @@ namespace KrillOrBeKrilled.Heroes {
         }
         
         /// <summary>
-        /// Disables movement through <see cref="_heroBrain"/>.
+        /// Disables movement through the <see cref="HeroBT"/>.
         /// </summary>
         public void StopRunning() {
             this._heroBrain.UpdateData("IsMoving", false);
@@ -181,7 +178,7 @@ namespace KrillOrBeKrilled.Heroes {
         #region Private Methods
         
         /// <summary>
-        /// Enables movement through <see cref="HeroMovement"/> for a duration of time and then disables
+        /// Enables movement through the <see cref="HeroBT"/> for a duration of time and then disables
         /// movement.
         /// </summary>
         /// <remarks> The coroutine is started by <see cref="EnterLevel"/>. </remarks>

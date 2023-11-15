@@ -15,6 +15,13 @@ namespace KrillOrBeKrilled.Heroes.AI {
         private readonly Animator _animController;
         private readonly LayerMask _groundLayers;
 
+        /// <summary>
+        /// Initializes all requisite data for the successful operation of this <see cref="Node"/>.
+        /// </summary>
+        /// <param name="heroTransform"> Provides the position of the hero. </param>
+        /// <param name="rigidbody"> Drives the hero animation when falling and controls midair velocity. </param>
+        /// <param name="animController"> Used to animate the hero when falling midair. </param>
+        /// <param name="groundLayers"> The LayerMask used to check for when the hero is grounded. </param>
         public Fall(Transform heroTransform, Rigidbody2D rigidbody, Animator animController, LayerMask groundLayers) {
             _heroTransform = heroTransform;
             _rigidbody = rigidbody;

@@ -16,9 +16,18 @@ namespace KrillOrBeKrilled.Heroes.AI {
         private readonly LayerMask _groundLayers;
         private readonly LayerMask _trapLayers;
 
+        /// Tracks the last pit ledge entered into the jump action list to prevent repeated entries.
         private Vector3 _lastSeenLedge = Vector3.zero;
+        /// Tracks the last wall jump entered into the jump action list to prevent repeated entries.
         private Vector3 _lastSeenWall = Vector3.zero;
         
+        /// <summary>
+        /// Initializes all requisite data for the successful operation of this <see cref="Node"/>;.
+        /// </summary>
+        /// <param name="heroTransform"> Provides the hero position to check when to purge outdated jump actions. </param>
+        /// <param name="heroSight"> Acts as the hero's eyesight, providing pit and ledge-sighting logic. </param>
+        /// <param name="groundLayers"> The LayerMask used to check for the ground. </param>
+        /// <param name="trapLayers"> The LayerMask used to check for traps in pits. </param>
         public LookForGround(Transform heroTransform, FieldOfView heroSight, LayerMask groundLayers, LayerMask trapLayers) {
             _heroTransform = heroTransform;
             _heroSight = heroSight;
@@ -38,6 +47,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
         internal override NodeStatus Evaluate() {
             var pitList = (List<(Vector3, Vector3)>)GetData("PitList");
 
+            // Auto clean the pitList if the hero passes any jump waypoints
             if (pitList.Count > 0) {
                 var heroPos = _heroTransform.position;
                 var nextEntryLaunchPoint = pitList[0].Item1;

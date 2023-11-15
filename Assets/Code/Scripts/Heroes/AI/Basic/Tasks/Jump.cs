@@ -14,6 +14,12 @@ namespace KrillOrBeKrilled.Heroes.AI {
         private readonly Animator _animController;
         private readonly HeroSoundsController _soundController;
         
+        /// <summary>
+        /// Initializes all requisite data for the successful operation of this <see cref="Node"/>.
+        /// </summary>
+        /// <param name="rigidbody"> Used to apply the jump velocity to the hero. </param>
+        /// <param name="animController"> Used to animate the hero when jumping. </param>
+        /// <param name="soundController"> Used to play SFX associated with the hero jumping. </param>
         public Jump(Rigidbody2D rigidbody, Animator animController, HeroSoundsController soundController) {
             _rigidbody = rigidbody;
             _animController = animController;

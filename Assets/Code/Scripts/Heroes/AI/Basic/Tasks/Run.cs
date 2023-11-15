@@ -12,9 +12,17 @@ namespace KrillOrBeKrilled.Heroes.AI {
         private readonly Rigidbody2D _rigidbody;
         private readonly Animator _animController;
 
+        /// The hero's regular run movement speed, used to set the current velocity.
         private readonly float _movementSpeed;
+        /// Calculates the hero's current velocity, considering speed penalties applied by traps.
         private float _penaltySpeed => _movementSpeed * (1f - (float)GetData("SpeedPenalty"));
 
+        /// <summary>
+        /// Initializes all requisite data for the successful operation of this <see cref="Node"/>.
+        /// </summary>
+        /// <param name="rigidbody"> Used to set the hero velocity when running. </param>
+        /// <param name="animController"> Used to animate the hero when running. </param>
+        /// <param name="movementSpeed"> Regular movement velocity to apply to the hero when running. </param>
         public Run(Rigidbody2D rigidbody, Animator animController, float movementSpeed) {
             _rigidbody = rigidbody;
             _animController = animController;

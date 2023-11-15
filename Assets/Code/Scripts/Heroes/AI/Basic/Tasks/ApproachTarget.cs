@@ -15,12 +15,25 @@ namespace KrillOrBeKrilled.Heroes.AI {
         private readonly Transform _heroTransform;
         private readonly Rigidbody2D _rigidbody;
         private readonly Animator _animController;
-
+        
+        /// The hero's regular run movement speed, used to reset the speed blending.
         private readonly float _movementSpeed;
+        /// The duration of time needed to blend the velocities between regular movement and dash movement.
         private readonly float _speedBlendDuration;
+        /// The dash movement velocity.
         private const float _dashSpeed = 7f;
         private float _currentSpeed, _t;
 
+        /// <summary>
+        /// Initializes all requisite data for the successful operation of this <see cref="Node"/>.
+        /// </summary>
+        /// <param name="heroTransform"> Provides the hero position to check when the jump waypoint is reached. </param>
+        /// <param name="rigidbody"> Used to set the hero velocity when dashing towards the target. </param>
+        /// <param name="animController"> Used to animate the hero during a dash. </param>
+        /// <param name="movementSpeed"> The hero's normal movement speed. </param>
+        /// <param name="speedBlendDuration">
+        /// The duration of time needed to blend the velocities between regular movement and dash movement.
+        /// </param>
         public ApproachTarget(Transform heroTransform, Rigidbody2D rigidbody, Animator animController, 
             float movementSpeed, float speedBlendDuration) {
             _heroTransform = heroTransform;

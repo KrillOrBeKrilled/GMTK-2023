@@ -13,6 +13,11 @@ namespace KrillOrBeKrilled.Heroes.AI {
         private Rigidbody2D _rigidbody;
         private Animator _animController;
 
+        /// <summary>
+        /// Initializes all requisite data for the successful operation of this <see cref="Node"/>.
+        /// </summary>
+        /// <param name="rigidbody"> Drives the hero movement animation. </param>
+        /// <param name="animController"> Used to animate the hero during regular movement. </param>
         public Idle(Rigidbody2D rigidbody, Animator animController) {
             _rigidbody = rigidbody;
             _animController = animController;

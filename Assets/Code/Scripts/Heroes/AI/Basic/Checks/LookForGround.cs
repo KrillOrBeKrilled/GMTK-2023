@@ -43,7 +43,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 var nextEntryLaunchPoint = pitList[0].Item1;
 
                 // If the hero passes the next target jump launch point while midair, unregister it
-                if (nextEntryLaunchPoint.x < heroPos.x && Mathf.Abs(nextEntryLaunchPoint.x - heroPos.x) > 0.5f) {
+                if (nextEntryLaunchPoint.x < heroPos.x && Mathf.Abs(nextEntryLaunchPoint.x - heroPos.x) > 2f) {
                     pitList.RemoveAt(0);
                 }
             }
@@ -68,7 +68,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
                     return NodeStatus.SUCCESS;
                 }
 
-                launchLedgePos = (Vector3)groundHitData.point;
+                launchLedgePos = groundHitData.point;
                 launchLedgePos.x -= 0.26f;
 
                 // Set the jump land endpoint if there are any that have been sighted. Otherwise, leave it blank

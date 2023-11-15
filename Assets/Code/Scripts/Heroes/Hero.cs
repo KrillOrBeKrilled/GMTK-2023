@@ -134,7 +134,8 @@ namespace KrillOrBeKrilled.Heroes {
         }
 
         public void ThrowActorForward(float throwForce) {
-            Vector2 leapVector = new Vector2(0.75f, 2f) * throwForce;
+            _rigidbody.velocity = Vector2.zero;
+            Vector2 leapVector = new Vector2(0.25f, 2f) * throwForce;
             this._rigidbody.AddForce(leapVector, ForceMode2D.Impulse);
         }
 

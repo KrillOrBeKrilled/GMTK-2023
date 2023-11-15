@@ -38,6 +38,14 @@ namespace KrillOrBeKrilled.Heroes.AI {
             // Check if the hero is currently midair, not touching the ground
             if (!Physics2D.Raycast(heroPos, Vector2.down, 2f, _groundLayers) 
                 || velocity.y > 0.1f) {
+                var landPos = (Vector3)GetData("JumpLandPoint");
+                
+                // Dampen hero movement past the target land point to make more accurate jumps
+                if (landPos != Vector3.zero && velocity.x > 0.01f && heroPos.x > landPos.x) {
+                    velocity.x -= 0.005f;
+                    _rigidbody.velocity = velocity;
+                }
+                
                 Parent.Parent.SetData("IsFalling", true);
                 return NodeStatus.SUCCESS;
             }

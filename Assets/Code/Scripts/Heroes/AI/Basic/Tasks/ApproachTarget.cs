@@ -55,7 +55,9 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 // If the hero passes the target point, forget it and switch to another target the next frame
                 case true:
                     var pitList = (List<(Vector3, Vector3)>)GetData("PitList");
-                    pitList.RemoveAt(0);
+                    if (pitList.Count > 0) {
+                        pitList.RemoveAt(0);
+                    }
                     
                     Parent.SetData("JumpLaunchPoint", Vector3.zero);
 

@@ -236,7 +236,11 @@ namespace KrillOrBeKrilled.Heroes {
             // Sometimes the point is on the edge and tracks the wrong tile, so slightly adjust the position
             var sightedGroundPos = hitData.point;
             var hitTilePos = sightedGroundPos;
+            
+            // If the left side of the ledge is hit at a lower elevation, this will mess with the jump tracking
+            hitTilePos.x -= 0.3f;
             hitTilePos.y -= 0.5f;
+            
             var tilePos = _groundTilemap.WorldToCell(hitTilePos);
             tilePos.x += 1;
 

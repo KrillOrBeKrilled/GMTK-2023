@@ -55,7 +55,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             Vector3 initialVelocity;
             var elevationDifference = targetPos.y - launchPos.y;
 
-            if (elevationDifference > 1f || distance > 6.5f) {
+            if (elevationDifference > 1f || distance > 5.5f) {
                 var positiveElevationDifference = Mathf.Abs(elevationDifference);
                 
                 // Magic calculation to offset the target apex position to successfully land atop the platform

@@ -81,24 +81,6 @@ namespace KrillOrBeKrilled.UGSAnalytics {
         }
         
         /// <summary>
-        /// Packages hero stuck position data to send to the UGS Analytics server.
-        /// </summary>
-        /// <param name="pos"> The hero's current position. </param>
-        public static void HeroIsStuckCustomEvent(Vector3 pos) {
-            var eventParameters = new Dictionary<string, object> {
-                { "xPos", pos.x },
-                { "yPos", pos.y },
-                { "zPos", pos.z }
-            };
-
-            try {
-                AnalyticsService.Instance.CustomData("heroIsStuck", eventParameters);
-            } catch (ServicesInitializationException e) {
-                Debug.Log("<color=red>AnalyticsService Initialization Failed</color>");
-            }
-        }
-        
-        /// <summary>
         /// Packages player death by boundary position and coin data to send to the UGS Analytics server.
         /// </summary>
         /// <param name="coinBalance"> The number of coins in the player's position at the time of death. </param>

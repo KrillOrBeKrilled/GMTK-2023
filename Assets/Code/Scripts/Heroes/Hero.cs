@@ -193,14 +193,6 @@ namespace KrillOrBeKrilled.Heroes {
             this._heroBrain.UpdateData("IsMoving", false);
         }
         
-        // /// <summary>
-        // /// Triggers hero death through <see cref="Die"/>.
-        // /// </summary>
-        // /// <remarks> Subscribed to the <see cref="HeroMovement.OnHeroIsStuck"/> event. </remarks>
-        // private void OnHeroIsStuck(Vector3 pos) {
-        //     this.Die();
-        // }
-        
         #endregion
     }
 }

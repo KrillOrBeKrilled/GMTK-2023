@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15b2b0018dfc75944b8bd1b5130c145a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Debug: 1
+  Debug: 0
   ObjectCheck: 0
   PitCheck: 1
   TrapTargetMask:

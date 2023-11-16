@@ -230,6 +230,8 @@ namespace KrillOrBeKrilled.Core {
         /// </summary>
         public void LoadNextLevel() {
             this._pauseManager.UnpauseGame();
+            this._pauseManager.SetIsPausable(false);
+            this.OnSceneWillChange?.Invoke(SceneNavigationManager.Instance.LoadLevelsScene);
         }
 
         /// <summary>

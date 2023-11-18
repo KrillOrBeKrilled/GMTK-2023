@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace KrillOrBeKrilled.UI {
   public class TrapRequirementsUI : MonoBehaviour {
     [SerializeField] private Image _trapIcon;
-    [SerializeField] private List<TrapRequirementUI> _trapRequirements;
+    [SerializeField] private List<ResourceRequirementUI> _trapRequirements;
     [SerializeField] private TrapIconData _trapIconData;
 
     private Sequence _tweenSequence;
@@ -92,8 +92,6 @@ namespace KrillOrBeKrilled.UI {
           this._trapRequirements[2].Hide();
           break;
       }
-
-      this.DoBounceAnimation();
     }
   }
 }

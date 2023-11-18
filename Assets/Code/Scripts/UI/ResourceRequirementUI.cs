@@ -5,10 +5,10 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace KrillOrBeKrilled.UI {
-  public class TrapRequirementUI : MonoBehaviour {
+  public class ResourceRequirementUI : MonoBehaviour {
     [SerializeField] private Image _icon;
     [SerializeField] private TMP_Text _amountText;
-    [FormerlySerializedAs("_resourceTypeData")] [SerializeField] private ResourceIconData _resourceIconData;
+    [SerializeField] private ResourceIconData _resourceIconData;
 
     public void Hide() {
       this.gameObject.SetActive(false);

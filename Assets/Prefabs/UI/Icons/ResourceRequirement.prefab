@@ -253,7 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _icon: {fileID: 608268881182938967}
   _amountText: {fileID: 6848086693768344231}
-  _resourceTypeData: {fileID: 11400000, guid: 4f28fad1e3b93488ba98b9591a499502, type: 2}
+  _resourceIconData: {fileID: 11400000, guid: 4f28fad1e3b93488ba98b9591a499502, type: 2}
 --- !u!1 &8532203881145846297
 GameObject:
   m_ObjectHideFlags: 0

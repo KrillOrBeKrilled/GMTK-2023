@@ -43,6 +43,9 @@ namespace KrillOrBeKrilled.UI {
             this._isInteractable = isInteractable;
         }
 
+        /// <summary>
+        /// Changes the button sprites for the default and pressed images.
+        /// </summary>
         public void SetButtonSprites(Sprite defaultImage, Sprite pressedImage) {
             this._defaultImage = defaultImage;
             this._pressedImage = pressedImage;
@@ -50,6 +53,7 @@ namespace KrillOrBeKrilled.UI {
             this._image.sprite = this._isPressed ? this._pressedImage : this._defaultImage;
         }
 
+        /// <summary> Triggered by Unity. Invokes <see cref="_onClickImmediate"/> event. </summary>
         public void OnPointerDown(PointerEventData eventData) {
             if (!this._isInteractable) {
                 return;
@@ -72,7 +76,7 @@ namespace KrillOrBeKrilled.UI {
             this._tweenSequence.Play();
         }
 
-        /// <summary> Invokes the <see cref="_onClickImmediate"/> and <see cref="_onClickComplete"/> events. </summary>
+        /// <summary> Triggered by Unity. Invokes <see cref="_onClickComplete"/> event. </summary>
         public void OnPointerUp(PointerEventData eventData) {
             if (!this._isInteractable) {
                 return;

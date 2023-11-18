@@ -1,9 +1,11 @@
 using KrillOrBeKrilled.Common.Interfaces;
 using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Model;
+using KrillOrBeKrilled.Heroes.AI;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Tilemaps;
 
 //*******************************************************************************************
 // Hero
@@ -12,19 +14,16 @@ namespace KrillOrBeKrilled.Heroes {
     /// <summary>
     /// Manages the states of the hero throughout narrative sequences and gameplay,
     /// tracking health and playing associated SFX. Manipulates movement in the
-    /// narrative sequences through <see cref="HeroMovement"/>.
+    /// narrative sequences through the <see cref="HeroBT"/>.
     /// </summary>
     public class Hero : MonoBehaviour, IDamageable {
-        public HeroMovement HeroMovement => this._heroMovement;
-        private HeroMovement _heroMovement;
-
-        private Animator _animator;
+        private Rigidbody2D _rigidbody;
+        private HeroBT _heroBrain;
+        private FieldOfView _heroSight;
+        
         private const int CoinsEarnedOnDeath = 2;
 
         // ---------------- Spawning -----------------
-        // [Tooltip("Determines the position to respawn the hero.")]
-        // public HeroRespawnPoint RespawnPoint;
-
         [Tooltip("Duration of time for the hero to recover at the RespawnPoint before moving again.")]
         [SerializeField] internal float RespawnTime = 3;
 
@@ -60,9 +59,9 @@ namespace KrillOrBeKrilled.Heroes {
         #region Unity Methods
         
         private void Awake() {
-            this.TryGetComponent(out this._heroMovement);
-            this.TryGetComponent(out this._animator);
-            this.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
+            this.TryGetComponent(out this._rigidbody);
+            this.TryGetComponent(out this._heroBrain);
+            this.TryGetComponent(out this._heroSight);
         }
         
         #endregion
@@ -76,7 +75,7 @@ namespace KrillOrBeKrilled.Heroes {
         #region IDamageable Implementations
         
         public void ApplySpeedPenalty(float penalty) {
-            this._heroMovement.SetSpeedPenalty(penalty);
+            this._heroBrain.UpdateData("SpeedPenalty", Mathf.Clamp(penalty, 0f, 1f));
         }
         
         /// <summary>
@@ -102,7 +101,7 @@ namespace KrillOrBeKrilled.Heroes {
         }
         
         public void ResetSpeedPenalty() {
-            this._heroMovement.ResetSpeedPenalty();
+            this._heroBrain.UpdateData("SpeedPenalty", 0f);
         }
         
         /// <summary>
@@ -124,7 +123,17 @@ namespace KrillOrBeKrilled.Heroes {
         }
 
         public void ThrowActorBack(float stunDuration, float throwForce) {
-            this._heroMovement.ThrowHeroBack(stunDuration, throwForce);
+            this._heroBrain.UpdateData("IsStunned", true);
+            this._heroBrain.UpdateData("StunDuration", stunDuration);
+            
+            Vector2 explosionVector = new Vector2(-1f, 0.7f) * throwForce;
+            this._rigidbody.AddForce(explosionVector, ForceMode2D.Impulse);
+        }
+
+        public void ThrowActorForward(float throwForce) {
+            _rigidbody.velocity = Vector2.zero;
+            Vector2 leapVector = new Vector2(0.25f, 2f) * throwForce;
+            this._rigidbody.AddForce(leapVector, ForceMode2D.Impulse);
         }
 
         #endregion
@@ -136,20 +145,28 @@ namespace KrillOrBeKrilled.Heroes {
             this.StartCoroutine(this.EnterLevelAnimation());
         }
         
-        public void Initialize(HeroData heroData, HeroSoundsController soundsController) {
+        public void Initialize(HeroData heroData, HeroSoundsController soundsController, Tilemap groundTilemap) {
             this.Health = heroData.Health;
             this.Type = heroData.Type;
             this._soundsController = soundsController;
 
-            this._heroMovement.Initialize(soundsController);
+            this._heroBrain.Initialize(soundsController);
+            this._heroSight.Initialize(groundTilemap);
         }
         
         /// <summary>
-        /// Enables movement through <see cref="HeroMovement"/>.
+        /// Enables movement through the <see cref="HeroBT"/>.
         /// </summary>
         public void StartRunning() {
             this.StopAllCoroutines();
-            this._heroMovement.ToggleMoving(true);
+            this._heroBrain.UpdateData("IsMoving", true);
+        }
+        
+        /// <summary>
+        /// Disables movement through the <see cref="HeroBT"/>.
+        /// </summary>
+        public void StopRunning() {
+            this._heroBrain.UpdateData("IsMoving", false);
         }
         
         #endregion
@@ -161,24 +178,16 @@ namespace KrillOrBeKrilled.Heroes {
         #region Private Methods
         
         /// <summary>
-        /// Enables movement through <see cref="HeroMovement"/> for a duration of time and then disables
+        /// Enables movement through the <see cref="HeroBT"/> for a duration of time and then disables
         /// movement.
         /// </summary>
         /// <remarks> The coroutine is started by <see cref="EnterLevel"/>. </remarks>
         private IEnumerator EnterLevelAnimation() {
-            this._heroMovement.ToggleMoving(true);
+            this._heroBrain.UpdateData("IsMoving", true);
 
             yield return new WaitForSeconds(2f);
-
-            this._heroMovement.ToggleMoving(false);
-        }
-        
-        /// <summary>
-        /// Triggers hero death through <see cref="Die"/>.
-        /// </summary>
-        /// <remarks> Subscribed to the <see cref="HeroMovement.OnHeroIsStuck"/> event. </remarks>
-        private void OnHeroIsStuck(Vector3 pos) {
-            this.Die();
+            
+            this._heroBrain.UpdateData("IsMoving", false);
         }
         
         #endregion

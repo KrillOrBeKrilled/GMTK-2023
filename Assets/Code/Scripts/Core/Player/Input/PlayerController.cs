@@ -163,7 +163,7 @@ namespace KrillOrBeKrilled.Core.Player {
             if (this._stateChangedThisFrame) {
                 this._state.Act(moveInput, jumpPressed, jumpPressedThisFrame);
             }
-            
+
             // Check trap deployment eligibility
             this._trapController.SurveyTrapDeployment(this.IsGrounded, this._direction);
 
@@ -232,6 +232,8 @@ namespace KrillOrBeKrilled.Core.Player {
         public void TakeDamage(int amount) {}
 
         public void ThrowActorBack(float stunDuration, float throwForce) {}
+
+        public void ThrowActorForward(float throwForce) {}
 
         #endregion
 
@@ -522,8 +524,8 @@ namespace KrillOrBeKrilled.Core.Player {
         /// </summary>
         /// <remarks> Invokes <see cref="OnPlayerGrounded"/>. </remarks>
         private void UpdateGrounded() {
-            RaycastHit2D hitInfo = Physics2D.BoxCast((Vector2)this.transform.position + this.GroundedCheckBoxOffset, this.GroundedCheckBoxSize, 0f, Vector2.zero, 0.1f, this.GroundedLayerMask);
-            bool grounded = hitInfo.collider != null;
+            Collider2D hit = Physics2D.OverlapBox((Vector2)this.transform.position + this.GroundedCheckBoxOffset, this.GroundedCheckBoxSize, 0f, this.GroundedLayerMask);
+            bool grounded = hit != null;
             bool becameNotGrounded = this.IsGrounded && !grounded;
             bool becameGrounded = !this.IsGrounded && grounded;
 

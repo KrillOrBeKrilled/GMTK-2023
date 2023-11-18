@@ -353,9 +353,8 @@ namespace KrillOrBeKrilled.Core {
             }
 
             var newHero = Instantiate(heroPrefab, this._activeRespawnPoint.transform);
-            newHero.Initialize(heroData, _heroSoundsController);
+            newHero.Initialize(heroData, _heroSoundsController, _playerManager.TrapController.GroundTilemap);
             newHero.OnHeroDied.AddListener(this.OnHeroDied);
-            newHero.HeroMovement.OnHeroIsStuck.AddListener(this.OnHeroIsStuck);
 
             this._heroes.Add(newHero);
             this.OnHeroSpawned.Invoke(newHero);
@@ -428,19 +427,6 @@ namespace KrillOrBeKrilled.Core {
             }
 
             UGS_Analytics.HeroDiedCustomEvent(hero.transform.position);
-        }
-
-        /// <summary>
-        /// Records analytics hero stuck data.
-        /// </summary>
-        /// <param name="pos"> The hero's current position. </param>
-        /// <remarks> Subscribed to the <see cref="HeroMovement.OnHeroIsStuck"/> event. </remarks>
-        private void OnHeroIsStuck(Vector3 pos) {
-            if (UGS_Analytics.Instance is null) {
-                return;
-            }
-
-            UGS_Analytics.HeroIsStuckCustomEvent(pos);
         }
 
         /// <summary>
@@ -550,7 +536,7 @@ namespace KrillOrBeKrilled.Core {
         /// </summary>
         private void StopAllHeroes() {
             foreach (var hero in this._heroes) {
-                hero.HeroMovement.ToggleMoving(false);
+                hero.StopRunning();
             }
         }
 

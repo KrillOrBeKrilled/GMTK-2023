@@ -53,6 +53,7 @@ namespace KrillOrBeKrilled.Heroes {
         
         #region Unity Methods
 
+#if UNITY_EDITOR 
         private void OnDrawGizmos() {
             if (!Debug) {
                 return;
@@ -118,6 +119,7 @@ namespace KrillOrBeKrilled.Heroes {
             Gizmos.color = Color.green;
             Gizmos.DrawSphere((Vector3)hit.point - transform.position, .2f);
         }
+#endif
         
         #endregion
         

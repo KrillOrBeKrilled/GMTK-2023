@@ -39,7 +39,7 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
             var nodes = new List<Node>(Children);
             
             for (var i = 0; i < Children.Count; i++) {
-                var node = nodes[Random.Range(0, nodes.Count - 1)];
+                var node = nodes[Random.Range(0, nodes.Count)];
                 nodes.Remove(node);
                 
                 switch (node.Evaluate()) {

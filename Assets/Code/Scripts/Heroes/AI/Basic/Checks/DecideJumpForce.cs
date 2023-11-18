@@ -51,7 +51,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
 
             // If no jump endpoint has been defined, the hero will jump with maximum force
             if (targetPos == Vector3.zero) {
-                Debug.LogError("Hero cannot find a target platform!");
+                Debug.LogWarning("Hero cannot find a target platform!");
                 
                 Parent.SetData("JumpVelocity", 
                     new Vector3(_maxJumpForce / 2, _maxJumpForce * Mathf.Sin(_radJumpAngle), 0));

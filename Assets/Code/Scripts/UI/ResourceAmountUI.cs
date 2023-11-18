@@ -1,11 +1,10 @@
 using KrillOrBeKrilled.Traps;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace KrillOrBeKrilled.UI {
-  public class ResourceRequirementUI : MonoBehaviour {
+  public class ResourceAmountUI : MonoBehaviour {
     [SerializeField] private Image _icon;
     [SerializeField] private TMP_Text _amountText;
     [SerializeField] private ResourceIconData _resourceIconData;

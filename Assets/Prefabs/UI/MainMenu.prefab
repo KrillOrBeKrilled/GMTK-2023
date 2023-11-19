@@ -995,6 +995,30 @@ PrefabInstance:
     m_TransformParent: {fileID: 7024624560483352824}
     m_Modifications:
     - target: {fileID: 2387529142237125317, guid: ff008871ca9044e84a70a56a3632a3ed, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2387529142237125317, guid: ff008871ca9044e84a70a56a3632a3ed, type: 3}
+      propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2387529142237125317, guid: ff008871ca9044e84a70a56a3632a3ed, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2387529142237125317, guid: ff008871ca9044e84a70a56a3632a3ed, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8419552718801445360}
+    - target: {fileID: 2387529142237125317, guid: ff008871ca9044e84a70a56a3632a3ed, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2387529142237125317, guid: ff008871ca9044e84a70a56a3632a3ed, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPlay
+      objectReference: {fileID: 0}
+    - target: {fileID: 2387529142237125317, guid: ff008871ca9044e84a70a56a3632a3ed, type: 3}
       propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
@@ -1007,8 +1031,16 @@ PrefabInstance:
       value: OnPlay
       objectReference: {fileID: 0}
     - target: {fileID: 2387529142237125317, guid: ff008871ca9044e84a70a56a3632a3ed, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KrillOrBeKrilled.UI.MainMenu, UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2387529142237125317, guid: ff008871ca9044e84a70a56a3632a3ed, type: 3}
       propertyPath: _onClickComplete.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: KrillOrBeKrilled.UI.MainMenu, UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2387529142237125317, guid: ff008871ca9044e84a70a56a3632a3ed, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2969871887701501458, guid: ff008871ca9044e84a70a56a3632a3ed, type: 3}
       propertyPath: m_Pivot.x

@@ -19,8 +19,6 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private bool _muteClickSfx;
 
         [SerializeField] private UnityEvent _onClick;
-        [SerializeField] private UnityEvent _onClickImmediate;
-        [SerializeField] private UnityEvent _onClickComplete;
         [SerializeField] private Sprite _defaultImage;
         [SerializeField] private Sprite _pressedImage;
 

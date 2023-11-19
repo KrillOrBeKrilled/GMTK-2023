@@ -369,7 +369,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7005210679995150332}
   m_Layer: 5
-  m_Name: TopLeftGroup
+  m_Name: TopRightGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -851,7 +851,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7180725469781344865}
   m_Layer: 5
-  m_Name: TopRightGroup
+  m_Name: TopLeftGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2019,7 +2019,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5600190861016581593, guid: 0d27556458185421da541242e74589d2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 560
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5600190861016581593, guid: 0d27556458185421da541242e74589d2, type: 3}
       propertyPath: m_SizeDelta.y

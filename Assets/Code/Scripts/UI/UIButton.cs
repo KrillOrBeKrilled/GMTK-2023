@@ -15,7 +15,7 @@ namespace KrillOrBeKrilled.UI {
     /// <remarks>Requires <see cref="Image"/> component.</remarks>
 
     [RequireComponent(typeof(Image))]
-    public class UIButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler {
+    public class UIButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IPointerEnterHandler {
         [SerializeField] private bool _muteClickSfx;
 
         [SerializeField] private UnityEvent _onClick;
@@ -83,7 +83,19 @@ namespace KrillOrBeKrilled.UI {
             this._isPointerOverButton = false;
         }
 
+        public void OnPointerEnter(PointerEventData eventData) {
+            if (!this._isPressed) {
+                return;
+            }
+
+            this._isPointerOverButton = true;
+        }
+
         public void OnPointerExit(PointerEventData eventData) {
+            if (!this._isPressed) {
+                return;
+            }
+
             this._isPointerOverButton = false;
         }
 

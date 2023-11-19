@@ -21,6 +21,7 @@ namespace KrillOrBeKrilled.UI {
 
         private UnityAction<Trap> _selectTrapAction;
         private Trap _assignedTrap;
+        private Tween _colorTween;
 
         //========================================
         // Public Methods
@@ -59,10 +60,11 @@ namespace KrillOrBeKrilled.UI {
         /// <param name="newTrap">The newly selected trap.</param>
         public void OnSelectedChanged(Trap newTrap) {
             bool isSelected = newTrap == this._assignedTrap;
+            this._colorTween?.Kill();
             if (isSelected) {
-                this._selectionOutline.DOColor(this._selectedColor, 0.4f);
+                this._colorTween = this._selectionOutline.DOColor(this._selectedColor, 0.4f);
             } else {
-                this._selectionOutline.DOColor(this._defaultColor, 0.1f);
+                this._colorTween = this._selectionOutline.DOColor(this._defaultColor, 0.1f);
             }
         }
 

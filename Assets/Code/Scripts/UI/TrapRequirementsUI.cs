@@ -74,17 +74,17 @@ namespace KrillOrBeKrilled.UI {
         case SwingingAxeTrap:
           this._trapRequirements[0].SetIconAmount(ResourceType.ScrapMetal, 1);
           this._trapRequirements[1].SetIconAmount(ResourceType.WoodStick, 1);
-          this._trapRequirements[1].SetIconAmount(ResourceType.Dynamite, 1);
+          this._trapRequirements[2].Hide();
           break;
         case IcicleTrap:
           this._trapRequirements[0].SetIconAmount(ResourceType.IceShards, 2);
-          this._trapRequirements[1].SetIconAmount(ResourceType.Slime, 1);
+          this._trapRequirements[1].SetIconAmount(ResourceType.Dynamite, 1);
           this._trapRequirements[2].Hide();
           break;
         case AcidPitTrap:
-          this._trapRequirements[0].SetIconAmount(ResourceType.ScrapMetal, 1);
-          this._trapRequirements[1].SetIconAmount(ResourceType.WoodStick, 1);
-          this._trapRequirements[2].SetIconAmount(ResourceType.Slime, 4);
+          this._trapRequirements[0].SetIconAmount(ResourceType.Slime, 1);
+          this._trapRequirements[1].SetIconAmount(ResourceType.IceShards, 2);
+          this._trapRequirements[2].SetIconAmount(ResourceType.Dynamite, 1);
           break;
         default:
           this._trapRequirements[0].Hide();

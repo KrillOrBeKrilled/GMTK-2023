@@ -1,10 +1,12 @@
 using UnityEngine;
 
+// Imported from Unity Asset Store: Safe Area Helper
+// Script written by Crystal
 namespace Crystal
 {
     /// <summary>
     /// Safe area implementation for notched mobile devices. Usage:
-    ///  (1) Add this component to the top level of any GUI panel. 
+    ///  (1) Add this component to the top level of any GUI panel.
     ///  (2) If the panel uses a full screen background image, then create an immediate child and put the component on that instead, with all other elements childed below it.
     ///      This will allow the background image to stretch to the full extents of the screen behind the notch, which looks nicer.
     ///  (3) For other cases that use a mixture of full horizontal and vertical background stripes, use the Conform X & Y controls on separate elements as needed.

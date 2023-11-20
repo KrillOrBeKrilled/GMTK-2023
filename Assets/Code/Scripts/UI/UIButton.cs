@@ -89,6 +89,7 @@ namespace KrillOrBeKrilled.UI {
             }
 
             this._isPointerOverButton = true;
+            this._image.sprite = this._pressedImage;
         }
 
         public void OnPointerExit(PointerEventData eventData) {
@@ -97,6 +98,7 @@ namespace KrillOrBeKrilled.UI {
             }
 
             this._isPointerOverButton = false;
+            this._image.sprite = this._defaultImage;
         }
 
         private void Awake() {

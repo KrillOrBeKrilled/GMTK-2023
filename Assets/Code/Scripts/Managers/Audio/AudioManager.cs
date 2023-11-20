@@ -53,13 +53,13 @@ namespace KrillOrBeKrilled.Managers.Audio {
 
         /// Manages all the BGM.
         private Jukebox _jukebox;
-        
+
         //========================================
         // Unity Methods
         //========================================
-        
+
         #region Unity Methods
-        
+
         protected override void Awake() {
             base.Awake();
             this.AreSfxMuted = PlayerPrefsManager.AreSfxMuted();
@@ -69,20 +69,20 @@ namespace KrillOrBeKrilled.Managers.Audio {
             this._jukebox = GameObject.Find("Jukebox")?.GetComponent<Jukebox>();
 
             if (SceneManager.GetActiveScene().name == "Game") {
-                PauseManager.Instance.OnPauseToggled.AddListener(this.ToggleJukeboxPause);
+                EventManager.Instance.PauseToggledEvent.AddListener(this.ToggleJukeboxPause);
             }
         }
-        
+
         #endregion
-        
+
         //========================================
         // Internal Methods
         //========================================
-        
+
         #region Internal Methods
-        
+
         #region Dialogue Sound Events Methods
-        
+
         /// <summary>
         /// Plays SFX associated with the boss dialogue (Dogan).
         /// </summary>
@@ -92,7 +92,7 @@ namespace KrillOrBeKrilled.Managers.Audio {
                 this._bossDialogueEvent.Post(audioSource);
             }
         }
-        
+
         /// <summary>
         /// Plays SFX associated with the player dialogue (Hendall).
         /// </summary>
@@ -114,9 +114,9 @@ namespace KrillOrBeKrilled.Managers.Audio {
         }
 
         #endregion
-        
+
         #region Hen Sound Events Methods
-        
+
         /// <summary>
         /// Plays SFX associated with building a trap after deployment to set it up.
         /// </summary>
@@ -131,7 +131,7 @@ namespace KrillOrBeKrilled.Managers.Audio {
                 this.StartCoroutine(this.PlayBuildSoundForDuration(11f));
             }
         }
-        
+
         /// <summary>
         /// Plays SFX associated with completing the building of traps, setting them up.
         /// </summary>
@@ -141,7 +141,7 @@ namespace KrillOrBeKrilled.Managers.Audio {
                 this._buildCompleteEvent.Post(audioSource);
             }
         }
-        
+
         /// <summary>
         /// Plays character SFX associated with the player death.
         /// </summary>
@@ -151,7 +151,7 @@ namespace KrillOrBeKrilled.Managers.Audio {
                 this._henDeathEvent.Post(audioSource);
             }
         }
-        
+
         /// <summary>
         /// Plays character SFX associated with the player jumping.
         /// </summary>
@@ -178,9 +178,9 @@ namespace KrillOrBeKrilled.Managers.Audio {
         }
 
         #endregion
-        
+
         #region Hero Sound Events Methods
-        
+
         /// <summary>
         /// Plays character SFX associated with the hero dying.
         /// </summary>
@@ -190,7 +190,7 @@ namespace KrillOrBeKrilled.Managers.Audio {
                 this._heroDeathEvent.Post(audioSource);
             }
         }
-        
+
         /// <summary>
         /// Plays SFX associated with the hero taking damage.
         /// </summary>
@@ -212,9 +212,9 @@ namespace KrillOrBeKrilled.Managers.Audio {
         }
 
         #endregion
-        
+
         #region UI Sound Events Methods
-        
+
         /// <summary>
         /// Plays SFX associated with pressing a UI button.
         /// </summary>
@@ -225,8 +225,8 @@ namespace KrillOrBeKrilled.Managers.Audio {
             }
         }
 
-        /// <summary> 
-        /// Deprecated: Plays SFX associated with hovering over or selecting a UI button. 
+        /// <summary>
+        /// Deprecated: Plays SFX associated with hovering over or selecting a UI button.
         /// </summary>
         /// <param name="audioSource"> The GameObject that's the source of this SFX. </param>
         /// <remarks> Deprecated due to transitioning to Mobile target. </remarks>
@@ -235,7 +235,7 @@ namespace KrillOrBeKrilled.Managers.Audio {
                 this._playUISelectEvent.Post(audioSource);
             }
         }
-        
+
         /// <summary>
         /// Plays SFX associated with deploying a trap on selected tile spaces.
         /// </summary>
@@ -257,19 +257,19 @@ namespace KrillOrBeKrilled.Managers.Audio {
         }
 
         #endregion
-        
+
         internal void SetAreSfxMuted(bool areSfxMuted) {
             this.AreSfxMuted = areSfxMuted;
         }
-        
+
         #endregion
-        
+
         //========================================
         // Private Methods
         //========================================
-        
+
         #region Private Methods
-        
+
         /// <summary>
         /// Plays SFX associated with building a trap to set it up for a duration of time.
         /// </summary>
@@ -284,13 +284,13 @@ namespace KrillOrBeKrilled.Managers.Audio {
                 this._stopBuildEvent.Post(this.gameObject);
             }
         }
-        
+
         /// <summary>
         /// Plays SFX for pausing the game and pauses the BGM through the <see cref="Jukebox"/>. If the
-        /// game is already paused, plays SFX for unpausing the game and resumes the BGM instead.
+        /// game is already paused, plays SFX for un-pausing the game and resumes the BGM instead.
         /// </summary>
         /// <param name="isPaused"> Denotes if the game is currently paused. </param>
-        /// <remarks> Subscribed to the <see cref="PauseManager.OnPauseToggled"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="PauseToggledEvent"/> event. </remarks>
         private void ToggleJukeboxPause(bool isPaused) {
             if (this._jukebox is null) {
                 return;
@@ -310,7 +310,7 @@ namespace KrillOrBeKrilled.Managers.Audio {
             }
             this._jukebox.UnpauseMusic();
         }
-        
+
         #endregion
     }
 }

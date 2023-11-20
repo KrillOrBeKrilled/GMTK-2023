@@ -51,7 +51,7 @@ namespace KrillOrBeKrilled.UI {
 
         private void Start() {
             this._progressSlider.value = 0f;
-            this._sliderLength = ((RectTransform)this.transform).rect.width - IconPositionPadding * 2;
+            this._sliderLength = ((RectTransform)this._progressSlider.transform).rect.width - IconPositionPadding * 2;
         }
 
         private void Update() {

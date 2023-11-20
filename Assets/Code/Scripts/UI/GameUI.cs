@@ -22,7 +22,6 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private GameManager _gameManager;
         [Tooltip("Used to fade the scene in and out.")]
         [SerializeField] private Image _backgroundImage;
-        [SerializeField] private Image _backgroundTintImage;
         [SerializeField] private Image _foregroundImage;
         [Tooltip("Pause menu UI.")]
         [SerializeField] private GameObject _pauseUI;
@@ -37,6 +36,7 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private Transform _healthBarsContainer;
         [SerializeField] private MapUI _mapUI;
         [SerializeField] private ControlsUI _controlsUI;
+        [SerializeField] private TrapRequirementsUI _trapRequirementsUI;
 
         [Header("Prefabs")]
         [SerializeField] private HealthBarUI _healthBarUIPrefab;
@@ -60,8 +60,9 @@ namespace KrillOrBeKrilled.UI {
             this._gameManager.OnHeroSpawned.AddListener(this.OnHeroSpawned);
             this._gameManager.OnSceneWillChange.AddListener(this.FadeInSceneCover);
 
+            this._trapRequirementsUI.Initialize(this._gameManager.PlayerController.OnSelectedTrapChanged);
             this._trapSelectionBar.Initialize(
-                this._gameManager.PlayerController.OnSelectedTrapIndexChanged,
+                this._gameManager.PlayerController.OnSelectedTrapChanged,
                 this._gameManager.TrapController.Traps,
                 this._gameManager.PlayerController.SetTrap
             );
@@ -75,8 +76,8 @@ namespace KrillOrBeKrilled.UI {
 
             this._controlsUI.Initialize(this._gameManager.PlayerController);
 
-            CoinManager.Instance.OnCoinAmountChanged.AddListener(this.OnCoinsUpdated);
-            PauseManager.Instance.OnPauseToggled.AddListener(this.OnPauseToggled);
+            EventManager.Instance.CoinAmountChangedEvent.AddListener(this.OnCoinsUpdated);
+            EventManager.Instance.PauseToggledEvent.AddListener(this.OnPauseToggled);
         }
 
         #endregion
@@ -108,7 +109,7 @@ namespace KrillOrBeKrilled.UI {
         /// Updates the coin counter UI text.
         /// </summary>
         /// <param name="amount"> The new coin count to display on the coin counter UI. </param>
-        /// <remarks> Subscribed to the <see cref="CoinManager.OnCoinAmountChanged"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="CoinAmountChangedEvent"/> event. </remarks>
         private void OnCoinsUpdated(int amount) {
             this._coinsText.SetText($"{amount}");
         }
@@ -155,12 +156,11 @@ namespace KrillOrBeKrilled.UI {
         /// Enables or disables the Pause menu UI.
         /// </summary>
         /// <param name="isPaused"> Whether the game is currently paused or not. </param>
-        /// <remarks> Subscribed to the <see cref="PauseManager.OnPauseToggled"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="PauseToggledEvent"/> event. </remarks>
         private void OnPauseToggled(bool isPaused) {
             if (isPaused) {
                 // TODO: Play short modal show animation
                 this._pauseUI.SetActive(true);
-                this._backgroundTintImage.gameObject.SetActive(true);
             }
         }
 

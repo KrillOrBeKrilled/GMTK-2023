@@ -45,6 +45,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _earnCoinInterval: 5
-  OnCoinAmountChanged:
-    m_PersistentCalls:
-      m_Calls: []

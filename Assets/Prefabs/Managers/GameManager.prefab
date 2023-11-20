@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2de81972bf554ed1b244a56e79aa7e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameUI: {fileID: 0}
   _playerManager: {fileID: 0}
+  _pauseManager: {fileID: 0}
   _dialogueRunner: {fileID: 0}
   _cameraSwitcher: {fileID: 0}
   _cameraShaker: {fileID: 0}
@@ -68,10 +68,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _onTakeDamage:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: KrillOrBeKrilled.Managers.Audio.AudioManager, Managers
+        m_MethodName: PlayHeroHurt
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2157682620213624966}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _onHeroJump:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: KrillOrBeKrilled.Managers.Audio.AudioManager, Managers
+        m_MethodName: PlayHeroJump
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2157682620213624966}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _onHeroDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: KrillOrBeKrilled.Managers.Audio.AudioManager, Managers
+        m_MethodName: PlayHeroDeath
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2157682620213624966}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

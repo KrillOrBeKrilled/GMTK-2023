@@ -28,6 +28,7 @@ namespace KrillOrBeKrilled.Core {
     public class GameManager : MonoBehaviour {
         [Header("References")]
         [SerializeField] private PlayerManager _playerManager;
+        [SerializeField] private PauseManager _pauseManager;
 
         [Header("Dialogue References")]
         [SerializeField] private DialogueRunner _dialogueRunner;
@@ -133,7 +134,7 @@ namespace KrillOrBeKrilled.Core {
 
             this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
             this._playerManager.PlayerController.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
-            this._playerManager.PlayerController.OnSelectedTrapIndexChanged.AddListener(this.SelectedTrapIndexChanged);
+            this._playerManager.PlayerController.OnSelectedTrapChanged.AddListener(this.SelectedTrapIndexChanged);
             this._playerManager.PlayerController.OnTrapDeployed.AddListener(this.OnTrapDeployed);
 
             // Wait for a frame so that all other scripts complete Start() method.
@@ -148,7 +149,7 @@ namespace KrillOrBeKrilled.Core {
                 this.StartEndlessLevel();
             }
 
-            PauseManager.Instance.SetIsPausable(true);
+            this._pauseManager.SetIsPausable(true);
         }
 
         #endregion
@@ -219,8 +220,8 @@ namespace KrillOrBeKrilled.Core {
         /// Disables pause controls and loads the MainMenu scene.
         /// </summary>
         public void LoadMainMenu() {
-            PauseManager.Instance.UnpauseGame();
-            PauseManager.Instance.SetIsPausable(false);
+            this._pauseManager.UnpauseGame();
+            this._pauseManager.SetIsPausable(false);
             this.OnSceneWillChange?.Invoke(SceneNavigationManager.Instance.LoadLevelsScene);
         }
 
@@ -228,15 +229,17 @@ namespace KrillOrBeKrilled.Core {
         /// Unpauses the game.
         /// </summary>
         public void LoadNextLevel() {
-            PauseManager.Instance.UnpauseGame();
+            this._pauseManager.UnpauseGame();
+            this._pauseManager.SetIsPausable(false);
+            this.OnSceneWillChange?.Invoke(SceneNavigationManager.Instance.LoadLevelsScene);
         }
 
         /// <summary>
         /// Disables pause controls and reloads the current level.
         /// </summary>
         public void ReloadThisLevel() {
-            PauseManager.Instance.UnpauseGame();
-            PauseManager.Instance.SetIsPausable(false);
+            this._pauseManager.UnpauseGame();
+            this._pauseManager.SetIsPausable(false);
             this.OnSceneWillChange?.Invoke(SceneNavigationManager.Instance.ReloadCurrentScene);
         }
 
@@ -440,7 +443,7 @@ namespace KrillOrBeKrilled.Core {
                 return;
             }
 
-            this.HenDied("The Hero managed to take you down Hendall.\nDon't you dream about that promotion I mentioned last time!");
+            this.HenDied("I'm thinking of reconsidering that promotion I mentioned earlier!");
 
             if (UGS_Analytics.Instance is null) {
                 return;
@@ -466,7 +469,7 @@ namespace KrillOrBeKrilled.Core {
         /// Records analytics trap switching data.
         /// </summary>
         /// <param name="trap"> The most recently selected trap. </param>
-        /// <remarks> Subscribed to the <see cref="PlayerController.OnSelectedTrapIndexChanged"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="Player.PlayerController.OnSelectedTrapChanged"/> event. </remarks>
         private void SelectedTrapIndexChanged(Trap trap) {
             if (UGS_Analytics.Instance is null) {
                 return;
@@ -508,6 +511,7 @@ namespace KrillOrBeKrilled.Core {
 
             this.StopAllHeroes();
             this.OnHenLost?.Invoke(endgameMessage);
+            EventManager.Instance.GameOverEvent?.Invoke();
         }
 
         /// <summary>

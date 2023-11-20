@@ -76,7 +76,7 @@ namespace KrillOrBeKrilled.Core.Player {
 
         // ------------- Trap Deployment ------------
         [Tooltip("Tracks when a new trap is selected.")]
-        public UnityEvent<Trap> OnSelectedTrapIndexChanged;
+        public UnityEvent<Trap> OnSelectedTrapChanged;
         [Tooltip("Tracks when a trap has been deployed.")]
         internal UnityEvent<Trap> OnTrapDeployed { get; private set; }
 
@@ -123,14 +123,14 @@ namespace KrillOrBeKrilled.Core.Player {
 
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState, Vector3>();
             this.OnTrapDeployed = new UnityEvent<Trap>();
-            this.OnSelectedTrapIndexChanged = new UnityEvent<Trap>();
+            this.OnSelectedTrapChanged = new UnityEvent<Trap>();
             this.OnPlayerGrounded = new UnityEvent();
             this.OnPlayerFalling = new UnityEvent();
 
             _animator.SetBool("is_grounded", this.IsGrounded);
         }
 
-        /// <remarks> Invokes the <see cref="OnSelectedTrapIndexChanged"/> event. </remarks>
+        /// <remarks> Invokes the <see cref="OnSelectedTrapChanged"/> event. </remarks>
         private void Start() {
             this._deployCommand = new DeployCommand(this);
 
@@ -297,12 +297,12 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <inheritdoc cref="Pawn.ChangeTrap"/>
         /// <remarks>
         /// Delegates trap selection execution to the <see cref="TrapController"/>.
-        /// Invokes the <see cref="OnSelectedTrapIndexChanged"/> event.
+        /// Invokes the <see cref="OnSelectedTrapChanged"/> event.
         /// </remarks>
         public override void ChangeTrap(Trap trap) {
             // Delegate setting trap to TrapController for better encapsulation and efficiency
             this._trapController.ChangeTrap(trap);
-            this.OnSelectedTrapIndexChanged?.Invoke(trap);
+            this.OnSelectedTrapChanged?.Invoke(trap);
         }
 
         /// <inheritdoc cref="Pawn.DeployTrap"/>
@@ -406,7 +406,7 @@ namespace KrillOrBeKrilled.Core.Player {
             gameManager.OnHenWon.AddListener(this.GameOver);
             gameManager.OnHenLost.AddListener(this.StopSession);
 
-            this.OnSelectedTrapIndexChanged?.Invoke(this._trapController.CurrentTrap);
+            this.OnSelectedTrapChanged?.Invoke(this._trapController.CurrentTrap);
         }
 
         /// <summary>

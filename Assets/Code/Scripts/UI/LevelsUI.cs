@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using KrillOrBeKrilled.Managers;
 using UnityEngine;
@@ -12,8 +13,17 @@ namespace KrillOrBeKrilled.UI {
     /// game scene through the <see cref="SceneNavigationManager"/>.
     /// </summary>
     public class LevelsUI : MonoBehaviour {
+        private Animator _animationController;
+        private string _levelName;
+        
+        private readonly int _wipeInKey = Animator.StringToHash("screenWipeIn");
+        private readonly int _wipeOutKey = Animator.StringToHash("screenWipeOut");
+        
         [Tooltip("Used to fade the scene in and out.")] 
         [SerializeField] private Image _foreground;
+        
+        [Tooltip("Used to screen wipe the scene in and out.")] 
+        [SerializeField] private ScreenWipeUI _screenWipe;
 
         private const float FadeDuration = 0.5f;
         
@@ -24,6 +34,9 @@ namespace KrillOrBeKrilled.UI {
         #region Unity Methods
         
         private void Awake() {
+            _animationController = GetComponent<Animator>();
+            this._screenWipe.gameObject.SetActive(false);
+            
             this._foreground.gameObject.SetActive(true);
             this._foreground
                 .DOFade(0, FadeDuration)
@@ -43,10 +56,14 @@ namespace KrillOrBeKrilled.UI {
         /// </summary>
         /// <param name="levelName"> The name of the level corresponding to the LevelData name. </param>
         public void LoadLevel(string levelName) {
-            this._foreground.gameObject.SetActive(true);
-            this._foreground
-                .DOFade(1, FadeDuration)
-                .OnComplete(() => LevelManager.Instance.LoadLevel(levelName));
+            this._screenWipe.gameObject.SetActive(true);
+            this._screenWipe.SetRandomWipeShape();
+            this._animationController.SetTrigger(_wipeOutKey);
+            _levelName = levelName;
+        }
+
+        public void LoadLevelScene() {
+            LevelManager.Instance.LoadLevel(_levelName);
         }
         
         /// <summary>

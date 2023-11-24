@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,20 +8,29 @@ using UnityEngine.UI;
 namespace KrillOrBeKrilled {
     [RequireComponent(typeof(Image))]
     public class ScreenWipeUI : MonoBehaviour {
-        private Animator _animationController;
         private Image _image;
-
-        private readonly int _shaderScaleKey = Shader.PropertyToID("_WipeScale");
-        public float ScreenWipeSize = 0f;
         
-        // Start is called before the first frame update
-        void Start() {
+        private readonly int _shaderTextureKey = Shader.PropertyToID("_WipeShape");
+        private readonly int _shaderScaleKey = Shader.PropertyToID("_WipeScale");
+
+        [SerializeField] private List<Texture> _wipeShapes;
+        public float ScreenWipeSize = 0f;
+
+        private void Awake() {
             _image = GetComponent<Image>();
         }
-
-        // Update is called once per frame
+        
         private void Update() {
-            _image.materialForRendering.SetFloat(_shaderScaleKey, ScreenWipeSize);
+            _image.material.SetFloat(_shaderScaleKey, ScreenWipeSize);
+        }
+
+        public void SetRandomWipeShape() {
+            if (_wipeShapes.Count < 1) {
+                return;
+            }
+            
+            var randomWipeShape = Random.Range(0, _wipeShapes.Count);
+            _image.materialForRendering.SetTexture(_shaderTextureKey, _wipeShapes[randomWipeShape]);
         }
     }
 }

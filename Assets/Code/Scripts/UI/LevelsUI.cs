@@ -21,7 +21,8 @@ namespace KrillOrBeKrilled.UI {
         
         [Tooltip("Used to fade the scene in and out.")] 
         [SerializeField] private Image _foreground;
-        
+        [Tooltip("Used to cover the scene until the next level loads.")]
+        [SerializeField] private Image _loadingScreen;
         [Tooltip("Used to screen wipe the scene in and out.")] 
         [SerializeField] private ScreenWipeUI _screenWipe;
 
@@ -63,6 +64,7 @@ namespace KrillOrBeKrilled.UI {
         }
 
         public void LoadLevelScene() {
+            this._loadingScreen.gameObject.SetActive(true);
             LevelManager.Instance.LoadLevel(_levelName);
         }
         

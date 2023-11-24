@@ -42,7 +42,6 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private HealthBarUI _healthBarUIPrefab;
 
         private Animator _animationController;
-        private const float FadeDuration = 0.5f;
         
         private readonly int _wipeInKey = Animator.StringToHash("screenWipeIn");
         private readonly int _wipeOutKey = Animator.StringToHash("screenWipeOut");
@@ -96,7 +95,7 @@ namespace KrillOrBeKrilled.UI {
             this._screenWipe.gameObject.SetActive(false);
         }
 
-        public void DisableForeground() {
+        public void DisableLoadingScreen() {
             this._loadingScreen.gameObject.SetActive(false);
         }
 

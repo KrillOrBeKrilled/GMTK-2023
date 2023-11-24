@@ -1,4 +1,3 @@
-using System.Collections;
 using DG.Tweening;
 using KrillOrBeKrilled.Managers;
 using UnityEngine;
@@ -16,9 +15,6 @@ namespace KrillOrBeKrilled.UI {
         private Animator _animationController;
         private string _levelName;
         
-        private readonly int _wipeInKey = Animator.StringToHash("screenWipeIn");
-        private readonly int _wipeOutKey = Animator.StringToHash("screenWipeOut");
-        
         [Tooltip("Used to fade the scene in and out.")] 
         [SerializeField] private Image _foreground;
         [Tooltip("Used to cover the scene until the next level loads.")]
@@ -27,6 +23,7 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private ScreenWipeUI _screenWipe;
 
         private const float FadeDuration = 0.5f;
+        private readonly int _wipeOutKey = Animator.StringToHash("screenWipeOut");
         
         //========================================
         // Unity Methods

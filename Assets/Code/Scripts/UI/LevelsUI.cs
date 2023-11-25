@@ -12,8 +12,8 @@ namespace KrillOrBeKrilled.UI {
     /// game scene through the <see cref="SceneNavigationManager"/>.
     /// </summary>
     public class LevelsUI : MonoBehaviour {
-        private Animator _animationController;
-        private string _levelName;
+        private Animator _animController;
+        private string _levelNameToLoad;
         
         [Tooltip("Used to fade the scene in and out.")] 
         [SerializeField] private Image _foreground;
@@ -23,7 +23,7 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private ScreenWipeUI _screenWipe;
 
         private const float FadeDuration = 0.5f;
-        private readonly int _wipeOutKey = Animator.StringToHash("screenWipeOut");
+        private readonly int _wipeInKey = Animator.StringToHash("screenWipeIn");
         
         //========================================
         // Unity Methods
@@ -32,7 +32,7 @@ namespace KrillOrBeKrilled.UI {
         #region Unity Methods
         
         private void Awake() {
-            _animationController = GetComponent<Animator>();
+            _animController = GetComponent<Animator>();
             this._screenWipe.gameObject.SetActive(false);
             
             this._foreground.gameObject.SetActive(true);
@@ -50,19 +50,23 @@ namespace KrillOrBeKrilled.UI {
         #region Public Methods
         
         /// <summary>
-        /// Fades in the screen and loads a level upon completion.
+        /// Plays a screen wipe-in transition effect and sets the level to load upon completion.
         /// </summary>
         /// <param name="levelName"> The name of the level corresponding to the LevelData name. </param>
         public void LoadLevel(string levelName) {
             this._screenWipe.gameObject.SetActive(true);
             this._screenWipe.SetRandomWipeShape();
-            this._animationController.SetTrigger(_wipeOutKey);
-            _levelName = levelName;
+            this._animController.SetTrigger(_wipeInKey);
+            _levelNameToLoad = levelName;
         }
 
+        /// <summary>
+        /// Loads the level corresponding to <see cref="_levelNameToLoad"/>.
+        /// </summary>
+        /// <remarks> Triggered by the screen wipe-in animation event. </remarks>
         public void LoadLevelScene() {
             this._loadingScreen.gameObject.SetActive(true);
-            LevelManager.Instance.LoadLevel(_levelName);
+            LevelManager.Instance.LoadLevel(_levelNameToLoad);
         }
         
         /// <summary>

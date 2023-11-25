@@ -8,13 +8,20 @@ using UnityEngine.UI;
 namespace KrillOrBeKrilled {
     [RequireComponent(typeof(Image))]
     public class ScreenWipeUI : MonoBehaviour {
-        private Image _image;
+        [Tooltip("Exposes the screen wipe material WipeSize property to the Animator for direct manipulation.")]
+        public float ScreenWipeSize = 0f;
         
+        [SerializeField] private List<Texture> _wipeShapes;
+        
+        private Image _image;
         private readonly int _shaderTextureKey = Shader.PropertyToID("_WipeShape");
         private readonly int _shaderScaleKey = Shader.PropertyToID("_WipeScale");
-
-        [SerializeField] private List<Texture> _wipeShapes;
-        public float ScreenWipeSize = 0f;
+        
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
 
         private void Awake() {
             _image = GetComponent<Image>();
@@ -23,7 +30,18 @@ namespace KrillOrBeKrilled {
         private void Update() {
             _image.material.SetFloat(_shaderScaleKey, ScreenWipeSize);
         }
+        
+        #endregion
+        
+        //========================================
+        // Public Methods
+        //========================================
 
+        #region Public Methods
+        
+        /// <summary>
+        /// Sets a random screen wipe shape texture for the associated screen wipe material.
+        /// </summary>
         public void SetRandomWipeShape() {
             if (_wipeShapes.Count < 1) {
                 return;
@@ -32,5 +50,7 @@ namespace KrillOrBeKrilled {
             var randomWipeShape = Random.Range(0, _wipeShapes.Count);
             _image.materialForRendering.SetTexture(_shaderTextureKey, _wipeShapes[randomWipeShape]);
         }
+        
+        #endregion
     }
 }

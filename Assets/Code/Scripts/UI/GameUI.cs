@@ -1,4 +1,3 @@
-using DG.Tweening;
 using KrillOrBeKrilled.Core;
 using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Heroes;
@@ -15,14 +14,15 @@ namespace KrillOrBeKrilled.UI {
     /// Acts as a central control panel for initializing, activating/deactivating, and
     /// updating UI elements for various gameplay systems.
     /// </summary>
-    /// <remarks> Certain elements such as UI initialization and screen fade-in effects
+    /// <remarks> Certain elements such as UI initialization and screen wipe-in effects
     /// are exposed for external use. </remarks>
     public class GameUI : MonoBehaviour {
         [Header("Game UI References")]
         [SerializeField] private GameManager _gameManager;
-        [Tooltip("Used to fade the scene in and out.")]
-        [SerializeField] private Image _backgroundImage;
-        [SerializeField] private Image _foregroundImage;
+        [Tooltip("Used to cover the scene until the next level loads.")]
+        [SerializeField] private Image _loadingScreen;
+        [Tooltip("Used to screen wipe the scene in and out.")]
+        [SerializeField] private ScreenWipeUI _screenWipe;
         [Tooltip("Pause menu UI.")]
         [SerializeField] private GameObject _pauseUI;
         [Tooltip("Game Over menu UI.")]
@@ -41,7 +41,12 @@ namespace KrillOrBeKrilled.UI {
         [Header("Prefabs")]
         [SerializeField] private HealthBarUI _healthBarUIPrefab;
 
-        private const float FadeDuration = 0.5f;
+        private Animator _animController;
+        
+        private readonly int _wipeInKey = Animator.StringToHash("screenWipeIn");
+        private readonly int _wipeOutKey = Animator.StringToHash("screenWipeOut");
+
+        private UnityAction _onScreenWipeInComplete;
 
         //========================================
         // Unity Methods
@@ -50,7 +55,7 @@ namespace KrillOrBeKrilled.UI {
         #region Unity Methods
 
         private void Awake() {
-            this._foregroundImage.gameObject.SetActive(true);
+            _animController = GetComponent<Animator>();
         }
 
         private void Start() {
@@ -58,7 +63,7 @@ namespace KrillOrBeKrilled.UI {
             this._gameManager.OnHenWon.AddListener(this.OnHenWon);
             this._gameManager.OnHenLost.AddListener(this.OnHenLost);
             this._gameManager.OnHeroSpawned.AddListener(this.OnHeroSpawned);
-            this._gameManager.OnSceneWillChange.AddListener(this.FadeInSceneCover);
+            this._gameManager.OnSceneWillChange.AddListener(this.ScreenWipeInSceneCover);
 
             this._trapRequirementsUI.Initialize(this._gameManager.PlayerController.OnSelectedTrapChanged);
             this._trapSelectionBar.Initialize(
@@ -86,7 +91,31 @@ namespace KrillOrBeKrilled.UI {
         // Public Methods
         //========================================
 
-        // No public methods
+        /// <summary>
+        /// Disables the GameObject that controls the screen wipe transition effect.
+        /// </summary>
+        /// <remarks> Triggered by the screen wipe-out animation event. </remarks>
+        public void DisableScreenWipe() {
+            this._screenWipe.gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// Disables the GameObject that controls the loading screen.
+        /// </summary>
+        /// <remarks> Triggered by the screen wipe-out animation event. </remarks>
+        public void DisableLoadingScreen() {
+            this._loadingScreen.gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// Enables the GameObject that controls the loading screen and invokes the
+        /// <see cref="_onScreenWipeInComplete"/> function.
+        /// </summary>
+        /// <remarks> Triggered by the screen wipe-in animation event. </remarks>
+        public void CompleteSceneChange() {
+            this._loadingScreen.gameObject.SetActive(true);
+            _onScreenWipeInComplete?.Invoke();
+        }
 
         //========================================
         // Private Methods
@@ -95,14 +124,15 @@ namespace KrillOrBeKrilled.UI {
         #region Private Methods
 
         /// <summary>
-        /// Fades in the screen and invokes a function upon completion.
+        /// Plays a screen wipe-in transition effect and sets a function to invoke upon completion.
         /// </summary>
-        /// <param name="onComplete"> The function to invoke once the fade-in effect has been completed. </param>
-        private void FadeInSceneCover(UnityAction onComplete) {
-            this._foregroundImage.gameObject.SetActive(true);
-            this._foregroundImage
-                .DOFade(1, FadeDuration)
-                .OnComplete(() => onComplete?.Invoke());
+        /// <param name="onComplete"> The function to invoke once the screen wipe-in effect has been completed. </param>
+        private void ScreenWipeInSceneCover(UnityAction onComplete) {
+            _onScreenWipeInComplete = onComplete;
+            
+            this._screenWipe.gameObject.SetActive(true);
+            this._screenWipe.SetRandomWipeShape();
+            this._animController.SetTrigger(_wipeInKey);
         }
 
         /// <summary>
@@ -115,15 +145,12 @@ namespace KrillOrBeKrilled.UI {
         }
 
         /// <summary>
-        /// Fades out the screen and disables the fade image upon completion.
+        /// Plays a screen wipe-out transition effect.
         /// </summary>
         /// <remarks> Listens on the <see cref="GameManager.OnSetupComplete"/> event. </remarks>
         private void OnGameSetupComplete() {
-            this._foregroundImage
-                .DOFade(0, FadeDuration)
-                .OnComplete(() => {
-                    this._foregroundImage.gameObject.SetActive(false);
-                });
+            this._screenWipe.SetRandomWipeShape();
+            this._animController.SetTrigger(_wipeOutKey);
         }
 
         /// <summary>

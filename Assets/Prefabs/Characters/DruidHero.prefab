@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: Hero
-  messageBubbleOffset: {x: 0, y: 1.5, z: 0}
+  messageBubbleOffset: {x: 0, y: 3, z: 0}
   offsetUsesRotation: 0
 --- !u!114 &8167547464770034347
 MonoBehaviour:

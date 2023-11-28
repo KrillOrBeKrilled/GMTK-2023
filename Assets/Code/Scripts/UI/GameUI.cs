@@ -1,6 +1,7 @@
 using KrillOrBeKrilled.Core;
 using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Heroes;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -38,11 +39,15 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private ControlsUI _controlsUI;
         [SerializeField] private TrapRequirementsUI _trapRequirementsUI;
 
+        [Header("Dialogue")]
+        [SerializeField] private List<GameObject> _hideDuringDialogueUIList;
+        [SerializeField] private GameObject _dialogueUI;
+
         [Header("Prefabs")]
         [SerializeField] private HealthBarUI _healthBarUIPrefab;
 
         private Animator _animController;
-        
+
         private readonly int _wipeInKey = Animator.StringToHash("screenWipeIn");
         private readonly int _wipeOutKey = Animator.StringToHash("screenWipeOut");
 
@@ -83,6 +88,8 @@ namespace KrillOrBeKrilled.UI {
 
             EventManager.Instance.CoinAmountChangedEvent.AddListener(this.OnCoinsUpdated);
             EventManager.Instance.PauseToggledEvent.AddListener(this.OnPauseToggled);
+            EventManager.Instance.ShowDialogueUIEvent.AddListener(this.ShowDialogueUI);
+            EventManager.Instance.HideDialogueUIEvent.AddListener(this.HideDialogueUI);
         }
 
         #endregion
@@ -129,7 +136,7 @@ namespace KrillOrBeKrilled.UI {
         /// <param name="onComplete"> The function to invoke once the screen wipe-in effect has been completed. </param>
         private void ScreenWipeInSceneCover(UnityAction onComplete) {
             _onScreenWipeInComplete = onComplete;
-            
+
             this._screenWipe.gameObject.SetActive(true);
             this._screenWipe.SetRandomWipeShape();
             this._animController.SetTrigger(_wipeInKey);
@@ -198,6 +205,22 @@ namespace KrillOrBeKrilled.UI {
         private void SetupHealthBar(Hero hero) {
             HealthBarUI newBar = Instantiate(this._healthBarUIPrefab, this._healthBarsContainer);
             newBar.Initialize(hero, (RectTransform)this.transform);
+        }
+
+        private void ShowDialogueUI() {
+            foreach (GameObject hideObject in this._hideDuringDialogueUIList) {
+                hideObject.SetActive(false);
+            }
+
+            this._dialogueUI.SetActive(true);
+        }
+
+        private void HideDialogueUI() {
+            foreach (GameObject hideObject in this._hideDuringDialogueUIList) {
+                hideObject.SetActive(true);
+            }
+
+            this._dialogueUI.SetActive(false);
         }
 
         #endregion

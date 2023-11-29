@@ -109,8 +109,13 @@ namespace KrillOrBeKrilled.Core.Player {
                 : this.CurrentTrap.GetRightSpawnPoint(deploymentOrigin);
 
             Trap spawnedTrap = Instantiate(this.CurrentTrap);
-            spawnedTrap.Construct(spawnPosition, this._trapCanvas, this._previousTilePositions.ToArray(), _trapSoundsController);
-
+            Vector3Int[] tilePositionsCopy = this._previousTilePositions.ToArray();
+            spawnedTrap.Construct(spawnPosition, this._trapCanvas, this._previousTilePositions.ToArray(), _trapSoundsController, 
+                () => TilemapManager.Instance.ResetTrapTiles(tilePositionsCopy));
+            
+            // Delete/invalidate all the tiles overlapping the trap
+            TilemapManager.Instance.ClearLevelTiles(this._previousTilePositions.ToArray());
+            
             CoinManager.Instance.ConsumeCoins(this.CurrentTrap.Cost);
             this._soundsController.OnTileSelectConfirm();
 

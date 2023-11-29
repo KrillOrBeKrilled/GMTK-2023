@@ -1,7 +1,7 @@
 using System.Collections;
 using KrillOrBeKrilled.Common.Interfaces;
-using KrillOrBeKrilled.Managers;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 //*******************************************************************************************
@@ -45,15 +45,12 @@ namespace KrillOrBeKrilled.Traps {
         /// <inheritdoc cref="Trap.Construct"/>
         /// <remarks> Extended to change the shader animations for the acid liquid. </remarks>
         public override void Construct(Vector3 spawnPosition, Canvas canvas, 
-            Vector3Int[] tilePositions, TrapSoundsController soundsController) {
+            Vector3Int[] tilePositions, TrapSoundsController soundsController, UnityAction onDestroy = null) {
             // Initialize all the bookkeeping structures we will need
             SpawnPosition = spawnPosition;
             TilePositions = tilePositions;
             SoundsController = soundsController;
-                    
-            // Delete/invalidate all the tiles overlapping the trap
-            TilemapManager.Instance.ClearLevelTiles(TilePositions);
-
+            
             // Spawn a slider to indicate the progress on the build
             GameObject sliderObject = Instantiate(SliderBar, canvas.transform);
             sliderObject.transform.position = spawnPosition + AnimationOffset + Vector3.up;

@@ -1,5 +1,4 @@
 using KrillOrBeKrilled.Common.Interfaces;
-using KrillOrBeKrilled.Managers;
 using UnityEngine;
 
 //*******************************************************************************************
@@ -39,7 +38,6 @@ namespace KrillOrBeKrilled.Traps {
             }
                 
             actor.TakeDamage(_damageAmount);
-            TilemapManager.Instance.ResetTrapTiles(TilePositions);
             Destroy(gameObject);
         }
         

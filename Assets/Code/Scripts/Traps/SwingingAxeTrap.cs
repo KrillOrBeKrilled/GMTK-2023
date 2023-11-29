@@ -1,5 +1,4 @@
 using KrillOrBeKrilled.Common.Interfaces;
-using KrillOrBeKrilled.Managers;
 using UnityEngine;
 
 //*******************************************************************************************
@@ -33,7 +32,6 @@ namespace KrillOrBeKrilled.Traps {
         
         protected override void OnDetonateTrapAnimationCompete() {
             print("Detonate competed");
-            TilemapManager.Instance.ResetTrapTiles(TilePositions);
             Destroy(this.gameObject);
         }
 

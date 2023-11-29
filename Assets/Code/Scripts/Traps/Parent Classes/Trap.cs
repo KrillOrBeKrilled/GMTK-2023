@@ -1,9 +1,10 @@
 using KrillOrBeKrilled.Common.Interfaces;
-using KrillOrBeKrilled.Managers;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 //*******************************************************************************************
 // Trap
@@ -39,6 +40,8 @@ namespace KrillOrBeKrilled.Traps {
         protected TrapSoundsController SoundsController;
         protected float ConstructionCompletion, t;
         protected bool IsBuilding, IsReady;
+
+        private UnityAction _onDestroy;
 
         //========================================
         // Unity Methods
@@ -102,7 +105,12 @@ namespace KrillOrBeKrilled.Traps {
                 this.OnExitedTrap(damageActor);
             }
         }
-        
+
+        private void OnDestroy() {
+            print("OnDestroy triggered.");
+            this._onDestroy?.Invoke();
+        }
+
         #endregion
 
         //========================================
@@ -122,16 +130,15 @@ namespace KrillOrBeKrilled.Traps {
         /// <param name="canvas"> The canvas to spawn trap UI. </param>
         /// <param name="tilePositions"> The tilemap positions corresponding to the tiles to alter in the tilemap. </param>
         /// <param name="soundsController"> The controller used to play all trap-related SFX. </param>
+        /// <param name="onDestroy"> A delegate used to reset tiles when trap is destroyed. </param>
         public virtual void Construct(Vector3 spawnPosition, Canvas canvas, 
-            Vector3Int[] tilePositions, TrapSoundsController soundsController) {
+            Vector3Int[] tilePositions, TrapSoundsController soundsController, UnityAction onDestroy = null) {
             // Initialize all the bookkeeping structures we will need
             SpawnPosition = spawnPosition;
             TilePositions = tilePositions;
             SoundsController = soundsController;
+            _onDestroy = onDestroy;
             
-            // Delete/invalidate all the tiles overlapping the trap
-            TilemapManager.Instance.ClearLevelTiles(TilePositions);
-
             // Spawn a slider to indicate the progress on the build
             GameObject sliderObject = Instantiate(SliderBar, canvas.transform);
             sliderObject.transform.position = spawnPosition + AnimationOffset + Vector3.up;

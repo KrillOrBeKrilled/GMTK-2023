@@ -12,8 +12,11 @@ namespace KrillOrBeKrilled.UI {
     /// PlayerPref settings through the <see cref="PlayerPrefsManager"/>.
     /// </summary>
     public class SettingsUI : MonoBehaviour {
+        [Tooltip("Used to enable or disable the level dialogue event playback settings.")]
         [SerializeField] private Toggle _skipDialogueToggle;
+        [Tooltip("Used to enable or disable the game music settings.")]
         [SerializeField] private Toggle _muteMusicToggle;
+        [Tooltip("Used to enable or disable the game SFX settings.")]
         [SerializeField] private Toggle _muteSfxToggle;
 
         //========================================

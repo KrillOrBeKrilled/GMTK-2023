@@ -27,8 +27,16 @@ namespace KrillOrBeKrilled.Managers {
             foreach (ResourceType type in Enum.GetValues(typeof(ResourceType))) {
                 _resources.Add(type, 0);
             }
+            
+            // Subscribe to resource collection event in ResourcePickup
+            ResourcePickup.OnResourceCollected += AddResource;
         }
-        
+
+        private void OnDestroy() {
+            // Unsubscribe to avoid memory leaks
+            ResourcePickup.OnResourceCollected -= AddResource;
+        }
+
         #endregion
         
         //========================================

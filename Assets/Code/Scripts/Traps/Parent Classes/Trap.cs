@@ -14,9 +14,8 @@ namespace KrillOrBeKrilled.Traps {
     /// and collisions.
     /// </summary>
     /// <remarks>
-    /// Trap setup, detonation, and impact on the <see cref="Hero"/> are
-    /// specific to the type of trap, and are left abstract to be implemented in
-    /// subclasses.
+    /// Trap setup, detonation, and impact on the hero are specific to the type of trap,
+    /// and are left abstract to be implemented in subclasses.
     /// </remarks>
     public abstract class Trap : MonoBehaviour {
         [Tooltip("The cost to deploy this trap in coins managed by the CoinManager.")]
@@ -47,26 +46,30 @@ namespace KrillOrBeKrilled.Traps {
         #region Unity Methods
         
         public void Update() {
-            if (!IsReady && IsBuilding) {
-                ConstructionCompletion = Mathf.Lerp(ConstructionCompletion, 1f, t / BuildingDuration);
-                t += Time.deltaTime;
-
-                BuildCompletionBar.DOValue(ConstructionCompletion, 0.1f);
-
-                // Make construction animations
-                BuildTrap();
-
-                if (ConstructionCompletion >= 0.99f) {
-                    IsReady = true;
-                    IsBuilding = false;
-                    SoundsController.OnBuild(false);
-                    SoundsController.OnBuildComplete();
-                    Destroy(BuildCompletionBar.gameObject);
-
-                    // Play trap set up animation
-                    SetUpTrap();
-                }
+            if (this.IsReady || !this.IsBuilding) {
+                return;
             }
+
+            this.ConstructionCompletion = Mathf.Lerp(this.ConstructionCompletion, 1f, this.t / this.BuildingDuration);
+            this.t += Time.deltaTime;
+
+            this.BuildCompletionBar.DOValue(this.ConstructionCompletion, 0.1f);
+
+            // Make construction animations
+            BuildTrap();
+            
+            if (!(this.ConstructionCompletion >= 0.99f)) {
+                return;
+            }
+            
+            // Set up trap once the construction has completed
+            this.IsReady = true;
+            this.IsBuilding = false;
+            this.SoundsController.OnBuild(false);
+            this.SoundsController.OnBuildComplete();
+            Destroy(this.BuildCompletionBar.gameObject);
+            
+            SetUpTrap();
         }
         
         private void OnTriggerEnter2D(Collider2D other) {
@@ -87,14 +90,14 @@ namespace KrillOrBeKrilled.Traps {
                 return;
             }
             
-            IsBuilding = actor.CanBuildTrap();
-            SoundsController.OnBuild(IsBuilding);
+            this.IsBuilding = actor.CanBuildTrap();
+            this.SoundsController.OnBuild(this.IsBuilding);
         }
 
         private void OnTriggerExit2D(Collider2D other) {
             if (other.CompareTag("Builder Range")) {
-                IsBuilding = false;
-                SoundsController.OnBuild(IsBuilding);
+                this.IsBuilding = false;
+                this.SoundsController.OnBuild(this.IsBuilding);
                 return;
             }
 
@@ -125,22 +128,22 @@ namespace KrillOrBeKrilled.Traps {
         public virtual void Construct(Vector3 spawnPosition, Canvas canvas, 
             Vector3Int[] tilePositions, TrapSoundsController soundsController) {
             // Initialize all the bookkeeping structures we will need
-            SpawnPosition = spawnPosition;
-            TilePositions = tilePositions;
-            SoundsController = soundsController;
+            this.SpawnPosition = spawnPosition;
+            this.TilePositions = tilePositions;
+            this.SoundsController = soundsController;
             
             // Delete/invalidate all the tiles overlapping the trap
-            TilemapManager.Instance.ClearLevelTiles(TilePositions);
+            TilemapManager.Instance.ClearLevelTiles(this.TilePositions);
 
             // Spawn a slider to indicate the progress on the build
-            GameObject sliderObject = Instantiate(SliderBar, canvas.transform);
-            sliderObject.transform.position = spawnPosition + AnimationOffset + Vector3.up;
-            BuildCompletionBar = sliderObject.GetComponent<Slider>();
+            GameObject sliderObject = Instantiate(this.SliderBar, canvas.transform);
+            sliderObject.transform.position = spawnPosition + this.AnimationOffset + Vector3.up;
+            this.BuildCompletionBar = sliderObject.GetComponent<Slider>();
 
             // Trap deployment visuals
             // Slide down trap and fade it into existence
-            transform.position = spawnPosition + Vector3.up * 3f;
-            transform.DOMove(spawnPosition + Vector3.up * AnimationOffset.y, 0.2f);
+            this.transform.position = spawnPosition + Vector3.up * 3f;
+            this.transform.DOMove(spawnPosition + Vector3.up * this.AnimationOffset.y, 0.2f);
 
             var sprite = GetComponent<SpriteRenderer>();
             var color = sprite.color;
@@ -148,7 +151,7 @@ namespace KrillOrBeKrilled.Traps {
             sprite.DOFade(1, 0.4f);
 
             // Initiate the build time countdown
-            ConstructionCompletion = 0;
+            this.ConstructionCompletion = 0;
         }
         
         /// <summary>
@@ -158,7 +161,7 @@ namespace KrillOrBeKrilled.Traps {
         /// <param name="origin"> The central position for the trap to be spawned. </param>
         /// <returns> The resulting trap spawn position after the application of offset adjustments. </returns>
         public Vector3 GetLeftSpawnPoint(Vector3 origin) {
-            return origin + LeftSpawnOffset;
+            return origin + this.LeftSpawnOffset;
         }
 
         /// <summary>
@@ -182,7 +185,7 @@ namespace KrillOrBeKrilled.Traps {
         /// <returns> A list of tilemap offsets to pinpoint tiles needed for trap deployment. </returns>
         /// <remarks> Depending on the shape and extent of the trap, the offsets will vary between trap types. </remarks>
         public List<Vector3Int> GetLeftGridPoints() {
-            return LeftGridPoints;
+            return this.LeftGridPoints;
         }
 
         /// <summary>
@@ -192,7 +195,7 @@ namespace KrillOrBeKrilled.Traps {
         /// <returns> A list of tilemap offsets to pinpoint tiles needed for trap deployment. </returns>
         /// <remarks> Depending on the shape and extent of the trap, the offsets will vary between trap types. </remarks>
         public List<Vector3Int> GetRightGridPoints() {
-            return RightGridPoints;
+            return this.RightGridPoints;
         }
 
         /// <summary>
@@ -206,7 +209,7 @@ namespace KrillOrBeKrilled.Traps {
         /// will vary between trap types.
         /// </remarks>
         public bool IsValidScore(int score) {
-            return score >= ValidationScore;
+            return score >= this.ValidationScore;
         }
         
         #endregion
@@ -227,12 +230,12 @@ namespace KrillOrBeKrilled.Traps {
         /// <remarks> Invoked every frame that the trap is being built. </remarks>
         protected virtual void BuildTrap() {
             // Randomly shake the trap along the x and y-axis
-            Vector3 targetPosition = new Vector3(SpawnPosition.x + Random.Range(-0.5f, 0.5f),
-                SpawnPosition.y + Random.Range(0.01f, 0.2f));
+            Vector3 targetPosition = new Vector3(this.SpawnPosition.x + Random.Range(-0.5f, 0.5f),
+                this.SpawnPosition.y + Random.Range(0.01f, 0.2f));
 
             // Shake out then back
             transform.DOMove(targetPosition, 0.05f);
-            transform.DOMove(SpawnPosition + Vector3.up * AnimationOffset.y, 0.05f);
+            transform.DOMove(this.SpawnPosition + Vector3.up * this.AnimationOffset.y, 0.05f);
         }
         
         /// <summary>
@@ -247,7 +250,7 @@ namespace KrillOrBeKrilled.Traps {
         
         /// <summary>
         /// Applies any SFX, animations, updates to physics, and logic to the trap when it is being detonated,
-        /// or unleashed on a <see cref="Hero"/>. 
+        /// or unleashed on an <see cref="IDamageable"/> actor. 
         /// </summary>
         protected abstract void DetonateTrap();
 
@@ -257,15 +260,15 @@ namespace KrillOrBeKrilled.Traps {
         protected virtual void OnDetonateTrapAnimationCompete() {}
         
         /// <summary>
-        /// Applies resulting effects and reactions to the <see cref="Hero"/> upon trap detonation. 
+        /// Applies resulting effects and reactions to the <see cref="IDamageable"/> actor upon trap detonation. 
         /// </summary>
-        /// <remarks> Invoked upon triggered collision with a <see cref="Hero"/>. </remarks>
+        /// <remarks> Invoked upon triggered collision with a hero tagged GameObject. </remarks>
         protected abstract void OnEnteredTrap(IDamageable actor);
         
         /// <summary>
-        /// Applies lasting effects and reactions to the <see cref="Hero"/> when exiting the trap collider. 
+        /// Applies lasting effects and reactions to the <see cref="IDamageable"/> actor when exiting the trap collider. 
         /// </summary>
-        /// <remarks> Invoked upon exiting a trigger collision with a <see cref="Hero"/>. </remarks>
+        /// <remarks> Invoked upon exiting a trigger collision with a hero tagged GameObject.. </remarks>
         protected abstract void OnExitedTrap(IDamageable actor);
         
         #endregion

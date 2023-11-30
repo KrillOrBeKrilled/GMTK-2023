@@ -18,8 +18,7 @@ namespace KrillOrBeKrilled.Traps {
         #region Unity Methods
         
         protected override void OnTriggerStay2D(Collider2D other) {
-            ITrapBuilder actor;
-            if (other.TryGetComponent(out actor)) {
+            if (other.TryGetComponent(out ITrapBuilder actor)) {
                 // Treat this trap as a non-ground tile if the actor itself collides with this trap
                 actor.SetGroundedStatus(false);
             }
@@ -30,12 +29,12 @@ namespace KrillOrBeKrilled.Traps {
             
             if (actor is null && !other.CompareTag("Builder Range")) {
                 return;
-            } else {
-                actor = other.GetComponentInParent<ITrapBuilder>();
             }
             
-            IsBuilding = actor.CanBuildTrap();
-            SoundsController.OnBuild(IsBuilding);
+            actor = other.GetComponentInParent<ITrapBuilder>();
+            
+            this.IsBuilding = actor.CanBuildTrap();
+            this.SoundsController.OnBuild(this.IsBuilding);
         }
         
         #endregion

@@ -41,11 +41,6 @@ namespace KrillOrBeKrilled.UI {
         [Header("Prefabs")]
         [SerializeField] private HealthBarUI _healthBarUIPrefab;
 
-        private Animator _animController;
-        
-        private readonly int _wipeInKey = Animator.StringToHash("screenWipeIn");
-        private readonly int _wipeOutKey = Animator.StringToHash("screenWipeOut");
-
         private UnityAction _onScreenWipeInComplete;
 
         //========================================
@@ -53,10 +48,6 @@ namespace KrillOrBeKrilled.UI {
         //========================================
 
         #region Unity Methods
-
-        private void Awake() {
-            _animController = GetComponent<Animator>();
-        }
 
         private void Start() {
             this._gameManager.OnSetupComplete.AddListener(this.OnGameSetupComplete);
@@ -88,34 +79,22 @@ namespace KrillOrBeKrilled.UI {
         #endregion
 
         //========================================
-        // Public Methods
+        // Internal Methods
         //========================================
 
-        /// <summary>
-        /// Disables the GameObject that controls the screen wipe transition effect.
-        /// </summary>
-        /// <remarks> Triggered by the screen wipe-out animation event. </remarks>
-        public void DisableScreenWipe() {
-            this._screenWipe.gameObject.SetActive(false);
-        }
-
-        /// <summary>
-        /// Disables the GameObject that controls the loading screen.
-        /// </summary>
-        /// <remarks> Triggered by the screen wipe-out animation event. </remarks>
-        public void DisableLoadingScreen() {
-            this._loadingScreen.gameObject.SetActive(false);
-        }
-
+        #region Internal Methods
+        
         /// <summary>
         /// Enables the GameObject that controls the loading screen and invokes the
         /// <see cref="_onScreenWipeInComplete"/> function.
         /// </summary>
-        /// <remarks> Triggered by the screen wipe-in animation event. </remarks>
-        public void CompleteSceneChange() {
+        /// <remarks> Triggered by <see cref="ScreenWipeUI.WipeIn"/> upon completion. </remarks>
+        internal void CompleteSceneChange() {
             this._loadingScreen.gameObject.SetActive(true);
             _onScreenWipeInComplete?.Invoke();
         }
+        
+        #endregion
 
         //========================================
         // Private Methods
@@ -132,7 +111,7 @@ namespace KrillOrBeKrilled.UI {
             
             this._screenWipe.gameObject.SetActive(true);
             this._screenWipe.SetRandomWipeShape();
-            this._animController.SetTrigger(_wipeInKey);
+            this._screenWipe.WipeIn(CompleteSceneChange);
         }
 
         /// <summary>
@@ -150,7 +129,8 @@ namespace KrillOrBeKrilled.UI {
         /// <remarks> Listens on the <see cref="GameManager.OnSetupComplete"/> event. </remarks>
         private void OnGameSetupComplete() {
             this._screenWipe.SetRandomWipeShape();
-            this._animController.SetTrigger(_wipeOutKey);
+            this._loadingScreen.gameObject.SetActive(false);
+            this._screenWipe.WipeOut();
         }
 
         /// <summary>

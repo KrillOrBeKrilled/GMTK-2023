@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 //*******************************************************************************************
@@ -25,6 +27,7 @@ namespace KrillOrBeKrilled {
 
         private void Awake() {
             _image = GetComponent<Image>();
+            ScreenWipeSize = 500f;
         }
         
         private void Update() {
@@ -38,6 +41,20 @@ namespace KrillOrBeKrilled {
         //========================================
 
         #region Public Methods
+
+        public void WipeIn(UnityAction onComplete) {
+            DOVirtual
+                .Float(0, 500, 0.90f, newSize => ScreenWipeSize = newSize)
+                .SetEase(Ease.InExpo)
+                .OnComplete(onComplete.Invoke);
+        }
+        
+        public void WipeOut() {
+            DOVirtual
+                .Float(500, 0, 0.90f, newSize => ScreenWipeSize = newSize)
+                .SetEase(Ease.OutExpo)
+                .OnComplete(() => this.gameObject.SetActive(false));
+        }
         
         /// <summary>
         /// Sets a random screen wipe shape texture for the associated screen wipe material.

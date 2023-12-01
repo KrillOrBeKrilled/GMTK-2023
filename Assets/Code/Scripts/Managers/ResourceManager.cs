@@ -52,6 +52,7 @@ namespace KrillOrBeKrilled.Managers {
         /// <param name="quantity"> The amount of the resource to add. </param>
         public void AddResource(ResourceType type, int quantity) {
             _resources[type] += quantity;
+            EventManager.Instance.ResourceAmountChangedEvent.Invoke(type, _resources[type]);
         }
 
         /// <summary>
@@ -66,6 +67,7 @@ namespace KrillOrBeKrilled.Managers {
                 return false;
             }
             _resources[type] -= quantity;
+            EventManager.Instance.ResourceAmountChangedEvent.Invoke(type, _resources[type]);
             return true;
         }
 

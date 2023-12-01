@@ -1,6 +1,7 @@
 using KrillOrBeKrilled.Core;
 using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Heroes;
+using KrillOrBeKrilled.Traps;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -37,6 +38,7 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private MapUI _mapUI;
         [SerializeField] private ControlsUI _controlsUI;
         [SerializeField] private TrapRequirementsUI _trapRequirementsUI;
+        [SerializeField] private ResourceUI _resourceUI;
 
         [Header("Prefabs")]
         [SerializeField] private HealthBarUI _healthBarUIPrefab;
@@ -83,6 +85,7 @@ namespace KrillOrBeKrilled.UI {
 
             EventManager.Instance.CoinAmountChangedEvent.AddListener(this.OnCoinsUpdated);
             EventManager.Instance.PauseToggledEvent.AddListener(this.OnPauseToggled);
+            EventManager.Instance.ResourceAmountChangedEvent.AddListener(this.OnResourceUpdate);
         }
 
         #endregion
@@ -142,6 +145,16 @@ namespace KrillOrBeKrilled.UI {
         /// <remarks> Subscribed to the <see cref="CoinAmountChangedEvent"/> event. </remarks>
         private void OnCoinsUpdated(int amount) {
             this._coinsText.SetText($"{amount}");
+        }
+
+        /// <summary>
+        /// Updates the text on the resource UI for a specific resource type.
+        /// </summary>
+        /// <param name="type"> The resource type to be updated. </param>
+        /// <param name="amount"> The new count to display on the resource amount UI. </param>
+        /// <remarks> Subscribed to the <see cref="ResourceAmountChangedEvent"/> event. </remarks>
+        private void OnResourceUpdate(ResourceType type, int amount) {
+            this._resourceUI.SetAmount(type, amount);
         }
 
         /// <summary>

@@ -9,8 +9,8 @@ namespace KrillOrBeKrilled.Managers {
 
     // Coins & Resources
     public readonly CoinAmountChangedEvent CoinAmountChangedEvent;
-
-
+    public readonly ResourceAmountChangedEvent ResourceAmountChangedEvent;
+    
     // UI Events
 
     private EventManager() {
@@ -20,6 +20,7 @@ namespace KrillOrBeKrilled.Managers {
 
       // Coins & Resources
       this.CoinAmountChangedEvent = new CoinAmountChangedEvent();
+      this.ResourceAmountChangedEvent = new ResourceAmountChangedEvent();
 
       // UI Events
     }

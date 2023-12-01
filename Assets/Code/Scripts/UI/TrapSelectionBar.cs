@@ -35,7 +35,7 @@ namespace KrillOrBeKrilled.UI {
         /// <param name="selectTrapAction">A callback which is invoked when a Trap Icon is clicked. </param>
         public void Initialize(UnityEvent<Trap> trapChanged, ReadOnlyCollection<Trap> traps, UnityAction<Trap> selectTrapAction) {
             trapChanged.AddListener(this.SelectedTrapIndexChanged);
-            EventManager.Instance.CoinAmountChangedEvent.AddListener(this.OnCoinAmountChanged);
+            EventManager.Instance.ResourceAmountChangedEvent.AddListener(this.OnResourceAmountChanged);
 
             for (int i = 0; i < this._trapBarIcons.Count; i++) {
                 this._trapBarIcons[i].Initialize(traps[i], selectTrapAction);
@@ -50,13 +50,21 @@ namespace KrillOrBeKrilled.UI {
 
         #region Private Methods
 
+        // /// <summary>
+        // /// Updates each <see cref="TrapBarIcon"/> tint when the coin balance updates.
+        // /// </summary>
+        // /// <param name="newAmount"> The current number of coins available from the <see cref="CoinManager"/>. </param>
+        // /// <remarks> Listens on the <see cref="CoinAmountChangedEvent"/> event. </remarks>
+        // private void OnCoinAmountChanged(int newAmount) {
+        //     this._trapBarIcons.ForEach(trapBarIcon => trapBarIcon.OnCanAffordChanged(newAmount));
+        // }
+        
         /// <summary>
-        /// Updates each <see cref="TrapBarIcon"/> tint when the coin balance updates.
+        /// Updates each <see cref="TrapBarIcon"/> tint when the resource inventory updates.
         /// </summary>
-        /// <param name="newAmount"> The current number of coins available from the <see cref="CoinManager"/>. </param>
-        /// <remarks> Listens on the <see cref="CoinAmountChangedEvent"/> event. </remarks>
-        private void OnCoinAmountChanged(int newAmount) {
-            this._trapBarIcons.ForEach(trapBarIcon => trapBarIcon.OnCanAffordChanged(newAmount));
+        /// <remarks> Listens on the <see cref="ResourceAmountChangedEvent"/> event. </remarks>
+        private void OnResourceAmountChanged(ResourceType type, int amount) {
+            this._trapBarIcons.ForEach(trapBarIcon => trapBarIcon.CheckAffordable());
         }
 
         /// <summary>

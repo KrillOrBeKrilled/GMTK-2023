@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using KrillOrBeKrilled.Traps;
 
 //*******************************************************************************************
@@ -12,7 +13,7 @@ namespace KrillOrBeKrilled.Managers {
     /// pickups or spends them in building traps.
     /// </summary>
     public class ResourceManager : Singleton<ResourceManager> {
-        private Dictionary<ResourceType, int> _resources;
+        private Dictionary<ResourceType, int> _inventory;
         
         //========================================
         // Unity Methods
@@ -21,11 +22,11 @@ namespace KrillOrBeKrilled.Managers {
         #region Unity Methods
 
         private void Start() {
-            _resources = new Dictionary<ResourceType, int>();
+            _inventory = new Dictionary<ResourceType, int>();
             
             // Initialize each resource type with a count of 0
             foreach (ResourceType type in Enum.GetValues(typeof(ResourceType))) {
-                _resources.Add(type, 0);
+                _inventory.Add(type, 0);
             }
             
             // Subscribe to resource collection event in ResourcePickup
@@ -51,32 +52,39 @@ namespace KrillOrBeKrilled.Managers {
         /// <param name="type"> The type of resource to add. </param>
         /// <param name="quantity"> The amount of the resource to add. </param>
         public void AddResource(ResourceType type, int quantity) {
-            _resources[type] += quantity;
-            EventManager.Instance.ResourceAmountChangedEvent.Invoke(type, _resources[type]);
+            _inventory[type] += quantity;
+            EventManager.Instance.ResourceAmountChangedEvent.Invoke(type, _inventory[type]);
         }
 
         /// <summary>
-        /// Spend a specific resource by a given quantity.
-        /// Return true if this succeeds. Return false if the amount of remaining resource
-        /// is less than the quantity to spend.
+        /// Spends each resource by a certain amount, as specified by the costs.
+        /// Return false if any of the resources in the costs is not affordable.
         /// </summary>
-        /// <param name="type"> The type of resource to spend. </param>
-        /// <param name="quantity"> The amount of the resource to spend. </param>
-        public bool ConsumeResource(ResourceType type, int quantity) {
-            if (_resources[type] < quantity) {
-                return false;
+        /// <param name="costs"> A dictionary of the resources and their costs. </param>
+        public bool ConsumeResources(Dictionary<ResourceType, int> costs) {
+            if (!CanAffordCost(costs)) return false;
+
+            foreach (var cost in costs) {
+                _inventory[cost.Key] -= cost.Value;
+                EventManager.Instance.ResourceAmountChangedEvent.Invoke(cost.Key, _inventory[cost.Key]);
             }
-            _resources[type] -= quantity;
-            EventManager.Instance.ResourceAmountChangedEvent.Invoke(type, _resources[type]);
             return true;
         }
-
+        
+        /// <summary>
+        /// Return true if the current inventory has enough resources to match the costs.
+        /// </summary>
+        /// <param name="costs"> The costs being checked. </param>
+        public bool CanAffordCost(Dictionary<ResourceType, int> costs) {
+            return costs.All(pair => _inventory[pair.Key] >= pair.Value);
+        }
+        
         /// <summary>
         /// Return the current count of a specific resource type.
         /// </summary>
         /// <param name="type"> The type of resource being queried for the amount. </param>
         public int GetResourceQuantity(ResourceType type) {
-            return _resources[type];
+            return _inventory[type];
         }
         
         #endregion

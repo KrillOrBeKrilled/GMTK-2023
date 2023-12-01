@@ -20,8 +20,8 @@ namespace KrillOrBeKrilled.Traps {
     /// subclasses.
     /// </remarks>
     public abstract class Trap : MonoBehaviour {
-        [Tooltip("The cost to deploy this trap in coins managed by the CoinManager.")]
-        [SerializeField] public int Cost;
+        [Tooltip("The required resources to deploy this trap managed by the ResourceManager.")]
+        [SerializeField] public Dictionary<ResourceType, int> Recipe;
         [Tooltip("Tilemap position offsets to specify the tiles needed for deployment of this trap calculated from " +
                  "an origin in the TrapController.")]
         [SerializeField] protected List<Vector3Int> LeftGridPoints, RightGridPoints;

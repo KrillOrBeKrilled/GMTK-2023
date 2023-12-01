@@ -370,10 +370,10 @@ namespace KrillOrBeKrilled.Core.Player {
         }
 
         /// <summary>
-        /// Retrieves the cost of the current selected trap through the <see cref="TrapController"/>.
+        /// Retrieves the resource recipe of the current selected trap through the <see cref="TrapController"/>.
         /// </summary>
         /// <returns> The cost of the current selected trap. </returns>
-        internal int GetTrapCost() {
+        internal Dictionary<ResourceType, int> GetTrapCost() {
             return this._trapController.GetCurrentTrapCost();
         }
 

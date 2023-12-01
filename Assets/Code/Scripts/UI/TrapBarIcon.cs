@@ -1,4 +1,5 @@
 using DG.Tweening;
+using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Traps;
 using UnityEngine;
 using UnityEngine.Events;
@@ -39,12 +40,20 @@ namespace KrillOrBeKrilled.UI {
             this._selectTrapAction = selectTrapAction;
         }
 
+        // /// <summary>
+        // /// Adds a tint to this icon if the corresponding trap is not affordable.
+        // /// </summary>
+        // /// <param name="newAmount"> The current number of coins available. </param>
+        // public void OnCanAffordChanged(int newAmount) {
+        //     this._tint.gameObject.SetActive(newAmount < this._assignedTrap.Cost);
+        // }
+        
         /// <summary>
         /// Adds a tint to this icon if the corresponding trap is not affordable.
         /// </summary>
-        /// <param name="newAmount"> The current number of coins available. </param>
-        public void OnCanAffordChanged(int newAmount) {
-            this._tint.gameObject.SetActive(newAmount < this._assignedTrap.Cost);
+        public void CheckAffordable() {
+            bool canAfford = ResourceManager.Instance.CanAffordCost(this._assignedTrap.Recipe);
+            this._tint.gameObject.SetActive(!canAfford);
         }
 
         /// <summary>

@@ -475,7 +475,7 @@ namespace KrillOrBeKrilled.Core {
                 return;
             }
 
-            var isAffordable = this._playerManager.PlayerController.GetTrapCost() >= CoinManager.Instance.Coins;
+            var isAffordable = ResourceManager.Instance.CanAffordCost(this._playerManager.PlayerController.GetTrapCost());
             UGS_Analytics.SwitchTrapCustomEvent(trap.gameObject.name, isAffordable);
         }
 

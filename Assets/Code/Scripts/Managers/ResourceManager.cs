@@ -26,7 +26,7 @@ namespace KrillOrBeKrilled.Managers {
             
             // Initialize each resource type with a count of 0
             foreach (ResourceType type in Enum.GetValues(typeof(ResourceType))) {
-                _inventory.Add(type, 0);
+                _inventory.Add(type, 5);
             }
             
             // Subscribe to resource collection event in ResourcePickup

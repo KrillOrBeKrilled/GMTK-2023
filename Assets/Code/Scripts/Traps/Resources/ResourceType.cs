@@ -15,4 +15,10 @@ namespace KrillOrBeKrilled.Traps {
     public ResourceType Type;
     public Sprite Icon;
   }
+
+  [Serializable]
+  public class RecipeEntry {
+    public ResourceType type;
+    public int amount;
+  }
 }

@@ -1,3 +1,4 @@
+using System.Linq;
 using KrillOrBeKrilled.Common.Interfaces;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -21,7 +22,7 @@ namespace KrillOrBeKrilled.Traps {
     /// </remarks>
     public abstract class Trap : MonoBehaviour {
         [Tooltip("The required resources to deploy this trap managed by the ResourceManager.")]
-        [SerializeField] public Dictionary<ResourceType, int> Recipe;
+        [SerializeField] protected List<RecipeEntry> RecipeList;
         [Tooltip("Tilemap position offsets to specify the tiles needed for deployment of this trap calculated from " +
                  "an origin in the TrapController.")]
         [SerializeField] protected List<Vector3Int> LeftGridPoints, RightGridPoints;
@@ -42,13 +43,19 @@ namespace KrillOrBeKrilled.Traps {
         protected bool IsBuilding, IsReady;
 
         private UnityAction _onDestroy;
+        private Dictionary<ResourceType, int> _recipe;
+        public Dictionary<ResourceType, int> Recipe => _recipe;
 
         //========================================
         // Unity Methods
         //========================================
         
         #region Unity Methods
-        
+
+        private void Awake() {
+            InitializeRecipe();
+        }
+
         public void Update() {
             if (!IsReady && IsBuilding) {
                 ConstructionCompletion = Mathf.Lerp(ConstructionCompletion, 1f, t / BuildingDuration);
@@ -107,7 +114,6 @@ namespace KrillOrBeKrilled.Traps {
         }
 
         private void OnDestroy() {
-            print("OnDestroy triggered.");
             this._onDestroy?.Invoke();
         }
 
@@ -225,6 +231,17 @@ namespace KrillOrBeKrilled.Traps {
         //========================================
         
         #region Protected Methods
+        
+        #region Trap Initialization
+
+        /// <summary>
+        /// Initialize the resource recipe dictionary.
+        /// </summary>
+        protected void InitializeRecipe() {
+            _recipe = RecipeList.ToDictionary(entry => entry.type, entry => entry.amount);
+        }
+        
+        #endregion
         
         #region Trap Building
         

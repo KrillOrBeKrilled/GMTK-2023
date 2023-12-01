@@ -42,8 +42,8 @@ namespace KrillOrBeKrilled.Heroes.AI {
             }
             
             var pitData = pitList[0];
-            Parent.SetData("JumpLaunchPoint", pitData.Item1);
-            Parent.Parent.SetData("JumpLandPoint", pitData.Item2);
+            this.Parent.SetData("JumpLaunchPoint", pitData.Item1);
+            this.Parent.Parent.SetData("JumpLandPoint", pitData.Item2);
                 
             return NodeStatus.SUCCESS;
             

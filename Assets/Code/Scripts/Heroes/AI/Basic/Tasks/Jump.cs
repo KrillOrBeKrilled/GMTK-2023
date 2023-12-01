@@ -21,9 +21,9 @@ namespace KrillOrBeKrilled.Heroes.AI {
         /// <param name="animController"> Used to animate the hero when jumping. </param>
         /// <param name="soundController"> Used to play SFX associated with the hero jumping. </param>
         public Jump(Rigidbody2D rigidbody, Animator animController, HeroSoundsController soundController) {
-            _rigidbody = rigidbody;
-            _animController = animController;
-            _soundController = soundController;
+            this._rigidbody = rigidbody;
+            this._animController = animController;
+            this._soundController = soundController;
         }
         
         /// <summary>
@@ -34,12 +34,12 @@ namespace KrillOrBeKrilled.Heroes.AI {
         internal override NodeStatus Evaluate() {
             var finalVelocity = (Vector3)GetData("JumpVelocity");
             
-            _rigidbody.velocity = finalVelocity;
+            this._rigidbody.velocity = finalVelocity;
 
-            _animController.SetTrigger((int)GetData("JumpKey"));
-            _soundController.OnHeroJump();
+            this._animController.SetTrigger((int)GetData("JumpKey"));
+            this._soundController.OnHeroJump();
             
-            Parent.SetData("JumpLaunchPoint", Vector3.zero);
+            this.Parent.SetData("JumpLaunchPoint", Vector3.zero);
             
             return NodeStatus.SUCCESS;
         }

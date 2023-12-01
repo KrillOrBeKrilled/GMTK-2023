@@ -35,23 +35,23 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         /// returns the <see cref="NodeStatus.FAILURE"/> status.
         /// </returns>
         internal override NodeStatus Evaluate() {
-            foreach (var node in Children) {
+            foreach (var node in this.Children) {
                 switch (node.Evaluate()) {
                     case NodeStatus.FAILURE:
                         continue;
                     case NodeStatus.SUCCESS:
-                        Status = NodeStatus.SUCCESS;
-                        return Status;
+                        this.Status = NodeStatus.SUCCESS;
+                        return this.Status;
                     case NodeStatus.RUNNING:
-                        Status = NodeStatus.RUNNING;
-                        return Status;
+                        this.Status = NodeStatus.RUNNING;
+                        return this.Status;
                     default:
                         continue;
                 }
             }
 
-            Status = NodeStatus.FAILURE;
-            return Status;
+            this.Status = NodeStatus.FAILURE;
+            return this.Status;
         }
         
         #endregion

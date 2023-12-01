@@ -55,12 +55,12 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         /// <param name="key"> The unique name to access the target data. </param>
         /// <returns> If the key-value pair of data has been successfully removed. </returns>
         internal bool ClearData(string key) {
-            if (_dataContext.ContainsKey(key)) {
-                _dataContext.Remove(key);
+            if (this._dataContext.ContainsKey(key)) {
+                this._dataContext.Remove(key);
                 return true;
             }
             
-            var currNode = Parent;
+            var currNode = this.Parent;
             while (currNode != null) {
                 var cleared = currNode.ClearData(key);
                 
@@ -93,11 +93,11 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         /// nodes, returns <b>null</b>.
         /// </returns>
         internal object GetData(string key) {
-            if (_dataContext.TryGetValue(key, out var value)) {
+            if (this._dataContext.TryGetValue(key, out var value)) {
                 return value;
             }
             
-            var currNode = Parent;
+            var currNode = this.Parent;
             while (currNode != null) {
                 value = currNode.GetData(key);
                 
@@ -118,7 +118,7 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         /// <param name="key"> The unique name to access the target data. </param>
         /// <param name="value"> The new value to overwrite the data associated with the provided key. </param>
         internal void SetData(string key, object value) {
-            _dataContext[key] = value;
+            this._dataContext[key] = value;
         }
 
         #endregion

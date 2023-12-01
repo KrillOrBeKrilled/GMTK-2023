@@ -10,8 +10,8 @@ namespace KrillOrBeKrilled.Heroes.AI {
     /// idle.
     /// </summary>
     public class Idle : Node {
-        private Rigidbody2D _rigidbody;
-        private Animator _animController;
+        private readonly Rigidbody2D _rigidbody;
+        private readonly Animator _animController;
 
         /// <summary>
         /// Initializes all requisite data for the successful operation of this <see cref="Node"/>.
@@ -19,8 +19,8 @@ namespace KrillOrBeKrilled.Heroes.AI {
         /// <param name="rigidbody"> Drives the hero movement animation. </param>
         /// <param name="animController"> Used to animate the hero during regular movement. </param>
         public Idle(Rigidbody2D rigidbody, Animator animController) {
-            _rigidbody = rigidbody;
-            _animController = animController;
+            this._rigidbody = rigidbody;
+            this._animController = animController;
         }
         
         /// <summary>

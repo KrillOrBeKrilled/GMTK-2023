@@ -10,9 +10,6 @@ using UnityEngine.UI;
 namespace KrillOrBeKrilled {
     [RequireComponent(typeof(Image))]
     public class ScreenWipeUI : MonoBehaviour {
-        [Tooltip("Exposes the screen wipe material WipeSize property to the Animator for direct manipulation.")]
-        public float ScreenWipeSize = 0f;
-        
         [SerializeField] private List<Texture> _wipeShapes;
         
         private Image _image;
@@ -27,11 +24,7 @@ namespace KrillOrBeKrilled {
 
         private void Awake() {
             _image = GetComponent<Image>();
-            ScreenWipeSize = 500f;
-        }
-        
-        private void Update() {
-            _image.material.SetFloat(_shaderScaleKey, ScreenWipeSize);
+            _image.material.SetFloat(_shaderScaleKey, 500f);
         }
         
         #endregion
@@ -44,14 +37,16 @@ namespace KrillOrBeKrilled {
 
         public void WipeIn(UnityAction onComplete) {
             DOVirtual
-                .Float(0, 500, 0.90f, newSize => ScreenWipeSize = newSize)
+                .Float(0, 500, 0.90f, newSize => 
+                    _image.material.SetFloat(_shaderScaleKey, newSize))
                 .SetEase(Ease.InExpo)
                 .OnComplete(onComplete.Invoke);
         }
         
         public void WipeOut() {
             DOVirtual
-                .Float(500, 0, 0.90f, newSize => ScreenWipeSize = newSize)
+                .Float(500, 0, 0.90f, newSize => 
+                    _image.material.SetFloat(_shaderScaleKey, newSize))
                 .SetEase(Ease.OutExpo)
                 .OnComplete(() => this.gameObject.SetActive(false));
         }

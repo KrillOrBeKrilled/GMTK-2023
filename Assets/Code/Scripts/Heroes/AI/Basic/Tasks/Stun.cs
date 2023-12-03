@@ -22,14 +22,14 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 return NodeStatus.FAILURE;
             }
             
-            if (_stunTimer < (float)GetData("StunDuration")) {
-                _stunTimer += Time.deltaTime;
+            if (this._stunTimer < (float)GetData("StunDuration")) {
+                this._stunTimer += Time.deltaTime;
                 
                 Parent.SetData("IsStunned", true);
                 return NodeStatus.RUNNING;
             }
 
-            _stunTimer = 0f;
+            this._stunTimer = 0f;
             Parent.SetData("IsStunned", false);
 
             return NodeStatus.SUCCESS;

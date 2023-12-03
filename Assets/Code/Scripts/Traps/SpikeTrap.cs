@@ -8,7 +8,7 @@ using UnityEngine;
 namespace KrillOrBeKrilled.Traps {
     /// <summary>
     /// A subclass of <see cref="Trap"/> that fills a permanent 3x1 grounded area and
-    /// damages the <see cref="Hero"/> with a speed penalty. 
+    /// damages the hero with a speed penalty. 
     /// </summary>
     public class SpikeTrap : Trap {
         [Tooltip("The damage to be applied to the Hero upon collision.")]
@@ -23,18 +23,19 @@ namespace KrillOrBeKrilled.Traps {
         /// <inheritdoc cref="Trap.DetonateTrap"/>
         /// <remarks> Immediately juts the spikes out when the hero walks over them. </remarks>
         protected override void DetonateTrap() {
-            transform.DOComplete();
-            transform.DOMove(SpawnPosition + AnimationOffset, 0.05f);
+            this.transform.DOComplete();
+            this.transform.DOMove(this.SpawnPosition + this.AnimationOffset, 0.05f);
         }
 
         /// <inheritdoc cref="Trap.OnEnteredTrap"/>
         /// <summary>
-        /// This trap applies an 30% speed reduction to the <see cref="HeroMovement"/> and flat damage to the
-        /// <see cref="Hero"/>.
+        /// Applies a 30% speed reduction and flat damage to the <see cref="IDamageable"/> actor.
         /// </summary>
+        /// <param name="actor"> The recipient of the trap's damaging effects. </param>
         protected  override void OnEnteredTrap(IDamageable actor) {
-            if (!IsReady) 
+            if (!this.IsReady) {
                 return;
+            }
 
             DetonateTrap();
             actor.TakeDamage(this._damageAmount);
@@ -42,18 +43,22 @@ namespace KrillOrBeKrilled.Traps {
         }
 
         /// <inheritdoc cref="Trap.OnExitedTrap"/>
-        /// <summary> Resets the speed reduction through <see cref="HeroMovement"/>. </summary>
+        /// <summary> Resets the speed reduction acting on the <see cref="IDamageable"/> actor. </summary>
+        /// <param name="actor"> The recipient of the trap's damaging effects. </param>
         protected override void OnExitedTrap(IDamageable actor) {
-            if (!IsReady) 
+            if (!this.IsReady) {
                 return;
+            }
 
             actor.ResetSpeedPenalty();
         }
         
         /// <inheritdoc cref="Trap.SetUpTrap"/>
-        /// <remarks> Pulls the spike back into the ground in wait of the hero to walk over them. </remarks>
+        /// <remarks>
+        /// Pulls the spikes into the ground in wait of the <see cref="IDamageable"/> actor to walk over them.
+        /// </remarks>
         protected override void SetUpTrap() {
-            transform.DOMove(SpawnPosition + Vector3.down * 0.2f, 1f);
+            transform.DOMove(this.SpawnPosition + Vector3.down * 0.2f, 1f);
         }
         
         #endregion

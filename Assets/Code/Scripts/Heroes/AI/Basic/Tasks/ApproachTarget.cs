@@ -21,7 +21,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
         /// The duration of time needed to blend the velocities between regular movement and dash movement.
         private readonly float _speedBlendDuration;
         /// The dash movement velocity.
-        private const float _dashSpeed = 7f;
+        private const float DashSpeed = 7f;
         private float _currentSpeed, _t;
 
         /// <summary>
@@ -36,12 +36,12 @@ namespace KrillOrBeKrilled.Heroes.AI {
         /// </param>
         public ApproachTarget(Transform heroTransform, Rigidbody2D rigidbody, Animator animController, 
             float movementSpeed, float speedBlendDuration) {
-            _heroTransform = heroTransform;
-            _rigidbody = rigidbody;
-            _animController = animController;
+            this._heroTransform = heroTransform;
+            this._rigidbody = rigidbody;
+            this._animController = animController;
             
-            _movementSpeed = movementSpeed;
-            _speedBlendDuration = speedBlendDuration;
+            this._movementSpeed = movementSpeed;
+            this._speedBlendDuration = speedBlendDuration;
         }
         
         /// <summary>
@@ -53,7 +53,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
         /// The <b>failure</b> status if the hero has passed the target position.
         /// </returns>
         internal override NodeStatus Evaluate() {
-            var heroPos = _heroTransform.position;
+            var heroPos = this._heroTransform.position;
             var targetPos = (Vector3)GetData("JumpLaunchPoint");
 
             var isHeroPastLaunch = targetPos.x < heroPos.x;
@@ -62,7 +62,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             switch (isHeroPastLaunch) {
                 // Ensure the hero is generally around the same position as the launch point before jumping
                 case true when isHeroOnPlatform:
-                    _currentSpeed = _movementSpeed;
+                    this._currentSpeed = this._movementSpeed;
                     _t = 0;
                     return NodeStatus.SUCCESS;
                 // If the hero passes the target point, forget it and switch to another target the next frame
@@ -72,18 +72,18 @@ namespace KrillOrBeKrilled.Heroes.AI {
                         pitList.RemoveAt(0);
                     }
                     
-                    Parent.SetData("JumpLaunchPoint", Vector3.zero);
+                    this.Parent.SetData("JumpLaunchPoint", Vector3.zero);
 
                     return NodeStatus.FAILURE;
             }
 
             
-            if (_t < 1) {
-                _currentSpeed = Mathf.SmoothStep(_currentSpeed, _dashSpeed, _t / _speedBlendDuration);
-                _t += Time.deltaTime;
+            if (this._t < 1) {
+                this._currentSpeed = Mathf.SmoothStep(this._currentSpeed, DashSpeed, this._t / this._speedBlendDuration);
+                this._t += Time.deltaTime;
             }
 
-            var speed = _currentSpeed * (1f - (float)GetData("SpeedPenalty"));
+            var speed = this._currentSpeed * (1f - (float)GetData("SpeedPenalty"));
             this._rigidbody.velocity = new Vector2(speed, this._rigidbody.velocity.y);
 
             this._animController.SetFloat((int)GetData("XSpeedKey"), Mathf.Abs(this._rigidbody.velocity.x));

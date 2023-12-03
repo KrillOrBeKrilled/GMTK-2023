@@ -6,8 +6,7 @@ using UnityEngine;
 //*******************************************************************************************
 namespace KrillOrBeKrilled.Traps {
     /// <summary>
-    /// A subclass of <see cref="Trap"/> that damages and throws back the hero through
-    /// <see cref="HeroMovement"/>.
+    /// A subclass of <see cref="Trap"/> that damages and throws back the hero.
     /// </summary>
     public class MineTrap : Trap {
         [Tooltip("Used to scale the knock back force applied to the HeroMovement upon detonation.")]
@@ -25,12 +24,14 @@ namespace KrillOrBeKrilled.Traps {
 
         /// <inheritdoc cref="Trap.OnEnteredTrap"/>
         /// <summary>
-        /// This trap applies a knock back force to the <see cref="HeroMovement"/> and flat damage to the
-        /// <see cref="Hero"/> before destroying itself.
+        /// Applies a knock back force and flat damage to the <see cref="IDamageable"/> actor before
+        /// destroying itself.
         /// </summary>
+        /// <param name="actor"> The recipient of the trap's damaging effects. </param>
         protected override void OnEnteredTrap(IDamageable actor) {
-            if (!IsReady) 
+            if (!this.IsReady) {
                 return;
+            }
           
             actor.TakeDamage(this._damageAmount);
             actor.ThrowActorBack(2f, this._explosionForce);

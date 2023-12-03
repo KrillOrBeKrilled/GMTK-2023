@@ -46,14 +46,14 @@ namespace KrillOrBeKrilled.Managers {
         /// <param name="tilePositions"> A list of tile positions corresponding to a tilemap to paint. </param>
         public void ClearLevelTiles(IEnumerable<Vector3Int> tilePositions) {
             foreach (var position in tilePositions) {
-                _levelTileMap.SetTile(position, null);
+                this._levelTileMap.SetTile(position, null);
 
                 // Clear the TrapTile types to also prevent traps from being rebuilt here
-                _trapTileMap.SetTile(position, _blankTile);
+                this._trapTileMap.SetTile(position, this._blankTile);
 
                 // Set the new tile the invalid color
-                _trapTileMap.SetTileFlags(position, TileFlags.None);
-                _trapTileMap.SetColor(position, RejectionColor);
+                this._trapTileMap.SetTileFlags(position, TileFlags.None);
+                this._trapTileMap.SetColor(position, this.RejectionColor);
             }
         }
         
@@ -64,10 +64,10 @@ namespace KrillOrBeKrilled.Managers {
         /// <param name="tilePositions"> A list of tile positions corresponding to a tilemap to paint. </param>
         public void ResetTrapTiles(IEnumerable<Vector3Int> tilePositions) {
             foreach (var position in tilePositions) {
-                _trapTileMap.SetTile(position, _trapValidationTile);
+                this._trapTileMap.SetTile(position, this._trapValidationTile);
 
                 // Mark the new tile as editable
-                _trapTileMap.SetTileFlags(position, TileFlags.None);
+                this._trapTileMap.SetTileFlags(position, TileFlags.None);
             }
         }
         
@@ -81,7 +81,7 @@ namespace KrillOrBeKrilled.Managers {
         /// <param name="tilePositions"> A list of tile positions corresponding to a tilemap to paint. </param>
         public void PaintTilesBlank(IEnumerable<Vector3Int> tilePositions) {
             foreach (var position in tilePositions) {
-                _trapTileMap.SetColor(position, new Color(1, 1, 1, 0));
+                this._trapTileMap.SetColor(position, new Color(1, 1, 1, 0));
             }
         }
         
@@ -91,7 +91,7 @@ namespace KrillOrBeKrilled.Managers {
         /// <param name="tilePositions"> A list of tile positions corresponding to a tilemap to paint. </param>
         public void PaintTilesConfirmationColor(IEnumerable<Vector3Int> tilePositions) {
             foreach (var position in tilePositions) {
-                _trapTileMap.SetColor(position, ConfirmationColor);
+                this._trapTileMap.SetColor(position, this.ConfirmationColor);
             }
         }
 
@@ -101,7 +101,7 @@ namespace KrillOrBeKrilled.Managers {
         /// <param name="tilePositions"> A list of tile positions corresponding to a tilemap to paint. </param>
         public void PaintTilesRejectionColor(IEnumerable<Vector3Int> tilePositions) {
             foreach (var position in tilePositions) {
-                _trapTileMap.SetColor(position, RejectionColor);
+                this._trapTileMap.SetColor(position, this.RejectionColor);
             }
         }
         

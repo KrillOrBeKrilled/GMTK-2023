@@ -8,10 +8,9 @@ namespace KrillOrBeKrilled.Heroes {
     /// <summary>
     /// Holds all UnityEvents used to communicate with the AudioManager to fire
     /// off Wwise sound events associated with the hero, acting as an intermediary
-    /// between the AudioManager and <see cref="Hero"/> and <see cref="HeroMovement"/>
-    /// classes.
-    /// <remarks> Exposes methods to <see cref="Hero"/> and <see cref="HeroMovement"/>
-    /// that invoke the UnityEvents the AudioManager is subscribed to. </remarks>
+    /// between the AudioManager and <see cref="Hero"/> and its AI.
+    /// <remarks> Exposes methods to <see cref="Hero"/> and the AI that invoke the
+    /// UnityEvents the AudioManager is subscribed to. </remarks>
     /// </summary>
     public class HeroSoundsController : MonoBehaviour {
         [SerializeField] private UnityEvent

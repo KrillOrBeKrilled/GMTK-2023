@@ -102,6 +102,9 @@ namespace KrillOrBeKrilled.Managers {
             }
         }
 
+        /// <summary>
+        /// Disables the ability to earn coins.
+        /// </summary>
         private void StopEarningCoins() {
             this._isRunning = false;
         }

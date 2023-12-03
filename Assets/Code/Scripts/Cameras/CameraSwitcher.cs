@@ -33,7 +33,7 @@ namespace KrillOrBeKrilled.Cameras {
         [YarnCommand("show_end")]
         public void ShowEnd() {
             DisableAll();
-            EndCamera.SetActive(true);
+            this.EndCamera.SetActive(true);
         }
         
         /// <summary>
@@ -53,7 +53,7 @@ namespace KrillOrBeKrilled.Cameras {
         [YarnCommand("show_start")]
         public void ShowStart() {
             DisableAll();
-            StartCamera.SetActive(true);
+            this.StartCamera.SetActive(true);
         }
 
         #endregion
@@ -69,8 +69,8 @@ namespace KrillOrBeKrilled.Cameras {
         /// </summary>
         private void DisableAll() {
             this.PlayerCamera.SetActive(false);
-            StartCamera.SetActive(false);
-            EndCamera.SetActive(false);
+            this.StartCamera.SetActive(false);
+            this.EndCamera.SetActive(false);
         }
         
         #endregion

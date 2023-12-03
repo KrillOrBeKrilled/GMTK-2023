@@ -28,7 +28,7 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         /// <param name="child"> The <see cref="Node"/> to link to this <see cref="Node"/> as children. </param>
         internal Decorator(Node child) {
             AddChild(child);
-            HasChildren = true;
+            this.HasChildren = true;
         }
         
         //========================================
@@ -43,7 +43,7 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         /// <param name="node"> The node to be added as a new child to this <see cref="Node"/>. </param>
         private void AddChild(Node node) {
             node.Parent = this;
-            Child = node;
+            this.Child = node;
         }
         
         #endregion

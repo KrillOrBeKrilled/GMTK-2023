@@ -87,6 +87,10 @@ namespace KrillOrBeKrilled.Core.Player {
 
         // --------------- Bookkeeping ---------------
         private Animator _animator;
+        private readonly int _speedKey = Animator.StringToHash("speed");
+        private readonly int _directionKey = Animator.StringToHash("direction");
+        private readonly int _groundedKey = Animator.StringToHash("is_grounded");
+        
         private PlayerInputActions _playerInputActions;
         private const string BaseFolder = "InputRecordings";
 
@@ -127,7 +131,7 @@ namespace KrillOrBeKrilled.Core.Player {
             this.OnPlayerGrounded = new UnityEvent();
             this.OnPlayerFalling = new UnityEvent();
 
-            _animator.SetBool("is_grounded", this.IsGrounded);
+            _animator.SetBool(_groundedKey, this.IsGrounded);
         }
 
         /// <remarks> Invokes the <see cref="OnSelectedTrapChanged"/> event. </remarks>
@@ -254,7 +258,7 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <param name="isGrounded"> If the player is currently touching the ground. </param>
         public void SetGroundedStatus(bool isGrounded) {
             this.IsGrounded = isGrounded;
-            this._animator.SetBool("is_grounded", this.IsGrounded);
+            this._animator.SetBool(_groundedKey, this.IsGrounded);
 
             if (isGrounded) {
                 return;
@@ -511,8 +515,8 @@ namespace KrillOrBeKrilled.Core.Player {
         /// </summary>
         /// <param name="inputDirection"> The vector x-value associated with the player's current movement. </param>
         private void SetAnimatorValues(float inputDirection) {
-            this._animator.SetFloat("speed", Mathf.Abs(inputDirection));
-            this._animator.SetFloat("direction", this._direction);
+            this._animator.SetFloat(_speedKey, Mathf.Abs(inputDirection));
+            this._animator.SetFloat(_directionKey, this._direction);
         }
 
         private void GameOver(string _) {
@@ -524,7 +528,11 @@ namespace KrillOrBeKrilled.Core.Player {
         /// </summary>
         /// <remarks> Invokes <see cref="OnPlayerGrounded"/>. </remarks>
         private void UpdateGrounded() {
-            Collider2D hit = Physics2D.OverlapBox((Vector2)this.transform.position + this.GroundedCheckBoxOffset, this.GroundedCheckBoxSize, 0f, this.GroundedLayerMask);
+            Collider2D hit = Physics2D.OverlapBox(
+                (Vector2)this.transform.position + this.GroundedCheckBoxOffset, 
+                this.GroundedCheckBoxSize, 0f, this.GroundedLayerMask
+            );
+            
             bool grounded = hit != null;
             bool becameNotGrounded = this.IsGrounded && !grounded;
             bool becameGrounded = !this.IsGrounded && grounded;

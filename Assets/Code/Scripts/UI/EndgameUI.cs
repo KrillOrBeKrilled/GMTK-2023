@@ -7,7 +7,7 @@ using UnityEngine;
 namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// Manages the Game Over menu, enabling and disabling buttons to advance to new
-    /// levels and replay levels and displaying level text messages.
+    /// levels and replay levels and displays level text messages.
     /// </summary>
     public class EndgameUI : MonoBehaviour {
         [Tooltip("Displays the end game text message.")]
@@ -26,7 +26,7 @@ namespace KrillOrBeKrilled.UI {
         /// <summary>
         /// Displays the Game Over menu with text and enables the button to replay the level.
         /// </summary>
-        /// <param name="message"> The text message to be displayed on the Game Over menu. </param>
+        /// <param name="message"> The text message to be displayed on the Game Over (lost) menu. </param>
         /// <remarks> Prevents the player from advancing to the next level by disabling the associated button. </remarks>
         public void ShowHenLost(string message) {
             this.gameObject.SetActive(true);
@@ -39,7 +39,7 @@ namespace KrillOrBeKrilled.UI {
         /// <summary>
         /// Displays the Game Over menu with text and enables the button to advance to the next level.
         /// </summary>
-        /// <param name="message"> The text message to be displayed on the Game Over menu. </param>
+        /// <param name="message"> The text message to be displayed on the Game Over (win) menu. </param>
         /// <remarks> Prevents the player from replaying the level by disabling the associated button. </remarks>
         public void ShowHenWon(string message) {
             this.gameObject.SetActive(true);

@@ -7,7 +7,7 @@ using UnityEngine;
 namespace KrillOrBeKrilled.Traps {
     /// <summary>
     /// A subclass of <see cref="Trap"/> that fills a 2x2 area on the ceiling
-    /// and damages the <see cref="Hero"/> when the hero is underneath it.
+    /// and damages the hero when the hero is underneath it.
     /// </summary>
     public class IcicleTrap : Trap {
         [Tooltip("The damage to be applied to the Hero upon collision.")]
@@ -22,13 +22,13 @@ namespace KrillOrBeKrilled.Traps {
         #region Unity Methods
         
         private void Awake() {
-            _rigidbody2D = GetComponent<Rigidbody2D>();
+            this._rigidbody2D = GetComponent<Rigidbody2D>();
             // Suspend trap in mid-air at the beginning.
-            _rigidbody2D.gravityScale = 0;
+            this._rigidbody2D.gravityScale = 0;
         }
         
         /// <summary>
-        /// This trap does a flat damage to the <see cref="Hero"/>, and it happens upon collision.
+        /// Applies a flat damage to the <see cref="IDamageable"/> hero, and it happens upon collision.
         /// No other special effects at the moment.
         /// </summary>
         protected void OnCollisionEnter2D(Collision2D other) {
@@ -36,7 +36,6 @@ namespace KrillOrBeKrilled.Traps {
                 !other.gameObject.TryGetComponent(out IDamageable actor)) {
                 return;
             }
-                
             actor.TakeDamage(_damageAmount);
             Destroy(gameObject);
         }
@@ -52,16 +51,16 @@ namespace KrillOrBeKrilled.Traps {
         /// <inheritdoc cref="Trap.DetonateTrap"/>
         /// <remarks> Give this trap a gravity scale so that it starts falling. </remarks>
         protected override void DetonateTrap() {
-            _rigidbody2D.gravityScale = 3;
+            this._rigidbody2D.gravityScale = 3;
         }
 
         /// <inheritdoc cref="Trap.OnEnteredTrap"/>
         /// <summary>
         /// This trap starts falling when it detects an <see cref="IDamageable"/>
-        /// instance (e.g. a <see cref="Hero"/>).
+        /// instance (e.g. a hero).
         /// </summary>
         protected override void OnEnteredTrap(IDamageable actor) {
-            if (!IsReady) {
+            if (!this.IsReady) {
                 return;
             }
 

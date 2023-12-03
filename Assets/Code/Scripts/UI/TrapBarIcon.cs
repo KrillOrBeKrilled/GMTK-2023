@@ -15,9 +15,13 @@ namespace KrillOrBeKrilled.UI {
     /// not affordable.
     /// </summary>
     public class TrapBarIcon : MonoBehaviour {
+        [Tooltip("Outlines the trap icon and changes color according to the selected and unselected states.")]
         [SerializeField] private Image _selectionOutline;
+        [Tooltip("Covers the trap icon when the trap cannot be afforded.")]
         [SerializeField] private Image _tint;
+        [Tooltip("The outline color when the associated trap is selected for deployment.")]
         [SerializeField] private Color _selectedColor;
+        [Tooltip("The outline color when the associated trap is not selected for deployment.")]
         [SerializeField] private Color _defaultColor;
 
         private UnityAction<Trap> _selectTrapAction;
@@ -55,18 +59,11 @@ namespace KrillOrBeKrilled.UI {
             bool canAfford = ResourceManager.Instance.CanAffordCost(this._assignedTrap.Recipe);
             this._tint.gameObject.SetActive(!canAfford);
         }
-
-        /// <summary>
-        /// Triggers the selection of this trap
-        /// </summary>
-        public void SelectTrap() {
-            this._selectTrapAction?.Invoke(this._assignedTrap);
-        }
-
+        
         /// <summary>
         /// Outlines this icon if the corresponding trap is currently selected.
         /// </summary>
-        /// <param name="newTrap">The newly selected trap.</param>
+        /// <param name="newTrap"> The newly selected trap. </param>
         public void OnSelectedChanged(Trap newTrap) {
             bool isSelected = newTrap == this._assignedTrap;
             this._colorTween?.Kill();
@@ -75,6 +72,13 @@ namespace KrillOrBeKrilled.UI {
             } else {
                 this._colorTween = this._selectionOutline.DOColor(this._defaultColor, 0.1f);
             }
+        }
+
+        /// <summary>
+        /// Triggers the selection of this trap.
+        /// </summary>
+        public void SelectTrap() {
+            this._selectTrapAction?.Invoke(this._assignedTrap);
         }
 
         #endregion

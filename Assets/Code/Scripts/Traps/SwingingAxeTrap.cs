@@ -7,7 +7,7 @@ using UnityEngine;
 namespace KrillOrBeKrilled.Traps {
     /// <summary>
     /// A subclass of <see cref="Trap"/> that fills a permanent 2x3 grounded area and
-    /// damages and throws back the hero through <see cref="HeroMovement"/>. 
+    /// damages and throws back the hero. 
     /// </summary>
     public class SwingingAxeTrap : Trap {
         [Tooltip("Used to scale the knock back force applied to the HeroMovement upon detonation.")]
@@ -26,23 +26,26 @@ namespace KrillOrBeKrilled.Traps {
         /// <remarks> Plays the trap detonation animation through the <see cref="Animator"/>. </remarks>
         protected override void DetonateTrap() {
             // Trigger the axe detonation animation
-            print("Trap detonated");
-            _animator.SetBool("IsDetonating", true);
+            this._animator.SetBool("IsDetonating", true);
         }
         
+        /// <summary>
+        /// Destroys the trap and frees the trap tile grid units through the <see cref="TilemapManager"/>.
+        /// </summary>
+        /// <remarks> Triggered by the detonate_axe animation event. </remarks>
         protected override void OnDetonateTrapAnimationCompete() {
-            print("Detonate competed");
             Destroy(this.gameObject);
         }
 
         /// <inheritdoc cref="Trap.OnEnteredTrap"/>
         /// <summary>
-        /// This trap applies a knock back force to the <see cref="HeroMovement"/> and flat damage to the
-        /// <see cref="Hero"/>.
+        /// Applies a knock back force and flat damage to the <see cref="IDamageable"/> actor.
         /// </summary>
+        /// <param name="actor"> The recipient of the trap's damaging effects. </param>
         protected override void OnEnteredTrap(IDamageable actor) {
-            if (!IsReady) 
+            if (!this.IsReady) {
                 return;
+            }
 
             DetonateTrap();
             actor.TakeDamage(this._damageAmount);
@@ -55,8 +58,7 @@ namespace KrillOrBeKrilled.Traps {
         /// <remarks> Plays the trap readying animation through the <see cref="Animator"/>. </remarks>
         protected override void SetUpTrap() {
             // Trigger the axe set up animation
-            print("Setting up trap");
-            _animator.SetTrigger("SetTrap");
+            this._animator.SetTrigger("SetTrap");
         }
         
         #endregion

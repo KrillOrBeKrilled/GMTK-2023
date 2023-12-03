@@ -10,8 +10,8 @@ using UnityEngine.UI;
 namespace KrillOrBeKrilled.Traps {
     /// <summary>
     /// A subclass of <see cref="InGroundTrap"/> that fills a permanent 2x2 grounded
-    /// square of liquid into the ground and damages the <see cref="IDamageable"/> in
-    /// intervals with a speed penalty. 
+    /// square of liquid into the ground and damages the hero in intervals with a
+    /// speed penalty. 
     /// </summary>
     /// <remarks> The default building animations are overrided with shader support
     /// to fill the pit with liquid and heat haze effects. </remarks>
@@ -28,11 +28,12 @@ namespace KrillOrBeKrilled.Traps {
         // -------------- Hero Effects ---------------
         [Tooltip("Interval damage to be applied to the Hero upon collision.")]
         [SerializeField] private int _damageAmount;
-        [Tooltip("The HeroJumpPad used to allow the hero to bypass the pit before the building process is completed.")]
-        [SerializeField] private GameObject _pitAvoidanceJumpPad;
 
         private readonly WaitForSeconds _waitForOneSecond = new WaitForSeconds(1f);
         private Coroutine _intervalDamageCoroutine;
+        
+        private readonly int _acidDepthKey = Shader.PropertyToID("_Depth");
+        private readonly int _distortionRangeKey = Shader.PropertyToID("_HazeRange");
         
         //========================================
         // Public Methods
@@ -52,21 +53,21 @@ namespace KrillOrBeKrilled.Traps {
             SoundsController = soundsController;
             
             // Spawn a slider to indicate the progress on the build
-            GameObject sliderObject = Instantiate(SliderBar, canvas.transform);
-            sliderObject.transform.position = spawnPosition + AnimationOffset + Vector3.up;
-            BuildCompletionBar = sliderObject.GetComponent<Slider>();
+            GameObject sliderObject = Instantiate(this.SliderBar, canvas.transform);
+            sliderObject.transform.position = spawnPosition + this.AnimationOffset + Vector3.up;
+            this.BuildCompletionBar = sliderObject.GetComponent<Slider>();
 
             // Trap deployment visuals
-            transform.position = spawnPosition;
-            _bubblesStartPos = _bubbles.transform.position;
+            this.transform.position = spawnPosition;
+            this._bubblesStartPos = this._bubbles.transform.position;
 
             // Set the acid liquid level and heat haze intensity to 0
-            _acidLiquid.material.SetFloat("_Depth", 0);
-            _heatEmanating.material.SetFloat("_HazeRange", 0);
-            _bubbles.SetActive(false);
+            this._acidLiquid.material.SetFloat(this._acidDepthKey, 0);
+            this._heatEmanating.material.SetFloat(this._distortionRangeKey, 0);
+            this._bubbles.SetActive(false);
 
             // Initiate the build time countdown
-            ConstructionCompletion = 0;
+            this.ConstructionCompletion = 0;
         }
 
         #endregion
@@ -87,12 +88,15 @@ namespace KrillOrBeKrilled.Traps {
 
         /// <inheritdoc cref="Trap.OnEnteredTrap"/>
         /// <summary>
-        /// This trap applies an 80% speed reduction to the <see cref="HeroMovement"/> and interval damage to the
-        /// <see cref="Hero"/> every second the <see cref="Hero"/> remains in the acid.
+        /// This trap applies an 80% speed reduction and interval damage to the <see cref="IDamageable"/> actor
+        /// every second it remains in the acid.
         /// </summary>
+        /// <param name="actor"> The recipient of the trap's damaging effects. </param>
         protected override void OnEnteredTrap(IDamageable actor) {
-            if (!this.IsReady) 
+            if (!this.IsReady) {
                 return;
+            }
+                
 
             // Make the hero reflexively leap out of the burning acid pit
             actor.ThrowActorForward(1f);
@@ -106,12 +110,13 @@ namespace KrillOrBeKrilled.Traps {
 
         /// <inheritdoc cref="Trap.OnExitedTrap"/>
         /// <summary>
-        /// Resets the speed reduction through <see cref="HeroMovement"/> and stops dealing damage to the
-        /// <see cref="Hero"/>.
+        /// Resets the speed reduction and stops dealing damage to the <see cref="IDamageable"/> actor.
         /// </summary>
+        /// <param name="actor"> The recipient of the trap's damaging effects. </param>
         protected override void OnExitedTrap(IDamageable actor) {
-            if (!this.IsReady) 
+            if (!this.IsReady) {
                 return;
+            }
 
             actor.ResetSpeedPenalty();
 
@@ -130,20 +135,23 @@ namespace KrillOrBeKrilled.Traps {
         /// </summary>
         protected override void BuildTrap() {
             // Clamp the acid depth to prevent the acid from looking strange around tile edges
-            var targetDepth = Mathf.Clamp(ConstructionCompletion, 0, 0.8f);
+            var targetDepth = Mathf.Clamp(this.ConstructionCompletion, 0, 0.8f);
 
             // Magic ratio to avoid making the haze too intense
             var targetHeatHazeRange = Mathf.Clamp(targetDepth / 3.8f, 0, 1);
 
-            _acidLiquid.material.SetFloat("_Depth", targetDepth);
-            _heatEmanating.material.SetFloat("_HazeRange", targetHeatHazeRange);
+            this._acidLiquid.material.SetFloat(this._acidDepthKey, targetDepth);
+            this._heatEmanating.material.SetFloat(this._distortionRangeKey, targetHeatHazeRange);
 
-            if (!_bubbles.activeSelf && targetDepth > 0.05f) {
-                _bubbles.SetActive(true);
+            if (!this._bubbles.activeSelf && targetDepth > 0.05f) {
+                this._bubbles.SetActive(true);
             }
 
-            _bubbles.transform.position = new Vector3(_bubblesStartPos.x, _bubblesStartPos.y + targetDepth * 1.8f,
-                _bubblesStartPos.z);
+            this._bubbles.transform.position = new Vector3(
+                this._bubblesStartPos.x, 
+                this._bubblesStartPos.y + targetDepth * 1.8f,
+                this._bubblesStartPos.z
+            );
         }
         
         protected override void SetUpTrap() {}
@@ -159,10 +167,10 @@ namespace KrillOrBeKrilled.Traps {
         #region Private Methods
         
         /// <summary>
-        /// Deals damage to the <see cref="IDamageable"/> each second for as long as its health remains
+        /// Deals damage to the <see cref="IDamageable"/> actor each second for as long as its health remains
         /// greater than zero.
         /// </summary>
-        /// <param name="hero"> The hero receiving damage. </param>
+        /// <param name="actor"> The recipient of the trap's damaging effects. </param>
         /// <remarks> The coroutine is started and stopped by <see cref="OnEnteredTrap"/>. </remarks>
         private IEnumerator DealIntervalDamage(IDamageable actor) {
             while (actor.GetHealth() > 0) {

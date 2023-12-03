@@ -17,9 +17,9 @@ namespace KrillOrBeKrilled.Heroes.AI {
         protected Rigidbody2D Rigidbody;
         
         protected Animator AnimController;
-        protected int JumpKey = Animator.StringToHash("jump");
-        protected int XSpeedKey = Animator.StringToHash("xSpeed");
-        protected int YSpeedKey = Animator.StringToHash("ySpeed");
+        protected readonly int JumpKey = Animator.StringToHash("jump");
+        protected readonly int XSpeedKey = Animator.StringToHash("xSpeed");
+        protected readonly int YSpeedKey = Animator.StringToHash("ySpeed");
         
         private void Awake() {
             HeroSight = GetComponent<FieldOfView>();
@@ -37,7 +37,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
         /// </summary>
         /// <param name="soundsController"> The controller used to execute all SFX associated with the hero. </param>
         internal void Initialize(HeroSoundsController soundsController) {
-            SoundsController = soundsController;
+            this.SoundsController = soundsController;
         }
     }
 }

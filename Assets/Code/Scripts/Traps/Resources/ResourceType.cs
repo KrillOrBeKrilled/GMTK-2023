@@ -2,23 +2,35 @@ using System;
 using UnityEngine;
 
 namespace KrillOrBeKrilled.Traps {
-  public enum ResourceType {
-    ScrapMetal,
-    WoodStick,
-    IceShards,
-    Slime,
-    Dynamite
-  }
+    public enum ResourceType {
+        ScrapMetal,
+        WoodStick,
+        IceShards,
+        Slime,
+        Dynamite
+    }
+    
+    //*******************************************************************************************
+    // ResourceTypeIcon
+    //*******************************************************************************************
+    /// <summary>
+    /// Stores data that specifies a resource type to an icon representation.
+    /// </summary>
+    [Serializable]
+    public class ResourceTypeIcon {
+        public ResourceType Type;
+        public Sprite Icon;
+    }
 
-  [Serializable]
-  public class ResourceTypeIcon {
-    public ResourceType Type;
-    public Sprite Icon;
-  }
-
-  [Serializable]
-  public class RecipeEntry {
-    public ResourceType type;
-    public int amount;
-  }
+    //*******************************************************************************************
+    // RecipeEntry
+    //*******************************************************************************************
+    /// <summary>
+    /// For directly setting trap recipes in Unity Editor 
+    /// </summary>
+    [Serializable]
+    public class RecipeEntry {
+        public ResourceType type;
+        public int amount;
+    }
 }

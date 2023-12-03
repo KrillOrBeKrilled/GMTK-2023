@@ -89,7 +89,9 @@ namespace KrillOrBeKrilled.Core {
         public UnityEvent<string> OnHenWon { get; private set; }
         [Tooltip("Tracks when the player loses the game.")]
         public UnityEvent<string> OnHenLost { get; private set; }
+        [Tooltip("Tracks when a hero is spawned.")]
         public UnityEvent<Hero> OnHeroSpawned { get; private set; }
+        [Tooltip("Tracks when a new scene should be loaded.")]
         public UnityEvent<UnityAction> OnSceneWillChange { get; private set; }
 
         //========================================
@@ -356,7 +358,7 @@ namespace KrillOrBeKrilled.Core {
             }
 
             var newHero = Instantiate(heroPrefab, this._activeRespawnPoint.transform);
-            newHero.Initialize(heroData, _heroSoundsController, _playerManager.TrapController.GroundTilemap);
+            newHero.Initialize(heroData, this._heroSoundsController, this._playerManager.TrapController.GroundTilemap);
             newHero.OnHeroDied.AddListener(this.OnHeroDied);
 
             this._heroes.Add(newHero);

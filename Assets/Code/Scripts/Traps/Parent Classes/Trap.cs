@@ -43,18 +43,21 @@ namespace KrillOrBeKrilled.Traps {
         protected bool IsBuilding, IsReady;
 
         private UnityAction _onDestroy;
-        private Dictionary<ResourceType, int> _recipe;
-        public Dictionary<ResourceType, int> Recipe => _recipe;
+        private static Dictionary<ResourceType, int> _recipe;
+        public Dictionary<ResourceType, int> Recipe {
+            get {
+                if (_recipe == null) {
+                    InitializeRecipe();
+                }
+                return _recipe;
+            }
+        }
 
         //========================================
         // Unity Methods
         //========================================
         
         #region Unity Methods
-
-        private void Awake() {
-            InitializeRecipe();
-        }
 
         public void Update() {
             if (!IsReady && IsBuilding) {

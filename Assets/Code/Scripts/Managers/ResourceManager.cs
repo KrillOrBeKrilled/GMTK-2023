@@ -27,6 +27,7 @@ namespace KrillOrBeKrilled.Managers {
             // Initialize each resource type with a count of 0
             foreach (ResourceType type in Enum.GetValues(typeof(ResourceType))) {
                 _inventory.Add(type, 5);
+                EventManager.Instance.ResourceAmountChangedEvent.Invoke(type, _inventory[type]);
             }
             
             // Subscribe to resource collection event in ResourcePickup
@@ -68,6 +69,15 @@ namespace KrillOrBeKrilled.Managers {
                 _inventory[cost.Key] -= cost.Value;
                 EventManager.Instance.ResourceAmountChangedEvent.Invoke(cost.Key, _inventory[cost.Key]);
             }
+            
+            string inventoryStr = "{";
+            foreach (var pair in _inventory) {
+                inventoryStr += $"{pair.Key}: {pair.Value}, ";
+            }
+            inventoryStr = inventoryStr.TrimEnd(' ', ',') + "}";
+
+            print("Updated Inventory: " + inventoryStr);
+            
             return true;
         }
         

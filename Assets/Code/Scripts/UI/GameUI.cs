@@ -108,18 +108,6 @@ namespace KrillOrBeKrilled.UI {
         #region Private Methods
 
         /// <summary>
-        /// Plays a screen wipe-in transition effect and sets a function to invoke upon completion.
-        /// </summary>
-        /// <param name="onComplete"> The function to invoke once the screen wipe-in effect has been completed. </param>
-        private void ScreenWipeInSceneCover(UnityAction onComplete) {
-            _onScreenWipeInComplete = onComplete;
-            
-            this._screenWipe.gameObject.SetActive(true);
-            this._screenWipe.SetRandomWipeShape();
-            this._screenWipe.WipeIn(CompleteSceneChange);
-        }
-
-        /// <summary>
         /// Updates the coin counter UI text.
         /// </summary>
         /// <param name="amount"> The new coin count to display on the coin counter UI. </param>
@@ -185,7 +173,7 @@ namespace KrillOrBeKrilled.UI {
             
             this._screenWipe.gameObject.SetActive(true);
             this._screenWipe.SetRandomWipeShape();
-            this._animController.SetTrigger(_wipeInKey);
+            this._screenWipe.WipeIn(CompleteSceneChange);
         }
 
         /// <summary>

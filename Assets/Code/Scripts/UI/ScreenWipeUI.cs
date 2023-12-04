@@ -35,6 +35,9 @@ namespace KrillOrBeKrilled {
 
         #region Public Methods
 
+        /// <summary>
+        /// Tweens a screen wipe in transition, from the scene view to the loading screen.
+        /// </summary>
         public void WipeIn(UnityAction onComplete) {
             DOVirtual
                 .Float(0, 500, 0.90f, newSize => 
@@ -43,6 +46,9 @@ namespace KrillOrBeKrilled {
                 .OnComplete(onComplete.Invoke);
         }
         
+        /// <summary>
+        /// Tweens a screen wipe out transition, from the loading screen to the scene view.
+        /// </summary>
         public void WipeOut() {
             DOVirtual
                 .Float(500, 0, 0.90f, newSize => 

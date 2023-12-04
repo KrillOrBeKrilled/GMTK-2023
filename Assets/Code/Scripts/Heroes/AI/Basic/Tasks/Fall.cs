@@ -23,10 +23,10 @@ namespace KrillOrBeKrilled.Heroes.AI {
         /// <param name="animController"> Used to animate the hero when falling midair. </param>
         /// <param name="groundLayers"> The LayerMask used to check for when the hero is grounded. </param>
         public Fall(Transform heroTransform, Rigidbody2D rigidbody, Animator animController, LayerMask groundLayers) {
-            _heroTransform = heroTransform;
-            _rigidbody = rigidbody;
-            _animController = animController;
-            _groundLayers = groundLayers;
+            this._heroTransform = heroTransform;
+            this._rigidbody = rigidbody;
+            this._animController = animController;
+            this._groundLayers = groundLayers;
         }
         
         /// <summary>
@@ -37,27 +37,27 @@ namespace KrillOrBeKrilled.Heroes.AI {
         /// The <b>failure</b> status if the hero is grounded.
         /// </returns>
         internal override NodeStatus Evaluate() {
-            var heroPos = _heroTransform.position;
-            var velocity = _rigidbody.velocity;
+            var heroPos = this._heroTransform.position;
+            var velocity = this._rigidbody.velocity;
             
             this._animController.SetFloat((int)GetData("YSpeedKey"), Mathf.Abs(this._rigidbody.velocity.y));
             
             // Check if the hero is currently midair, not touching the ground
-            if (!Physics2D.Raycast(heroPos, Vector2.down, 2f, _groundLayers) 
+            if (!Physics2D.Raycast(heroPos, Vector2.down, 2f, this._groundLayers) 
                 || velocity.y > 0.1f) {
                 var landPos = (Vector3)GetData("JumpLandPoint");
                 
                 // Dampen hero movement past the target land point to make more accurate jumps
                 if (landPos != Vector3.zero && velocity.x > 0.01f && heroPos.x > landPos.x) {
                     velocity.x -= 0.005f;
-                    _rigidbody.velocity = velocity;
+                    this._rigidbody.velocity = velocity;
                 }
                 
-                Parent.Parent.SetData("IsFalling", true);
+                this.Parent.Parent.SetData("IsFalling", true);
                 return NodeStatus.SUCCESS;
             }
             
-            Parent.Parent.SetData("IsFalling", false);
+            this.Parent.Parent.SetData("IsFalling", false);
             return NodeStatus.FAILURE;
         }
     }

@@ -17,12 +17,16 @@ namespace KrillOrBeKrilled.UI {
     public class MapUI : MonoBehaviour {
         [Header("References")]
         [SerializeField] private Image _playerIcon;
+        [Tooltip("Tracks the distance covered by the heroes with respect to the level start and goal positions.")] 
         [SerializeField] private Slider _progressSlider;
+        [Tooltip("Holds all references to the active hero icons.")]
         [SerializeField] private Transform _heroIconsParent;
 
         [Header("Color Settings")]
         [SerializeField] private Image _fillArea;
+        [Tooltip("The color of the hero progress slider fill when the hero is far from the goal.")] 
         [SerializeField] private Color _safeColor;
+        [Tooltip("The color of the hero progress slider fill when the hero is close to the goal.")] 
         [SerializeField] private Color _dangerColor;
 
         [Header("Hero Icon Prefabs")]
@@ -82,7 +86,9 @@ namespace KrillOrBeKrilled.UI {
 
         #region Public Methods
 
-        /// <summary> Sets up all references to operate the map UI. </summary>
+        /// <summary>
+        /// Sets up all references to operate the map UI.
+        /// </summary>
         /// <param name="player"> The player GameObject <see cref="Transform"/> to track for positional changes. </param>
         /// <param name="levelStartX"> The beginning position of the level along the x-axis. </param>
         /// <param name="levelEndX"> The end position of the level along the x-axis. </param>

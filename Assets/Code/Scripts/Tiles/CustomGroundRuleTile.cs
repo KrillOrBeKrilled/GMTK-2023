@@ -67,7 +67,7 @@ namespace KrillOrBeKrilled.Tiles {
         /// <param name="tile"> The neighboring tile in question. </param>
         /// <returns> If the neighboring tile is contained in <see cref="dungeonTileTypes"/>. </returns>
         private bool CheckDungeon(TileBase tile) {
-            return dungeonTileTypes.Contains(tile);
+            return this.dungeonTileTypes.Contains(tile);
         }
         
         /// <summary>
@@ -76,7 +76,7 @@ namespace KrillOrBeKrilled.Tiles {
         /// <param name="tile"> The neighboring tile in question. </param>
         /// <returns> If the neighboring tile is contained in <see cref="groundTileTypes"/>. </returns>
         private bool CheckGround(TileBase tile) {
-            return groundTileTypes.Contains(tile);
+            return this.groundTileTypes.Contains(tile);
         }
         
         /// <summary>
@@ -88,7 +88,7 @@ namespace KrillOrBeKrilled.Tiles {
         /// If the neighboring tile is the same type as this tile or contained in <see cref="tileTypesToConnect"/>.
         /// </returns>
         private bool CheckThis(TileBase tile) {
-            return tileTypesToConnect.Contains(tile) || tile == this;
+            return this.tileTypesToConnect.Contains(tile) || tile == this;
         }
 
         /// <summary>

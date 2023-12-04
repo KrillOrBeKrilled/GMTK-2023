@@ -30,35 +30,35 @@ namespace KrillOrBeKrilled.Heroes.AI {
         [SerializeField] internal float MaxJumpForce = 80f;
 
         protected override Node SetupTree() {
-            var heroTransform = transform;
+            var heroTransform = this.transform;
             
             var jumping = new Sequence(new List<Node> {
                 new LookForObstacle(),
-                new ApproachTarget(heroTransform, Rigidbody, AnimController, MovementSpeed, SpeedBlendDuration),
-                new DecideJumpForce(heroTransform, Rigidbody, MinJumpForce, MaxJumpForce),
-                new Jump(Rigidbody, AnimController, SoundsController)
+                new ApproachTarget(heroTransform, this.Rigidbody, this.AnimController, this.MovementSpeed, this.SpeedBlendDuration),
+                new DecideJumpForce(heroTransform, this.Rigidbody, this.MinJumpForce, this.MaxJumpForce),
+                new Jump(this.Rigidbody, this.AnimController, this.SoundsController)
             });
 
             var jumpAndFall = new Selector(new List<Node> {
-                new Fall(heroTransform, Rigidbody, AnimController, GroundToSight),
+                new Fall(heroTransform, this.Rigidbody, this.AnimController, this.GroundToSight),
                 jumping
             });
                 
             var groundJumping = new Sequence(new List<Node> {
-                new LookForGround(heroTransform, HeroSight, GroundToSight, ObstaclesToSight),
+                new LookForGround(heroTransform, this.HeroSight, this.GroundToSight, this.ObstaclesToSight),
                 jumpAndFall
             });
             
             var root = new Selector(new List<Node> {
                 new Stun(),
                 groundJumping,
-                new Run(Rigidbody, AnimController, MovementSpeed),
-                new Idle(Rigidbody, AnimController)
+                new Run(this.Rigidbody, this.AnimController, this.MovementSpeed),
+                new Idle(this.Rigidbody, this.AnimController)
             });
             
-            root.SetData("JumpKey", JumpKey);
-            root.SetData("XSpeedKey", XSpeedKey);
-            root.SetData("YSpeedKey", YSpeedKey);
+            root.SetData("JumpKey", this.JumpKey);
+            root.SetData("XSpeedKey", this.XSpeedKey);
+            root.SetData("YSpeedKey", this.YSpeedKey);
             root.SetData("IsMoving", true);
             root.SetData("IsStunned", false);
             root.SetData("StunDuration", 0f);

@@ -23,12 +23,6 @@ namespace KrillOrBeKrilled.Heroes {
         
         private const int CoinsEarnedOnDeath = 2;
 
-        // ---------------- Spawning -----------------
-        [Tooltip("Duration of time for the hero to recover at the RespawnPoint before moving again.")]
-        [SerializeField] internal float RespawnTime = 3;
-
-        private static readonly int SpawningKey = Animator.StringToHash("spawning");
-
         // ----------------- Health ------------------
         [Tooltip("The current health of the hero.")]
         public int Health { get; private set; }
@@ -45,12 +39,6 @@ namespace KrillOrBeKrilled.Heroes {
 
         [Tooltip("Tracks when the hero dies.")]
         public UnityEvent<Hero> OnHeroDied;
-
-        [Tooltip("Tracks when the hero has run out of lives.")]
-        public UnityEvent OnGameOver;
-
-        [Tooltip("Tracks when the hero initialization is complete.")]
-        public UnityEvent OnHeroReset;
 
         //========================================
         // Unity Methods
@@ -74,6 +62,11 @@ namespace KrillOrBeKrilled.Heroes {
         
         #region IDamageable Implementations
         
+        /// <summary>
+        /// Reduces the hero's movement speed by a percentage reduction via the <see cref="HeroBT"/>.
+        /// </summary>
+        /// <param name="penalty"> The speed penalty value to limit the hero's movement. </param>
+        /// <remarks> The incremented speed penalty is clamped between [0,1] as a percentage value. </remarks>
         public void ApplySpeedPenalty(float penalty) {
             this._heroBrain.UpdateData("SpeedPenalty", Mathf.Clamp(penalty, 0f, 1f));
         }
@@ -84,12 +77,10 @@ namespace KrillOrBeKrilled.Heroes {
         /// the hero.
         /// </summary>
         /// <remarks>
-        /// Invokes the <see cref="OnHeroDied"/> event. If the number of lives are reduced to zero,
-        /// invokes the <see cref="OnGameOver"/> event.
+        /// Invokes the <see cref="OnHeroDied"/> event.
         /// </remarks>
         public void Die() {
-            _soundsController.OnHeroDeath();
-
+            this._soundsController.OnHeroDeath();
             CoinManager.Instance.EarnCoins(CoinsEarnedOnDeath);
 
             this.OnHeroDied?.Invoke(this);
@@ -100,6 +91,9 @@ namespace KrillOrBeKrilled.Heroes {
             return this.Health;
         }
         
+        /// <summary>
+        /// Resets the speed penalty to return the hero movement speed to normal via the <see cref="HeroBT"/>.
+        /// </summary>
         public void ResetSpeedPenalty() {
             this._heroBrain.UpdateData("SpeedPenalty", 0f);
         }
@@ -112,9 +106,7 @@ namespace KrillOrBeKrilled.Heroes {
         /// <remarks> Invokes the <see cref="OnHealthChanged"/> event. </remarks>
         public void TakeDamage(int amount) {
             this.Health -= amount;
-
-            _soundsController.OnTakeDamage();
-
+            this._soundsController.OnTakeDamage();
             this.OnHealthChanged?.Invoke(this.Health);
 
             if (this.Health <= 0) {
@@ -122,6 +114,11 @@ namespace KrillOrBeKrilled.Heroes {
             }
         }
 
+        /// <summary>
+        /// Applies a force to knock back and stun the hero via the <see cref="HeroBT"/>.
+        /// </summary>
+        /// <param name="stunDuration"> The duration of time to stun the hero. </param>
+        /// <param name="throwForce"> Scales the knock back force applied to the hero. </param>
         public void ThrowActorBack(float stunDuration, float throwForce) {
             this._heroBrain.UpdateData("IsStunned", true);
             this._heroBrain.UpdateData("StunDuration", stunDuration);
@@ -129,9 +126,9 @@ namespace KrillOrBeKrilled.Heroes {
             Vector2 explosionVector = new Vector2(-1f, 0.7f) * throwForce;
             this._rigidbody.AddForce(explosionVector, ForceMode2D.Impulse);
         }
-
+        
         public void ThrowActorForward(float throwForce) {
-            _rigidbody.velocity = Vector2.zero;
+            this._rigidbody.velocity = Vector2.zero;
             Vector2 leapVector = new Vector2(0.25f, 2f) * throwForce;
             this._rigidbody.AddForce(leapVector, ForceMode2D.Impulse);
         }

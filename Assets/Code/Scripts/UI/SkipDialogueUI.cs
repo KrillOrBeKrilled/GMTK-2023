@@ -10,6 +10,7 @@ namespace KrillOrBeKrilled.UI {
     /// Handles the skip dialogue UI.
     /// </summary>
     public class SkipDialogueUI : MonoBehaviour {
+        [Tooltip("Used to skip the current dialogue event on user interaction.")]
         [SerializeField] private UIHoldButton _uiHoldButton;
         private UnityAction _onSkipComplete;
 
@@ -44,6 +45,9 @@ namespace KrillOrBeKrilled.UI {
             onStartLevel.AddListener(this.OnStartLevel);
         }
 
+        /// <summary>
+        /// Invokes the method associated with completing the dialogue skipping process set upon <see cref="Initialize"/>.
+        /// </summary>
         public void TriggerSkip() {
             this._onSkipComplete?.Invoke();
         }

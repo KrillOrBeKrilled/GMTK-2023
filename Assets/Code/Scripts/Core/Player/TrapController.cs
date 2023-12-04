@@ -103,13 +103,13 @@ namespace KrillOrBeKrilled.Core.Player {
             }
 
             // Convert the origin tile position to world space
-            var deploymentOrigin = this.TrapTilemap.CellToWorld(_previousTilePositions[0]);
+            var deploymentOrigin = this.TrapTilemap.CellToWorld(this._previousTilePositions[0]);
             var spawnPosition = playerDirection < 0
                 ? this.CurrentTrap.GetLeftSpawnPoint(deploymentOrigin)
                 : this.CurrentTrap.GetRightSpawnPoint(deploymentOrigin);
 
             Trap spawnedTrap = Instantiate(this.CurrentTrap);
-            spawnedTrap.Construct(spawnPosition, this._trapCanvas, this._previousTilePositions.ToArray(), _trapSoundsController);
+            spawnedTrap.Construct(spawnPosition, this._trapCanvas, this._previousTilePositions.ToArray(), this._trapSoundsController);
 
             CoinManager.Instance.ConsumeCoins(this.CurrentTrap.Cost);
             this._soundsController.OnTileSelectConfirm();
@@ -225,7 +225,7 @@ namespace KrillOrBeKrilled.Core.Player {
         /// selected tiles blank.
         /// </summary>
         private void ClearTrapDeployment() {
-            TilemapManager.Instance.PaintTilesBlank(_previousTilePositions);
+            TilemapManager.Instance.PaintTilesBlank(this._previousTilePositions);
             this._canDeploy = false;
 
             // Clear the data of the previous tile
@@ -236,7 +236,7 @@ namespace KrillOrBeKrilled.Core.Player {
         /// Resets trap deployment validity and paints the selected tiles in the tilemap a rejection color.
         /// </summary>
         private void InvalidateTrapDeployment() {
-            TilemapManager.Instance.PaintTilesRejectionColor(_previousTilePositions);
+            TilemapManager.Instance.PaintTilesRejectionColor(this._previousTilePositions);
             this._canDeploy = false;
         }
 
@@ -256,7 +256,7 @@ namespace KrillOrBeKrilled.Core.Player {
         /// Toggles trap deployment validity and paints the selected tiles in the tilemap a success color.
         /// </summary>
         private void ValidateTrapDeployment() {
-            TilemapManager.Instance.PaintTilesConfirmationColor(_previousTilePositions);
+            TilemapManager.Instance.PaintTilesConfirmationColor(this._previousTilePositions);
             this._canDeploy = true;
         }
 

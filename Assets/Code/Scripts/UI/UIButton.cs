@@ -12,14 +12,18 @@ namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// Customized UI Button, plays animation and SFX on tap.
     /// </summary>
-    /// <remarks>Requires <see cref="Image"/> component.</remarks>
+    /// <remarks> Requires <see cref="Image"/> component. </remarks>
 
     [RequireComponent(typeof(Image))]
     public class UIButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IPointerEnterHandler {
+        [Tooltip("Dictates whether or not the button will play SFX when clicked.")]
         [SerializeField] private bool _muteClickSfx;
 
+        [Tooltip("Triggers when the button is pressed down and lifted.")]
         [SerializeField] private UnityEvent _onClick;
+        [Tooltip("The image shown to indicate the button is not pressed.")]
         [SerializeField] private Sprite _defaultImage;
+        [Tooltip("The image shown to indicate the button is pressed.")]
         [SerializeField] private Sprite _pressedImage;
 
         private const float ScaleUpValue = 1.05f;
@@ -32,25 +36,36 @@ namespace KrillOrBeKrilled.UI {
         private bool _isInteractable = true;
         private bool _isPressed;
         private bool _isPointerOverButton;
-
-        /// <summary>
-        /// Sets this button to be interactable or un-interactable.
-        /// </summary>
-        /// <param name="isInteractable">Value to set the buttons interactable property to.</param>
-        public void SetInteractable(bool isInteractable) {
-            this._isInteractable = isInteractable;
+        
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
+        private void Awake() {
+            this._image = this.GetComponent<Image>();
+            this._rectTransform = this.GetComponent<RectTransform>();
         }
-
+        
         /// <summary>
-        /// Changes the button sprites for the default and pressed images.
+        /// Triggered by Unity. Invokes <see cref="_onClick"/> event.
         /// </summary>
-        public void SetButtonSprites(Sprite defaultImage, Sprite pressedImage) {
-            this._defaultImage = defaultImage;
-            this._pressedImage = pressedImage;
+        public void OnPointerUp(PointerEventData eventData) {
+            if (!this._isInteractable) {
+                return;
+            }
 
-            this._image.sprite = this._isPressed ? this._pressedImage : this._defaultImage;
+            this._isPressed = false;
+            this._image.sprite = this._defaultImage;
+
+            if (this._isPointerOverButton) {
+                this._onClick?.Invoke();
+            }
+
+            this._isPointerOverButton = false;
         }
-
+        
         public void OnPointerDown(PointerEventData eventData) {
             if (!this._isInteractable) {
                 return;
@@ -66,23 +81,7 @@ namespace KrillOrBeKrilled.UI {
 
             this.DoBounce();
         }
-
-        /// <summary> Triggered by Unity. Invokes <see cref="_onClick"/> event. </summary>
-        public void OnPointerUp(PointerEventData eventData) {
-            if (!this._isInteractable) {
-                return;
-            }
-
-            this._isPressed = false;
-            this._image.sprite = this._defaultImage;
-
-            if (this._isPointerOverButton) {
-                this._onClick?.Invoke();
-            }
-
-            this._isPointerOverButton = false;
-        }
-
+        
         public void OnPointerEnter(PointerEventData eventData) {
             if (!this._isPressed) {
                 return;
@@ -100,12 +99,44 @@ namespace KrillOrBeKrilled.UI {
             this._isPointerOverButton = false;
             this._image.sprite = this._defaultImage;
         }
+        
+        #endregion
+        
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+        
+        /// <summary>
+        /// Changes the button sprites for the default and pressed images.
+        /// </summary>
+        public void SetButtonSprites(Sprite defaultImage, Sprite pressedImage) {
+            this._defaultImage = defaultImage;
+            this._pressedImage = pressedImage;
 
-        private void Awake() {
-            this._image = this.GetComponent<Image>();
-            this._rectTransform = this.GetComponent<RectTransform>();
+            this._image.sprite = this._isPressed ? this._pressedImage : this._defaultImage;
         }
 
+        /// <summary>
+        /// Sets this button to be interactable or un-interactable.
+        /// </summary>
+        /// <param name="isInteractable"> Value to set the buttons interactable property to. </param>
+        public void SetInteractable(bool isInteractable) {
+            this._isInteractable = isInteractable;
+        }
+        
+        #endregion
+        
+        //========================================
+        // Private Methods
+        //========================================
+
+        #region Private Methods
+
+        /// <summary>
+        /// Scales the button up and back down to simulate a bounce animation.
+        /// </summary>
         private void DoBounce() {
             this._tweenSequence?.Kill();
             this._tweenSequence = DOTween.Sequence();
@@ -116,5 +147,7 @@ namespace KrillOrBeKrilled.UI {
             this._tweenSequence.SetEase(Ease.InOutSine);
             this._tweenSequence.Play();
         }
+        
+        #endregion
     }
 }

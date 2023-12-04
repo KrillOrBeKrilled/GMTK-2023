@@ -49,7 +49,7 @@ namespace KrillOrBeKrilled.Dialogue {
         #region Unity Methods
         
         private void Awake() {
-            TryGetComponent(out _soundsController);
+            TryGetComponent(out this._soundsController);
             
             // ... this is important because we must set the static "instance" here, before any YarnCharacter.Start() can use it
             instance = this;
@@ -123,13 +123,13 @@ namespace KrillOrBeKrilled.Dialogue {
             // Run Voice Events
             switch(characterName) {
                 case "Hendall":
-                    _soundsController.OnHenSpeak();
+                    this._soundsController.OnHenSpeak();
                     break;
                 case "Hero":
-                    _soundsController.OnHeroSpeak();
+                    this._soundsController.OnHeroSpeak();
                     break;
                 case "Dogan":
-                    _soundsController.OnBossSpeak();
+                    this._soundsController.OnBossSpeak();
                     break;
             };
 

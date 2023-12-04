@@ -37,17 +37,17 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         /// </returns>
         internal override NodeStatus Evaluate() {
             // Validate child node
-            if (!HasChildren) {
+            if (!this.HasChildren) {
                 return NodeStatus.FAILURE;
             }
 
-            if (Child.Evaluate() == NodeStatus.RUNNING) {
-                Status = NodeStatus.RUNNING;
-                return Status;
+            if (this.Child.Evaluate() == NodeStatus.RUNNING) {
+                this.Status = NodeStatus.RUNNING;
+                return this.Status;
             }
             
-            Status = NodeStatus.SUCCESS;
-            return Status;
+            this.Status = NodeStatus.SUCCESS;
+            return this.Status;
         }
         
         #endregion

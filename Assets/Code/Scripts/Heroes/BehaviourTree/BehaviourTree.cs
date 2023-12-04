@@ -24,11 +24,11 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         #region Unity Methods
         
         protected void Start() {
-            _root = SetupTree();
+            this._root = SetupTree();
         }
         
         private void Update() {
-            _root?.Evaluate();
+            this._root?.Evaluate();
         }
         
         #endregion
@@ -57,7 +57,7 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         /// Upserts the data in the root <see cref="Node"/> of this Behaviour Tree if such a root exists.
         /// </summary>
         internal void UpdateData(string key, object value) {
-            _root?.SetData(key, value);
+            this._root?.SetData(key, value);
         }
         
         #endregion

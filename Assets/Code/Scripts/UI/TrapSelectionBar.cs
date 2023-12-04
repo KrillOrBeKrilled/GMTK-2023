@@ -28,11 +28,9 @@ namespace KrillOrBeKrilled.UI {
         /// Sets up all references and listeners to operate the trap selection toolbar, also initializing each
         /// <see cref="TrapBarIcon"/>.
         /// </summary>
-        /// <param name="playerManager"> Provides event and data references related to the trap system to subscribe
-        /// to and link trap icons. </param>
         /// <param name="trapChanged">Event triggered when selected trap index was updated. </param>
         /// <param name="traps">A list of all traps. </param>
-        /// <param name="selectTrapAction">A callback which is invoked when a Trap Icon is clicked. </param>
+        /// <param name="selectTrapAction"> A callback which is invoked when a Trap Icon is clicked. </param>
         public void Initialize(UnityEvent<Trap> trapChanged, ReadOnlyCollection<Trap> traps, UnityAction<Trap> selectTrapAction) {
             trapChanged.AddListener(this.SelectedTrapIndexChanged);
             EventManager.Instance.CoinAmountChangedEvent.AddListener(this.OnCoinAmountChanged);
@@ -63,7 +61,7 @@ namespace KrillOrBeKrilled.UI {
         /// Updates each <see cref="TrapBarIcon"/> when a new trap is selected.
         /// </summary>
         /// <param name="newTrap"> The newly selected trap. </param>
-        /// <remarks> Listens on the <see cref="PlayerController.OnSelectedTrapIndexChanged"/> event. </remarks>
+        /// <remarks> Listens on the trapChanged event provided in <see cref="Initialize"/>. </remarks>
         private void SelectedTrapIndexChanged(Trap newTrap) {
             foreach (TrapBarIcon trapIcon in this._trapBarIcons) {
                 trapIcon.OnSelectedChanged(newTrap);

@@ -33,12 +33,17 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private TrapSelectionBar _trapSelectionBar;
         [Tooltip("The Skip Dialogue HUD displayed during dialogue sequences.")]
         [SerializeField] private SkipDialogueUI _skipDialogueUI;
+        [Tooltip("Holds all references to the hero health bars as their parent object.")]
         [SerializeField] private Transform _healthBarsContainer;
+        [Tooltip("The hero and player progress to the level goal tracker Map UI displayed during gameplay.")]
         [SerializeField] private MapUI _mapUI;
+        [Tooltip("The on-screen buttons used to control the player displayed during gameplay.")]
         [SerializeField] private ControlsUI _controlsUI;
+        [Tooltip("The trap resource requirements widget displayed during gameplay.")]
         [SerializeField] private TrapRequirementsUI _trapRequirementsUI;
 
         [Header("Prefabs")]
+        [Tooltip("The hero health bar to instantiate upon spawning a new hero.")]
         [SerializeField] private HealthBarUI _healthBarUIPrefab;
 
         private UnityAction _onScreenWipeInComplete;
@@ -169,6 +174,18 @@ namespace KrillOrBeKrilled.UI {
                 // TODO: Play short modal show animation
                 this._pauseUI.SetActive(true);
             }
+        }
+        
+        /// <summary>
+        /// Plays a screen wipe-in transition effect and sets a function to invoke upon completion.
+        /// </summary>
+        /// <param name="onComplete"> The function to invoke once the screen wipe-in effect has been completed. </param>
+        private void ScreenWipeInSceneCover(UnityAction onComplete) {
+            _onScreenWipeInComplete = onComplete;
+            
+            this._screenWipe.gameObject.SetActive(true);
+            this._screenWipe.SetRandomWipeShape();
+            this._animController.SetTrigger(_wipeInKey);
         }
 
         /// <summary>

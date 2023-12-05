@@ -965,11 +965,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3878156845476106198}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 900, y: 600}
+  m_SizeDelta: {x: 500, y: 200}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &6221013368650456776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -983,8 +983,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: Dogan
-  messageBubbleOffset: {x: 0, y: 3, z: 0}
-  offsetUsesRotation: 0
+  messageBubbleOffset: {x: 0, y: 3}
+  _rectTransform: {fileID: 7289552871793969265}
 --- !u!1 &5656926563937844692
 GameObject:
   m_ObjectHideFlags: 0
@@ -1735,9 +1735,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -715.37805, y: 134.95001}
+  m_AnchoredPosition: {x: -715.37805, y: 461.47}
   m_SizeDelta: {x: 650, y: 0}
-  m_Pivot: {x: 0.5, y: 0}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &6687409748391364315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1882,10 +1882,8 @@ MonoBehaviour:
   - {fileID: 0}
   playerCharacter: {fileID: 0}
   canvas: {fileID: 588112442375781427}
-  canvasScaler: {fileID: 1932936485234694623}
   dialogueBubbleRect: {fileID: 930535699696647756}
   optionsBubbleRect: {fileID: 8989763183030316989}
-  bubbleMargin: 0.15
 --- !u!114 &770256871023777095
 MonoBehaviour:
   m_ObjectHideFlags: 0

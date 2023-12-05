@@ -32,6 +32,7 @@ namespace KrillOrBeKrilled.Dialogue {
 
         [SerializeField] internal Canvas canvas;
         private RectTransform _canvasRectTransform;
+        [SerializeField] private Vector2 _screenEdgeOffset = new Vector2(20, 20);
 
         [Tooltip("For best results, set the rectTransform anchors to middle-center, and make sure the " +
                  "rectTransform's pivot Y is set to 0.")]
@@ -165,13 +166,30 @@ namespace KrillOrBeKrilled.Dialogue {
         /// </summary>
         /// <param name="worldPos"> The world space position to place the dialogue bubble. </param>
         /// <returns> The position to render the dialogue bubble in world space. </returns>
-        private Vector2 WorldToAnchoredPosition(Vector3 worldPos) {
+        private Vector2 WorldToAnchoredPosition(Vector3 worldPos, bool containOnScreen = true) {
             Vector2 viewportPosition = this.worldCamera.WorldToViewportPoint(worldPos);
             Vector2 sizeDelta = this._canvasRectTransform.sizeDelta;
             Vector2 worldObjectScreenPosition =
                 new Vector2(viewportPosition.x * sizeDelta.x - sizeDelta.x * 0.5f,
                     viewportPosition.y * sizeDelta.y - sizeDelta.y * 0.5f);
 
+            if (!containOnScreen)
+                return worldObjectScreenPosition;
+
+            Vector2 canvasSize = this._canvasRectTransform.rect.size;
+            float canvasHalfWidth = canvasSize.x / 2;
+            float canvasHalfHeight = canvasSize.y / 2;
+
+            Rect bubbleRect = this.dialogueBubbleRect.rect;
+            float bubbleHalfWidth = bubbleRect.width / 2;
+            float bubbleHeight = bubbleRect.height;
+            float minX = -canvasHalfWidth + bubbleHalfWidth + this._screenEdgeOffset.x;
+            float maxX = -minX;
+            float minY = -canvasHalfHeight + bubbleHeight + this._screenEdgeOffset.y;
+            float maxY = canvasHalfHeight - this._screenEdgeOffset.y;
+
+            worldObjectScreenPosition.x = Mathf.Clamp(worldObjectScreenPosition.x, minX, maxX);
+            worldObjectScreenPosition.y = Mathf.Clamp(worldObjectScreenPosition.y, minY, maxY);
             return worldObjectScreenPosition;
         }
 

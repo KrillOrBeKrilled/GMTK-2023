@@ -48,7 +48,6 @@ GameObject:
   - component: {fileID: 1932936485234694623}
   - component: {fileID: 8678547117119670258}
   - component: {fileID: 9186954324187263670}
-  - component: {fileID: 5587252028467467859}
   m_Layer: 5
   m_Name: GameUI
   m_TagString: Untagged
@@ -168,27 +167,6 @@ MonoBehaviour:
   _controlsUI: {fileID: 755170300387895703}
   _trapRequirementsUI: {fileID: 4732524151187949244}
   _healthBarUIPrefab: {fileID: 5468232764469143830, guid: 962e39104bcbb4854a430b5dde8d623b, type: 3}
---- !u!95 &5587252028467467859
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1551271506664179980}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 55505d1f84aa75f44b586ab0082811e1, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1778198517836550647
 GameObject:
   m_ObjectHideFlags: 0
@@ -990,7 +968,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4867512217143679551
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1155,7 +1133,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 2997df73b25e848438c2c16c95e37f96, type: 3}
   - {fileID: 2800000, guid: 0f20663987e5cae4cb280a796e4f1821, type: 3}
   - {fileID: 2800000, guid: 81563363bf787cb41b3db97d52db8779, type: 3}
-  ScreenWipeSize: 0
 --- !u!1 &8995916058718460083
 GameObject:
   m_ObjectHideFlags: 0

@@ -516,7 +516,6 @@ GameObject:
   - component: {fileID: 8487574845114511137}
   - component: {fileID: 6789778321297758610}
   - component: {fileID: 3432739132948646254}
-  - component: {fileID: 1386998756295113498}
   m_Layer: 5
   m_Name: LevelsUI
   m_TagString: Untagged
@@ -627,27 +626,6 @@ MonoBehaviour:
   _foreground: {fileID: 5917768068846964412}
   _loadingScreen: {fileID: 6327538254016615790}
   _screenWipe: {fileID: 8719676866946337057}
---- !u!95 &1386998756295113498
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5882237064301994761}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6c78e774469ee4e41aec8828514a94cc, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5978282445232545244
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,11 +794,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e147dcc807b0174da4b8725a1153e20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ScreenWipeSize: 0
   _wipeShapes:
   - {fileID: 2800000, guid: 2997df73b25e848438c2c16c95e37f96, type: 3}
   - {fileID: 2800000, guid: 0f20663987e5cae4cb280a796e4f1821, type: 3}
   - {fileID: 2800000, guid: 81563363bf787cb41b3db97d52db8779, type: 3}
-  ScreenWipeSize: 0
 --- !u!1 &8192267482122157830
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using KrillOrBeKrilled.Traps;
@@ -22,13 +23,7 @@ namespace KrillOrBeKrilled.Managers {
         #region Unity Methods
 
         private void Start() {
-            _inventory = new Dictionary<ResourceType, int>();
-            
-            // Initialize each resource type with a count of 0
-            foreach (ResourceType type in Enum.GetValues(typeof(ResourceType))) {
-                _inventory.Add(type, 5);
-                EventManager.Instance.ResourceAmountChangedEvent.Invoke(type, _inventory[type]);
-            }
+            StartCoroutine(DelayedInventoryInit());
             
             // Subscribe to resource collection event in ResourcePickup
             ResourcePickup.OnResourceCollected += AddResource;
@@ -39,6 +34,40 @@ namespace KrillOrBeKrilled.Managers {
             ResourcePickup.OnResourceCollected -= AddResource;
         }
 
+        #endregion
+        
+        //========================================
+        // Private Methods
+        //========================================
+
+        #region Private Methods
+
+        /// <summary>
+        /// A coroutine to delay the initialization of the player inventory so that the
+        /// subscribers can be set up first.
+        /// </summary>
+        /// <remarks>
+        /// ResourceAmountChangedEvent is tied to a specific ResourceType, so we need to
+        /// individually update each key-value pair. However, the GameUI will be checking
+        /// for all keys when it updates the resource counts, so we will first initialize
+        /// all keys with value 0 before assigning desired values to them.
+        /// </remarks>
+        private IEnumerator DelayedInventoryInit() {
+            // Initialize keys first
+            _inventory = new Dictionary<ResourceType, int>();
+            foreach (ResourceType type in Enum.GetValues(typeof(ResourceType))) {
+                _inventory.Add(type, 0);
+            }
+            
+            // Skip a frame to wait for event listeners
+            yield return null;
+
+            foreach (ResourceType type in Enum.GetValues(typeof(ResourceType))) {
+                _inventory[type] = 5;
+                EventManager.Instance.ResourceAmountChangedEvent.Invoke(type, _inventory[type]);
+            }
+        }
+        
         #endregion
         
         //========================================
@@ -69,15 +98,6 @@ namespace KrillOrBeKrilled.Managers {
                 _inventory[cost.Key] -= cost.Value;
                 EventManager.Instance.ResourceAmountChangedEvent.Invoke(cost.Key, _inventory[cost.Key]);
             }
-            
-            string inventoryStr = "{";
-            foreach (var pair in _inventory) {
-                inventoryStr += $"{pair.Key}: {pair.Value}, ";
-            }
-            inventoryStr = inventoryStr.TrimEnd(' ', ',') + "}";
-
-            print("Updated Inventory: " + inventoryStr);
-            
             return true;
         }
         
@@ -98,5 +118,7 @@ namespace KrillOrBeKrilled.Managers {
         }
         
         #endregion
+        
+        
     }
 }

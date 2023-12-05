@@ -3,6 +3,7 @@ using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Heroes;
 using KrillOrBeKrilled.Traps;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;

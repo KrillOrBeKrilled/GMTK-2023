@@ -42,7 +42,7 @@ namespace KrillOrBeKrilled.Traps {
         protected bool IsBuilding, IsReady;
 
         private UnityAction _onDestroy;
-        private static Dictionary<ResourceType, int> _recipe;
+        private Dictionary<ResourceType, int> _recipe;
         public Dictionary<ResourceType, int> Recipe {
             get {
                 if (_recipe == null) {

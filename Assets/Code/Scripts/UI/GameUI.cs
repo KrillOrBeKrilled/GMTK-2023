@@ -2,6 +2,7 @@ using KrillOrBeKrilled.Core;
 using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Heroes;
 using System.Collections.Generic;
+using KrillOrBeKrilled.Traps;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -40,6 +41,8 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private MapUI _mapUI;
         [Tooltip("The on-screen buttons used to control the player displayed during gameplay.")]
         [SerializeField] private ControlsUI _controlsUI;
+        [Tooltip("The trap resource inventory widget displayed during gameplay.")]
+        [SerializeField] private ResourceUI _resourceUI;
         [Tooltip("The trap resource requirements widget displayed during gameplay.")]
         [SerializeField] private TrapRequirementsUI _trapRequirementsUI;
 
@@ -86,6 +89,7 @@ namespace KrillOrBeKrilled.UI {
             EventManager.Instance.PauseToggledEvent.AddListener(this.OnPauseToggled);
             EventManager.Instance.ShowDialogueUIEvent.AddListener(this.ShowDialogueUI);
             EventManager.Instance.HideDialogueUIEvent.AddListener(this.HideDialogueUI);
+            EventManager.Instance.ResourceAmountChangedEvent.AddListener(this.OnResourceUpdate);
         }
 
         #endregion
@@ -121,6 +125,16 @@ namespace KrillOrBeKrilled.UI {
         /// <remarks> Subscribed to the <see cref="CoinAmountChangedEvent"/> event. </remarks>
         private void OnCoinsUpdated(int amount) {
             this._coinsText.SetText($"{amount}");
+        }
+        
+        /// <summary>
+        /// Updates the text on the resource UI for a specific resource type.
+        /// </summary>
+        /// <param name="type"> The resource type to be updated. </param>
+        /// <param name="amount"> The new count to display on the resource amount UI. </param>
+        /// <remarks> Subscribed to the <see cref="ResourceAmountChangedEvent"/> event. </remarks>
+        private void OnResourceUpdate(ResourceType type, int amount) {
+            this._resourceUI.SetAmount(type, amount);
         }
 
         /// <summary>

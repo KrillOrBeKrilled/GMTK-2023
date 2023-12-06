@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 //*******************************************************************************************
 // YarnCharacter
@@ -15,17 +18,13 @@ namespace KrillOrBeKrilled.Dialogue {
 
         [Tooltip("When positioning the message bubble in world space, YarnCharacterManager adds this additional " +
                  "offset to this gameObject's position. Taller characters should use taller offsets, etc.")]
-        [SerializeField] internal Vector3 messageBubbleOffset = new Vector3(0f, 3f, 0f);
+        [SerializeField] internal Vector2 messageBubbleOffset = new Vector2(0f, 3f);
 
-        [Tooltip("If true, then apply messageBubbleOffset relative to this transform's rotation and scale.")]
-        [SerializeField] internal bool offsetUsesRotation = false;
+        [SerializeField] internal RectTransform _rectTransform;
+        public Vector2 PositionWithOffset => this._dampenedPosition + this.messageBubbleOffset;
 
-        // bwaaaah ugly ugly ugly
-        private Vector3 _prevPosition;
-        private Vector3 _prevPrevPosition;
-        private Vector3 _prevPrevPrevPosition;
-        private Vector3 _dampenedPosition;
-
+        private readonly List<Vector2> _lastFourFramesPositions = new List<Vector2>();
+        private Vector2 _dampenedPosition;
         //========================================
         // Unity Methods
         //========================================
@@ -43,21 +42,16 @@ namespace KrillOrBeKrilled.Dialogue {
 
             YarnCharacterView.instance.RegisterYarnCharacter(this);
 
-            var position = this.transform.position;
-            this._prevPosition = position;
-            this._prevPrevPosition = position;
-            this._prevPrevPrevPosition = position;
+            Vector3 position = this.transform.position;
+            this._lastFourFramesPositions.Add(position);
+            this._lastFourFramesPositions.Add(position);
+            this._lastFourFramesPositions.Add(position);
+            this._lastFourFramesPositions.Add(position);
         }
-
-
         private void FixedUpdate() {
-            var position = this.transform.position;
-
-            this._dampenedPosition = (position + this._prevPosition + this._prevPrevPosition + this._prevPrevPrevPosition) / 4f;
-
-            this._prevPrevPrevPosition = this._prevPrevPosition;
-            this._prevPrevPosition = this._prevPosition;
-            this._prevPosition = position;
+            this._lastFourFramesPositions.Add(this.transform.position);
+            this._lastFourFramesPositions.RemoveAt(0);
+            this._dampenedPosition = this._lastFourFramesPositions.Aggregate((acc, val) => acc + val) / this._lastFourFramesPositions.Count;
         }
 
         /// <summary>
@@ -66,34 +60,6 @@ namespace KrillOrBeKrilled.Dialogue {
         private void OnDestroy() {
             if (YarnCharacterView.instance is not null) {
                 YarnCharacterView.instance.ForgetYarnCharacter(this);
-            }
-        }
-
-        #endregion
-
-        //========================================
-        // Internal Methods
-        //========================================
-
-        #region Internal Methods
-
-        /// <summary>
-        /// Calculates the positioning of dialogue message bubbles with respect to the specified
-        /// <see cref="messageBubbleOffset"/> in local or world space depending on
-        /// <see cref="offsetUsesRotation"/>.
-        /// </summary>
-        /// <returns>
-        /// The position for the dialogue message bubble associated with this character to
-        /// be anchored to.
-        /// </returns>
-        internal Vector3 positionWithOffset {
-            get {
-                if (!this.offsetUsesRotation) {
-                    return this._dampenedPosition + this.messageBubbleOffset;
-                }
-
-                // convert offset into local space
-                return this._dampenedPosition + this.transform.TransformPoint(this.messageBubbleOffset);
             }
         }
 

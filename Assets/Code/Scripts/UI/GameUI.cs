@@ -1,6 +1,7 @@
 using KrillOrBeKrilled.Core;
 using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Heroes;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -42,6 +43,10 @@ namespace KrillOrBeKrilled.UI {
         [Tooltip("The trap resource requirements widget displayed during gameplay.")]
         [SerializeField] private TrapRequirementsUI _trapRequirementsUI;
 
+        [Header("Dialogue")]
+        [SerializeField] private List<GameObject> _hideDuringDialogueUIList;
+        [SerializeField] private GameObject _dialogueUI;
+
         [Header("Prefabs")]
         [Tooltip("The hero health bar to instantiate upon spawning a new hero.")]
         [SerializeField] private HealthBarUI _healthBarUIPrefab;
@@ -79,6 +84,8 @@ namespace KrillOrBeKrilled.UI {
 
             EventManager.Instance.CoinAmountChangedEvent.AddListener(this.OnCoinsUpdated);
             EventManager.Instance.PauseToggledEvent.AddListener(this.OnPauseToggled);
+            EventManager.Instance.ShowDialogueUIEvent.AddListener(this.ShowDialogueUI);
+            EventManager.Instance.HideDialogueUIEvent.AddListener(this.HideDialogueUI);
         }
 
         #endregion
@@ -88,7 +95,7 @@ namespace KrillOrBeKrilled.UI {
         //========================================
 
         #region Internal Methods
-        
+
         /// <summary>
         /// Enables the GameObject that controls the loading screen and invokes the
         /// <see cref="_onScreenWipeInComplete"/> function.
@@ -99,6 +106,8 @@ namespace KrillOrBeKrilled.UI {
             _onScreenWipeInComplete?.Invoke();
         }
         
+        #endregion
+
         #endregion
 
         //========================================
@@ -177,12 +186,40 @@ namespace KrillOrBeKrilled.UI {
         }
 
         /// <summary>
+        /// Plays a screen wipe-in transition effect and sets a function to invoke upon completion.
+        /// </summary>
+        /// <param name="onComplete"> The function to invoke once the screen wipe-in effect has been completed. </param>
+        private void ScreenWipeInSceneCover(UnityAction onComplete) {
+            _onScreenWipeInComplete = onComplete;
+
+            this._screenWipe.gameObject.SetActive(true);
+            this._screenWipe.SetRandomWipeShape();
+            this._screenWipe.WipeIn(CompleteSceneChange);
+        }
+
+        /// <summary>
         /// Instantiates a new health bar and links it to the assigned <see cref="Hero"/> <see cref="Transform"/>.
         /// </summary>
         /// <param name="hero"> The hero to receive the newly instantiated health bar. </param>
         private void SetupHealthBar(Hero hero) {
             HealthBarUI newBar = Instantiate(this._healthBarUIPrefab, this._healthBarsContainer);
             newBar.Initialize(hero, (RectTransform)this.transform);
+        }
+
+        private void ShowDialogueUI() {
+            foreach (GameObject hideObject in this._hideDuringDialogueUIList) {
+                hideObject.SetActive(false);
+            }
+
+            this._dialogueUI.SetActive(true);
+        }
+
+        private void HideDialogueUI() {
+            foreach (GameObject hideObject in this._hideDuringDialogueUIList) {
+                hideObject.SetActive(true);
+            }
+
+            this._dialogueUI.SetActive(false);
         }
 
         #endregion

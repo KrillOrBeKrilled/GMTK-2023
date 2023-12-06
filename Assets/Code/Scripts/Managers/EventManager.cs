@@ -18,6 +18,8 @@ namespace KrillOrBeKrilled.Managers {
 
 
         // UI Events
+        public readonly ShowDialogueUIEvent ShowDialogueUIEvent;
+        public readonly HideDialogueUIEvent HideDialogueUIEvent;
 
         private EventManager() {
             // Game Events
@@ -28,6 +30,8 @@ namespace KrillOrBeKrilled.Managers {
             this.CoinAmountChangedEvent = new CoinAmountChangedEvent();
 
             // UI Events
+            this.ShowDialogueUIEvent = new ShowDialogueUIEvent();
+            this.HideDialogueUIEvent = new HideDialogueUIEvent();
         }
     }
 }

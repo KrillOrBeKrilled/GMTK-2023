@@ -261,8 +261,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: Hero
-  messageBubbleOffset: {x: 0, y: 1.5, z: 0}
-  offsetUsesRotation: 0
+  messageBubbleOffset: {x: 0, y: 6}
+  _rectTransform: {fileID: 0}
 --- !u!114 &8167547464770034347
 MonoBehaviour:
   m_ObjectHideFlags: 0

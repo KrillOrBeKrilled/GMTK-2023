@@ -7,6 +7,7 @@ using KrillOrBeKrilled.Input;
 using KrillOrBeKrilled.Traps;
 using System.Collections;
 using System.Collections.Generic;
+using KrillOrBeKrilled.Managers;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -136,6 +137,11 @@ namespace KrillOrBeKrilled.Core.Player {
 
         /// <remarks> Invokes the <see cref="OnSelectedTrapChanged"/> event. </remarks>
         private void Start() {
+            var resourceSpawner = FindObjectOfType<ResourceSpawner>();
+            if (resourceSpawner != null) {
+                resourceSpawner.SetPlayerTransform(this.transform);
+            }
+            
             this._deployCommand = new DeployCommand(this);
 
             // Need this due to race condition during scene Awake->OnEnable calls

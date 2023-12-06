@@ -1,3 +1,4 @@
+using System;
 using KrillOrBeKrilled.Common.Interfaces;
 using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Heroes.AI;
@@ -38,6 +39,9 @@ namespace KrillOrBeKrilled.Heroes {
 
         [Tooltip("Tracks when the hero dies.")]
         public UnityEvent<Hero> OnHeroDied;
+        
+        // This is added temporarily to deal with dependencies problem.
+        public static event Action<HeroData.HeroType, Transform> OnHeroDeath;
 
         //========================================
         // Unity Methods
@@ -82,6 +86,7 @@ namespace KrillOrBeKrilled.Heroes {
             this._soundsController.OnHeroDeath();
 
             this.OnHeroDied?.Invoke(this);
+            OnHeroDeath?.Invoke(this.Type, this.transform);
             Destroy(this.gameObject);
         }
         

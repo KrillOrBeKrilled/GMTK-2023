@@ -23,10 +23,16 @@ namespace KrillOrBeKrilled.Managers {
     /// See those classes towards the bottom of this script.
     /// </remarks>
     public class ResourceSpawner : MonoBehaviour {
+        [Tooltip("The list of native resources on this level.")]
         [SerializeField] private List<ResourceDrop> _levelDrops;
+        [Tooltip("The radius of the drop range centred on the player.")]
         [SerializeField] private float _spawnRadius;
+        [Tooltip("The time interval for a native resource drop to spawn.")]
         [SerializeField] private float _spawnInterval;
+        [Tooltip("The list of heroes and their list of resources on this level.")]
         [SerializeField] private List<HeroDrop> _heroDrops;
+        [Tooltip("How many resources can be dropped from one hero.")]
+        [SerializeField] private int _heroDropAmount;
 
         private Dictionary<HeroData.HeroType, List<ResourceDrop>> _dropMap;
         private Transform _playerTransform;
@@ -96,10 +102,11 @@ namespace KrillOrBeKrilled.Managers {
             ResourceDrop drop = GetRandomDrop(_levelDrops);
             
             if (drop != null) {
-                float spawnOffset = Random.Range(-_spawnRadius, _spawnRadius);
+                float spawnOffset = Random.Range(0, _spawnRadius);
                 var position = _playerTransform.position;
                 Vector3 spawnPosition = new Vector3(position.x + spawnOffset, position.y, position.z);
-                Instantiate(drop.resourcePrefab, spawnPosition, Quaternion.identity, transform);
+                var pickup = Instantiate(drop.resourcePrefab, spawnPosition, Quaternion.identity, transform);
+                ApplyInitialForces(pickup);
             }
         }
 
@@ -115,10 +122,14 @@ namespace KrillOrBeKrilled.Managers {
             if (!_dropMap.ContainsKey(heroType)) return;
 
             var heroDrops = _dropMap[heroType];
-            ResourceDrop drop = GetRandomDrop(heroDrops);
 
-            if (drop != null) {
-                Instantiate(drop.resourcePrefab, heroTransform.position, Quaternion.identity, transform);
+            for (int i = 0; i < _heroDropAmount; i++) {
+                ResourceDrop drop = GetRandomDrop(heroDrops);
+                if (drop != null) {
+                    var pickup = Instantiate(drop.resourcePrefab, heroTransform.position, Quaternion.identity,
+                        transform);
+                    ApplyInitialForces(pickup);
+                }
             }
         }
 
@@ -147,6 +158,18 @@ namespace KrillOrBeKrilled.Managers {
             return selected;
         }
         
+        /// <summary>
+        /// Flick the dropped material upwards randomly.
+        /// </summary>
+        /// <param name="pickup"> The pickup instance to apply the forces on. </param>
+        private void ApplyInitialForces(ResourcePickup pickup) {
+            if (pickup.Rigidbody2D != null) {
+                float upwardForce = 2.0f; // Adjust as needed
+                float horizontalForce = Random.Range(-1.0f, 1.0f); // Random left/right force
+                pickup.Rigidbody2D.velocity = new Vector2(horizontalForce, upwardForce);
+            }
+        }
+
         #endregion
     }
     
@@ -160,8 +183,11 @@ namespace KrillOrBeKrilled.Managers {
     /// </summary>
     [Serializable]
     public class ResourceDrop {
+        [Tooltip("The type of the dropped resource.")]
         public ResourceType resourceType;
+        [Tooltip("The prefab for the resource pickup.")]
         public ResourcePickup resourcePrefab;
+        [Tooltip("The higher the weight, the more likely to drop.")]
         public int weight;
     }
     
@@ -173,7 +199,9 @@ namespace KrillOrBeKrilled.Managers {
     /// </summary>
     [Serializable]
     public class HeroDrop {
+        [Tooltip("The hero type.")]
         public HeroData.HeroType heroType;
+        [Tooltip("The list of potential resource drops.")]
         public List<ResourceDrop> drops;
     }
 }

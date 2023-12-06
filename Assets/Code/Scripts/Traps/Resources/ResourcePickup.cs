@@ -10,15 +10,29 @@ namespace KrillOrBeKrilled.Traps {
     /// </summary>
     public class ResourcePickup : MonoBehaviour {
         [SerializeField] private ResourcePickupData data;
-
-        // Currently, using a static event to keep Managers depending on Traps.
-        // Can be refactored later.
+        private Rigidbody2D _rigidbody2D;
+        public Rigidbody2D Rigidbody2D => _rigidbody2D;
+        
+        // Currently, using a static event to keep Managers depending on Traps. (To be refactored later)
         public static event Action<ResourceType, int> OnResourceCollected;
         
-        private void OnTriggerEnter2D(Collider2D other) {
-            if (!other.CompareTag("Player")) return;
-            OnResourceCollected?.Invoke(data.resourceType, data.quantity);
-            Destroy(gameObject);
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+
+        private void Awake() {
+            _rigidbody2D = GetComponent<Rigidbody2D>();
         }
+
+        private void OnCollisionEnter2D(Collision2D other) {
+            if (other.gameObject.CompareTag("Player")) {
+                OnResourceCollected?.Invoke(data.resourceType, data.quantity);
+                Destroy(gameObject);
+            }
+        }
+
+        #endregion
     }
 }

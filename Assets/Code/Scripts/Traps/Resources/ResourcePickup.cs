@@ -31,8 +31,40 @@ namespace KrillOrBeKrilled.Traps {
                 OnResourceCollected?.Invoke(data.resourceType, data.quantity);
                 Destroy(gameObject);
             }
+
+            if (other.gameObject.CompareTag("Ground")) {
+                ReduceMovement();
+            }
+        }
+        
+        private void OnCollisionStay2D(Collision2D other) {
+            if (other.gameObject.CompareTag("Ground")) {
+                ReduceMovement();
+            }
         }
 
+        #endregion
+        
+        //========================================
+        // Private Methods
+        //========================================
+        
+        #region Private Methods
+
+        private void ReduceMovement() {
+            if (_rigidbody2D == null) return;
+            _rigidbody2D.velocity *= 0.5f; // Reduce velocity
+            _rigidbody2D.angularVelocity *= 0.5f; // Reduce angular velocity
+            
+            // Completely a velocity if it's below a threshold
+            if (_rigidbody2D.velocity.magnitude < 0.1f) {
+                _rigidbody2D.velocity = Vector2.zero;
+            }
+            if (Mathf.Abs(_rigidbody2D.angularVelocity) < 0.1f) {
+                _rigidbody2D.angularVelocity = 0;
+            }
+        }
+        
         #endregion
     }
 }

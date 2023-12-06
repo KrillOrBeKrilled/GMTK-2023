@@ -33,6 +33,11 @@ namespace KrillOrBeKrilled.Managers {
         [SerializeField] private List<HeroDrop> _heroDrops;
         [Tooltip("How many resources can be dropped from one hero.")]
         [SerializeField] private int _heroDropAmount;
+        [Tooltip("The initial height where the natural resource drops spawn.")]
+        [SerializeField] private float _levelDropOffset;
+        [SerializeField] private float _dropUpwardForce;
+        [SerializeField] private float _dropHorizontalForce;
+        [SerializeField] private float _dropRotationForce;
 
         private Dictionary<HeroData.HeroType, List<ResourceDrop>> _dropMap;
         private Transform _playerTransform;
@@ -98,15 +103,17 @@ namespace KrillOrBeKrilled.Managers {
         /// Each drop in the list is weighted. The higher the weight, the more likely
         /// it is to drop.
         /// </summary>
+        /// <remarks>
+        /// Currently level drops spawn from the ceiling and drop down.
+        /// </remarks>
         private void SpawnLevelDrop() {
             ResourceDrop drop = GetRandomDrop(_levelDrops);
             
             if (drop != null) {
                 float spawnOffset = Random.Range(0, _spawnRadius);
                 var position = _playerTransform.position;
-                Vector3 spawnPosition = new Vector3(position.x + spawnOffset, position.y, position.z);
+                Vector3 spawnPosition = new Vector3(position.x + spawnOffset, _levelDropOffset, position.z);
                 var pickup = Instantiate(drop.resourcePrefab, spawnPosition, Quaternion.identity, transform);
-                ApplyInitialForces(pickup);
             }
         }
 
@@ -164,9 +171,11 @@ namespace KrillOrBeKrilled.Managers {
         /// <param name="pickup"> The pickup instance to apply the forces on. </param>
         private void ApplyInitialForces(ResourcePickup pickup) {
             if (pickup.Rigidbody2D != null) {
-                float upwardForce = 2.0f; // Adjust as needed
-                float horizontalForce = Random.Range(-1.0f, 1.0f); // Random left/right force
-                pickup.Rigidbody2D.velocity = new Vector2(horizontalForce, upwardForce);
+                float horizontalForce = Random.Range(-_dropHorizontalForce, _dropHorizontalForce);
+                float rotationForce = Random.Range(_dropRotationForce, _dropRotationForce);
+                
+                pickup.Rigidbody2D.velocity = new Vector2(horizontalForce, _dropUpwardForce);
+                pickup.Rigidbody2D.angularVelocity = rotationForce;
             }
         }
 

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5163147211598799524}
   - component: {fileID: 1188335354779494557}
   - component: {fileID: 8758032395856098712}
-  - component: {fileID: 2331508492468766088}
+  - component: {fileID: 6560807173524727330}
   - component: {fileID: 6020504263863549478}
   m_Layer: 10
   m_Name: WoodStick
@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 3a0b3b604750e402f9c5fc865eead2bb, type: 2}
---- !u!70 &2331508492468766088
-CapsuleCollider2D:
+--- !u!61 &6560807173524727330
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -133,8 +133,18 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 2
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
   m_Size: {x: 1, y: 1}
-  m_Direction: 0
+  m_EdgeRadius: 0
 --- !u!50 &6020504263863549478
 Rigidbody2D:
   serializedVersion: 4

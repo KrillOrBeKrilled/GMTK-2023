@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1038415147827238161}
   - component: {fileID: 1302355383731038164}
   - component: {fileID: 413600255675622022}
-  - component: {fileID: 4265815328422698309}
+  - component: {fileID: 335226772493391854}
   - component: {fileID: 5685516310225671166}
   m_Layer: 10
   m_Name: Slime
@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 0d688a1e835124572b767a9ff54d903c, type: 2}
---- !u!70 &4265815328422698309
-CapsuleCollider2D:
+--- !u!61 &335226772493391854
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -133,8 +133,18 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 2
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
   m_Size: {x: 1, y: 1}
-  m_Direction: 0
+  m_EdgeRadius: 0
 --- !u!50 &5685516310225671166
 Rigidbody2D:
   serializedVersion: 4

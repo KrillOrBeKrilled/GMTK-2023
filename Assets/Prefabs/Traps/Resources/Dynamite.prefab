@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3453326065920548878}
   - component: {fileID: 7734219311573423334}
   - component: {fileID: 3676314641651722254}
-  - component: {fileID: 727780643159508706}
+  - component: {fileID: 3802448412777752806}
   - component: {fileID: 97057791027068470}
   m_Layer: 10
   m_Name: Dynamite
@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: d85fcbe880c1e4ffda3f6c617c8e0dca, type: 2}
---- !u!70 &727780643159508706
-CapsuleCollider2D:
+--- !u!61 &3802448412777752806
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -133,8 +133,18 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 2
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
   m_Size: {x: 1, y: 1}
-  m_Direction: 0
+  m_EdgeRadius: 0
 --- !u!50 &97057791027068470
 Rigidbody2D:
   serializedVersion: 4

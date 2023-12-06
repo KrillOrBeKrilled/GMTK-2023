@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6026791842793720067}
   - component: {fileID: 8853350293846262759}
   - component: {fileID: 2349783128547112783}
-  - component: {fileID: 6148584453151741965}
+  - component: {fileID: 1244751909430740688}
   - component: {fileID: 657362934924401080}
   m_Layer: 10
   m_Name: IceShards
@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 2baf1ba73a0c24acbb065bc9bef684dd, type: 2}
---- !u!70 &6148584453151741965
-CapsuleCollider2D:
+--- !u!61 &1244751909430740688
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -133,8 +133,18 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 2
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
   m_Size: {x: 1, y: 1}
-  m_Direction: 0
+  m_EdgeRadius: 0
 --- !u!50 &657362934924401080
 Rigidbody2D:
   serializedVersion: 4

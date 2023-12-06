@@ -47,7 +47,7 @@ namespace KrillOrBeKrilled.Dialogue {
         #region Unity Methods
 
         private void Awake() {
-            TryGetComponent(out _soundsController);
+            this.TryGetComponent(out this._soundsController);
 
             // ... this is important because we must set the static "instance" here, before any YarnCharacter.Start() can use it
             instance = this;

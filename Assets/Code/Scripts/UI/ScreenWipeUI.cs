@@ -1,16 +1,22 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 //*******************************************************************************************
 // ScreenWipeUI
 //*******************************************************************************************
 namespace KrillOrBeKrilled {
+    /// <summary>
+    /// Manages updates to the screen wipe transition effect, randomizing the display
+    /// shapes and adjusting the shape scales.
+    /// </summary>
+    /// <remarks> Requires <see cref="Image"/> component. </remarks>
+    
     [RequireComponent(typeof(Image))]
     public class ScreenWipeUI : MonoBehaviour {
-        [Tooltip("Exposes the screen wipe material WipeSize property to the Animator for direct manipulation.")]
-        public float ScreenWipeSize = 0f;
-        
+        [Tooltip("The outlines to be selected to display throughout the transition effects.")]
         [SerializeField] private List<Texture> _wipeShapes;
         
         private Image _image;
@@ -25,10 +31,7 @@ namespace KrillOrBeKrilled {
 
         private void Awake() {
             _image = GetComponent<Image>();
-        }
-        
-        private void Update() {
-            _image.material.SetFloat(_shaderScaleKey, ScreenWipeSize);
+            _image.material.SetFloat(_shaderScaleKey, 500f);
         }
         
         #endregion
@@ -38,17 +41,39 @@ namespace KrillOrBeKrilled {
         //========================================
 
         #region Public Methods
+
+        /// <summary>
+        /// Tweens a screen wipe in transition, from the scene view to the loading screen.
+        /// </summary>
+        public void WipeIn(UnityAction onComplete) {
+            DOVirtual
+                .Float(0, 500, 0.90f, newSize => 
+                    _image.material.SetFloat(_shaderScaleKey, newSize))
+                .SetEase(Ease.InExpo)
+                .OnComplete(onComplete.Invoke);
+        }
+        
+        /// <summary>
+        /// Tweens a screen wipe out transition, from the loading screen to the scene view.
+        /// </summary>
+        public void WipeOut() {
+            DOVirtual
+                .Float(500, 0, 0.90f, newSize => 
+                    _image.material.SetFloat(_shaderScaleKey, newSize))
+                .SetEase(Ease.OutExpo)
+                .OnComplete(() => this.gameObject.SetActive(false));
+        }
         
         /// <summary>
         /// Sets a random screen wipe shape texture for the associated screen wipe material.
         /// </summary>
         public void SetRandomWipeShape() {
-            if (_wipeShapes.Count < 1) {
+            if (this._wipeShapes.Count < 1) {
                 return;
             }
             
-            var randomWipeShape = Random.Range(0, _wipeShapes.Count);
-            _image.materialForRendering.SetTexture(_shaderTextureKey, _wipeShapes[randomWipeShape]);
+            var randomWipeShape = Random.Range(0, this._wipeShapes.Count);
+            this._image.materialForRendering.SetTexture(this._shaderTextureKey, this._wipeShapes[randomWipeShape]);
         }
         
         #endregion

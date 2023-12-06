@@ -37,7 +37,7 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
             var childIsRunning = false;
             var failedCount = 0;
             
-            foreach (var node in Children) {
+            foreach (var node in this.Children) {
                 switch (node.Evaluate()) {
                     case NodeStatus.FAILURE:
                         failedCount++;
@@ -53,13 +53,13 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
                 }
             }
 
-            if (failedCount == Children.Count) {
-                Status = NodeStatus.FAILURE;
+            if (failedCount == this.Children.Count) {
+                this.Status = NodeStatus.FAILURE;
             } else {
-                Status = childIsRunning ? NodeStatus.RUNNING : NodeStatus.SUCCESS;
+                this.Status = childIsRunning ? NodeStatus.RUNNING : NodeStatus.SUCCESS;
             }
             
-            return Status;
+            return this.Status;
         }
         
         #endregion

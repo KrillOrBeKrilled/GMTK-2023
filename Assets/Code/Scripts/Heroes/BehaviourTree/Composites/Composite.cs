@@ -43,7 +43,7 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         /// <param name="node"> The node to be added as a new child to this <see cref="Node"/>. </param>
         private void AddChild(Node node) {
             node.Parent = this;
-            Children.Add(node);
+            this.Children.Add(node);
         }
         
         #endregion

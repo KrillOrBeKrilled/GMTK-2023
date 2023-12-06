@@ -1637,7 +1637,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4867512217143679551
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2340,7 +2340,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e147dcc807b0174da4b8725a1153e20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScreenWipeSize: 1.33
   _wipeShapes:
   - {fileID: 2800000, guid: 2997df73b25e848438c2c16c95e37f96, type: 3}
   - {fileID: 2800000, guid: 0f20663987e5cae4cb280a796e4f1821, type: 3}

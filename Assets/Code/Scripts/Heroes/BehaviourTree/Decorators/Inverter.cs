@@ -31,23 +31,23 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
         /// </returns>
         internal override NodeStatus Evaluate() {
             // Validate child node
-            if (!HasChildren) {
+            if (!this.HasChildren) {
                 return NodeStatus.FAILURE;
             }
             
             switch (Child.Evaluate()) {
                 case NodeStatus.FAILURE:
-                    Status = NodeStatus.SUCCESS;
-                    return Status;
+                    this.Status = NodeStatus.SUCCESS;
+                    return this.Status;
                 case NodeStatus.SUCCESS:
-                    Status = NodeStatus.FAILURE;
-                    return Status;
+                    this.Status = NodeStatus.FAILURE;
+                    return this.Status;
                 case NodeStatus.RUNNING:
-                    Status = NodeStatus.RUNNING;
-                    return Status;
+                    this.Status = NodeStatus.RUNNING;
+                    return this.Status;
                 default:
-                    Status = NodeStatus.FAILURE;
-                    return Status;
+                    this.Status = NodeStatus.FAILURE;
+                    return this.Status;
             }
         }
         

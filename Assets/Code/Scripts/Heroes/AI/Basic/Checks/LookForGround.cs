@@ -29,10 +29,10 @@ namespace KrillOrBeKrilled.Heroes.AI {
         /// <param name="groundLayers"> The LayerMask used to check for the ground. </param>
         /// <param name="trapLayers"> The LayerMask used to check for traps in pits. </param>
         public LookForGround(Transform heroTransform, FieldOfView heroSight, LayerMask groundLayers, LayerMask trapLayers) {
-            _heroTransform = heroTransform;
-            _heroSight = heroSight;
-            _groundLayers = groundLayers;
-            _trapLayers = trapLayers;
+            this._heroTransform = heroTransform;
+            this._heroSight = heroSight;
+            this._groundLayers = groundLayers;
+            this._trapLayers = trapLayers;
         }
         
         /// <summary>
@@ -49,7 +49,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
 
             // Auto clean the pitList if the hero passes any jump waypoints
             if (pitList.Count > 0) {
-                var heroPos = _heroTransform.position;
+                var heroPos = this._heroTransform.position;
                 var nextEntryLaunchPoint = pitList[0].Item1;
 
                 // If the hero passes the next target jump launch point while midair, unregister it
@@ -60,19 +60,19 @@ namespace KrillOrBeKrilled.Heroes.AI {
 
             // Check if a wall is in front of the hero
             var wallHit = Physics2D.Raycast(
-                _heroTransform.position + Vector3.down * 1.6f, 
+                this._heroTransform.position + Vector3.down * 1.6f, 
                 Vector2.right, 
                 4f, 
-                _groundLayers
+                this._groundLayers
             );
             
             var launchLedgePos = Vector3.zero;
             var targetLedgePos = Vector3.zero;
 
-            if (_heroSight.CheckForPit(out var optionCount, out var groundHitData, 
-                    out var pitEndpoints, _groundLayers, _trapLayers)) {
+            if (this._heroSight.CheckForPit(out var optionCount, out var groundHitData, 
+                    out var pitEndpoints, this._groundLayers, this._trapLayers)) {
                 // Before adding it to the list, make sure this action is not already registered
-                if (_lastSeenLedge != Vector3.zero && groundHitData.point.x - _lastSeenLedge.x < 1.1f) {
+                if (this._lastSeenLedge != Vector3.zero && groundHitData.point.x - this._lastSeenLedge.x < 1.1f) {
                     return NodeStatus.SUCCESS;
                 }
 
@@ -86,15 +86,15 @@ namespace KrillOrBeKrilled.Heroes.AI {
                     var randomNum = Random.Range(0, optionCount);
                     var pitToJump = pitEndpoints[randomNum];
             
-                    targetLedgePos = _heroSight.FindJumpEndpoint(pitToJump);
+                    targetLedgePos = this._heroSight.FindJumpEndpoint(pitToJump);
                 }
                 
-                _lastSeenLedge = launchLedgePos;
+                this._lastSeenLedge = launchLedgePos;
             } else if (wallHit && !(bool)GetData("IsFalling")) {
                 var jumpPos = wallHit.point + Vector2.left * 2f;
                 
                 // Before adding it to the list, make sure this action is not already registered
-                if (_lastSeenWall != Vector3.zero && jumpPos.x - _lastSeenWall.x < 1.1f) {
+                if (this._lastSeenWall != Vector3.zero && jumpPos.x - this._lastSeenWall.x < 1.1f) {
                     return NodeStatus.SUCCESS;
                 }
                 
@@ -102,9 +102,9 @@ namespace KrillOrBeKrilled.Heroes.AI {
 
                 var adjustedHitPos = wallHit.point;
                 adjustedHitPos.x += 0.5f;
-                targetLedgePos = _heroSight.FindJumpEndpoint(adjustedHitPos);
+                targetLedgePos = this._heroSight.FindJumpEndpoint(adjustedHitPos);
                 
-                _lastSeenWall = launchLedgePos;
+                this._lastSeenWall = launchLedgePos;
             }
 
             if (targetLedgePos == Vector3.zero) {

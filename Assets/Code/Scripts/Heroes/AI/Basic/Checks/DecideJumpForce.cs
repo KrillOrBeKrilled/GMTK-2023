@@ -18,9 +18,9 @@ namespace KrillOrBeKrilled.Heroes.AI {
         /// Calculates the gravity acting on the hero, taking the gravityScale parameter into consideration.
         private float _gravity => Physics.gravity.magnitude * _rigidbody.gravityScale;
         /// The jump angle in radians.
-        private const float _radJumpAngle = 89f * Mathf.Deg2Rad;
+        private const float RadJumpAngle = 89f * Mathf.Deg2Rad;
         /// The horizontal velocity of the hero when entering into the second jump type formula.
-        private const float _dashSpeed = 8f;
+        private const float DashSpeed = 8f;
         
         /// <summary>
         /// Initializes all requisite data for the successful operation of this <see cref="Node"/>.
@@ -30,10 +30,10 @@ namespace KrillOrBeKrilled.Heroes.AI {
         /// <param name="minJumpForce"> The minimum jump force that the hero can apply to a jump. </param>
         /// <param name="maxJumpForce"> The maximum jump force that the hero can apply to a jump. </param>
         public DecideJumpForce(Transform heroTransform, Rigidbody2D rigidbody, float minJumpForce, float maxJumpForce) {
-            _heroTransform = heroTransform;
-            _rigidbody = rigidbody;
-            _maxJumpForce = maxJumpForce;
-            _minJumpForce = minJumpForce;
+            this._heroTransform = heroTransform;
+            this._rigidbody = rigidbody;
+            this._maxJumpForce = maxJumpForce;
+            this._minJumpForce = minJumpForce;
         }
         
         /// <summary>
@@ -54,12 +54,12 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 Debug.LogWarning("Hero cannot find a target platform!");
                 
                 Parent.SetData("JumpVelocity", 
-                    new Vector3(_maxJumpForce / 2, _maxJumpForce * Mathf.Sin(_radJumpAngle), 0));
+                    new Vector3(this._maxJumpForce / 2, this._maxJumpForce * Mathf.Sin(RadJumpAngle), 0));
                 
                 return NodeStatus.SUCCESS;
             }
 
-            var heroPos = _heroTransform.position;
+            var heroPos = this._heroTransform.position;
             var distance = targetPos.x - launchPos.x;
 
             Vector3 initialVelocity;
@@ -84,8 +84,8 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 var jumpAngle = Mathf.Asin(jumpApex.normalized.y);
 
                 // Use Toricelli's formula to get initial velocity to reach the apex
-                var v0 = Mathf.Sqrt(2 * _gravity * Mathf.Max(0, jumpApex.y));
-                v0 = Mathf.Clamp(v0, _minJumpForce, _maxJumpForce);
+                var v0 = Mathf.Sqrt(2 * this._gravity * Mathf.Max(0, jumpApex.y));
+                v0 = Mathf.Clamp(v0, this._minJumpForce, this._maxJumpForce);
 
                 initialVelocity = new Vector3(v0 * Mathf.Cos(jumpAngle), v0 * Mathf.Sin(jumpAngle), 0);
             } else {
@@ -98,12 +98,12 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 // 2. Solve for the time in the air in the x-direction -> _dashSpeed is the velocity in the x-direction
                 // => t = (distance) / (_dashSpeed)
                 // 3. Substitute #2 back into #1 and solve for v0
-                var vx = distance / _dashSpeed;
-                var v0 = (targetPos.y - heroPos.y + 0.5f * _gravity * (vx * vx)) /
-                         (Mathf.Sin(_radJumpAngle) * vx);
-                v0 = Mathf.Clamp(v0, _minJumpForce, _maxJumpForce);
+                var vx = distance / DashSpeed;
+                var v0 = (targetPos.y - heroPos.y + 0.5f * this._gravity * (vx * vx)) /
+                         (Mathf.Sin(RadJumpAngle) * vx);
+                v0 = Mathf.Clamp(v0, this._minJumpForce, this._maxJumpForce);
             
-                initialVelocity = new Vector3(_dashSpeed, v0 * Mathf.Sin(_radJumpAngle), 0);
+                initialVelocity = new Vector3(DashSpeed, v0 * Mathf.Sin(RadJumpAngle), 0);
             }
             
             Parent.SetData("JumpVelocity", initialVelocity);

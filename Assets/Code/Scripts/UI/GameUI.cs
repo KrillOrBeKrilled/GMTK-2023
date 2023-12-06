@@ -105,6 +105,8 @@ namespace KrillOrBeKrilled.UI {
             this._loadingScreen.gameObject.SetActive(true);
             _onScreenWipeInComplete?.Invoke();
         }
+        
+        #endregion
 
         #endregion
 
@@ -169,6 +171,18 @@ namespace KrillOrBeKrilled.UI {
                 // TODO: Play short modal show animation
                 this._pauseUI.SetActive(true);
             }
+        }
+        
+        /// <summary>
+        /// Plays a screen wipe-in transition effect and sets a function to invoke upon completion.
+        /// </summary>
+        /// <param name="onComplete"> The function to invoke once the screen wipe-in effect has been completed. </param>
+        private void ScreenWipeInSceneCover(UnityAction onComplete) {
+            _onScreenWipeInComplete = onComplete;
+            
+            this._screenWipe.gameObject.SetActive(true);
+            this._screenWipe.SetRandomWipeShape();
+            this._screenWipe.WipeIn(CompleteSceneChange);
         }
 
         /// <summary>

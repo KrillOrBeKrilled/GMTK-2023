@@ -211,6 +211,7 @@ namespace KrillOrBeKrilled.Core {
         /// Aborts the dialogue player if the dialogue is actively running and starts the level.
         /// </summary>
         public void SkipDialogue() {
+            EventManager.Instance.HideDialogueUIEvent?.Invoke();
             this.StartCoroutine(this.SkipDialogueCoroutine());
         }
 
@@ -301,7 +302,9 @@ namespace KrillOrBeKrilled.Core {
                 return;
             }
 
+            EventManager.Instance.ShowDialogueUIEvent?.Invoke();
             this._dialogueRunner.StartDialogue(this._levelData.DialogueName);
+            this._dialogueRunner.onDialogueComplete.AddListener(() => EventManager.Instance.HideDialogueUIEvent?.Invoke());
         }
 
         #endregion

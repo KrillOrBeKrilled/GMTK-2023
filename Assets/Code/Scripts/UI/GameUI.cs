@@ -1,9 +1,8 @@
 using KrillOrBeKrilled.Core;
 using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Heroes;
-using KrillOrBeKrilled.Traps;
+using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -43,7 +42,10 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private ControlsUI _controlsUI;
         [Tooltip("The trap resource requirements widget displayed during gameplay.")]
         [SerializeField] private TrapRequirementsUI _trapRequirementsUI;
-        [SerializeField] private ResourceUI _resourceUI;
+
+        [Header("Dialogue")]
+        [SerializeField] private List<GameObject> _hideDuringDialogueUIList;
+        [SerializeField] private GameObject _dialogueUI;
 
         [Header("Prefabs")]
         [Tooltip("The hero health bar to instantiate upon spawning a new hero.")]
@@ -82,7 +84,8 @@ namespace KrillOrBeKrilled.UI {
 
             EventManager.Instance.CoinAmountChangedEvent.AddListener(this.OnCoinsUpdated);
             EventManager.Instance.PauseToggledEvent.AddListener(this.OnPauseToggled);
-            EventManager.Instance.ResourceAmountChangedEvent.AddListener(this.OnResourceUpdate);
+            EventManager.Instance.ShowDialogueUIEvent.AddListener(this.ShowDialogueUI);
+            EventManager.Instance.HideDialogueUIEvent.AddListener(this.HideDialogueUI);
         }
 
         #endregion
@@ -92,7 +95,7 @@ namespace KrillOrBeKrilled.UI {
         //========================================
 
         #region Internal Methods
-        
+
         /// <summary>
         /// Enables the GameObject that controls the loading screen and invokes the
         /// <see cref="_onScreenWipeInComplete"/> function.
@@ -102,7 +105,7 @@ namespace KrillOrBeKrilled.UI {
             this._loadingScreen.gameObject.SetActive(true);
             _onScreenWipeInComplete?.Invoke();
         }
-        
+
         #endregion
 
         //========================================
@@ -118,16 +121,6 @@ namespace KrillOrBeKrilled.UI {
         /// <remarks> Subscribed to the <see cref="CoinAmountChangedEvent"/> event. </remarks>
         private void OnCoinsUpdated(int amount) {
             this._coinsText.SetText($"{amount}");
-        }
-
-        /// <summary>
-        /// Updates the text on the resource UI for a specific resource type.
-        /// </summary>
-        /// <param name="type"> The resource type to be updated. </param>
-        /// <param name="amount"> The new count to display on the resource amount UI. </param>
-        /// <remarks> Subscribed to the <see cref="ResourceAmountChangedEvent"/> event. </remarks>
-        private void OnResourceUpdate(ResourceType type, int amount) {
-            this._resourceUI.SetAmount(type, amount);
         }
 
         /// <summary>
@@ -177,17 +170,17 @@ namespace KrillOrBeKrilled.UI {
                 this._pauseUI.SetActive(true);
             }
         }
-        
+
         /// <summary>
         /// Plays a screen wipe-in transition effect and sets a function to invoke upon completion.
         /// </summary>
         /// <param name="onComplete"> The function to invoke once the screen wipe-in effect has been completed. </param>
         private void ScreenWipeInSceneCover(UnityAction onComplete) {
-            _onScreenWipeInComplete = onComplete;
-            
+            this._onScreenWipeInComplete = onComplete;
+
             this._screenWipe.gameObject.SetActive(true);
             this._screenWipe.SetRandomWipeShape();
-            this._screenWipe.WipeIn(CompleteSceneChange);
+            this._screenWipe.WipeIn(this.CompleteSceneChange);
         }
 
         /// <summary>
@@ -197,6 +190,22 @@ namespace KrillOrBeKrilled.UI {
         private void SetupHealthBar(Hero hero) {
             HealthBarUI newBar = Instantiate(this._healthBarUIPrefab, this._healthBarsContainer);
             newBar.Initialize(hero, (RectTransform)this.transform);
+        }
+
+        private void ShowDialogueUI() {
+            foreach (GameObject hideObject in this._hideDuringDialogueUIList) {
+                hideObject.SetActive(false);
+            }
+
+            this._dialogueUI.SetActive(true);
+        }
+
+        private void HideDialogueUI() {
+            foreach (GameObject hideObject in this._hideDuringDialogueUIList) {
+                hideObject.SetActive(true);
+            }
+
+            this._dialogueUI.SetActive(false);
         }
 
         #endregion

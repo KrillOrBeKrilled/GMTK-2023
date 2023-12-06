@@ -27,13 +27,13 @@ namespace KrillOrBeKrilled.UI {
 
         private Tween _sliderTween;
         private Tween _moveTween;
-        
+
         //========================================
         // Unity Methods
         //========================================
-        
+
         #region Unity Methods
-        
+
         private void Awake() {
             this._mainCamera = Camera.main;
             this._healthBar = this.GetComponent<Slider>();
@@ -45,24 +45,24 @@ namespace KrillOrBeKrilled.UI {
 
             this.RepositionHealthBar();
         }
-        
+
         private void Update() {
             this.RepositionHealthBar();
         }
-        
+
         private void OnDisable() {
             this._hero.OnHealthChanged.RemoveListener(this.OnHealthChanged);
             this._hero.OnHeroDied.RemoveListener(this.OnDeath);
         }
-        
+
         #endregion
-        
+
         //========================================
         // Public Methods
         //========================================
-        
+
         #region Public Methods
-        
+
         /// <summary>
         /// Sets up all references and listeners to operate this health bar UI.
         /// </summary>
@@ -79,15 +79,15 @@ namespace KrillOrBeKrilled.UI {
             this._healthBar.maxValue = targetHero.Health;
             this._healthBar.value = targetHero.Health;
         }
-        
+
         #endregion
-        
+
         //========================================
         // Private Methods
         //========================================
-        
+
         #region Private Methods
-        
+
         /// <summary>
         /// Destroys this GameObject.
         /// </summary>
@@ -95,7 +95,7 @@ namespace KrillOrBeKrilled.UI {
         private void OnDeath(Hero _) {
             Destroy(this.gameObject);
         }
-        
+
         /// <summary>
         /// Sets the hero health bar slider value with a new tween.
         /// </summary>
@@ -125,10 +125,9 @@ namespace KrillOrBeKrilled.UI {
                     viewportPosition.y * sizeDelta.y - sizeDelta.y * 0.5f);
             worldObjectScreenPosition += this._positionOffset;
 
-            // this._rectTransform.DOAnchorPos(worldObjectScreenPosition, 0.1f);
             this._rectTransform.anchoredPosition = worldObjectScreenPosition;
         }
-        
+
         #endregion
     }
 }

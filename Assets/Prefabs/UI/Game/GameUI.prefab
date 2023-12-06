@@ -1881,7 +1881,9 @@ MonoBehaviour:
   - {fileID: 6221013368650456776}
   - {fileID: 0}
   playerCharacter: {fileID: 0}
-  canvas: {fileID: 588112442375781427}
+  _canvasRectTransform: {fileID: 5060681177199529130}
+  _safeAreaRectTransform: {fileID: 2486965200339291192}
+  _screenEdgeOffset: {x: 20, y: 20}
   dialogueBubbleRect: {fileID: 930535699696647756}
   optionsBubbleRect: {fileID: 8989763183030316989}
 --- !u!114 &770256871023777095
@@ -2187,12 +2189,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4644335578294757860}
   - {fileID: 1037288340086111382}
   - {fileID: 930535699696647756}
   - {fileID: 8989763183030316989}
   - {fileID: 7289552871793969265}
   - {fileID: 2192366586937936671}
+  - {fileID: 4644335578294757860}
   - {fileID: 468414005114264995}
   m_Father: {fileID: 2486965200339291192}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

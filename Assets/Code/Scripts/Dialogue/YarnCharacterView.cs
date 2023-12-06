@@ -30,8 +30,8 @@ namespace KrillOrBeKrilled.Dialogue {
         public YarnCharacter playerCharacter;
         YarnCharacter speakerCharacter;
 
-        [SerializeField] internal Canvas canvas;
-        private RectTransform _canvasRectTransform;
+        [SerializeField] private RectTransform _canvasRectTransform;
+        [SerializeField] private RectTransform _safeAreaRectTransform;
         [SerializeField] private Vector2 _screenEdgeOffset = new Vector2(20, 20);
 
         [Tooltip("For best results, set the rectTransform anchors to middle-center, and make sure the " +
@@ -52,7 +52,6 @@ namespace KrillOrBeKrilled.Dialogue {
             // ... this is important because we must set the static "instance" here, before any YarnCharacter.Start() can use it
             instance = this;
             this.worldCamera = Camera.main;
-            this._canvasRectTransform = this.canvas.GetComponent<RectTransform>();
         }
 
         private void FixedUpdate() {
@@ -87,7 +86,7 @@ namespace KrillOrBeKrilled.Dialogue {
         /// <param name="deletedCharacter"> The YarnCharacter to be unregistered. </param>
         /// <remarks> Automatically called by YarnCharacter.OnDestroy() to clean-up. </remarks>
         public void ForgetYarnCharacter(YarnCharacter deletedCharacter) {
-            if (instance.allCharacters.Contains(deletedCharacter)) {
+            if (this.allCharacters.Contains(deletedCharacter)) {
                 this.allCharacters.Remove(deletedCharacter);
             }
         }
@@ -99,7 +98,7 @@ namespace KrillOrBeKrilled.Dialogue {
         /// <param name="newCharacter"> The YarnCharacter to be registered. </param>
         /// <remarks> Automatically called by YarnCharacter.Start() so that YarnCharacterView knows they exist. </remarks>
         public void RegisterYarnCharacter(YarnCharacter newCharacter) {
-            if (!instance.allCharacters.Contains(newCharacter)) {
+            if (!this.allCharacters.Contains(newCharacter)) {
                 this.allCharacters.Add(newCharacter);
             }
         }
@@ -144,7 +143,8 @@ namespace KrillOrBeKrilled.Dialogue {
         private void PositionBubble(RectTransform bubbleRectTransform, YarnCharacter character) {
             // If Rect transform, prioritize it
             if (character._rectTransform != null) {
-                bubbleRectTransform.anchoredPosition = character._rectTransform.anchoredPosition;
+                Vector2 clampedPosition = this.ClampPositionToOnScreen(character._rectTransform.anchoredPosition);
+                bubbleRectTransform.anchoredPosition = clampedPosition;
                 return;
             }
 
@@ -176,7 +176,11 @@ namespace KrillOrBeKrilled.Dialogue {
             if (!containOnScreen)
                 return worldObjectScreenPosition;
 
-            Vector2 canvasSize = this._canvasRectTransform.rect.size;
+            return this.ClampPositionToOnScreen(worldObjectScreenPosition);
+        }
+
+        private Vector2 ClampPositionToOnScreen(Vector2 screenPosition) {
+            Vector2 canvasSize = this._safeAreaRectTransform.rect.size;
             float canvasHalfWidth = canvasSize.x / 2;
             float canvasHalfHeight = canvasSize.y / 2;
 
@@ -188,9 +192,9 @@ namespace KrillOrBeKrilled.Dialogue {
             float minY = -canvasHalfHeight + bubbleHeight + this._screenEdgeOffset.y;
             float maxY = canvasHalfHeight - this._screenEdgeOffset.y;
 
-            worldObjectScreenPosition.x = Mathf.Clamp(worldObjectScreenPosition.x, minX, maxX);
-            worldObjectScreenPosition.y = Mathf.Clamp(worldObjectScreenPosition.y, minY, maxY);
-            return worldObjectScreenPosition;
+            screenPosition.x = Mathf.Clamp(screenPosition.x, minX, maxX);
+            screenPosition.y = Mathf.Clamp(screenPosition.y, minY, maxY);
+            return screenPosition;
         }
 
         #endregion

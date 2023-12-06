@@ -1,5 +1,4 @@
 using KrillOrBeKrilled.Common.Interfaces;
-using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Heroes.AI;
 using System.Collections;
@@ -81,7 +80,6 @@ namespace KrillOrBeKrilled.Heroes {
         /// </remarks>
         public void Die() {
             this._soundsController.OnHeroDeath();
-            CoinManager.Instance.EarnCoins(CoinsEarnedOnDeath);
 
             this.OnHeroDied?.Invoke(this);
             Destroy(this.gameObject);

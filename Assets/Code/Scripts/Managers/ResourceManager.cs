@@ -110,16 +110,6 @@ namespace KrillOrBeKrilled.Managers {
             return costs.All(pair => _inventory[pair.Key] >= pair.Value);
         }
         
-        /// <summary>
-        /// Return the current count of a specific resource type.
-        /// </summary>
-        /// <param name="type"> The type of resource being queried for the amount. </param>
-        public int GetResourceQuantity(ResourceType type) {
-            return _inventory[type];
-        }
-        
         #endregion
-        
-        
     }
 }

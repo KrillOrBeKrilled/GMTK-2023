@@ -148,6 +148,8 @@ namespace KrillOrBeKrilled.Heroes {
         /// ground platforms. </param>
         /// <param name="trapLayer"> The LayerMask used to specify which types of colliders should be tracked as the
         /// traps. </param>
+        /// <param name="ignoreInGroundTraps"> Set by default. When set, the pit check will consider in-ground traps as
+        /// pits to jump past. </param>
         /// <returns> If a pit ledge has been sighted. </returns>
         internal bool CheckForPit(out int pitOptions, out RaycastHit2D hitData, out List<Vector2> pitEndpoints, 
             LayerMask groundLayer, LayerMask trapLayer, bool ignoreInGroundTraps = true) {

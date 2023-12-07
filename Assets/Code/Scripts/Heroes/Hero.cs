@@ -129,7 +129,7 @@ namespace KrillOrBeKrilled.Heroes {
         
         public void ThrowActorForward(float throwForce) {
             this._rigidbody.velocity = Vector2.zero;
-            Vector2 leapVector = new Vector2(0.18f, 2f) * throwForce;
+            Vector2 leapVector = new Vector2(0.19f, 2f) * throwForce;
             this._rigidbody.AddForce(leapVector, ForceMode2D.Impulse);
         }
 

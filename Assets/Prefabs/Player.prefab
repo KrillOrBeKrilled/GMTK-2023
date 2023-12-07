@@ -89,7 +89,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.5, y: 3.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -138,7 +138,7 @@ MonoBehaviour:
   FallVelocityLimit: -25
   GlideVelocityLimit: -2.5
   GroundedCheckBoxSize: {x: 0.6, y: 0.2}
-  GroundedCheckBoxOffset: {x: 0, y: -1.17}
+  GroundedCheckBoxOffset: {x: 0, y: -0.9}
   GroundedLayerMask:
     serializedVersion: 2
     m_Bits: 512
@@ -265,8 +265,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.049764633, y: -0.56606936}
-  m_Size: {x: 1.5225258, y: 2.0077276}
+  m_Offset: {x: 0.049764663, y: -0.13925411}
+  m_Size: {x: 1.5225258, y: 1.9480289}
   m_Direction: 0
 --- !u!114 &1431151410556034827
 MonoBehaviour:

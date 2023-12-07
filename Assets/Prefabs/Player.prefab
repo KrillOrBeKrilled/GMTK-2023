@@ -165,8 +165,8 @@ MonoBehaviour:
   TrapTilemap: {fileID: 0}
   GroundTilemap: {fileID: 0}
   _trapCanvas: {fileID: 0}
-  _leftDeployPosition: {x: -3.08, y: -1.15, z: 0}
-  _rightDeployPosition: {x: 3.08, y: -1.15, z: 0}
+  _leftDeployPosition: {x: -3.08, y: -0.88, z: 0}
+  _rightDeployPosition: {x: 3.08, y: -0.88, z: 0}
 --- !u!114 &6881718048625000024
 MonoBehaviour:
   m_ObjectHideFlags: 0

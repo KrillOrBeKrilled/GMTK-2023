@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using KrillOrBeKrilled.Common.Interfaces;
 
 //*******************************************************************************************
 // FieldOfView
@@ -149,7 +150,7 @@ namespace KrillOrBeKrilled.Heroes {
         /// traps. </param>
         /// <returns> If a pit ledge has been sighted. </returns>
         internal bool CheckForPit(out int pitOptions, out RaycastHit2D hitData, out List<Vector2> pitEndpoints, 
-            LayerMask groundLayer, LayerMask trapLayer) {
+            LayerMask groundLayer, LayerMask trapLayer, bool ignoreInGroundTraps = true) {
             pitEndpoints = new List<Vector2>();
             var eyeOrigin = this.Offset + this.transform.position;
             
@@ -181,6 +182,15 @@ namespace KrillOrBeKrilled.Heroes {
             if (this._groundTilemap.GetTile(tilePos)) {
                 pitOptions = 0;
                 return false;
+            }
+            
+            // Abort the pit check if looking for a completed in-ground trap and it is found
+            var groundTrap = Physics2D.OverlapCircle(hitTilePos + Vector2.right, 0.7f, trapLayer);
+            if (!ignoreInGroundTraps && groundTrap) {
+                if (groundTrap.TryGetComponent(out ITrap trapType) && trapType.IsTrapReady()) {
+                    pitOptions = 0;
+                    return false;
+                }
             }
             
             var vBottomDir = new Vector3(p, -x, 0);
@@ -234,10 +244,9 @@ namespace KrillOrBeKrilled.Heroes {
             for (var i = 0; i < tileHeightDistance - tilesToGround; i++) {
                 if (this._groundTilemap.GetTile(currTilePos) && currTilePos.y < tileLedgeHeight) {
                     var groundPos = this._groundTilemap.GetCellCenterWorld(currTilePos);
-                    var collidedTrap = Physics2D.OverlapCircle(groundPos + Vector3.up, 0.7f, trapLayer);
 
                     // If the bottom of the pit is a trap, rule that option out 
-                    if (collidedTrap && collidedTrap.gameObject.CompareTag("Trap")) {
+                    if (Physics2D.OverlapCircle(groundPos + Vector3.up, 0.7f, trapLayer)) {
                         break;
                     } 
                     

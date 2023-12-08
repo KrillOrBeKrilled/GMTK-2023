@@ -1,0 +1,10 @@
+﻿title: Level2Dialogue
+tags:
+---
+<<stop_shake CameraSwitcher>>
+<<show_start CameraSwitcher>>
+Hendall: CLUCK me!! It's the second day at the job!
+<<show_player CameraSwitcher>>
+<<start_level GameManager>>
+
+===

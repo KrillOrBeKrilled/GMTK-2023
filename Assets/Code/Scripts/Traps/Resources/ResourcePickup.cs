@@ -27,6 +27,7 @@ namespace KrillOrBeKrilled.Traps {
 
         private void OnCollisionEnter2D(Collision2D other) {
             if (other.gameObject.CompareTag("Player")) {
+                _rigidbody2D.isKinematic = true;  // prevents it from applying force to player
                 OnResourceCollected?.Invoke(data.resourceType, data.quantity);
                 Destroy(gameObject);
             }

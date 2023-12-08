@@ -25,14 +25,18 @@ namespace KrillOrBeKrilled.Managers {
     public class ResourceSpawner : MonoBehaviour {
         [Tooltip("The list of native resources on this level.")]
         [SerializeField] private List<ResourceDrop> _levelDrops;
-        [Tooltip("The radius of the drop range centred on the player.")]
-        [SerializeField] private float _spawnRadius;
+        [Tooltip("The region to the player's left that can spawn native resources.")]
+        [SerializeField] private float _spawnLeftRadius;
+        [Tooltip("The region to the player's right that can spawn native resources.")]
+        [SerializeField] private float _spawnRightRadius;
         [Tooltip("The time interval for a native resource drop to spawn.")]
         [SerializeField] private float _spawnInterval;
         [Tooltip("The list of heroes and their list of resources on this level.")]
         [SerializeField] private List<HeroDrop> _heroDrops;
-        [Tooltip("How many resources can be dropped from one hero.")]
-        [SerializeField] private int _heroDropAmount;
+        [Tooltip("The minimum number of resources that one hero can potentially drop.")]
+        [SerializeField] private int _minimumHeroDrops;
+        [Tooltip("The maximum number of resources that one hero can potentially drop.")]
+        [SerializeField] private int _maximumHeroDrops;
         [Tooltip("The initial height where the natural resource drops spawn.")]
         [SerializeField] private float _levelDropOffset;
         [SerializeField] private float _dropUpwardForce;
@@ -126,7 +130,7 @@ namespace KrillOrBeKrilled.Managers {
             ResourceDrop drop = GetRandomDrop(_levelDrops, _totalLevelDropWeight);
             
             if (drop != null) {
-                float spawnOffset = Random.Range(0, _spawnRadius);
+                float spawnOffset = Random.Range(_spawnLeftRadius, _spawnRightRadius);
                 var position = _playerTransform.position;
                 Vector3 spawnPosition = new Vector3(position.x + spawnOffset, _levelDropOffset, position.z);
                 var pickup = Instantiate(drop.resourcePrefab, spawnPosition, Quaternion.identity, transform);
@@ -149,7 +153,8 @@ namespace KrillOrBeKrilled.Managers {
 
             var heroDrops = _dropMap[heroType];
 
-            for (int i = 0; i < _heroDropAmount; i++) {
+            int dropAmount = Random.Range(_minimumHeroDrops, _maximumHeroDrops);
+            for (int i = 0; i < dropAmount; i++) {
                 ResourceDrop drop = GetRandomDrop(heroDrops.Drops, heroDrops.TotalWeight);
                 if (drop != null) {
                     var pickup = Instantiate(drop.resourcePrefab, heroTransform.position, Quaternion.identity,

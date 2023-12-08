@@ -3664,6 +3664,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: ResourceManager
       objectReference: {fileID: 0}
+    - target: {fileID: 3110352021556949912, guid: f6b6c59e5718b4d55bb58ac57e4c98bc, type: 3}
+      propertyPath: initialInventory.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110352021556949912, guid: f6b6c59e5718b4d55bb58ac57e4c98bc, type: 3}
+      propertyPath: initialInventory.Array.data[1].type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110352021556949912, guid: f6b6c59e5718b4d55bb58ac57e4c98bc, type: 3}
+      propertyPath: initialInventory.Array.data[2].type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110352021556949912, guid: f6b6c59e5718b4d55bb58ac57e4c98bc, type: 3}
+      propertyPath: initialInventory.Array.data[3].type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110352021556949912, guid: f6b6c59e5718b4d55bb58ac57e4c98bc, type: 3}
+      propertyPath: initialInventory.Array.data[4].type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110352021556949912, guid: f6b6c59e5718b4d55bb58ac57e4c98bc, type: 3}
+      propertyPath: initialInventory.Array.data[0].amount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110352021556949912, guid: f6b6c59e5718b4d55bb58ac57e4c98bc, type: 3}
+      propertyPath: initialInventory.Array.data[1].amount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110352021556949912, guid: f6b6c59e5718b4d55bb58ac57e4c98bc, type: 3}
+      propertyPath: initialInventory.Array.data[2].amount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110352021556949912, guid: f6b6c59e5718b4d55bb58ac57e4c98bc, type: 3}
+      propertyPath: initialInventory.Array.data[3].amount
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -120819,16 +120855,36 @@ PrefabInstance:
       value: 10.5
       objectReference: {fileID: 0}
     - target: {fileID: 5009943754817155713, guid: e5eaeeeec29b34511bf54db47b62e95e, type: 3}
+      propertyPath: _spawnLeftRadius
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5009943754817155713, guid: e5eaeeeec29b34511bf54db47b62e95e, type: 3}
+      propertyPath: _maximumHeroDrops
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5009943754817155713, guid: e5eaeeeec29b34511bf54db47b62e95e, type: 3}
+      propertyPath: _minimumHeroDrops
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5009943754817155713, guid: e5eaeeeec29b34511bf54db47b62e95e, type: 3}
+      propertyPath: _spawnRightRadius
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5009943754817155713, guid: e5eaeeeec29b34511bf54db47b62e95e, type: 3}
       propertyPath: _dropRotationForce
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5009943754817155713, guid: e5eaeeeec29b34511bf54db47b62e95e, type: 3}
       propertyPath: _dropHorizontalForce
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5009943754817155713, guid: e5eaeeeec29b34511bf54db47b62e95e, type: 3}
       propertyPath: _heroDrops.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5009943754817155713, guid: e5eaeeeec29b34511bf54db47b62e95e, type: 3}
+      propertyPath: _spawnRange.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5009943754817155713, guid: e5eaeeeec29b34511bf54db47b62e95e, type: 3}
       propertyPath: _heroDrops.Array.data[0].heroType

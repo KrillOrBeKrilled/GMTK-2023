@@ -5,6 +5,6 @@ tags:
 <<show_start CameraSwitcher>>
 Hendall: CLUCK me!! It's the second day at the job!
 <<show_player CameraSwitcher>>
-<<start_level GameManager>>
+<<start_level_enabled_spawn GameManager>>
 
 ===

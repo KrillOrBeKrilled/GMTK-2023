@@ -20,33 +20,33 @@ MonoBehaviour:
   WavesData:
     WavesList:
     - Heroes:
-      - Health: 50
+      - Health: 20
         Type: 0
-      - Health: 50
-        Type: 1
+      - Health: 30
+        Type: 0
       HeroSpawnDelayInSeconds: 2
       NextWaveSpawnDelayInSeconds: 10
     - Heroes:
-      - Health: 100
+      - Health: 50
         Type: 0
-      - Health: 100
+      - Health: 20
         Type: 1
-      - Health: 100
+      - Health: 50
         Type: 1
-      - Health: 100
+      - Health: 30
         Type: 0
-      HeroSpawnDelayInSeconds: 1.5
+      - Health: 50
+        Type: 0
+      - Health: 30
+        Type: 1
+      HeroSpawnDelayInSeconds: 3
       NextWaveSpawnDelayInSeconds: 15
     - Heroes:
-      - Health: 100
+      - Health: 80
         Type: 0
-      - Health: 150
+      - Health: 50
         Type: 2
       - Health: 100
-        Type: 0
-      - Health: 150
         Type: 1
-      - Health: 100
-        Type: 0
-      HeroSpawnDelayInSeconds: 3
-      NextWaveSpawnDelayInSeconds: -1
+      HeroSpawnDelayInSeconds: 5
+      NextWaveSpawnDelayInSeconds: 10

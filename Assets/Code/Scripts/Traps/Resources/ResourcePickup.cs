@@ -11,7 +11,6 @@ namespace KrillOrBeKrilled.Traps {
     public class ResourcePickup : MonoBehaviour {
         [SerializeField] private ResourcePickupData data;
         private Rigidbody2D _rigidbody2D;
-        public Rigidbody2D Rigidbody2D => _rigidbody2D;
         
         // Currently, using a static event to keep Managers depending on Traps. (To be refactored later)
         public static event Action<ResourceType, int> OnResourceCollected;
@@ -43,6 +42,22 @@ namespace KrillOrBeKrilled.Traps {
             }
         }
 
+        #endregion
+        
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Public Methods
+
+        public void SetRigidBodyVelocity(Vector2 velocity) {
+            _rigidbody2D.velocity = velocity;
+        }
+
+        public void SetRigidBodyAngularVelocity(float velocity) {
+            _rigidbody2D.angularVelocity = velocity;
+        }
+        
         #endregion
         
         //========================================

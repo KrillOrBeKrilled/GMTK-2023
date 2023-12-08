@@ -69,7 +69,10 @@ namespace KrillOrBeKrilled.Managers {
         /// before trying to update them.
         /// </remarks>
         public void ResetTrapTiles(IEnumerable<Vector3Int> tilePositions) {
-            if (this._trapTileMap == null) return;
+            if (this._trapTileMap == null) {
+                Debug.LogWarning("ResetTrapTiles: Tilemap is null");
+                return;
+            }
             
             foreach (var position in tilePositions) {
                 this._trapTileMap.SetTile(position, this._trapValidationTile);

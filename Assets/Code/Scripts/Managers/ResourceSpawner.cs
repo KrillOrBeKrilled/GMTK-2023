@@ -39,7 +39,9 @@ namespace KrillOrBeKrilled.Managers {
         [SerializeField] private float _dropHorizontalForce;
         [SerializeField] private float _dropRotationForce;
 
-        private Dictionary<HeroData.HeroType, List<ResourceDrop>> _dropMap;
+        private Dictionary<HeroData.HeroType, (List<ResourceDrop> Drops, int TotalWeight)> _dropMap;
+        private Dictionary<HeroData.HeroType, int> _dropMapWeights;
+        private int _totalLevelDropWeight;
         private Transform _playerTransform;
 
         //========================================
@@ -49,6 +51,9 @@ namespace KrillOrBeKrilled.Managers {
         #region Unity Methods
         
         private void Awake() {
+            // Calculate the total weight only once here, also same for hero drops
+            _totalLevelDropWeight = _levelDrops.Sum(drop => drop.weight);
+            
             InitializeDropMap();
             StartCoroutine(LevelDropCoroutine());
         }
@@ -82,9 +87,10 @@ namespace KrillOrBeKrilled.Managers {
         #region Private Methods
 
         private void InitializeDropMap() {
-            _dropMap = new Dictionary<HeroData.HeroType, List<ResourceDrop>>();
-            foreach (var drop in _heroDrops) {
-                _dropMap.Add(drop.heroType, drop.drops);
+            _dropMap = new Dictionary<HeroData.HeroType, (List<ResourceDrop>, int)>();
+            foreach (var heroDrop in _heroDrops) {
+                int totalWeight = heroDrop.drops.Sum(d => d.weight);
+                _dropMap.Add(heroDrop.heroType, (heroDrop.drops, totalWeight));
             }
         }
 
@@ -107,7 +113,7 @@ namespace KrillOrBeKrilled.Managers {
         /// Currently level drops spawn from the ceiling and drop down.
         /// </remarks>
         private void SpawnLevelDrop() {
-            ResourceDrop drop = GetRandomDrop(_levelDrops);
+            ResourceDrop drop = GetRandomDrop(_levelDrops, _totalLevelDropWeight);
             
             if (drop != null) {
                 float spawnOffset = Random.Range(0, _spawnRadius);
@@ -126,12 +132,15 @@ namespace KrillOrBeKrilled.Managers {
         /// <param name="heroType"> The hero type that died. </param>
         /// <param name="heroTransform"> The transform where the hero died. </param>
         private void SpawnHeroDrop(HeroData.HeroType heroType, Transform heroTransform) {
-            if (!_dropMap.ContainsKey(heroType)) return;
+            if (!_dropMap.ContainsKey(heroType)) {
+                Debug.LogWarning("Cannot find Hero Type in ResourceSpawner");
+                return;
+            }
 
             var heroDrops = _dropMap[heroType];
 
             for (int i = 0; i < _heroDropAmount; i++) {
-                ResourceDrop drop = GetRandomDrop(heroDrops);
+                ResourceDrop drop = GetRandomDrop(heroDrops.Drops, heroDrops.TotalWeight);
                 if (drop != null) {
                     var pickup = Instantiate(drop.resourcePrefab, heroTransform.position, Quaternion.identity,
                         transform);
@@ -149,8 +158,7 @@ namespace KrillOrBeKrilled.Managers {
         /// A randomly selected ResourceDrop based on weight.
         /// Returns null if the list is empty or if no drop is selected.
         /// </returns>
-        private ResourceDrop GetRandomDrop(List<ResourceDrop> drops) {
-            int totalWeight = drops.Sum(drop => drop.weight);
+        private ResourceDrop GetRandomDrop(List<ResourceDrop> drops, int totalWeight) {
             int randomNumber = Random.Range(0, totalWeight);
             ResourceDrop selected = null;
 
@@ -170,13 +178,11 @@ namespace KrillOrBeKrilled.Managers {
         /// </summary>
         /// <param name="pickup"> The pickup instance to apply the forces on. </param>
         private void ApplyInitialForces(ResourcePickup pickup) {
-            if (pickup.Rigidbody2D != null) {
-                float horizontalForce = Random.Range(-_dropHorizontalForce, _dropHorizontalForce);
-                float rotationForce = Random.Range(_dropRotationForce, _dropRotationForce);
+            float horizontalForce = Random.Range(-_dropHorizontalForce, _dropHorizontalForce);
+            float rotationForce = Random.Range(_dropRotationForce, _dropRotationForce);
                 
-                pickup.Rigidbody2D.velocity = new Vector2(horizontalForce, _dropUpwardForce);
-                pickup.Rigidbody2D.angularVelocity = rotationForce;
-            }
+            pickup.SetRigidBodyVelocity(new Vector2(horizontalForce, _dropUpwardForce));
+            pickup.SetRigidBodyAngularVelocity(rotationForce);
         }
 
         #endregion

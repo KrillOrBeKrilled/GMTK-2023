@@ -40,9 +40,9 @@ namespace KrillOrBeKrilled.Managers {
         [SerializeField] private float _dropRotationForce;
 
         private Dictionary<HeroData.HeroType, (List<ResourceDrop> Drops, int TotalWeight)> _dropMap;
-        private Dictionary<HeroData.HeroType, int> _dropMapWeights;
         private int _totalLevelDropWeight;
         private Transform _playerTransform;
+        private Coroutine _levelDropCoroutine;
 
         //========================================
         // Unity Methods
@@ -55,11 +55,12 @@ namespace KrillOrBeKrilled.Managers {
             _totalLevelDropWeight = _levelDrops.Sum(drop => drop.weight);
             
             InitializeDropMap();
-            StartCoroutine(LevelDropCoroutine());
+            _levelDropCoroutine = StartCoroutine(LevelDropCoroutine());
         }
 
         private void Start() {
             Hero.OnHeroDeath += SpawnHeroDrop;
+            EventManager.Instance.GameOverEvent.AddListener(StopLevelDropCoroutine);
         }
 
         private void OnDestroy() {
@@ -76,6 +77,9 @@ namespace KrillOrBeKrilled.Managers {
 
         public void SetPlayerTransform(Transform playerTransform) {
             _playerTransform = playerTransform;
+            if (_playerTransform == null) {
+                Debug.LogWarning("ResourceSpawner: Set Player Transform failed");
+            }
         }
         
         #endregion
@@ -97,10 +101,16 @@ namespace KrillOrBeKrilled.Managers {
         private IEnumerator LevelDropCoroutine() {
             while (true) {
                 yield return new WaitForSeconds(_spawnInterval);
-                if (_playerTransform != null) {
-                    SpawnLevelDrop();
-                }
+                SpawnLevelDrop();
             }
+        }
+
+        private void StopLevelDropCoroutine() {
+            if (_levelDropCoroutine == null) {
+                Debug.LogWarning("Level Drop Coroutine is not active.");
+                return;
+            }
+            StopCoroutine(_levelDropCoroutine);
         }
         
         /// <summary>

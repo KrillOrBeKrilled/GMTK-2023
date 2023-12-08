@@ -492,6 +492,9 @@ namespace KrillOrBeKrilled.Core {
         /// <param name="message"> The message to be displayed on the loss UI. </param>
         /// <remarks> Helper for <see cref="GameManager.OnPlayerStateChanged"/>. </remarks>
         private void HenDied(string message) {
+            // Invoke GameOverEvent before destroying Player gameObject
+            this.HenLost(message);
+
             Destroy(this._playerManager.gameObject);
 
             if (this._waveSpawnCoroutine != null) {
@@ -499,7 +502,6 @@ namespace KrillOrBeKrilled.Core {
             }
 
             this._dialogueRunner.Stop();
-            this.HenLost(message);
         }
 
         /// <summary>

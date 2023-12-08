@@ -29,7 +29,7 @@ namespace KrillOrBeKrilled.Traps {
     /// For directly setting trap recipes in Unity Editor 
     /// </summary>
     [Serializable]
-    public class RecipeEntry {
+    public class ResourceEntry {
         public ResourceType type;
         public int amount;
     }

@@ -15,6 +15,8 @@ namespace KrillOrBeKrilled.Managers {
     /// pickups or spends them in building traps.
     /// </summary>
     public class ResourceManager : Singleton<ResourceManager> {
+        [Tooltip("The resources present in this level and the initial amount given to the player.")]
+        [SerializeField] private List<ResourceEntry> initialInventory; 
         private Dictionary<ResourceType, int> _inventory;
         
         //========================================
@@ -47,26 +49,15 @@ namespace KrillOrBeKrilled.Managers {
         /// A coroutine to delay the initialization of the player inventory so that the
         /// subscribers can be set up first.
         /// </summary>
-        /// <remarks>
-        /// ResourceAmountChangedEvent is tied to a specific ResourceType, so we need to
-        /// individually update each key-value pair. However, the GameUI will be checking
-        /// for all keys when it updates the resource counts, so we will first initialize
-        /// all keys with value 0 before assigning desired values to them.
-        /// </remarks>
         private IEnumerator DelayedInventoryInit() {
-            // Initialize keys first
             _inventory = new Dictionary<ResourceType, int>();
-            foreach (ResourceType type in Enum.GetValues(typeof(ResourceType))) {
-                _inventory.Add(type, 0);
+            foreach (var entry in initialInventory) {
+                _inventory.Add(entry.type, entry.amount);
             }
             
             // Skip a frame to wait for event listeners
             yield return null;
-
-            foreach (ResourceType type in Enum.GetValues(typeof(ResourceType))) {
-                _inventory[type] = 5;
-                EventManager.Instance.ResourceAmountChangedEvent.Invoke(type, _inventory[type]);
-            }
+            EventManager.Instance.ResourceAmountChangedEvent.Invoke(_inventory);
         }
         
         #endregion
@@ -83,8 +74,16 @@ namespace KrillOrBeKrilled.Managers {
         /// <param name="type"> The type of resource to add. </param>
         /// <param name="quantity"> The amount of the resource to add. </param>
         public void AddResource(ResourceType type, int quantity) {
+            if (!_inventory.ContainsKey(type)) {
+                Debug.LogWarning("Invalid Resource Type for the current inventory.");
+                return;
+            }
             _inventory[type] += quantity;
-            EventManager.Instance.ResourceAmountChangedEvent.Invoke(type, _inventory[type]);
+            
+            var updatedResource = new Dictionary<ResourceType, int> {
+                { type, _inventory[type] }
+            };
+            EventManager.Instance.ResourceAmountChangedEvent.Invoke(updatedResource);
         }
 
         /// <summary>
@@ -95,10 +94,13 @@ namespace KrillOrBeKrilled.Managers {
         public bool ConsumeResources(Dictionary<ResourceType, int> costs) {
             if (!CanAffordCost(costs)) return false;
 
+            var updatedResources = new Dictionary<ResourceType, int>();
             foreach (var cost in costs) {
                 _inventory[cost.Key] -= cost.Value;
-                EventManager.Instance.ResourceAmountChangedEvent.Invoke(cost.Key, _inventory[cost.Key]);
+                updatedResources[cost.Key] = _inventory[cost.Key];
             }
+            
+            EventManager.Instance.ResourceAmountChangedEvent.Invoke(updatedResources);
             return true;
         }
         

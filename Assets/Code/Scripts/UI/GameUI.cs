@@ -133,8 +133,10 @@ namespace KrillOrBeKrilled.UI {
         /// <param name="type"> The resource type to be updated. </param>
         /// <param name="amount"> The new count to display on the resource amount UI. </param>
         /// <remarks> Subscribed to the <see cref="ResourceAmountChangedEvent"/> event. </remarks>
-        private void OnResourceUpdate(ResourceType type, int amount) {
-            this._resourceUI.SetAmount(type, amount);
+        private void OnResourceUpdate(Dictionary<ResourceType, int> resources) {
+            foreach (var resource in resources) {
+                this._resourceUI.SetAmount(resource.Key, resource.Value);
+            }
         }
 
         /// <summary>

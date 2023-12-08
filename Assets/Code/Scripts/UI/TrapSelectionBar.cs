@@ -61,7 +61,7 @@ namespace KrillOrBeKrilled.UI {
         /// Updates each <see cref="TrapBarIcon"/> tint when the resource inventory updates.
         /// </summary>
         /// <remarks> Listens on the <see cref="ResourceAmountChangedEvent"/> event. </remarks>
-        private void OnResourceAmountChanged(ResourceType type, int amount) {
+        private void OnResourceAmountChanged(Dictionary<ResourceType, int> resources) {
             this._trapBarIcons.ForEach(trapBarIcon => trapBarIcon.CheckAffordable());
         }
 

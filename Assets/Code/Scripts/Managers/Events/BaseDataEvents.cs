@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using KrillOrBeKrilled.Traps;
 using UnityEngine.Events;
 
@@ -17,7 +18,7 @@ namespace KrillOrBeKrilled.Managers {
     /// <summary>
     /// A callback that tracks when the resource inventory has been updated.
     /// </summary>
-    public class ResourceAmountChangedEvent : UnityEvent<ResourceType, int> {}
+    public class ResourceAmountChangedEvent : UnityEvent<Dictionary<ResourceType, int>> {}
     
     //*******************************************************************************************
     // PauseToggledEvent

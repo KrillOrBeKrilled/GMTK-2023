@@ -21,7 +21,7 @@ namespace KrillOrBeKrilled.Traps {
     /// </remarks>
     public abstract class Trap : MonoBehaviour {
         [Tooltip("The required resources to deploy this trap managed by the ResourceManager.")]
-        [SerializeField] protected List<RecipeEntry> RecipeList;
+        [SerializeField] protected List<ResourceEntry> RecipeList;
         [Tooltip("Tilemap position offsets to specify the tiles needed for deployment of this trap calculated from " +
                  "an origin in the TrapController.")]
         [SerializeField] protected List<Vector3Int> LeftGridPoints, RightGridPoints;

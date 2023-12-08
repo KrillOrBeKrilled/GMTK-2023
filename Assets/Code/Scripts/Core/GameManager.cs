@@ -204,6 +204,7 @@ namespace KrillOrBeKrilled.Core {
             }
 
             CoinManager.Instance.StartCoinEarning();
+            ResourceSpawner.Instance.StartSpawner();
             this.OnStartLevel?.Invoke();
         }
 

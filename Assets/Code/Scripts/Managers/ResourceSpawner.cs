@@ -22,7 +22,7 @@ namespace KrillOrBeKrilled.Managers {
     /// For easy editing in the Unity Editor, this class uses several serializable classes.
     /// See those classes towards the bottom of this script.
     /// </remarks>
-    public class ResourceSpawner : MonoBehaviour {
+    public class ResourceSpawner : Singleton<ResourceSpawner> {
         [Tooltip("The list of native resources on this level.")]
         [SerializeField] private List<ResourceDrop> _levelDrops;
         [Tooltip("The region to the player's left that can spawn native resources.")]
@@ -53,16 +53,12 @@ namespace KrillOrBeKrilled.Managers {
         //========================================
         
         #region Unity Methods
-        
-        private void Awake() {
-            // Calculate the total weight only once here, also same for hero drops
-            _totalLevelDropWeight = _levelDrops.Sum(drop => drop.weight);
-            
-            InitializeDropMap();
-            _levelDropCoroutine = StartCoroutine(LevelDropCoroutine());
-        }
 
         private void Start() {
+            // Calculate the total weight only once here, also same for hero drops
+            _totalLevelDropWeight = _levelDrops.Sum(drop => drop.weight);
+            InitializeDropMap();
+            
             Hero.OnHeroDeath += SpawnHeroDrop;
             EventManager.Instance.GameOverEvent.AddListener(StopLevelDropCoroutine);
         }
@@ -79,6 +75,14 @@ namespace KrillOrBeKrilled.Managers {
         
         #region Public Methods
 
+        /// <summary>
+        /// Starts the spawner, and subscribe its counterpart for stopping the spawner
+        /// to the <see cref="GameOverEvent"/>.
+        /// </summary>
+        public void StartSpawner() {
+            _levelDropCoroutine = StartCoroutine(LevelDropCoroutine());
+        }
+        
         public void SetPlayerTransform(Transform playerTransform) {
             _playerTransform = playerTransform;
             if (_playerTransform == null) {
@@ -109,6 +113,9 @@ namespace KrillOrBeKrilled.Managers {
             }
         }
 
+        /// <summary>
+        /// Disables the spawner. Subscribed to <see cref="GameOverEvent"/>.
+        /// </summary>
         private void StopLevelDropCoroutine() {
             if (_levelDropCoroutine == null) {
                 Debug.LogWarning("Level Drop Coroutine is not active.");

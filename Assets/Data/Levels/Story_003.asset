@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Story_003
   m_EditorClassIdentifier: 
   Type: 0
-  DialogueName: TutorialDialogue
+  DialogueName: Level3Dialogue
   EndgameTargetPosition: {x: 380, y: -0.5, z: 0}
   RespawnPositions:
   - {x: -8.05, y: -0.39, z: 0}

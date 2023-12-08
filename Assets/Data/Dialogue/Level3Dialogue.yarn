@@ -1,0 +1,14 @@
+﻿title: Level3Dialogue
+tags:
+---
+<<stop_shake CameraSwitcher>>
+<<show_start CameraSwitcher>>
+Hendall: CLUCK me!! It's the third day at the job!
+<<spawn_hero_actor GameManager>>
+<<enter_hero_actor GameManager>>
+Hero: Another dungeon, another dollar.
+<<show_player CameraSwitcher>>
+Hendall: Not again!
+<<start_level_enabled_spawn GameManager>>
+
+===

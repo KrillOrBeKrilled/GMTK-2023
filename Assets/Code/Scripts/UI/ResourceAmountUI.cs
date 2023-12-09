@@ -18,11 +18,14 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private TMP_Text _amountText;
         [Tooltip("The cumulative resource icon data used to find the icon to display for the associated resource type.")] 
         [SerializeField] private ResourceIconData _resourceIconData;
+        [SerializeField] private ResourceType _resourceType;
 
+        public ResourceType ResourceType => _resourceType;
+            
         //========================================
         // Public Methods
         //========================================
-
+        
         #region Public Methods
         
         /// <summary>
@@ -41,6 +44,7 @@ namespace KrillOrBeKrilled.UI {
             this.gameObject.SetActive(true);
             this._icon.sprite = this._resourceIconData.TypeToImage(type);
             this._amountText.SetText(amount.ToString());
+            this._resourceType = type;
         }
         
         #endregion

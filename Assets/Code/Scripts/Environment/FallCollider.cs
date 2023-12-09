@@ -20,6 +20,10 @@ namespace KrillOrBeKrilled.Environment {
             if (other.TryGetComponent(out IDamageable actor)) {
                 actor.Die();
             }
+
+            if (other.gameObject.layer == LayerMask.NameToLayer("Pickups")) {
+                Destroy(other.gameObject);
+            }
         }
         
         #endregion

@@ -18,6 +18,8 @@ namespace KrillOrBeKrilled {
     public class ScreenWipeUI : MonoBehaviour {
         [Tooltip("The outlines to be selected to display throughout the transition effects.")]
         [SerializeField] private List<Texture> _wipeShapes;
+        [Tooltip("Screen wipe material used to instantiate a copy for execution at runtime.")]
+        [SerializeField] private Material _screenWipeMat;
         
         private Image _image;
         private readonly int _shaderTextureKey = Shader.PropertyToID("_WipeShape");
@@ -31,6 +33,7 @@ namespace KrillOrBeKrilled {
 
         private void Awake() {
             _image = GetComponent<Image>();
+            _image.material = new Material(_screenWipeMat);
             _image.material.SetFloat(_shaderScaleKey, 500f);
         }
         

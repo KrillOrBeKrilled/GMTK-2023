@@ -360,7 +360,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a489a03ddb0e47e79290d681b3fa832e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cost: 5
+  RecipeList:
+  - type: 3
+    amount: 2
   LeftGridPoints:
   - {x: 0, y: 0, z: 0}
   - {x: -1, y: 0, z: 0}

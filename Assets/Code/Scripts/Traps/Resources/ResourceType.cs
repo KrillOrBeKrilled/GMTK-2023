@@ -9,7 +9,7 @@ namespace KrillOrBeKrilled.Traps {
         Slime,
         Dynamite
     }
-
+    
     //*******************************************************************************************
     // ResourceTypeIcon
     //*******************************************************************************************
@@ -20,5 +20,17 @@ namespace KrillOrBeKrilled.Traps {
     public class ResourceTypeIcon {
         public ResourceType Type;
         public Sprite Icon;
+    }
+
+    //*******************************************************************************************
+    // RecipeEntry
+    //*******************************************************************************************
+    /// <summary>
+    /// For directly setting trap recipes in Unity Editor 
+    /// </summary>
+    [Serializable]
+    public class ResourceEntry {
+        public ResourceType type;
+        public int amount;
     }
 }

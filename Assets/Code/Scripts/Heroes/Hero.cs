@@ -1,5 +1,5 @@
+using System;
 using KrillOrBeKrilled.Common.Interfaces;
-using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Heroes.AI;
 using System.Collections;
@@ -39,6 +39,9 @@ namespace KrillOrBeKrilled.Heroes {
 
         [Tooltip("Tracks when the hero dies.")]
         public UnityEvent<Hero> OnHeroDied;
+        
+        // This is added temporarily to deal with dependencies problem.
+        public static event Action<HeroData.HeroType, Transform> OnHeroDeath;
 
         //========================================
         // Unity Methods
@@ -81,9 +84,9 @@ namespace KrillOrBeKrilled.Heroes {
         /// </remarks>
         public void Die() {
             this._soundsController.OnHeroDeath();
-            CoinManager.Instance.EarnCoins(CoinsEarnedOnDeath);
 
             this.OnHeroDied?.Invoke(this);
+            OnHeroDeath?.Invoke(this.Type, this.transform);
             Destroy(this.gameObject);
         }
         
@@ -129,7 +132,7 @@ namespace KrillOrBeKrilled.Heroes {
         
         public void ThrowActorForward(float throwForce) {
             this._rigidbody.velocity = Vector2.zero;
-            Vector2 leapVector = new Vector2(0.25f, 2f) * throwForce;
+            Vector2 leapVector = new Vector2(0.19f, 2f) * throwForce;
             this._rigidbody.AddForce(leapVector, ForceMode2D.Impulse);
         }
 

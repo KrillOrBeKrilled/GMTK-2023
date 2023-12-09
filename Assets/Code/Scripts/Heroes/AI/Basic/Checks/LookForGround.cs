@@ -70,7 +70,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             var targetLedgePos = Vector3.zero;
 
             if (this._heroSight.CheckForPit(out var optionCount, out var groundHitData, 
-                    out var pitEndpoints, this._groundLayers, this._trapLayers)) {
+                    out var pitEndpoints, this._groundLayers, this._trapLayers, false)) {
                 // Before adding it to the list, make sure this action is not already registered
                 if (this._lastSeenLedge != Vector3.zero && groundHitData.point.x - this._lastSeenLedge.x < 1.1f) {
                     return NodeStatus.SUCCESS;

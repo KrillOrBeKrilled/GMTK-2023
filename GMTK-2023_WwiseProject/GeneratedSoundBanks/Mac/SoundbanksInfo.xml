@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="393239870" Type="User" Language="SFX" Hash="{2B7338CF-A180-5AFA-3584-28707505C9C8}">
+		<SoundBank Id="393239870" Type="User" Language="SFX" Hash="{E38F00AB-FDA9-3B3D-E3B5-67983C19F447}">
 			<ShortName>sfx</ShortName>
 			<Path>sfx.bnk</Path>
 			<Media>
@@ -23,7 +23,7 @@
 				</File>
 				<File Id="30150515" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_death.wav</ShortName>
-					<CachePath>SFX/sfx_hero_death_3F6211C2.wem</CachePath>
+					<CachePath>SFX/sfx_hero_death_E51C96B6.wem</CachePath>
 				</File>
 				<File Id="53548733" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hen_build_4.wav</ShortName>
@@ -39,7 +39,7 @@
 				</File>
 				<File Id="75743225" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_hurt.wav</ShortName>
-					<CachePath>SFX/sfx_hero_hurt_FE8B1FC7.wem</CachePath>
+					<CachePath>SFX/sfx_hero_hurt_03BDA9A4.wem</CachePath>
 				</File>
 				<File Id="101428923" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hen_buildComplete_2.wav</ShortName>
@@ -47,7 +47,7 @@
 				</File>
 				<File Id="115743494" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_dialogue.wav</ShortName>
-					<CachePath>SFX/sfx_hero_dialogue_E4EB05C9.wem</CachePath>
+					<CachePath>SFX/sfx_hero_dialogue_F76FB0CE.wem</CachePath>
 				</File>
 				<File Id="127723183" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx\hen\sfx_hen_dialogue_2.wav</ShortName>
@@ -55,11 +55,11 @@
 				</File>
 				<File Id="138793875" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_death.wav</ShortName>
-					<CachePath>SFX/sfx_hero_death_9F2F7C27.wem</CachePath>
+					<CachePath>SFX/sfx_hero_death_9E6C7D25.wem</CachePath>
 				</File>
 				<File Id="148146616" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_dialogue.wav</ShortName>
-					<CachePath>SFX/sfx_hero_dialogue_1768D4A0.wem</CachePath>
+					<CachePath>SFX/sfx_hero_dialogue_21B03575.wem</CachePath>
 				</File>
 				<File Id="184654326" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hen_buildComplete_3.wav</ShortName>
@@ -75,7 +75,7 @@
 				</File>
 				<File Id="254229819" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_death.wav</ShortName>
-					<CachePath>SFX/sfx_hero_death_849F7B27.wem</CachePath>
+					<CachePath>SFX/sfx_hero_death_3DA5F763.wem</CachePath>
 				</File>
 				<File Id="269605014" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx\UI\sfx_UI_tileSelect_move_2.wav</ShortName>
@@ -91,7 +91,7 @@
 				</File>
 				<File Id="362899259" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_jumps.wav</ShortName>
-					<CachePath>SFX/sfx_hero_jumps_54A1C6EF.wem</CachePath>
+					<CachePath>SFX/sfx_hero_jumps_59D9A35E.wem</CachePath>
 				</File>
 				<File Id="366782660" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hen_flap_1.wav</ShortName>
@@ -99,7 +99,7 @@
 				</File>
 				<File Id="368426534" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_dialogue.wav</ShortName>
-					<CachePath>SFX/sfx_hero_dialogue_D74300A8.wem</CachePath>
+					<CachePath>SFX/sfx_hero_dialogue_5D36D1BD.wem</CachePath>
 				</File>
 				<File Id="389297036" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hen_flap_4.wav</ShortName>
@@ -107,7 +107,7 @@
 				</File>
 				<File Id="396597794" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_jumps.wav</ShortName>
-					<CachePath>SFX/sfx_hero_jumps_04618C6C.wem</CachePath>
+					<CachePath>SFX/sfx_hero_jumps_E2823FB7.wem</CachePath>
 				</File>
 				<File Id="431120553" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hen_buildComplete_1.wav</ShortName>
@@ -115,15 +115,15 @@
 				</File>
 				<File Id="446011003" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_jumps.wav</ShortName>
-					<CachePath>SFX/sfx_hero_jumps_E62248F6.wem</CachePath>
+					<CachePath>SFX/sfx_hero_jumps_BBF45208.wem</CachePath>
 				</File>
 				<File Id="456127780" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_dialogue.wav</ShortName>
-					<CachePath>SFX/sfx_hero_dialogue_FD8622FC.wem</CachePath>
+					<CachePath>SFX/sfx_hero_dialogue_0251A947.wem</CachePath>
 				</File>
 				<File Id="544855202" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_dialogue.wav</ShortName>
-					<CachePath>SFX/sfx_hero_dialogue_DE4ACD3A.wem</CachePath>
+					<CachePath>SFX/sfx_hero_dialogue_A866047C.wem</CachePath>
 				</File>
 				<File Id="557163027" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx\UI\sfx_UI_unpause.wav</ShortName>
@@ -131,7 +131,7 @@
 				</File>
 				<File Id="571297239" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_hurt.wav</ShortName>
-					<CachePath>SFX/sfx_hero_hurt_89EEC5C7.wem</CachePath>
+					<CachePath>SFX/sfx_hero_hurt_67FE2574.wem</CachePath>
 				</File>
 				<File Id="609106748" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hen_flap_5.wav</ShortName>
@@ -147,15 +147,15 @@
 				</File>
 				<File Id="720942908" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_jumps.wav</ShortName>
-					<CachePath>SFX/sfx_hero_jumps_8CA65E45.wem</CachePath>
+					<CachePath>SFX/sfx_hero_jumps_73B17195.wem</CachePath>
 				</File>
 				<File Id="744702220" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_hurt.wav</ShortName>
-					<CachePath>SFX/sfx_hero_hurt_6E302746.wem</CachePath>
+					<CachePath>SFX/sfx_hero_hurt_98F8C76D.wem</CachePath>
 				</File>
 				<File Id="770725999" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_jumps.wav</ShortName>
-					<CachePath>SFX/sfx_hero_jumps_475DC1D4.wem</CachePath>
+					<CachePath>SFX/sfx_hero_jumps_CD863AEE.wem</CachePath>
 				</File>
 				<File Id="789572075" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hen_build_3.wav</ShortName>
@@ -175,15 +175,15 @@
 				</File>
 				<File Id="907481572" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_jumps.wav</ShortName>
-					<CachePath>SFX/sfx_hero_jumps_F88AE02F.wem</CachePath>
+					<CachePath>SFX/sfx_hero_jumps_273BD86A.wem</CachePath>
 				</File>
 				<File Id="917352860" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_jumps.wav</ShortName>
-					<CachePath>SFX/sfx_hero_jumps_50D5EE61.wem</CachePath>
+					<CachePath>SFX/sfx_hero_jumps_02D7E28D.wem</CachePath>
 				</File>
 				<File Id="927169189" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_hurt.wav</ShortName>
-					<CachePath>SFX/sfx_hero_hurt_903252F1.wem</CachePath>
+					<CachePath>SFX/sfx_hero_hurt_D01AE254.wem</CachePath>
 				</File>
 				<File Id="932981033" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hen_death_3.wav</ShortName>
@@ -203,11 +203,11 @@
 				</File>
 				<File Id="946185929" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_hurt.wav</ShortName>
-					<CachePath>SFX/sfx_hero_hurt_7C62E33D.wem</CachePath>
+					<CachePath>SFX/sfx_hero_hurt_BC8EECED.wem</CachePath>
 				</File>
 				<File Id="958031857" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_dialogue.wav</ShortName>
-					<CachePath>SFX/sfx_hero_dialogue_862D887D.wem</CachePath>
+					<CachePath>SFX/sfx_hero_dialogue_B72CA5DB.wem</CachePath>
 				</File>
 				<File Id="1006230876" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hen_death_2.wav</ShortName>
@@ -215,11 +215,11 @@
 				</File>
 				<File Id="1007113297" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_hurt.wav</ShortName>
-					<CachePath>SFX/sfx_hero_hurt_9BF7B1EE.wem</CachePath>
+					<CachePath>SFX/sfx_hero_hurt_B529B9B9.wem</CachePath>
 				</File>
 				<File Id="1058650546" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_hero_hurt.wav</ShortName>
-					<CachePath>SFX/sfx_hero_hurt_AE13F164.wem</CachePath>
+					<CachePath>SFX/sfx_hero_hurt_4DE65C38.wem</CachePath>
 				</File>
 			</Media>
 			<Plugins>
@@ -436,5 +436,5 @@
 			</Busses>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{67F7999C-CCCB-347B-0B2B-6EBDBD69ECEA}</FileHash>
+	<FileHash>{227B91E9-ADDB-B921-9AEC-2FD62B6A8741}</FileHash>
 </SoundBanksInfo>

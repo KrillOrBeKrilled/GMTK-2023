@@ -154,9 +154,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: 150
+  m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 150
+  m_PreferredWidth: 190
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -219,12 +219,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _onClickImmediate:
-    m_PersistentCalls:
-      m_Calls: []
-  _onClickComplete:
-    m_PersistentCalls:
-      m_Calls: []
   _defaultImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   _pressedImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &8289127292945717752

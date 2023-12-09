@@ -52,9 +52,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: 120
+  m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 120
+  m_PreferredWidth: 160
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -74,6 +74,7 @@ MonoBehaviour:
   _icon: {fileID: 5449615488813643106}
   _amountText: {fileID: 7940109641566483652}
   _resourceIconData: {fileID: 11400000, guid: 4f28fad1e3b93488ba98b9591a499502, type: 2}
+  _resourceType: 0
 --- !u!1 &6130922052521635462
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,8 +185,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 13, y: -10}
-  m_SizeDelta: {x: 65, y: 50}
+  m_AnchoredPosition: {x: 9, y: -10}
+  m_SizeDelta: {x: 85, y: 65.3051}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &1121624266122318562
 CanvasRenderer:
@@ -317,12 +318,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.3
+  m_fontSize: 59.05
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 46
+  m_fontSizeMax: 64
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512

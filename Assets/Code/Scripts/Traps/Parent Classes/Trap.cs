@@ -1,9 +1,11 @@
+using System.Linq;
 using KrillOrBeKrilled.Common.Interfaces;
-using KrillOrBeKrilled.Managers;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 //*******************************************************************************************
 // Trap
@@ -18,8 +20,8 @@ namespace KrillOrBeKrilled.Traps {
     /// and are left abstract to be implemented in subclasses.
     /// </remarks>
     public abstract class Trap : MonoBehaviour, ITrap {
-        [Tooltip("The cost to deploy this trap in coins managed by the CoinManager.")]
-        [SerializeField] public int Cost;
+        [Tooltip("The required resources to deploy this trap managed by the ResourceManager.")]
+        [SerializeField] protected List<ResourceEntry> RecipeList;
         [Tooltip("Tilemap position offsets to specify the tiles needed for deployment of this trap calculated from " +
                  "an origin in the TrapController.")]
         [SerializeField] protected List<Vector3Int> LeftGridPoints, RightGridPoints;
@@ -39,12 +41,23 @@ namespace KrillOrBeKrilled.Traps {
         protected float ConstructionCompletion, t;
         protected bool IsBuilding, IsReady;
 
+        private UnityAction _onDestroy;
+        private Dictionary<ResourceType, int> _recipe;
+        public Dictionary<ResourceType, int> Recipe {
+            get {
+                if (_recipe == null) {
+                    InitializeRecipe();
+                }
+                return _recipe;
+            }
+        }
+
         //========================================
         // Unity Methods
         //========================================
         
         #region Unity Methods
-        
+
         public void Update() {
             if (this.IsReady || !this.IsBuilding) {
                 return;
@@ -105,7 +118,11 @@ namespace KrillOrBeKrilled.Traps {
                 this.OnExitedTrap(damageActor);
             }
         }
-        
+
+        private void OnDestroy() {
+            this._onDestroy?.Invoke();
+        }
+
         #endregion
 
         //========================================
@@ -133,16 +150,15 @@ namespace KrillOrBeKrilled.Traps {
         /// <param name="canvas"> The canvas to spawn trap UI. </param>
         /// <param name="tilePositions"> The tilemap positions corresponding to the tiles to alter in the tilemap. </param>
         /// <param name="soundsController"> The controller used to play all trap-related SFX. </param>
+        /// <param name="onDestroy"> A delegate used to reset tiles when trap is destroyed. </param>
         public virtual void Construct(Vector3 spawnPosition, Canvas canvas, 
-            Vector3Int[] tilePositions, TrapSoundsController soundsController) {
+            Vector3Int[] tilePositions, TrapSoundsController soundsController, UnityAction onDestroy = null) {
             // Initialize all the bookkeeping structures we will need
-            this.SpawnPosition = spawnPosition;
-            this.TilePositions = tilePositions;
-            this.SoundsController = soundsController;
+            SpawnPosition = spawnPosition;
+            TilePositions = tilePositions;
+            SoundsController = soundsController;
+            _onDestroy = onDestroy;
             
-            // Delete/invalidate all the tiles overlapping the trap
-            TilemapManager.Instance.ClearLevelTiles(this.TilePositions);
-
             // Spawn a slider to indicate the progress on the build
             GameObject sliderObject = Instantiate(this.SliderBar, canvas.transform);
             sliderObject.transform.position = spawnPosition + this.AnimationOffset + Vector3.up;
@@ -229,6 +245,17 @@ namespace KrillOrBeKrilled.Traps {
         //========================================
         
         #region Protected Methods
+        
+        #region Trap Initialization
+
+        /// <summary>
+        /// Initialize the resource recipe dictionary.
+        /// </summary>
+        protected void InitializeRecipe() {
+            _recipe = RecipeList.ToDictionary(entry => entry.type, entry => entry.amount);
+        }
+        
+        #endregion
         
         #region Trap Building
         

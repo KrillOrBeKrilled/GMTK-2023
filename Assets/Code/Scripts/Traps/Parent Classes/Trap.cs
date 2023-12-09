@@ -34,8 +34,9 @@ namespace KrillOrBeKrilled.Traps {
         [Tooltip("A slider bar prefab to signify the trap build completion status.")]
         [SerializeField] protected GameObject SliderBar;
 
+        public bool IsCeilingTrap;
+
         protected Vector3 SpawnPosition;
-        protected Vector3Int[] TilePositions;
         protected Slider BuildCompletionBar;
         protected TrapSoundsController SoundsController;
         protected float ConstructionCompletion, t;
@@ -148,26 +149,26 @@ namespace KrillOrBeKrilled.Traps {
         /// </summary>
         /// <param name="spawnPosition"> The target spawn position for this trap. </param>
         /// <param name="canvas"> The canvas to spawn trap UI. </param>
-        /// <param name="tilePositions"> The tilemap positions corresponding to the tiles to alter in the tilemap. </param>
         /// <param name="soundsController"> The controller used to play all trap-related SFX. </param>
         /// <param name="onDestroy"> A delegate used to reset tiles when trap is destroyed. </param>
         public virtual void Construct(Vector3 spawnPosition, Canvas canvas, 
-            Vector3Int[] tilePositions, TrapSoundsController soundsController, UnityAction onDestroy = null) {
+            TrapSoundsController soundsController, UnityAction onDestroy = null) {
             // Initialize all the bookkeeping structures we will need
             SpawnPosition = spawnPosition;
-            TilePositions = tilePositions;
             SoundsController = soundsController;
             _onDestroy = onDestroy;
             
             // Spawn a slider to indicate the progress on the build
             GameObject sliderObject = Instantiate(this.SliderBar, canvas.transform);
-            sliderObject.transform.position = spawnPosition + this.AnimationOffset + Vector3.up;
+
+            var offsetDirection = IsCeilingTrap ? -1 : 1;
+            sliderObject.transform.position = spawnPosition + this.AnimationOffset + Vector3.up * offsetDirection;
             this.BuildCompletionBar = sliderObject.GetComponent<Slider>();
 
             // Trap deployment visuals
             // Slide down trap and fade it into existence
             this.transform.position = spawnPosition + Vector3.up * 3f;
-            this.transform.DOMove(spawnPosition + Vector3.up * this.AnimationOffset.y, 0.2f);
+            this.transform.DOMove(spawnPosition + Vector3.up * (offsetDirection * this.AnimationOffset.y), 0.2f);
 
             var sprite = GetComponent<SpriteRenderer>();
             var color = sprite.color;

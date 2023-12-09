@@ -114,7 +114,7 @@ namespace KrillOrBeKrilled.Core.Player {
             // Delete/invalidate all the tiles overlapping the trap
             TilemapManager.Instance.ClearLevelTiles(this._previousTilePositions.ToArray());
 
-            spawnedTrap.Construct(spawnPosition, this._trapCanvas, this._previousTilePositions.ToArray(), _trapSoundsController, 
+            spawnedTrap.Construct(spawnPosition, this._trapCanvas, _trapSoundsController, 
                 () => TilemapManager.Instance.ResetTrapTiles(tilePositionsCopy));
             
             ResourceManager.Instance.ConsumeResources(this.CurrentTrap.Recipe);

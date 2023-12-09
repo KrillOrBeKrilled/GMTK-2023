@@ -239,6 +239,7 @@ MonoBehaviour:
   SliderBar: {fileID: 8689842051725396054, guid: 730a5177b6878c7479dff24b13199c1c, type: 3}
   IsCeilingTrap: 1
   _damageAmount: 15
+  _physicalCollider: {fileID: -6113577474603580877}
 --- !u!95 &5914186572757083417
 Animator:
   serializedVersion: 5

@@ -18,6 +18,7 @@ namespace KrillOrBeKrilled.Model {
         [Tooltip("The default level mode is Endless.")]
         public LevelType Type = LevelType.Endless;
         public string DialogueName;
+        public string NextLevelName;
         public Vector3 EndgameTargetPosition = Vector3.zero;
         public List<Vector3> RespawnPositions;
         public WavesData WavesData;

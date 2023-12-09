@@ -104,37 +104,22 @@ namespace KrillOrBeKrilled.UI {
         /// Updates the trap icon and each required <see cref="ResourceAmountUI"/> display, adjusting the UI window
         /// size accordingly.
         /// </summary>
+        /// <remarks>
+        /// Assumes that recipes always require 3 or less materials.
+        /// </remarks>
         /// <param name="trap"> The trap class used to determine the trap type to update the UI accordingly. </param>
         private void SetTrap(Trap trap) {
             this._trapIcon.sprite = this._trapIconData.TrapToImage(trap);
 
-            switch (trap) {
-                // TODO: replace this logic later to use new resource system
-                case SpikeTrap:
-                    this._trapRequirements[0].SetIconAmount(ResourceType.ScrapMetal, 2);
-                    this._trapRequirements[1].Hide();
-                    this._trapRequirements[2].Hide();
-                break;
-                    case SwingingAxeTrap:
-                    this._trapRequirements[0].SetIconAmount(ResourceType.ScrapMetal, 1);
-                    this._trapRequirements[1].SetIconAmount(ResourceType.WoodStick, 1);
-                    this._trapRequirements[2].Hide();
-                break;
-                    case IcicleTrap:
-                    this._trapRequirements[0].SetIconAmount(ResourceType.IceShards, 2);
-                    this._trapRequirements[1].SetIconAmount(ResourceType.Dynamite, 1);
-                    this._trapRequirements[2].Hide();
-                    break;
-                case AcidPitTrap:
-                    this._trapRequirements[0].SetIconAmount(ResourceType.Slime, 1);
-                    this._trapRequirements[1].SetIconAmount(ResourceType.IceShards, 2);
-                    this._trapRequirements[2].SetIconAmount(ResourceType.Dynamite, 1);
-                    break;
-                default:
-                    this._trapRequirements[0].Hide();
-                    this._trapRequirements[1].Hide();
-                    this._trapRequirements[2].Hide();
-                    break;
+            // Reset all icons
+            foreach (var icon in _trapRequirements){
+                icon.Hide();
+            }
+
+            int index = 0;
+            foreach (var pair in trap.Recipe) {
+                _trapRequirements[index].SetIconAmount(pair.Key, pair.Value);
+                index++;
             }
         }
         

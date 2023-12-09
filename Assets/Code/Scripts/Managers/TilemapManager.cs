@@ -62,7 +62,18 @@ namespace KrillOrBeKrilled.Managers {
         /// positions.
         /// </summary>
         /// <param name="tilePositions"> A list of tile positions corresponding to a tilemap to paint. </param>
+        /// <remarks>
+        /// When a trap is destroyed it invokes a UnityAction. The TrapController listens for this change and
+        /// tries to reset trap tiles. This causes null pointer exception when a level ends (tilemaps are
+        /// destroyed) and this method continues to try resetting tilemaps. So we check if the tilemap is null
+        /// before trying to update them.
+        /// </remarks>
         public void ResetTrapTiles(IEnumerable<Vector3Int> tilePositions) {
+            if (this._trapTileMap == null) {
+                Debug.LogWarning("ResetTrapTiles: Tilemap is null");
+                return;
+            }
+            
             foreach (var position in tilePositions) {
                 this._trapTileMap.SetTile(position, this._trapValidationTile);
 

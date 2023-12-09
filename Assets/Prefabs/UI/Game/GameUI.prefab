@@ -2322,6 +2322,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 2997df73b25e848438c2c16c95e37f96, type: 3}
   - {fileID: 2800000, guid: 0f20663987e5cae4cb280a796e4f1821, type: 3}
   - {fileID: 2800000, guid: 81563363bf787cb41b3db97d52db8779, type: 3}
+  _screenWipeMat: {fileID: 2100000, guid: b12e3cf650a5e0644baa44c955a9443b, type: 2}
 --- !u!1 &8959174542912674798
 GameObject:
   m_ObjectHideFlags: 0

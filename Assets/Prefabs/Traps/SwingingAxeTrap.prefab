@@ -144,7 +144,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00a6fbd9cf3a45a987474ce8273372aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cost: 3
+  RecipeList:
+  - type: 0
+    amount: 2
+  - type: 1
+    amount: 1
   LeftGridPoints:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 1, z: 0}
@@ -183,7 +187,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 4cd7836d5d349fd4c8e782132e937e71, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0

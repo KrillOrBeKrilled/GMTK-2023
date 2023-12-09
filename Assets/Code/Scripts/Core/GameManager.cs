@@ -205,6 +205,7 @@ namespace KrillOrBeKrilled.Core {
             }
 
             CoinManager.Instance.StartCoinEarning();
+            ResourceSpawner.Instance.StartSpawner();
             this.OnStartLevel?.Invoke();
         }
         
@@ -501,7 +502,7 @@ namespace KrillOrBeKrilled.Core {
                 return;
             }
 
-            var isAffordable = this._playerManager.PlayerController.GetTrapCost() >= CoinManager.Instance.Coins;
+            var isAffordable = ResourceManager.Instance.CanAffordCost(this._playerManager.PlayerController.GetTrapCost());
             UGS_Analytics.SwitchTrapCustomEvent(trap.gameObject.name, isAffordable);
         }
 
@@ -513,6 +514,9 @@ namespace KrillOrBeKrilled.Core {
         /// <param name="message"> The message to be displayed on the loss UI. </param>
         /// <remarks> Helper for <see cref="GameManager.OnPlayerStateChanged"/>. </remarks>
         private void HenDied(string message) {
+            // Invoke GameOverEvent before destroying Player gameObject
+            this.HenLost(message);
+
             Destroy(this._playerManager.gameObject);
 
             if (this._waveSpawnCoroutine != null) {
@@ -520,7 +524,6 @@ namespace KrillOrBeKrilled.Core {
             }
 
             this._dialogueRunner.Stop();
-            this.HenLost(message);
         }
 
         /// <summary>

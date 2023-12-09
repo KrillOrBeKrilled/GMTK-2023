@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PluginInfo Platform="Linux" BasePlatform="Linux">
 	<PluginLibs>
+		<PluginLib LibName="Wwise Matrix Reverb" LibId="7536643" Type="Effect" DLL="AkMatrixReverb" StaticLib="AkMatrixReverbFX"/>
 		<PluginLib LibName="System" LibId="11403271" Type="AudioDevice"/>
 		<PluginLib LibName="No Output" LibId="11862023" Type="AudioDevice"/>
 	</PluginLibs>
-	<FileHash>{AFC8C5A5-D363-5920-6F75-DABE9A71FEBE}</FileHash>
+	<FileHash>{31969D05-3768-17BB-216F-017EAB51ED3D}</FileHash>
 </PluginInfo>

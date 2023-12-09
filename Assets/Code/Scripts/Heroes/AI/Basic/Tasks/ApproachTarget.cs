@@ -42,6 +42,8 @@ namespace KrillOrBeKrilled.Heroes.AI {
             
             this._movementSpeed = movementSpeed;
             this._speedBlendDuration = speedBlendDuration;
+            
+            this._currentSpeed = this._movementSpeed;
         }
         
         /// <summary>

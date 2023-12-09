@@ -98,7 +98,7 @@ namespace KrillOrBeKrilled.Core.Player {
                 return false;
             }
 
-            if (!CoinManager.Instance.CanAfford(this.CurrentTrap.Cost)) {
+            if (!ResourceManager.Instance.CanAffordCost(this.CurrentTrap.Recipe)) {
                 return false;
             }
 
@@ -109,9 +109,15 @@ namespace KrillOrBeKrilled.Core.Player {
                 : this.CurrentTrap.GetRightSpawnPoint(deploymentOrigin);
 
             Trap spawnedTrap = Instantiate(this.CurrentTrap);
-            spawnedTrap.Construct(spawnPosition, this._trapCanvas, this._previousTilePositions.ToArray(), this._trapSoundsController);
+            Vector3Int[] tilePositionsCopy = this._previousTilePositions.ToArray();
+            
+            // Delete/invalidate all the tiles overlapping the trap
+            TilemapManager.Instance.ClearLevelTiles(this._previousTilePositions.ToArray());
 
-            CoinManager.Instance.ConsumeCoins(this.CurrentTrap.Cost);
+            spawnedTrap.Construct(spawnPosition, this._trapCanvas, this._previousTilePositions.ToArray(), _trapSoundsController, 
+                () => TilemapManager.Instance.ResetTrapTiles(tilePositionsCopy));
+            
+            ResourceManager.Instance.ConsumeResources(this.CurrentTrap.Recipe);
             this._soundsController.OnTileSelectConfirm();
 
             return true;
@@ -205,11 +211,11 @@ namespace KrillOrBeKrilled.Core.Player {
         }
 
         /// <summary>
-        /// Retrieves the cost of the current selected trap.
+        /// Retrieves the resource recipe of the current selected trap.
         /// </summary>
-        /// <returns> The cost of the current selected trap. </returns>
-        internal int GetCurrentTrapCost() {
-            return this.CurrentTrap.Cost;
+        /// <returns> The dictionary representing the recipe of the current selected trap. </returns>
+        internal Dictionary<ResourceType, int> GetCurrentTrapCost() {
+            return this.CurrentTrap.Recipe;
         }
 
         #endregion

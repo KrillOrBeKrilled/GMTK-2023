@@ -13,14 +13,17 @@ MonoBehaviour:
   m_Name: AkWwiseInitializationSettings
   m_EditorClassIdentifier: 
   PlatformSettingsNameList:
-  - Linux
+  - Android
+  - iOS
   - Mac
   - Windows
   PlatformSettingsList:
-  - {fileID: 11400000, guid: 7aa068617f31a4d5ba854c3bfd40a38c, type: 2}
+  - {fileID: 11400000, guid: 5a0bcec1f3aa146b9b89093aa2327ddb, type: 2}
+  - {fileID: 11400000, guid: 246b9668b51aa46da81e61d00a8bd052, type: 2}
   - {fileID: 11400000, guid: 27909e2440feb4a6284bbb7ba1c12a3a, type: 2}
   - {fileID: 11400000, guid: 0167a8daac02c45bd8f7e5f1da45174a, type: 2}
-  InvalidReferencePlatforms: []
+  InvalidReferencePlatforms:
+  - Linux
   UserSettings:
     m_BasePath: Audio/GeneratedSoundBanks
     m_StartupLanguage: English(US)

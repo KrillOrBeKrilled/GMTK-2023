@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 2210237191223757977}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.3006, y: 9.45, z: 0}
+  m_LocalPosition: {x: -0.3006, y: 0, z: 0}
   m_LocalScale: {x: 0.7374254, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -223,18 +223,18 @@ MonoBehaviour:
     amount: 2
   LeftGridPoints:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: -1, z: 0}
   - {x: -1, y: 0, z: 0}
-  - {x: -1, y: 1, z: 0}
+  - {x: -1, y: -1, z: 0}
   RightGridPoints:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: -1, z: 0}
   - {x: 1, y: 0, z: 0}
-  - {x: 1, y: 1, z: 0}
+  - {x: 1, y: -1, z: 0}
   ValidationScore: 2
-  LeftSpawnOffset: {x: 0, y: 11.75, z: 0}
-  RightSpawnOffset: {x: 1, y: 11.75, z: 0}
-  AnimationOffset: {x: 0, y: 0, z: 0}
+  LeftSpawnOffset: {x: 0, y: 0, z: 0}
+  RightSpawnOffset: {x: 1, y: 0, z: 0}
+  AnimationOffset: {x: 0, y: -0.1, z: 0}
   BuildingDuration: 3
   SliderBar: {fileID: 8689842051725396054, guid: 730a5177b6878c7479dff24b13199c1c, type: 3}
   IsCeilingTrap: 1

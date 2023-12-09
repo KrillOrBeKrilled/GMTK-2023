@@ -162,6 +162,10 @@ MonoBehaviour:
   - {fileID: -7424928307857937630, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
   - {fileID: 5977390027912707009, guid: 3e2d3e77e9b5a7e4e88ff6768307a2f2, type: 3}
   - {fileID: 8165428285875536415, guid: d45b14c51b6a245e5b0e59a5279ee973, type: 3}
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  _maxCeilingBuildDistance: 10
   TrapTilemap: {fileID: 0}
   GroundTilemap: {fileID: 0}
   _trapCanvas: {fileID: 0}

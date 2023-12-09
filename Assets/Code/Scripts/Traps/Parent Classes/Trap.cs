@@ -167,8 +167,8 @@ namespace KrillOrBeKrilled.Traps {
 
             // Trap deployment visuals
             // Slide down trap and fade it into existence
-            this.transform.position = spawnPosition + Vector3.up * 3f;
-            this.transform.DOMove(spawnPosition + Vector3.up * (offsetDirection * this.AnimationOffset.y), 0.2f);
+            this.transform.position = spawnPosition + Vector3.up * (offsetDirection * 3f);
+            this.transform.DOMove(spawnPosition + Vector3.up * this.AnimationOffset.y, 0.2f);
 
             var sprite = GetComponent<SpriteRenderer>();
             var color = sprite.color;

@@ -232,7 +232,7 @@ MonoBehaviour:
   - {x: 1, y: 0, z: 0}
   - {x: 1, y: 1, z: 0}
   ValidationScore: 2
-  LeftSpawnOffset: {x: -1, y: 11.75, z: 0}
+  LeftSpawnOffset: {x: 0, y: 11.75, z: 0}
   RightSpawnOffset: {x: 1, y: 11.75, z: 0}
   AnimationOffset: {x: 0, y: 0, z: 0}
   BuildingDuration: 3

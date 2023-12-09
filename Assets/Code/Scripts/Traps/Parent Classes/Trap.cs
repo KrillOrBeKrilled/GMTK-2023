@@ -19,7 +19,7 @@ namespace KrillOrBeKrilled.Traps {
     /// Trap setup, detonation, and impact on the hero are specific to the type of trap,
     /// and are left abstract to be implemented in subclasses.
     /// </remarks>
-    public abstract class Trap : MonoBehaviour {
+    public abstract class Trap : MonoBehaviour, ITrap {
         [Tooltip("The required resources to deploy this trap managed by the ResourceManager.")]
         [SerializeField] protected List<ResourceEntry> RecipeList;
         [Tooltip("Tilemap position offsets to specify the tiles needed for deployment of this trap calculated from " +
@@ -130,6 +130,14 @@ namespace KrillOrBeKrilled.Traps {
         //========================================
         
         #region Public Methods
+        
+        #region ITrap Implementations
+
+        public bool IsTrapReady() {
+            return IsReady;
+        }
+        
+        #endregion
         
         #region Trap Deployment
         

@@ -96,8 +96,7 @@ namespace KrillOrBeKrilled.Traps {
             if (!this.IsReady) {
                 return;
             }
-                
-
+            
             // Make the hero reflexively leap out of the burning acid pit
             actor.ThrowActorForward(1f);
             actor.ApplySpeedPenalty(0.8f);

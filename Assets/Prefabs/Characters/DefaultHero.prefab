@@ -207,7 +207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObstaclesToSight:
     serializedVersion: 2
-    m_Bits: 640
+    m_Bits: 128
   GroundToSight:
     serializedVersion: 2
     m_Bits: 512

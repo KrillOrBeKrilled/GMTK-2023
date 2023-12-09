@@ -101,6 +101,8 @@ namespace KrillOrBeKrilled.Core.Player {
             if (!ResourceManager.Instance.CanAffordCost(this.CurrentTrap.Recipe)) {
                 return false;
             }
+            
+            this.InvalidateTrapDeployment();
 
             // Convert the origin tile position to world space
             var deploymentOrigin = this.TrapTilemap.CellToWorld(this._previousTilePositions[0]);

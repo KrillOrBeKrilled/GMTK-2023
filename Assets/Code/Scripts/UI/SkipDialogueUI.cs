@@ -1,6 +1,7 @@
 using KrillOrBeKrilled.Managers;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 //*******************************************************************************************
 // SkipDialogueUI
@@ -11,7 +12,7 @@ namespace KrillOrBeKrilled.UI {
     /// </summary>
     public class SkipDialogueUI : MonoBehaviour {
         [Tooltip("Used to skip the current dialogue event on user interaction.")]
-        [SerializeField] private UIHoldButton _uiHoldButton;
+        [SerializeField] private UIButton _uiButton;
         private UnityAction _onSkipComplete;
 
         //========================================
@@ -65,7 +66,7 @@ namespace KrillOrBeKrilled.UI {
         /// </summary>
         /// <remarks> Subscribed to the onStartLevel event provided upon <see cref="Initialize"/>. </remarks>
         private void OnStartLevel() {
-            this._uiHoldButton.HideOnCompletion();
+            this._uiButton.gameObject.SetActive(false);
         }
 
         #endregion

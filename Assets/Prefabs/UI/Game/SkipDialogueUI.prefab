@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8202442999681013308}
   - component: {fileID: 4043458271604843365}
   - component: {fileID: 5727521076354742524}
-  - component: {fileID: 8135017908366384670}
+  - component: {fileID: 5163640670575006758}
   m_Layer: 5
   m_Name: SkipDialogueUI
   m_TagString: Untagged
@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f5014f919c044f09cc672691d594082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uiHoldButton: {fileID: 8135017908366384670}
+  _uiButton: {fileID: 5163640670575006758}
 --- !u!222 &4043458271604843365
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8135017908366384670
+--- !u!114 &5163640670575006758
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,13 +99,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4522417465387182342}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bf8bf818b9a475eb6a4fd45e75c002c, type: 3}
+  m_Script: {fileID: 11500000, guid: 682652d564cb45089eb2fa8bbf92b5d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _holdTime: 1.5
   _muteClickSfx: 0
-  _hideOnCompletion: 1
-  _onHoldComplete:
+  _onClick:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8202442999681013308}

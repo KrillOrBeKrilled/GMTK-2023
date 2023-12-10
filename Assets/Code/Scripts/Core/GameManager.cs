@@ -431,6 +431,10 @@ namespace KrillOrBeKrilled.Core {
             }
 
             yield return new WaitForSeconds(waveData.NextWaveSpawnDelayInSeconds);
+            if (this._isGameOver) {
+                yield break;
+            }
+            
             this._waveSpawnCoroutine = this.SpawnNextWave();
             yield return this._waveSpawnCoroutine;
         }

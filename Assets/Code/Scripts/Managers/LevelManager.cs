@@ -22,13 +22,13 @@ namespace KrillOrBeKrilled.Managers {
 
         private readonly Dictionary<string, LevelData> _levelDatas = new Dictionary<string, LevelData>();
         private static bool LevelWasLoaded { get; set; } = false;
-        
+
         //========================================
         // Unity Methods
         //========================================
-        
+
         #region Unity Methods
-        
+
         protected override void Awake() {
             base.Awake();
 
@@ -36,15 +36,15 @@ namespace KrillOrBeKrilled.Managers {
                 this._levelDatas[levelData.name] = levelData;
             }
         }
-        
+
         #endregion
-        
+
         //========================================
         // Public Methods
         //========================================
-        
+
         #region Public Methods
-        
+
         /// <summary>
         /// Finds the active <see cref="LevelData"/> to be parsed in the current level.
         /// </summary>
@@ -57,7 +57,7 @@ namespace KrillOrBeKrilled.Managers {
         public LevelData GetActiveLevelData() {
             return LevelWasLoaded ? this._activeLevelData : this._defaultLevelData;
         }
-        
+
         /// <summary>
         /// Copies the <see cref="LevelData"/> associated with the level into a separate <see cref="LevelData"/>
         /// object to persist between scene loads for future parsing, and loads the game scene through the
@@ -77,6 +77,7 @@ namespace KrillOrBeKrilled.Managers {
             // Note: stored data is not preserved between game sessions.
             this._activeLevelData.Type = source.Type;
             this._activeLevelData.DialogueName = source.DialogueName;
+            this._activeLevelData.NextLevelName = source.NextLevelName;
             this._activeLevelData.EndgameTargetPosition = source.EndgameTargetPosition;
             this._activeLevelData.RespawnPositions = source.RespawnPositions.ToList();
             this._activeLevelData.WavesData = new WavesData() { WavesList = source.WavesData.WavesList.ToList() };
@@ -84,7 +85,7 @@ namespace KrillOrBeKrilled.Managers {
             LevelWasLoaded = true;
             SceneNavigationManager.Instance.LoadGameLevelScene(levelName);
         }
-        
+
         #endregion
     }
 }

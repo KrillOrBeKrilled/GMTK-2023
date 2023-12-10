@@ -117,6 +117,7 @@ namespace KrillOrBeKrilled.Core {
             LevelData sourceData = LevelManager.Instance.GetActiveLevelData();
             this._levelData = ScriptableObject.CreateInstance<LevelData>();
             this._levelData.DialogueName = sourceData.DialogueName;
+            this._levelData.NextLevelName = sourceData.NextLevelName;
             this._levelData.Type = sourceData.Type;
             this._levelData.RespawnPositions = sourceData.RespawnPositions.ToList();
             this._levelData.EndgameTargetPosition = sourceData.EndgameTargetPosition;
@@ -208,7 +209,7 @@ namespace KrillOrBeKrilled.Core {
             ResourceSpawner.Instance.StartSpawner();
             this.OnStartLevel?.Invoke();
         }
-        
+
         /// <summary>
         /// Enables player controls and recording features, hero movement, and timed coin earning. To be used to start
         /// the level when no hero actors have been spawned in the dialogue.
@@ -251,7 +252,15 @@ namespace KrillOrBeKrilled.Core {
         public void LoadNextLevel() {
             this._pauseManager.UnpauseGame();
             this._pauseManager.SetIsPausable(false);
-            this.OnSceneWillChange?.Invoke(SceneNavigationManager.Instance.LoadLevelsScene);
+
+            UnityAction onSceneLoaded;
+            if (string.IsNullOrEmpty(this._levelData.NextLevelName)) {
+                onSceneLoaded = SceneNavigationManager.Instance.LoadLevelsScene;
+            } else {
+                onSceneLoaded = () => LevelManager.Instance.LoadLevel(this._levelData.NextLevelName);;
+            }
+
+            this.OnSceneWillChange?.Invoke(onSceneLoaded);
         }
 
         /// <summary>

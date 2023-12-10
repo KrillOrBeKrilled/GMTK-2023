@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_RaycastPadding: {x: -75, y: -75, z: -75, w: -75}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -270,24 +270,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _muteClickSfx: 1
-  _onClickImmediate:
+  _onClick:
     m_PersistentCalls:
       m_Calls: []
-  _onClickComplete:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: KrillOrBeKrilled.Managers.Audio.AudioManager, Managers
-        m_MethodName: PlayUIClick
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 2293904409337841036}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   _defaultImage: {fileID: 21300000, guid: 778dd597d081b483fb265fbc3d86ff28, type: 3}
   _pressedImage: {fileID: 21300000, guid: d2420f62fc4ae4e53bbb481af00b8148, type: 3}
 --- !u!1 &2825717058300614814
@@ -393,24 +378,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _muteClickSfx: 1
-  _onClickImmediate:
+  _onClick:
     m_PersistentCalls:
       m_Calls: []
-  _onClickComplete:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: KrillOrBeKrilled.Managers.Audio.AudioManager, Managers
-        m_MethodName: PlayUIClick
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 2825717058300614814}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   _defaultImage: {fileID: 21300000, guid: f37ac20730c824149b893eafee2c13f0, type: 3}
   _pressedImage: {fileID: 21300000, guid: e69480c56411a4831bfcd210ddbc5f6e, type: 3}
 --- !u!1 &8592559636288290007

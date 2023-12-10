@@ -32,11 +32,14 @@ namespace KrillOrBeKrilled.Traps {
         /// No other special effects at the moment.
         /// </summary>
         protected void OnCollisionEnter2D(Collision2D other) {
-            if (!other.gameObject.CompareTag("Hero") ||
-                !other.gameObject.TryGetComponent(out IDamageable actor)) {
+            if (!IsReady || !other.gameObject.CompareTag("Hero") && !other.gameObject.CompareTag("Ground")) {
                 return;
             }
-            actor.TakeDamage(_damageAmount);
+
+            if (other.gameObject.TryGetComponent(out IDamageable actor)) {
+                actor.TakeDamage(_damageAmount);
+            }
+            
             Destroy(gameObject);
         }
         
@@ -70,7 +73,7 @@ namespace KrillOrBeKrilled.Traps {
         /// <inheritdoc cref="Trap.OnExitedTrap"/>
         /// <summary> No responses for exiting the trap. </summary>
         protected override void OnExitedTrap(IDamageable actor) {}
-        
+
         /// <inheritdoc cref="Trap.SetUpTrap"/>
         /// <remarks> No additional responses at the moment. </remarks>
         protected override void SetUpTrap() {}

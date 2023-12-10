@@ -94,6 +94,8 @@ namespace KrillOrBeKrilled.Core {
         [Tooltip("Tracks when a new scene should be loaded.")]
         public UnityEvent<UnityAction> OnSceneWillChange { get; private set; }
 
+        private bool _isGameOver;
+
         //========================================
         // Unity Methods
         //========================================
@@ -541,6 +543,11 @@ namespace KrillOrBeKrilled.Core {
         /// <param name="endgameMessage"> The message to be displayed on the loss UI. </param>
         /// <remarks> Invokes the <see cref="OnHenLost"/> event. </remarks>
         private void HenLost(string endgameMessage) {
+            if (this._isGameOver) {
+                return;
+            }
+
+            this._isGameOver = true;
             this._playerManager.PlayerController.DisablePlayerInput();
 
             if (this._waveSpawnCoroutine != null) {
@@ -562,6 +569,11 @@ namespace KrillOrBeKrilled.Core {
         /// Otherwise, stops recording the player input and creates a file for the recorded input. </p>
         /// </remarks>
         private void HenWon(string message) {
+            if (this._isGameOver) {
+                return;
+            }
+
+            this._isGameOver = true;
             this.OnHenWon?.Invoke(message);
         }
 

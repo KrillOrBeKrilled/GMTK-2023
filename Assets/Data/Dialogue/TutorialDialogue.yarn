@@ -23,6 +23,6 @@ Hero: The dungeon exit is just in sight!
 Dogan: He's HERE already!? I think we'll have to continue your orientation another day.
 Dogan: DO NOT let him through to the end! Use all the traps at your disposal to stop him!
 <<stop_shake CameraSwitcher>>
-<<start_level GameManager>>
+<<start_level_disabled_spawn GameManager>>
 
 ===

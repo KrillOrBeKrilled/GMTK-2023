@@ -20,7 +20,7 @@ namespace KrillOrBeKrilled.Heroes {
         private Rigidbody2D _rigidbody;
         private HeroBT _heroBrain;
         private FieldOfView _heroSight;
-        
+
         private const int CoinsEarnedOnDeath = 2;
 
         // ----------------- Health ------------------
@@ -29,7 +29,7 @@ namespace KrillOrBeKrilled.Heroes {
 
         // ----------------- Data --------------------
         public HeroData.HeroType Type { get; private set; }
-        
+
         // ------------- Sound Effects ---------------
         private HeroSoundsController _soundsController;
 
@@ -39,32 +39,32 @@ namespace KrillOrBeKrilled.Heroes {
 
         [Tooltip("Tracks when the hero dies.")]
         public UnityEvent<Hero> OnHeroDied;
-        
+
         // This is added temporarily to deal with dependencies problem.
         public static event Action<HeroData.HeroType, Transform> OnHeroDeath;
 
         //========================================
         // Unity Methods
         //========================================
-        
+
         #region Unity Methods
-        
+
         private void Awake() {
             this.TryGetComponent(out this._rigidbody);
             this.TryGetComponent(out this._heroBrain);
             this.TryGetComponent(out this._heroSight);
         }
-        
+
         #endregion
-        
+
         //========================================
         // Public Methods
         //========================================
-        
+
         #region Public Methods
-        
+
         #region IDamageable Implementations
-        
+
         /// <summary>
         /// Reduces the hero's movement speed by a percentage reduction via the <see cref="HeroBT"/>.
         /// </summary>
@@ -73,7 +73,7 @@ namespace KrillOrBeKrilled.Heroes {
         public void ApplySpeedPenalty(float penalty) {
             this._heroBrain.UpdateData("SpeedPenalty", Mathf.Clamp(penalty, 0f, 1f));
         }
-        
+
         /// <summary>
         /// Decrements the hero's number of lives, playing associated SFX. If the number of lives are
         /// reduced to zero, broadcasts the endgame and destroys this GameObject. Otherwise, respawns
@@ -89,18 +89,18 @@ namespace KrillOrBeKrilled.Heroes {
             OnHeroDeath?.Invoke(this.Type, this.transform);
             Destroy(this.gameObject);
         }
-        
+
         public int GetHealth() {
             return this.Health;
         }
-        
+
         /// <summary>
         /// Resets the speed penalty to return the hero movement speed to normal via the <see cref="HeroBT"/>.
         /// </summary>
         public void ResetSpeedPenalty() {
             this._heroBrain.UpdateData("SpeedPenalty", 0f);
         }
-        
+
         /// <summary>
         /// Decrements the hero's health, earns coins through the <see cref="CoinManager"/>,
         /// and plays associated SFX. If the health falls to zero or below, triggers the hero death.
@@ -125,11 +125,11 @@ namespace KrillOrBeKrilled.Heroes {
         public void ThrowActorBack(float stunDuration, float throwForce) {
             this._heroBrain.UpdateData("IsStunned", true);
             this._heroBrain.UpdateData("StunDuration", stunDuration);
-            
+
             Vector2 explosionVector = new Vector2(-1f, 0.7f) * throwForce;
             this._rigidbody.AddForce(explosionVector, ForceMode2D.Impulse);
         }
-        
+
         public void ThrowActorForward(float throwForce) {
             this._rigidbody.velocity = Vector2.zero;
             Vector2 leapVector = new Vector2(0.19f, 2f) * throwForce;
@@ -137,14 +137,14 @@ namespace KrillOrBeKrilled.Heroes {
         }
 
         #endregion
-        
+
         /// <summary>
         /// Enables movement until the hero enters the level.
         /// </summary>
         public void EnterLevel() {
             this.StartCoroutine(this.EnterLevelAnimation());
         }
-        
+
         public void Initialize(HeroData heroData, HeroSoundsController soundsController, Tilemap groundTilemap) {
             this.Health = heroData.Health;
             this.Type = heroData.Type;
@@ -153,7 +153,7 @@ namespace KrillOrBeKrilled.Heroes {
             this._heroBrain.Initialize(soundsController);
             this._heroSight.Initialize(groundTilemap);
         }
-        
+
         /// <summary>
         /// Enables movement through the <see cref="HeroBT"/>.
         /// </summary>
@@ -161,22 +161,36 @@ namespace KrillOrBeKrilled.Heroes {
             this.StopAllCoroutines();
             this._heroBrain.UpdateData("IsMoving", true);
         }
-        
+
         /// <summary>
         /// Disables movement through the <see cref="HeroBT"/>.
         /// </summary>
         public void StopRunning() {
             this._heroBrain.UpdateData("IsMoving", false);
         }
-        
+
+        /// <summary>
+        /// Freeze this hero. No actions will be performed.
+        /// </summary>
+        public void Freeze() {
+            this._heroBrain.UpdateData("IsFrozen", true);
+        }
+
+        /// <summary>
+        /// Unfreeze this hero. Resume BT.
+        /// </summary>
+        public void Unfreeze() {
+            this._heroBrain.UpdateData("IsFrozen", false);
+        }
+
         #endregion
 
         //========================================
         // Private Methods
         //========================================
-        
+
         #region Private Methods
-        
+
         /// <summary>
         /// Enables movement through the <see cref="HeroBT"/> for a duration of time and then disables
         /// movement.
@@ -186,10 +200,10 @@ namespace KrillOrBeKrilled.Heroes {
             this._heroBrain.UpdateData("IsMoving", true);
 
             yield return new WaitForSeconds(2f);
-            
+
             this._heroBrain.UpdateData("IsMoving", false);
         }
-        
+
         #endregion
     }
 }

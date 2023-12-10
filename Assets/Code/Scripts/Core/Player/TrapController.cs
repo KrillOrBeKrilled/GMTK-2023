@@ -27,6 +27,10 @@ namespace KrillOrBeKrilled.Core.Player {
 
         [Tooltip("The trap prefabs to be deployed in the level.")]
         [SerializeField] private List<Trap> _trapPrefabs;
+        [Tooltip("The layer in which the level walls reside in for checking for ceilings when deploying ceiling traps.")]
+        [SerializeField] private LayerMask _groundLayer;
+        [Tooltip("The maximum distance that the player can be from a ceiling before they can't build a ceiling trap.")]
+        [SerializeField] private float _maxCeilingBuildDistance;
 
         [Tooltip("The invisible tilemap for checking trap deployment validity and painting tiles.")]
         [SerializeField] internal Tilemap TrapTilemap;
@@ -101,6 +105,8 @@ namespace KrillOrBeKrilled.Core.Player {
             if (!ResourceManager.Instance.CanAffordCost(this.CurrentTrap.Recipe)) {
                 return false;
             }
+            
+            this.InvalidateTrapDeployment();
 
             // Convert the origin tile position to world space
             var deploymentOrigin = this.TrapTilemap.CellToWorld(this._previousTilePositions[0]);
@@ -114,7 +120,7 @@ namespace KrillOrBeKrilled.Core.Player {
             // Delete/invalidate all the tiles overlapping the trap
             TilemapManager.Instance.ClearLevelTiles(this._previousTilePositions.ToArray());
 
-            spawnedTrap.Construct(spawnPosition, this._trapCanvas, this._previousTilePositions.ToArray(), _trapSoundsController, 
+            spawnedTrap.Construct(spawnPosition, this._trapCanvas, _trapSoundsController, 
                 () => TilemapManager.Instance.ResetTrapTiles(tilePositionsCopy));
             
             ResourceManager.Instance.ConsumeResources(this.CurrentTrap.Recipe);
@@ -156,6 +162,18 @@ namespace KrillOrBeKrilled.Core.Player {
                 ? this.transform.position + this._leftDeployPosition
                 : this.transform.position + this._rightDeployPosition;
             var deploymentOrigin = this.TrapTilemap.WorldToCell(deployPosition);
+            
+            // If the current selected trap is a ceiling trap, set the deployment origin directly above to the ceiling
+            if (CurrentTrap.IsCeilingTrap) {
+                var xPos = this.TrapTilemap.CellToWorld(deploymentOrigin);
+                var ceilingHit = Physics2D.Raycast(xPos, Vector2.up, _maxCeilingBuildDistance, _groundLayer);
+
+                var deploymentWorldPos = ceilingHit ? 
+                    (Vector3)(ceilingHit.point + (Vector2.down * 0.5f)) : 
+                    (xPos + Vector3.up * _maxCeilingBuildDistance);
+                
+                deploymentOrigin = this.TrapTilemap.WorldToCell(deploymentWorldPos);
+            }
 
             // Ensure that there are no query results yet or that the deploymentOrigin has changed
             if (this._previousTilePositions.Count >= 1 && deploymentOrigin == this._previousTilePositions[0]) {
@@ -178,12 +196,11 @@ namespace KrillOrBeKrilled.Core.Player {
 
             // Validate the deployment of the trap with a validation score
             var validationScore = 0;
-
             foreach (var prefabOffsetPosition in prefabPoints) {
                 validationScore = IsTileOfType<TrapTile>(this.TrapTilemap, deploymentOrigin + prefabOffsetPosition)
                     ? ++validationScore
                     : validationScore;
-
+    
                 // Allow to tile to be edited
                 this.TrapTilemap.SetTileFlags(deploymentOrigin + prefabOffsetPosition, TileFlags.None);
                 this._previousTilePositions.Add(deploymentOrigin + prefabOffsetPosition);

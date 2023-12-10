@@ -94,6 +94,8 @@ namespace KrillOrBeKrilled.Core {
         [Tooltip("Tracks when a new scene should be loaded.")]
         public UnityEvent<UnityAction> OnSceneWillChange { get; private set; }
 
+        private bool _isGameOver;
+
         //========================================
         // Unity Methods
         //========================================
@@ -117,6 +119,7 @@ namespace KrillOrBeKrilled.Core {
             LevelData sourceData = LevelManager.Instance.GetActiveLevelData();
             this._levelData = ScriptableObject.CreateInstance<LevelData>();
             this._levelData.DialogueName = sourceData.DialogueName;
+            this._levelData.NextLevelName = sourceData.NextLevelName;
             this._levelData.Type = sourceData.Type;
             this._levelData.RespawnPositions = sourceData.RespawnPositions.ToList();
             this._levelData.EndgameTargetPosition = sourceData.EndgameTargetPosition;
@@ -188,15 +191,16 @@ namespace KrillOrBeKrilled.Core {
         }
 
         /// <summary>
-        /// Enables player controls and recording features, hero movement, and timed coin earning.
+        /// Enables player controls and recording features, hero movement, and timed coin earning. To be used to start
+        /// the level when a hero actor is already spawned during dialogue.
         /// </summary>
         /// <remarks>
         /// Invokes the <see cref="OnStartLevel"/> event. Can be accessed as a YarnCommand.
         /// <p> If the <see cref="PlayerController"/> refers to the <see cref="RecordingController"/>, begins the
         /// recorded input playback feature. Otherwise, begins recording the player input. </p>
         /// </remarks>
-        [YarnCommand("start_level")]
-        public void StartLevel() {
+        [YarnCommand("start_level_disabled_spawn")]
+        public void StartLevelNoSpawn() {
             this._playerManager.PlayerController.StartSession();
 
             if (this._heroActor != null) {
@@ -206,6 +210,21 @@ namespace KrillOrBeKrilled.Core {
             CoinManager.Instance.StartCoinEarning();
             ResourceSpawner.Instance.StartSpawner();
             this.OnStartLevel?.Invoke();
+        }
+
+        /// <summary>
+        /// Enables player controls and recording features, hero movement, and timed coin earning. To be used to start
+        /// the level when no hero actors have been spawned in the dialogue.
+        /// </summary>
+        /// <remarks>
+        /// Invokes the <see cref="OnStartLevel"/> event. Can be accessed as a YarnCommand.
+        /// <p> If the <see cref="PlayerController"/> refers to the <see cref="RecordingController"/>, begins the
+        /// recorded input playback feature. Otherwise, begins recording the player input. </p>
+        /// </remarks>
+        [YarnCommand("start_level_enabled_spawn")]
+        public void StartLevelWithSpawn() {
+            this.StartLevelNoSpawn();
+            this.StartWaveSpawning();
         }
 
         /// <summary>
@@ -235,7 +254,15 @@ namespace KrillOrBeKrilled.Core {
         public void LoadNextLevel() {
             this._pauseManager.UnpauseGame();
             this._pauseManager.SetIsPausable(false);
-            this.OnSceneWillChange?.Invoke(SceneNavigationManager.Instance.LoadLevelsScene);
+
+            UnityAction onSceneLoaded;
+            if (string.IsNullOrEmpty(this._levelData.NextLevelName)) {
+                onSceneLoaded = SceneNavigationManager.Instance.LoadLevelsScene;
+            } else {
+                onSceneLoaded = () => LevelManager.Instance.LoadLevel(this._levelData.NextLevelName);;
+            }
+
+            this.OnSceneWillChange?.Invoke(onSceneLoaded);
         }
 
         /// <summary>
@@ -274,10 +301,7 @@ namespace KrillOrBeKrilled.Core {
 
             // Skip a frame to ensure all scripts have initialized and called Start()
             yield return null;
-            this.StartLevel();
-
-            this._waveSpawnCoroutine = this.SpawnNextWave();
-            this.StartCoroutine(this._waveSpawnCoroutine);
+            this.StartLevelWithSpawn();
         }
 
         /// <summary>
@@ -395,6 +419,10 @@ namespace KrillOrBeKrilled.Core {
             foreach (HeroData heroData in waveData.Heroes) {
                 this.SpawnHero(heroData);
                 yield return new WaitForSeconds(waveData.HeroSpawnDelayInSeconds);
+
+                if (this._isGameOver) {
+                    yield break;
+                }
             }
 
             if (waveData.NextWaveSpawnDelayInSeconds < 0) {
@@ -402,8 +430,20 @@ namespace KrillOrBeKrilled.Core {
             }
 
             yield return new WaitForSeconds(waveData.NextWaveSpawnDelayInSeconds);
+            if (this._isGameOver) {
+                yield break;
+            }
+
             this._waveSpawnCoroutine = this.SpawnNextWave();
             yield return this._waveSpawnCoroutine;
+        }
+
+        /// <summary>
+        /// Starts the <see cref="SpawnNextWave"/> coroutine to begin the level gameplay.
+        /// </summary>
+        private void StartWaveSpawning() {
+            this._waveSpawnCoroutine = this.SpawnNextWave();
+            this.StartCoroutine(this._waveSpawnCoroutine);
         }
 
         #endregion
@@ -511,13 +551,18 @@ namespace KrillOrBeKrilled.Core {
         /// <param name="endgameMessage"> The message to be displayed on the loss UI. </param>
         /// <remarks> Invokes the <see cref="OnHenLost"/> event. </remarks>
         private void HenLost(string endgameMessage) {
+            if (this._isGameOver) {
+                return;
+            }
+
+            this._isGameOver = true;
             this._playerManager.PlayerController.DisablePlayerInput();
 
             if (this._waveSpawnCoroutine != null) {
                 this.StopCoroutine(this._waveSpawnCoroutine);
             }
 
-            this.StopAllHeroes();
+            this.FreezeAllHeroes();
             this.OnHenLost?.Invoke(endgameMessage);
             EventManager.Instance.GameOverEvent?.Invoke();
         }
@@ -532,6 +577,11 @@ namespace KrillOrBeKrilled.Core {
         /// Otherwise, stops recording the player input and creates a file for the recorded input. </p>
         /// </remarks>
         private void HenWon(string message) {
+            if (this._isGameOver) {
+                return;
+            }
+
+            this._isGameOver = true;
             this.OnHenWon?.Invoke(message);
         }
 
@@ -549,6 +599,24 @@ namespace KrillOrBeKrilled.Core {
         private void StopAllHeroes() {
             foreach (var hero in this._heroes) {
                 hero.StopRunning();
+            }
+        }
+
+        /// <summary>
+        /// Freezes all heroes in the level.
+        /// </summary>
+        private void FreezeAllHeroes() {
+            foreach (Hero hero in this._heroes) {
+                hero.Freeze();
+            }
+        }
+
+        /// <summary>
+        /// Unfreezes all heroes in the level.
+        /// </summary>
+        private void UnfreezeAllHeroes() {
+            foreach (Hero hero in this._heroes) {
+                hero.Unfreeze();
             }
         }
 

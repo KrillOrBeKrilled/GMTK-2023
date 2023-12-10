@@ -35,7 +35,7 @@ namespace KrillOrBeKrilled.UGSAnalytics {
             DontDestroyOnLoad(this.transform.gameObject);
 
             // TODO: Adjust this to ask for consent in the future...
-            AnalyticsService.Instance.StartDataCollection();
+            // AnalyticsService.Instance.StartDataCollection();
         }
         
         #endregion

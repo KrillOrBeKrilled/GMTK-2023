@@ -3,12 +3,23 @@ tags:
 ---
 <<stop_shake CameraSwitcher>>
 <<show_start CameraSwitcher>>
-Hendall: CLUCK me!! It's the third day at the job!
+Hendall: Okay... that was a handful!
+Hendall: Do I get any bonuses for these extra duties?
+Dogan: Certainly! There will be generous bonuses in form of GOLD coins!
 <<spawn_hero_actor GameManager>>
 <<enter_hero_actor GameManager>>
-Hero: Another dungeon, another dollar.
+Hero: Did somebody say GOLD?
 <<show_player CameraSwitcher>>
-Hendall: Not again!
+Hendall: How many of these guys do you get a day on average?!
+Dogan: Hundred, maybe thousand, honestly I stopped counting a long time ago...
+Dogan: I will tell you more about Coins after you deal with these guys!
+<<start_shake CameraSwitcher>>
+Dogan: You won't be disappointed!
+<<stop_shake CameraSwitcher>>
+
+Developers: Thank you for playing the Henchman this far! We hope you had fun!
+Developers: If there is any feedback, or if you have suggestions on what you'd like to see in the game in the future, please let us know on our itch page or in the feedback form!
+Developers: Stay tuned for more updates in the future!
 <<start_level_enabled_spawn GameManager>>
 
 ===

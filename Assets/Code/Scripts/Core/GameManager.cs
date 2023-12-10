@@ -10,6 +10,7 @@ using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Traps;
 using KrillOrBeKrilled.UGSAnalytics;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using Yarn.Unity;
@@ -419,6 +420,10 @@ namespace KrillOrBeKrilled.Core {
             foreach (HeroData heroData in waveData.Heroes) {
                 this.SpawnHero(heroData);
                 yield return new WaitForSeconds(waveData.HeroSpawnDelayInSeconds);
+
+                if (this._isGameOver) {
+                    yield break;
+                }
             }
 
             if (waveData.NextWaveSpawnDelayInSeconds < 0) {
@@ -554,7 +559,7 @@ namespace KrillOrBeKrilled.Core {
                 this.StopCoroutine(this._waveSpawnCoroutine);
             }
 
-            this.StopAllHeroes();
+            this.FreezeAllHeroes();
             this.OnHenLost?.Invoke(endgameMessage);
             EventManager.Instance.GameOverEvent?.Invoke();
         }
@@ -591,6 +596,24 @@ namespace KrillOrBeKrilled.Core {
         private void StopAllHeroes() {
             foreach (var hero in this._heroes) {
                 hero.StopRunning();
+            }
+        }
+
+        /// <summary>
+        /// Freezes all heroes in the level.
+        /// </summary>
+        private void FreezeAllHeroes() {
+            foreach (Hero hero in this._heroes) {
+                hero.Freeze();
+            }
+        }
+
+        /// <summary>
+        /// Unfreezes all heroes in the level.
+        /// </summary>
+        private void UnfreezeAllHeroes() {
+            foreach (Hero hero in this._heroes) {
+                hero.Unfreeze();
             }
         }
 

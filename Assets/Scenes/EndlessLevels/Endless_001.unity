@@ -25143,7 +25143,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 81
-      m_TileSpriteIndex: 45
+      m_TileSpriteIndex: 47
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -37088,11 +37088,11 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 1098
     m_Data: {fileID: 21300000, guid: 12afb6b3998c48f40a67fe12fb51652f, type: 3}
-  - m_RefCount: 283
+  - m_RefCount: 282
     m_Data: {fileID: 21300000, guid: 0a7deaec36cfb9148a3e509be0585a1b, type: 3}
   - m_RefCount: 133
     m_Data: {fileID: 21300000, guid: 44268b6c4d7bc51459a1534ced089228, type: 3}
-  - m_RefCount: 922
+  - m_RefCount: 923
     m_Data: {fileID: 21300000, guid: 96f3ba96717b81c4bb7ac5389b8965ba, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
@@ -38945,6 +38945,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9186954324187263670, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _resourceUI
+      value: 
+      objectReference: {fileID: 1494888310}
+    - target: {fileID: 9186954324187263670, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: _gameManager
       value: 
       objectReference: {fileID: 777455261}
@@ -38953,6 +38957,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+--- !u!114 &1494888310 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6391279831613539885, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+  m_PrefabInstance: {fileID: 1494888309}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e403d567794f74b2cfcb7ad8e46d95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1504048743
 GameObject:
   m_ObjectHideFlags: 0

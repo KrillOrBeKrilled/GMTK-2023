@@ -10,7 +10,6 @@ using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Traps;
 using KrillOrBeKrilled.UGSAnalytics;
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 using Yarn.Unity;
@@ -434,7 +433,7 @@ namespace KrillOrBeKrilled.Core {
             if (this._isGameOver) {
                 yield break;
             }
-            
+
             this._waveSpawnCoroutine = this.SpawnNextWave();
             yield return this._waveSpawnCoroutine;
         }

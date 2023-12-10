@@ -26,10 +26,11 @@ namespace KrillOrBeKrilled.Managers {
         }
         
         /// <summary>
-        /// Loads the "Game" scene.
+        /// Loads the scene corresponding to the provided name.
         /// </summary>
-        public void LoadGameScene() {
-            LoadScene("Game");
+        /// <param name="levelName"> The name of a specific level scene. </param>
+        public void LoadGameLevelScene(string levelName) {
+            LoadScene(levelName);
         }
         
         /// <summary>

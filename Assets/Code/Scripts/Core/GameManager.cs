@@ -119,6 +119,7 @@ namespace KrillOrBeKrilled.Core {
             LevelData sourceData = LevelManager.Instance.GetActiveLevelData();
             this._levelData = ScriptableObject.CreateInstance<LevelData>();
             this._levelData.DialogueName = sourceData.DialogueName;
+            this._levelData.NextLevelName = sourceData.NextLevelName;
             this._levelData.Type = sourceData.Type;
             this._levelData.RespawnPositions = sourceData.RespawnPositions.ToList();
             this._levelData.EndgameTargetPosition = sourceData.EndgameTargetPosition;
@@ -190,15 +191,16 @@ namespace KrillOrBeKrilled.Core {
         }
 
         /// <summary>
-        /// Enables player controls and recording features, hero movement, and timed coin earning.
+        /// Enables player controls and recording features, hero movement, and timed coin earning. To be used to start
+        /// the level when a hero actor is already spawned during dialogue.
         /// </summary>
         /// <remarks>
         /// Invokes the <see cref="OnStartLevel"/> event. Can be accessed as a YarnCommand.
         /// <p> If the <see cref="PlayerController"/> refers to the <see cref="RecordingController"/>, begins the
         /// recorded input playback feature. Otherwise, begins recording the player input. </p>
         /// </remarks>
-        [YarnCommand("start_level")]
-        public void StartLevel() {
+        [YarnCommand("start_level_disabled_spawn")]
+        public void StartLevelNoSpawn() {
             this._playerManager.PlayerController.StartSession();
 
             if (this._heroActor != null) {
@@ -208,6 +210,21 @@ namespace KrillOrBeKrilled.Core {
             CoinManager.Instance.StartCoinEarning();
             ResourceSpawner.Instance.StartSpawner();
             this.OnStartLevel?.Invoke();
+        }
+
+        /// <summary>
+        /// Enables player controls and recording features, hero movement, and timed coin earning. To be used to start
+        /// the level when no hero actors have been spawned in the dialogue.
+        /// </summary>
+        /// <remarks>
+        /// Invokes the <see cref="OnStartLevel"/> event. Can be accessed as a YarnCommand.
+        /// <p> If the <see cref="PlayerController"/> refers to the <see cref="RecordingController"/>, begins the
+        /// recorded input playback feature. Otherwise, begins recording the player input. </p>
+        /// </remarks>
+        [YarnCommand("start_level_enabled_spawn")]
+        public void StartLevelWithSpawn() {
+            this.StartLevelNoSpawn();
+            this.StartWaveSpawning();
         }
 
         /// <summary>
@@ -237,7 +254,15 @@ namespace KrillOrBeKrilled.Core {
         public void LoadNextLevel() {
             this._pauseManager.UnpauseGame();
             this._pauseManager.SetIsPausable(false);
-            this.OnSceneWillChange?.Invoke(SceneNavigationManager.Instance.LoadLevelsScene);
+
+            UnityAction onSceneLoaded;
+            if (string.IsNullOrEmpty(this._levelData.NextLevelName)) {
+                onSceneLoaded = SceneNavigationManager.Instance.LoadLevelsScene;
+            } else {
+                onSceneLoaded = () => LevelManager.Instance.LoadLevel(this._levelData.NextLevelName);;
+            }
+
+            this.OnSceneWillChange?.Invoke(onSceneLoaded);
         }
 
         /// <summary>
@@ -276,10 +301,7 @@ namespace KrillOrBeKrilled.Core {
 
             // Skip a frame to ensure all scripts have initialized and called Start()
             yield return null;
-            this.StartLevel();
-
-            this._waveSpawnCoroutine = this.SpawnNextWave();
-            this.StartCoroutine(this._waveSpawnCoroutine);
+            this.StartLevelWithSpawn();
         }
 
         /// <summary>
@@ -406,6 +428,14 @@ namespace KrillOrBeKrilled.Core {
             yield return new WaitForSeconds(waveData.NextWaveSpawnDelayInSeconds);
             this._waveSpawnCoroutine = this.SpawnNextWave();
             yield return this._waveSpawnCoroutine;
+        }
+
+        /// <summary>
+        /// Starts the <see cref="SpawnNextWave"/> coroutine to begin the level gameplay.
+        /// </summary>
+        private void StartWaveSpawning() {
+            this._waveSpawnCoroutine = this.SpawnNextWave();
+            this.StartCoroutine(this._waveSpawnCoroutine);
         }
 
         #endregion

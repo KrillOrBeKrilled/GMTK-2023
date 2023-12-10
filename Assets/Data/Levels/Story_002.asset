@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Story_002
   m_EditorClassIdentifier: 
   Type: 0
-  DialogueName: TutorialDialogue
-  EndgameTargetPosition: {x: 380, y: -0.5, z: 0}
+  DialogueName: Level2Dialogue
+  NextLevelName: Story_003
+  EndgameTargetPosition: {x: 285, y: -0.5, z: 0}
   RespawnPositions:
   - {x: -8.05, y: -0.39, z: 0}
   WavesData:
@@ -23,6 +24,13 @@ MonoBehaviour:
       - Health: 20
         Type: 0
       - Health: 20
+        Type: 1
+      - Health: 30
+        Type: 0
+      HeroSpawnDelayInSeconds: 2
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 50
         Type: 1
       HeroSpawnDelayInSeconds: 2
       NextWaveSpawnDelayInSeconds: 10

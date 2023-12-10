@@ -142,7 +142,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: c65f88a41a257914eb1f682e65988010, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 2
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -387,7 +387,6 @@ MonoBehaviour:
   _heatEmanating: {fileID: 5931316982898380116}
   _bubbles: {fileID: 2295360673421609229}
   _damageAmount: 15
-  _pitAvoidanceJumpPad: {fileID: 0}
 --- !u!61 &3751644648279924701
 BoxCollider2D:
   m_ObjectHideFlags: 0

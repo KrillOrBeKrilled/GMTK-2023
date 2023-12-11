@@ -27,3 +27,25 @@ MonoBehaviour:
         Type: 1
       HeroSpawnDelayInSeconds: 2
       NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 25
+        Type: 0
+      - Health: 25
+        Type: 1
+      - Health: 30
+        Type: 0
+      HeroSpawnDelayInSeconds: 3
+      NextWaveSpawnDelayInSeconds: 15
+    - Heroes:
+      - Health: 50
+        Type: 0
+      - Health: 50
+        Type: 1
+      - Health: 50
+        Type: 0
+      - Health: 50
+        Type: 0
+      - Health: 75
+        Type: 0
+      HeroSpawnDelayInSeconds: 5
+      NextWaveSpawnDelayInSeconds: 15

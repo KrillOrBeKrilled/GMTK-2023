@@ -362,7 +362,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RecipeList:
   - type: 3
-    amount: 2
+    amount: 3
   LeftGridPoints:
   - {x: 0, y: 0, z: 0}
   - {x: -1, y: 0, z: 0}
@@ -383,6 +383,7 @@ MonoBehaviour:
   AnimationOffset: {x: 0, y: 1, z: 0}
   BuildingDuration: 10
   SliderBar: {fileID: 8689842051725396054, guid: 730a5177b6878c7479dff24b13199c1c, type: 3}
+  IsCeilingTrap: 0
   _acidLiquid: {fileID: 5500118044198014375}
   _heatEmanating: {fileID: 5931316982898380116}
   _bubbles: {fileID: 2295360673421609229}

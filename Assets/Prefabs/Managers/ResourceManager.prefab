@@ -44,3 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f174121181540ae8922436b1e4059e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialInventory:
+  - type: 0
+    amount: 5
+  - type: 1
+    amount: 5
+  - type: 2
+    amount: 5
+  - type: 3
+    amount: 5
+  - type: 4
+    amount: 0

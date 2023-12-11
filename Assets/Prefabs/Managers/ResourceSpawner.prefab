@@ -53,24 +53,36 @@ MonoBehaviour:
     weight: 5
   - resourceType: 2
     resourcePrefab: {fileID: 2349783128547112783, guid: 39e72fb5e773e412d9e61a2c49411533, type: 3}
-    weight: 3
+    weight: 4
   - resourceType: 3
     resourcePrefab: {fileID: 413600255675622022, guid: 8ec15dabc9a3e49d0b01ad5edce4d292, type: 3}
-    weight: 3
+    weight: 2
   - resourceType: 4
     resourcePrefab: {fileID: 3676314641651722254, guid: 99a09b95aa9034b7f917400e1c1e0971, type: 3}
-    weight: 1
-  _spawnRadius: 10
+    weight: 2
+  _spawnLeftRadius: -20
+  _spawnRightRadius: 20
   _spawnInterval: 3
   _heroDrops:
-  - heroType: 1
+  - heroType: 0
     drops:
     - resourceType: 0
+      resourcePrefab: {fileID: 1293186338797092574, guid: 524f4a15c5cc440bd9a9d4bc0e319b53, type: 3}
+      weight: 10
+    - resourceType: 2
+      resourcePrefab: {fileID: 3676314641651722254, guid: 99a09b95aa9034b7f917400e1c1e0971, type: 3}
+      weight: 1
+  - heroType: 1
+    drops:
+    - resourceType: 3
       resourcePrefab: {fileID: 1293186338797092574, guid: 524f4a15c5cc440bd9a9d4bc0e319b53, type: 3}
       weight: 1
     - resourceType: 1
       resourcePrefab: {fileID: 8758032395856098712, guid: 002ffe11be5e9492d965b8fb1dff581f, type: 3}
-      weight: 3
+      weight: 1
+    - resourceType: 0
+      resourcePrefab: {fileID: 8758032395856098712, guid: 002ffe11be5e9492d965b8fb1dff581f, type: 3}
+      weight: 2
   - heroType: 2
     drops:
     - resourceType: 3
@@ -87,4 +99,9 @@ MonoBehaviour:
     - resourceType: 4
       resourcePrefab: {fileID: 3676314641651722254, guid: 99a09b95aa9034b7f917400e1c1e0971, type: 3}
       weight: 1
-  _heroDropAmount: 3
+  _minimumHeroDrops: 3
+  _maximumHeroDrops: 5
+  _levelDropOffset: 10.5
+  _dropUpwardForce: 5
+  _dropHorizontalForce: 5
+  _dropRotationForce: 200

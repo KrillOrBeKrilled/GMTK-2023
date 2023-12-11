@@ -24,7 +24,7 @@ namespace KrillOrBeKrilled.Traps {
         [SerializeField] protected List<ResourceEntry> RecipeList;
         [Tooltip("Tilemap position offsets to specify the tiles needed for deployment of this trap calculated from " +
                  "an origin in the TrapController.")]
-        [SerializeField] protected List<Vector3Int> LeftGridPoints, RightGridPoints;
+        [SerializeField] protected List<TrapGridPoint> LeftGridPoints, RightGridPoints;
         [Tooltip("The minimum requirement of overlapping TrapTile types when deploying this trap.")]
         [SerializeField] protected int ValidationScore;
         [Tooltip("Adjusts trap component positions for clean animations and spawning customized for different trap sizes.")]
@@ -209,7 +209,7 @@ namespace KrillOrBeKrilled.Traps {
         /// </summary>
         /// <returns> A list of tilemap offsets to pinpoint tiles needed for trap deployment. </returns>
         /// <remarks> Depending on the shape and extent of the trap, the offsets will vary between trap types. </remarks>
-        public List<Vector3Int> GetLeftGridPoints() {
+        public List<TrapGridPoint> GetLeftGridPoints() {
             return this.LeftGridPoints;
         }
 
@@ -219,7 +219,7 @@ namespace KrillOrBeKrilled.Traps {
         /// </summary>
         /// <returns> A list of tilemap offsets to pinpoint tiles needed for trap deployment. </returns>
         /// <remarks> Depending on the shape and extent of the trap, the offsets will vary between trap types. </remarks>
-        public List<Vector3Int> GetRightGridPoints() {
+        public List<TrapGridPoint> GetRightGridPoints() {
             return this.RightGridPoints;
         }
 

@@ -195,23 +195,25 @@ namespace KrillOrBeKrilled.Core.Player {
                 : this.CurrentTrap.GetRightGridPoints();
 
             // Validate the deployment of the trap with a validation score
-            var validationScore = 0;
-            foreach (var prefabOffsetPosition in prefabPoints) {
-                validationScore = IsTileOfType<TrapTile>(this.TrapTilemap, deploymentOrigin + prefabOffsetPosition)
-                    ? ++validationScore
-                    : validationScore;
+            var isDeployable = true;
+            foreach (var gridOffsetPosition in prefabPoints) {
+                var isTrapTile = IsTileOfType<TrapTile>(this.TrapTilemap, deploymentOrigin + gridOffsetPosition.GridPosition);
+                if (gridOffsetPosition.IsTrapTile != isTrapTile) {
+                    isDeployable = false;
+                }
     
                 // Allow to tile to be edited
-                this.TrapTilemap.SetTileFlags(deploymentOrigin + prefabOffsetPosition, TileFlags.None);
-                this._previousTilePositions.Add(deploymentOrigin + prefabOffsetPosition);
+                this.TrapTilemap.SetTileFlags(deploymentOrigin + gridOffsetPosition.GridPosition, TileFlags.None);
+                this._previousTilePositions.Add(deploymentOrigin + gridOffsetPosition.GridPosition);
             }
 
             // If the validation score isn't high enough, paint the selected tiles an invalid color
-            if (!this.CurrentTrap.IsValidScore(validationScore)) {
-                this.InvalidateTrapDeployment();
-            } else {
+            if (isDeployable) {
                 this.ValidateTrapDeployment();
+                return;
             }
+            
+            this.InvalidateTrapDeployment();
         }
 
         #endregion

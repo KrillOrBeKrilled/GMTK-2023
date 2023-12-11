@@ -145,10 +145,10 @@ namespace KrillOrBeKrilled.Core.Player {
         /// <param name="direction"> The direction for the character to check trap deployment validity. </param>
         /// <remarks>
         /// Trap deployment cannot be validated when the player is flying or the selected trap does not overlap
-        /// enough custom <see cref="TrapTile">TrapTiles</see> to reach the <see cref="Trap.ValidationScore"/>
-        /// threshold. If the player is flying, the grid will not be painted.
+        /// the specified <see cref="TrapTile"/> type tiles in the correct positions. If the player is flying,
+        /// the grid will not be painted.
         /// <para> The painting of the trap tilemap tiles is decided by the player direction to use the
-        /// <see cref="_leftDeployTransform"/> or <see cref="_rightDeployTransform"/> as the origin, with the
+        /// <see cref="_leftDeployPosition"/> or <see cref="_rightDeployPosition"/> as the origin, with the
         /// <see cref="Trap.LeftGridPoints"/> and <see cref="Trap.RightGridPoints"/> data as tile offsets to
         /// accurately pinpoint the trap tiles in question. </para>
         /// </remarks>
@@ -197,8 +197,8 @@ namespace KrillOrBeKrilled.Core.Player {
             // Validate the deployment of the trap with a validation score
             var isDeployable = true;
             foreach (var gridOffsetPosition in prefabPoints) {
-                var isTrapTile = IsTileOfType<TrapTile>(this.TrapTilemap, deploymentOrigin + gridOffsetPosition.GridPosition);
-                if (gridOffsetPosition.IsTrapTile != isTrapTile) {
+                if (gridOffsetPosition.IsTrapTile != 
+                    IsTileOfType<TrapTile>(this.TrapTilemap, deploymentOrigin + gridOffsetPosition.GridPosition)) {
                     isDeployable = false;
                 }
     

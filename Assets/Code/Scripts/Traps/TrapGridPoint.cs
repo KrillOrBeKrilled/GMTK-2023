@@ -15,7 +15,10 @@ namespace KrillOrBeKrilled.Traps {
     /// </remarks>
     [Serializable]
     public class TrapGridPoint {
+        [Tooltip("Tilemap position offset to specify the tile position needed for deployment of this trap calculated " +
+                 "from an origin in the TrapController.")]
         public Vector3Int GridPosition;
+        [Tooltip("If this tile position must be of the TrapTile type.")]
         public bool IsTrapTile;
     }
 }

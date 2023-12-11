@@ -22,11 +22,8 @@ namespace KrillOrBeKrilled.Traps {
     public abstract class Trap : MonoBehaviour, ITrap {
         [Tooltip("The required resources to deploy this trap managed by the ResourceManager.")]
         [SerializeField] protected List<ResourceEntry> RecipeList;
-        [Tooltip("Tilemap position offsets to specify the tiles needed for deployment of this trap calculated from " +
-                 "an origin in the TrapController.")]
-        [SerializeField] protected List<Vector3Int> LeftGridPoints, RightGridPoints;
-        [Tooltip("The minimum requirement of overlapping TrapTile types when deploying this trap.")]
-        [SerializeField] protected int ValidationScore;
+        [Tooltip("Grid position specifications for the space this trap requires to be successfully deployed.")]
+        [SerializeField] protected List<TrapGridPoint> LeftGridPoints, RightGridPoints;
         [Tooltip("Adjusts trap component positions for clean animations and spawning customized for different trap sizes.")]
         [SerializeField] protected Vector3 LeftSpawnOffset, RightSpawnOffset, AnimationOffset;
         [Tooltip("The length of time required to build the trap when the player stands idle and in range.")]
@@ -209,7 +206,7 @@ namespace KrillOrBeKrilled.Traps {
         /// </summary>
         /// <returns> A list of tilemap offsets to pinpoint tiles needed for trap deployment. </returns>
         /// <remarks> Depending on the shape and extent of the trap, the offsets will vary between trap types. </remarks>
-        public List<Vector3Int> GetLeftGridPoints() {
+        public List<TrapGridPoint> GetLeftGridPoints() {
             return this.LeftGridPoints;
         }
 
@@ -219,22 +216,8 @@ namespace KrillOrBeKrilled.Traps {
         /// </summary>
         /// <returns> A list of tilemap offsets to pinpoint tiles needed for trap deployment. </returns>
         /// <remarks> Depending on the shape and extent of the trap, the offsets will vary between trap types. </remarks>
-        public List<Vector3Int> GetRightGridPoints() {
+        public List<TrapGridPoint> GetRightGridPoints() {
             return this.RightGridPoints;
-        }
-
-        /// <summary>
-        /// Checks that a score reaches the <see cref="ValidationScore"/> threshold required to deploy this trap.
-        /// </summary>
-        /// <param name="score"> The current validation score to compare against the requirement. </param>
-        /// <returns> If the score is greater than or equal to the <see cref="ValidationScore"/>. </returns>
-        /// <remarks>
-        /// A <see cref="ValidationScore"/> is the minimum number of TrapTile tile types that this trap must overlap
-        /// to be successfully deployed. Depending on the shape and extent of the trap, this validation score
-        /// will vary between trap types.
-        /// </remarks>
-        public bool IsValidScore(int score) {
-            return score >= this.ValidationScore;
         }
         
         #endregion

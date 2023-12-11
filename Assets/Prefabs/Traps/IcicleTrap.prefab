@@ -240,7 +240,7 @@ MonoBehaviour:
   BuildingDuration: 3
   SliderBar: {fileID: 8689842051725396054, guid: 730a5177b6878c7479dff24b13199c1c, type: 3}
   IsCeilingTrap: 1
-  _damageAmount: 15
+  _damageAmount: 30
 --- !u!95 &5914186572757083417
 Animator:
   serializedVersion: 5

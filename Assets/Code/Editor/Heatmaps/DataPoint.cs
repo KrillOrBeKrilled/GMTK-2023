@@ -3,7 +3,7 @@ using UnityEngine;
 //*******************************************************************************************
 // DataPoint
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Heatmaps {
+namespace KrillOrBeKrilled.Editor.Heatmaps {
     /// <summary>
     /// Represents a data point in a heatmap, adjusting the scale and color of the
     /// associated GameObject with respect to the concentration of other

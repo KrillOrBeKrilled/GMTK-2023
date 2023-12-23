@@ -5,7 +5,7 @@ using UnityEngine;
 //*******************************************************************************************
 // DataPointCollection
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Heatmaps {
+namespace KrillOrBeKrilled.Editor.Heatmaps {
     /// <summary>
     /// Manages a set of <see cref="DataPoint">DataPoints</see>, updating the list and
     /// rostered <see cref="DataPoint">DataPoints</see> any time the scene is updated in

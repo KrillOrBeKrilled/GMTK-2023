@@ -4,7 +4,7 @@ using UnityEngine.Events;
 //*******************************************************************************************
 // DialogueSoundsController
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Dialogue {
+namespace KrillOrBeKrilled.UI.Dialogue {
     /// <summary>
     /// Holds all UnityEvents used to communicate with the AudioManager to fire
     /// off Wwise sound events associated with the dialogue events, acting as an

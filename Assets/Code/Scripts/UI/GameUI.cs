@@ -1,3 +1,4 @@
+using KrillOrBeKrilled.UI.Dialogue;
 using KrillOrBeKrilled.Core;
 using KrillOrBeKrilled.Managers;
 using KrillOrBeKrilled.Heroes;
@@ -166,13 +167,32 @@ namespace KrillOrBeKrilled.UI {
         }
 
         /// <summary>
-        /// Creates a health bar for the associated <see cref="Hero"/> and registers the hero to be represented
-        /// on the <see cref="MapUI"/>.
+        /// Creates a health bar for the associated <see cref="Hero"/>, registers the hero to be represented
+        /// on the <see cref="MapUI"/>, and optionally registers the hero with the dialogue system.
         /// </summary>
         /// <param name="hero"> The newly spawned <see cref="Hero"/>. </param>
-        private void OnHeroSpawned(Hero hero) {
+        /// <param name="registerAsDialogueCharacter"> If the spawned hero should be registered with the dialogue system. </param>
+        private void OnHeroSpawned(Hero hero, bool registerAsDialogueCharacter) {
             this.SetupHealthBar(hero);
             this._mapUI.RegisterHero(hero);
+
+            if (!registerAsDialogueCharacter || !hero.TryGetComponent(out YarnCharacter newYarnCharacter)) {
+                return;
+            }
+            
+            hero.OnHeroDied.AddListener(this.OnDialogueHeroDied);
+            YarnCharacterView.instance.RegisterYarnCharacter(newYarnCharacter);
+            YarnCharacterView.instance.playerCharacter = newYarnCharacter;
+        }
+        
+        /// <summary>
+        /// Unregisters the associated <see cref="Hero"/> from the <see cref="YarnCharacterView">dialogue system</see>.
+        /// </summary>
+        /// <param name="hero"> The <see cref="Hero"/> that died. </param>
+        private void OnDialogueHeroDied(Hero hero) {
+            if (hero.TryGetComponent(out YarnCharacter diedCharacter)) {
+                YarnCharacterView.instance.ForgetYarnCharacter(diedCharacter);
+            }
         }
 
         /// <summary>

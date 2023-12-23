@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using KrillOrBeKrilled.Cameras;
 using KrillOrBeKrilled.Core.Player;
-using KrillOrBeKrilled.Dialogue;
 using KrillOrBeKrilled.Environment;
 using KrillOrBeKrilled.Heroes;
 using KrillOrBeKrilled.Managers;
@@ -90,7 +89,7 @@ namespace KrillOrBeKrilled.Core {
         [Tooltip("Tracks when the player loses the game.")]
         public UnityEvent<string> OnHenLost { get; private set; }
         [Tooltip("Tracks when a hero is spawned.")]
-        public UnityEvent<Hero> OnHeroSpawned { get; private set; }
+        public UnityEvent<Hero, bool> OnHeroSpawned { get; private set; }
         [Tooltip("Tracks when a new scene should be loaded.")]
         public UnityEvent<UnityAction> OnSceneWillChange { get; private set; }
 
@@ -109,7 +108,7 @@ namespace KrillOrBeKrilled.Core {
             this.OnStartLevel = new UnityEvent();
             this.OnHenWon = new UnityEvent<string>();
             this.OnHenLost = new UnityEvent<string>();
-            this.OnHeroSpawned = new UnityEvent<Hero>();
+            this.OnHeroSpawned = new UnityEvent<Hero, bool>();
             this.OnSceneWillChange = new UnityEvent<UnityAction>();
         }
 
@@ -182,12 +181,7 @@ namespace KrillOrBeKrilled.Core {
         /// <remarks> Can be accessed as a YarnCommand. </remarks>
         [YarnCommand("spawn_hero_actor")]
         public void SpawnHeroActor() {
-            this._heroActor = this.SpawnHero(HeroData.DefaultHero);
-
-            if (this._heroActor.TryGetComponent(out YarnCharacter newYarnCharacter)) {
-                YarnCharacterView.instance.RegisterYarnCharacter(newYarnCharacter);
-                YarnCharacterView.instance.playerCharacter = newYarnCharacter;
-            }
+            this._heroActor = this.SpawnHero(HeroData.DefaultHero, true);
         }
 
         /// <summary>
@@ -380,9 +374,10 @@ namespace KrillOrBeKrilled.Core {
         /// </summary>
         /// <param name="heroData"> The data associated with the hero to spawn stored within each
         /// <see cref="WaveData"/>. </param>
+        /// <param name="registerAsDialogueCharacter"> If the spawned hero should be registered with the dialogue system. </param>
         /// <returns> The instantiated hero GameObject. </returns>
         /// <remarks> Invokes the <see cref="OnHeroSpawned"/> event. </remarks>
-        private Hero SpawnHero(HeroData heroData) {
+        private Hero SpawnHero(HeroData heroData, bool registerAsDialogueCharacter = false) {
             var heroPrefab = this._defaultHeroPrefab;
             if (heroData.Type == HeroData.HeroType.Druid) {
                 heroPrefab = this._druidHeroPrefab;
@@ -393,7 +388,7 @@ namespace KrillOrBeKrilled.Core {
             newHero.OnHeroDied.AddListener(this.OnHeroDied);
 
             this._heroes.Add(newHero);
-            this.OnHeroSpawned.Invoke(newHero);
+            this.OnHeroSpawned.Invoke(newHero, registerAsDialogueCharacter);
             return newHero;
         }
 
@@ -459,10 +454,6 @@ namespace KrillOrBeKrilled.Core {
         /// <param name="hero"> The hero that died. </param>
         /// <remarks> Subscribed to the <see cref="Hero.OnHeroDied"/> event. </remarks>
         private void OnHeroDied(Hero hero) {
-            if (hero.TryGetComponent(out YarnCharacter diedCharacter)) {
-                YarnCharacterView.instance.ForgetYarnCharacter(diedCharacter);
-            }
-
             this._heroes.Remove(hero);
 
             bool noMoreWaves = !this.IsEndlessLevel && this._nextWavesDataQueue.Count <= 0;

@@ -7,7 +7,7 @@ using Yarn.Unity;
 //*******************************************************************************************
 // YarnCharacterView
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Dialogue {
+namespace KrillOrBeKrilled.UI.Dialogue {
     /// <summary>
     /// Manager singleton that repositions DialogueUI window in 3D world space, based on
     /// whoever is speaking. Put this script on the same gameObject as your DialogueUI.

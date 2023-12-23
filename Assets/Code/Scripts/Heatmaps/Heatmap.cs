@@ -4,7 +4,7 @@ using UnityEngine;
 //*******************************************************************************************
 // Heatmap
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Editor.Heatmaps {
+namespace KrillOrBeKrilled.Heatmaps {
     /// <summary>
     /// Parses csv files created from the UGS Analytics SQL Explorer queries of
     /// position data to generate a heatmap of

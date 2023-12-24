@@ -7,7 +7,7 @@ using KrillOrBeKrilled.Input;
 using KrillOrBeKrilled.Traps;
 using System.Collections;
 using System.Collections.Generic;
-using KrillOrBeKrilled.Managers;
+using KrillOrBeKrilled.Core.Managers;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;

@@ -1,4 +1,4 @@
-using KrillOrBeKrilled.Managers;
+using KrillOrBeKrilled.Core.Managers;
 using KrillOrBeKrilled.Input;
 using UnityEngine;
 

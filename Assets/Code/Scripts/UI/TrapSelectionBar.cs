@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using KrillOrBeKrilled.Managers;
+using KrillOrBeKrilled.Core.Managers;
 using KrillOrBeKrilled.Traps;
 using System.Collections.ObjectModel;
 using UnityEngine;

@@ -1,6 +1,6 @@
 using KrillOrBeKrilled.UI.Dialogue;
 using KrillOrBeKrilled.Core;
-using KrillOrBeKrilled.Managers;
+using KrillOrBeKrilled.Core.Managers;
 using KrillOrBeKrilled.Heroes;
 using System.Collections.Generic;
 using KrillOrBeKrilled.Traps;

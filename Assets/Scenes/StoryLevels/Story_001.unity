@@ -115420,10 +115420,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1598336665618200570, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 244.33
-      objectReference: {fileID: 0}
     - target: {fileID: 1976015722435933058, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
       propertyPath: m_Follow
       value: 
@@ -115432,22 +115428,6 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 1413619176}
-    - target: {fileID: 5227083634007505359, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 247.79
-      objectReference: {fileID: 0}
-    - target: {fileID: 5227083634007505359, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.4699998
-      objectReference: {fileID: 0}
-    - target: {fileID: 5227083634007505359, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -13.48
-      objectReference: {fileID: 0}
-    - target: {fileID: 6999559410536347720, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

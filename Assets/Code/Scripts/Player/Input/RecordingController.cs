@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 //*******************************************************************************************
 // RecordingController
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Core.Player {
+namespace KrillOrBeKrilled.Player.Input {
     /// <summary>
     /// A subclass of <see cref="PlayerController"/> that reads from files of recorded
     /// playtest sessions and recreates the scenario.

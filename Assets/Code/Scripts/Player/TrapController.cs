@@ -10,7 +10,7 @@ using UnityEngine.Tilemaps;
 //*******************************************************************************************
 // TrapController
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Core.Player {
+namespace KrillOrBeKrilled.Player {
     /// <summary>
     /// Handles the eligibility calculation of tile placement called every frame
     /// through tilemap and custom collision detection. Contains helper methods to check tile

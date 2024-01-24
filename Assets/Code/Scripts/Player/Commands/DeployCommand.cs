@@ -1,9 +1,7 @@
 //*******************************************************************************************
 // DeployCommand
 //*******************************************************************************************
-using KrillOrBeKrilled.Core.Commands.Interfaces;
-
-namespace KrillOrBeKrilled.Core.Commands {
+namespace KrillOrBeKrilled.Player.Commands {
     /// <summary>
     /// Implements <see cref="ICommand"/> to execute the player action for trap
     /// deployment.

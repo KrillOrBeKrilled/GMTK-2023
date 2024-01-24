@@ -1,11 +1,11 @@
-using KrillOrBeKrilled.Core.Commands;
-using State = KrillOrBeKrilled.Core.Player.PlayerController.State;
+using KrillOrBeKrilled.Player.Commands;
+using State = KrillOrBeKrilled.Player.Input.PlayerController.State;
 using UnityEngine;
 
 //*******************************************************************************************
 // JumpingState
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Core.Player {
+namespace KrillOrBeKrilled.Player.Input.PlayerStates {
     /// <summary>
     /// Implements <see cref="IPlayerState"/> to encapsulate logic, visuals, and sounds
     /// associated with the player jumping state.

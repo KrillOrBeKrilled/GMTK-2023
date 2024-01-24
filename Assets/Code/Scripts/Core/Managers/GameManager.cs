@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using KrillOrBeKrilled.Core.Cameras;
-using KrillOrBeKrilled.Core.Managers;
 using KrillOrBeKrilled.Core.UGSAnalytics;
-using KrillOrBeKrilled.Core.Player;
 using KrillOrBeKrilled.Environment;
 using KrillOrBeKrilled.Heroes;
 using KrillOrBeKrilled.Model;
+using KrillOrBeKrilled.Player;
+using KrillOrBeKrilled.Player.Input;
+using KrillOrBeKrilled.Player.Input.PlayerStates;
 using KrillOrBeKrilled.Traps;
 using UnityEngine;
 using UnityEngine.Events;
@@ -509,7 +510,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// Records analytics trap switching data.
         /// </summary>
         /// <param name="trap"> The most recently selected trap. </param>
-        /// <remarks> Subscribed to the <see cref="Player.PlayerController.OnSelectedTrapChanged"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="Player.Input.PlayerController.OnSelectedTrapChanged"/> event. </remarks>
         private void SelectedTrapIndexChanged(Trap trap) {
             if (UGS_Analytics.Instance is null) {
                 return;

@@ -1,10 +1,9 @@
+using KrillOrBeKrilled.Traps;
+
 //*******************************************************************************************
 // SetTrapCommand
 //*******************************************************************************************
-using KrillOrBeKrilled.Core.Commands.Interfaces;
-using KrillOrBeKrilled.Traps;
-
-namespace KrillOrBeKrilled.Core.Commands {
+namespace KrillOrBeKrilled.Player.Commands {
     /// <summary>
     /// Implements <see cref="ICommand"/> to execute the player action for equipping
     /// traps.

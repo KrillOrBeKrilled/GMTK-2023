@@ -1,16 +1,17 @@
-using KrillOrBeKrilled.Core.Commands;
-using State = KrillOrBeKrilled.Core.Player.PlayerController.State;
+using KrillOrBeKrilled.Player.Commands;
 using UnityEngine;
+using State = KrillOrBeKrilled.Player.Input.PlayerController.State;
 
 //*******************************************************************************************
-// IdleState
+// MovingState
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Core.Player {
+namespace KrillOrBeKrilled.Player.Input.PlayerStates {
     /// <summary>
     /// Implements <see cref="IPlayerState"/> to encapsulate logic, visuals, and sounds
-    /// associated with the player idle state.
+    /// associated with the player movement state.
     /// </summary>
-    public class IdleState : IPlayerState {
+    public class MovingState : IPlayerState {
+        // TODO: Adjust multiplier values here
         private readonly PlayerController _playerController;
 
         //========================================
@@ -19,12 +20,12 @@ namespace KrillOrBeKrilled.Core.Player {
 
         #region Public Methods
 
-        public IdleState(PlayerController playerController) {
+        public MovingState(PlayerController playerController) {
             this._playerController = playerController;
         }
 
         /// <inheritdoc cref="IPlayerState.Act"/>
-        /// <description> Executes the <see cref="IdleCommand"/>. </description>
+        /// <description> Executes the <see cref="MoveCommand"/>.</description>
         public void Act(float moveInput, bool jumpPressed, bool jumpPressedThisFrame) {
             // Check if need to change state
             if (jumpPressedThisFrame) {
@@ -33,13 +34,13 @@ namespace KrillOrBeKrilled.Core.Player {
                 return;
             }
 
-            if (!Mathf.Approximately(moveInput, 0f)) {
-                this._playerController.ChangeState(State.Moving);
+            if (Mathf.Approximately(moveInput, 0f)) {
+                this._playerController.ChangeState(State.Idle);
                 return;
             }
 
             // Create command and execute it
-            var command = new IdleCommand(this._playerController);
+            var command = new MoveCommand(this._playerController, moveInput);
             this._playerController.ExecuteCommand(command);
         }
 

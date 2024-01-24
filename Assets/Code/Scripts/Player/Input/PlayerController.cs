@@ -1,8 +1,8 @@
 using System;
 using System.IO;
 using KrillOrBeKrilled.Common.Interfaces;
-using KrillOrBeKrilled.Core.Commands;
-using KrillOrBeKrilled.Core.Commands.Interfaces;
+using KrillOrBeKrilled.Player.Commands;
+using KrillOrBeKrilled.Player.Input.PlayerStates;
 using KrillOrBeKrilled.Input;
 using KrillOrBeKrilled.Traps;
 using System.Collections;
@@ -17,7 +17,7 @@ using UnityEngine.InputSystem.LowLevel;
 //*******************************************************************************************
 // PlayerController
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Core.Player {
+namespace KrillOrBeKrilled.Player.Input {
     /// <summary>
     /// Handles the brunt of the player input. Works hand-in-hand with the
     /// <see cref="TrapController"/> class made to separate the trap searching and tile

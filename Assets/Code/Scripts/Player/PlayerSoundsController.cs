@@ -4,7 +4,7 @@ using UnityEngine.Events;
 //*******************************************************************************************
 // PlayerSoundsController
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Core.Player {
+namespace KrillOrBeKrilled.Player {
     /// <summary>
     /// Holds all UnityEvents used to communicate with the AudioManager to fire
     /// off Wwise sound events associated with the player, acting as an intermediary

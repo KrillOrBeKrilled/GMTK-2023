@@ -1,4 +1,4 @@
-using KrillOrBeKrilled.Core.Player;
+using KrillOrBeKrilled.Player.Input;
 using UnityEngine;
 
 //*******************************************************************************************

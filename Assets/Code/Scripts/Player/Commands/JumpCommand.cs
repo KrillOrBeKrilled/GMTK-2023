@@ -1,21 +1,19 @@
 //*******************************************************************************************
-// GlideCommand
+// JumpCommand
 //*******************************************************************************************
-using KrillOrBeKrilled.Core.Commands.Interfaces;
-
-namespace KrillOrBeKrilled.Core.Commands {
+namespace KrillOrBeKrilled.Player.Commands {
     /// <summary>
-    /// Implements <see cref="ICommand"/> to execute the player action for gliding.
+    /// Implements <see cref="ICommand"/> to execute the player action for jumping.
     /// </summary>
-    public class GlideCommand : ICommand {
+    public class JumpCommand : ICommand {
         /// Reference to the player Pawn to control.
         private readonly Pawn _controlledObject;
 
         /// The move input for this command.
         private readonly float _moveInput;
 
-        /// The speed multiplier to apply while gliding.
-        private readonly float _glideSpeedMultiplier;
+        /// The jump force for this command.
+        private readonly float _jumpForce;
 
         //========================================
         // Public Methods
@@ -28,16 +26,17 @@ namespace KrillOrBeKrilled.Core.Commands {
         /// </summary>
         /// <param name="controlledObject"> The player <see cref="Pawn"/> associated with this jump command. </param>
         /// <param name="moveInput"> The direction to move the player <see cref="Pawn"/> on command execution. </param>
-        /// <param name="glideSpeedMultiplier"> The multiplier for the glide speed. </param>
+        /// <param name="jumpForce"> The jump force. </param>
         /// ;
-        public GlideCommand(Pawn controlledObject, float moveInput, float glideSpeedMultiplier) {
+        public JumpCommand(Pawn controlledObject, float moveInput, float jumpForce) {
             this._controlledObject = controlledObject;
             this._moveInput = moveInput;
-            this._glideSpeedMultiplier = glideSpeedMultiplier;
+            this._jumpForce = jumpForce;
         }
 
         public void Execute() {
-            this._controlledObject.Glide(this._moveInput, this._glideSpeedMultiplier);
+            this._controlledObject.Move(this._moveInput);
+            this._controlledObject.Jump(this._jumpForce);
         }
 
         #endregion

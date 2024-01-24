@@ -5,7 +5,7 @@ using UnityEngine;
 //*******************************************************************************************
 // PlayerInputController
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Core.Player {
+namespace KrillOrBeKrilled.Player.Input {
     /// <summary>
     /// Manages the enabling and disabling of character controls directly through
     /// <see cref="PlayerInputActions"/>.

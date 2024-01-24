@@ -1,9 +1,11 @@
+using KrillOrBeKrilled.Player;
+using KrillOrBeKrilled.Player.Input;
 using UnityEngine;
 
 //*******************************************************************************************
 // PlayerManager
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Core.Player {
+namespace KrillOrBeKrilled.Core.Managers {
     /// <summary>
     /// Manages the player GameObject as an entity that interacts with other GameObjects
     /// in the environment and acts as an intermediary to grant access to the

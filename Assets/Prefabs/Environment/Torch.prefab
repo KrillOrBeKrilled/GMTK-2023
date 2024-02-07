@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 3231637710336309708}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.0238, y: 1.6709, z: 0}
-  m_LocalScale: {x: 2.4144595, y: 0.8440289, z: 1}
+  m_LocalPosition: {x: -0.0323, y: 1.6709, z: 0}
+  m_LocalScale: {x: 2.4144595, y: 0.8270639, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5054802965996651493}
@@ -233,7 +233,7 @@ Transform:
   m_GameObject: {fileID: 4135776131051018702}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.007, y: 0.693, z: 0}
+  m_LocalPosition: {x: -0.039, y: 0.459, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -254,7 +254,7 @@ MonoBehaviour:
   m_ComponentVersion: 1
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.5
+  m_FalloffIntensity: 0.8
   m_Color: {r: 1, g: 0.45697755, b: 0, a: 1}
   m_Intensity: 2.5
   m_LightVolumeIntensity: 1
@@ -278,17 +278,16 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 2
+  m_PointLightOuterRadius: 0.5
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
   m_ShapeLightFalloffSize: 0.5
   m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
-  - {x: -0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: 0.5, z: 0}
-  - {x: -0.5, y: 0.5, z: 0}
+  - {x: -0.09552145, y: -0.27065086, z: 0}
+  - {x: 0.09133482, y: -0.2682109, z: 0}
+  - {x: -0.0037345886, y: -0.009911537, z: 0}
 --- !u!114 &3143630519667450181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,9 +303,9 @@ MonoBehaviour:
   LightSource: {fileID: 7594679034161207068}
   MinIntensity: 2.5
   MaxIntensity: 2.8
-  MinOuterRange: 1.5
-  MaxOuterRange: 1.8
-  TimeUntilPulse: 1.2
+  MinOuterRange: 0.5
+  MaxOuterRange: 0.85
+  TimeUntilPulse: 0.5
 --- !u!1 &4783099492498855231
 GameObject:
   m_ObjectHideFlags: 0

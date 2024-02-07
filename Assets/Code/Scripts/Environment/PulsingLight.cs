@@ -2,7 +2,15 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
+//*******************************************************************************************
+// PulsingLight
+//*******************************************************************************************
 namespace KrillOrBeKrilled.Environment  {
+    /// <summary>
+    /// Pulses a light in and out after a specified duration of time, lerping the light's
+    /// outer radius and intensity to specified ranges.
+    /// </summary>
+    /// <remarks> To be used for point lights only. </remarks>
     public class PulsingLight : MonoBehaviour {
 
         public Light2D LightSource;
@@ -14,6 +22,12 @@ namespace KrillOrBeKrilled.Environment  {
         private float _pulseTimer;
 
         private bool _isMaxIntensity;
+        
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
 
         private void Start() {
             _pulseTimer = 0f;
@@ -49,5 +63,7 @@ namespace KrillOrBeKrilled.Environment  {
             _pulseTimer = TimeUntilPulse;
             _isMaxIntensity = !_isMaxIntensity;
         }
+        
+        #endregion
     }
 }

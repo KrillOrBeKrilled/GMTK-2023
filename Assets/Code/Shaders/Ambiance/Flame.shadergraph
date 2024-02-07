@@ -472,7 +472,7 @@
                 "m_Node": {
                     "m_Id": "b42845cd807c4629b6708f15dcd6b689"
                 },
-                "m_SlotId": 1
+                "m_SlotId": 2
             },
             "m_InputSlot": {
                 "m_Node": {
@@ -486,7 +486,7 @@
                 "m_Node": {
                     "m_Id": "b42845cd807c4629b6708f15dcd6b689"
                 },
-                "m_SlotId": 1
+                "m_SlotId": 2
             },
             "m_InputSlot": {
                 "m_Node": {
@@ -560,34 +560,6 @@
             },
             "m_InputSlot": {
                 "m_Node": {
-                    "m_Id": "4cef4bb1119f44d4ba92e58afaba2605"
-                },
-                "m_SlotId": 0
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "bd966cc148154bc3af77e00592cba9ea"
-                },
-                "m_SlotId": 1
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "d19fe5a110a342d8a51bc9f0e74bc01d"
-                },
-                "m_SlotId": 1
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "bd966cc148154bc3af77e00592cba9ea"
-                },
-                "m_SlotId": 2
-            },
-            "m_InputSlot": {
-                "m_Node": {
                     "m_Id": "18fcedd0dd394b7d9e1fdc67ca6d6bda"
                 },
                 "m_SlotId": 2
@@ -598,13 +570,41 @@
                 "m_Node": {
                     "m_Id": "bd966cc148154bc3af77e00592cba9ea"
                 },
-                "m_SlotId": 2
+                "m_SlotId": 1
             },
             "m_InputSlot": {
                 "m_Node": {
                     "m_Id": "c869ebb7f7594db5818a57e74894e011"
                 },
                 "m_SlotId": 2
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "bd966cc148154bc3af77e00592cba9ea"
+                },
+                "m_SlotId": 2
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "4cef4bb1119f44d4ba92e58afaba2605"
+                },
+                "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "bd966cc148154bc3af77e00592cba9ea"
+                },
+                "m_SlotId": 2
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "d19fe5a110a342d8a51bc9f0e74bc01d"
+                },
+                "m_SlotId": 1
             }
         },
         {
@@ -4468,7 +4468,7 @@
     },
     "m_Name": "Split",
     "m_DrawState": {
-        "m_Expanded": true,
+        "m_Expanded": false,
         "m_Position": {
             "serializedVersion": "2",
             "x": -3188.00048828125,
@@ -5073,8 +5073,8 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "x": -0.5,
-        "y": 0.0,
+        "x": 0.0,
+        "y": -0.5,
         "z": 0.0,
         "w": 0.0
     }
@@ -5260,8 +5260,8 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "x": -0.10000000149011612,
-        "y": 0.0,
+        "x": 0.0,
+        "y": -0.10000000149011612,
         "z": 0.0,
         "w": 0.0
     }

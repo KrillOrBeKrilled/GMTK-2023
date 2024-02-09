@@ -15,13 +15,13 @@ namespace KrillOrBeKrilled.Environment  {
 
         public Light2D LightSource;
 
+        [Range(0, 50)]
         public float MinIntensity, MaxIntensity;
+        [Range(0, 50)]
         public float MinOuterRange, MaxOuterRange;
         
+        [Range(0, 20)]
         public float TimeUntilPulse;
-        private float _pulseTimer;
-
-        private bool _isMaxIntensity;
         
         //========================================
         // Unity Methods
@@ -30,38 +30,33 @@ namespace KrillOrBeKrilled.Environment  {
         #region Unity Methods
 
         private void Start() {
-            _pulseTimer = 0f;
-        }
-        
-        private void Update() {
-            _pulseTimer -= Time.deltaTime;
-
-            if (!(_pulseTimer < 0f)) return;
-
-            if (_isMaxIntensity) {
-                DOVirtual
-                    .Float(MinIntensity, MaxIntensity, TimeUntilPulse, newIntensity => 
-                        LightSource.intensity = newIntensity)
-                    .SetEase(Ease.Linear);
-                
-                DOVirtual
-                    .Float(MinOuterRange, MaxOuterRange, TimeUntilPulse, newRange => 
-                        LightSource.pointLightOuterRadius = newRange)
-                    .SetEase(Ease.Linear);
-            } else {
-                DOVirtual
-                    .Float(MaxIntensity, MinIntensity, TimeUntilPulse, newIntensity => 
-                        LightSource.intensity = newIntensity)
-                    .SetEase(Ease.Linear);
-                
-                DOVirtual
-                    .Float(MaxOuterRange, MinOuterRange, TimeUntilPulse, newRange => 
-                        LightSource.pointLightOuterRadius = newRange)
-                    .SetEase(Ease.Linear);
-            }
+            Tween increaseIntensity = DOVirtual
+                .Float(MinIntensity, MaxIntensity, TimeUntilPulse, newIntensity =>
+                  LightSource.intensity = newIntensity)
+                .SetEase(Ease.Linear);
             
-            _pulseTimer = TimeUntilPulse;
-            _isMaxIntensity = !_isMaxIntensity;
+              Tween increaseRange = DOVirtual
+                .Float(MinOuterRange, MaxOuterRange, TimeUntilPulse, newRange =>
+                  LightSource.pointLightOuterRadius = newRange)
+                .SetEase(Ease.Linear);
+            
+              Tween decreaseIntensity = DOVirtual
+                .Float(MaxIntensity, MinIntensity, TimeUntilPulse, newIntensity =>
+                  LightSource.intensity = newIntensity)
+                .SetEase(Ease.Linear);
+            
+              Tween decreaseRange = DOVirtual
+                .Float(MaxOuterRange, MinOuterRange, TimeUntilPulse, newRange =>
+                  LightSource.pointLightOuterRadius = newRange)
+                .SetEase(Ease.Linear);
+            
+              Sequence sequence = DOTween.Sequence();
+              sequence.Append(increaseIntensity);
+              sequence.Join(increaseRange);
+              sequence.Append(decreaseIntensity);
+              sequence.Join(decreaseRange);
+              sequence.SetLoops(-1);
+              sequence.Play();
         }
         
         #endregion

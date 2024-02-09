@@ -110598,30 +110598,6 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 1413619176}
-    - target: {fileID: 2176623254373094647, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5227083634007505359, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 18.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5227083634007505359, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.23
-      objectReference: {fileID: 0}
-    - target: {fileID: 5227083634007505359, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -16
-      objectReference: {fileID: 0}
-    - target: {fileID: 5876022208566256647, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6910651901678226807, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 4.53
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

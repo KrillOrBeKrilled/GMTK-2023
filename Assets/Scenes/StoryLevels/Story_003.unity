@@ -119738,7 +119738,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1598336665618200570, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 380.56
+      value: 380
       objectReference: {fileID: 0}
     - target: {fileID: 1976015722435933058, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
       propertyPath: m_Follow
@@ -119748,37 +119748,17 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 1413619176}
-    - target: {fileID: 2176623254373094647, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5227083634007505359, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 19.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5227083634007505359, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.75
+      value: 9.490002
       objectReference: {fileID: 0}
     - target: {fileID: 5227083634007505359, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -16
-      objectReference: {fileID: 0}
-    - target: {fileID: 5876022208566256647, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 6910651901678226807, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 16.439999
-      objectReference: {fileID: 0}
-    - target: {fileID: 6910651901678226807, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 5.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 6999559410536347720, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

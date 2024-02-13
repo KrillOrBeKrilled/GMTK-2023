@@ -76,10 +76,10 @@ namespace KrillOrBeKrilled.Managers.Audio {
         #endregion
 
         //========================================
-        // Internal Methods
+        // Public Methods
         //========================================
 
-        #region Internal Methods
+        #region Public Methods
 
         #region Dialogue Sound Events Methods
 
@@ -87,7 +87,7 @@ namespace KrillOrBeKrilled.Managers.Audio {
         /// Plays SFX associated with the boss dialogue (Dogan).
         /// </summary>
         /// <param name="audioSource"> The GameObject that's the source of this SFX. </param>
-        internal void PlayBossDialogue(GameObject audioSource) {
+        public void PlayBossDialogue(GameObject audioSource) {
             if (!this.AreSfxMuted) {
                 this._bossDialogueEvent.Post(audioSource);
             }
@@ -97,7 +97,7 @@ namespace KrillOrBeKrilled.Managers.Audio {
         /// Plays SFX associated with the player dialogue (Hendall).
         /// </summary>
         /// <param name="audioSource"> The GameObject that's the source of this SFX. </param>
-        internal void PlayHenDialogue(GameObject audioSource) {
+        public void PlayHenDialogue(GameObject audioSource) {
             if (!this.AreSfxMuted) {
                 this._henDialogueEvent.Post(audioSource);
             }
@@ -107,13 +107,21 @@ namespace KrillOrBeKrilled.Managers.Audio {
         /// Plays SFX associated with the hero dialogue.
         /// </summary>
         /// <param name="audioSource"> The GameObject that's the source of this SFX. </param>
-        internal void PlayHeroDialogue(GameObject audioSource) {
+        public void PlayHeroDialogue(GameObject audioSource) {
             if (!this.AreSfxMuted) {
                 this._heroDialogueEvent.Post(audioSource);
             }
         }
 
         #endregion
+
+        #endregion
+
+        //========================================
+        // Internal Methods
+        //========================================
+
+        #region Internal Methods
 
         #region Hen Sound Events Methods
 

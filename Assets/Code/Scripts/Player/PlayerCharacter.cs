@@ -2,22 +2,18 @@ using System;
 using System.IO;
 using KrillOrBeKrilled.Common.Interfaces;
 using KrillOrBeKrilled.Player.Commands;
-using KrillOrBeKrilled.Player.Input.PlayerStates;
-using KrillOrBeKrilled.Input;
+using KrillOrBeKrilled.Player.PlayerStates;
 using KrillOrBeKrilled.Traps;
 using System.Collections;
 using System.Collections.Generic;
-using KrillOrBeKrilled.Core.Managers;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.LowLevel;
 
 //*******************************************************************************************
-// PlayerController
+// Player
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Player.Input {
+namespace KrillOrBeKrilled.Player {
     /// <summary>
     /// Handles the brunt of the player input. Works hand-in-hand with the
     /// <see cref="TrapController"/> class made to separate the trap searching and tile
@@ -28,7 +24,7 @@ namespace KrillOrBeKrilled.Player.Input {
     /// changing and deployment of traps, as well as player death with associated
     /// animations and sound.
     /// </remarks>
-    public class PlayerController : Pawn, IDamageable, ITrapBuilder {
+    public class PlayerCharacter : Pawn, IDamageable, ITrapBuilder {
         // --------------- Player State --------------
         public enum State {
             Idle,
@@ -60,9 +56,6 @@ namespace KrillOrBeKrilled.Player.Input {
 
         // TODO: Consider undoing and redoing actions?
 
-        // ---------------- Replaying ----------------
-        protected InputEventTrace InputRecorder;
-
         // ----------------- Flags -------------------
         private bool _isFrozen = false;
         private float _direction = -1;
@@ -79,7 +72,7 @@ namespace KrillOrBeKrilled.Player.Input {
         [Tooltip("Tracks when a new trap is selected.")]
         public UnityEvent<Trap> OnSelectedTrapChanged;
         [Tooltip("Tracks when a trap has been deployed.")]
-        internal UnityEvent<Trap> OnTrapDeployed { get; private set; }
+        public UnityEvent<Trap> OnTrapDeployed { get; private set; }
 
         private TrapController _trapController;
 
@@ -91,9 +84,6 @@ namespace KrillOrBeKrilled.Player.Input {
         private readonly int _speedKey = Animator.StringToHash("speed");
         private readonly int _directionKey = Animator.StringToHash("direction");
         private readonly int _groundedKey = Animator.StringToHash("is_grounded");
-        
-        private PlayerInputActions _playerInputActions;
-        private const string BaseFolder = "InputRecordings";
 
         //========================================
         // Unity Methods
@@ -101,12 +91,11 @@ namespace KrillOrBeKrilled.Player.Input {
 
         #region Unity Methods
 
-        protected virtual void Awake() {
+        private void Awake() {
             this.RBody = this.GetComponent<Rigidbody2D>();
             this._animator = this.GetComponent<Animator>();
             this._trapController = this.GetComponent<TrapController>();
             this._soundsController = this.GetComponent<PlayerSoundsController>();
-            this.InputRecorder = new InputEventTrace();
 
             this._idleState = new IdleState(this);
             this._movingState = new MovingState(this);
@@ -137,16 +126,7 @@ namespace KrillOrBeKrilled.Player.Input {
 
         /// <remarks> Invokes the <see cref="OnSelectedTrapChanged"/> event. </remarks>
         private void Start() {
-            var resourceSpawner = FindObjectOfType<ResourceSpawner>();
-            if (resourceSpawner != null) {
-                resourceSpawner.SetPlayerTransform(this.transform);
-            }
-            
             this._deployCommand = new DeployCommand(this);
-
-            // Need this due to race condition during scene Awake->OnEnable calls
-            this._playerInputActions = PlayerInputController.Instance.PlayerInputActions;
-            this.OnEnable();
         }
 
         protected override void FixedUpdate() {
@@ -179,21 +159,6 @@ namespace KrillOrBeKrilled.Player.Input {
 
             this._stateChangedThisFrame = false;
             base.FixedUpdate();
-        }
-
-        private void OnEnable() {
-            // OnEnable called before Start
-            // PlayerInputController.Instance and this._playerInputController may be uninitialized
-            // when the scene is just started
-
-            if (this._playerInputActions == null)
-                return;
-
-            this.EnableControls();
-        }
-
-        private void OnDisable() {
-            this.DisableControls();
         }
 
         #if UNITY_EDITOR
@@ -341,29 +306,6 @@ namespace KrillOrBeKrilled.Player.Input {
         #endregion
 
         //========================================
-        // Protected Methods
-        //========================================
-
-        #region Protected Methods
-
-        /// <summary>
-        /// Stops recording play input via the <see cref="InputEventTrace"/>, creates a file for the recorded input,
-        /// and frees the memory used for the recording process.
-        /// </summary>
-        /// <remarks>
-        /// Subscribed to the <see cref="GameManager.OnHenWon"/> and <see cref="GameManager.OnHenLost"/> events.
-        /// </remarks>
-        protected virtual void StopSession(string message) {
-            this.InputRecorder.Disable();
-            this.CreateRecordingFile();
-
-            // Prevent memory leaks!
-            this.InputRecorder.Dispose();
-        }
-
-        #endregion
-
-        //========================================
         // Internal Methods
         //========================================
 
@@ -383,18 +325,11 @@ namespace KrillOrBeKrilled.Player.Input {
         /// Retrieves the resource recipe of the current selected trap through the <see cref="TrapController"/>.
         /// </summary>
         /// <returns> The cost of the current selected trap. </returns>
-        internal Dictionary<ResourceType, int> GetTrapCost() {
+        public Dictionary<ResourceType, int> GetTrapCost() {
             return this._trapController.GetCurrentTrapCost();
         }
 
         #endregion
-
-        /// <summary>
-        /// Disables the retrieval of controller input in <see cref="PlayerInputActions"/>.
-        /// </summary>
-        internal void DisablePlayerInput() {
-            this._playerInputActions.Disable();
-        }
 
         /// <summary>
         /// Executes an <see cref="ICommand"/>.
@@ -408,25 +343,19 @@ namespace KrillOrBeKrilled.Player.Input {
         }
 
         /// <summary>
-        /// Sets up all listeners to operate the <see cref="PlayerController"/>.
+        /// Sets up all listeners to operate the <see cref="Player"/>.
         /// </summary>
         /// <param name="gameManager"> Provides events related to the game state to subscribe to. </param>
-        internal void Initialize(GameManager gameManager) {
-            gameManager.OnHenWon.AddListener(this.StopSession);
-            gameManager.OnHenWon.AddListener(this.GameOver);
-            gameManager.OnHenLost.AddListener(this.StopSession);
+        public void Initialize(UnityEvent<string> onHenWon) {
+            onHenWon.AddListener(this.GameOver);
+            
+            // TODO: Provide the player transform to the resource spawner
+            // var resourceSpawner = FindObjectOfType<ResourceSpawner>();
+            // if (resourceSpawner != null) {
+            //     resourceSpawner.SetPlayerTransform(this.transform);
+            // }
 
             this.OnSelectedTrapChanged?.Invoke(this._trapController.CurrentTrap);
-        }
-
-        /// <summary>
-        /// Begins recording all player input with timestamps via the <see cref="InputEventTrace"/> and enables
-        /// all controls from the <see cref="PlayerInputActions"/>.
-        /// </summary>
-        internal virtual void StartSession() {
-            this.InputRecorder.Enable();
-
-            this.EnableControls();
         }
 
         #endregion
@@ -442,7 +371,7 @@ namespace KrillOrBeKrilled.Player.Input {
         /// <summary>
         /// Executes the <see cref="DeployCommand"/>.
         /// </summary>
-        private void DeployTrap(InputAction.CallbackContext obj) {
+        public void InvokeDeployTrap() {
             this.ExecuteCommand(this._deployCommand);
         }
 
@@ -453,68 +382,17 @@ namespace KrillOrBeKrilled.Player.Input {
         /// <param name="jumpPressed"> Jump Button pressed is saved into this variable. </param>
         /// <param name="jumpPressedThisFrame"> Jump Button pressed this frame is saved into this variable. </param>
         private void GatherInput(out float moveInput, out bool jumpPressed, out bool jumpPressedThisFrame) {
-            Vector2 moveVectorInput = this._playerInputActions.Player.Move.ReadValue<Vector2>();
-            moveInput = moveVectorInput.x;
-
-            jumpPressed = this._playerInputActions.Player.Jump.IsPressed();
-            jumpPressedThisFrame = this._playerInputActions.Player.Jump.WasPerformedThisFrame();
-
+            // TODO: Call PlayerController gather input from here
+            moveInput = 0f;
+            jumpPressed = false;
+            jumpPressedThisFrame = false;
+            
             if (!Mathf.Approximately(moveInput, 0f)) {
                 this._direction = moveInput > 0 ? 1 : -1;
             }
         }
 
         #endregion
-
-        /// <summary>
-        /// Helper method for creating a file for the player input recording based on platform the game was played on.
-        /// </summary>
-        /// <remarks>
-        /// The recording files will be stored in <b>Assets > InputRecordings</b> within the project
-        /// hierarchy. For a build, the recordings can be found in <b>Henchman_Data > InputRecordings</b>.
-        /// </remarks>
-        private void CreateRecordingFile() {
-            var fileName = $"Playtest {DateTime.Now:MM-dd-yyyy HH-mm-ss}.txt";
-
-            // From https://stackoverflow.com/questions/70715187/unity-read-and-write-to-txt-file-after-build
-    #if UNITY_EDITOR
-            var path = Application.dataPath + $"/{BaseFolder}/" ;
-            var path1 = Application.dataPath + $"/{BaseFolder}";
-            if (!Directory.Exists(path1)) Directory.CreateDirectory(path1);
-            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-    #elif UNITY_ANDROID
-            var path = Application.persistentDataPath + $"/{BaseFolder}/";
-            var path1 = Application.persistentDataPath + $"/{BaseFolder}";
-            if (!Directory.Exists(path1)) Directory.CreateDirectory(path1);
-            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-    #elif UNITY_IPHONE
-            var path = Application.persistentDataPath + $"/{BaseFolder}/";
-            var path1 = Application.persistentDataPath + $"/{BaseFolder}";
-            if (!Directory.Exists(path1)) Directory.CreateDirectory(path1);
-            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-    #else
-            var path = Application.dataPath + $"/{BaseFolder}/";
-            var path1 = Application.dataPath + $"/{BaseFolder}";
-            if (!Directory.Exists(path1)) Directory.CreateDirectory(path1);
-            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-    #endif
-
-            this.InputRecorder.WriteTo(path + fileName);
-        }
-
-        /// <summary>
-        /// Unsubscribes all the input methods from the <see cref="PlayerInputActions"/> input action bindings.
-        /// </summary>
-        private void DisableControls() {
-            this._playerInputActions.Player.PlaceTrap.performed -= this.DeployTrap;
-        }
-
-        /// <summary>
-        /// Subscribes all the input methods to the <see cref="PlayerInputActions"/> input action bindings.
-        /// </summary>
-        private void EnableControls() {
-            this._playerInputActions.Player.PlaceTrap.performed += this.DeployTrap;
-        }
 
         /// <summary>
         /// Adjusts the <see cref="Animator"/> speed and direction values.

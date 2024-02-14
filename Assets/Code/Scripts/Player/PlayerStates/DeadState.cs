@@ -1,15 +1,12 @@
-using KrillOrBeKrilled.Player.Commands;
-
 //*******************************************************************************************
-// GameOverState
+// DeadState
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Player.Input.PlayerStates {
+namespace KrillOrBeKrilled.Player.PlayerStates {
     /// <summary>
     /// Implements <see cref="IPlayerState"/> to encapsulate logic, visuals, and sounds
     /// associated with the player death.
     /// </summary>
-    public class GameOverState : IPlayerState {
-        private readonly PlayerController _playerController;
+    public class DeadState : IPlayerState {
 
         //========================================
         // Public Methods
@@ -17,15 +14,8 @@ namespace KrillOrBeKrilled.Player.Input.PlayerStates {
 
         #region Public Methods
 
-        public GameOverState(PlayerController playerController) {
-            this._playerController = playerController;
-        }
-
         public void Act(float moveInput, bool jumpPressed, bool jumpPressedThisFrame) {
-            // The game is over!
-            this._playerController.DisablePlayerInput();
-            FreezeCommand command = new FreezeCommand(this._playerController);
-            this._playerController.ExecuteCommand(command);
+            // Player died
         }
 
         public void OnEnter(IPlayerState prevState) {

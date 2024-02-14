@@ -1,17 +1,17 @@
 using KrillOrBeKrilled.Player.Commands;
-using State = KrillOrBeKrilled.Player.Input.PlayerController.State;
+using State = KrillOrBeKrilled.Player.PlayerCharacter.State;
 using UnityEngine;
 
 //*******************************************************************************************
 // JumpingState
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Player.Input.PlayerStates {
+namespace KrillOrBeKrilled.Player.PlayerStates {
     /// <summary>
     /// Implements <see cref="IPlayerState"/> to encapsulate logic, visuals, and sounds
     /// associated with the player jumping state.
     /// </summary>
     public class JumpingState : IPlayerState {
-        private readonly PlayerController _playerController;
+        private readonly PlayerCharacter _player;
 
         private const float JumpStartForce = 15f;
         private const float JumpHoldForce = 1f;
@@ -30,8 +30,8 @@ namespace KrillOrBeKrilled.Player.Input.PlayerStates {
         /// <summary>
         /// Constructor to set bookkeeping data related to this state to act on the player.
         /// </summary>
-        public JumpingState(PlayerController playerController) {
-            this._playerController = playerController;
+        public JumpingState(PlayerCharacter player) {
+            this._player = player;
         }
 
         /// <inheritdoc cref="IPlayerState.Act"/>
@@ -42,36 +42,36 @@ namespace KrillOrBeKrilled.Player.Input.PlayerStates {
         public void Act(float moveInput, bool jumpPressed, bool jumpPressedThisFrame) {
             // Check if need to change state
             bool jumpTimeExceeded = Time.time > this._jumpStartTime + JumpForceMaxDuration;
-            if ((!this._playerController.IsGrounded && this._playerController.IsFalling) || jumpTimeExceeded) {
-                this._playerController.ChangeState(State.Gliding);
+            if ((!this._player.IsGrounded && this._player.IsFalling) || jumpTimeExceeded) {
+                this._player.ChangeState(State.Gliding);
                 return;
             }
 
             bool noMovement = Mathf.Approximately(moveInput, 0f);
             if (!jumpPressed) {
                 State nextState = noMovement ? State.Idle : State.Moving;
-                this._playerController.ChangeState(nextState);
+                this._player.ChangeState(nextState);
                 return;
             }
 
             bool shouldPlaySound = Time.time > this._jumpSoundPlayTime + SoundInterval;
             if (shouldPlaySound) {
                 this._jumpSoundPlayTime = Time.time;
-                this._playerController.PlayJumpSound();
+                this._player.PlayJumpSound();
             }
 
             // Create command and execute it
             float jumpForce = jumpPressedThisFrame ? JumpStartForce : JumpHoldForce;
-            var command = new JumpCommand(this._playerController, moveInput, jumpForce);
-            this._playerController.ExecuteCommand(command);
+            var command = new JumpCommand(this._player, moveInput, jumpForce);
+            this._player.ExecuteCommand(command);
         }
 
         public void OnEnter(IPlayerState prevState) {
             this._jumpStartTime = Time.time;
             this._jumpSoundPlayTime = Time.time;
-            this._playerController.PlayJumpSound();
-            this._playerController.StopFalling();
-            this._playerController.SetGroundedStatus(false);
+            this._player.PlayJumpSound();
+            this._player.StopFalling();
+            this._player.SetGroundedStatus(false);
         }
 
         public void OnExit(IPlayerState newState) {

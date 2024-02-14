@@ -1,5 +1,5 @@
+using KrillOrBeKrilled.Core.Input;
 using KrillOrBeKrilled.Player;
-using KrillOrBeKrilled.Player.Input;
 using UnityEngine;
 
 //*******************************************************************************************
@@ -9,11 +9,14 @@ namespace KrillOrBeKrilled.Core.Managers {
     /// <summary>
     /// Manages the player GameObject as an entity that interacts with other GameObjects
     /// in the environment and acts as an intermediary to grant access to the
-    /// <see cref="PlayerController"/> and <see cref="TrapController"/> to other classes.
+    /// <see cref="PlayerCharacter"/> and <see cref="TrapController"/> to other classes.
     /// </summary>
     public class PlayerManager : MonoBehaviour {
+        public PlayerController PlayerController;
+        
         [Tooltip("The PlayerController associated with the player GameObject.")]
-        internal PlayerController PlayerController { get; private set; }
+        internal PlayerCharacter Player { get; private set; }
+        
         [Tooltip("The TrapController associated with the player GameObject.")]
         internal TrapController TrapController { get; private set; }
 
@@ -24,7 +27,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         #region Unity Methods
         
         private void Awake() {
-            this.PlayerController = this.GetComponent<PlayerController>();
+            this.Player = this.GetComponent<PlayerCharacter>();
             this.TrapController = this.GetComponent<TrapController>();
         }
 
@@ -33,7 +36,7 @@ namespace KrillOrBeKrilled.Core.Managers {
                 return;
             }
 
-            this.PlayerController.Die();
+            this.Player.Die();
         }
         
         #endregion

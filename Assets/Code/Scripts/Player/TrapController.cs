@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using KrillOrBeKrilled.Core.Managers;
 using KrillOrBeKrilled.Tiles;
 using KrillOrBeKrilled.Traps;
 using System.Collections.ObjectModel;
@@ -35,7 +34,7 @@ namespace KrillOrBeKrilled.Player {
         [Tooltip("The invisible tilemap for checking trap deployment validity and painting tiles.")]
         [SerializeField] internal Tilemap TrapTilemap;
         [Tooltip("The level tilemap for the environment and its colliders.")]
-        [SerializeField] internal Tilemap GroundTilemap;
+        [SerializeField] public Tilemap GroundTilemap;
 
         [Tooltip("The canvas to spawn trap UI (e.g. building completion bars).")]
         [SerializeField] private Canvas _trapCanvas;
@@ -102,9 +101,11 @@ namespace KrillOrBeKrilled.Player {
                 return false;
             }
 
-            if (!ResourceManager.Instance.CanAffordCost(this.CurrentTrap.Recipe)) {
-                return false;
-            }
+            // TODO: Make this into a UnityEvent that can be provided upon initialization. TrapController will have to 
+            // also have a initialize method that Player can probably handle
+            // if (!ResourceManager.Instance.CanAffordCost(this.CurrentTrap.Recipe)) {
+            //     return false;
+            // }
             
             this.InvalidateTrapDeployment();
 
@@ -118,12 +119,16 @@ namespace KrillOrBeKrilled.Player {
             Vector3Int[] tilePositionsCopy = this._previousTilePositions.ToArray();
             
             // Delete/invalidate all the tiles overlapping the trap
-            TilemapManager.Instance.ClearLevelTiles(this._previousTilePositions.ToArray());
+            // TODO: Link to UnityEvent?
+            // TilemapManager.Instance.ClearLevelTiles(this._previousTilePositions.ToArray());
 
-            spawnedTrap.Construct(spawnPosition, this._trapCanvas, _trapSoundsController, 
-                () => TilemapManager.Instance.ResetTrapTiles(tilePositionsCopy));
+            // TODO: Figure this out
+            // spawnedTrap.Construct(spawnPosition, this._trapCanvas, _trapSoundsController, 
+            //     () => TilemapManager.Instance.ResetTrapTiles(tilePositionsCopy));
             
-            ResourceManager.Instance.ConsumeResources(this.CurrentTrap.Recipe);
+            // TODO: Also link this to a UnityEvent
+            // ResourceManager.Instance.ConsumeResources(this.CurrentTrap.Recipe);
+            
             this._soundsController.OnTileSelectConfirm();
 
             return true;
@@ -250,7 +255,10 @@ namespace KrillOrBeKrilled.Player {
         /// selected tiles blank.
         /// </summary>
         private void ClearTrapDeployment() {
-            TilemapManager.Instance.PaintTilesBlank(this._previousTilePositions);
+            // TODO: Link to UnityEvent? Or all these methods seem to take the same argument...maybe expose an enum to
+            // determine which mode to set for tilemap adjustments
+            // TilemapManager.Instance.PaintTilesBlank(this._previousTilePositions);
+            
             this._canDeploy = false;
 
             // Clear the data of the previous tile
@@ -261,7 +269,9 @@ namespace KrillOrBeKrilled.Player {
         /// Resets trap deployment validity and paints the selected tiles in the tilemap a rejection color.
         /// </summary>
         private void InvalidateTrapDeployment() {
-            TilemapManager.Instance.PaintTilesRejectionColor(this._previousTilePositions);
+            // TODO: Same here, UnityEvent
+            // TilemapManager.Instance.PaintTilesRejectionColor(this._previousTilePositions);
+            
             this._canDeploy = false;
         }
 
@@ -281,7 +291,9 @@ namespace KrillOrBeKrilled.Player {
         /// Toggles trap deployment validity and paints the selected tiles in the tilemap a success color.
         /// </summary>
         private void ValidateTrapDeployment() {
-            TilemapManager.Instance.PaintTilesConfirmationColor(this._previousTilePositions);
+            // TODO: BLAAAAAAAAHHHHH
+            // TilemapManager.Instance.PaintTilesConfirmationColor(this._previousTilePositions);
+            
             this._canDeploy = true;
         }
 

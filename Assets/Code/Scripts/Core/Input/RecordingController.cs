@@ -6,9 +6,9 @@ using Object = UnityEngine.Object;
 //*******************************************************************************************
 // RecordingController
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Player.Input {
+namespace KrillOrBeKrilled.Core.Input {
     /// <summary>
-    /// A subclass of <see cref="PlayerController"/> that reads from files of recorded
+    /// A subclass of <see cref="Player"/> that reads from files of recorded
     /// playtest sessions and recreates the scenario.
     /// </summary>
     public class RecordingController : PlayerController {
@@ -26,7 +26,6 @@ namespace KrillOrBeKrilled.Player.Input {
         #region Unity Methods
         
         protected override void Awake() {
-            base.Awake();
             this.ParseControls();
         }
         
@@ -43,7 +42,7 @@ namespace KrillOrBeKrilled.Player.Input {
         /// events. Overrides <see cref="PlayerController.StopSession"/> to prevent the duplication of recording
         /// files.
         /// </remarks>
-        protected override void StopSession(string message) {
+        internal override void StopSession() {
             // Make this blank to prevent the creation of the input recording script from the parent class
         }
         

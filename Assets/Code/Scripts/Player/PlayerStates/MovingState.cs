@@ -1,17 +1,18 @@
 using KrillOrBeKrilled.Player.Commands;
-using State = KrillOrBeKrilled.Player.Input.PlayerController.State;
 using UnityEngine;
+using State = KrillOrBeKrilled.Player.PlayerCharacter.State;
 
 //*******************************************************************************************
-// IdleState
+// MovingState
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Player.Input.PlayerStates {
+namespace KrillOrBeKrilled.Player.PlayerStates {
     /// <summary>
     /// Implements <see cref="IPlayerState"/> to encapsulate logic, visuals, and sounds
-    /// associated with the player idle state.
+    /// associated with the player movement state.
     /// </summary>
-    public class IdleState : IPlayerState {
-        private readonly PlayerController _playerController;
+    public class MovingState : IPlayerState {
+        // TODO: Adjust multiplier values here
+        private readonly PlayerCharacter _player;
 
         //========================================
         // Public Methods
@@ -19,28 +20,28 @@ namespace KrillOrBeKrilled.Player.Input.PlayerStates {
 
         #region Public Methods
 
-        public IdleState(PlayerController playerController) {
-            this._playerController = playerController;
+        public MovingState(PlayerCharacter player) {
+            this._player = player;
         }
 
         /// <inheritdoc cref="IPlayerState.Act"/>
-        /// <description> Executes the <see cref="IdleCommand"/>. </description>
+        /// <description> Executes the <see cref="MoveCommand"/>.</description>
         public void Act(float moveInput, bool jumpPressed, bool jumpPressedThisFrame) {
             // Check if need to change state
             if (jumpPressedThisFrame) {
-                State nextState = this._playerController.IsGrounded ? State.Jumping : State.Gliding;
-                this._playerController.ChangeState(nextState);
+                State nextState = this._player.IsGrounded ? State.Jumping : State.Gliding;
+                this._player.ChangeState(nextState);
                 return;
             }
 
-            if (!Mathf.Approximately(moveInput, 0f)) {
-                this._playerController.ChangeState(State.Moving);
+            if (Mathf.Approximately(moveInput, 0f)) {
+                this._player.ChangeState(State.Idle);
                 return;
             }
 
             // Create command and execute it
-            var command = new IdleCommand(this._playerController);
-            this._playerController.ExecuteCommand(command);
+            var command = new MoveCommand(this._player, moveInput);
+            this._player.ExecuteCommand(command);
         }
 
         public void OnEnter(IPlayerState prevState) {

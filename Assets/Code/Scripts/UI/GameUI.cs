@@ -70,11 +70,11 @@ namespace KrillOrBeKrilled.UI {
             this._gameManager.OnHeroSpawned.AddListener(this.OnHeroSpawned);
             this._gameManager.OnSceneWillChange.AddListener(this.ScreenWipeInSceneCover);
 
-            this._trapRequirementsUI.Initialize(this._gameManager.PlayerController.OnSelectedTrapChanged);
+            this._trapRequirementsUI.Initialize(this._gameManager.Player.OnSelectedTrapChanged);
             this._trapSelectionBar.Initialize(
-                this._gameManager.PlayerController.OnSelectedTrapChanged,
+                this._gameManager.Player.OnSelectedTrapChanged,
                 this._gameManager.TrapController.Traps,
-                this._gameManager.PlayerController.SetTrap
+                this._gameManager.Player.SetTrap
             );
 
             this._skipDialogueUI.Initialize(this._gameManager.OnStartLevel, this._gameManager.SkipDialogue);
@@ -84,7 +84,7 @@ namespace KrillOrBeKrilled.UI {
                 this._gameManager.LevelEnd.position.x
             );
 
-            this._controlsUI.Initialize(this._gameManager.PlayerController);
+            this._controlsUI.Initialize(this._gameManager.Player);
 
             EventManager.Instance.CoinAmountChangedEvent.AddListener(this.OnCoinsUpdated);
             EventManager.Instance.PauseToggledEvent.AddListener(this.OnPauseToggled);

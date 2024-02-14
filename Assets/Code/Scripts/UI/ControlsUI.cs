@@ -1,4 +1,4 @@
-using KrillOrBeKrilled.Player.Input;
+using KrillOrBeKrilled.Player;
 using UnityEngine;
 
 //*******************************************************************************************
@@ -30,11 +30,11 @@ namespace KrillOrBeKrilled.UI {
         /// <summary>
         /// Sets up all listeners to operate the controls UI.
         /// </summary>
-        /// <param name="playerController"> The <see cref="PlayerController"/> to track for changes to the player's
+        /// <param name="player"> The <see cref="PlayerCharacter"/> to track for changes to the player's
         /// grounded and falling states. </param>
-        public void Initialize(PlayerController playerController) {
-            playerController.OnPlayerGrounded.AddListener(this.OnPlayerGrounded);
-            playerController.OnPlayerFalling.AddListener(this.OnPlayerFalling);
+        public void Initialize(PlayerCharacter player) {
+            player.OnPlayerGrounded.AddListener(this.OnPlayerGrounded);
+            player.OnPlayerFalling.AddListener(this.OnPlayerFalling);
         }
         
         #endregion

@@ -1,9 +1,9 @@
 //*******************************************************************************************
 // IPlayerState
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Player.Input.PlayerStates {
+namespace KrillOrBeKrilled.Player.PlayerStates {
     /// <summary>
-    /// Used to declutter the <see cref="PlayerController"/> class, encapsulating the
+    /// Used to declutter the <see cref="PlayerCharacter"/> class, encapsulating the
     /// player's behaviour in each state to better reason about correctness and
     /// pinpoint bugs easily, plus specialize behaviours to specific states.
     /// </summary>

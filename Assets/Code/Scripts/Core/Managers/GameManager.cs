@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using KrillOrBeKrilled.Core.Cameras;
+using KrillOrBeKrilled.Core.Input;
 using KrillOrBeKrilled.Core.UGSAnalytics;
 using KrillOrBeKrilled.Environment;
 using KrillOrBeKrilled.Heroes;
@@ -26,7 +27,7 @@ namespace KrillOrBeKrilled.Core.Managers {
     /// other actors of the level to collect and send data. </remarks>
     public class GameManager : MonoBehaviour {
         [Header("References")]
-        [SerializeField] private PlayerManager _playerManager;
+        [SerializeField] private PlayerController _playerController;
         [SerializeField] private PauseManager _pauseManager;
 
         [Header("Dialogue References")]
@@ -42,9 +43,9 @@ namespace KrillOrBeKrilled.Core.Managers {
         [SerializeField] private RespawnPoint _respawnPointPrefab;
         [SerializeField] private EndgameTarget _endgameTargetPrefab;
 
-        public PlayerManager PlayerManager => this._playerManager;
-        public PlayerCharacter Player => this._playerManager.Player;
-        public TrapController TrapController => this._playerManager.TrapController;
+        public PlayerController PlayerController => this._playerController;
+        public PlayerCharacter Player => this._playerController.Player;
+        public TrapController TrapController => this._playerController.TrapController;
 
         public Transform LevelStart => this._firstRespawnPoint.transform;
         public Transform LevelEnd => this._endgameTarget.transform;
@@ -137,14 +138,14 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._firstRespawnPoint = this._activeRespawnPoint;
 
             this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
-            this._playerManager.Player.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
-            this._playerManager.Player.OnSelectedTrapChanged.AddListener(this.SelectedTrapIndexChanged);
-            this._playerManager.Player.OnTrapDeployed.AddListener(this.OnTrapDeployed);
+            this._playerController.Player.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
+            this._playerController.Player.OnSelectedTrapChanged.AddListener(this.SelectedTrapIndexChanged);
+            this._playerController.Player.OnTrapDeployed.AddListener(this.OnTrapDeployed);
 
             // Wait for a frame so that all other scripts complete Start() method.
             yield return null;
 
-            this._playerManager.Player.Initialize(OnHenWon);
+            this._playerController.Initialize(this);
             this.OnSetupComplete?.Invoke();
 
             if (this._levelData.Type == LevelData.LevelType.Story) {
@@ -195,7 +196,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// </remarks>
         [YarnCommand("start_level_disabled_spawn")]
         public void StartLevelNoSpawn() {
-            this._playerManager.PlayerController.StartSession();
+            this._playerController.StartSession();
 
             if (this._heroActor != null) {
                 this._heroActor.StartRunning();
@@ -382,7 +383,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             }
 
             var newHero = Instantiate(heroPrefab, this._activeRespawnPoint.transform);
-            newHero.Initialize(heroData, this._heroSoundsController, this._playerManager.TrapController.GroundTilemap);
+            newHero.Initialize(heroData, this._heroSoundsController, this._playerController.TrapController.GroundTilemap);
             newHero.OnHeroDied.AddListener(this.OnHeroDied);
 
             this._heroes.Add(newHero);
@@ -513,7 +514,7 @@ namespace KrillOrBeKrilled.Core.Managers {
                 return;
             }
 
-            var isAffordable = ResourceManager.Instance.CanAffordCost(this._playerManager.Player.GetTrapCost());
+            var isAffordable = ResourceManager.Instance.CanAffordCost(this._playerController.Player.GetTrapCost());
             UGS_Analytics.SwitchTrapCustomEvent(trap.gameObject.name, isAffordable);
         }
 
@@ -528,7 +529,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             // Invoke GameOverEvent before destroying Player gameObject
             this.HenLost(message);
 
-            Destroy(this._playerManager.gameObject);
+            Destroy(this._playerController.gameObject);
 
             if (this._waveSpawnCoroutine != null) {
                 this.StopCoroutine(this._waveSpawnCoroutine);
@@ -548,14 +549,13 @@ namespace KrillOrBeKrilled.Core.Managers {
             }
 
             this._isGameOver = true;
-            this._playerManager.PlayerController.DisablePlayerControls();
 
             if (this._waveSpawnCoroutine != null) {
                 this.StopCoroutine(this._waveSpawnCoroutine);
             }
 
             this.FreezeAllHeroes();
-            this._playerManager.PlayerController.StopSession();
+            this._playerController.StopSession();
             
             this.OnHenLost?.Invoke(endgameMessage);
             EventManager.Instance.GameOverEvent?.Invoke();
@@ -576,7 +576,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             }
 
             this._isGameOver = true;
-            this._playerManager.PlayerController.StopSession();
+            this._playerController.StopSession();
             
             this.OnHenWon?.Invoke(message);
         }

@@ -35,18 +35,9 @@ namespace KrillOrBeKrilled.Core.Input {
         // Protected Methods
         //========================================
         
-        #region Protected Methods
-        
-        /// <remarks>
-        /// Subscribed to the <see cref="GameManager.OnHenWon"/> and <see cref="GameManager.OnHenLost"/>
-        /// events. Overrides <see cref="PlayerController.StopSession"/> to prevent the duplication of recording
-        /// files.
-        /// </remarks>
-        internal override void StopSession() {
-            // Make this blank to prevent the creation of the input recording script from the parent class
-        }
-        
-        #endregion
+        // #region Protected Methods
+        //
+        // #endregion
         
         //========================================
         // Internal Methods
@@ -59,6 +50,14 @@ namespace KrillOrBeKrilled.Core.Input {
         /// </summary>
         internal override void StartSession() {
             this.StartCoroutine(this.ReplayDelay());
+        }
+        
+        /// <summary>
+        /// Overrides <see cref="PlayerController.StopSession"/> to prevent the duplication of recording
+        /// files.
+        /// </summary>
+        internal override void StopSession() {
+            // Make this blank to prevent the creation of the input recording script from the parent class
         }
         
         #endregion

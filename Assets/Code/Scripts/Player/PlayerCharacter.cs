@@ -160,6 +160,14 @@ namespace KrillOrBeKrilled.Player {
             this._stateChangedThisFrame = false;
             base.FixedUpdate();
         }
+        
+        private void OnCollisionEnter2D(Collision2D other) {
+            if (other.gameObject.layer != LayerMask.NameToLayer("Hero")) {
+                return;
+            }
+
+            this.Die();
+        }
 
         #if UNITY_EDITOR
         private void OnDrawGizmosSelected() {

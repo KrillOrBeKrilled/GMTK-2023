@@ -79,7 +79,7 @@ namespace KrillOrBeKrilled.UI {
 
             this._skipDialogueUI.Initialize(this._gameManager.OnStartLevel, this._gameManager.SkipDialogue);
             this._mapUI.Initialize(
-                this._gameManager.PlayerManager.transform,
+                this._gameManager.PlayerController.transform,
                 this._gameManager.LevelStart.position.x,
                 this._gameManager.LevelEnd.position.x
             );

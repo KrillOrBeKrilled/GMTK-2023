@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e90c72ba9e4daeb0a80224c2883d32, type: 3}
   m_Name: Story_003
   m_EditorClassIdentifier: 
+  Index: 3
   Type: 0
   DialogueName: Level3Dialogue
   NextLevelName: 

@@ -15,6 +15,7 @@ namespace KrillOrBeKrilled.Model {
     [CreateAssetMenu(fileName = "LevelData", menuName = "LevelData")]
     [Serializable]
     public class LevelData : ScriptableObject {
+        public int Index;
         [Tooltip("The default level mode is Endless.")]
         public LevelType Type = LevelType.Endless;
         public string DialogueName;

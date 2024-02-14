@@ -54,14 +54,11 @@ namespace KrillOrBeKrilled.Core.Managers {
         
         #region Unity Methods
 
-        private void Start() {
-            // Calculate the total weight only once here, also same for hero drops
-            _totalLevelDropWeight = _levelDrops.Sum(drop => drop.weight);
-            InitializeDropMap();
-            
-            Hero.OnHeroDeath += SpawnHeroDrop;
-            EventManager.Instance.GameOverEvent.AddListener(StopLevelDropCoroutine);
-        }
+        // private void Start() {
+        //     // Calculate the total weight only once here, also same for hero drops
+        //     _totalLevelDropWeight = _levelDrops.Sum(drop => drop.weight);
+        //     InitializeDropMap();
+        // }
 
         private void OnDestroy() {
             Hero.OnHeroDeath -= SpawnHeroDrop;
@@ -74,6 +71,20 @@ namespace KrillOrBeKrilled.Core.Managers {
         //========================================
         
         #region Public Methods
+        
+        public void Initialize(Transform playerTransform) {
+            _playerTransform = playerTransform;
+            if (_playerTransform == null) {
+                Debug.LogWarning("ResourceSpawner: Set Player Transform failed");
+            }
+            
+            // Calculate the total weight only once here, also same for hero drops
+            _totalLevelDropWeight = _levelDrops.Sum(drop => drop.weight);
+            InitializeDropMap();
+            
+            Hero.OnHeroDeath += SpawnHeroDrop;
+            EventManager.Instance.GameOverEvent.AddListener(StopLevelDropCoroutine);
+        }
 
         /// <summary>
         /// Starts the spawner, and subscribe its counterpart for stopping the spawner
@@ -81,13 +92,6 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// </summary>
         public void StartSpawner() {
             _levelDropCoroutine = StartCoroutine(LevelDropCoroutine());
-        }
-        
-        public void SetPlayerTransform(Transform playerTransform) {
-            _playerTransform = playerTransform;
-            if (_playerTransform == null) {
-                Debug.LogWarning("ResourceSpawner: Set Player Transform failed");
-            }
         }
         
         #endregion

@@ -146,6 +146,8 @@ namespace KrillOrBeKrilled.Core.Managers {
             yield return null;
 
             this._playerController.Initialize(this);
+            ResourceSpawner.Instance.Initialize(this.PlayerController.transform);
+            
             this.OnSetupComplete?.Invoke();
 
             if (this._levelData.Type == LevelData.LevelType.Story) {

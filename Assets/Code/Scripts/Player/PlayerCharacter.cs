@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using KrillOrBeKrilled.Common.Interfaces;
 using KrillOrBeKrilled.Player.Commands;
 using KrillOrBeKrilled.Player.PlayerStates;
@@ -25,6 +24,11 @@ namespace KrillOrBeKrilled.Player {
     /// animations and sound.
     /// </remarks>
     public class PlayerCharacter : Pawn, IDamageable, ITrapBuilder {
+
+        // Support the passing of a function with out parameters
+        public delegate void InputDelegate<T1, T2, T3>(out T1 input, out T2 output, out T3 output2);
+        private InputDelegate<float, bool, bool> _gatherControllerInput;
+        
         // --------------- Player State --------------
         public enum State {
             Idle,
@@ -354,14 +358,9 @@ namespace KrillOrBeKrilled.Player {
         /// Sets up all listeners to operate the <see cref="Player"/>.
         /// </summary>
         /// <param name="gameManager"> Provides events related to the game state to subscribe to. </param>
-        public void Initialize(UnityEvent<string> onHenWon) {
+        public void Initialize(UnityEvent<string> onHenWon, InputDelegate<float, bool, bool> getControllerInput) {
+            this._gatherControllerInput = getControllerInput;
             onHenWon.AddListener(this.GameOver);
-            
-            // TODO: Provide the player transform to the resource spawner
-            // var resourceSpawner = FindObjectOfType<ResourceSpawner>();
-            // if (resourceSpawner != null) {
-            //     resourceSpawner.SetPlayerTransform(this.transform);
-            // }
 
             this.OnSelectedTrapChanged?.Invoke(this._trapController.CurrentTrap);
         }
@@ -390,10 +389,7 @@ namespace KrillOrBeKrilled.Player {
         /// <param name="jumpPressed"> Jump Button pressed is saved into this variable. </param>
         /// <param name="jumpPressedThisFrame"> Jump Button pressed this frame is saved into this variable. </param>
         private void GatherInput(out float moveInput, out bool jumpPressed, out bool jumpPressedThisFrame) {
-            // TODO: Call PlayerController gather input from here
-            moveInput = 0f;
-            jumpPressed = false;
-            jumpPressedThisFrame = false;
+            this._gatherControllerInput(out moveInput, out jumpPressed, out jumpPressedThisFrame);
             
             if (!Mathf.Approximately(moveInput, 0f)) {
                 this._direction = moveInput > 0 ? 1 : -1;

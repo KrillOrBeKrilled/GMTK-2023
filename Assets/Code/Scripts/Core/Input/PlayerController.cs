@@ -63,7 +63,7 @@ namespace KrillOrBeKrilled.Core.Input {
         #region Protected Methods
 
         public void Initialize(GameManager gameManager) {
-            
+            Player.Initialize(gameManager.OnHenWon, this.GatherInput);
         }
 
         #endregion

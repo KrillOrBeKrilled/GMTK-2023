@@ -127,10 +127,12 @@ namespace KrillOrBeKrilled.Core.Managers {
 
             this._nextWavesDataQueue = new Queue<WaveData>(this._levelData.WavesData.WavesList);
             this._lastWavesDataQueue = new Queue<WaveData>(this._levelData.WavesData.WavesList);
-            this._endgameTarget = Instantiate(this._endgameTargetPrefab, this._levelData.EndgameTargetPosition, Quaternion.identity, this.transform);
+            this._endgameTarget = Instantiate(this._endgameTargetPrefab, this._levelData.EndgameTargetPosition, 
+                Quaternion.identity, this.transform);
 
             foreach (Vector3 respawnPosition in this._levelData.RespawnPositions) {
-                RespawnPoint newPoint = Instantiate(this._respawnPointPrefab, respawnPosition, Quaternion.identity, this.transform);
+                RespawnPoint newPoint = Instantiate(this._respawnPointPrefab, respawnPosition, 
+                    Quaternion.identity, this.transform);
                 this._respawnPoints.Add(newPoint);
             }
 
@@ -141,12 +143,14 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._playerController.Player.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
             this._playerController.Player.OnSelectedTrapChanged.AddListener(this.SelectedTrapIndexChanged);
             this._playerController.Player.OnTrapDeployed.AddListener(this.OnTrapDeployed);
+            
+            this._playerController.Initialize(this);
+            ResourceManager.Instance.Initialize(this.PlayerController.TrapController.OnConsumeResources);
+            ResourceSpawner.Instance.Initialize(this.PlayerController.transform);
+            TilemapManager.Instance.Initialize(this.PlayerController.TrapController.OnPaintTiles);
 
             // Wait for a frame so that all other scripts complete Start() method.
             yield return null;
-
-            this._playerController.Initialize(this);
-            ResourceSpawner.Instance.Initialize(this.PlayerController.transform);
             
             this.OnSetupComplete?.Invoke();
 

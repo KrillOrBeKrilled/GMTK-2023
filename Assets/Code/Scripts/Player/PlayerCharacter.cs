@@ -360,6 +360,7 @@ namespace KrillOrBeKrilled.Player {
         /// <param name="gameManager"> Provides events related to the game state to subscribe to. </param>
         public void Initialize(UnityEvent<string> onHenWon, InputDelegate<float, bool, bool> getControllerInput) {
             this._gatherControllerInput = getControllerInput;
+            
             onHenWon.AddListener(this.GameOver);
 
             this.OnSelectedTrapChanged?.Invoke(this._trapController.CurrentTrap);
@@ -389,7 +390,20 @@ namespace KrillOrBeKrilled.Player {
         /// <param name="jumpPressed"> Jump Button pressed is saved into this variable. </param>
         /// <param name="jumpPressedThisFrame"> Jump Button pressed this frame is saved into this variable. </param>
         private void GatherInput(out float moveInput, out bool jumpPressed, out bool jumpPressedThisFrame) {
-            this._gatherControllerInput(out moveInput, out jumpPressed, out jumpPressedThisFrame);
+            // if (this._gatherControllerInput == null) {
+            //     moveInput = 0f;
+            //     jumpPressed = jumpPressedThisFrame = false;
+            //     return;
+            // }
+
+            try {
+                this._gatherControllerInput(out moveInput, out jumpPressed, out jumpPressedThisFrame);
+            } catch (Exception error) {
+                moveInput = 0f;
+                jumpPressed = jumpPressedThisFrame = false;
+                return;
+            }
+            
             
             if (!Mathf.Approximately(moveInput, 0f)) {
                 this._direction = moveInput > 0 ? 1 : -1;

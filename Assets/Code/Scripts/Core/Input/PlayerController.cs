@@ -45,13 +45,8 @@ namespace KrillOrBeKrilled.Core.Input {
             
             this._playerInputActions = new PlayerInputActions();
             this._playerInputActions.Enable();
-        }
-        
-        // Take care of initializing the Player 
-        
-        // Start is called before the first frame update
-        void Start() {
-        
+            
+            this.InputRecorder = new InputEventTrace();
         }
         
         #endregion
@@ -64,6 +59,7 @@ namespace KrillOrBeKrilled.Core.Input {
 
         public void Initialize(GameManager gameManager) {
             Player.Initialize(gameManager.OnHenWon, this.GatherInput);
+            TrapController.Initialize(ResourceManager.Instance.CanAffordCost);
         }
 
         #endregion

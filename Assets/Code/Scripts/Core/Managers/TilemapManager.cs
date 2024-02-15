@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using KrillOrBeKrilled.Player;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 //*******************************************************************************************
@@ -38,6 +40,10 @@ namespace KrillOrBeKrilled.Core.Managers {
         #region Public Methods
         
         #region Set Tiles
+        
+        public void Initialize(UnityEvent<IEnumerable<Vector3Int>, TrapController.PaintMode> onPaintTiles) {
+            onPaintTiles.AddListener(this.OnPaintTiles);
+        }
         
         /// <summary>
         /// Removes the tiles at the tile positions in the level tilemap and invalidates the same tile positions
@@ -119,5 +125,29 @@ namespace KrillOrBeKrilled.Core.Managers {
         #endregion
 
         #endregion
+
+        private void OnPaintTiles(IEnumerable<Vector3Int> tilePositions, TrapController.PaintMode paintMode) {
+            switch (paintMode) {
+                case TrapController.PaintMode.FreeTile:
+                    this.ResetTrapTiles(tilePositions);
+                    break;
+                case TrapController.PaintMode.AllocateTileSpace:
+                    this.ClearLevelTiles(tilePositions);
+                    break;
+                case TrapController.PaintMode.PaintBlank:
+                    this.PaintTilesBlank(tilePositions);
+                    break;
+                case TrapController.PaintMode.PaintInvalid:
+                    this.PaintTilesRejectionColor(tilePositions);
+                    break;
+                case TrapController.PaintMode.PaintValid:
+                    this.PaintTilesConfirmationColor(tilePositions);
+                    break;
+                default:
+                    Debug.LogError("Invalid paint mode received by TilemapManager! Check " +
+                                   "TrapController.OnPaintTiles UnityEvent for potential illegal usage.");
+                    break;
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using KrillOrBeKrilled.Traps;
 using UnityEngine;
+using UnityEngine.Events;
 
 //*******************************************************************************************
 // ResourceManager
@@ -67,6 +68,10 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         #region Public Methods
         
+        public void Initialize(UnityEvent<Dictionary<ResourceType, int>> onConsumeResources) {
+            onConsumeResources.AddListener(this.ConsumeResources);
+        }
+        
         /// <summary>
         /// Increase the amount of a specific resource by a given quantity.
         /// </summary>
@@ -90,8 +95,8 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// Return false if any of the resources in the costs is not affordable.
         /// </summary>
         /// <param name="costs"> A dictionary of the resources and their costs. </param>
-        public bool ConsumeResources(Dictionary<ResourceType, int> costs) {
-            if (!CanAffordCost(costs)) return false;
+        public void ConsumeResources(Dictionary<ResourceType, int> costs) {
+            if (!CanAffordCost(costs)) return;
 
             var updatedResources = new Dictionary<ResourceType, int>();
             foreach (var cost in costs) {
@@ -100,7 +105,6 @@ namespace KrillOrBeKrilled.Core.Managers {
             }
             
             EventManager.Instance.ResourceAmountChangedEvent.Invoke(updatedResources);
-            return true;
         }
         
         /// <summary>

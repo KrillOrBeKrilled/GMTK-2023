@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using KrillOrBeKrilled.Tiles;
 using KrillOrBeKrilled.Traps;
 using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 //*******************************************************************************************
@@ -45,6 +47,19 @@ namespace KrillOrBeKrilled.Player {
         [SerializeField] private Vector3 _leftDeployPosition, _rightDeployPosition;
 
         private bool _isSelectingTileSFX, _canDeploy;
+        
+        public enum PaintMode {
+            FreeTile, // Resets the trap tile status to allow for new traps to be built in place
+            AllocateTileSpace, // Clears overlapping ground tiles and assigns trap tiles to prevent trap duplication 
+            PaintBlank, // Clears the tile indicator color
+            PaintInvalid, // Paints the tile indicator the specified invalid color 
+            PaintValid // Paints the tile indicator the specified valid color
+        }
+        
+        public UnityEvent<Dictionary<ResourceType, int>> OnConsumeResources { get; private set; }
+        public UnityEvent<IEnumerable<Vector3Int>, PaintMode> OnPaintTiles { get; private set; }
+
+        private Func<Dictionary<ResourceType, int>, bool> _canAffordTrap;
 
         //========================================
         // Unity Methods
@@ -59,9 +74,16 @@ namespace KrillOrBeKrilled.Player {
             this._previousTilePositions = new List<Vector3Int>();
             this.Traps = this._trapPrefabs.AsReadOnly();
             this.CurrentTrap = this._trapPrefabs.First();
+            
+            this.OnConsumeResources = new UnityEvent<Dictionary<ResourceType, int>>();
+            this.OnPaintTiles = new UnityEvent<IEnumerable<Vector3Int>, PaintMode>();
         }
 
         #endregion
+        
+        public void Initialize(Func<Dictionary<ResourceType, int>, bool> canAffordTrap) {
+            _canAffordTrap = canAffordTrap;
+        }
 
         //========================================
         // Internal Methods
@@ -100,12 +122,10 @@ namespace KrillOrBeKrilled.Player {
                 // TODO: Make an animation for this!
                 return false;
             }
-
-            // TODO: Make this into a UnityEvent that can be provided upon initialization. TrapController will have to 
-            // also have a initialize method that Player can probably handle
-            // if (!ResourceManager.Instance.CanAffordCost(this.CurrentTrap.Recipe)) {
-            //     return false;
-            // }
+            
+            if (!_canAffordTrap(this.CurrentTrap.Recipe)) {
+                return false;
+            }
             
             this.InvalidateTrapDeployment();
 
@@ -119,15 +139,12 @@ namespace KrillOrBeKrilled.Player {
             Vector3Int[] tilePositionsCopy = this._previousTilePositions.ToArray();
             
             // Delete/invalidate all the tiles overlapping the trap
-            // TODO: Link to UnityEvent?
-            // TilemapManager.Instance.ClearLevelTiles(this._previousTilePositions.ToArray());
-
-            // TODO: Figure this out
-            // spawnedTrap.Construct(spawnPosition, this._trapCanvas, _trapSoundsController, 
-            //     () => TilemapManager.Instance.ResetTrapTiles(tilePositionsCopy));
+            OnPaintTiles?.Invoke(tilePositionsCopy, PaintMode.AllocateTileSpace);
             
-            // TODO: Also link this to a UnityEvent
-            // ResourceManager.Instance.ConsumeResources(this.CurrentTrap.Recipe);
+            spawnedTrap.Construct(spawnPosition, this._trapCanvas, _trapSoundsController, 
+                () => OnPaintTiles?.Invoke(tilePositionsCopy, PaintMode.FreeTile));
+            
+            OnConsumeResources?.Invoke(this.CurrentTrap.Recipe);
             
             this._soundsController.OnTileSelectConfirm();
 
@@ -255,10 +272,7 @@ namespace KrillOrBeKrilled.Player {
         /// selected tiles blank.
         /// </summary>
         private void ClearTrapDeployment() {
-            // TODO: Link to UnityEvent? Or all these methods seem to take the same argument...maybe expose an enum to
-            // determine which mode to set for tilemap adjustments
-            // TilemapManager.Instance.PaintTilesBlank(this._previousTilePositions);
-            
+            OnPaintTiles?.Invoke(this._previousTilePositions, PaintMode.PaintBlank);
             this._canDeploy = false;
 
             // Clear the data of the previous tile
@@ -269,9 +283,7 @@ namespace KrillOrBeKrilled.Player {
         /// Resets trap deployment validity and paints the selected tiles in the tilemap a rejection color.
         /// </summary>
         private void InvalidateTrapDeployment() {
-            // TODO: Same here, UnityEvent
-            // TilemapManager.Instance.PaintTilesRejectionColor(this._previousTilePositions);
-            
+            OnPaintTiles?.Invoke(this._previousTilePositions, PaintMode.PaintInvalid);
             this._canDeploy = false;
         }
 
@@ -291,9 +303,7 @@ namespace KrillOrBeKrilled.Player {
         /// Toggles trap deployment validity and paints the selected tiles in the tilemap a success color.
         /// </summary>
         private void ValidateTrapDeployment() {
-            // TODO: BLAAAAAAAAHHHHH
-            // TilemapManager.Instance.PaintTilesConfirmationColor(this._previousTilePositions);
-            
+            OnPaintTiles?.Invoke(this._previousTilePositions, PaintMode.PaintValid);
             this._canDeploy = true;
         }
 

@@ -1,7 +1,7 @@
 //*******************************************************************************************
 // ITrap
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Common.Interfaces {
+namespace KrillOrBeKrilled.Interfaces {
     /// <summary>
     /// Interfaces any trap that is deployed by the player to damage heroes. Exposes trap
     /// status checkers to other systems, such as when it's build is completed.

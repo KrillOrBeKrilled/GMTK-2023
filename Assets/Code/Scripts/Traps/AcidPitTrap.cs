@@ -1,5 +1,5 @@
 using System.Collections;
-using KrillOrBeKrilled.Common.Interfaces;
+using KrillOrBeKrilled.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;

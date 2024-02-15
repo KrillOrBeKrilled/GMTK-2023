@@ -1,5 +1,5 @@
 using System.Linq;
-using KrillOrBeKrilled.Common.Interfaces;
+using KrillOrBeKrilled.Interfaces;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;

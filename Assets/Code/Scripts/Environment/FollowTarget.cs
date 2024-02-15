@@ -3,7 +3,7 @@ using UnityEngine;
 //*******************************************************************************************
 // FollowTarget
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Common {
+namespace KrillOrBeKrilled.Environment {
     /// <summary>
     /// Follows the position of a specified target with an offset with customizations for
     /// the axes that movement should be tracked along.

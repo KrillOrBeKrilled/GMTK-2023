@@ -1,5 +1,5 @@
 using System;
-using KrillOrBeKrilled.Common.Interfaces;
+using KrillOrBeKrilled.Interfaces;
 using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Heroes.AI;
 using System.Collections;

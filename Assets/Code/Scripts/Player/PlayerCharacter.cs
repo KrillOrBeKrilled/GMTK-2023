@@ -1,5 +1,5 @@
 using System;
-using KrillOrBeKrilled.Common.Interfaces;
+using KrillOrBeKrilled.Interfaces;
 using KrillOrBeKrilled.Player.Commands;
 using KrillOrBeKrilled.Player.PlayerStates;
 using KrillOrBeKrilled.Traps;
@@ -399,6 +399,8 @@ namespace KrillOrBeKrilled.Player {
             try {
                 this._gatherControllerInput(out moveInput, out jumpPressed, out jumpPressedThisFrame);
             } catch (Exception error) {
+                Debug.LogError(error);
+                
                 moveInput = 0f;
                 jumpPressed = jumpPressedThisFrame = false;
                 return;

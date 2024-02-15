@@ -1,4 +1,5 @@
 using KrillOrBeKrilled.Interfaces;
+using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEngine;
 
 //*******************************************************************************************
@@ -39,20 +40,20 @@ namespace KrillOrBeKrilled.Traps {
 
         /// <inheritdoc cref="Trap.OnEnteredTrap"/>
         /// <summary>
-        /// Applies a knock back force and flat damage to the <see cref="IDamageable"/> actor.
+        /// Applies a knock back force and flat damage to the <see cref="ITrapDamageable"/> actor.
         /// </summary>
         /// <param name="actor"> The recipient of the trap's damaging effects. </param>
-        protected override void OnEnteredTrap(IDamageable actor) {
+        protected override void OnEnteredTrap(ITrapDamageable actor) {
             if (!this.IsReady) {
                 return;
             }
 
             DetonateTrap();
-            actor.TakeDamage(this._damageAmount);
+            actor.TakeDamage(this._damageAmount, this);
             actor.ThrowActorBack(0.5f, this._pushbackForce);
         }
 
-        protected override void OnExitedTrap(IDamageable actor) {}
+        protected override void OnExitedTrap(ITrapDamageable actor) {}
         
         /// <inheritdoc cref="Trap.SetUpTrap"/>
         /// <remarks> Plays the trap readying animation through the <see cref="Animator"/>. </remarks>

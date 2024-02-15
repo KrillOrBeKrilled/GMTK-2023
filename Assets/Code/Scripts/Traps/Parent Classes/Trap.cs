@@ -2,6 +2,7 @@ using System.Linq;
 using KrillOrBeKrilled.Interfaces;
 using System.Collections.Generic;
 using DG.Tweening;
+using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -84,7 +85,7 @@ namespace KrillOrBeKrilled.Traps {
         }
         
         private void OnTriggerEnter2D(Collider2D other) {
-            if (other.CompareTag("Hero") && other.TryGetComponent(out IDamageable actor)) {
+            if (other.TryGetComponent(out ITrapDamageable actor)) {
                 this.OnEnteredTrap(actor);
             }
         }
@@ -112,8 +113,8 @@ namespace KrillOrBeKrilled.Traps {
                 return;
             }
 
-            if (other.TryGetComponent(out IDamageable damageActor)) {
-                this.OnExitedTrap(damageActor);
+            if (other.TryGetComponent(out ITrapDamageable actor)) {
+                this.OnExitedTrap(actor);
             }
         }
 
@@ -282,13 +283,13 @@ namespace KrillOrBeKrilled.Traps {
         /// Applies resulting effects and reactions to the <see cref="IDamageable"/> actor upon trap detonation. 
         /// </summary>
         /// <remarks> Invoked upon triggered collision with a hero tagged GameObject. </remarks>
-        protected abstract void OnEnteredTrap(IDamageable actor);
+        protected abstract void OnEnteredTrap(ITrapDamageable actor);
         
         /// <summary>
         /// Applies lasting effects and reactions to the <see cref="IDamageable"/> actor when exiting the trap collider. 
         /// </summary>
         /// <remarks> Invoked upon exiting a trigger collision with a hero tagged GameObject.. </remarks>
-        protected abstract void OnExitedTrap(IDamageable actor);
+        protected abstract void OnExitedTrap(ITrapDamageable actor);
         
         #endregion
         

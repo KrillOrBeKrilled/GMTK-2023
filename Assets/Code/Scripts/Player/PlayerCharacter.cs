@@ -5,6 +5,7 @@ using KrillOrBeKrilled.Player.PlayerStates;
 using KrillOrBeKrilled.Traps;
 using System.Collections;
 using System.Collections.Generic;
+using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,7 +24,7 @@ namespace KrillOrBeKrilled.Player {
     /// changing and deployment of traps, as well as player death with associated
     /// animations and sound.
     /// </remarks>
-    public class PlayerCharacter : Pawn, IDamageable, ITrapBuilder {
+    public class PlayerCharacter : Pawn, IDamageable, ITrapDamageable, ITrapBuilder {
 
         // Support the passing of a function with out parameters
         public delegate void InputDelegate<T1, T2, T3>(out T1 input, out T2 output, out T3 output2);
@@ -198,8 +199,6 @@ namespace KrillOrBeKrilled.Player {
 
         #region IDamageable Implementations
 
-        public void ApplySpeedPenalty(float penalty) {}
-
         /// <summary>
         /// Changes the current <see cref="IPlayerState"/> to the death state and plays associated SFX.
         /// </summary>
@@ -209,19 +208,29 @@ namespace KrillOrBeKrilled.Player {
             this.ChangeState(State.Dead);
         }
 
+        // TODO: If the health bar is implemented, heroes will damage the player through IDamageable
+        public void TakeDamage(int amount) {}
+
+        #endregion
+        
+        #region ITrapDamageable Implementations
+        
         // TODO: Do we want the player to have a health bar?
         public int GetHealth() {
             return -1;
         }
+        
+        // TODO: If the player health is implemented, traps will damage the player through ITrapDamageable
+        public void TakeDamage(int amount, Trap trap) {}
+        
+        public void ApplySpeedPenalty(float penalty) {}
 
         public void ResetSpeedPenalty() {}
-
-        public void TakeDamage(int amount) {}
-
-        public void ThrowActorBack(float stunDuration, float throwForce) {}
-
+        
         public void ThrowActorForward(float throwForce) {}
-
+        
+        public void ThrowActorBack(float stunDuration, float throwForce) {}
+        
         #endregion
 
         #region ITrapBuilder Implementations

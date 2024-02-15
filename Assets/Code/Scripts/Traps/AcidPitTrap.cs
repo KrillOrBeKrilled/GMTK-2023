@@ -1,5 +1,6 @@
 using System.Collections;
 using KrillOrBeKrilled.Interfaces;
+using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -87,11 +88,11 @@ namespace KrillOrBeKrilled.Traps {
 
         /// <inheritdoc cref="Trap.OnEnteredTrap"/>
         /// <summary>
-        /// This trap applies an 80% speed reduction and interval damage to the <see cref="IDamageable"/> actor
+        /// This trap applies an 80% speed reduction and interval damage to the <see cref="ITrapDamageable"/> actor
         /// every second it remains in the acid.
         /// </summary>
         /// <param name="actor"> The recipient of the trap's damaging effects. </param>
-        protected override void OnEnteredTrap(IDamageable actor) {
+        protected override void OnEnteredTrap(ITrapDamageable actor) {
             if (!this.IsReady) {
                 return;
             }
@@ -108,10 +109,10 @@ namespace KrillOrBeKrilled.Traps {
 
         /// <inheritdoc cref="Trap.OnExitedTrap"/>
         /// <summary>
-        /// Resets the speed reduction and stops dealing damage to the <see cref="IDamageable"/> actor.
+        /// Resets the speed reduction and stops dealing damage to the <see cref="ITrapDamageable"/> actor.
         /// </summary>
         /// <param name="actor"> The recipient of the trap's damaging effects. </param>
-        protected override void OnExitedTrap(IDamageable actor) {
+        protected override void OnExitedTrap(ITrapDamageable actor) {
             if (!this.IsReady) {
                 return;
             }
@@ -165,14 +166,14 @@ namespace KrillOrBeKrilled.Traps {
         #region Private Methods
         
         /// <summary>
-        /// Deals damage to the <see cref="IDamageable"/> actor each second for as long as its health remains
+        /// Deals damage to the <see cref="ITrapDamageable"/> actor each second for as long as its health remains
         /// greater than zero.
         /// </summary>
         /// <param name="actor"> The recipient of the trap's damaging effects. </param>
         /// <remarks> The coroutine is started and stopped by <see cref="OnEnteredTrap"/>. </remarks>
-        private IEnumerator DealIntervalDamage(IDamageable actor) {
+        private IEnumerator DealIntervalDamage(ITrapDamageable actor) {
             while (actor.GetHealth() > 0) {
-                actor.TakeDamage(this._damageAmount);
+                actor.TakeDamage(this._damageAmount, this);
                 yield return this._waitForOneSecond;
             }
             

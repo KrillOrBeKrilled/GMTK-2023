@@ -40,34 +40,15 @@ namespace KrillOrBeKrilled.Core.Managers {
         #endregion
         
         //========================================
-        // Private Methods
-        //========================================
-
-        #region Private Methods
-
-        /// <summary>
-        /// A coroutine to delay the initialization of the player inventory so that the
-        /// subscribers can be set up first.
-        /// </summary>
-        private IEnumerator DelayedInventoryInit() {
-            _inventory = new Dictionary<ResourceType, int>();
-            foreach (var entry in initialInventory) {
-                _inventory.Add(entry.type, entry.amount);
-            }
-            
-            // Skip a frame to wait for event listeners
-            yield return null;
-            EventManager.Instance.ResourceAmountChangedEvent.Invoke(_inventory);
-        }
-        
-        #endregion
-        
-        //========================================
         // Public Methods
         //========================================
 
         #region Public Methods
         
+        /// <summary>
+        /// Sets up subscriptions to player events required for proper execution.
+        /// </summary>
+        /// <param name="onConsumeResources"> An event encapsulating when resources are requested to be consumed. </param>
         public void Initialize(UnityEvent<Dictionary<ResourceType, int>> onConsumeResources) {
             onConsumeResources.AddListener(this.ConsumeResources);
         }
@@ -113,6 +94,29 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <param name="costs"> The costs being checked. </param>
         public bool CanAffordCost(Dictionary<ResourceType, int> costs) {
             return costs.All(pair => _inventory[pair.Key] >= pair.Value);
+        }
+        
+        #endregion
+        
+        //========================================
+        // Private Methods
+        //========================================
+
+        #region Private Methods
+
+        /// <summary>
+        /// A coroutine to delay the initialization of the player inventory so that the
+        /// subscribers can be set up first.
+        /// </summary>
+        private IEnumerator DelayedInventoryInit() {
+            _inventory = new Dictionary<ResourceType, int>();
+            foreach (var entry in initialInventory) {
+                _inventory.Add(entry.type, entry.amount);
+            }
+            
+            // Skip a frame to wait for event listeners
+            yield return null;
+            EventManager.Instance.ResourceAmountChangedEvent.Invoke(_inventory);
         }
         
         #endregion

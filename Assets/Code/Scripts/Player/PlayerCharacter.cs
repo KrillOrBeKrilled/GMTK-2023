@@ -15,9 +15,10 @@ using UnityEngine.Events;
 //*******************************************************************************************
 namespace KrillOrBeKrilled.Player {
     /// <summary>
-    /// Handles the brunt of the player input. Works hand-in-hand with the
-    /// <see cref="TrapController"/> class made to separate the trap searching and tile
-    /// painting logic.
+    /// Acts as a representation of the player within the game world, acting on input
+    /// received from the controller that possesses it. Works hand-in-hand with the
+    /// <see cref="TrapController"/> class that handles all tilemap grid-related player
+    /// actions.
     /// </summary>
     /// <remarks>
     /// Contains the implementation for the character movement, jumping,
@@ -26,7 +27,8 @@ namespace KrillOrBeKrilled.Player {
     /// </remarks>
     public class PlayerCharacter : Pawn, IDamageable, ITrapDamageable, ITrapBuilder {
 
-        // Support the passing of a function with out parameters
+        // ------------- Receiving Input -------------
+        // Support the passing of a delegate with out parameters
         public delegate void InputDelegate<T1, T2, T3>(out T1 input, out T2 output, out T3 output2);
         private InputDelegate<float, bool, bool> _gatherControllerInput;
         
@@ -318,7 +320,26 @@ namespace KrillOrBeKrilled.Player {
         }
 
         #endregion
+        
+        /// <summary>
+        /// Sets up all listeners and delegates to operate the <see cref="PlayerCharacter"/>.
+        /// </summary>
+        /// <remarks> Invokes the <see cref="OnSelectedTrapChanged"/> event. </remarks>
+        /// <param name="onHenWon"> An event to notify listeners when a level has been completed. </param>
+        /// <param name="getControllerInput"> A delegate callback used to fetch input from the controller that
+        /// possesses this player entity. </param>
+        public void Initialize(UnityEvent<string> onHenWon, InputDelegate<float, bool, bool> getControllerInput) {
+            this._gatherControllerInput = getControllerInput;
+            
+            onHenWon.AddListener(this.GameOver);
 
+            this.OnSelectedTrapChanged?.Invoke(this._trapController.CurrentTrap);
+        }
+
+        /// <summary>
+        /// Selects the specified trap for placement evaluation in the level.
+        /// </summary>
+        /// <param name="selectedTrap"> The new trap to be selected for placement. </param>
         public void SetTrap(Trap selectedTrap) {
             var command = new SetTrapCommand(this, selectedTrap);
             this.ExecuteCommand(command);
@@ -363,18 +384,6 @@ namespace KrillOrBeKrilled.Player {
             command.Execute();
         }
 
-        /// <summary>
-        /// Sets up all listeners to operate the <see cref="Player"/>.
-        /// </summary>
-        /// <param name="gameManager"> Provides events related to the game state to subscribe to. </param>
-        public void Initialize(UnityEvent<string> onHenWon, InputDelegate<float, bool, bool> getControllerInput) {
-            this._gatherControllerInput = getControllerInput;
-            
-            onHenWon.AddListener(this.GameOver);
-
-            this.OnSelectedTrapChanged?.Invoke(this._trapController.CurrentTrap);
-        }
-
         #endregion
 
         //========================================
@@ -399,12 +408,6 @@ namespace KrillOrBeKrilled.Player {
         /// <param name="jumpPressed"> Jump Button pressed is saved into this variable. </param>
         /// <param name="jumpPressedThisFrame"> Jump Button pressed this frame is saved into this variable. </param>
         private void GatherInput(out float moveInput, out bool jumpPressed, out bool jumpPressedThisFrame) {
-            // if (this._gatherControllerInput == null) {
-            //     moveInput = 0f;
-            //     jumpPressed = jumpPressedThisFrame = false;
-            //     return;
-            // }
-
             try {
                 this._gatherControllerInput(out moveInput, out jumpPressed, out jumpPressedThisFrame);
             } catch (Exception error) {
@@ -414,7 +417,6 @@ namespace KrillOrBeKrilled.Player {
                 jumpPressed = jumpPressedThisFrame = false;
                 return;
             }
-            
             
             if (!Mathf.Approximately(moveInput, 0f)) {
                 this._direction = moveInput > 0 ? 1 : -1;
@@ -432,6 +434,10 @@ namespace KrillOrBeKrilled.Player {
             this._animator.SetFloat(_directionKey, this._direction);
         }
 
+        /// <summary>
+        /// Sets the player entity's state to reflect the end of the level.
+        /// </summary>
+        /// <remarks> Subscribed to the OnHenWon core game system event. </remarks>
         private void GameOver(string _) {
             this.ChangeState(State.GameOver);
         }

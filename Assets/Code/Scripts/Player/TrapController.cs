@@ -47,7 +47,9 @@ namespace KrillOrBeKrilled.Player {
         [SerializeField] private Vector3 _leftDeployPosition, _rightDeployPosition;
 
         private bool _isSelectingTileSFX, _canDeploy;
+        private Func<Dictionary<ResourceType, int>, bool> _canAffordTrap;
         
+        // ----------- Tilemap Management ------------
         public enum PaintMode {
             FreeTile, // Resets the trap tile status to allow for new traps to be built in place
             AllocateTileSpace, // Clears overlapping ground tiles and assigns trap tiles to prevent trap duplication 
@@ -58,8 +60,6 @@ namespace KrillOrBeKrilled.Player {
         
         public UnityEvent<Dictionary<ResourceType, int>> OnConsumeResources { get; private set; }
         public UnityEvent<IEnumerable<Vector3Int>, PaintMode> OnPaintTiles { get; private set; }
-
-        private Func<Dictionary<ResourceType, int>, bool> _canAffordTrap;
 
         //========================================
         // Unity Methods
@@ -81,6 +81,11 @@ namespace KrillOrBeKrilled.Player {
 
         #endregion
         
+        /// <summary>
+        /// Sets up the delegates required to operate the communication between the
+        /// <see cref="TrapController"/> and resource management system.
+        /// </summary>
+        /// <param name="canAffordTrap"> The delegate used to finalize the eligibility of trap placement. </param>
         public void Initialize(Func<Dictionary<ResourceType, int>, bool> canAffordTrap) {
             _canAffordTrap = canAffordTrap;
         }
@@ -96,7 +101,7 @@ namespace KrillOrBeKrilled.Player {
         /// <summary>
         /// Sets the <see cref="CurrentTrap"/> and resets the painted trap tilemap tiles.
         /// </summary>
-        /// <param name="trap">Trap to be selected.</param>
+        /// <param name="trap"> Trap to be selected. </param>
         internal void ChangeTrap(Trap trap) {
             this.CurrentTrap = trap;
             this.DisableTrapDeployment();

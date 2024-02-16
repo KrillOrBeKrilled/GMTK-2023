@@ -269,7 +269,7 @@ namespace KrillOrBeKrilled.Traps {
         
         /// <summary>
         /// Applies any SFX, animations, updates to physics, and logic to the trap when it is being detonated,
-        /// or unleashed on an <see cref="IDamageable"/> actor. 
+        /// or unleashed on an <see cref="ITrapDamageable"/> actor. 
         /// </summary>
         protected abstract void DetonateTrap();
 
@@ -279,13 +279,13 @@ namespace KrillOrBeKrilled.Traps {
         protected virtual void OnDetonateTrapAnimationCompete() {}
         
         /// <summary>
-        /// Applies resulting effects and reactions to the <see cref="IDamageable"/> actor upon trap detonation. 
+        /// Applies resulting effects and reactions to the <see cref="ITrapDamageable"/> actor upon trap detonation. 
         /// </summary>
         /// <remarks> Invoked upon triggered collision with a hero tagged GameObject. </remarks>
         protected abstract void OnEnteredTrap(ITrapDamageable actor);
         
         /// <summary>
-        /// Applies lasting effects and reactions to the <see cref="IDamageable"/> actor when exiting the trap collider. 
+        /// Applies lasting effects and reactions to the <see cref="ITrapDamageable"/> actor when exiting the trap collider. 
         /// </summary>
         /// <remarks> Invoked upon exiting a trigger collision with a hero tagged GameObject.. </remarks>
         protected abstract void OnExitedTrap(ITrapDamageable actor);

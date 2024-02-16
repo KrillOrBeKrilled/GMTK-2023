@@ -1,9 +1,9 @@
 using System;
 using System.IO;
-using KrillOrBeKrilled.Core.Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
+using KrillOrBeKrilled.Core.Managers;
 using KrillOrBeKrilled.Player;
 
 //*******************************************************************************************
@@ -11,13 +11,15 @@ using KrillOrBeKrilled.Player;
 //*******************************************************************************************
 namespace KrillOrBeKrilled.Core.Input {
     /// <summary>
-    /// Manages the enabling and disabling of character controls directly through
+    /// Manages the enabling, disabling, and delegation of character controls to the
+    /// possessed <see cref="PlayerCharacter"/> directly through
     /// <see cref="PlayerInputActions"/>.
     /// </summary>
     /// <remarks>
     /// Manages the player GameObject as an entity that interacts with other GameObjects
     /// in the environment and acts as an intermediary to grant access to the
-    /// <see cref="PlayerCharacter"/>; and <see cref="TrapController"/> to other classes.
+    /// <see cref="PlayerCharacter"/>; and <see cref="TrapController"/> to core gameplay
+    /// management classes.
     /// </remarks>
     public class PlayerController : MonoBehaviour {
         [Tooltip("The PlayerCharacter associated with the player GameObject.")]
@@ -26,11 +28,11 @@ namespace KrillOrBeKrilled.Core.Input {
         [Tooltip("The TrapController associated with the player GameObject.")]
         internal TrapController TrapController { get; private set; }
         
+        // ----------------- Input -------------------
         private PlayerInputActions _playerInputActions;
         
         // ---------------- Replaying ----------------
         protected InputEventTrace InputRecorder;
-        
         private const string BaseFolder = "InputRecordings";
         
         //========================================
@@ -52,23 +54,20 @@ namespace KrillOrBeKrilled.Core.Input {
         #endregion
         
         //========================================
-        // Protected Methods
-        //========================================
-
-        #region Protected Methods
-
-        public void Initialize(GameManager gameManager) {
-            Player.Initialize(gameManager.OnHenWon, this.GatherInput);
-            TrapController.Initialize(ResourceManager.Instance.CanAffordCost);
-        }
-
-        #endregion
-        
-        //========================================
         // Internal Methods
         //========================================
         
         #region Internal Methods
+        
+        /// <summary>
+        /// Sets up the <see cref="PlayerCharacter"/> and <see cref="TrapController"/> that make up the player
+        /// representation within the game world with callbacks and delegates required for proper execution.
+        /// </summary>
+        /// <param name="gameManager"> Provides major game state-related events to subscribe the entities to. </param>
+        internal void Initialize(GameManager gameManager) {
+            Player.Initialize(gameManager.OnHenWon, this.GatherInput);
+            TrapController.Initialize(ResourceManager.Instance.CanAffordCost);
+        }
         
         /// <summary>
         /// Begins recording all player input with timestamps via the <see cref="InputEventTrace"/> and enables
@@ -101,10 +100,9 @@ namespace KrillOrBeKrilled.Core.Input {
 
         #region Private Methods
         
-        // To help with UI stuff when disabling and enabling controls
         /// <summary>
         /// Disables the input retrieval through the <see cref="PlayerInputActions"/> asset and unsubscribes all
-        /// the input methods from the &lt;see cref="PlayerInputActions"/&gt; input action bindings.
+        /// the input methods from the <see cref="PlayerInputActions"/> input action bindings.
         /// </summary>
         private void DisablePlayerControls() {
             this._playerInputActions.Player.Disable();
@@ -114,7 +112,7 @@ namespace KrillOrBeKrilled.Core.Input {
 
         /// <summary>
         /// Enables the input retrieval through the <see cref="PlayerInputActions"/> asset and subscribes all
-        /// the input methods to the &lt;see cref="PlayerInputActions"/&gt; input action bindings.
+        /// the input methods to the <see cref="PlayerInputActions"/> input action bindings.
         /// </summary>
         private void EnablePlayerControls() {
             this._playerInputActions.Player.Enable();
@@ -122,16 +120,20 @@ namespace KrillOrBeKrilled.Core.Input {
             this._playerInputActions.Player.PlaceTrap.performed += this.DeployTrap;
         }
 
+        /// <summary>
+        /// Delegates trap deployment behaviour to the possessed <see cref="PlayerCharacter"/>.
+        /// </summary>
         private void DeployTrap(InputAction.CallbackContext obj) {
             this.Player.InvokeDeployTrap();
         }
 
         /// <summary>
-        /// Reads input for move and jump. Puts read values in the <c>out</c> variables.
+        /// Reads all input received via the <see cref="PlayerInputActions"/> and relays the values through the
+        /// <c>out</c> variables.
         /// </summary>
-        /// <param name="moveInput"> Move input is saved into this variable. </param>
-        /// <param name="jumpPressed"> Jump Button pressed is saved into this variable. </param>
-        /// <param name="jumpPressedThisFrame"> Jump Button pressed this frame is saved into this variable. </param>
+        /// <param name="moveInput"> Move input (1D x-axis) is saved into this variable. </param>
+        /// <param name="jumpPressed"> Jump Button pressed data is saved into this variable. </param>
+        /// <param name="jumpPressedThisFrame"> Jump Button pressed this frame data is saved into this variable. </param>
         private void GatherInput(out float moveInput, out bool jumpPressed, out bool jumpPressedThisFrame) {
             Vector2 moveVectorInput = this._playerInputActions.Player.Move.ReadValue<Vector2>();
             moveInput = moveVectorInput.x;

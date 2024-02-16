@@ -41,10 +41,6 @@ namespace KrillOrBeKrilled.Core.Managers {
         
         #region Set Tiles
         
-        public void Initialize(UnityEvent<IEnumerable<Vector3Int>, TrapController.PaintMode> onPaintTiles) {
-            onPaintTiles.AddListener(this.OnPaintTiles);
-        }
-        
         /// <summary>
         /// Removes the tiles at the tile positions in the level tilemap and invalidates the same tile positions
         /// in the trap tilemap.
@@ -123,9 +119,31 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
         
         #endregion
+        
+        /// <summary>
+        /// Sets up subscriptions to player events required for proper execution.
+        /// </summary>
+        /// <param name="trapController"> Provides all tilemap-related events to be executed in response to player
+        /// input actions. </param>
+        public void Initialize(TrapController trapController) {
+            trapController.OnPaintTiles.AddListener(this.OnPaintTiles);
+        }
 
         #endregion
+        
+        //========================================
+        // Private Methods
+        //========================================
 
+        #region Private Methods
+
+        /// <summary>
+        /// Selects an operation to act on the provided tilemap positions based on the specified
+        /// <see cref="TrapController.PaintMode"/>.
+        /// </summary>
+        /// <remarks> Subscribed to the <see cref="TrapController.OnPaintTiles"/> event. </remarks>
+        /// <param name="tilePositions"> A list of tile positions corresponding to a tilemap to paint. </param>
+        /// <param name="paintMode"> Specifies the operation type to be performed on the tilemap tiles. </param>
         private void OnPaintTiles(IEnumerable<Vector3Int> tilePositions, TrapController.PaintMode paintMode) {
             switch (paintMode) {
                 case TrapController.PaintMode.FreeTile:
@@ -149,5 +167,7 @@ namespace KrillOrBeKrilled.Core.Managers {
                     break;
             }
         }
+        
+        #endregion
     }
 }

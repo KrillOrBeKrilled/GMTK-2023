@@ -54,12 +54,6 @@ namespace KrillOrBeKrilled.Core.Managers {
         
         #region Unity Methods
 
-        // private void Start() {
-        //     // Calculate the total weight only once here, also same for hero drops
-        //     _totalLevelDropWeight = _levelDrops.Sum(drop => drop.weight);
-        //     InitializeDropMap();
-        // }
-
         private void OnDestroy() {
             Hero.OnHeroDeath -= SpawnHeroDrop;
         }
@@ -72,6 +66,11 @@ namespace KrillOrBeKrilled.Core.Managers {
         
         #region Public Methods
         
+        /// <summary>
+        /// Links the resource spawner with the player transform and core game system events required for proper
+        /// execution. Initializes the resource drop map probabilities according to the level and hero data.
+        /// </summary>
+        /// <param name="playerTransform"> The transform of the player entity representation. </param>
         public void Initialize(Transform playerTransform) {
             _playerTransform = playerTransform;
             if (_playerTransform == null) {
@@ -102,6 +101,10 @@ namespace KrillOrBeKrilled.Core.Managers {
         
         #region Private Methods
 
+        /// <summary>
+        /// Populates the drop map bookkeeping structure with all the possible resource drops to be obtained from
+        /// each hero type and their summed weights to be used for later spawning randomization.
+        /// </summary>
         private void InitializeDropMap() {
             _dropMap = new Dictionary<HeroData.HeroType, (List<ResourceDrop>, int)>();
             foreach (var heroDrop in _heroDrops) {
@@ -110,6 +113,9 @@ namespace KrillOrBeKrilled.Core.Managers {
             }
         }
 
+        /// <summary>
+        /// Infinitely spawns a resource drop every <see cref="_spawnInterval"/> duration of time.
+        /// </summary>
         private IEnumerator LevelDropCoroutine() {
             while (true) {
                 yield return new WaitForSeconds(_spawnInterval);
@@ -118,7 +124,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
 
         /// <summary>
-        /// Disables the spawner. Subscribed to <see cref="GameOverEvent"/>.
+        /// Disables the spawner. Subscribed to the <see cref="EventManager.GameOverEvent"/>.
         /// </summary>
         private void StopLevelDropCoroutine() {
             if (_levelDropCoroutine == null) {
@@ -154,6 +160,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// Each drop in the list is weighted. The higher the weight, the more likely
         /// it is to drop.
         /// </summary>
+        /// <remarks> Subscribed to the <see cref="Hero.OnHeroDeath"/> event. </remarks>
         /// <param name="heroType"> The hero type that died. </param>
         /// <param name="heroTransform"> The transform where the hero died. </param>
         private void SpawnHeroDrop(HeroData.HeroType heroType, Transform heroTransform) {

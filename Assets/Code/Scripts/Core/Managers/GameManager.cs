@@ -148,7 +148,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._playerController.Initialize(this);
             ResourceManager.Instance.Initialize(this.PlayerController.TrapController.OnConsumeResources);
             ResourceSpawner.Instance.Initialize(this.PlayerController.transform);
-            TilemapManager.Instance.Initialize(this.PlayerController.TrapController.OnPaintTiles);
+            TilemapManager.Instance.Initialize(this.PlayerController.TrapController);
 
             // Wait for a frame so that all other scripts complete Start() method.
             yield return null;
@@ -218,9 +218,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// Enables player controls and recording features, hero movement, and timed coin earning. To be used to start
         /// the level when no hero actors have been spawned in the dialogue.
         /// </summary>
-        /// <remarks>
-        /// Invokes the <see cref="OnStartLevel"/> event. Can be accessed as a YarnCommand.
-        /// </remarks>
+        /// <remarks> Invokes the <see cref="OnStartLevel"/> event. Can be accessed as a YarnCommand. </remarks>
         [YarnCommand("start_level_enabled_spawn")]
         public void StartLevelWithSpawn() {
             this.StartLevelNoSpawn();
@@ -228,8 +226,9 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
 
         /// <summary>
-        /// Aborts the dialogue player if the dialogue is actively running and starts the level.
+        /// Aborts the dialogue playback if the dialogue is actively running and starts the level.
         /// </summary>
+        /// <remarks> Invokes the <see cref="EventManager.HideDialogueUIEvent"/> event. </remarks>
         public void SkipDialogue() {
             EventManager.Instance.HideDialogueUIEvent?.Invoke();
             this.StartCoroutine(this.SkipDialogueCoroutine());
@@ -242,6 +241,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <summary>
         /// Disables pause controls and loads the MainMenu scene.
         /// </summary>
+        /// <remarks> Invokes the <see cref="OnSceneWillChange"/> event. </remarks>
         public void LoadMainMenu() {
             this._pauseManager.UnpauseGame();
             this._pauseManager.SetIsPausable(false);
@@ -252,6 +252,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <summary>
         /// Unpauses the game.
         /// </summary>
+        /// <remarks> Invokes the <see cref="OnSceneWillChange"/> event. </remarks>
         public void LoadNextLevel() {
             this._pauseManager.UnpauseGame();
             this._pauseManager.SetIsPausable(false);
@@ -270,6 +271,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <summary>
         /// Disables pause controls and reloads the current level.
         /// </summary>
+        /// <remarks> Invokes the <see cref="OnSceneWillChange"/> event. </remarks>
         public void ReloadThisLevel() {
             this._pauseManager.UnpauseGame();
             this._pauseManager.SetIsPausable(false);
@@ -394,7 +396,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             newHero.OnHeroDied.AddListener(this.OnHeroDied);
 
             this._heroes.Add(newHero);
-            this.OnHeroSpawned.Invoke(newHero, registerAsDialogueCharacter);
+            this.OnHeroSpawned?.Invoke(newHero, registerAsDialogueCharacter);
             return newHero;
         }
 
@@ -443,7 +445,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
 
         /// <summary>
-        /// Starts the <see cref="SpawnNextWave"/> coroutine to begin the level gameplay.
+        /// Starts the <see cref="SpawnNextWave"/> coroutine to begin the enemy spawning gameplay.
         /// </summary>
         private void StartWaveSpawning() {
             this._waveSpawnCoroutine = this.SpawnNextWave();
@@ -515,7 +517,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// Records analytics trap switching data.
         /// </summary>
         /// <param name="trap"> The most recently selected trap. </param>
-        /// <remarks> Subscribed to the <see cref="Player.Input.PlayerCharacter.OnSelectedTrapChanged"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="PlayerCharacter.OnSelectedTrapChanged"/> event. </remarks>
         private void SelectedTrapIndexChanged(Trap trap) {
             if (UGS_Analytics.Instance is null) {
                 return;
@@ -549,7 +551,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// Disables the player input and wave spawner, and disables the hero movement before triggering the win UI.
         /// </summary>
         /// <param name="endgameMessage"> The message to be displayed on the loss UI. </param>
-        /// <remarks> Invokes the <see cref="OnHenLost"/> event. </remarks>
+        /// <remarks> Invokes the <see cref="OnHenLost"/> and <see cref="EventManager.GameOverEvent"/> events. </remarks>
         private void HenLost(string endgameMessage) {
             if (this._isGameOver) {
                 return;
@@ -569,7 +571,8 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
 
         /// <summary>
-        /// Disables and freezes player input and triggers the win UI.
+        /// Disables and freezes player input and triggers the win UI. Updates the <see cref="DataManager"/> save
+        /// data to reflect the completion of the current level and saves it to local storage.
         /// </summary>
         /// <param name="message"> The message to be displayed on the win UI. </param>
         /// <remarks>
@@ -609,7 +612,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
 
         /// <summary>
-        /// Freezes all heroes in the level.
+        /// Freezes all heroes' actions and movement in the level.
         /// </summary>
         private void FreezeAllHeroes() {
             foreach (Hero hero in this._heroes) {
@@ -618,7 +621,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
 
         /// <summary>
-        /// Unfreezes all heroes in the level.
+        /// Unfreezes all heroes' actions and movement in the level.
         /// </summary>
         private void UnfreezeAllHeroes() {
             foreach (Hero hero in this._heroes) {

@@ -32,14 +32,6 @@ namespace KrillOrBeKrilled.Core.Input {
         #endregion
         
         //========================================
-        // Protected Methods
-        //========================================
-        
-        // #region Protected Methods
-        //
-        // #endregion
-        
-        //========================================
         // Internal Methods
         //========================================
         

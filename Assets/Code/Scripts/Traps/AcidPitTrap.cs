@@ -1,5 +1,4 @@
 using System.Collections;
-using KrillOrBeKrilled.Interfaces;
 using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;

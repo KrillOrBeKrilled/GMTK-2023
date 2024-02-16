@@ -1,5 +1,4 @@
 using System.Linq;
-using KrillOrBeKrilled.Interfaces;
 using System.Collections.Generic;
 using DG.Tweening;
 using KrillOrBeKrilled.Traps.Interfaces;

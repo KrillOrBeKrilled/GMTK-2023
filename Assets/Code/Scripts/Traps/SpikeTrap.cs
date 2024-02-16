@@ -1,4 +1,3 @@
-using KrillOrBeKrilled.Interfaces;
 using DG.Tweening;
 using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEngine;

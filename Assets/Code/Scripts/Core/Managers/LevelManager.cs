@@ -75,6 +75,7 @@ namespace KrillOrBeKrilled.Core.Managers {
 
             // Assign copy the values to avoid modifying data source and store them between scenes.
             // Note: stored data is not preserved between game sessions.
+            this._activeLevelData.Index = source.Index;
             this._activeLevelData.Type = source.Type;
             this._activeLevelData.DialogueName = source.DialogueName;
             this._activeLevelData.NextLevelName = source.NextLevelName;

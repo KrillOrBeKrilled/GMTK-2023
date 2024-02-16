@@ -118,6 +118,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             // Create a copy to avoid modifying source
             LevelData sourceData = LevelManager.Instance.GetActiveLevelData();
             this._levelData = ScriptableObject.CreateInstance<LevelData>();
+            this._levelData.Index = sourceData.Index;
             this._levelData.DialogueName = sourceData.DialogueName;
             this._levelData.NextLevelName = sourceData.NextLevelName;
             this._levelData.Type = sourceData.Type;
@@ -585,6 +586,9 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._playerController.StopSession();
             
             this.OnHenWon?.Invoke(message);
+
+            DataManager.Instance.PlayerData.AddCompletedLevel(this._levelData.Index);
+            DataManager.Instance.SaveGameData();
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
 //*******************************************************************************************
 // ITrapBuilder
 //*******************************************************************************************
-namespace KrillOrBeKrilled.Interfaces {
+namespace KrillOrBeKrilled.Traps.Interfaces {
     /// <summary>
     /// Interfaces any actor that has the ability to build traps.
     /// </summary>

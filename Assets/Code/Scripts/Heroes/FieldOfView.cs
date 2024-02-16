@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using KrillOrBeKrilled.Interfaces;
+using KrillOrBeKrilled.Traps.Interfaces;
 
 //*******************************************************************************************
 // FieldOfView

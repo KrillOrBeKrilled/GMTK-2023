@@ -1,7 +1,7 @@
 using KrillOrBeKrilled.Model;
 using UnityEngine.SceneManagement;
 
-namespace KrillOrBeKrilled.Managers {
+namespace KrillOrBeKrilled.Core.Managers {
     public class DataManager : Singleton<DataManager> {
         public PlayerData PlayerData { get; private set; }
 

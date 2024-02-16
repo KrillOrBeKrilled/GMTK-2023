@@ -3,7 +3,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 
 // TODO: add saving to the TEMP file first, replace data file only upon completion
-namespace KrillOrBeKrilled.Managers {
+namespace KrillOrBeKrilled.Core.Managers {
     public static class FileManager {
 
         public static void SaveData<T>(T data, string fileName) {

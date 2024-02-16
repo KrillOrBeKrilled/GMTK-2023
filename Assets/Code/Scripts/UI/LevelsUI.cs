@@ -1,5 +1,5 @@
 using DG.Tweening;
-using KrillOrBeKrilled.Managers;
+using KrillOrBeKrilled.Core.Managers;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;

@@ -328,11 +328,14 @@ namespace KrillOrBeKrilled.Player {
         /// <param name="onHenWon"> An event to notify listeners when a level has been completed. </param>
         /// <param name="getControllerInput"> A delegate callback used to fetch input from the controller that
         /// possesses this player entity. </param>
-        public void Initialize(UnityEvent<string> onHenWon, InputDelegate<float, bool, bool> getControllerInput) {
+        public IEnumerator Initialize(UnityEvent<string> onHenWon, InputDelegate<float, bool, bool> getControllerInput) {
             this._gatherControllerInput = getControllerInput;
             
             onHenWon.AddListener(this.GameOver);
 
+            // Wait for a frame to let the UI setup finish before globally broadcasting the initial selected trap.
+            yield return null;
+            
             this.OnSelectedTrapChanged?.Invoke(this._trapController.CurrentTrap);
         }
 

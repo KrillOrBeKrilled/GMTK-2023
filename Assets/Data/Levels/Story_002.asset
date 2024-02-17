@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e90c72ba9e4daeb0a80224c2883d32, type: 3}
   m_Name: Story_002
   m_EditorClassIdentifier: 
+  Index: 2
   Type: 0
   DialogueName: Level2Dialogue
   NextLevelName: Story_003
@@ -21,33 +22,33 @@ MonoBehaviour:
   WavesData:
     WavesList:
     - Heroes:
-      - Health: 20
+      - Health: 10
         Type: 0
+      - Health: 15
+        Type: 1
+      - Health: 15
+        Type: 0
+      HeroSpawnDelayInSeconds: 2
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
       - Health: 20
+        Type: 1
+      HeroSpawnDelayInSeconds: 2
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 25
+        Type: 1
+      - Health: 25
+        Type: 0
+      HeroSpawnDelayInSeconds: 2
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 25
+        Type: 1
+      - Health: 30
         Type: 1
       - Health: 30
         Type: 0
-      HeroSpawnDelayInSeconds: 2
-      NextWaveSpawnDelayInSeconds: 10
-    - Heroes:
-      - Health: 50
-        Type: 1
-      HeroSpawnDelayInSeconds: 2
-      NextWaveSpawnDelayInSeconds: 10
-    - Heroes:
-      - Health: 50
-        Type: 1
-      - Health: 50
-        Type: 0
-      HeroSpawnDelayInSeconds: 2
-      NextWaveSpawnDelayInSeconds: 10
-    - Heroes:
-      - Health: 35
-        Type: 1
-      - Health: 35
-        Type: 1
-      - Health: 35
-        Type: 0
       - Health: 35
         Type: 1
       - Health: 35
@@ -55,19 +56,19 @@ MonoBehaviour:
       HeroSpawnDelayInSeconds: 2
       NextWaveSpawnDelayInSeconds: 10
     - Heroes:
-      - Health: 50
+      - Health: 30
+        Type: 1
+      - Health: 35
+        Type: 0
+      - Health: 40
+        Type: 0
+      - Health: 45
         Type: 1
       - Health: 50
         Type: 0
-      - Health: 55
-        Type: 0
-      - Health: 55
+      - Health: 50
         Type: 1
-      - Health: 60
-        Type: 0
-      - Health: 60
-        Type: 1
-      - Health: 75
+      - Health: 50
         Type: 0
       HeroSpawnDelayInSeconds: 2
       NextWaveSpawnDelayInSeconds: 10

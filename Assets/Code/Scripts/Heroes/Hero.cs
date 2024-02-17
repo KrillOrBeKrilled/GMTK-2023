@@ -1,8 +1,10 @@
 using System;
-using KrillOrBeKrilled.Common.Interfaces;
+using KrillOrBeKrilled.Interfaces;
 using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Heroes.AI;
 using System.Collections;
+using KrillOrBeKrilled.Traps;
+using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
@@ -16,7 +18,7 @@ namespace KrillOrBeKrilled.Heroes {
     /// tracking health and playing associated SFX. Manipulates movement in the
     /// narrative sequences through the <see cref="HeroBT"/>.
     /// </summary>
-    public class Hero : MonoBehaviour, IDamageable {
+    public class Hero : MonoBehaviour, IDamageable, ITrapDamageable {
         private Rigidbody2D _rigidbody;
         private HeroBT _heroBrain;
         private FieldOfView _heroSight;
@@ -66,15 +68,6 @@ namespace KrillOrBeKrilled.Heroes {
         #region IDamageable Implementations
 
         /// <summary>
-        /// Reduces the hero's movement speed by a percentage reduction via the <see cref="HeroBT"/>.
-        /// </summary>
-        /// <param name="penalty"> The speed penalty value to limit the hero's movement. </param>
-        /// <remarks> The incremented speed penalty is clamped between [0,1] as a percentage value. </remarks>
-        public void ApplySpeedPenalty(float penalty) {
-            this._heroBrain.UpdateData("SpeedPenalty", Mathf.Clamp(penalty, 0f, 1f));
-        }
-
-        /// <summary>
         /// Decrements the hero's number of lives, playing associated SFX. If the number of lives are
         /// reduced to zero, broadcasts the endgame and destroys this GameObject. Otherwise, respawns
         /// the hero.
@@ -90,23 +83,7 @@ namespace KrillOrBeKrilled.Heroes {
             Destroy(this.gameObject);
         }
 
-        public int GetHealth() {
-            return this.Health;
-        }
-
-        /// <summary>
-        /// Resets the speed penalty to return the hero movement speed to normal via the <see cref="HeroBT"/>.
-        /// </summary>
-        public void ResetSpeedPenalty() {
-            this._heroBrain.UpdateData("SpeedPenalty", 0f);
-        }
-
-        /// <summary>
-        /// Decrements the hero's health, earns coins through the <see cref="CoinManager"/>,
-        /// and plays associated SFX. If the health falls to zero or below, triggers the hero death.
-        /// </summary>
-        /// <param name="amount"> The value to subtract from the hero's health. </param>
-        /// <remarks> Invokes the <see cref="OnHealthChanged"/> event. </remarks>
+        // TODO: Made available to communicate player attacks to Hero types
         public void TakeDamage(int amount) {
             this.Health -= amount;
             this._soundsController.OnTakeDamage();
@@ -117,6 +94,54 @@ namespace KrillOrBeKrilled.Heroes {
             }
         }
 
+        #endregion
+        
+        #region ITrapDamageable Implementations
+        
+        public int GetHealth() {
+            return this.Health;
+        }
+        
+        /// <summary>
+        /// Decrements the hero's health, earns coins through the <see cref="CoinManager"/>,
+        /// and plays associated SFX. If the health falls to zero or below, triggers the hero death.
+        /// </summary>
+        /// <param name="amount"> The value to subtract from the hero's health. </param>
+        /// <remarks> Invokes the <see cref="OnHealthChanged"/> event. </remarks>
+        public void TakeDamage(int amount, Trap trap) {
+            this.Health -= amount;
+            this._soundsController.OnTakeDamage();
+            this.OnHealthChanged?.Invoke(this.Health);
+
+            if (this.Health <= 0) {
+                this.Die();
+            }
+            
+            // TODO: Trap reference can be used to alter the durability and other stats
+        }
+        
+        /// <summary>
+        /// Reduces the hero's movement speed by a percentage reduction via the <see cref="HeroBT"/>.
+        /// </summary>
+        /// <param name="penalty"> The speed penalty value to limit the hero's movement. </param>
+        /// <remarks> The incremented speed penalty is clamped between [0,1] as a percentage value. </remarks>
+        public void ApplySpeedPenalty(float penalty) {
+            this._heroBrain.UpdateData("SpeedPenalty", Mathf.Clamp(penalty, 0f, 1f));
+        }
+        
+        /// <summary>
+        /// Resets the speed penalty to return the hero movement speed to normal via the <see cref="HeroBT"/>.
+        /// </summary>
+        public void ResetSpeedPenalty() {
+            this._heroBrain.UpdateData("SpeedPenalty", 0f);
+        }
+        
+        public void ThrowActorForward(float throwForce) {
+            this._rigidbody.velocity = Vector2.zero;
+            Vector2 leapVector = new Vector2(0.19f, 2f) * throwForce;
+            this._rigidbody.AddForce(leapVector, ForceMode2D.Impulse);
+        }
+        
         /// <summary>
         /// Applies a force to knock back and stun the hero via the <see cref="HeroBT"/>.
         /// </summary>
@@ -129,13 +154,7 @@ namespace KrillOrBeKrilled.Heroes {
             Vector2 explosionVector = new Vector2(-1f, 0.7f) * throwForce;
             this._rigidbody.AddForce(explosionVector, ForceMode2D.Impulse);
         }
-
-        public void ThrowActorForward(float throwForce) {
-            this._rigidbody.velocity = Vector2.zero;
-            Vector2 leapVector = new Vector2(0.19f, 2f) * throwForce;
-            this._rigidbody.AddForce(leapVector, ForceMode2D.Impulse);
-        }
-
+        
         #endregion
 
         /// <summary>

@@ -11,15 +11,16 @@ GameObject:
   - component: {fileID: 7118899271869219251}
   - component: {fileID: 1603199856087861948}
   - component: {fileID: 2917755861018091152}
+  - component: {fileID: 8224085462828597114}
   - component: {fileID: 1717153536710988940}
   - component: {fileID: 686051568901768547}
   - component: {fileID: 6881718048625000024}
   - component: {fileID: 5736380308539490052}
+  - component: {fileID: 4266407960818301315}
   - component: {fileID: 7820116121340408506}
   - component: {fileID: 5929949226365127913}
   - component: {fileID: 1431151410556034827}
   - component: {fileID: 845186409547286209}
-  - component: {fileID: 5037012343675419090}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -122,6 +123,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &8224085462828597114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5438100687898551652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fca8b4f320914e43b280951dbd7c23c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1717153536710988940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,6 +229,22 @@ MonoBehaviour:
   _onBuildComplete:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4266407960818301315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5438100687898551652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35dd07698fe345ae94b5cfcd88303e9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attractionRadius: 7
+  _maxSpeed: 20
+  _minSpeed: 14
+  _maxObjectsToProcess: 10
 --- !u!95 &7820116121340408506
 Animator:
   serializedVersion: 5
@@ -311,18 +340,6 @@ MonoBehaviour:
   characterName: Hendall
   messageBubbleOffset: {x: 0, y: 6}
   _rectTransform: {fileID: 0}
---- !u!114 &5037012343675419090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5438100687898551652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ba532d93edf40458c6fa50d279b5efe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6238511859256710560
 GameObject:
   m_ObjectHideFlags: 0

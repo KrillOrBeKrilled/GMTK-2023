@@ -1,5 +1,6 @@
+using KrillOrBeKrilled.UI.Dialogue;
 using KrillOrBeKrilled.Core;
-using KrillOrBeKrilled.Managers;
+using KrillOrBeKrilled.Core.Managers;
 using KrillOrBeKrilled.Heroes;
 using System.Collections.Generic;
 using KrillOrBeKrilled.Traps;
@@ -69,21 +70,21 @@ namespace KrillOrBeKrilled.UI {
             this._gameManager.OnHeroSpawned.AddListener(this.OnHeroSpawned);
             this._gameManager.OnSceneWillChange.AddListener(this.ScreenWipeInSceneCover);
 
-            this._trapRequirementsUI.Initialize(this._gameManager.PlayerController.OnSelectedTrapChanged);
+            this._trapRequirementsUI.Initialize(this._gameManager.Player.OnSelectedTrapChanged);
             this._trapSelectionBar.Initialize(
-                this._gameManager.PlayerController.OnSelectedTrapChanged,
+                this._gameManager.Player.OnSelectedTrapChanged,
                 this._gameManager.TrapController.Traps,
-                this._gameManager.PlayerController.SetTrap
+                this._gameManager.Player.SetTrap
             );
 
             this._skipDialogueUI.Initialize(this._gameManager.OnStartLevel, this._gameManager.SkipDialogue);
             this._mapUI.Initialize(
-                this._gameManager.PlayerManager.transform,
+                this._gameManager.PlayerController.transform,
                 this._gameManager.LevelStart.position.x,
                 this._gameManager.LevelEnd.position.x
             );
 
-            this._controlsUI.Initialize(this._gameManager.PlayerController);
+            this._controlsUI.Initialize(this._gameManager.Player);
 
             EventManager.Instance.CoinAmountChangedEvent.AddListener(this.OnCoinsUpdated);
             EventManager.Instance.PauseToggledEvent.AddListener(this.OnPauseToggled);
@@ -166,13 +167,32 @@ namespace KrillOrBeKrilled.UI {
         }
 
         /// <summary>
-        /// Creates a health bar for the associated <see cref="Hero"/> and registers the hero to be represented
-        /// on the <see cref="MapUI"/>.
+        /// Creates a health bar for the associated <see cref="Hero"/>, registers the hero to be represented
+        /// on the <see cref="MapUI"/>, and optionally registers the hero with the dialogue system.
         /// </summary>
         /// <param name="hero"> The newly spawned <see cref="Hero"/>. </param>
-        private void OnHeroSpawned(Hero hero) {
+        /// <param name="registerAsDialogueCharacter"> If the spawned hero should be registered with the dialogue system. </param>
+        private void OnHeroSpawned(Hero hero, bool registerAsDialogueCharacter) {
             this.SetupHealthBar(hero);
             this._mapUI.RegisterHero(hero);
+
+            if (!registerAsDialogueCharacter || !hero.TryGetComponent(out YarnCharacter newYarnCharacter)) {
+                return;
+            }
+            
+            hero.OnHeroDied.AddListener(this.OnDialogueHeroDied);
+            YarnCharacterView.instance.RegisterYarnCharacter(newYarnCharacter);
+            YarnCharacterView.instance.playerCharacter = newYarnCharacter;
+        }
+        
+        /// <summary>
+        /// Unregisters the associated <see cref="Hero"/> from the <see cref="YarnCharacterView">dialogue system</see>.
+        /// </summary>
+        /// <param name="hero"> The <see cref="Hero"/> that died. </param>
+        private void OnDialogueHeroDied(Hero hero) {
+            if (hero.TryGetComponent(out YarnCharacter diedCharacter)) {
+                YarnCharacterView.instance.ForgetYarnCharacter(diedCharacter);
+            }
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-using KrillOrBeKrilled.Common.Interfaces;
+using KrillOrBeKrilled.Interfaces;
 using UnityEngine;
 
 //*******************************************************************************************
@@ -9,13 +9,17 @@ namespace KrillOrBeKrilled.Environment {
     /// Kills any actor that comes in contact with this GameObject.
     /// </summary>
     public class FallCollider : MonoBehaviour {
-        
+
         //========================================
         // Unity Methods
         //========================================
-        
+
         #region Unity Methods
-        
+
+        private void Start() {
+            this.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+        }
+
         private void OnTriggerEnter2D(Collider2D other) {
             if (other.TryGetComponent(out IDamageable actor)) {
                 actor.Die();
@@ -25,8 +29,7 @@ namespace KrillOrBeKrilled.Environment {
                 Destroy(other.gameObject);
             }
         }
-        
+
         #endregion
     }
 }
-

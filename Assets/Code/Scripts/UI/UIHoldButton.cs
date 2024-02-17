@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using KrillOrBeKrilled.Managers.Audio;
+using KrillOrBeKrilled.Core.Managers.Audio;
 
 //*******************************************************************************************
 // UIButton

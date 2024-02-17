@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e90c72ba9e4daeb0a80224c2883d32, type: 3}
   m_Name: Endless_001
   m_EditorClassIdentifier: 
+  Index: -1
   Type: 1
   DialogueName: TutorialDialogue
+  NextLevelName: 
   EndgameTargetPosition: {x: 384.2, y: -0.5, z: 0}
   RespawnPositions:
   - {x: -8.05, y: -0.39, z: 0}

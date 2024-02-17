@@ -1,5 +1,5 @@
-using KrillOrBeKrilled.Common.Interfaces;
 using DG.Tweening;
+using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEngine;
 
 //*******************************************************************************************
@@ -29,23 +29,23 @@ namespace KrillOrBeKrilled.Traps {
 
         /// <inheritdoc cref="Trap.OnEnteredTrap"/>
         /// <summary>
-        /// Applies a 30% speed reduction and flat damage to the <see cref="IDamageable"/> actor.
+        /// Applies a 30% speed reduction and flat damage to the <see cref="ITrapDamageable"/> actor.
         /// </summary>
         /// <param name="actor"> The recipient of the trap's damaging effects. </param>
-        protected  override void OnEnteredTrap(IDamageable actor) {
+        protected  override void OnEnteredTrap(ITrapDamageable actor) {
             if (!this.IsReady) {
                 return;
             }
 
             DetonateTrap();
-            actor.TakeDamage(this._damageAmount);
+            actor.TakeDamage(this._damageAmount, this);
             actor.ApplySpeedPenalty(0.3f);
         }
 
         /// <inheritdoc cref="Trap.OnExitedTrap"/>
-        /// <summary> Resets the speed reduction acting on the <see cref="IDamageable"/> actor. </summary>
+        /// <summary> Resets the speed reduction acting on the <see cref="ITrapDamageable"/> actor. </summary>
         /// <param name="actor"> The recipient of the trap's damaging effects. </param>
-        protected override void OnExitedTrap(IDamageable actor) {
+        protected override void OnExitedTrap(ITrapDamageable actor) {
             if (!this.IsReady) {
                 return;
             }
@@ -55,7 +55,7 @@ namespace KrillOrBeKrilled.Traps {
         
         /// <inheritdoc cref="Trap.SetUpTrap"/>
         /// <remarks>
-        /// Pulls the spikes into the ground in wait of the <see cref="IDamageable"/> actor to walk over them.
+        /// Pulls the spikes into the ground in wait of the <see cref="ITrapDamageable"/> actor to walk over them.
         /// </remarks>
         protected override void SetUpTrap() {
             transform.DOMove(this.SpawnPosition + Vector3.down * 0.2f, 1f);

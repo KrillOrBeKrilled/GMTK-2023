@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.23529412
       objectReference: {fileID: 0}
+    - target: {fileID: 689986466037057615, guid: 962e39104bcbb4854a430b5dde8d623b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3291244849145630986, guid: 962e39104bcbb4854a430b5dde8d623b, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -143,6 +147,14 @@ PrefabInstance:
     - target: {fileID: 6792069263224904638, guid: 962e39104bcbb4854a430b5dde8d623b, type: 3}
       propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7855847362967625733, guid: 962e39104bcbb4854a430b5dde8d623b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889796987860561186, guid: 962e39104bcbb4854a430b5dde8d623b, type: 3}
+      propertyPath: m_Value
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8385243313419426048, guid: 962e39104bcbb4854a430b5dde8d623b, type: 3}
       propertyPath: m_AnchorMax.x

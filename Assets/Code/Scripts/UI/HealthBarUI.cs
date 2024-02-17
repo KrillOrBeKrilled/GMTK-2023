@@ -78,6 +78,7 @@ namespace KrillOrBeKrilled.UI {
 
             this._healthBar.maxValue = targetHero.Health;
             this._healthBar.value = targetHero.Health;
+            this.RepositionHealthBar();
         }
 
         #endregion

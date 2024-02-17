@@ -65,7 +65,7 @@ namespace KrillOrBeKrilled.Core.Input {
         /// </summary>
         /// <param name="gameManager"> Provides major game state-related events to subscribe the entities to. </param>
         internal void Initialize(GameManager gameManager) {
-            Player.Initialize(gameManager.OnHenWon, this.GatherInput);
+            StartCoroutine(Player.Initialize(gameManager.OnHenWon, this.GatherInput));
             TrapController.Initialize(ResourceManager.Instance.CanAffordCost);
         }
         

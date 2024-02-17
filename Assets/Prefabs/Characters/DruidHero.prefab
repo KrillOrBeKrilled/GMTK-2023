@@ -211,7 +211,7 @@ MonoBehaviour:
   GroundToSight:
     serializedVersion: 2
     m_Bits: 512
-  MovementSpeed: 4
+  MovementSpeed: 3
   SpeedBlendDuration: 0.4
   MinJumpForce: 5.4
   MaxJumpForce: 40

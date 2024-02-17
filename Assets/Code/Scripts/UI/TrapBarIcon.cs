@@ -1,5 +1,5 @@
 using DG.Tweening;
-using KrillOrBeKrilled.Managers;
+using KrillOrBeKrilled.Core.Managers;
 using KrillOrBeKrilled.Traps;
 using UnityEngine;
 using UnityEngine.Events;

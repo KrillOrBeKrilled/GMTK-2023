@@ -1,4 +1,4 @@
-using KrillOrBeKrilled.Heatmaps;
+using KrillOrBeKrilled.Core.UGSAnalytics.Heatmaps;
 using UnityEditor;
 using UnityEngine;
 

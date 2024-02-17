@@ -1,5 +1,5 @@
-using KrillOrBeKrilled.Managers;
-using KrillOrBeKrilled.Managers.Audio;
+using KrillOrBeKrilled.Core.Managers;
+using KrillOrBeKrilled.Core.Managers.Audio;
 using UnityEngine;
 using UnityEngine.UI;
 

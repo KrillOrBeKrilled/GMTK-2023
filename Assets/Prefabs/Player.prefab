@@ -230,8 +230,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attractionRadius: 7
-  _maxSpeed: 40
-  _minSpeed: 8
+  _maxSpeed: 20
+  _minSpeed: 14
   _maxObjectsToProcess: 10
 --- !u!95 &7820116121340408506
 Animator:

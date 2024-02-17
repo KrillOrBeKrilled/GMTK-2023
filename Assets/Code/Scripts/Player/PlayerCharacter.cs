@@ -31,7 +31,7 @@ namespace KrillOrBeKrilled.Player {
         // Support the passing of a delegate with out parameters
         public delegate void InputDelegate<T1, T2, T3>(out T1 input, out T2 output, out T3 output2);
         private InputDelegate<float, bool, bool> _gatherControllerInput;
-        
+
         // --------------- Player State --------------
         public enum State {
             Idle,
@@ -72,7 +72,7 @@ namespace KrillOrBeKrilled.Player {
         public bool IsGrounded { get; private set; } = true;
         public bool IsFalling { get; private set; } = false;
 
-        private const float CoyoteTimeDuration = 0.08f;
+        private const float CoyoteTimeDuration = 0.15f;
         private IEnumerator _coyoteTimeCoroutine = null;
 
         // ------------- Trap Deployment ------------
@@ -167,7 +167,7 @@ namespace KrillOrBeKrilled.Player {
             this._stateChangedThisFrame = false;
             base.FixedUpdate();
         }
-        
+
         private void OnCollisionEnter2D(Collision2D other) {
             if (other.gameObject.layer != LayerMask.NameToLayer("Hero")) {
                 return;
@@ -214,25 +214,25 @@ namespace KrillOrBeKrilled.Player {
         public void TakeDamage(int amount) {}
 
         #endregion
-        
+
         #region ITrapDamageable Implementations
-        
+
         // TODO: Do we want the player to have a health bar?
         public int GetHealth() {
             return -1;
         }
-        
+
         // TODO: If the player health is implemented, traps will damage the player through ITrapDamageable
         public void TakeDamage(int amount, Trap trap) {}
-        
+
         public void ApplySpeedPenalty(float penalty) {}
 
         public void ResetSpeedPenalty() {}
-        
+
         public void ThrowActorForward(float throwForce) {}
-        
+
         public void ThrowActorBack(float stunDuration, float throwForce) {}
-        
+
         #endregion
 
         #region ITrapBuilder Implementations
@@ -320,7 +320,7 @@ namespace KrillOrBeKrilled.Player {
         }
 
         #endregion
-        
+
         /// <summary>
         /// Sets up all listeners and delegates to operate the <see cref="PlayerCharacter"/>.
         /// </summary>
@@ -330,7 +330,7 @@ namespace KrillOrBeKrilled.Player {
         /// possesses this player entity. </param>
         public void Initialize(UnityEvent<string> onHenWon, InputDelegate<float, bool, bool> getControllerInput) {
             this._gatherControllerInput = getControllerInput;
-            
+
             onHenWon.AddListener(this.GameOver);
 
             this.OnSelectedTrapChanged?.Invoke(this._trapController.CurrentTrap);
@@ -412,12 +412,12 @@ namespace KrillOrBeKrilled.Player {
                 this._gatherControllerInput(out moveInput, out jumpPressed, out jumpPressedThisFrame);
             } catch (Exception error) {
                 Debug.LogError(error);
-                
+
                 moveInput = 0f;
                 jumpPressed = jumpPressedThisFrame = false;
                 return;
             }
-            
+
             if (!Mathf.Approximately(moveInput, 0f)) {
                 this._direction = moveInput > 0 ? 1 : -1;
             }
@@ -448,10 +448,10 @@ namespace KrillOrBeKrilled.Player {
         /// <remarks> Invokes <see cref="OnPlayerGrounded"/>. </remarks>
         private void UpdateGrounded() {
             Collider2D hit = Physics2D.OverlapBox(
-                (Vector2)this.transform.position + this.GroundedCheckBoxOffset, 
+                (Vector2)this.transform.position + this.GroundedCheckBoxOffset,
                 this.GroundedCheckBoxSize, 0f, this.GroundedLayerMask
             );
-            
+
             bool grounded = hit != null;
             bool becameNotGrounded = this.IsGrounded && !grounded;
             bool becameGrounded = !this.IsGrounded && grounded;

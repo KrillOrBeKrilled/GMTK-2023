@@ -71,7 +71,6 @@ namespace KrillOrBeKrilled.Player.PlayerStates {
             this._jumpSoundPlayTime = Time.time;
             this._player.PlayJumpSound();
             this._player.StopFalling();
-            this._player.SetGroundedStatus(false);
         }
 
         public void OnExit(IPlayerState newState) {

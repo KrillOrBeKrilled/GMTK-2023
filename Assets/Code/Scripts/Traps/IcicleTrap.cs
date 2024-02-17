@@ -1,4 +1,4 @@
-using KrillOrBeKrilled.Common.Interfaces;
+using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEngine;
 
 //*******************************************************************************************
@@ -28,7 +28,7 @@ namespace KrillOrBeKrilled.Traps {
         }
         
         /// <summary>
-        /// Applies a flat damage to the <see cref="IDamageable"/> hero, and it happens upon collision.
+        /// Applies a flat damage to the <see cref="ITrapDamageable"/> hero, and it happens upon collision.
         /// No other special effects at the moment.
         /// </summary>
         protected void OnCollisionEnter2D(Collision2D other) {
@@ -36,8 +36,8 @@ namespace KrillOrBeKrilled.Traps {
                 return;
             }
 
-            if (other.gameObject.TryGetComponent(out IDamageable actor)) {
-                actor.TakeDamage(_damageAmount);
+            if (other.gameObject.TryGetComponent(out ITrapDamageable actor)) {
+                actor.TakeDamage(_damageAmount, this);
             }
             
             Destroy(gameObject);
@@ -59,10 +59,10 @@ namespace KrillOrBeKrilled.Traps {
 
         /// <inheritdoc cref="Trap.OnEnteredTrap"/>
         /// <summary>
-        /// This trap starts falling when it detects an <see cref="IDamageable"/>
+        /// This trap starts falling when it detects an <see cref="ITrapDamageable"/>
         /// instance (e.g. a hero).
         /// </summary>
-        protected override void OnEnteredTrap(IDamageable actor) {
+        protected override void OnEnteredTrap(ITrapDamageable actor) {
             if (!this.IsReady) {
                 return;
             }
@@ -72,7 +72,7 @@ namespace KrillOrBeKrilled.Traps {
 
         /// <inheritdoc cref="Trap.OnExitedTrap"/>
         /// <summary> No responses for exiting the trap. </summary>
-        protected override void OnExitedTrap(IDamageable actor) {}
+        protected override void OnExitedTrap(ITrapDamageable actor) {}
 
         /// <inheritdoc cref="Trap.SetUpTrap"/>
         /// <remarks> No additional responses at the moment. </remarks>

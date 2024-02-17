@@ -1,4 +1,4 @@
-using KrillOrBeKrilled.Common.Interfaces;
+using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEngine;
 
 //*******************************************************************************************

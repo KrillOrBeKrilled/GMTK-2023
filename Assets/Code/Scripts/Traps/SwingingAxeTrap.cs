@@ -48,8 +48,8 @@ namespace KrillOrBeKrilled.Traps {
             }
 
             DetonateTrap();
-            actor.TakeDamage(this._damageAmount, this);
-            actor.ThrowActorBack(0.5f, this._pushbackForce);
+            actor.TakeTrapDamage(this._damageAmount, this);
+            actor.TrapThrowActorBack(0.5f, this._pushbackForce);
         }
 
         protected override void OnExitedTrap(ITrapDamageable actor) {}

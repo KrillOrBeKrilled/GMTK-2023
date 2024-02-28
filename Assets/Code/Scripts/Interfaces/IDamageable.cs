@@ -24,6 +24,13 @@ namespace KrillOrBeKrilled.Interfaces {
         /// </summary>
         /// <param name="amount"> The value to subtract from the actor's health. </param>
         public void TakeDamage(int amount);
+        
+        /// <summary>
+        /// Applies a force to knock back and stun the actor.
+        /// </summary>
+        /// <param name="stunDuration"> The duration of time to stun the actor. </param>
+        /// <param name="throwForce"> Scales the knock back force applied to the actor. </param>
+        public void ThrowActorBack(float stunDuration, float throwForce);
 
         #endregion
     }

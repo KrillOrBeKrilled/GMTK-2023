@@ -37,7 +37,7 @@ namespace KrillOrBeKrilled.Traps {
             }
 
             if (other.gameObject.TryGetComponent(out ITrapDamageable actor)) {
-                actor.TakeDamage(_damageAmount, this);
+                actor.TakeTrapDamage(_damageAmount, this);
             }
             
             Destroy(gameObject);

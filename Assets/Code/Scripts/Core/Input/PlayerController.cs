@@ -108,6 +108,7 @@ namespace KrillOrBeKrilled.Core.Input {
             this._playerInputActions.Player.Disable();
             
             this._playerInputActions.Player.PlaceTrap.performed -= this.DeployTrap;
+            this._playerInputActions.Player.Attack.performed -= this.Attack;
         }
 
         /// <summary>
@@ -118,6 +119,7 @@ namespace KrillOrBeKrilled.Core.Input {
             this._playerInputActions.Player.Enable();
             
             this._playerInputActions.Player.PlaceTrap.performed += this.DeployTrap;
+            this._playerInputActions.Player.Attack.performed += this.Attack;
         }
 
         /// <summary>
@@ -125,6 +127,13 @@ namespace KrillOrBeKrilled.Core.Input {
         /// </summary>
         private void DeployTrap(InputAction.CallbackContext obj) {
             this.Player.InvokeDeployTrap();
+        }
+        
+        /// <summary>
+        /// Delegates attack behaviour to the possessed <see cref="PlayerCharacter"/>.
+        /// </summary>
+        private void Attack(InputAction.CallbackContext obj) {
+            this.Player.InvokeAttack();
         }
 
         /// <summary>

@@ -38,8 +38,8 @@ namespace KrillOrBeKrilled.Traps {
             }
 
             DetonateTrap();
-            actor.TakeDamage(this._damageAmount, this);
-            actor.ApplySpeedPenalty(0.3f);
+            actor.TakeTrapDamage(this._damageAmount, this);
+            actor.ApplyTrapSpeedPenalty(0.3f);
         }
 
         /// <inheritdoc cref="Trap.OnExitedTrap"/>
@@ -50,7 +50,7 @@ namespace KrillOrBeKrilled.Traps {
                 return;
             }
 
-            actor.ResetSpeedPenalty();
+            actor.ResetTrapSpeedPenalty();
         }
         
         /// <inheritdoc cref="Trap.SetUpTrap"/>

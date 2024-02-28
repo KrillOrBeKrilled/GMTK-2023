@@ -97,8 +97,8 @@ namespace KrillOrBeKrilled.Traps {
             }
             
             // Make the hero reflexively leap out of the burning acid pit
-            actor.ThrowActorForward(1f);
-            actor.ApplySpeedPenalty(0.8f);
+            actor.TrapThrowActorForward(1f);
+            actor.ApplyTrapSpeedPenalty(0.8f);
 
             if (this._intervalDamageCoroutine != null) {
                 this.StopCoroutine(this._intervalDamageCoroutine);
@@ -116,7 +116,7 @@ namespace KrillOrBeKrilled.Traps {
                 return;
             }
 
-            actor.ResetSpeedPenalty();
+            actor.ResetTrapSpeedPenalty();
 
             if (this._intervalDamageCoroutine != null)
                 this.StopCoroutine(this._intervalDamageCoroutine);
@@ -172,7 +172,7 @@ namespace KrillOrBeKrilled.Traps {
         /// <remarks> The coroutine is started and stopped by <see cref="OnEnteredTrap"/>. </remarks>
         private IEnumerator DealIntervalDamage(ITrapDamageable actor) {
             while (actor.GetHealth() > 0) {
-                actor.TakeDamage(this._damageAmount, this);
+                actor.TakeTrapDamage(this._damageAmount, this);
                 yield return this._waitForOneSecond;
             }
             

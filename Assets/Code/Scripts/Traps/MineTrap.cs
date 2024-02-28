@@ -33,8 +33,8 @@ namespace KrillOrBeKrilled.Traps {
                 return;
             }
           
-            actor.TakeDamage(this._damageAmount, this);
-            actor.ThrowActorBack(2f, this._explosionForce);
+            actor.TakeTrapDamage(this._damageAmount, this);
+            actor.TrapThrowActorBack(2f, this._explosionForce);
             Destroy(this.gameObject);
         }
 

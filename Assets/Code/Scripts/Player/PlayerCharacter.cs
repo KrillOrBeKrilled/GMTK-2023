@@ -40,12 +40,14 @@ namespace KrillOrBeKrilled.Player {
             GameOver,
             Jumping,
             Gliding,
+            Attacking
         }
 
         private IdleState _idleState;
         private MovingState _movingState;
         private JumpingState _jumpingState;
         private GlidingState _glidingState;
+        private AttackingState _attackingState;
         private DeadState _deadState;
         private GameOverState _gameOverState;
 
@@ -87,7 +89,7 @@ namespace KrillOrBeKrilled.Player {
         private PlayerSoundsController _soundsController;
 
         // --------------- Bookkeeping ---------------
-        private Animator _animator;
+        internal Animator Animator;
         private readonly int _speedKey = Animator.StringToHash("speed");
         private readonly int _directionKey = Animator.StringToHash("direction");
         private readonly int _groundedKey = Animator.StringToHash("is_grounded");
@@ -100,7 +102,7 @@ namespace KrillOrBeKrilled.Player {
 
         private void Awake() {
             this.RBody = this.GetComponent<Rigidbody2D>();
-            this._animator = this.GetComponent<Animator>();
+            this.Animator = this.GetComponent<Animator>();
             this._trapController = this.GetComponent<TrapController>();
             this._soundsController = this.GetComponent<PlayerSoundsController>();
 
@@ -108,6 +110,7 @@ namespace KrillOrBeKrilled.Player {
             this._movingState = new MovingState(this);
             this._jumpingState = new JumpingState(this);
             this._glidingState = new GlidingState(this);
+            this._attackingState = new AttackingState(this);
             this._deadState = new DeadState();
             this._gameOverState = new GameOverState(this);
 
@@ -115,7 +118,8 @@ namespace KrillOrBeKrilled.Player {
                 { State.Idle, this._idleState },
                 { State.Moving, this._movingState },
                 { State.Jumping, this._jumpingState },
-                { State.Gliding, this._glidingState},
+                { State.Gliding, this._glidingState },
+                { State.Attacking, this._attackingState },
                 { State.Dead, this._deadState },
                 { State.GameOver, this._gameOverState },
             };
@@ -128,10 +132,9 @@ namespace KrillOrBeKrilled.Player {
             this.OnPlayerGrounded = new UnityEvent();
             this.OnPlayerFalling = new UnityEvent();
 
-            _animator.SetBool(_groundedKey, this.IsGrounded);
+            Animator.SetBool(_groundedKey, this.IsGrounded);
         }
-
-        /// <remarks> Invokes the <see cref="OnSelectedTrapChanged"/> event. </remarks>
+        
         private void Start() {
             this._deployCommand = new DeployCommand(this);
         }
@@ -169,6 +172,15 @@ namespace KrillOrBeKrilled.Player {
         }
 
         private void OnCollisionEnter2D(Collision2D other) {
+            if (this._state == this._states[State.Attacking]) {
+                if (!other.gameObject.TryGetComponent(out IDamageable damageable)) return;
+                
+                damageable.TakeDamage(3);
+                damageable.ThrowActorBack(2f, 1f);
+
+                return;
+            }
+            
             if (other.gameObject.layer != LayerMask.NameToLayer("Hero")) {
                 return;
             }
@@ -212,6 +224,8 @@ namespace KrillOrBeKrilled.Player {
 
         // TODO: If the health bar is implemented, heroes will damage the player through IDamageable
         public void TakeDamage(int amount) {}
+        
+        public void ThrowActorBack(float stunDuration, float throwForce) {}
 
         #endregion
 
@@ -223,15 +237,15 @@ namespace KrillOrBeKrilled.Player {
         }
 
         // TODO: If the player health is implemented, traps will damage the player through ITrapDamageable
-        public void TakeDamage(int amount, Trap trap) {}
+        public void TakeTrapDamage(int amount, Trap trap) {}
 
-        public void ApplySpeedPenalty(float penalty) {}
+        public void ApplyTrapSpeedPenalty(float penalty) {}
 
-        public void ResetSpeedPenalty() {}
+        public void ResetTrapSpeedPenalty() {}
 
-        public void ThrowActorForward(float throwForce) {}
+        public void TrapThrowActorForward(float throwForce) {}
 
-        public void ThrowActorBack(float stunDuration, float throwForce) {}
+        public void TrapThrowActorBack(float stunDuration, float throwForce) {}
 
         #endregion
 
@@ -252,7 +266,7 @@ namespace KrillOrBeKrilled.Player {
         /// <param name="isGrounded"> If the player is currently touching the ground. </param>
         public void SetGroundedStatus(bool isGrounded) {
             this.IsGrounded = isGrounded;
-            this._animator.SetBool(_groundedKey, this.IsGrounded);
+            this.Animator.SetBool(_groundedKey, this.IsGrounded);
 
             if (isGrounded) {
                 return;
@@ -403,6 +417,23 @@ namespace KrillOrBeKrilled.Player {
         public void InvokeDeployTrap() {
             this.ExecuteCommand(this._deployCommand);
         }
+        
+        /// <summary>
+        /// Triggers an attack and grants the player temporary immunity.
+        /// </summary>
+        public void InvokeAttack() {
+            if (!this.IsGrounded) return;
+            
+            this.ChangeState(State.Attacking);
+        }
+        
+        /// <summary>
+        /// Cancels the attack invincibility frames.
+        /// </summary>
+        public void CancelAttack() {
+            // this.ChangeState(State.Idle);
+            // TODO:
+        }
 
         /// <summary>
         /// Reads input for move and jump. Puts read values in the <c>out</c> variables.
@@ -433,8 +464,8 @@ namespace KrillOrBeKrilled.Player {
         /// </summary>
         /// <param name="inputDirection"> The vector x-value associated with the player's current movement. </param>
         private void SetAnimatorValues(float inputDirection) {
-            this._animator.SetFloat(_speedKey, Mathf.Abs(inputDirection));
-            this._animator.SetFloat(_directionKey, this._direction);
+            this.Animator.SetFloat(_speedKey, Mathf.Abs(inputDirection));
+            this.Animator.SetFloat(_directionKey, this._direction);
         }
 
         /// <summary>

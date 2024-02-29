@@ -62,6 +62,7 @@ namespace KrillOrBeKrilled.Player {
         // ----------------- Command -----------------
         // Stateless commands; can be copied in the list of previous commands
         private ICommand _deployCommand;
+        private ICommand _attackCommand;
 
         // TODO: Consider undoing and redoing actions?
 
@@ -93,6 +94,7 @@ namespace KrillOrBeKrilled.Player {
         private readonly int _speedKey = Animator.StringToHash("speed");
         private readonly int _directionKey = Animator.StringToHash("direction");
         private readonly int _groundedKey = Animator.StringToHash("is_grounded");
+        private readonly int _attackKey = Animator.StringToHash("is_attacking");
 
         //========================================
         // Unity Methods
@@ -137,6 +139,7 @@ namespace KrillOrBeKrilled.Player {
         
         private void Start() {
             this._deployCommand = new DeployCommand(this);
+            this._attackCommand = new AttackCommand(this);
         }
 
         protected override void FixedUpdate() {
@@ -171,17 +174,17 @@ namespace KrillOrBeKrilled.Player {
             base.FixedUpdate();
         }
 
-        private void OnCollisionEnter2D(Collision2D other) {
-            if (this._state == this._states[State.Attacking]) {
-                if (!other.gameObject.TryGetComponent(out IDamageable damageable)) return;
+        private void OnCollisionEnter2D(Collision2D collision) {
+            if (collision.otherCollider.gameObject.CompareTag("Attack Range")) {
+                if (!collision.gameObject.TryGetComponent(out IDamageable damageable)) return;
                 
-                damageable.TakeDamage(3);
-                damageable.ThrowActorBack(2f, 1f);
+                damageable.TakeDamage(1);
+                damageable.ThrowActorBack(1f, 1f);
 
                 return;
             }
             
-            if (other.gameObject.layer != LayerMask.NameToLayer("Hero")) {
+            if (collision.gameObject.layer != LayerMask.NameToLayer("Hero")) {
                 return;
             }
 
@@ -327,6 +330,10 @@ namespace KrillOrBeKrilled.Player {
                 this.OnTrapDeployed?.Invoke(trap);
             }
         }
+        
+        public override void Attack() {
+            this.Animator.SetTrigger(_attackKey);
+        }
 
         public override void FreezePosition() {
             base.FreezePosition();
@@ -424,7 +431,8 @@ namespace KrillOrBeKrilled.Player {
         public void InvokeAttack() {
             if (!this.IsGrounded) return;
             
-            this.ChangeState(State.Attacking);
+            // this.ChangeState(State.Attacking);
+            this.ExecuteCommand(this._attackCommand);
         }
         
         /// <summary>

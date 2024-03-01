@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 //*******************************************************************************************
 // YarnCharacter
@@ -13,14 +14,14 @@ namespace KrillOrBeKrilled.UI.Dialogue {
     /// <remarks> Put this script on your various NPC gameObjects. </remarks>
     public class YarnCharacter : MonoBehaviour {
         [Tooltip("This must match the character name used in Yarn dialogue scripts.")]
-        [SerializeField] internal string characterName = "MyName";
+        [SerializeField] private string _characterName = "MyName";
+        
+        [Tooltip("Speech bubble offset from this character")]
+        [SerializeField] private Vector2 _messageBubbleOffset = new(0f, 3f);
 
-        [Tooltip("When positioning the message bubble in world space, YarnCharacterManager adds this additional " +
-                 "offset to this gameObject's position. Taller characters should use taller offsets, etc.")]
-        [SerializeField] internal Vector2 messageBubbleOffset = new Vector2(0f, 3f);
-
-        [SerializeField] internal RectTransform _rectTransform;
-        public Vector2 PositionWithOffset => this._dampenedPosition + this.messageBubbleOffset;
+        public RectTransform RectTransform { get; private set; }
+        public Vector2 PositionWithOffset => this._dampenedPosition + this._messageBubbleOffset;
+        public string CharacterName => this._characterName;
 
         private readonly List<Vector2> _lastFourFramesPositions = new List<Vector2>();
         private Vector2 _dampenedPosition;
@@ -34,12 +35,13 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         // ... this is important because YarnCharacterManager.Awake() must run before YarnCharacter.Start()
         private void Start() {
             if (DialogueUI.Instance is null) {
-                Debug.LogError("YarnCharacter can't find the YarnCharacterView instance! Is the 3D Dialogue " +
-                               "prefab and YarnCharacterView script in the scene?");
+                Debug.LogError("DialogueUI not found");
                 return;
             }
 
             DialogueUI.Instance.RegisterYarnCharacter(this);
+            if (this.TryGetComponent(out RectTransform rectTransform))
+                this.RectTransform = rectTransform;
 
             Vector3 position = this.transform.position;
             this._lastFourFramesPositions.Add(position);

@@ -160,7 +160,6 @@ MonoBehaviour:
     IsTrapTile: 1
   - GridPosition: {x: 2, y: 0, z: 0}
     IsTrapTile: 1
-  ValidationScore: 3
   LeftSpawnOffset: {x: -0.5, y: 0.5, z: 0}
   RightSpawnOffset: {x: 1.5, y: 0.5, z: 0}
   AnimationOffset: {x: 0, y: 0.6, z: 0}

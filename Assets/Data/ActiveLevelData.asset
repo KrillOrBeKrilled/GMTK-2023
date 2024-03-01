@@ -12,19 +12,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e90c72ba9e4daeb0a80224c2883d32, type: 3}
   m_Name: ActiveLevelData
   m_EditorClassIdentifier: 
-  Type: 1
+  Index: 1
+  Type: 0
   DialogueName: TutorialDialogue
-  EndgameTargetPosition: {x: 380, y: -0.5, z: 0}
+  NextLevelName: Story_002
+  EndgameTargetPosition: {x: 248, y: -0.5, z: 0}
   RespawnPositions:
   - {x: -8.05, y: -0.39, z: 0}
   WavesData:
     WavesList:
     - Heroes:
-      - Health: 50
+      - Health: 10
         Type: 0
-      - Health: 50
+      - Health: 10
         Type: 1
-      - Health: 50
-        Type: 2
       HeroSpawnDelayInSeconds: 2
-      NextWaveSpawnDelayInSeconds: -1
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 15
+        Type: 0
+      - Health: 15
+        Type: 1
+      - Health: 20
+        Type: 0
+      HeroSpawnDelayInSeconds: 3
+      NextWaveSpawnDelayInSeconds: 15
+    - Heroes:
+      - Health: 25
+        Type: 0
+      - Health: 25
+        Type: 1
+      - Health: 30
+        Type: 0
+      - Health: 30
+        Type: 0
+      - Health: 40
+        Type: 0
+      HeroSpawnDelayInSeconds: 5
+      NextWaveSpawnDelayInSeconds: 15

@@ -143,14 +143,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9410b34a9604507b3322268552e77ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cost: 0
+  RecipeList: []
   LeftGridPoints: []
   RightGridPoints: []
-  ValidationScore: 0
   LeftSpawnOffset: {x: 0, y: 0, z: 0}
   RightSpawnOffset: {x: 0, y: 0, z: 0}
   AnimationOffset: {x: 0, y: 0, z: 0}
   BuildingDuration: 0
   SliderBar: {fileID: 0}
+  IsCeilingTrap: 0
   _explosionForce: 2
   _damageAmount: 10

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Yarn.Unity;
 
 //*******************************************************************************************
@@ -50,14 +49,12 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         }
 
         private void FixedUpdate() {
-            // this all in Update instead of RunLine because characters might walk around or move during the dialogue
             if (this._dialogueBubbleRect.gameObject.activeInHierarchy) {
                 YarnCharacter character =
                     this._speakerCharacter is not null ? this._speakerCharacter : this._playerCharacter;
                 this.PositionBubble(this._dialogueBubbleRect, character);
             }
-
-            // put choice option UI above playerCharacter
+            
             if (this._optionsBubbleRect.gameObject.activeInHierarchy) {
                 this.PositionBubble(this._optionsBubbleRect, this._playerCharacter);
             }
@@ -135,11 +132,17 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         //========================================
 
         #region Private Methods
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="bubbleRectTransform"></param>
+        /// <param name="character"></param>
 
         private void PositionBubble(RectTransform bubbleRectTransform, YarnCharacter character) {
             // If Rect transform, prioritize it
-            if (character._rectTransform != null) {
-                Vector2 clampedPosition = this.ClampPositionToOnScreen(character._rectTransform.anchoredPosition);
+            if (character.RectTransform is not null) {
+                Vector2 clampedPosition = this.ClampPositionToOnScreen(character.RectTransform.anchoredPosition);
                 bubbleRectTransform.anchoredPosition = clampedPosition;
                 return;
             }
@@ -154,7 +157,7 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         /// <returns> The <see cref="YarnCharacter"/> with a name matching the provided name. </returns>
         /// <remarks> Returns <see langword="null"/> and LogWarning if no match is found. </remarks>
         private YarnCharacter FindCharacter(string searchName) {
-            return this._allCharacters.FirstOrDefault(character => character.characterName == searchName);
+            return this._allCharacters.FirstOrDefault(character => character.CharacterName == searchName);
         }
 
         /// <summary>
@@ -170,10 +173,9 @@ namespace KrillOrBeKrilled.UI.Dialogue {
                 new(viewportPosition.x * sizeDelta.x - sizeDelta.x * 0.5f,
                     viewportPosition.y * sizeDelta.y - sizeDelta.y * 0.5f);
 
-            if (!containOnScreen)
-                return worldObjectScreenPosition;
-
-            return this.ClampPositionToOnScreen(worldObjectScreenPosition);
+            return containOnScreen
+                       ? this.ClampPositionToOnScreen(worldObjectScreenPosition)
+                       : worldObjectScreenPosition;
         }
 
         private Vector2 ClampPositionToOnScreen(Vector2 screenPosition) {

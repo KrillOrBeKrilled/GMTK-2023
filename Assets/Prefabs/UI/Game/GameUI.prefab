@@ -1907,16 +1907,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c863204dba8a21e4ba83c6f4e30f257c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allCharacters:
-  - {fileID: 6221013368650456776}
-  - {fileID: 0}
-  - {fileID: 8905421580640000506}
-  playerCharacter: {fileID: 0}
+  _playerCharacter: {fileID: 0}
   _canvasRectTransform: {fileID: 5060681177199529130}
   _safeAreaRectTransform: {fileID: 2486965200339291192}
   _screenEdgeOffset: {x: 20, y: 20}
-  dialogueBubbleRect: {fileID: 930535699696647756}
-  optionsBubbleRect: {fileID: 8989763183030316989}
+  _dialogueBubbleRect: {fileID: 930535699696647756}
+  _optionsBubbleRect: {fileID: 8989763183030316989}
 --- !u!114 &770256871023777095
 MonoBehaviour:
   m_ObjectHideFlags: 0

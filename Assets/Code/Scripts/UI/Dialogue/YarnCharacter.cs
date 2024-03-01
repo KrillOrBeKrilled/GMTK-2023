@@ -8,7 +8,7 @@ using UnityEngine;
 namespace KrillOrBeKrilled.UI.Dialogue {
     /// <summary>
     /// Script for the 3D RPG sample project in YarnSpinner. DialogueRunner invokes
-    /// <see cref="YarnCharacterView"/>, which locates the YarnCharacter that is speaking.
+    /// <see cref="DialogueUI"/>, which locates the YarnCharacter that is speaking.
     /// </summary>
     /// <remarks> Put this script on your various NPC gameObjects. </remarks>
     public class YarnCharacter : MonoBehaviour {
@@ -33,13 +33,13 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         // Start is called before the first frame update, but AFTER Awake()
         // ... this is important because YarnCharacterManager.Awake() must run before YarnCharacter.Start()
         private void Start() {
-            if (YarnCharacterView.instance is null) {
+            if (DialogueUI.Instance is null) {
                 Debug.LogError("YarnCharacter can't find the YarnCharacterView instance! Is the 3D Dialogue " +
                                "prefab and YarnCharacterView script in the scene?");
                 return;
             }
 
-            YarnCharacterView.instance.RegisterYarnCharacter(this);
+            DialogueUI.Instance.RegisterYarnCharacter(this);
 
             Vector3 position = this.transform.position;
             this._lastFourFramesPositions.Add(position);
@@ -57,8 +57,8 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         /// Unregisters this character from the YarnCharacterView.
         /// </summary>
         private void OnDestroy() {
-            if (YarnCharacterView.instance is not null) {
-                YarnCharacterView.instance.ForgetYarnCharacter(this);
+            if (DialogueUI.Instance is not null) {
+                DialogueUI.Instance.ForgetYarnCharacter(this);
             }
         }
 

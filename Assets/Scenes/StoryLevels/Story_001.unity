@@ -1243,6 +1243,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1413619168}
     - target: {fileID: 3257947241279891922, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _playerCharacter
+      value: 
+      objectReference: {fileID: 1413619168}
+    - target: {fileID: 3257947241279891922, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: allCharacters.Array.data[1]
       value: 
       objectReference: {fileID: 1413619168}

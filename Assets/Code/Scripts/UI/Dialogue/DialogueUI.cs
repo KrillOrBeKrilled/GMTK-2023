@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Yarn.Unity;
 
 //*******************************************************************************************
@@ -16,29 +17,20 @@ namespace KrillOrBeKrilled.UI.Dialogue {
     /// Inherits from <see cref="DialogueViewBase"/> to receive data directly
     /// from <see cref="DialogueRunner"/>.
     /// </remarks>
-    public class YarnCharacterView : DialogueViewBase {
-        [Tooltip("Very minimal implementation of singleton manager (initialized lazily in Awake).")]
-        public static YarnCharacterView instance;
-
-        [Tooltip("List of all YarnCharacters in the scene, who register themselves in YarnCharacter.Start().")]
-        [SerializeField] internal List<YarnCharacter> allCharacters = new List<YarnCharacter>();
-
-        // This script assumes you are using a full-screen Unity UI canvas along with a full-screen game camera
-        private Camera worldCamera;
-
-        [Tooltip("Display dialogue choices for this character, and display any no-name dialogue here too.")]
-        public YarnCharacter playerCharacter;
-        YarnCharacter speakerCharacter;
-
+    public class DialogueUI : DialogueViewBase {
+        [SerializeField] private YarnCharacter _playerCharacter;
         [SerializeField] private RectTransform _canvasRectTransform;
         [SerializeField] private RectTransform _safeAreaRectTransform;
-        [SerializeField] private Vector2 _screenEdgeOffset = new Vector2(20, 20);
+        [SerializeField] private Vector2 _screenEdgeOffset = new(20, 20);
+        [SerializeField] private RectTransform _dialogueBubbleRect; 
+        [SerializeField] private RectTransform _optionsBubbleRect;
 
-        [Tooltip("For best results, set the rectTransform anchors to middle-center, and make sure the " +
-                 "rectTransform's pivot Y is set to 0.")]
-        [SerializeField] internal RectTransform dialogueBubbleRect, optionsBubbleRect;
-
+        public static DialogueUI Instance { get; private set; }
+        
         private DialogueSoundsController _soundsController;
+        private readonly List<YarnCharacter> _allCharacters = new();
+        private YarnCharacter _speakerCharacter;
+        private Camera _mainCamera;
 
         //========================================
         // Unity Methods
@@ -47,27 +39,27 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         #region Unity Methods
 
         private void Awake() {
+            if (DialogueUI.Instance is not null) {
+                Destroy(this.gameObject);
+                return;
+            }
+            
+            DialogueUI.Instance = this;
             this.TryGetComponent(out this._soundsController);
-
-            // ... this is important because we must set the static "instance" here, before any YarnCharacter.Start() can use it
-            instance = this;
-            this.worldCamera = Camera.main;
+            this._mainCamera = Camera.main;
         }
 
         private void FixedUpdate() {
             // this all in Update instead of RunLine because characters might walk around or move during the dialogue
-            if (this.dialogueBubbleRect.gameObject.activeInHierarchy) {
-                if (this.speakerCharacter is not null) {
-                    this.PositionBubble(this.dialogueBubbleRect, this.speakerCharacter);
-                } else {
-                    // if no speaker defined, then display speech above playerCharacter as a default
-                    this.PositionBubble(this.dialogueBubbleRect, this.playerCharacter);
-                }
+            if (this._dialogueBubbleRect.gameObject.activeInHierarchy) {
+                YarnCharacter character =
+                    this._speakerCharacter is not null ? this._speakerCharacter : this._playerCharacter;
+                this.PositionBubble(this._dialogueBubbleRect, character);
             }
 
             // put choice option UI above playerCharacter
-            if (this.optionsBubbleRect.gameObject.activeInHierarchy) {
-                this.PositionBubble(this.optionsBubbleRect, this.playerCharacter);
+            if (this._optionsBubbleRect.gameObject.activeInHierarchy) {
+                this.PositionBubble(this._optionsBubbleRect, this._playerCharacter);
             }
         }
 
@@ -86,9 +78,13 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         /// <param name="deletedCharacter"> The YarnCharacter to be unregistered. </param>
         /// <remarks> Automatically called by YarnCharacter.OnDestroy() to clean-up. </remarks>
         public void ForgetYarnCharacter(YarnCharacter deletedCharacter) {
-            if (this.allCharacters.Contains(deletedCharacter)) {
-                this.allCharacters.Remove(deletedCharacter);
+            if (this._allCharacters.Contains(deletedCharacter)) {
+                this._allCharacters.Remove(deletedCharacter);
             }
+        }
+
+        public void SetActorCharacter(YarnCharacter actor) {
+            this._playerCharacter = actor;
         }
 
         /// <summary>
@@ -98,8 +94,8 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         /// <param name="newCharacter"> The YarnCharacter to be registered. </param>
         /// <remarks> Automatically called by YarnCharacter.Start() so that YarnCharacterView knows they exist. </remarks>
         public void RegisterYarnCharacter(YarnCharacter newCharacter) {
-            if (!this.allCharacters.Contains(newCharacter)) {
-                this.allCharacters.Add(newCharacter);
+            if (!this._allCharacters.Contains(newCharacter)) {
+                this._allCharacters.Add(newCharacter);
             }
         }
 
@@ -113,7 +109,7 @@ namespace KrillOrBeKrilled.UI.Dialogue {
             string characterName = dialogueLine.CharacterName;
 
             // if null, Update() will use the playerCharacter instead
-            this.speakerCharacter = !string.IsNullOrEmpty(characterName) ? this.FindCharacter(characterName) : null;
+            this._speakerCharacter = !string.IsNullOrEmpty(characterName) ? this.FindCharacter(characterName) : null;
 
             // Run Voice Events
             switch(characterName) {
@@ -152,25 +148,26 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         }
 
         /// <summary>
-        /// Simple search through <see cref="allCharacters"/> list for a matching name.
+        /// Simple search through <see cref="_allCharacters"/> list for a matching name.
         /// </summary>
         /// <param name="searchName"> The name to identify a <see cref="YarnCharacter"/>. </param>
         /// <returns> The <see cref="YarnCharacter"/> with a name matching the provided name. </returns>
         /// <remarks> Returns <see langword="null"/> and LogWarning if no match is found. </remarks>
         private YarnCharacter FindCharacter(string searchName) {
-            return this.allCharacters.FirstOrDefault(character => character.characterName == searchName);
+            return this._allCharacters.FirstOrDefault(character => character.characterName == searchName);
         }
 
         /// <summary>
         /// Calculates where to put the dialogue bubble based on worldPos and any desired screen margins.
         /// </summary>
         /// <param name="worldPos"> The world space position to place the dialogue bubble. </param>
+        /// <param name="containOnScreen"></param>
         /// <returns> The position to render the dialogue bubble in world space. </returns>
         private Vector2 WorldToAnchoredPosition(Vector3 worldPos, bool containOnScreen = true) {
-            Vector2 viewportPosition = this.worldCamera.WorldToViewportPoint(worldPos);
+            Vector2 viewportPosition = this._mainCamera.WorldToViewportPoint(worldPos);
             Vector2 sizeDelta = this._canvasRectTransform.sizeDelta;
             Vector2 worldObjectScreenPosition =
-                new Vector2(viewportPosition.x * sizeDelta.x - sizeDelta.x * 0.5f,
+                new(viewportPosition.x * sizeDelta.x - sizeDelta.x * 0.5f,
                     viewportPosition.y * sizeDelta.y - sizeDelta.y * 0.5f);
 
             if (!containOnScreen)
@@ -184,7 +181,7 @@ namespace KrillOrBeKrilled.UI.Dialogue {
             float canvasHalfWidth = canvasSize.x / 2;
             float canvasHalfHeight = canvasSize.y / 2;
 
-            Rect bubbleRect = this.dialogueBubbleRect.rect;
+            Rect bubbleRect = this._dialogueBubbleRect.rect;
             float bubbleHalfWidth = bubbleRect.width / 2;
             float bubbleHeight = bubbleRect.height;
             float minX = -canvasHalfWidth + bubbleHalfWidth + this._screenEdgeOffset.x;

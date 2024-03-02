@@ -7,7 +7,7 @@ using UnityEngine;
 //*******************************************************************************************
 namespace KrillOrBeKrilled.UI.Dialogue {
     /// <summary>
-    /// Script for the 3D RPG sample project in YarnSpinner. DialogueRunner invokes
+    /// DialogueRunner invokes
     /// <see cref="DialogueUI"/>, which locates the YarnCharacter that is speaking.
     /// </summary>
     /// <remarks> Put this script on your various NPC gameObjects. </remarks>
@@ -22,16 +22,15 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         public Vector2 PositionWithOffset => this._dampenedPosition + this._messageBubbleOffset;
         public string CharacterName => this._characterName;
 
-        private readonly List<Vector2> _lastFourFramesPositions = new List<Vector2>();
+        private readonly List<Vector2> _lastFourFramesPositions = new();
         private Vector2 _dampenedPosition;
+        
         //========================================
         // Unity Methods
         //========================================
 
         #region Unity Methods
 
-        // Start is called before the first frame update, but AFTER Awake()
-        // ... this is important because YarnCharacterManager.Awake() must run before YarnCharacter.Start()
         private void Start() {
             if (DialogueUI.Instance is null) {
                 Debug.LogError("DialogueUI not found");
@@ -48,6 +47,7 @@ namespace KrillOrBeKrilled.UI.Dialogue {
             this._lastFourFramesPositions.Add(position);
             this._lastFourFramesPositions.Add(position);
         }
+        
         private void FixedUpdate() {
             this._lastFourFramesPositions.Add(this.transform.position);
             this._lastFourFramesPositions.RemoveAt(0);

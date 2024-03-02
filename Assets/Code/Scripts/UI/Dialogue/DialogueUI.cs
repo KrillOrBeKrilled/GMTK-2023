@@ -80,6 +80,10 @@ namespace KrillOrBeKrilled.UI.Dialogue {
             }
         }
 
+        /// <summary>
+        /// Sets a custom actor.
+        /// </summary>
+        /// <param name="actor"> the new Actor.</param>
         public void SetActorCharacter(YarnCharacter actor) {
             this._playerCharacter = actor;
         }
@@ -89,7 +93,7 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         /// currently registered.
         /// </summary>
         /// <param name="newCharacter"> The YarnCharacter to be registered. </param>
-        /// <remarks> Automatically called by YarnCharacter.Start() so that YarnCharacterView knows they exist. </remarks>
+        /// <remarks> Called by <code>YarnCharacter.Start()</code> so that YarnCharacterView knows they exist. </remarks>
         public void RegisterYarnCharacter(YarnCharacter newCharacter) {
             if (!this._allCharacters.Contains(newCharacter)) {
                 this._allCharacters.Add(newCharacter);
@@ -134,10 +138,11 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         #region Private Methods
         
         /// <summary>
-        /// 
+        /// Positions bubble on screen near the target <see cref="YarnCharacter"/>.
+        /// Takes into consideration the Offset given in the <see cref="YarnCharacter"/>.
         /// </summary>
-        /// <param name="bubbleRectTransform"></param>
-        /// <param name="character"></param>
+        /// <param name="bubbleRectTransform"> the Dialogue speech bubble to position. </param>
+        /// <param name="character"> the speaker character. </param>
 
         private void PositionBubble(RectTransform bubbleRectTransform, YarnCharacter character) {
             // If Rect transform, prioritize it
@@ -164,7 +169,7 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         /// Calculates where to put the dialogue bubble based on worldPos and any desired screen margins.
         /// </summary>
         /// <param name="worldPos"> The world space position to place the dialogue bubble. </param>
-        /// <param name="containOnScreen"></param>
+        /// <param name="containOnScreen"> Whether to clamp the position to remain on screen. </param>
         /// <returns> The position to render the dialogue bubble in world space. </returns>
         private Vector2 WorldToAnchoredPosition(Vector3 worldPos, bool containOnScreen = true) {
             Vector2 viewportPosition = this._mainCamera.WorldToViewportPoint(worldPos);
@@ -178,6 +183,11 @@ namespace KrillOrBeKrilled.UI.Dialogue {
                        : worldObjectScreenPosition;
         }
 
+        /// <summary>
+        /// Clamps the given position to remain on screen.
+        /// </summary>
+        /// <param name="screenPosition"> The screen position coordinate to clamp. </param>
+        /// <returns> Clamped value of the given coordinate. </returns>
         private Vector2 ClampPositionToOnScreen(Vector2 screenPosition) {
             Vector2 canvasSize = this._safeAreaRectTransform.rect.size;
             float canvasHalfWidth = canvasSize.x / 2;

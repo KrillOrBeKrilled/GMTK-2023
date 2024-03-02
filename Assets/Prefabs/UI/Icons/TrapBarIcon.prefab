@@ -219,12 +219,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _onClickImmediate:
-    m_PersistentCalls:
-      m_Calls: []
-  _onClickComplete:
-    m_PersistentCalls:
-      m_Calls: []
   _defaultImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   _pressedImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &8289127292945717752

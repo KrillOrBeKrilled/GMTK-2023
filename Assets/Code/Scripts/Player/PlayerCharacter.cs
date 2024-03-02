@@ -25,7 +25,7 @@ namespace KrillOrBeKrilled.Player {
     /// changing and deployment of traps, as well as player death with associated
     /// animations and sound.
     /// </remarks>
-    public class PlayerCharacter : Pawn, IDamageable, ITrapDamageable, ITrapBuilder {
+    public class PlayerCharacter : Pawn, IDamageable, ITrapDamageable {
 
         // ------------- Receiving Input -------------
         // Support the passing of a delegate with out parameters
@@ -234,16 +234,7 @@ namespace KrillOrBeKrilled.Player {
         public void ThrowActorBack(float stunDuration, float throwForce) {}
 
         #endregion
-
-        #region ITrapBuilder Implementations
-
-        /// <summary>
-        /// Checks that the player is Idle.
-        /// </summary>
-        /// <returns> If the player is currently in an idle state. </returns>
-        public bool CanBuildTrap() {
-            return this._state is IdleState;
-        }
+        
 
         /// <summary>
         /// Sets the animation controller state and clears the trap deployment markers depending on whether the
@@ -287,8 +278,6 @@ namespace KrillOrBeKrilled.Player {
         public void StopFalling() {
             this.RBody.velocity = new Vector2(this.RBody.velocity.x, 0f);
         }
-
-        #endregion
 
         #region Pawn Inherited Methods
 
@@ -347,7 +336,7 @@ namespace KrillOrBeKrilled.Player {
             var command = new SetTrapCommand(this, selectedTrap);
             this.ExecuteCommand(command);
         }
-
+        
         #endregion
 
         //========================================

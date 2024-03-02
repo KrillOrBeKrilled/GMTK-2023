@@ -18,6 +18,7 @@ namespace KrillOrBeKrilled.Traps.Interfaces {
         /// Retrieves the trap's build completion status.
         /// </summary>
         /// <returns> If the trap building process has been completed. </returns>
+        /// TODO: Replace later with trap "Arming"
         public bool IsTrapReady();
         
         #endregion

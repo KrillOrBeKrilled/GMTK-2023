@@ -11,7 +11,7 @@ namespace KrillOrBeKrilled.UI.Dialogue {
     /// <see cref="DialogueUI"/>, which locates the YarnCharacter that is speaking.
     /// </summary>
     /// <remarks> Put this script on your various NPC gameObjects. </remarks>
-    public class YarnCharacter : MonoBehaviour {
+    public class DialogueCharacter : MonoBehaviour {
         [Tooltip("This must match the character name used in Yarn dialogue scripts.")]
         [SerializeField] private string _characterName = "MyName";
         
@@ -37,7 +37,7 @@ namespace KrillOrBeKrilled.UI.Dialogue {
                 return;
             }
 
-            DialogueUI.Instance.RegisterYarnCharacter(this);
+            DialogueUI.Instance.RegisterCharacter(this);
             if (this.TryGetComponent(out RectTransform rectTransform))
                 this.RectTransform = rectTransform;
 
@@ -59,7 +59,7 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         /// </summary>
         private void OnDestroy() {
             if (DialogueUI.Instance is not null) {
-                DialogueUI.Instance.ForgetYarnCharacter(this);
+                DialogueUI.Instance.ForgetDialogueCharacter(this);
             }
         }
 

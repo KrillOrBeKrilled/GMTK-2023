@@ -168,12 +168,12 @@ namespace KrillOrBeKrilled.UI {
             this.SetupHealthBar(hero);
             this._mapUI.RegisterHero(hero);
 
-            if (!registerAsDialogueCharacter || !hero.TryGetComponent(out YarnCharacter newYarnCharacter)) {
+            if (!registerAsDialogueCharacter || !hero.TryGetComponent(out DialogueCharacter newYarnCharacter)) {
                 return;
             }
             
             hero.OnHeroDied.AddListener(this.OnDialogueHeroDied);
-            DialogueUI.Instance.RegisterYarnCharacter(newYarnCharacter);
+            DialogueUI.Instance.RegisterCharacter(newYarnCharacter);
             DialogueUI.Instance.SetActorCharacter(newYarnCharacter);
         }
         
@@ -182,8 +182,8 @@ namespace KrillOrBeKrilled.UI {
         /// </summary>
         /// <param name="hero"> The <see cref="Hero"/> that died. </param>
         private void OnDialogueHeroDied(Hero hero) {
-            if (hero.TryGetComponent(out YarnCharacter diedCharacter)) {
-                DialogueUI.Instance.ForgetYarnCharacter(diedCharacter);
+            if (hero.TryGetComponent(out DialogueCharacter diedCharacter)) {
+                DialogueUI.Instance.ForgetDialogueCharacter(diedCharacter);
             }
         }
 

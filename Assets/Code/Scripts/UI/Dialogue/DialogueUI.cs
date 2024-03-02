@@ -17,18 +17,18 @@ namespace KrillOrBeKrilled.UI.Dialogue {
     /// from <see cref="DialogueRunner"/>.
     /// </remarks>
     public class DialogueUI : DialogueViewBase {
-        [SerializeField] private YarnCharacter _playerCharacter;
+        [SerializeField] private DialogueCharacter _playerCharacter;
         [SerializeField] private RectTransform _canvasRectTransform;
         [SerializeField] private RectTransform _safeAreaRectTransform;
         [SerializeField] private Vector2 _screenEdgeOffset = new(20, 20);
         [SerializeField] private RectTransform _dialogueBubbleRect; 
         [SerializeField] private RectTransform _optionsBubbleRect;
-
+        [SerializeField] private DialogueSoundsController _soundsController;
+        
         public static DialogueUI Instance { get; private set; }
         
-        private DialogueSoundsController _soundsController;
-        private readonly List<YarnCharacter> _allCharacters = new();
-        private YarnCharacter _speakerCharacter;
+        private readonly List<DialogueCharacter> _allCharacters = new();
+        private DialogueCharacter _speakerCharacter;
         private Camera _mainCamera;
 
         //========================================
@@ -44,13 +44,12 @@ namespace KrillOrBeKrilled.UI.Dialogue {
             }
             
             DialogueUI.Instance = this;
-            this.TryGetComponent(out this._soundsController);
             this._mainCamera = Camera.main;
         }
 
         private void FixedUpdate() {
             if (this._dialogueBubbleRect.gameObject.activeInHierarchy) {
-                YarnCharacter character =
+                DialogueCharacter character =
                     this._speakerCharacter is not null ? this._speakerCharacter : this._playerCharacter;
                 this.PositionBubble(this._dialogueBubbleRect, character);
             }
@@ -58,6 +57,10 @@ namespace KrillOrBeKrilled.UI.Dialogue {
             if (this._optionsBubbleRect.gameObject.activeInHierarchy) {
                 this.PositionBubble(this._optionsBubbleRect, this._playerCharacter);
             }
+        }
+
+        private void OnDestroy() {
+            DialogueUI.Instance = null;
         }
 
         #endregion
@@ -74,7 +77,7 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         /// </summary>
         /// <param name="deletedCharacter"> The YarnCharacter to be unregistered. </param>
         /// <remarks> Automatically called by YarnCharacter.OnDestroy() to clean-up. </remarks>
-        public void ForgetYarnCharacter(YarnCharacter deletedCharacter) {
+        public void ForgetDialogueCharacter(DialogueCharacter deletedCharacter) {
             if (this._allCharacters.Contains(deletedCharacter)) {
                 this._allCharacters.Remove(deletedCharacter);
             }
@@ -84,7 +87,7 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         /// Sets a custom actor.
         /// </summary>
         /// <param name="actor"> the new Actor.</param>
-        public void SetActorCharacter(YarnCharacter actor) {
+        public void SetActorCharacter(DialogueCharacter actor) {
             this._playerCharacter = actor;
         }
 
@@ -94,7 +97,7 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         /// </summary>
         /// <param name="newCharacter"> The YarnCharacter to be registered. </param>
         /// <remarks> Called by <code>YarnCharacter.Start()</code> so that YarnCharacterView knows they exist. </remarks>
-        public void RegisterYarnCharacter(YarnCharacter newCharacter) {
+        public void RegisterCharacter(DialogueCharacter newCharacter) {
             if (!this._allCharacters.Contains(newCharacter)) {
                 this._allCharacters.Add(newCharacter);
             }
@@ -138,13 +141,13 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         #region Private Methods
         
         /// <summary>
-        /// Positions bubble on screen near the target <see cref="YarnCharacter"/>.
-        /// Takes into consideration the Offset given in the <see cref="YarnCharacter"/>.
+        /// Positions bubble on screen near the target <see cref="DialogueCharacter"/>.
+        /// Takes into consideration the Offset given in the <see cref="DialogueCharacter"/>.
         /// </summary>
         /// <param name="bubbleRectTransform"> the Dialogue speech bubble to position. </param>
         /// <param name="character"> the speaker character. </param>
 
-        private void PositionBubble(RectTransform bubbleRectTransform, YarnCharacter character) {
+        private void PositionBubble(RectTransform bubbleRectTransform, DialogueCharacter character) {
             // If Rect transform, prioritize it
             if (character.RectTransform is not null) {
                 Vector2 clampedPosition = this.ClampPositionToOnScreen(character.RectTransform.anchoredPosition);
@@ -158,10 +161,10 @@ namespace KrillOrBeKrilled.UI.Dialogue {
         /// <summary>
         /// Simple search through <see cref="_allCharacters"/> list for a matching name.
         /// </summary>
-        /// <param name="searchName"> The name to identify a <see cref="YarnCharacter"/>. </param>
-        /// <returns> The <see cref="YarnCharacter"/> with a name matching the provided name. </returns>
+        /// <param name="searchName"> The name to identify a <see cref="DialogueCharacter"/>. </param>
+        /// <returns> The <see cref="DialogueCharacter"/> with a name matching the provided name. </returns>
         /// <remarks> Returns <see langword="null"/> and LogWarning if no match is found. </remarks>
-        private YarnCharacter FindCharacter(string searchName) {
+        private DialogueCharacter FindCharacter(string searchName) {
             return this._allCharacters.FirstOrDefault(character => character.CharacterName == searchName);
         }
 

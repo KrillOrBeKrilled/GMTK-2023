@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Yarn.Unity;
 
@@ -19,6 +20,10 @@ namespace KrillOrBeKrilled.Core.Cameras {
     
         [Tooltip("The camera focused on the end position of the level.")]
         public GameObject EndCamera;
+        
+        [Tooltip("The cameras focused on specific points of interest in the level.")]
+        [SerializeField]
+        internal List<GameObject> LevelCameras;
 
         //========================================
         // Public Methods
@@ -55,6 +60,15 @@ namespace KrillOrBeKrilled.Core.Cameras {
             DisableAll();
             this.StartCamera.SetActive(true);
         }
+        
+        /// <summary>
+        /// Enables a level camera to transition the screen to a focal point of interest.
+        /// </summary>
+        /// <param name="levelCam"> The camera to set active. </param>
+        public void ShowLevelCamera(GameObject levelCam) {
+            DisableAll();
+            levelCam.SetActive(true);
+        }
 
         #endregion
         
@@ -71,6 +85,10 @@ namespace KrillOrBeKrilled.Core.Cameras {
             this.PlayerCamera.SetActive(false);
             this.StartCamera.SetActive(false);
             this.EndCamera.SetActive(false);
+
+            foreach (var cam in this.LevelCameras) {
+                cam.SetActive(false);
+            }
         }
         
         #endregion

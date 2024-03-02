@@ -96,28 +96,20 @@ namespace KrillOrBeKrilled.UI {
         #endregion
 
         //========================================
-        // Internal Methods
+        // Private Methods
         //========================================
 
-        #region Internal Methods
-
+        #region Private Methods
+        
         /// <summary>
         /// Enables the GameObject that controls the loading screen and invokes the
         /// <see cref="_onScreenWipeInComplete"/> function.
         /// </summary>
         /// <remarks> Triggered by <see cref="ScreenWipeUI.WipeIn"/> upon completion. </remarks>
-        internal void CompleteSceneChange() {
+        private void CompleteSceneChange() {
             this._loadingScreen.gameObject.SetActive(true);
-            _onScreenWipeInComplete?.Invoke();
+            this._onScreenWipeInComplete?.Invoke();
         }
-
-        #endregion
-
-        //========================================
-        // Private Methods
-        //========================================
-
-        #region Private Methods
 
         /// <summary>
         /// Updates the coin counter UI text.
@@ -176,22 +168,22 @@ namespace KrillOrBeKrilled.UI {
             this.SetupHealthBar(hero);
             this._mapUI.RegisterHero(hero);
 
-            if (!registerAsDialogueCharacter || !hero.TryGetComponent(out YarnCharacter newYarnCharacter)) {
+            if (!registerAsDialogueCharacter || !hero.TryGetComponent(out DialogueCharacter newYarnCharacter)) {
                 return;
             }
             
             hero.OnHeroDied.AddListener(this.OnDialogueHeroDied);
-            YarnCharacterView.instance.RegisterYarnCharacter(newYarnCharacter);
-            YarnCharacterView.instance.playerCharacter = newYarnCharacter;
+            DialogueUI.Instance.RegisterCharacter(newYarnCharacter);
+            DialogueUI.Instance.SetActorCharacter(newYarnCharacter);
         }
         
         /// <summary>
-        /// Unregisters the associated <see cref="Hero"/> from the <see cref="YarnCharacterView">dialogue system</see>.
+        /// Unregisters the associated <see cref="Hero"/> from the <see cref="DialogueUI">dialogue system</see>.
         /// </summary>
         /// <param name="hero"> The <see cref="Hero"/> that died. </param>
         private void OnDialogueHeroDied(Hero hero) {
-            if (hero.TryGetComponent(out YarnCharacter diedCharacter)) {
-                YarnCharacterView.instance.ForgetYarnCharacter(diedCharacter);
+            if (hero.TryGetComponent(out DialogueCharacter diedCharacter)) {
+                DialogueUI.Instance.ForgetDialogueCharacter(diedCharacter);
             }
         }
 

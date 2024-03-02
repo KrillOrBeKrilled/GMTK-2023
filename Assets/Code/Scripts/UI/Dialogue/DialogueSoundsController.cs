@@ -8,11 +8,11 @@ namespace KrillOrBeKrilled.UI.Dialogue {
     /// <summary>
     /// Holds all UnityEvents used to communicate with the AudioManager to fire
     /// off Wwise sound events associated with the dialogue events, acting as an
-    /// intermediary between the AudioManager and <see cref="YarnCharacterView"/>
+    /// intermediary between the AudioManager and <see cref="DialogueUI"/>
     /// classes.
     /// </summary>
     /// <remarks>
-    /// Exposes methods to the <see cref="YarnCharacterView"/> that invoke
+    /// Exposes methods to the <see cref="DialogueUI"/> that invoke
     /// the UnityEvents the AudioManager is subscribed to.
     /// </remarks>
     internal class DialogueSoundsController : MonoBehaviour {

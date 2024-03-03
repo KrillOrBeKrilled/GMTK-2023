@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 312770211}
   - component: {fileID: 312770213}
   - component: {fileID: 312770214}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -393,7 +393,7 @@ GameObject:
   - component: {fileID: 625750865}
   - component: {fileID: 625750866}
   - component: {fileID: 625750868}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33640,7 +33640,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1050446629}
   - component: {fileID: 1050446630}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CameraBounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}

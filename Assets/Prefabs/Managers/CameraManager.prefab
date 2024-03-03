@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 709816562069576625}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CameraManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 2995173733169001037}
   - component: {fileID: 1168742337484540883}
   - component: {fileID: 5224023944906182963}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: CinemachineBrain
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 8749409742653068624}
   - component: {fileID: 6323513938581196463}
   - component: {fileID: 7602232655611667263}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +351,7 @@ GameObject:
   - component: {fileID: 3899944704009318849}
   - component: {fileID: 7289059290422353773}
   - component: {fileID: 2251480890336771387}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -413,7 +413,7 @@ GameObject:
   - component: {fileID: 6910651901678226807}
   - component: {fileID: 1976015722435933058}
   - component: {fileID: 6429788097633923986}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -499,7 +499,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4915775393052066952}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: PlayerCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -533,7 +533,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5382188548842711199}
   - component: {fileID: 7295957807780234114}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CameraBounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -616,7 +616,7 @@ GameObject:
   m_Component:
   - component: {fileID: 182053783858984863}
   - component: {fileID: 231658681581199642}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: StartCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -689,7 +689,7 @@ GameObject:
   - component: {fileID: 5165282418633088329}
   - component: {fileID: 756466860093554836}
   - component: {fileID: 1696239582067070453}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: CameraSwitcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -729,7 +729,7 @@ MonoBehaviour:
   PlayerCamera: {fileID: 2176623254373094647}
   StartCamera: {fileID: 5876022208566256647}
   EndCamera: {fileID: 6999559410536347720}
-  LevelCameras: []
+  _levelCameras: []
 --- !u!114 &1696239582067070453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -753,7 +753,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1598336665618200570}
   - component: {fileID: 4604456992634910175}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: EndCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -826,7 +826,7 @@ GameObject:
   - component: {fileID: 8260321882733095379}
   - component: {fileID: 6426377367579325036}
   - component: {fileID: 5955113258055465670}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}

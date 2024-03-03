@@ -26,7 +26,6 @@ namespace KrillOrBeKrilled.Core.Cameras {
         #region Unity Methods
 
         private void OnTriggerEnter2D(Collider2D other) {
-            if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
             if (FreezeOnEntry) {
                 this._cameraSwitcher.InvokeFreezeTransition(this.FreezeEntryTime);
             }
@@ -35,7 +34,6 @@ namespace KrillOrBeKrilled.Core.Cameras {
         }
 
         private void OnTriggerExit2D(Collider2D other) {
-            if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
             if (FreezeOnExit) {
                 this._cameraSwitcher.InvokeFreezeTransition(this.FreezeExitTime);
             }

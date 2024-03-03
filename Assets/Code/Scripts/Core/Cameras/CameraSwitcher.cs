@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Yarn.Unity;
 
 //*******************************************************************************************
@@ -23,7 +24,22 @@ namespace KrillOrBeKrilled.Core.Cameras {
         
         [Tooltip("The cameras focused on specific points of interest in the level.")]
         [SerializeField]
-        internal List<GameObject> LevelCameras;
+        private List<GameObject> _levelCameras;
+        
+        [Tooltip("Tracks when a camera transition to freeze actor movement begins.")]
+        public UnityEvent<float> OnSwitchCameraFreeze { get; private set; }
+        
+        //========================================
+        // Unity Methods
+        //========================================
+        
+        #region Unity Methods
+        
+        private void Awake() {
+            this.OnSwitchCameraFreeze = new UnityEvent<float>();
+        }
+        
+        #endregion
 
         //========================================
         // Public Methods
@@ -69,6 +85,14 @@ namespace KrillOrBeKrilled.Core.Cameras {
             DisableAll();
             levelCam.SetActive(true);
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="freezeTime"> The camera to set active. </param>
+        public void InvokeFreezeTransition(float freezeTime) {
+            this.OnSwitchCameraFreeze?.Invoke(freezeTime);
+        }
 
         #endregion
         
@@ -86,7 +110,7 @@ namespace KrillOrBeKrilled.Core.Cameras {
             this.StartCamera.SetActive(false);
             this.EndCamera.SetActive(false);
 
-            foreach (var cam in this.LevelCameras) {
+            foreach (var cam in this._levelCameras) {
                 cam.SetActive(false);
             }
         }

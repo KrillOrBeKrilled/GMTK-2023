@@ -20,8 +20,11 @@ namespace KrillOrBeKrilled.Heroes {
     /// </summary>
     public class Hero : MonoBehaviour, IDamageable, ITrapDamageable {
         private Rigidbody2D _rigidbody;
+        private Vector2 _lastVelocity;
+        
         private HeroBT _heroBrain;
         private FieldOfView _heroSight;
+        private Animator _animator;
 
         private const int CoinsEarnedOnDeath = 2;
 
@@ -55,6 +58,7 @@ namespace KrillOrBeKrilled.Heroes {
             this.TryGetComponent(out this._rigidbody);
             this.TryGetComponent(out this._heroBrain);
             this.TryGetComponent(out this._heroSight);
+            this.TryGetComponent(out this._animator);
         }
 
         #endregion
@@ -192,7 +196,9 @@ namespace KrillOrBeKrilled.Heroes {
         /// Freeze this hero. No actions will be performed.
         /// </summary>
         public void Freeze() {
+            this._lastVelocity = this._rigidbody.velocity;
             this._heroBrain.UpdateData("IsFrozen", true);
+            this._animator.speed = 0.001f;
         }
 
         /// <summary>
@@ -200,6 +206,8 @@ namespace KrillOrBeKrilled.Heroes {
         /// </summary>
         public void Unfreeze() {
             this._heroBrain.UpdateData("IsFrozen", false);
+            this._rigidbody.velocity = this._lastVelocity;
+            this._animator.speed = 1f;
         }
 
         #endregion

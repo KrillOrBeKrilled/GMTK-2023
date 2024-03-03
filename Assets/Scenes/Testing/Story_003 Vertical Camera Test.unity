@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 312770211}
   - component: {fileID: 312770213}
   - component: {fileID: 312770214}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,6 +170,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelCamera: {fileID: 1198459370}
   _cameraSwitcher: {fileID: 1545816041}
+  FreezeOnEntry: 1
+  FreezeOnExit: 1
+  FreezeEntryTime: 1.5
+  FreezeExitTime: 1.5
 --- !u!61 &312770214
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -336,7 +340,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TrackedObjectOffset: {x: 0, y: 0, z: 0}
-  m_LookaheadTime: 0.6
+  m_LookaheadTime: 0.2
   m_LookaheadSmoothing: 30
   m_LookaheadIgnoreY: 1
   m_XDamping: 0.6
@@ -389,7 +393,7 @@ GameObject:
   - component: {fileID: 625750865}
   - component: {fileID: 625750866}
   - component: {fileID: 625750868}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -425,6 +429,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelCamera: {fileID: 1275640891}
   _cameraSwitcher: {fileID: 1545816041}
+  FreezeOnEntry: 0
+  FreezeOnExit: 0
+  FreezeEntryTime: 0
+  FreezeExitTime: 0
 --- !u!60 &625750868
 PolygonCollider2D:
   m_ObjectHideFlags: 0

@@ -15,6 +15,9 @@ namespace KrillOrBeKrilled.Core.Cameras {
         [Tooltip("The camera manager's switcher in charge of switching virtual camera focal points.")]
         [SerializeField]
         private CameraSwitcher _cameraSwitcher;
+
+        public bool FreezeOnEntry, FreezeOnExit;
+        public float FreezeEntryTime, FreezeExitTime;
         
         //========================================
         // Unity Methods
@@ -24,11 +27,19 @@ namespace KrillOrBeKrilled.Core.Cameras {
 
         private void OnTriggerEnter2D(Collider2D other) {
             if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
+            if (FreezeOnEntry) {
+                this._cameraSwitcher.InvokeFreezeTransition(this.FreezeEntryTime);
+            }
+            
             this._cameraSwitcher.ShowLevelCamera(LevelCamera);
         }
 
         private void OnTriggerExit2D(Collider2D other) {
             if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
+            if (FreezeOnExit) {
+                this._cameraSwitcher.InvokeFreezeTransition(this.FreezeExitTime);
+            }
+            
             this._cameraSwitcher.ShowPlayer();
         }
 

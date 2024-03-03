@@ -140,6 +140,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._activeRespawnPoint = this._respawnPoints.First();
             this._firstRespawnPoint = this._activeRespawnPoint;
 
+            this._cameraSwitcher.OnSwitchCameraFreeze.AddListener(this.FreezeCameraTransition);
             this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
             this._playerController.Player.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
             this._playerController.Player.OnSelectedTrapChanged.AddListener(this.SelectedTrapIndexChanged);
@@ -627,6 +628,25 @@ namespace KrillOrBeKrilled.Core.Managers {
             foreach (Hero hero in this._heroes) {
                 hero.Unfreeze();
             }
+        }
+
+        private void FreezeCameraTransition(float freezeTime) {
+            StartCoroutine(this.FreezeAllActors(freezeTime));
+        }
+
+        /// <summary>
+        /// TODO:
+        /// </summary>
+        /// <param name="freezeTime"></param>
+        /// <returns></returns>
+        private IEnumerator FreezeAllActors(float freezeTime) {
+            FreezeAllHeroes();
+            this._playerController.Player.FreezePosition();
+
+            yield return new WaitForSeconds(freezeTime);
+            
+            UnfreezeAllHeroes();
+            this._playerController.Player.UnfreezePosition();
         }
 
         #endregion

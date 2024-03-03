@@ -316,7 +316,14 @@ namespace KrillOrBeKrilled.Player {
 
         public override void FreezePosition() {
             base.FreezePosition();
+            this._animator.speed = 0.001f;
             this._isFrozen = true;
+        }
+        
+        public override void UnfreezePosition() {
+            base.UnfreezePosition();
+            this._animator.speed = 1;
+            this._isFrozen = false;
         }
 
         #endregion

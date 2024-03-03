@@ -630,15 +630,19 @@ namespace KrillOrBeKrilled.Core.Managers {
             }
         }
 
+        /// <summary>
+        /// Freezes the movement of all active actors within the level for a duration of time on a camera switch.
+        /// </summary>
+        /// <param name="freezeTime"> The duration of time to freeze active actor movement. </param>
+        /// <remarks> Subscribed to the <see cref="CameraSwitcher.OnSwitchCameraFreeze"/> event. </remarks>
         private void FreezeCameraTransition(float freezeTime) {
             StartCoroutine(this.FreezeAllActors(freezeTime));
         }
 
         /// <summary>
-        /// TODO:
+        /// Freezes the movement of the player and all heroes for a specified duration of time.
         /// </summary>
-        /// <param name="freezeTime"></param>
-        /// <returns></returns>
+        /// <param name="freezeTime"> The duration of time to freeze movement. </param>
         private IEnumerator FreezeAllActors(float freezeTime) {
             FreezeAllHeroes();
             this._playerController.Player.FreezePosition();

@@ -26,7 +26,7 @@ namespace KrillOrBeKrilled.Core.Cameras {
         [SerializeField]
         private List<GameObject> _levelCameras;
         
-        [Tooltip("Tracks when a camera transition to freeze actor movement begins.")]
+        [Tooltip("Tracks when a camera transition that freezes actor movement begins.")]
         public UnityEvent<float> OnSwitchCameraFreeze { get; private set; }
         
         //========================================

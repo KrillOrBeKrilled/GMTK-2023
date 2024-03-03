@@ -16,6 +16,7 @@ namespace KrillOrBeKrilled.Core.Cameras {
         [SerializeField]
         private CameraSwitcher _cameraSwitcher;
 
+        [Tooltip("Enables the freezing of player and hero movement on camera transitions when entering/exiting the zone.")]
         public bool FreezeOnEntry, FreezeOnExit;
         public float FreezeEntryTime, FreezeExitTime;
         

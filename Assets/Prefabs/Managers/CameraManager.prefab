@@ -487,7 +487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f453f694addf4275988fac205bc91968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BoundingShape2D: {fileID: 7295957807780234114}
+  m_BoundingShape2D: {fileID: 473674805553022354}
   m_Damping: 0.5
   m_MaxWindowSize: -1
 --- !u!1 &3858054486492254539
@@ -532,7 +532,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5382188548842711199}
-  - component: {fileID: 7295957807780234114}
+  - component: {fileID: 473674805553022354}
   m_Layer: 11
   m_Name: CameraBounds
   m_TagString: Untagged
@@ -555,7 +555,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4915775393052066952}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &7295957807780234114
+--- !u!60 &473674805553022354
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -599,12 +599,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 45.493042, y: 12.546226}
-      - {x: 45.493042, y: 20}
-      - {x: 395, y: 20}
-      - {x: 395, y: -10}
-      - {x: -26, y: -10}
-      - {x: -26, y: 12.54623}
+    - - {x: 395, y: 12.231}
+      - {x: 395, y: -7.771}
+      - {x: -26, y: -7.771}
+      - {x: -26, y: 12.231}
   m_UseDelaunayMesh: 0
 --- !u!1 &5876022208566256647
 GameObject:

@@ -110611,6 +110611,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 473674805553022354, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].x
+      value: 263
+      objectReference: {fileID: 0}
+    - target: {fileID: 473674805553022354, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].x
+      value: 263
+      objectReference: {fileID: 0}
     - target: {fileID: 619870473333400074, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
       propertyPath: m_Name
       value: CameraManager

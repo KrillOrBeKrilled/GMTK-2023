@@ -1243,6 +1243,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1413619168}
     - target: {fileID: 3257947241279891922, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _playerCharacter
+      value: 
+      objectReference: {fileID: 1413619168}
+    - target: {fileID: 3257947241279891922, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: allCharacters.Array.data[1]
       value: 
       objectReference: {fileID: 1413619168}
@@ -1310,6 +1314,10 @@ PrefabInstance:
       propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 777455261}
+    - target: {fileID: 5042795179356250350, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _playerCharacter
+      value: 
+      objectReference: {fileID: 1413619168}
     - target: {fileID: 5043373623861584210, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -18211,7 +18219,7 @@ Tilemap:
   - first: {x: 17, y: 13, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 81
+      m_TileIndex: 82
       m_TileSpriteIndex: 47
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
@@ -18221,7 +18229,7 @@ Tilemap:
   - first: {x: 18, y: 13, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 81
+      m_TileIndex: 82
       m_TileSpriteIndex: 44
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
@@ -18231,7 +18239,7 @@ Tilemap:
   - first: {x: 19, y: 13, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 81
+      m_TileIndex: 82
       m_TileSpriteIndex: 44
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
@@ -18241,7 +18249,7 @@ Tilemap:
   - first: {x: 20, y: 13, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 81
+      m_TileIndex: 82
       m_TileSpriteIndex: 44
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
@@ -22881,7 +22889,7 @@ Tilemap:
   - first: {x: 17, y: 14, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 81
+      m_TileIndex: 82
       m_TileSpriteIndex: 45
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
@@ -22891,7 +22899,7 @@ Tilemap:
   - first: {x: 18, y: 14, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 81
+      m_TileIndex: 82
       m_TileSpriteIndex: 44
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
@@ -22901,7 +22909,7 @@ Tilemap:
   - first: {x: 19, y: 14, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 81
+      m_TileIndex: 82
       m_TileSpriteIndex: 44
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
@@ -22911,7 +22919,7 @@ Tilemap:
   - first: {x: 20, y: 14, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 81
+      m_TileIndex: 82
       m_TileSpriteIndex: 44
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
@@ -27192,9 +27200,9 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 2124
+  - m_RefCount: 2116
     m_Data: {fileID: 11400000, guid: 6e6bc309c1a41504e9eab1855fa31a23, type: 2}
-  - m_RefCount: 238
+  - m_RefCount: 246
     m_Data: {fileID: 11400000, guid: 4070da3d94ef50e45a2cd4e458994b8d, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 0
@@ -110603,6 +110611,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 473674805553022354, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].x
+      value: 263
+      objectReference: {fileID: 0}
+    - target: {fileID: 473674805553022354, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].x
+      value: 263
+      objectReference: {fileID: 0}
     - target: {fileID: 619870473333400074, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
       propertyPath: m_Name
       value: CameraManager
@@ -110655,6 +110671,14 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 1413619176}
+    - target: {fileID: 7295957807780234114, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].x
+      value: -26
+      objectReference: {fileID: 0}
+    - target: {fileID: 7295957807780234114, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].x
+      value: -26
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -140,6 +140,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._activeRespawnPoint = this._respawnPoints.First();
             this._firstRespawnPoint = this._activeRespawnPoint;
 
+            this._cameraSwitcher.OnSwitchCameraFreeze.AddListener(this.FreezeCameraTransition);
             this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
             this._playerController.Player.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
             this._playerController.Player.OnSelectedTrapChanged.AddListener(this.SelectedTrapIndexChanged);
@@ -627,6 +628,29 @@ namespace KrillOrBeKrilled.Core.Managers {
             foreach (Hero hero in this._heroes) {
                 hero.Unfreeze();
             }
+        }
+
+        /// <summary>
+        /// Freezes the movement of all active actors within the level for a duration of time on a camera switch.
+        /// </summary>
+        /// <param name="freezeTime"> The duration of time to freeze active actor movement. </param>
+        /// <remarks> Subscribed to the <see cref="CameraSwitcher.OnSwitchCameraFreeze"/> event. </remarks>
+        private void FreezeCameraTransition(float freezeTime) {
+            StartCoroutine(this.FreezeAllActors(freezeTime));
+        }
+
+        /// <summary>
+        /// Freezes the movement of the player and all heroes for a specified duration of time.
+        /// </summary>
+        /// <param name="freezeTime"> The duration of time to freeze movement. </param>
+        private IEnumerator FreezeAllActors(float freezeTime) {
+            FreezeAllHeroes();
+            this._playerController.Player.FreezePosition();
+
+            yield return new WaitForSeconds(freezeTime);
+            
+            UnfreezeAllHeroes();
+            this._playerController.Player.UnfreezePosition();
         }
 
         #endregion

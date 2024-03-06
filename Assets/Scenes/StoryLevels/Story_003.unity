@@ -32955,6 +32955,10 @@ PrefabInstance:
       propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 777455261}
+    - target: {fileID: 5042795179356250350, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _playerCharacter
+      value: 
+      objectReference: {fileID: 1413619168}
     - target: {fileID: 5043373623861584210, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -119816,6 +119820,14 @@ PrefabInstance:
     - target: {fileID: 6910651901678226807, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 16.439999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7295957807780234114, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].x
+      value: 395
+      objectReference: {fileID: 0}
+    - target: {fileID: 7295957807780234114, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].x
+      value: 395
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -18,6 +18,7 @@ namespace KrillOrBeKrilled.Player.Commands {
         [SerializeField] protected Vector2 GroundedCheckBoxOffset;
         [SerializeField] protected LayerMask GroundedLayerMask;
         protected Rigidbody2D RBody;
+        private Vector2 _lastVelocity;
 
         //========================================
         // Unity Methods
@@ -69,6 +70,7 @@ namespace KrillOrBeKrilled.Player.Commands {
         /// Freezes the character position through the <see cref="Rigidbody2D"/>.
         /// </summary>
         public virtual void FreezePosition() {
+            this._lastVelocity = this.RBody.velocity;
             this.RBody.constraints = RigidbodyConstraints2D.FreezeAll;
         }
 
@@ -111,6 +113,7 @@ namespace KrillOrBeKrilled.Player.Commands {
         /// </summary>
         public virtual void UnfreezePosition() {
             this.RBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            this.RBody.velocity = this._lastVelocity;
         }
 
         #endregion

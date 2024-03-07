@@ -69,9 +69,8 @@ namespace KrillOrBeKrilled.Traps {
             this._bubbles.SetActive(false);
             
             // Make construction animations
-            this.BuildTrap();
+            this.AnimateConstruction();
             this.SoundsController.OnBuildComplete();
-            this.SetUpTrap();
         }
 
         #endregion
@@ -123,12 +122,12 @@ namespace KrillOrBeKrilled.Traps {
         
         #region Trap Building
 
-        /// <inheritdoc cref="Trap.BuildTrap"/>
+        /// <inheritdoc cref="Trap.AnimateConstruction"/>
         /// <summary>
         /// Overridden to create a new build animation to fill the pit with acid and heat haze, while adjusting the
         /// position of the rising bubbles.
         /// </summary>
-        protected override void BuildTrap() {
+        protected override void AnimateConstruction() {
             // Clamp the acid depth to prevent the acid from looking strange around tile edges
             DOVirtual.Float(0f, 0.8f, this.BuildingDuration, targetDepth => {
                 // Magic ratio to avoid making the haze too intense
@@ -144,7 +143,7 @@ namespace KrillOrBeKrilled.Traps {
                 this._bubbles.transform.position = new Vector3(this._bubblesStartPos.x,
                                                                this._bubblesStartPos.y + targetDepth * 1.8f,
                                                                this._bubblesStartPos.z);
-            }).SetEase(Ease.InOutCubic);
+            }).SetEase(Ease.InOutCubic).OnComplete(this.SetUpTrap);
         }
         
         protected override void SetUpTrap() {}

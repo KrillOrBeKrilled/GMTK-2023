@@ -5,6 +5,7 @@ using KrillOrBeKrilled.Player.PlayerStates;
 using KrillOrBeKrilled.Traps;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEditor;
 using UnityEngine;
@@ -70,6 +71,12 @@ namespace KrillOrBeKrilled.Player {
         private bool _isFrozen = false;
         private float _direction = -1;
         private bool _stateChangedThisFrame = false;
+        
+        // ---------------- Attack ------------------
+        public float AttackCooldown;
+        private float _attackTimer;
+        
+        private bool _canAttack = true;
 
         // ---------- Grounded & Coyote Time --------
         public bool IsGrounded { get; private set; } = true;
@@ -179,7 +186,7 @@ namespace KrillOrBeKrilled.Player {
                 if (!collision.gameObject.TryGetComponent(out IDamageable damageable)) return;
                 
                 damageable.TakeDamage(1);
-                damageable.ThrowActorBack(1f, 1f);
+                damageable.ThrowActorBack(5f);
 
                 return;
             }
@@ -332,18 +339,26 @@ namespace KrillOrBeKrilled.Player {
         }
         
         public override void Attack() {
-            this.Animator.SetTrigger(_attackKey);
+            if (!this._canAttack) return;
+            
+            this.Animator.SetBool(_attackKey, true);
+            this._canAttack = false;
+
+            DOVirtual.Float(this.AttackCooldown, 0, this.AttackCooldown,
+                    attackCountdown => { this._attackTimer = attackCountdown; })
+                .SetEase(Ease.Linear)
+                .OnComplete(() => { this._canAttack = true; });
         }
 
         public override void FreezePosition() {
             base.FreezePosition();
-            this._animator.speed = 0.001f;
+            this.Animator.speed = 0.001f;
             this._isFrozen = true;
         }
         
         public override void UnfreezePosition() {
             base.UnfreezePosition();
-            this._animator.speed = 1;
+            this.Animator.speed = 1;
             this._isFrozen = false;
         }
 
@@ -441,14 +456,6 @@ namespace KrillOrBeKrilled.Player {
             // this.ChangeState(State.Attacking);
             this.ExecuteCommand(this._attackCommand);
         }
-        
-        /// <summary>
-        /// Cancels the attack invincibility frames.
-        /// </summary>
-        public void CancelAttack() {
-            // this.ChangeState(State.Idle);
-            // TODO:
-        }
 
         /// <summary>
         /// Reads input for move and jump. Puts read values in the <c>out</c> variables.
@@ -489,6 +496,10 @@ namespace KrillOrBeKrilled.Player {
         /// <remarks> Subscribed to the OnHenWon core game system event. </remarks>
         private void GameOver(string _) {
             this.ChangeState(State.GameOver);
+        }
+
+        private void OnAttackFinished() {
+            this.Animator.SetBool(this._attackKey, false);
         }
 
         /// <summary>

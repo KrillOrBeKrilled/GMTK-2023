@@ -233,6 +233,7 @@ MonoBehaviour:
   GroundedLayerMask:
     serializedVersion: 2
     m_Bits: 512
+  AttackCooldown: 5
   OnSelectedTrapChanged:
     m_PersistentCalls:
       m_Calls: []

@@ -5,7 +5,7 @@ using UnityEngine;
 //*******************************************************************************************
 // YarnCharacter
 //*******************************************************************************************
-namespace KrillOrBeKrilled.UI.Dialogue {
+namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// DialogueRunner invokes
     /// <see cref="DialogueUI"/>, which locates the YarnCharacter that is speaking.

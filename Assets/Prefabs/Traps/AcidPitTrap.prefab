@@ -392,12 +392,12 @@ MonoBehaviour:
   LeftSpawnOffset: {x: 0, y: -1, z: 0}
   RightSpawnOffset: {x: 1, y: -1, z: 0}
   AnimationOffset: {x: 0, y: 1, z: 0}
-  BuildingDuration: 10
   SliderBar: {fileID: 8689842051725396054, guid: 730a5177b6878c7479dff24b13199c1c, type: 3}
   IsCeilingTrap: 0
   _acidLiquid: {fileID: 5500118044198014375}
   _heatEmanating: {fileID: 5931316982898380116}
   _bubbles: {fileID: 2295360673421609229}
+  BuildingDuration: 0.5
   _damageAmount: 15
 --- !u!61 &3751644648279924701
 BoxCollider2D:

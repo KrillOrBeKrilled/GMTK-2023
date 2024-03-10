@@ -13,29 +13,13 @@ namespace KrillOrBeKrilled.Traps {
     /// the AudioManager is subscribed to. </remarks>
     /// </summary>
     public class TrapSoundsController : MonoBehaviour {
-        [SerializeField] private UnityEvent
-            _onStartBuild,
-            _onStopBuild,
-            _onBuildComplete;
+        [SerializeField] private UnityEvent _onBuildComplete;
         
         //========================================
         // Internal Methods
         //========================================
         
         #region Internal Methods
-        
-        // TODO: Update this!
-        /// <summary>
-        /// Plays or stops SFX associated with the building of traps.
-        /// </summary>
-        /// <remarks> Invokes the <see cref="_onStartBuild"/> or <see cref="_onStopBuild"/> event. </remarks>
-        internal void OnBuild(bool status) {
-            if (status) {
-                this._onStartBuild?.Invoke();
-            } else {
-                this._onStopBuild?.Invoke();
-            }
-        }
 
         /// <summary>
         /// Plays SFX associated with completing the building of traps.

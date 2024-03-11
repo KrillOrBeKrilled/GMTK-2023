@@ -7,17 +7,24 @@ namespace KrillOrBeKrilled.Interfaces {
     /// Encapsulates all logic associated with actors taking damage, debuffs, and dying.
     /// </summary>
     public interface IDamageable {
+
+        public enum DamageSource {
+            Trap,
+            Hero,
+            Fall
+        }
         
         //========================================
         // Public Methods
         //========================================
         
         #region Public Methods
-        
+
         /// <summary>
         /// Defeats the actor, disabling all controls and playing associated animations before destroying the actor.
         /// </summary>
-        public void Die();
+        /// <param name="damageSource"></param>
+        public void Die(DamageSource damageSource);
         
         /// <summary>
         /// Deals damage to the actor.

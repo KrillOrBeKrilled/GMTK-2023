@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using KrillOrBeKrilled.Core.Input;
+using KrillOrBeKrilled.Extensions;
 using KrillOrBeKrilled.Player;
+using KrillOrBeKrilled.Tiles;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 //*******************************************************************************************
@@ -32,6 +34,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         // ------------- Painting Colors -------------
         [Header("Painting Colors")] 
         public Color ConfirmationColor, RejectionColor;
+        
         
         //========================================
         // Public Methods
@@ -119,14 +122,17 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
         
         #endregion
-        
+
         /// <summary>
         /// Sets up subscriptions to player events required for proper execution.
         /// </summary>
         /// <param name="trapController"> Provides all tilemap-related events to be executed in response to player
         /// input actions. </param>
-        public void Initialize(TrapController trapController) {
+        /// <param name="playerCharacter"> <see cref="PlayerCharacter"/> used to update the respawn position of
+        /// the player. </param>
+        public void Initialize(TrapController trapController, PlayerCharacter playerCharacter) {
             trapController.OnPaintTiles.AddListener(this.OnPaintTiles);
+            playerCharacter.SetGetFallRespawnPos(this.GetGroundTileBelowPos);
         }
 
         #endregion
@@ -136,6 +142,36 @@ namespace KrillOrBeKrilled.Core.Managers {
         //========================================
 
         #region Private Methods
+
+        /// <summary>
+        /// Searches for the tile of type <see cref="CustomGroundRuleTile"/> below the provided
+        /// <paramref name="pos"/> up to <paramref name="limit"/> tiles below.
+        /// </summary>
+        /// <param name="pos"> The position below which to search for the tile. </param>
+        /// <param name="limit"> The limit of how many tiles to check. </param>
+        /// <returns></returns>
+        private Vector3? GetGroundTileBelowPos(Vector3 pos, int limit) {
+            int offset = 0;
+            Vector3Int coordinate = pos.RoundToInt();
+            bool found = false;
+            while (offset < limit) {
+                Vector3Int offsetPos = coordinate - new Vector3Int(0, offset, 0);
+                CustomGroundRuleTile tile = this._levelTileMap.GetTile(offsetPos) as CustomGroundRuleTile;
+                
+                if (tile != null) {
+                    found = true;
+                    break;
+                }
+
+                offset++;
+            }
+            
+            if (!found) {
+                return null;
+            }
+
+            return this._levelTileMap.CellToWorld(coordinate);
+        }
 
         /// <summary>
         /// Selects an operation to act on the provided tilemap positions based on the specified

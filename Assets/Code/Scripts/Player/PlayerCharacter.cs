@@ -88,6 +88,10 @@ namespace KrillOrBeKrilled.Player {
 
         private const float CoyoteTimeDuration = 0.15f;
         private IEnumerator _coyoteTimeCoroutine = null;
+        private Vector3 _respawnPosition;
+        public delegate Vector3? GetFallRespawnPosition(Vector3 playerPos, int limit);
+
+        private GetFallRespawnPosition _getFallRespawnPosition;
 
         // ------------- Trap Deployment ------------
         [Tooltip("Tracks when a new trap is selected.")]
@@ -181,6 +185,9 @@ namespace KrillOrBeKrilled.Player {
 
             // Check trap deployment eligibility
             this._trapController.SurveyTrapDeployment(this.IsGrounded, this._direction);
+            
+            // Update tile for fall respawn
+            this.UpdateFallRespawnPosition();
 
             this._stateChangedThisFrame = false;
             base.FixedUpdate();
@@ -202,7 +209,7 @@ namespace KrillOrBeKrilled.Player {
                 return;
             }
 
-            this.Die();
+            this.Die(IDamageable.DamageSource.Hero);
         }
 
         #if UNITY_EDITOR
@@ -233,8 +240,15 @@ namespace KrillOrBeKrilled.Player {
         /// <summary>
         /// Changes the current <see cref="IPlayerState"/> to the death state and plays associated SFX.
         /// </summary>
+        /// <param name="damageSource"></param>
         /// <remarks> Invokes the <see cref="OnPlayerStateChanged"/> event. </remarks>
-        public void Die() {
+        public void Die(IDamageable.DamageSource damageSource) {
+            if (damageSource == IDamageable.DamageSource.Fall) {
+                this.StopFalling();
+                this.transform.position = this._respawnPosition;
+                return;
+            }
+            
             this._soundsController.OnHenDeath();
             this.ChangeState(State.Dead);
         }
@@ -384,6 +398,14 @@ namespace KrillOrBeKrilled.Player {
             
             this.OnSelectedTrapChanged?.Invoke(this._trapController.CurrentTrap);
         }
+        
+        /// <summary>
+        /// Sets the GetFallRespawnPosition delegate.
+        /// </summary>
+        /// <param name="getFallRespawnPosition"></param>
+        public void SetGetFallRespawnPos(GetFallRespawnPosition getFallRespawnPosition) {
+            this._getFallRespawnPosition = getFallRespawnPosition;
+        }
 
         /// <summary>
         /// Selects the specified trap for placement evaluation in the level.
@@ -506,6 +528,19 @@ namespace KrillOrBeKrilled.Player {
         }
 
         /// <summary>
+        /// Invokes a <see cref="GetFallRespawnPosition"/> to try to get the new Fall Respawn Position.
+        /// Updates the Respawn Position if successful.
+        /// </summary>
+        private void UpdateFallRespawnPosition() {
+            Vector3? position = this._getFallRespawnPosition?.Invoke(this.transform.position, 30);
+            if (!position.HasValue) {
+                return;
+            }
+            
+            this._respawnPosition = position.Value + new Vector3(0.5f, 4f, 0f);
+        }
+
+        /// <summary>
         /// Casts a box below the player to check whether player is grounded. Updates the <see cref="IsGrounded"/> variable.
         /// </summary>
         /// <remarks> Invokes <see cref="OnPlayerGrounded"/>. </remarks>
@@ -523,7 +558,7 @@ namespace KrillOrBeKrilled.Player {
                 if (this._coyoteTimeCoroutine != null) {
                     return;
                 }
-
+                
                 this._coyoteTimeCoroutine = this.CoyoteTimeCoroutine();
                 this.StartCoroutine(this._coyoteTimeCoroutine);
                 return;

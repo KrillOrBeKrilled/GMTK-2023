@@ -34,9 +34,6 @@ namespace KrillOrBeKrilled.Core.Managers {
         // ------------- Painting Colors -------------
         [Header("Painting Colors")] 
         public Color ConfirmationColor, RejectionColor;
-
-        private Transform _playerTransform;
-        
         
         
         //========================================
@@ -135,7 +132,6 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// the player. </param>
         public void Initialize(TrapController trapController, PlayerCharacter playerCharacter) {
             trapController.OnPaintTiles.AddListener(this.OnPaintTiles);
-            this._playerTransform = playerCharacter.transform;
             playerCharacter.SetGetFallRespawnPos(this.GetGroundTileBelowPos);
         }
 

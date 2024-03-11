@@ -76,10 +76,11 @@ namespace KrillOrBeKrilled.Heroes {
         /// reduced to zero, broadcasts the endgame and destroys this GameObject. Otherwise, respawns
         /// the hero.
         /// </summary>
+        /// <param name="damageSource"></param>
         /// <remarks>
         /// Invokes the <see cref="OnHeroDied"/> event.
         /// </remarks>
-        public void Die() {
+        public void Die(IDamageable.DamageSource damageSource) {
             this._soundsController.OnHeroDeath();
 
             this.OnHeroDied?.Invoke(this);
@@ -94,7 +95,7 @@ namespace KrillOrBeKrilled.Heroes {
             this.OnHealthChanged?.Invoke(this.Health);
 
             if (this.Health <= 0) {
-                this.Die();
+                this.Die(IDamageable.DamageSource.Trap);
             }
         }
 
@@ -118,7 +119,7 @@ namespace KrillOrBeKrilled.Heroes {
             this.OnHealthChanged?.Invoke(this.Health);
 
             if (this.Health <= 0) {
-                this.Die();
+                this.Die(IDamageable.DamageSource.Trap);
             }
             
             // TODO: Trap reference can be used to alter the durability and other stats

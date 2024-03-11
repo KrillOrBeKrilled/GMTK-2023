@@ -149,7 +149,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._playerController.Initialize(this);
             ResourceManager.Instance.Initialize(this.PlayerController.TrapController.OnConsumeResources);
             ResourceSpawner.Instance.Initialize(this.PlayerController.transform);
-            TilemapManager.Instance.Initialize(this.PlayerController.TrapController);
+            TilemapManager.Instance.Initialize(this.PlayerController.TrapController, this._playerController.Player);
 
             // Wait for a frame so that all other scripts complete Start() method.
             yield return null;

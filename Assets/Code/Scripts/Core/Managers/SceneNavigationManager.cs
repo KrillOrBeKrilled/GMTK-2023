@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -67,6 +68,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// </summary>
         /// <param name="sceneIndex"> The index of the scene to load. </param>
         private static void LoadScene(int sceneIndex) {
+            DOTween.KillAll();
             SceneManager.LoadScene(sceneIndex);
         }
         
@@ -74,7 +76,9 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// Helper method for loading a scene by name.
         /// </summary>
         /// <param name="sceneName"> The name of the scene to load. </param>
-        private static void LoadScene(string sceneName) {
+        private static void LoadScene(string sceneName)
+        {
+            DOTween.KillAll();
             SceneManager.LoadScene(sceneName);
         }
 

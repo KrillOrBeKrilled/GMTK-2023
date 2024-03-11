@@ -21,6 +21,9 @@ namespace KrillOrBeKrilled.UI {
         [Tooltip("The glide image shown to indicate the jump button will enact a glide state and is pressed.")]
         [SerializeField] private Sprite _glideHighlightedImage;
 
+        [Header("Control Cooldown Overlays")] 
+        [SerializeField] private CooldownUI _attackCooldown;
+
         //========================================
         // Public Methods
         //========================================
@@ -35,6 +38,7 @@ namespace KrillOrBeKrilled.UI {
         public void Initialize(PlayerCharacter player) {
             player.OnPlayerGrounded.AddListener(this.OnPlayerGrounded);
             player.OnPlayerFalling.AddListener(this.OnPlayerFalling);
+            player.OnAttackCooldownUpdated.AddListener(this._attackCooldown.OnCooldownProgressUpdated);
         }
         
         #endregion

@@ -73,10 +73,14 @@ namespace KrillOrBeKrilled.Player {
         private bool _stateChangedThisFrame = false;
         
         // ---------------- Attack ------------------
+        public GameObject AttackRange;
+        
         public float AttackCooldown;
         private float _attackTimer;
         
         private bool _canAttack = true;
+        
+        public UnityEvent<float> OnAttackCooldownUpdated { get; private set; }
 
         // ---------- Grounded & Coyote Time --------
         public bool IsGrounded { get; private set; } = true;
@@ -138,6 +142,7 @@ namespace KrillOrBeKrilled.Player {
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState, Vector3>();
             this.OnTrapDeployed = new UnityEvent<Trap>();
             this.OnSelectedTrapChanged = new UnityEvent<Trap>();
+            this.OnAttackCooldownUpdated = new UnityEvent<float>();
             this.OnPlayerGrounded = new UnityEvent();
             this.OnPlayerFalling = new UnityEvent();
 
@@ -187,6 +192,8 @@ namespace KrillOrBeKrilled.Player {
                 
                 damageable.TakeDamage(1);
                 damageable.ThrowActorBack(5f);
+                this.AttackRange.SetActive(false);
+                this.Animator.SetBool(this._attackKey, false);
 
                 return;
             }
@@ -334,9 +341,16 @@ namespace KrillOrBeKrilled.Player {
             this._canAttack = false;
 
             DOVirtual.Float(this.AttackCooldown, 0, this.AttackCooldown,
-                    attackCountdown => { this._attackTimer = attackCountdown; })
+                    attackCountdown => {
+                        this._attackTimer = attackCountdown;
+                        this.OnAttackCooldownUpdated?.Invoke(attackCountdown / this.AttackCooldown);
+                    })
                 .SetEase(Ease.Linear)
-                .OnComplete(() => { this._canAttack = true; });
+                .OnComplete(() => {
+                    this._canAttack = true; 
+                    this.AttackRange.SetActive(true);
+                    this.OnAttackCooldownUpdated?.Invoke(0f);
+                });
         }
 
         public override void FreezePosition() {

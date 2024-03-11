@@ -34,15 +34,15 @@ namespace KrillOrBeKrilled.Traps {
         /// <param name="actor"> The recipient of the trap's damaging effects. </param>
         protected  override void OnEnteredTrap(ITrapDamageable actor) {
             DetonateTrap();
-            actor.TakeDamage(this._damageAmount, this);
-            actor.ApplySpeedPenalty(0.3f);
+            actor.TakeTrapDamage(this._damageAmount, this);
+            actor.ApplyTrapSpeedPenalty(0.3f);
         }
 
         /// <inheritdoc cref="Trap.OnExitedTrap"/>
         /// <summary> Resets the speed reduction acting on the <see cref="ITrapDamageable"/> actor. </summary>
         /// <param name="actor"> The recipient of the trap's damaging effects. </param>
         protected override void OnExitedTrap(ITrapDamageable actor) {
-            actor.ResetSpeedPenalty();
+            actor.ResetTrapSpeedPenalty();
         }
         
         /// <inheritdoc cref="Trap.SetUpTrap"/>

@@ -162,7 +162,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 0f7705e83cc784d4691d5b81092e1843, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -348,36 +348,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0945c3acb3e777447b14ce0ec2364d82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _onStartBuild:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: KrillOrBeKrilled.Managers.Audio.AudioManager, Managers
-        m_MethodName: PlayBuild
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 5438100687898551652}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _onStopBuild:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: KrillOrBeKrilled.Managers.Audio.AudioManager, Managers
-        m_MethodName: StopBuild
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 5438100687898551652}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   _onBuildComplete:
     m_PersistentCalls:
       m_Calls:

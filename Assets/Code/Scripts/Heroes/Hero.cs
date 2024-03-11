@@ -31,6 +31,10 @@ namespace KrillOrBeKrilled.Heroes {
         // ----------------- Health ------------------
         [Tooltip("The current health of the hero.")]
         public int Health { get; private set; }
+        
+        // ------------ Movement States --------------
+        [SerializeField] private PhysicsMaterial2D _normalMovementPhysicsMaterial;
+        [SerializeField] private PhysicsMaterial2D _stunnedPhysicsMaterial;
 
         // ----------------- Data --------------------
         public HeroData.HeroType Type { get; private set; }
@@ -104,10 +108,11 @@ namespace KrillOrBeKrilled.Heroes {
         /// <param name="stunDuration"> The duration of time to stun the hero. </param>
         /// <param name="throwForce"> Scales the knock back force applied to the hero. </param>
         public void ThrowActorBack(float stunDuration, float throwForce) {
+            StartCoroutine(this.PlayStunEffects(stunDuration));
             this._heroBrain.UpdateData("IsStunned", true);
             this._heroBrain.UpdateData("StunDuration", stunDuration);
 
-            Vector2 explosionVector = new Vector2(-0.2f, 0.2f) * throwForce;
+            Vector2 explosionVector = new Vector2(-0.2f, 0f) * throwForce;
             this._rigidbody.AddForce(explosionVector, ForceMode2D.Impulse);
         }
 
@@ -242,6 +247,14 @@ namespace KrillOrBeKrilled.Heroes {
             yield return new WaitForSeconds(2f);
 
             this._heroBrain.UpdateData("IsMoving", false);
+        }
+
+        private IEnumerator PlayStunEffects(float delay) {
+            this._rigidbody.sharedMaterial = this._stunnedPhysicsMaterial;
+            
+            yield return new WaitForSeconds(delay);
+
+            this._rigidbody.sharedMaterial = this._normalMovementPhysicsMaterial;
         }
 
         #endregion

@@ -20,6 +20,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
         protected readonly int JumpKey = Animator.StringToHash("jump");
         protected readonly int XSpeedKey = Animator.StringToHash("xSpeed");
         protected readonly int YSpeedKey = Animator.StringToHash("ySpeed");
+        protected readonly int StunnedKey = Animator.StringToHash("is_stunned");
         
         private void Awake() {
             HeroSight = GetComponent<FieldOfView>();

@@ -34036,7 +34036,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f453f694addf4275988fac205bc91968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BoundingShape2D: {fileID: 1878662388}
+  m_BoundingShape2D: {fileID: 0}
   m_Damping: 0.5
   m_MaxWindowSize: -1
 --- !u!114 &1275640894
@@ -34450,6 +34450,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameUI
       objectReference: {fileID: 0}
+    - target: {fileID: 1600310947981789401, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -192
+      objectReference: {fileID: 0}
     - target: {fileID: 1615888358798643136, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: _onHenSpeak.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -34462,6 +34466,14 @@ PrefabInstance:
       propertyPath: _onHeroSpeak.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1279884328}
+    - target: {fileID: 2123947240129149973, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -507
+      objectReference: {fileID: 0}
+    - target: {fileID: 2453626168218846064, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -347
+      objectReference: {fileID: 0}
     - target: {fileID: 2467887843469321723, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -34693,6 +34705,10 @@ PrefabInstance:
     - target: {fileID: 5589971725627477804, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5709158626702496707, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5893606575915873337, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: m_AnchorMax.y
@@ -35071,11 +35087,6 @@ Transform:
   - {fileID: 2107972459}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &1878662388 stripped
-PolygonCollider2D:
-  m_CorrespondingSourceObject: {fileID: 7295957807780234114, guid: 4543b52f1964744cfbb8018030f5ed4c, type: 3}
-  m_PrefabInstance: {fileID: 3496767290712930960}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2098186625
 GameObject:
   m_ObjectHideFlags: 0

@@ -250,6 +250,11 @@ namespace KrillOrBeKrilled.Heroes {
             this._heroBrain.UpdateData("IsMoving", false);
         }
 
+        /// <summary>
+        /// Adjusts the hero physics, animations, and VFX associated with the stunned status effect and resets
+        /// them once the stun duration has passed.
+        /// </summary>
+        /// <param name="delay"> The duration of time to wait before resetting all stun status effects. </param>
         private IEnumerator PlayStunEffects(float delay) {
             this._rigidbody.sharedMaterial = this._stunnedPhysicsMaterial;
             

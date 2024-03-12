@@ -6,8 +6,8 @@ using UnityEngine;
 //*******************************************************************************************
 namespace KrillOrBeKrilled.Heroes.AI {
     /// <summary>
-    /// A task node used to operate the hero AI that governs the hero's jump logic. Sets
-    /// the hero rigidbody velocity and triggers the jump animation and SFX.
+    /// A task node used to operate the hero AI that governs the hero's stunned status.
+    /// Manages the hero animations and SFX when stunned.
     /// </summary>
     public class Stun : Node {
         private readonly Animator _animController;
@@ -23,10 +23,13 @@ namespace KrillOrBeKrilled.Heroes.AI {
         }
         
         /// <summary>
-        /// Gets the calculated initial velocity and applies it to the hero to jump. Executes the associated
-        /// animations and SFX.
+        /// Prevents hero movement until the stun duration has passed.
         /// </summary>
-        /// <returns> The <b>success</b> status. </returns>
+        /// <returns>
+        /// The <b>success</b> status if the stun duration has passed and the hero is leaving the stunned state.
+        /// The <b>running</b> status if the hero is stunned and currently awaiting the stun duration.
+        /// The <b>failure</b> status if the hero is not stunned.
+        /// </returns>
         internal override NodeStatus Evaluate() {
             if (!(bool)GetData("IsStunned")) {
                 return NodeStatus.FAILURE;

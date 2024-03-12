@@ -310,6 +310,9 @@ namespace KrillOrBeKrilled.Player {
             this.OnPlayerStateChanged?.Invoke(this._state, this.transform.position);
         }
 
+        /// <summary>
+        /// Plays the jumping SFX from the <see cref="PlayerSoundsController"/>. 
+        /// </summary>
         public void PlayJumpSound() {
             this._soundsController.OnHenJump();
         }
@@ -345,6 +348,10 @@ namespace KrillOrBeKrilled.Player {
             }
         }
         
+        /// <inheritdoc cref="Pawn.Attack"/>
+        /// <remarks>
+        /// Invokes the <see cref="OnAttackCooldownUpdated"/> event.
+        /// </remarks>
         public override void Attack() {
             if (!this._canAttack) return;
             
@@ -470,7 +477,7 @@ namespace KrillOrBeKrilled.Player {
         }
         
         /// <summary>
-        /// Triggers an attack and grants the player temporary immunity.
+        /// Executes the <see cref="AttackCommand"/>.
         /// </summary>
         public void InvokeAttack() {
             if (!this.IsGrounded) return;

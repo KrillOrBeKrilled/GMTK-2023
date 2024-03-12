@@ -50,7 +50,11 @@ namespace KrillOrBeKrilled.Core.Input {
             
             this.InputRecorder = new InputEventTrace();
         }
-        
+
+        private void OnDisable() {
+            this.DisablePlayerControls();
+        }
+
         #endregion
         
         //========================================

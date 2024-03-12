@@ -40,15 +40,13 @@ namespace KrillOrBeKrilled.Player {
             Dead,
             GameOver,
             Jumping,
-            Gliding,
-            Attacking
+            Gliding
         }
 
         private IdleState _idleState;
         private MovingState _movingState;
         private JumpingState _jumpingState;
         private GlidingState _glidingState;
-        private AttackingState _attackingState;
         private DeadState _deadState;
         private GameOverState _gameOverState;
 
@@ -105,7 +103,7 @@ namespace KrillOrBeKrilled.Player {
         private PlayerSoundsController _soundsController;
 
         // --------------- Bookkeeping ---------------
-        internal Animator Animator;
+        private Animator _animator;
         private readonly int _speedKey = Animator.StringToHash("speed");
         private readonly int _directionKey = Animator.StringToHash("direction");
         private readonly int _groundedKey = Animator.StringToHash("is_grounded");
@@ -119,7 +117,7 @@ namespace KrillOrBeKrilled.Player {
 
         private void Awake() {
             this.RBody = this.GetComponent<Rigidbody2D>();
-            this.Animator = this.GetComponent<Animator>();
+            this._animator = this.GetComponent<Animator>();
             this._trapController = this.GetComponent<TrapController>();
             this._soundsController = this.GetComponent<PlayerSoundsController>();
 
@@ -127,7 +125,6 @@ namespace KrillOrBeKrilled.Player {
             this._movingState = new MovingState(this);
             this._jumpingState = new JumpingState(this);
             this._glidingState = new GlidingState(this);
-            this._attackingState = new AttackingState(this);
             this._deadState = new DeadState();
             this._gameOverState = new GameOverState(this);
 
@@ -136,7 +133,6 @@ namespace KrillOrBeKrilled.Player {
                 { State.Moving, this._movingState },
                 { State.Jumping, this._jumpingState },
                 { State.Gliding, this._glidingState },
-                { State.Attacking, this._attackingState },
                 { State.Dead, this._deadState },
                 { State.GameOver, this._gameOverState },
             };
@@ -150,7 +146,7 @@ namespace KrillOrBeKrilled.Player {
             this.OnPlayerGrounded = new UnityEvent();
             this.OnPlayerFalling = new UnityEvent();
 
-            Animator.SetBool(_groundedKey, this.IsGrounded);
+            this._animator.SetBool(_groundedKey, this.IsGrounded);
         }
         
         private void Start() {
@@ -200,7 +196,7 @@ namespace KrillOrBeKrilled.Player {
                 damageable.TakeDamage(1);
                 damageable.ThrowActorBack(5f);
                 this.AttackRange.SetActive(false);
-                this.Animator.SetBool(this._attackKey, false);
+                this._animator.SetBool(this._attackKey, false);
 
                 return;
             }
@@ -288,7 +284,7 @@ namespace KrillOrBeKrilled.Player {
         /// <param name="isGrounded"> If the player is currently touching the ground. </param>
         public void SetGroundedStatus(bool isGrounded) {
             this.IsGrounded = isGrounded;
-            this.Animator.SetBool(_groundedKey, this.IsGrounded);
+            this._animator.SetBool(_groundedKey, this.IsGrounded);
 
             if (isGrounded) {
                 return;
@@ -351,7 +347,7 @@ namespace KrillOrBeKrilled.Player {
         public override void Attack() {
             if (!this._canAttack) return;
             
-            this.Animator.SetBool(_attackKey, true);
+            this._animator.SetBool(_attackKey, true);
             this._canAttack = false;
 
             DOVirtual.Float(this.AttackCooldown, 0, this.AttackCooldown,
@@ -369,13 +365,13 @@ namespace KrillOrBeKrilled.Player {
 
         public override void FreezePosition() {
             base.FreezePosition();
-            this.Animator.speed = 0.001f;
+            this._animator.speed = 0.001f;
             this._isFrozen = true;
         }
         
         public override void UnfreezePosition() {
             base.UnfreezePosition();
-            this.Animator.speed = 1;
+            this._animator.speed = 1;
             this._isFrozen = false;
         }
 
@@ -478,7 +474,6 @@ namespace KrillOrBeKrilled.Player {
         public void InvokeAttack() {
             if (!this.IsGrounded) return;
             
-            // this.ChangeState(State.Attacking);
             this.ExecuteCommand(this._attackCommand);
         }
 
@@ -511,8 +506,8 @@ namespace KrillOrBeKrilled.Player {
         /// </summary>
         /// <param name="inputDirection"> The vector x-value associated with the player's current movement. </param>
         private void SetAnimatorValues(float inputDirection) {
-            this.Animator.SetFloat(_speedKey, Mathf.Abs(inputDirection));
-            this.Animator.SetFloat(_directionKey, this._direction);
+            this._animator.SetFloat(_speedKey, Mathf.Abs(inputDirection));
+            this._animator.SetFloat(_directionKey, this._direction);
         }
 
         /// <summary>
@@ -524,7 +519,7 @@ namespace KrillOrBeKrilled.Player {
         }
 
         private void OnAttackFinished() {
-            this.Animator.SetBool(this._attackKey, false);
+            this._animator.SetBool(this._attackKey, false);
         }
 
         /// <summary>

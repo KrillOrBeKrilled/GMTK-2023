@@ -79,6 +79,7 @@ namespace KrillOrBeKrilled.Player {
         private bool _canAttack = true;
         
         public UnityEvent<float> OnAttackCooldownUpdated { get; private set; }
+        public UnityEvent<bool> OnAttackEnabledUpdated { get; private set; }
 
         // ---------- Grounded & Coyote Time --------
         public bool IsGrounded { get; private set; } = true;
@@ -143,6 +144,7 @@ namespace KrillOrBeKrilled.Player {
             this.OnTrapDeployed = new UnityEvent<Trap>();
             this.OnSelectedTrapChanged = new UnityEvent<Trap>();
             this.OnAttackCooldownUpdated = new UnityEvent<float>();
+            this.OnAttackEnabledUpdated = new UnityEvent<bool>();
             this.OnPlayerGrounded = new UnityEvent();
             this.OnPlayerFalling = new UnityEvent();
 
@@ -357,6 +359,7 @@ namespace KrillOrBeKrilled.Player {
             
             this._animator.SetBool(_attackKey, true);
             this._canAttack = false;
+            this.OnAttackEnabledUpdated?.Invoke(false);
 
             DOVirtual.Float(this.AttackCooldown, 0, this.AttackCooldown,
                     attackCountdown => {
@@ -368,6 +371,7 @@ namespace KrillOrBeKrilled.Player {
                     this._canAttack = true; 
                     this.AttackRange.SetActive(true);
                     this.OnAttackCooldownUpdated?.Invoke(0f);
+                    this.OnAttackEnabledUpdated?.Invoke(true);
                 });
         }
 

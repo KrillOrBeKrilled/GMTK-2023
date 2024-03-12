@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd4fcb4c527455b9d7c21097312bd1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attackButton: {fileID: 7844513953627419438}
   _jumpButton: {fileID: 7196689273298660623}
   _jumpImage: {fileID: 21300000, guid: 778dd597d081b483fb265fbc3d86ff28, type: 3}
   _jumpHighlightedImage: {fileID: 21300000, guid: d2420f62fc4ae4e53bbb481af00b8148, type: 3}

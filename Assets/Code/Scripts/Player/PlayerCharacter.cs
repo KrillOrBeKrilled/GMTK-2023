@@ -292,6 +292,7 @@ namespace KrillOrBeKrilled.Player {
 
             // Left the ground, so trap deployment isn't possible anymore
             this._trapController.DisableTrapDeployment();
+            this._animator.SetBool(this._attackKey, false);
         }
 
         /// <summary>

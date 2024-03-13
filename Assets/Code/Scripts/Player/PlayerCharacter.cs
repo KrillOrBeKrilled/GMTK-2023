@@ -96,7 +96,6 @@ namespace KrillOrBeKrilled.Player {
         [Tooltip("Tracks when a trap has been deployed.")]
         public UnityEvent<Trap> OnTrapDeployed { get; private set; }
 
-        public GameObject BuildRange;
         private TrapController _trapController;
 
         // ------------- Sound Effects ---------------
@@ -204,7 +203,6 @@ namespace KrillOrBeKrilled.Player {
             
             damageable.TakeDamage(1);
             damageable.ThrowActorBack(5f);
-            this._animator.SetBool(this._attackKey, false);
         }
 
 #if UNITY_EDITOR
@@ -354,7 +352,6 @@ namespace KrillOrBeKrilled.Player {
         public override void Attack() {
             if (!this._canAttack) return;
             
-            this.BuildRange.SetActive(true);
             this._animator.SetBool(_attackKey, true);
             this._canAttack = false;
             this.OnAttackEnabledUpdated?.Invoke(false);
@@ -366,8 +363,7 @@ namespace KrillOrBeKrilled.Player {
                     })
                 .SetEase(Ease.Linear)
                 .OnComplete(() => {
-                    this._canAttack = true; 
-                    this.BuildRange.SetActive(true);
+                    this._canAttack = true;
                     this.OnAttackCooldownUpdated?.Invoke(0f);
                     this.OnAttackEnabledUpdated?.Invoke(true);
                 });

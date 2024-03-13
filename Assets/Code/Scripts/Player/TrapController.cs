@@ -224,8 +224,8 @@ namespace KrillOrBeKrilled.Player {
             // Validate the deployment of the trap with a validation score
             var isDeployable = true;
             foreach (var gridOffsetPosition in prefabPoints) {
-                if (gridOffsetPosition.IsTrapTile != 
-                    IsTileOfType<TrapTile>(this.TrapTilemap, deploymentOrigin + gridOffsetPosition.GridPosition)) {
+                if (gridOffsetPosition.IsTrapTile && 
+                    gridOffsetPosition.IsTrapTile != IsTileOfType<TrapTile>(this.TrapTilemap, deploymentOrigin + gridOffsetPosition.GridPosition)) {
                     isDeployable = false;
                 }
     

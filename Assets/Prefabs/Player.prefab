@@ -61,7 +61,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -233,11 +233,11 @@ MonoBehaviour:
   GroundedLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  AttackRange: {fileID: 4635510264145130532}
   AttackCooldown: 5
   OnSelectedTrapChanged:
     m_PersistentCalls:
       m_Calls: []
+  BuildRange: {fileID: 6238511859256710560}
 --- !u!114 &686051568901768547
 MonoBehaviour:
   m_ObjectHideFlags: 0

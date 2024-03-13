@@ -71,8 +71,6 @@ namespace KrillOrBeKrilled.Player {
         private bool _stateChangedThisFrame = false;
         
         // ---------------- Attack ------------------
-        public GameObject AttackRange;
-        
         public float AttackCooldown;
         private float _attackTimer;
         
@@ -98,6 +96,7 @@ namespace KrillOrBeKrilled.Player {
         [Tooltip("Tracks when a trap has been deployed.")]
         public UnityEvent<Trap> OnTrapDeployed { get; private set; }
 
+        public GameObject BuildRange;
         private TrapController _trapController;
 
         // ------------- Sound Effects ---------------
@@ -192,17 +191,6 @@ namespace KrillOrBeKrilled.Player {
         }
 
         private void OnCollisionEnter2D(Collision2D collision) {
-            if (collision.otherCollider.gameObject.CompareTag("Attack Range")) {
-                if (!collision.gameObject.TryGetComponent(out IDamageable damageable)) return;
-                
-                damageable.TakeDamage(1);
-                damageable.ThrowActorBack(5f);
-                this.AttackRange.SetActive(false);
-                this._animator.SetBool(this._attackKey, false);
-
-                return;
-            }
-            
             if (collision.gameObject.layer != LayerMask.NameToLayer("Hero")) {
                 return;
             }
@@ -210,7 +198,16 @@ namespace KrillOrBeKrilled.Player {
             this.Die(IDamageable.DamageSource.Hero);
         }
 
-        #if UNITY_EDITOR
+        private void OnTriggerEnter2D(Collider2D other) {
+            if (!this._animator.GetBool(this._attackKey) || 
+                !other.gameObject.TryGetComponent(out IDamageable damageable)) return;
+            
+            damageable.TakeDamage(1);
+            damageable.ThrowActorBack(5f);
+            this._animator.SetBool(this._attackKey, false);
+        }
+
+#if UNITY_EDITOR
         private void OnDrawGizmosSelected() {
             float halfWidth = this.GroundedCheckBoxSize.x / 2;
             float halfHeight = this.GroundedCheckBoxSize.y / 2;
@@ -357,6 +354,7 @@ namespace KrillOrBeKrilled.Player {
         public override void Attack() {
             if (!this._canAttack) return;
             
+            this.BuildRange.SetActive(true);
             this._animator.SetBool(_attackKey, true);
             this._canAttack = false;
             this.OnAttackEnabledUpdated?.Invoke(false);
@@ -369,7 +367,7 @@ namespace KrillOrBeKrilled.Player {
                 .SetEase(Ease.Linear)
                 .OnComplete(() => {
                     this._canAttack = true; 
-                    this.AttackRange.SetActive(true);
+                    this.BuildRange.SetActive(true);
                     this.OnAttackCooldownUpdated?.Invoke(0f);
                     this.OnAttackEnabledUpdated?.Invoke(true);
                 });

@@ -31,6 +31,10 @@ namespace KrillOrBeKrilled.Heroes {
         // ----------------- Health ------------------
         [Tooltip("The current health of the hero.")]
         public int Health { get; private set; }
+        
+        // ------------ Movement States --------------
+        [SerializeField] private PhysicsMaterial2D _normalMovementPhysicsMaterial;
+        [SerializeField] private PhysicsMaterial2D _stunnedPhysicsMaterial;
 
         // ----------------- Data --------------------
         public HeroData.HeroType Type { get; private set; }
@@ -98,6 +102,20 @@ namespace KrillOrBeKrilled.Heroes {
                 this.Die(IDamageable.DamageSource.Trap);
             }
         }
+        
+        /// <summary>
+        /// Applies a force to knock back and stun the hero via the <see cref="HeroBT"/>.
+        /// </summary>
+        /// <param name="stunDuration"> The duration of time to stun the hero. </param>
+        /// <param name="throwForce"> Scales the knock back force applied to the hero. </param>
+        public void ThrowActorBack(float stunDuration, float throwForce) {
+            StartCoroutine(this.PlayStunEffects(stunDuration));
+            this._heroBrain.UpdateData("IsStunned", true);
+            this._heroBrain.UpdateData("StunDuration", stunDuration);
+
+            Vector2 explosionVector = new Vector2(-0.2f, 0f) * throwForce;
+            this._rigidbody.AddForce(explosionVector, ForceMode2D.Impulse);
+        }
 
         #endregion
         
@@ -108,12 +126,12 @@ namespace KrillOrBeKrilled.Heroes {
         }
         
         /// <summary>
-        /// Decrements the hero's health, earns coins through the <see cref="CoinManager"/>,
-        /// and plays associated SFX. If the health falls to zero or below, triggers the hero death.
+        /// Decrements the hero's health and plays associated SFX. If the health falls to zero or below,
+        /// triggers the hero's death.
         /// </summary>
         /// <param name="amount"> The value to subtract from the hero's health. </param>
         /// <remarks> Invokes the <see cref="OnHealthChanged"/> event. </remarks>
-        public void TakeDamage(int amount, Trap trap) {
+        public void TakeTrapDamage(int amount, Trap trap) {
             this.Health -= amount;
             this._soundsController.OnTakeDamage();
             this.OnHealthChanged?.Invoke(this.Health);
@@ -130,18 +148,18 @@ namespace KrillOrBeKrilled.Heroes {
         /// </summary>
         /// <param name="penalty"> The speed penalty value to limit the hero's movement. </param>
         /// <remarks> The incremented speed penalty is clamped between [0,1] as a percentage value. </remarks>
-        public void ApplySpeedPenalty(float penalty) {
+        public void ApplyTrapSpeedPenalty(float penalty) {
             this._heroBrain.UpdateData("SpeedPenalty", Mathf.Clamp(penalty, 0f, 1f));
         }
         
         /// <summary>
         /// Resets the speed penalty to return the hero movement speed to normal via the <see cref="HeroBT"/>.
         /// </summary>
-        public void ResetSpeedPenalty() {
+        public void ResetTrapSpeedPenalty() {
             this._heroBrain.UpdateData("SpeedPenalty", 0f);
         }
         
-        public void ThrowActorForward(float throwForce) {
+        public void TrapThrowActorForward(float throwForce) {
             this._rigidbody.velocity = Vector2.zero;
             Vector2 leapVector = new Vector2(0.19f, 2f) * throwForce;
             this._rigidbody.AddForce(leapVector, ForceMode2D.Impulse);
@@ -152,7 +170,7 @@ namespace KrillOrBeKrilled.Heroes {
         /// </summary>
         /// <param name="stunDuration"> The duration of time to stun the hero. </param>
         /// <param name="throwForce"> Scales the knock back force applied to the hero. </param>
-        public void ThrowActorBack(float stunDuration, float throwForce) {
+        public void TrapThrowActorBack(float stunDuration, float throwForce) {
             this._heroBrain.UpdateData("IsStunned", true);
             this._heroBrain.UpdateData("StunDuration", stunDuration);
 
@@ -230,6 +248,19 @@ namespace KrillOrBeKrilled.Heroes {
             yield return new WaitForSeconds(2f);
 
             this._heroBrain.UpdateData("IsMoving", false);
+        }
+
+        /// <summary>
+        /// Adjusts the hero physics, animations, and VFX associated with the stunned status effect and resets
+        /// them once the stun duration has passed.
+        /// </summary>
+        /// <param name="delay"> The duration of time to wait before resetting all stun status effects. </param>
+        private IEnumerator PlayStunEffects(float delay) {
+            this._rigidbody.sharedMaterial = this._stunnedPhysicsMaterial;
+            
+            yield return new WaitForSeconds(delay);
+
+            this._rigidbody.sharedMaterial = this._normalMovementPhysicsMaterial;
         }
 
         #endregion

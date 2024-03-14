@@ -5,6 +5,7 @@ using KrillOrBeKrilled.Player.PlayerStates;
 using KrillOrBeKrilled.Traps;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEditor;
 using UnityEngine;
@@ -39,7 +40,7 @@ namespace KrillOrBeKrilled.Player {
             Dead,
             GameOver,
             Jumping,
-            Gliding,
+            Gliding
         }
 
         private IdleState _idleState;
@@ -60,6 +61,7 @@ namespace KrillOrBeKrilled.Player {
         // ----------------- Command -----------------
         // Stateless commands; can be copied in the list of previous commands
         private ICommand _deployCommand;
+        private ICommand _attackCommand;
 
         // TODO: Consider undoing and redoing actions?
 
@@ -67,6 +69,15 @@ namespace KrillOrBeKrilled.Player {
         private bool _isFrozen = false;
         private float _direction = -1;
         private bool _stateChangedThisFrame = false;
+        
+        // ---------------- Attack ------------------
+        public float AttackCooldown;
+        private float _attackTimer;
+        
+        private bool _canAttack = true;
+        
+        public UnityEvent<float> OnAttackCooldownUpdated { get; private set; }
+        public UnityEvent<bool> OnAttackEnabledUpdated { get; private set; }
 
         // ---------- Grounded & Coyote Time --------
         public bool IsGrounded { get; private set; } = true;
@@ -95,6 +106,7 @@ namespace KrillOrBeKrilled.Player {
         private readonly int _speedKey = Animator.StringToHash("speed");
         private readonly int _directionKey = Animator.StringToHash("direction");
         private readonly int _groundedKey = Animator.StringToHash("is_grounded");
+        private readonly int _attackKey = Animator.StringToHash("is_attacking");
 
         //========================================
         // Unity Methods
@@ -119,7 +131,7 @@ namespace KrillOrBeKrilled.Player {
                 { State.Idle, this._idleState },
                 { State.Moving, this._movingState },
                 { State.Jumping, this._jumpingState },
-                { State.Gliding, this._glidingState},
+                { State.Gliding, this._glidingState },
                 { State.Dead, this._deadState },
                 { State.GameOver, this._gameOverState },
             };
@@ -129,15 +141,17 @@ namespace KrillOrBeKrilled.Player {
             this.OnPlayerStateChanged = new UnityEvent<IPlayerState, Vector3>();
             this.OnTrapDeployed = new UnityEvent<Trap>();
             this.OnSelectedTrapChanged = new UnityEvent<Trap>();
+            this.OnAttackCooldownUpdated = new UnityEvent<float>();
+            this.OnAttackEnabledUpdated = new UnityEvent<bool>();
             this.OnPlayerGrounded = new UnityEvent();
             this.OnPlayerFalling = new UnityEvent();
 
-            _animator.SetBool(_groundedKey, this.IsGrounded);
+            this._animator.SetBool(_groundedKey, this.IsGrounded);
         }
-
-        /// <remarks> Invokes the <see cref="OnSelectedTrapChanged"/> event. </remarks>
+        
         private void Start() {
             this._deployCommand = new DeployCommand(this);
+            this._attackCommand = new AttackCommand(this);
         }
 
         protected override void FixedUpdate() {
@@ -175,15 +189,23 @@ namespace KrillOrBeKrilled.Player {
             base.FixedUpdate();
         }
 
-        private void OnCollisionEnter2D(Collision2D other) {
-            if (other.gameObject.layer != LayerMask.NameToLayer("Hero")) {
+        private void OnCollisionEnter2D(Collision2D collision) {
+            if (collision.gameObject.layer != LayerMask.NameToLayer("Hero")) {
                 return;
             }
 
             this.Die(IDamageable.DamageSource.Hero);
         }
 
-        #if UNITY_EDITOR
+        private void OnTriggerEnter2D(Collider2D other) {
+            if (!this._animator.GetBool(this._attackKey) || 
+                !other.gameObject.TryGetComponent(out IDamageable damageable)) return;
+            
+            damageable.TakeDamage(1);
+            damageable.ThrowActorBack(5f);
+        }
+
+#if UNITY_EDITOR
         private void OnDrawGizmosSelected() {
             float halfWidth = this.GroundedCheckBoxSize.x / 2;
             float halfHeight = this.GroundedCheckBoxSize.y / 2;
@@ -226,6 +248,8 @@ namespace KrillOrBeKrilled.Player {
 
         // TODO: If the health bar is implemented, heroes will damage the player through IDamageable
         public void TakeDamage(int amount) {}
+        
+        public void ThrowActorBack(float stunDuration, float throwForce) {}
 
         #endregion
 
@@ -237,15 +261,15 @@ namespace KrillOrBeKrilled.Player {
         }
 
         // TODO: If the player health is implemented, traps will damage the player through ITrapDamageable
-        public void TakeDamage(int amount, Trap trap) {}
+        public void TakeTrapDamage(int amount, Trap trap) {}
 
-        public void ApplySpeedPenalty(float penalty) {}
+        public void ApplyTrapSpeedPenalty(float penalty) {}
 
-        public void ResetSpeedPenalty() {}
+        public void ResetTrapSpeedPenalty() {}
 
-        public void ThrowActorForward(float throwForce) {}
+        public void TrapThrowActorForward(float throwForce) {}
 
-        public void ThrowActorBack(float stunDuration, float throwForce) {}
+        public void TrapThrowActorBack(float stunDuration, float throwForce) {}
 
         #endregion
         
@@ -265,6 +289,7 @@ namespace KrillOrBeKrilled.Player {
 
             // Left the ground, so trap deployment isn't possible anymore
             this._trapController.DisableTrapDeployment();
+            this._animator.SetBool(this._attackKey, false);
         }
 
         /// <summary>
@@ -282,6 +307,9 @@ namespace KrillOrBeKrilled.Player {
             this.OnPlayerStateChanged?.Invoke(this._state, this.transform.position);
         }
 
+        /// <summary>
+        /// Plays the jumping SFX from the <see cref="PlayerSoundsController"/>. 
+        /// </summary>
         public void PlayJumpSound() {
             this._soundsController.OnHenJump();
         }
@@ -315,6 +343,30 @@ namespace KrillOrBeKrilled.Player {
             if (_trapController.DeployTrap(_direction, out Trap trap)) {
                 this.OnTrapDeployed?.Invoke(trap);
             }
+        }
+        
+        /// <inheritdoc cref="Pawn.Attack"/>
+        /// <remarks>
+        /// Invokes the <see cref="OnAttackCooldownUpdated"/> event.
+        /// </remarks>
+        public override void Attack() {
+            if (!this._canAttack) return;
+            
+            this._animator.SetBool(_attackKey, true);
+            this._canAttack = false;
+            this.OnAttackEnabledUpdated?.Invoke(false);
+
+            DOVirtual.Float(this.AttackCooldown, 0, this.AttackCooldown,
+                    attackCountdown => {
+                        this._attackTimer = attackCountdown;
+                        this.OnAttackCooldownUpdated?.Invoke(attackCountdown / this.AttackCooldown);
+                    })
+                .SetEase(Ease.Linear)
+                .OnComplete(() => {
+                    this._canAttack = true;
+                    this.OnAttackCooldownUpdated?.Invoke(0f);
+                    this.OnAttackEnabledUpdated?.Invoke(true);
+                });
         }
 
         public override void FreezePosition() {
@@ -421,6 +473,15 @@ namespace KrillOrBeKrilled.Player {
         public void InvokeDeployTrap() {
             this.ExecuteCommand(this._deployCommand);
         }
+        
+        /// <summary>
+        /// Executes the <see cref="AttackCommand"/>.
+        /// </summary>
+        public void InvokeAttack() {
+            if (!this.IsGrounded) return;
+            
+            this.ExecuteCommand(this._attackCommand);
+        }
 
         /// <summary>
         /// Reads input for move and jump. Puts read values in the <c>out</c> variables.
@@ -461,6 +522,10 @@ namespace KrillOrBeKrilled.Player {
         /// <remarks> Subscribed to the OnHenWon core game system event. </remarks>
         private void GameOver(string _) {
             this.ChangeState(State.GameOver);
+        }
+
+        private void OnAttackFinished() {
+            this._animator.SetBool(this._attackKey, false);
         }
 
         /// <summary>

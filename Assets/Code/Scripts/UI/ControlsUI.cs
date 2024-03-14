@@ -11,6 +11,8 @@ namespace KrillOrBeKrilled.UI {
     /// </summary>
     public class ControlsUI : MonoBehaviour {
         [Tooltip("The button controller associated with the on-screen jump button.")]
+        [SerializeField] private UIButton _attackButton;
+        [Tooltip("The button controller associated with the on-screen jump button.")]
         [SerializeField] private UIButton _jumpButton;
         [Tooltip("The jump image shown to indicate the jump button is not pressed.")]
         [SerializeField] private Sprite _jumpImage;
@@ -20,6 +22,9 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private Sprite _glideImage;
         [Tooltip("The glide image shown to indicate the jump button will enact a glide state and is pressed.")]
         [SerializeField] private Sprite _glideHighlightedImage;
+
+        [Header("Control Cooldown Overlays")] 
+        [SerializeField] private CooldownUI _attackCooldown;
 
         //========================================
         // Public Methods
@@ -35,6 +40,9 @@ namespace KrillOrBeKrilled.UI {
         public void Initialize(PlayerCharacter player) {
             player.OnPlayerGrounded.AddListener(this.OnPlayerGrounded);
             player.OnPlayerFalling.AddListener(this.OnPlayerFalling);
+            
+            player.OnAttackCooldownUpdated.AddListener(this._attackCooldown.OnCooldownProgressUpdated);
+            player.OnAttackEnabledUpdated.AddListener(this.OnAttackCooldownUpdated);
         }
         
         #endregion
@@ -57,6 +65,10 @@ namespace KrillOrBeKrilled.UI {
         /// </summary>
         private void OnPlayerGrounded() {
             this._jumpButton.SetButtonSprites(this._jumpImage, this._jumpHighlightedImage);
+        }
+
+        private void OnAttackCooldownUpdated(bool isEnabled) {
+            this._attackButton.SetInteractable(isEnabled);
         }
         
         #endregion

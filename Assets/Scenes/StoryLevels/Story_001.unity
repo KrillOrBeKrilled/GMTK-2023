@@ -227,10 +227,6 @@ PrefabInstance:
       propertyPath: _maxCeilingBuildDistance
       value: 15
       objectReference: {fileID: 0}
-    - target: {fileID: 1603199856087861948, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1717153536710988940, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
       propertyPath: _tileMap
       value: 

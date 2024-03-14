@@ -55,6 +55,15 @@ namespace KrillOrBeKrilled.Core.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""7be49167-3d54-411a-b697-c25f1b2e2ae7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -211,6 +220,17 @@ namespace KrillOrBeKrilled.Core.Input
                     ""action"": ""Place Trap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""68140a8f-7803-4d89-8184-288be50cef18"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -250,6 +270,7 @@ namespace KrillOrBeKrilled.Core.Input
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
             m_Player_PlaceTrap = m_Player.FindAction("Place Trap", throwIfNotFound: true);
+            m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_AdvanceDialogue = m_UI.FindAction("Advance Dialogue", throwIfNotFound: true);
@@ -317,6 +338,7 @@ namespace KrillOrBeKrilled.Core.Input
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Jump;
         private readonly InputAction m_Player_PlaceTrap;
+        private readonly InputAction m_Player_Attack;
         public struct PlayerActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -324,6 +346,7 @@ namespace KrillOrBeKrilled.Core.Input
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Jump => m_Wrapper.m_Player_Jump;
             public InputAction @PlaceTrap => m_Wrapper.m_Player_PlaceTrap;
+            public InputAction @Attack => m_Wrapper.m_Player_Attack;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -342,6 +365,9 @@ namespace KrillOrBeKrilled.Core.Input
                 @PlaceTrap.started += instance.OnPlaceTrap;
                 @PlaceTrap.performed += instance.OnPlaceTrap;
                 @PlaceTrap.canceled += instance.OnPlaceTrap;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -355,6 +381,9 @@ namespace KrillOrBeKrilled.Core.Input
                 @PlaceTrap.started -= instance.OnPlaceTrap;
                 @PlaceTrap.performed -= instance.OnPlaceTrap;
                 @PlaceTrap.canceled -= instance.OnPlaceTrap;
+                @Attack.started -= instance.OnAttack;
+                @Attack.performed -= instance.OnAttack;
+                @Attack.canceled -= instance.OnAttack;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -423,6 +452,7 @@ namespace KrillOrBeKrilled.Core.Input
             void OnMove(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
             void OnPlaceTrap(InputAction.CallbackContext context);
+            void OnAttack(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

@@ -29,8 +29,8 @@ namespace KrillOrBeKrilled.Traps {
         /// </summary>
         /// <param name="actor"> The recipient of the trap's damaging effects. </param>
         protected override void OnEnteredTrap(ITrapDamageable actor) {
-            actor.TakeDamage(this._damageAmount, this);
-            actor.ThrowActorBack(2f, this._explosionForce);
+            actor.TakeTrapDamage(this._damageAmount, this);
+            actor.TrapThrowActorBack(2f, this._explosionForce);
             Destroy(this.gameObject);
         }
 

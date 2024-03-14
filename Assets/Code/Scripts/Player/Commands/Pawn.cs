@@ -58,6 +58,13 @@ namespace KrillOrBeKrilled.Player.Commands {
         public virtual void DeployTrap() {
             // Particular to the hen, so will be overrided instead
         }
+        
+        /// <summary>
+        /// Commences a damaging attack.
+        /// </summary>
+        public virtual void Attack() {
+            // Particular to the hen, so will be overrided instead
+        }
 
         /// <summary>
         /// Freezes the character position through the <see cref="Rigidbody2D"/>.
@@ -68,7 +75,7 @@ namespace KrillOrBeKrilled.Player.Commands {
         }
 
         /// <summary>
-        /// Adds a force of <see cref="JumpForce"/> to the character along the y-axis through the
+        /// Adds a force of <see cref="jumpForce"/> to the character along the y-axis through the
         /// <see cref="Rigidbody2D"/>.
         /// </summary>
         /// <param name="jumpForce"> The jump force to apply. </param>

@@ -23,7 +23,6 @@ namespace KrillOrBeKrilled.Core.Managers {
         // ----------------- Tilemaps ----------------
         [Header("Tilemaps")] 
         [SerializeField] private Tilemap _trapTileMap;
-        private Tilemap _levelTileMap;
 
         // -------------- Tiles to Paint -------------
         [Header("Painting Tiles")] 
@@ -34,6 +33,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         [Header("Painting Colors")] 
         public Color ConfirmationColor, RejectionColor;
         
+        private Tilemap _levelTileMap;
         
         //========================================
         // Public Methods

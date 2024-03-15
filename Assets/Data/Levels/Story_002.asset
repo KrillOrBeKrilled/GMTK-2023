@@ -16,9 +16,9 @@ MonoBehaviour:
   Type: 0
   DialogueName: Level2Dialogue
   NextLevelName: Story_003
-  EndgameTargetPosition: {x: 285, y: -0.5, z: 0}
+  EndgameTargetPosition: {x: 285, y: 1.69, z: 0}
   RespawnPositions:
-  - {x: -8.05, y: -0.39, z: 0}
+  - {x: -8.05, y: 1.8, z: 0}
   WallsTilemapPrefab: {fileID: 3505492165959734639, guid: 53ee4fcdcebd1434c9d9772934d85434, type: 3}
   WavesData:
     WavesList:

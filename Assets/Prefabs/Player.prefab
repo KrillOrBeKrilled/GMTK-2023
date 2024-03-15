@@ -258,7 +258,6 @@ MonoBehaviour:
     m_Bits: 512
   _maxCeilingBuildDistance: 15
   TrapTilemap: {fileID: 0}
-  GroundTilemap: {fileID: 0}
   _trapCanvas: {fileID: 0}
   _leftDeployPosition: {x: -3.08, y: -0.88, z: 0}
   _rightDeployPosition: {x: 3.08, y: -0.88, z: 0}

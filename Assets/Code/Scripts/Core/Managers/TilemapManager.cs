@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using KrillOrBeKrilled.Core.Input;
 using KrillOrBeKrilled.Extensions;
 using KrillOrBeKrilled.Player;
 using KrillOrBeKrilled.Tiles;

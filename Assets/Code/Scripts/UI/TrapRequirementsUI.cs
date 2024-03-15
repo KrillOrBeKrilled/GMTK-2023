@@ -43,9 +43,6 @@ namespace KrillOrBeKrilled.UI {
 
         private void Start() {
             this.gameObject.SetActive(false);
-            this._trapRequirements[0].SetIconAmount(ResourceType.ScrapMetal, 5);
-            this._trapRequirements[1].SetIconAmount(ResourceType.WoodStick, 6);
-            this._trapRequirements[2].SetIconAmount(ResourceType.Slime, 7);
         }
 
         #endregion

@@ -13,8 +13,6 @@ namespace KrillOrBeKrilled.UI {
     /// game scene through the <see cref="SceneNavigationManager"/>.
     /// </summary>
     public class LevelsUI : MonoBehaviour {
-        private string _levelNameToLoad;
-
         [Tooltip("Used to fade the scene in and out.")]
         [SerializeField] private Image _foreground;
         [Tooltip("Used to cover the scene until the next level loads.")]
@@ -62,11 +60,9 @@ namespace KrillOrBeKrilled.UI {
         /// </summary>
         /// <param name="levelName"> The name of the level corresponding to the LevelData name. </param>
         public void LoadLevel(string levelName) {
-            this._levelNameToLoad = levelName;
-
             this._screenWipe.gameObject.SetActive(true);
             this._screenWipe.SetRandomWipeShape();
-            this._screenWipe.WipeIn(this.LoadLevelScene);
+            this._screenWipe.WipeIn(() => this.LoadLevelScene(levelName));
         }
 
         /// <summary>
@@ -75,8 +71,8 @@ namespace KrillOrBeKrilled.UI {
         public void LoadMainMenu() {
             this._foreground.gameObject.SetActive(true);
             this._foreground
-                .DOFade(1, FadeDuration)
-                .OnComplete(SceneNavigationManager.Instance.LoadMainMenuScene);
+                .DOFade(1, LevelsUI.FadeDuration)
+                .OnComplete(SceneNavigationManager.LoadMainMenuScene);
         }
 
         #endregion
@@ -85,15 +81,16 @@ namespace KrillOrBeKrilled.UI {
         // Internal Methods
         //========================================
 
-        #region Internal Methods
+        #region Private Methods
 
         /// <summary>
-        /// Loads the level corresponding to <see cref="_levelNameToLoad"/>.
+        /// Loads the level with the given name.
         /// </summary>
+        /// <param name="levelName"> The name of the level corresponding to the LevelData name. </param>
         /// <remarks> Triggered by <see cref="ScreenWipeUI.WipeIn"/> upon completion. </remarks>
-        internal void LoadLevelScene() {
+        private void LoadLevelScene(string levelName) {
             this._loadingScreen.gameObject.SetActive(true);
-            LevelManager.Instance.LoadLevel(this._levelNameToLoad);
+            LevelManager.Instance.LoadLevel(levelName);
         }
 
         #endregion

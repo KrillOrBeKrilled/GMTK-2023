@@ -46,7 +46,7 @@ namespace KrillOrBeKrilled.UI {
             this._foreground.gameObject.SetActive(true);
             this._foreground
                 .DOFade(1, FadeDuration)
-                .OnComplete(SceneNavigationManager.Instance.LoadLevelsScene);
+                .OnComplete(SceneNavigationManager.LoadLevelsScene);
         }
 
         public void GoToFeedbackForm() {

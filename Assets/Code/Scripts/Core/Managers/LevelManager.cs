@@ -85,7 +85,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._activeLevelData.WavesData = new WavesData() { WavesList = source.WavesData.WavesList.ToList() };
 
             LevelManager.LevelWasLoaded = true;
-            SceneNavigationManager.Instance.LoadGameLevelScene(levelName);
+            SceneNavigationManager.LoadGameLevelScene();
         }
 
         #endregion

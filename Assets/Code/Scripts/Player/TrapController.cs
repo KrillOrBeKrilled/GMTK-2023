@@ -35,8 +35,6 @@ namespace KrillOrBeKrilled.Player {
 
         [Tooltip("The invisible tilemap for checking trap deployment validity and painting tiles.")]
         [SerializeField] internal Tilemap TrapTilemap;
-        [Tooltip("The level tilemap for the environment and its colliders.")]
-        [SerializeField] public Tilemap GroundTilemap;
 
         [Tooltip("The canvas to spawn trap UI (e.g. building completion bars).")]
         [SerializeField] private Canvas _trapCanvas;
@@ -48,6 +46,7 @@ namespace KrillOrBeKrilled.Player {
 
         private bool _isSelectingTileSFX, _canDeploy;
         private Func<Dictionary<ResourceType, int>, bool> _canAffordTrap;
+        public Tilemap GroundTilemap { get; private set; }
         
         // ----------- Tilemap Management ------------
         public enum PaintMode {
@@ -80,13 +79,15 @@ namespace KrillOrBeKrilled.Player {
         }
 
         #endregion
-        
+
         /// <summary>
         /// Sets up the delegates required to operate the communication between the
         /// <see cref="TrapController"/> and resource management system.
         /// </summary>
+        /// <param name="groundTilemap"> The tilemap forming the level ground. </param>
         /// <param name="canAffordTrap"> The delegate used to finalize the eligibility of trap placement. </param>
-        public void Initialize(Func<Dictionary<ResourceType, int>, bool> canAffordTrap) {
+        public void Initialize(Tilemap groundTilemap, Func<Dictionary<ResourceType, int>, bool> canAffordTrap) {
+            this.GroundTilemap = groundTilemap;
             _canAffordTrap = canAffordTrap;
         }
 

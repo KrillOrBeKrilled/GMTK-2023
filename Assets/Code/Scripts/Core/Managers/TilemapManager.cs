@@ -23,7 +23,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         // ----------------- Tilemaps ----------------
         [Header("Tilemaps")] 
         [SerializeField] private Tilemap _trapTileMap;
-        [SerializeField] private Tilemap _levelTileMap;
+        private Tilemap _levelTileMap;
 
         // -------------- Tiles to Paint -------------
         [Header("Painting Tiles")] 
@@ -125,11 +125,13 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <summary>
         /// Sets up subscriptions to player events required for proper execution.
         /// </summary>
+        /// <param name="levelTilemap"> The tilemap consisting of tiles forming the game level. </param>
         /// <param name="trapController"> Provides all tilemap-related events to be executed in response to player
         /// input actions. </param>
         /// <param name="playerCharacter"> <see cref="PlayerCharacter"/> used to update the respawn position of
         /// the player. </param>
-        public void Initialize(TrapController trapController, PlayerCharacter playerCharacter) {
+        public void Initialize(Tilemap levelTilemap, TrapController trapController, PlayerCharacter playerCharacter) {
+            this._levelTileMap = levelTilemap;
             trapController.OnPaintTiles.AddListener(this.OnPaintTiles);
             playerCharacter.SetGetFallRespawnPos(this.GetGroundTileBelowPos);
         }

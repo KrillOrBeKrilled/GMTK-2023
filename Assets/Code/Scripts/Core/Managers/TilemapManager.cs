@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using KrillOrBeKrilled.Extensions;
 using KrillOrBeKrilled.Player;
 using KrillOrBeKrilled.Tiles;
@@ -132,6 +133,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// the player. </param>
         public void Initialize(Tilemap levelTilemap, TrapController trapController, PlayerCharacter playerCharacter) {
             this._levelTileMap = levelTilemap;
+            this.PaintValidationTiles();
             trapController.OnPaintTiles.AddListener(this.OnPaintTiles);
             playerCharacter.SetGetFallRespawnPos(this.GetGroundTileBelowPos);
         }
@@ -143,6 +145,74 @@ namespace KrillOrBeKrilled.Core.Managers {
         //========================================
 
         #region Private Methods
+
+        private void PaintValidationTiles() {
+            this._trapTileMap.ClearAllTiles();
+
+            BoundsInt bounds = this._levelTileMap.cellBounds;
+            int xMin = bounds.xMin;
+            int xMax = bounds.xMax;
+            int yMin = bounds.yMin;
+            int yMax = bounds.yMax;
+            int xTrapSize = bounds.size.x + 20;
+            int yTrapSize = bounds.size.y + 20;
+
+            int tilesCount = xTrapSize * yTrapSize * 1;
+            BoundsInt trapBounds = new(xMin - 10, yMin - 10, 0, xTrapSize, yTrapSize, 1);
+            TileBase[] blankTiles = Enumerable.Repeat(this._blankTile, tilesCount).ToArray();
+            this._trapTileMap.SetTilesBlock(trapBounds, blankTiles);
+
+            for (int x = xMin; x < xMax; x++) {
+                for (int y = yMin; y < yMax; y++) {
+                    Vector3Int coord = new(x, y, 0);
+                    Vector3Int aboveCoord = new(x, y + 1, 0);
+                    Vector3Int belowCoord = new(x, y - 1, 0);
+                    Vector3Int leftCoord = new(x - 1, y, 0);
+                    Vector3Int rightCoord = new(x + 1, y, 0);
+                    Vector3Int doubleBelowCoord = new(x, y - 2, 0);
+                    Vector3Int doubleBelowRightCoord = new(x + 1, y - 2, 0);
+                    Vector3Int doubleBelowLeftCoord = new(x - 1, y - 2, 0);
+                    
+                    TileBase tile = this._levelTileMap.GetTile(coord);
+                    TileBase aboveTile = this._levelTileMap.GetTile(aboveCoord);
+                    TileBase belowTile = this._levelTileMap.GetTile(belowCoord);
+                    TileBase leftTile = this._levelTileMap.GetTile(leftCoord);
+                    TileBase rightTile = this._levelTileMap.GetTile(rightCoord);
+                    TileBase doubleBelowTile = this._levelTileMap.GetTile(doubleBelowCoord);
+                    TileBase doubleBelowRightTile = this._levelTileMap.GetTile(doubleBelowRightCoord);
+                    TileBase doubleBelowLeftTile = this._levelTileMap.GetTile(doubleBelowLeftCoord);
+
+                    if (tile == null) {
+                        continue;
+                    }
+                    
+                    // if an edge tile => leave as blank tile
+                    bool isEdge = leftTile == null || rightTile == null;
+                    if (isEdge) {
+                        continue;
+                    }
+                    
+                    // if ground level tile => a tile above as Trap Tile
+                    bool isFloorTile = aboveTile == null;
+                    if (isFloorTile) {
+                        this._trapTileMap.SetTile(aboveCoord, this._trapValidationTile);
+
+                        if (doubleBelowTile != null && doubleBelowRightTile != null && doubleBelowLeftTile != null) {
+                            this._trapTileMap.SetTile(coord, this._trapValidationTile);
+                        }
+
+                        continue;
+                    }
+
+                    // if ceiling tile => paint two tiles below as Trap Tile
+                    bool isCeilingTile = belowTile == null;
+                    if (isCeilingTile) {
+                        this._trapTileMap.SetTile(belowCoord, this._trapValidationTile);
+                        this._trapTileMap.SetTile(doubleBelowCoord, this._trapValidationTile);
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Searches for the tile of type <see cref="CustomGroundRuleTile"/> below the provided

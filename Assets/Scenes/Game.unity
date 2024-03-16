@@ -191,6 +191,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2de81972bf554ed1b244a56e79aa7e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1839735485 &841631802 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 5428762694225116715, guid: d28e4e66c5cb9c04ea903f3b3e20b473, type: 3}
+  m_PrefabInstance: {fileID: 4844613527248784854}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &887336890
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -202,7 +207,7 @@ PrefabInstance:
     - target: {fileID: 686051568901768547, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
       propertyPath: TrapTilemap
       value: 
-      objectReference: {fileID: 2107972461}
+      objectReference: {fileID: 841631802}
     - target: {fileID: 686051568901768547, guid: b72a52c3c8b5ba94bbf7d6aff8dabd1c, type: 3}
       propertyPath: _trapCanvas
       value: 
@@ -1404,11 +1409,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1502e17207b8249428dcb0b300f49634, type: 3}
---- !u!1839735485 &2107972461 stripped
-Tilemap:
-  m_CorrespondingSourceObject: {fileID: 8795138467586733435, guid: d28e4e66c5cb9c04ea903f3b3e20b473, type: 3}
-  m_PrefabInstance: {fileID: 4844613527248784854}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3496767290712930960
 PrefabInstance:
   m_ObjectHideFlags: 0

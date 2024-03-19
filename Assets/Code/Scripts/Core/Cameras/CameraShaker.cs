@@ -1,5 +1,6 @@
 using Cinemachine;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using Yarn.Unity;
 
@@ -15,13 +16,11 @@ namespace KrillOrBeKrilled.Core.Cameras {
     /// <see cref="CameraSwitcher"/>.
     /// </remarks>
     public class CameraShaker : MonoBehaviour {
-        [Tooltip("The Perlin Noise intensity to apply to the camera to cause camera shakes.")]
-        public float ShakeAmplitude = 0.5f;
-    
         /// Acts as the access point for the active cameras in the level.
         private CameraSwitcher _switcher;
         /// Noise control settings for each camera in the camera switcher.
         private List<CinemachineBasicMultiChannelPerlin> _noiseControllers;
+        private Tween _camShakeTween;
     
         //========================================
         // Unity Methods
@@ -57,11 +56,15 @@ namespace KrillOrBeKrilled.Core.Cameras {
         /// camera associated with the CameraSwitcher.
         /// </summary>
         /// <remarks> Can be accessed as the "start_shake" YarnCommand. </remarks>
+        /// <param name="shakeAmplitude"> The Perlin Noise intensity to apply to the camera to cause camera shakes. </param>
+        /// <param name="duration"> The span of time that the camera shakes will last. </param>
         [YarnCommand("start_shake")]
-        public void StartShake() {
-            foreach (var noise in this._noiseControllers) {
-                noise.m_AmplitudeGain = this.ShakeAmplitude;
-            }
+        public void StartShake(float shakeAmplitude, float duration) {
+            _camShakeTween = DOVirtual.Float(shakeAmplitude, 0, duration, amplitude => {
+                foreach (var noise in this._noiseControllers) {
+                    noise.m_AmplitudeGain = amplitude;
+                }
+            }).SetEase(Ease.Linear);
         }
     
         /// <summary>
@@ -71,6 +74,8 @@ namespace KrillOrBeKrilled.Core.Cameras {
         /// <remarks> Can be accessed as the "stop_shake" YarnCommand. </remarks>
         [YarnCommand("stop_shake")]
         public void StopShake() {
+            this._camShakeTween?.Kill();
+
             foreach (var noise in this._noiseControllers) {
                 noise.m_AmplitudeGain = 0;
             }

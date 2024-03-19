@@ -13,7 +13,7 @@ Hero: Did somebody say GOLD?
 Hendall: How many of these guys do you get a day on average?!
 Dogan: Hundred, maybe thousand, honestly I stopped counting a long time ago...
 Dogan: I will tell you more about Coins after you deal with these guys!
-<<start_shake CameraSwitcher>>
+<<start_shake CameraSwitcher 0.6 2.5>>
 Dogan: You won't be disappointed!
 <<stop_shake CameraSwitcher>>
 

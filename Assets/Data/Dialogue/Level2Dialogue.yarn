@@ -5,7 +5,7 @@ tags:
 <<show_start CameraSwitcher>>
 Hendall: CLUCK me!! I wasn't expecting that on my first day!
 Dogan: Nice work on stopping those heroes. I know... this wasn't included in the job description.
-<<start_shake CameraSwitcher>>
+<<start_shake CameraSwitcher 0.6 2.5>>
 Dogan: Let's discuss your compensation and possible promotion.
 <<stop_shake CameraSwitcher>>
 Dogan: Hold on a second...

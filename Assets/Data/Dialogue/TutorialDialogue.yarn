@@ -3,6 +3,8 @@ tags:
 ---
 <<stop_shake CameraSwitcher>>
 <<show_start CameraSwitcher>>
+<<wait 1>>
+<<ready_dialogue_cutscene GameUI>>
 Hendall: CLUCK me!! I can't believe I'm late for my first day at the job!
 <<start_shake CameraSwitcher 0.6 2.5>>
 Dogan: Welcome to your first day with Dogan's Dungeon Disinfection Service my dear HENchmen!
@@ -24,6 +26,7 @@ Dogan: He's HERE already!? I think we'll have to continue your orientation anoth
 <<start_shake CameraSwitcher 1.2 2>>
 Dogan: DO NOT let him through to the end! Use all the traps at your disposal to stop him!
 <<stop_shake CameraSwitcher>>
+<<exit_dialogue_cutscene GameUI>>
 <<start_level_disabled_spawn GameManager>>
 
 ===

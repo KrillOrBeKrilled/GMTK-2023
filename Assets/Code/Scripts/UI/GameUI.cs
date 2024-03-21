@@ -1,12 +1,15 @@
-using KrillOrBeKrilled.Core;
+using System;
+using System.Collections;
 using KrillOrBeKrilled.Core.Managers;
 using KrillOrBeKrilled.Heroes;
 using System.Collections.Generic;
+using DG.Tweening;
 using KrillOrBeKrilled.Traps;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Yarn.Unity;
 
 //*******************************************************************************************
 // GameUI
@@ -49,6 +52,9 @@ namespace KrillOrBeKrilled.UI {
         [Header("Dialogue")]
         [SerializeField] private List<GameObject> _hideDuringDialogueUIList;
         [SerializeField] private GameObject _dialogueUI;
+        [SerializeField] private RectTransform _upperDialogueBorder, _lowerDialogueBorder;
+        private Vector3 _upperActiveDialogueBorderPos, _lowerActiveDialogueBorderPos;
+        private Vector3 _upperInactiveDialogueBorderPos, _lowerInactiveDialogueBorderPos;
 
         [Header("Prefabs")]
         [Tooltip("The hero health bar to instantiate upon spawning a new hero.")]
@@ -63,6 +69,14 @@ namespace KrillOrBeKrilled.UI {
         #region Unity Methods
 
         private void Start() {
+            var upperPos = this._upperDialogueBorder.position;
+            var lowerPos = this._lowerDialogueBorder.position;
+            this._upperInactiveDialogueBorderPos = upperPos;
+            this._upperActiveDialogueBorderPos = new Vector3(upperPos.x, upperPos.y - 260, upperPos.z);
+            
+            this._lowerInactiveDialogueBorderPos = lowerPos;
+            this._lowerActiveDialogueBorderPos = new Vector3(lowerPos.x, lowerPos.y + 260, lowerPos.z);
+            
             this._gameManager.OnSetupComplete.AddListener(this.OnGameSetupComplete);
             this._gameManager.OnHenWon.AddListener(this.OnHenWon);
             this._gameManager.OnHenLost.AddListener(this.OnHenLost);
@@ -92,6 +106,30 @@ namespace KrillOrBeKrilled.UI {
             EventManager.Instance.ResourceAmountChangedEvent.AddListener(this.OnResourceUpdate);
         }
 
+        #endregion
+        
+        //========================================
+        // Public Methods
+        //========================================
+        
+        #region Unity Methods
+        
+        [YarnCommand("ready_dialogue_cutscene")]
+        public IEnumerator ShowDialogueBorders() {
+            this._upperDialogueBorder.DOMove(this._upperActiveDialogueBorderPos, 0.5f).SetEase(Ease.Linear);
+            this._lowerDialogueBorder.DOMove(this._lowerActiveDialogueBorderPos, 0.5f).SetEase(Ease.Linear);
+
+            yield return new WaitForSeconds(0.6f);
+        }
+        
+        [YarnCommand("exit_dialogue_cutscene")]
+        public IEnumerator HideDialogueBorders() {
+            this._upperDialogueBorder.DOMove(this._upperInactiveDialogueBorderPos, 0.5f).SetEase(Ease.Linear);
+            this._lowerDialogueBorder.DOMove(this._lowerInactiveDialogueBorderPos, 0.5f).SetEase(Ease.Linear);
+
+            yield return new WaitForSeconds(0.6f);
+        }
+        
         #endregion
 
         //========================================

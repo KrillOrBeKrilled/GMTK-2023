@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using KrillOrBeKrilled.Core.Managers;
 using KrillOrBeKrilled.Player;
+using Yarn.Unity;
 
 //*******************************************************************************************
 // PlayerController
@@ -69,7 +70,7 @@ namespace KrillOrBeKrilled.Core.Input {
         /// </summary>
         /// <param name="gameManager"> Provides major game state-related events to subscribe the entities to. </param>
         internal void Initialize(GameManager gameManager) {
-            StartCoroutine(Player.Initialize(gameManager.OnHenWon, this.GatherInput));
+            StartCoroutine(Player.Initialize(gameManager.OnHenWon, EventManager.Instance.EndDialogueEvent, this.GatherInput));
             TrapController.Initialize(ResourceManager.Instance.CanAffordCost);
         }
         

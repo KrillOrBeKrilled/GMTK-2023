@@ -179,11 +179,7 @@ namespace KrillOrBeKrilled.Player {
         /// <see cref="Trap.LeftGridPoints"/> and <see cref="Trap.RightGridPoints"/> data as tile offsets to
         /// accurately pinpoint the trap tiles in question. </para>
         /// </remarks>
-        internal void SurveyTrapDeployment(bool isGrounded, float direction) {
-            if (!isGrounded) {
-                return;
-            }
-
+        internal void SurveyTrapDeployment(float direction) {
             // Check whether to deploy left or right
             var deployPosition = direction < 0
                 ? this.transform.position + this._leftDeployPosition

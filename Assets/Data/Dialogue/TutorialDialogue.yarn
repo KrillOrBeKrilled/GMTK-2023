@@ -3,7 +3,7 @@ tags:
 ---
 <<stop_shake CameraSwitcher>>
 <<show_start CameraSwitcher>>
-<<wait 1>>
+<<wait 0.8>>
 <<ready_dialogue_cutscene GameUI>>
 Hendall: CLUCK me!! I can't believe I'm late for my first day at the job!
 <<start_shake CameraSwitcher 0.6 2.5>>

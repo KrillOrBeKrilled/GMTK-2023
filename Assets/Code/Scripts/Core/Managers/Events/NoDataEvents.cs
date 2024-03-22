@@ -11,5 +11,5 @@ namespace KrillOrBeKrilled.Core.Managers {
 
   public class ShowDialogueUIEvent : UnityEvent {}
 
-  public class HideDialogueUIEvent : UnityEvent {}
+  public class EndDialogueEvent : UnityEvent {}
 }

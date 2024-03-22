@@ -12,6 +12,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         // Game Events
         public readonly GameOverEvent GameOverEvent;
         public readonly PauseToggledEvent PauseToggledEvent;
+        public readonly EndDialogueEvent EndDialogueEvent;
         
         // Coins & Resources
         public readonly CoinAmountChangedEvent CoinAmountChangedEvent;
@@ -19,12 +20,12 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         // UI Events
         public readonly ShowDialogueUIEvent ShowDialogueUIEvent;
-        public readonly HideDialogueUIEvent HideDialogueUIEvent;
 
         private EventManager() {
             // Game Events
             this.GameOverEvent = new GameOverEvent();
             this.PauseToggledEvent = new PauseToggledEvent();
+            this.EndDialogueEvent = new EndDialogueEvent();
             
             // Coins & Resources
             this.CoinAmountChangedEvent = new CoinAmountChangedEvent();
@@ -32,7 +33,6 @@ namespace KrillOrBeKrilled.Core.Managers {
             
             // UI Events
             this.ShowDialogueUIEvent = new ShowDialogueUIEvent();
-            this.HideDialogueUIEvent = new HideDialogueUIEvent();
         }
     }
 }

@@ -231,7 +231,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// </summary>
         /// <remarks> Invokes the <see cref="EventManager.HideDialogueUIEvent"/> event. </remarks>
         public void SkipDialogue() {
-            EventManager.Instance.HideDialogueUIEvent?.Invoke();
+            EventManager.Instance.EndDialogueEvent?.Invoke();
             this.StartCoroutine(this.SkipDialogueCoroutine());
         }
 
@@ -332,10 +332,9 @@ namespace KrillOrBeKrilled.Core.Managers {
                 Debug.LogError("Missing or Incorrect Dialogue Name, make sure provided dialogue name value is correct");
                 return;
             }
-
-            // EventManager.Instance.ShowDialogueUIEvent?.Invoke();
+            
             this._dialogueRunner.StartDialogue(this._levelData.DialogueName);
-            // this._dialogueRunner.onDialogueComplete.AddListener(() => EventManager.Instance.HideDialogueUIEvent?.Invoke());
+            this._dialogueRunner.onDialogueComplete.AddListener(() => EventManager.Instance.EndDialogueEvent?.Invoke());
         }
 
         #endregion

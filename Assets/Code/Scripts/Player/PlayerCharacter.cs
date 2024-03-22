@@ -10,6 +10,8 @@ using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using Yarn.Unity;
+using ICommand = KrillOrBeKrilled.Player.Commands.ICommand;
 
 //*******************************************************************************************
 // Player
@@ -97,6 +99,7 @@ namespace KrillOrBeKrilled.Player {
         public UnityEvent<Trap> OnTrapDeployed { get; private set; }
 
         private TrapController _trapController;
+        private bool _isTrapControllerActive = false;
 
         // ------------- Sound Effects ---------------
         private PlayerSoundsController _soundsController;
@@ -180,7 +183,7 @@ namespace KrillOrBeKrilled.Player {
             }
 
             // Check trap deployment eligibility
-            this._trapController.SurveyTrapDeployment(this.IsGrounded, this._direction);
+            if (this._isTrapControllerActive && this.IsGrounded) this._trapController.SurveyTrapDeployment(this._direction);
             
             // Update tile for fall respawn
             this.UpdateFallRespawnPosition();
@@ -273,6 +276,20 @@ namespace KrillOrBeKrilled.Player {
 
         #endregion
         
+        #region Dialogue
+        
+        [YarnCommand("enable_trap_system")]
+        public void EnableTrapDeployment() {
+            this._isTrapControllerActive = true;
+        }
+
+        [YarnCommand("disable_trap_system")]
+        public void DisableTrapDeployment() {
+            this._isTrapControllerActive = false;
+            this._trapController.DisableTrapDeployment();
+        }
+        
+        #endregion
 
         /// <summary>
         /// Sets the animation controller state and clears the trap deployment markers depending on whether the
@@ -340,7 +357,7 @@ namespace KrillOrBeKrilled.Player {
         /// Invokes the <see cref="OnTrapDeployed"/> event.
         /// </remarks>
         public override void DeployTrap() {
-            if (_trapController.DeployTrap(_direction, out Trap trap)) {
+            if (this._isTrapControllerActive && _trapController.DeployTrap(_direction, out Trap trap)) {
                 this.OnTrapDeployed?.Invoke(trap);
             }
         }
@@ -388,12 +405,14 @@ namespace KrillOrBeKrilled.Player {
         /// </summary>
         /// <remarks> Invokes the <see cref="OnSelectedTrapChanged"/> event. </remarks>
         /// <param name="onHenWon"> An event to notify listeners when a level has been completed. </param>
+        /// <param name="onDialogueEnd"> An event to notify listeners when the dialogue has ended. </param>
         /// <param name="getControllerInput"> A delegate callback used to fetch input from the controller that
         /// possesses this player entity. </param>
-        public IEnumerator Initialize(UnityEvent<string> onHenWon, InputDelegate<float, bool, bool> getControllerInput) {
+        public IEnumerator Initialize(UnityEvent<string> onHenWon, UnityEvent onDialogueEnd, InputDelegate<float, bool, bool> getControllerInput) {
             this._gatherControllerInput = getControllerInput;
 
             onHenWon.AddListener(this.GameOver);
+            onDialogueEnd.AddListener(this.EnableTrapDeployment);
 
             // Wait for a frame to let the UI setup finish before globally broadcasting the initial selected trap.
             yield return null;
@@ -506,7 +525,7 @@ namespace KrillOrBeKrilled.Player {
         }
 
         #endregion
-
+        
         /// <summary>
         /// Adjusts the <see cref="Animator"/> speed and direction values.
         /// </summary>

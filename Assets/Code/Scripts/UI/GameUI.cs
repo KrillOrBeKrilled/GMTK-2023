@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using KrillOrBeKrilled.Core.Managers;
 using KrillOrBeKrilled.Heroes;
@@ -110,7 +109,7 @@ namespace KrillOrBeKrilled.UI {
             EventManager.Instance.CoinAmountChangedEvent.AddListener(this.OnCoinsUpdated);
             EventManager.Instance.PauseToggledEvent.AddListener(this.OnPauseToggled);
             EventManager.Instance.ShowDialogueUIEvent.AddListener(this.ShowDialogueUI);
-            EventManager.Instance.HideDialogueUIEvent.AddListener(this.HideDialogueUI);
+            EventManager.Instance.EndDialogueEvent.AddListener(this.HideDialogueUI);
             EventManager.Instance.ResourceAmountChangedEvent.AddListener(this.OnResourceUpdate);
         }
 
@@ -120,7 +119,7 @@ namespace KrillOrBeKrilled.UI {
         // Public Methods
         //========================================
         
-        #region Unity Methods
+        #region Public Methods
         
         [YarnCommand("ready_dialogue_cutscene")]
         public IEnumerator ShowDialogueBorders() {

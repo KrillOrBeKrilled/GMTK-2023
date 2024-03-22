@@ -3,6 +3,8 @@ tags:
 ---
 <<stop_shake CameraSwitcher>>
 <<show_start CameraSwitcher>>
+<<wait 0.8>>
+<<ready_dialogue_cutscene GameUI>>
 Hendall: CLUCK me!! I wasn't expecting that on my first day!
 Dogan: Nice work on stopping those heroes. I know... this wasn't included in the job description.
 <<start_shake CameraSwitcher 0.6 2.5>>
@@ -16,6 +18,9 @@ Hero: Oh, ahem... I HAVE ARRIVED TO CLAIM THE GOLD HIDDEN WITHIN THIS DUNGEON!
 Dogan: We'll discuss your pay rate later, don't let them through!
 Hendall: Oh...
 <<show_player CameraSwitcher>>
+<<enable_trap_system Player>>
+<<exit_dialogue_cutscene GameUI>>
+<<wait 0.5>>
 <<start_level_enabled_spawn GameManager>>
 
 ===

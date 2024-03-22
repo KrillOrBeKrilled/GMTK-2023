@@ -216,25 +216,24 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         /// <summary>
         /// Searches for the tile of type <see cref="CustomGroundRuleTile"/> below the provided
-        /// <paramref name="pos"/> up to <paramref name="limit"/> tiles below.
+        /// <paramref name="pos"/>.
         /// </summary>
         /// <param name="pos"> The position below which to search for the tile. </param>
-        /// <param name="limit"> The limit of how many tiles to check. </param>
-        /// <returns></returns>
-        private Vector3? GetGroundTileBelowPos(Vector3 pos, int limit) {
-            int offset = 0;
+        /// <returns> Coordinate of the found ground tile. Or <c>null</c> if no such tile was found. </returns>
+        private Vector3? GetGroundTileBelowPos(Vector3 pos) {
             Vector3Int coordinate = pos.RoundToInt();
+            int yOffset = coordinate.y;
             bool found = false;
-            while (offset < limit) {
-                Vector3Int offsetPos = coordinate - new Vector3Int(0, offset, 0);
-                CustomGroundRuleTile tile = this._levelTileMap.GetTile(offsetPos) as CustomGroundRuleTile;
+            while (yOffset >= this._levelTileMap.cellBounds.yMin) {
+                coordinate = new Vector3Int(coordinate.x, yOffset, coordinate.z);
+                CustomGroundRuleTile tile = this._levelTileMap.GetTile(coordinate) as CustomGroundRuleTile;
                 
                 if (tile != null) {
                     found = true;
                     break;
                 }
 
-                offset++;
+                yOffset--;
             }
             
             if (!found) {

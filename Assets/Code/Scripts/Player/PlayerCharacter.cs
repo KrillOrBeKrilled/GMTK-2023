@@ -86,7 +86,7 @@ namespace KrillOrBeKrilled.Player {
         private const float CoyoteTimeDuration = 0.15f;
         private IEnumerator _coyoteTimeCoroutine = null;
         private Vector3 _respawnPosition;
-        public delegate Vector3? GetFallRespawnPosition(Vector3 playerPos, int limit);
+        public delegate Vector3? GetFallRespawnPosition(Vector3 playerPos);
 
         private GetFallRespawnPosition _getFallRespawnPosition;
 
@@ -533,7 +533,7 @@ namespace KrillOrBeKrilled.Player {
         /// Updates the Respawn Position if successful.
         /// </summary>
         private void UpdateFallRespawnPosition() {
-            Vector3? position = this._getFallRespawnPosition?.Invoke(this.transform.position, 30);
+            Vector3? position = this._getFallRespawnPosition?.Invoke(this.transform.position);
             if (!position.HasValue) {
                 return;
             }

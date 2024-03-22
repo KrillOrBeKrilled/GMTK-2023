@@ -49,9 +49,11 @@ namespace KrillOrBeKrilled.UI {
         [Tooltip("The trap resource requirements widget displayed during gameplay.")]
         [SerializeField] private TrapRequirementsUI _trapRequirementsUI;
 
-        [Header("Dialogue")]
-        [SerializeField] private List<GameObject> _hideDuringDialogueUIList;
+        [Header("Dialogue")] 
         [SerializeField] private GameObject _dialogueUI;
+        [SerializeField] private GameObject _gameplayUI;
+        private CanvasGroup _dialogueUICanvas, _gameplayUICanvas;
+            
         [SerializeField] private RectTransform _upperDialogueBorder, _lowerDialogueBorder;
         private Vector3 _upperActiveDialogueBorderPos, _lowerActiveDialogueBorderPos;
         private Vector3 _upperInactiveDialogueBorderPos, _lowerInactiveDialogueBorderPos;
@@ -73,9 +75,15 @@ namespace KrillOrBeKrilled.UI {
             var lowerPos = this._lowerDialogueBorder.position;
             this._upperInactiveDialogueBorderPos = upperPos;
             this._upperActiveDialogueBorderPos = new Vector3(upperPos.x, upperPos.y - 260, upperPos.z);
-            
             this._lowerInactiveDialogueBorderPos = lowerPos;
             this._lowerActiveDialogueBorderPos = new Vector3(lowerPos.x, lowerPos.y + 260, lowerPos.z);
+
+            this._dialogueUICanvas = this._dialogueUI.GetComponent<CanvasGroup>();
+            this._gameplayUICanvas = this._gameplayUI.GetComponent<CanvasGroup>();
+            this._gameplayUICanvas.alpha = 0f;
+            this._dialogueUICanvas.alpha = 0f;
+            this._gameplayUI.SetActive(false);
+            this._dialogueUI.SetActive(false);
             
             this._gameManager.OnSetupComplete.AddListener(this.OnGameSetupComplete);
             this._gameManager.OnHenWon.AddListener(this.OnHenWon);
@@ -118,16 +126,24 @@ namespace KrillOrBeKrilled.UI {
         public IEnumerator ShowDialogueBorders() {
             this._upperDialogueBorder.DOMove(this._upperActiveDialogueBorderPos, 0.5f).SetEase(Ease.Linear);
             this._lowerDialogueBorder.DOMove(this._lowerActiveDialogueBorderPos, 0.5f).SetEase(Ease.Linear);
+            
+            yield return new WaitForSeconds(0.2f);
+            
+            this.ShowDialogueUI();
 
-            yield return new WaitForSeconds(0.6f);
+            yield return new WaitForSeconds(0.4f);
         }
         
         [YarnCommand("exit_dialogue_cutscene")]
         public IEnumerator HideDialogueBorders() {
             this._upperDialogueBorder.DOMove(this._upperInactiveDialogueBorderPos, 0.5f).SetEase(Ease.Linear);
             this._lowerDialogueBorder.DOMove(this._lowerInactiveDialogueBorderPos, 0.5f).SetEase(Ease.Linear);
+            
+            yield return new WaitForSeconds(0.2f);
+            
+            this.HideDialogueUI();
 
-            yield return new WaitForSeconds(0.6f);
+            yield return new WaitForSeconds(0.4f);
         }
         
         #endregion
@@ -258,19 +274,25 @@ namespace KrillOrBeKrilled.UI {
         }
 
         private void ShowDialogueUI() {
-            foreach (GameObject hideObject in this._hideDuringDialogueUIList) {
-                hideObject.SetActive(false);
-            }
+            this._gameplayUICanvas.alpha = 0f;
+            this._gameplayUI.SetActive(false);
 
             this._dialogueUI.SetActive(true);
+            DOVirtual.Float(this._dialogueUICanvas.alpha, 1f, 0.3f, newAlpha => {
+                    this._dialogueUICanvas.alpha = newAlpha;
+                })
+                .SetEase(Ease.Linear);
         }
 
         private void HideDialogueUI() {
-            foreach (GameObject hideObject in this._hideDuringDialogueUIList) {
-                hideObject.SetActive(true);
-            }
-
+            this._dialogueUICanvas.alpha = 0f;
             this._dialogueUI.SetActive(false);
+            
+            this._gameplayUI.SetActive(true);
+            DOVirtual.Float(this._gameplayUICanvas.alpha, 1f, 0.3f, newAlpha => {
+                    this._gameplayUICanvas.alpha = newAlpha;
+                })
+                .SetEase(Ease.Linear);
         }
 
         #endregion

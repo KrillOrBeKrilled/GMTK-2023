@@ -333,9 +333,9 @@ namespace KrillOrBeKrilled.Core.Managers {
                 return;
             }
 
-            EventManager.Instance.ShowDialogueUIEvent?.Invoke();
+            // EventManager.Instance.ShowDialogueUIEvent?.Invoke();
             this._dialogueRunner.StartDialogue(this._levelData.DialogueName);
-            this._dialogueRunner.onDialogueComplete.AddListener(() => EventManager.Instance.HideDialogueUIEvent?.Invoke());
+            // this._dialogueRunner.onDialogueComplete.AddListener(() => EventManager.Instance.HideDialogueUIEvent?.Invoke());
         }
 
         #endregion

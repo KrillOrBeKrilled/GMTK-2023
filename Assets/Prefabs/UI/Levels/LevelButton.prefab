@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5732729646170697142}
   - component: {fileID: 6696118938020510372}
   - component: {fileID: 4982857453446704174}
-  - component: {fileID: 7770957716316585327}
   m_Layer: 5
   m_Name: LevelButton
   m_TagString: Untagged
@@ -96,26 +95,6 @@ MonoBehaviour:
       m_Calls: []
   _defaultImage: {fileID: 21300000, guid: 76c696a167bb744cdafc2e0e689fde0e, type: 3}
   _pressedImage: {fileID: 21300000, guid: da980d212154f4e96b1a5be15d10a468, type: 3}
---- !u!114 &7770957716316585327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 902549215173571387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreLayout: 0
-  m_MinWidth: -1
-  m_MinHeight: -1
-  m_PreferredWidth: -1
-  m_PreferredHeight: 150
-  m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
-  m_LayoutPriority: 1
 --- !u!1 &4044083473926164754
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +130,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -80, y: -40}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5690778503397830666
 CanvasRenderer:
@@ -181,7 +160,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Level 999
+  m_text: "1\x03"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b999f77db697649458a45ff5e9186708, type: 2}
   m_sharedMaterial: {fileID: -5313253438172520628, guid: b999f77db697649458a45ff5e9186708, type: 2}
@@ -208,12 +187,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 90
+  m_fontSize: 96.3
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 90
+  m_fontSizeMax: 100
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512

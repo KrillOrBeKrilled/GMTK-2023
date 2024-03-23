@@ -5,6 +5,7 @@ using KrillOrBeKrilled.Core.Cameras;
 using KrillOrBeKrilled.Core.Input;
 using KrillOrBeKrilled.Core.UGSAnalytics;
 using KrillOrBeKrilled.Environment;
+using KrillOrBeKrilled.Extensions;
 using KrillOrBeKrilled.Heroes;
 using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Player;
@@ -30,6 +31,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         [Header("References")]
         [SerializeField] private PlayerController _playerController;
         [SerializeField] private PauseManager _pauseManager;
+        [SerializeField] private CameraManager _cameraManager;
 
         [Header("Dialogue References")]
         [SerializeField] private DialogueRunner _dialogueRunner;
@@ -135,6 +137,7 @@ namespace KrillOrBeKrilled.Core.Managers {
                 Quaternion.identity, this.transform);
 
             Tilemap levelTilemap = Instantiate(this._levelData.WallsTilemapPrefab, this._tilemapGrid);
+            this._cameraManager.SetBounds(sourceData.WallsTilemapPrefab.transform.GetComponentExactlyInChildren<Collider2D>());
 
             foreach (Vector3 respawnPosition in this._levelData.RespawnPositions) {
                 RespawnPoint newPoint = Instantiate(this._respawnPointPrefab, respawnPosition, 

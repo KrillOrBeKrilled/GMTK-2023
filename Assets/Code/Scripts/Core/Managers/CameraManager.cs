@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace KrillOrBeKrilled.Core.Managers {
   public class CameraManager : MonoBehaviour {
-    [SerializeField] public CinemachineConfiner2D Confiner;
+    [SerializeField] private CinemachineConfiner2D Confiner;
 
     public void SetBounds(Collider2D newBounds) {
       if (this.Confiner == null || newBounds == null) {

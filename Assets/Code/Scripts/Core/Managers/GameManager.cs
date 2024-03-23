@@ -47,6 +47,10 @@ namespace KrillOrBeKrilled.Core.Managers {
         [SerializeField] private EndgameTarget _endgameTargetPrefab;
         [SerializeField] private Transform _tilemapGrid;
 
+        [Header("Testing")]
+        [Tooltip("Assign if you want to test specific level. Important: Leave as NULL when done testing.")]
+        [SerializeField] private LevelData _testingLevelData;
+
         public PlayerController PlayerController => this._playerController;
         public PlayerCharacter Player => this._playerController.Player;
         public TrapController TrapController => this._playerController.TrapController;
@@ -120,7 +124,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <remarks> Invokes the <see cref="OnSetupComplete"/> event. </remarks>
         private IEnumerator Start() {
             // Create a copy to avoid modifying source
-            LevelData sourceData = LevelManager.Instance.GetActiveLevelData();
+            LevelData sourceData = _testingLevelData != null ? _testingLevelData : LevelManager.Instance.GetActiveLevelData();
             this._levelData = ScriptableObject.CreateInstance<LevelData>();
             this._levelData.Index = sourceData.Index;
             this._levelData.DialogueName = sourceData.DialogueName;

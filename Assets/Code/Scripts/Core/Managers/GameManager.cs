@@ -5,6 +5,7 @@ using KrillOrBeKrilled.Core.Cameras;
 using KrillOrBeKrilled.Core.Input;
 using KrillOrBeKrilled.Core.UGSAnalytics;
 using KrillOrBeKrilled.Environment;
+using KrillOrBeKrilled.Extensions;
 using KrillOrBeKrilled.Heroes;
 using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Player;
@@ -12,6 +13,7 @@ using KrillOrBeKrilled.Player.PlayerStates;
 using KrillOrBeKrilled.Traps;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Tilemaps;
 using Yarn.Unity;
 
 //*******************************************************************************************
@@ -29,6 +31,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         [Header("References")]
         [SerializeField] private PlayerController _playerController;
         [SerializeField] private PauseManager _pauseManager;
+        [SerializeField] private CameraManager _cameraManager;
 
         [Header("Dialogue References")]
         [SerializeField] private DialogueRunner _dialogueRunner;
@@ -42,6 +45,11 @@ namespace KrillOrBeKrilled.Core.Managers {
         [Header("Level")]
         [SerializeField] private RespawnPoint _respawnPointPrefab;
         [SerializeField] private EndgameTarget _endgameTargetPrefab;
+        [SerializeField] private Transform _tilemapGrid;
+
+        [Header("Testing")]
+        [Tooltip("Assign if you want to test specific level. Important: Leave as NULL when done testing.")]
+        [SerializeField] private LevelData _testingLevelData;
 
         public PlayerController PlayerController => this._playerController;
         public PlayerCharacter Player => this._playerController.Player;
@@ -116,7 +124,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <remarks> Invokes the <see cref="OnSetupComplete"/> event. </remarks>
         private IEnumerator Start() {
             // Create a copy to avoid modifying source
-            LevelData sourceData = LevelManager.Instance.GetActiveLevelData();
+            LevelData sourceData = _testingLevelData != null ? _testingLevelData : LevelManager.Instance.GetActiveLevelData();
             this._levelData = ScriptableObject.CreateInstance<LevelData>();
             this._levelData.Index = sourceData.Index;
             this._levelData.DialogueName = sourceData.DialogueName;
@@ -124,12 +132,16 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._levelData.Type = sourceData.Type;
             this._levelData.RespawnPositions = sourceData.RespawnPositions.ToList();
             this._levelData.EndgameTargetPosition = sourceData.EndgameTargetPosition;
+            this._levelData.WallsTilemapPrefab = sourceData.WallsTilemapPrefab;
             this._levelData.WavesData = new WavesData() { WavesList = sourceData.WavesData.WavesList.ToList() };
 
             this._nextWavesDataQueue = new Queue<WaveData>(this._levelData.WavesData.WavesList);
             this._lastWavesDataQueue = new Queue<WaveData>(this._levelData.WavesData.WavesList);
             this._endgameTarget = Instantiate(this._endgameTargetPrefab, this._levelData.EndgameTargetPosition, 
                 Quaternion.identity, this.transform);
+
+            Tilemap levelTilemap = Instantiate(this._levelData.WallsTilemapPrefab, this._tilemapGrid);
+            this._cameraManager.SetBounds(sourceData.WallsTilemapPrefab.transform.GetComponentExactlyInChildren<Collider2D>());
 
             foreach (Vector3 respawnPosition in this._levelData.RespawnPositions) {
                 RespawnPoint newPoint = Instantiate(this._respawnPointPrefab, respawnPosition, 
@@ -146,10 +158,10 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._playerController.Player.OnSelectedTrapChanged.AddListener(this.SelectedTrapIndexChanged);
             this._playerController.Player.OnTrapDeployed.AddListener(this.OnTrapDeployed);
             
-            this._playerController.Initialize(this);
+            this._playerController.Initialize(this, levelTilemap);
             ResourceManager.Instance.Initialize(this.PlayerController.TrapController.OnConsumeResources);
             ResourceSpawner.Instance.Initialize(this.PlayerController.transform);
-            TilemapManager.Instance.Initialize(this.PlayerController.TrapController, this._playerController.Player);
+            TilemapManager.Instance.Initialize(levelTilemap, this.PlayerController.TrapController, this._playerController.Player);
 
             // Wait for a frame so that all other scripts complete Start() method.
             yield return null;
@@ -247,7 +259,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._pauseManager.UnpauseGame();
             this._pauseManager.SetIsPausable(false);
             this.FreezeAllHeroes();
-            this.OnSceneWillChange?.Invoke(SceneNavigationManager.Instance.LoadLevelsScene);
+            this.OnSceneWillChange?.Invoke(SceneNavigationManager.LoadLevelsScene);
         }
 
         /// <summary>
@@ -261,7 +273,7 @@ namespace KrillOrBeKrilled.Core.Managers {
 
             UnityAction onSceneLoaded;
             if (string.IsNullOrEmpty(this._levelData.NextLevelName)) {
-                onSceneLoaded = SceneNavigationManager.Instance.LoadLevelsScene;
+                onSceneLoaded = SceneNavigationManager.LoadLevelsScene;
             } else {
                 onSceneLoaded = () => LevelManager.Instance.LoadLevel(this._levelData.NextLevelName);;
             }
@@ -277,7 +289,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._pauseManager.UnpauseGame();
             this._pauseManager.SetIsPausable(false);
             this.FreezeAllHeroes();
-            this.OnSceneWillChange?.Invoke(SceneNavigationManager.Instance.ReloadCurrentScene);
+            this.OnSceneWillChange?.Invoke(SceneNavigationManager.ReloadCurrentScene);
         }
 
         #endregion

@@ -20,8 +20,8 @@ namespace KrillOrBeKrilled.Core.Managers {
         [Tooltip("Only used when starting Game scene directly, shouldn't be needed in build")]
         [SerializeField] private LevelData _defaultLevelData;
 
-        private readonly Dictionary<string, LevelData> _levelDatas = new Dictionary<string, LevelData>();
-        private static bool LevelWasLoaded { get; set; } = false;
+        private readonly Dictionary<string, LevelData> _levelDatas = new();
+        private static bool LevelWasLoaded { get; set; }
 
         //========================================
         // Unity Methods
@@ -55,7 +55,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <see cref="LevelData"/> to be loaded. (Only occurs in Editor play mode for the scene.)
         /// </remarks>
         public LevelData GetActiveLevelData() {
-            return LevelWasLoaded ? this._activeLevelData : this._defaultLevelData;
+            return LevelManager.LevelWasLoaded ? this._activeLevelData : this._defaultLevelData;
         }
 
         /// <summary>
@@ -81,10 +81,11 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._activeLevelData.NextLevelName = source.NextLevelName;
             this._activeLevelData.EndgameTargetPosition = source.EndgameTargetPosition;
             this._activeLevelData.RespawnPositions = source.RespawnPositions.ToList();
+            this._activeLevelData.WallsTilemapPrefab = source.WallsTilemapPrefab;
             this._activeLevelData.WavesData = new WavesData() { WavesList = source.WavesData.WavesList.ToList() };
 
-            LevelWasLoaded = true;
-            SceneNavigationManager.Instance.LoadGameLevelScene(levelName);
+            LevelManager.LevelWasLoaded = true;
+            SceneNavigationManager.LoadGameLevelScene();
         }
 
         #endregion

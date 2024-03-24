@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 //*******************************************************************************************
 // LevelData
@@ -22,6 +23,7 @@ namespace KrillOrBeKrilled.Model {
         public string NextLevelName;
         public Vector3 EndgameTargetPosition = Vector3.zero;
         public List<Vector3> RespawnPositions;
+        public Tilemap WallsTilemapPrefab;
         public WavesData WavesData;
 
         public enum LevelType {

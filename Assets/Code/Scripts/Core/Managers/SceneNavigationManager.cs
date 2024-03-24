@@ -27,31 +27,30 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
         
         /// <summary>
-        /// Loads the scene corresponding to the provided name.
+        /// Loads the Game scene.
         /// </summary>
-        /// <param name="levelName"> The name of a specific level scene. </param>
-        public void LoadGameLevelScene(string levelName) {
-            LoadScene(levelName);
+        public static void LoadGameLevelScene() {
+            LoadScene("Game");
         }
         
         /// <summary>
         /// Loads the "Levels" scene.
         /// </summary>
-        public void LoadLevelsScene() {
+        public static void LoadLevelsScene() {
             LoadScene("Levels");
         }
         
         /// <summary>
         /// Loads the "MainMenu" scene.
         /// </summary>
-        public void LoadMainMenuScene() {
+        public static void LoadMainMenuScene() {
             LoadScene("MainMenu");
         }
 
         /// <summary>
         /// Loads the current scene.
         /// </summary>
-        public void ReloadCurrentScene() {
+        public static void ReloadCurrentScene() {
             LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 

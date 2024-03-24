@@ -51,9 +51,10 @@ MonoBehaviour:
   _cameraSwitcher: {fileID: 0}
   _cameraShaker: {fileID: 0}
   _defaultHeroPrefab: {fileID: 4773728292545531315, guid: 5cad44e0579da4f3ca8158c1533c6046, type: 3}
-  _druidHeroPrefab: {fileID: 4773728292545531315, guid: a5808fc2796964395b6af8992e2559c3, type: 3}
+  _druidHeroPrefab: {fileID: 4773728292545531315, guid: e0817837b26d00b4280220edf7aed515, type: 3}
   _respawnPointPrefab: {fileID: 908663684222352325, guid: 95dbd9212de398d42af1486d1b511008, type: 3}
   _endgameTargetPrefab: {fileID: 2478820807580166489, guid: 38b84a3185ecd47ec984625f684b6a6a, type: 3}
+  _tilemapGrid: {fileID: 0}
 --- !u!114 &7141821003299555517
 MonoBehaviour:
   m_ObjectHideFlags: 0

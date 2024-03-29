@@ -18,9 +18,14 @@ namespace KrillOrBeKrilled.UI {
     public class UIButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IPointerEnterHandler {
         [Tooltip("Dictates whether or not the button will play SFX when clicked.")]
         [SerializeField] private bool _muteClickSfx;
+        [Tooltip("Should the button bounce on pointer down?")]
+        [SerializeField] private bool _enableBounceAnimation = true;
 
         [Tooltip("Triggers when the button is pressed down and lifted.")]
         [SerializeField] private UnityEvent _onClick;
+        
+        [Tooltip("Target image that will play a bounce animation and change sprite on click")]
+        [SerializeField] private Image _targetImage;
         [Tooltip("The image shown to indicate the button is not pressed.")]
         [SerializeField] private Sprite _defaultImage;
         [Tooltip("The image shown to indicate the button is pressed.")]
@@ -29,8 +34,6 @@ namespace KrillOrBeKrilled.UI {
         private const float ScaleUpValue = 1.05f;
         private const float ScaleDownValue = 0.95f;
         private const float AnimationDuration = 0.05f;
-        private RectTransform _rectTransform;
-        private Image _image;
 
         private Sequence _tweenSequence;
         private bool _isInteractable = true;
@@ -43,11 +46,6 @@ namespace KrillOrBeKrilled.UI {
         
         #region Unity Methods
         
-        private void Awake() {
-            this._image = this.GetComponent<Image>();
-            this._rectTransform = this.GetComponent<RectTransform>();
-        }
-        
         /// <summary>
         /// Triggered by Unity. Invokes <see cref="_onClick"/> event.
         /// </summary>
@@ -57,7 +55,7 @@ namespace KrillOrBeKrilled.UI {
             }
 
             this._isPressed = false;
-            this._image.sprite = this._defaultImage;
+            this._targetImage.sprite = this._defaultImage;
 
             if (this._isPointerOverButton) {
                 this._onClick?.Invoke();
@@ -73,12 +71,12 @@ namespace KrillOrBeKrilled.UI {
 
             this._isPressed = true;
             this._isPointerOverButton = true;
-            this._image.sprite = this._pressedImage;
+            this._targetImage.sprite = this._pressedImage;
 
             if (!this._muteClickSfx) {
                 AudioManager.Instance.PlayUIClick(this.gameObject);
             }
-
+            
             this.DoBounce();
         }
         
@@ -88,7 +86,7 @@ namespace KrillOrBeKrilled.UI {
             }
 
             this._isPointerOverButton = true;
-            this._image.sprite = this._pressedImage;
+            this._targetImage.sprite = this._pressedImage;
         }
 
         public void OnPointerExit(PointerEventData eventData) {
@@ -97,9 +95,19 @@ namespace KrillOrBeKrilled.UI {
             }
 
             this._isPointerOverButton = false;
-            this._image.sprite = this._defaultImage;
+            this._targetImage.sprite = this._defaultImage;
         }
-        
+
+        private void OnValidate() {
+            if (this._targetImage != null) {
+                return;
+            }
+            
+            if (this.TryGetComponent(out Image image)) {
+                this._targetImage = image;
+            }
+        }
+
         #endregion
         
         //========================================
@@ -115,7 +123,7 @@ namespace KrillOrBeKrilled.UI {
             this._defaultImage = defaultImage;
             this._pressedImage = pressedImage;
 
-            this._image.sprite = this._isPressed ? this._pressedImage : this._defaultImage;
+            this._targetImage.sprite = this._isPressed ? this._pressedImage : this._defaultImage;
         }
 
         /// <summary>
@@ -138,11 +146,17 @@ namespace KrillOrBeKrilled.UI {
         /// Scales the button up and back down to simulate a bounce animation.
         /// </summary>
         private void DoBounce() {
+            if (!this._enableBounceAnimation) {
+                return;
+            }
+
+            RectTransform target = this._targetImage.rectTransform;
+            
             this._tweenSequence?.Kill();
             this._tweenSequence = DOTween.Sequence();
-            this._tweenSequence.Append(this._rectTransform.DOScale(new Vector3(ScaleUpValue, ScaleUpValue, 1f), AnimationDuration));
-            this._tweenSequence.Append(this._rectTransform.DOScale(new Vector3(ScaleDownValue, ScaleDownValue, 1f), AnimationDuration));
-            this._tweenSequence.Append(this._rectTransform.DOScale(Vector3.one, AnimationDuration));
+            this._tweenSequence.Append(target.DOScale(new Vector3(ScaleUpValue, ScaleUpValue, 1f), AnimationDuration));
+            this._tweenSequence.Append(target.DOScale(new Vector3(ScaleDownValue, ScaleDownValue, 1f), AnimationDuration));
+            this._tweenSequence.Append(target.DOScale(Vector3.one, AnimationDuration));
             this._tweenSequence.OnComplete(() => this._tweenSequence = null);
             this._tweenSequence.SetEase(Ease.InOutSine);
             this._tweenSequence.Play();

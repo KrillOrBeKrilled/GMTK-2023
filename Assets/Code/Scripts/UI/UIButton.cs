@@ -20,6 +20,8 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private bool _muteClickSfx;
         [Tooltip("Should the button bounce on pointer down?")]
         [SerializeField] private bool _enableBounceAnimation = true;
+        [Tooltip("Is button interactable?")]
+        [SerializeField] private bool _isInteractable = true;
 
         [Tooltip("Triggers when the button is pressed down and lifted.")]
         [SerializeField] private UnityEvent _onClick;
@@ -30,13 +32,14 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private Sprite _defaultImage;
         [Tooltip("The image shown to indicate the button is pressed.")]
         [SerializeField] private Sprite _pressedImage;
+        [Tooltip("The image shown to indicate the button is disabled.")]
+        [SerializeField] private Sprite _disabledImage;
 
         private const float ScaleUpValue = 1.05f;
         private const float ScaleDownValue = 0.95f;
         private const float AnimationDuration = 0.05f;
 
         private Sequence _tweenSequence;
-        private bool _isInteractable = true;
         private bool _isPressed;
         private bool _isPointerOverButton;
         
@@ -65,6 +68,12 @@ namespace KrillOrBeKrilled.UI {
         }
         
         public void OnPointerDown(PointerEventData eventData) {
+            this.DoBounce();
+            
+            if (!this._muteClickSfx) {
+                AudioManager.Instance.PlayUIClick(this.gameObject);
+            }
+            
             if (!this._isInteractable) {
                 return;
             }
@@ -72,12 +81,6 @@ namespace KrillOrBeKrilled.UI {
             this._isPressed = true;
             this._isPointerOverButton = true;
             this._targetImage.sprite = this._pressedImage;
-
-            if (!this._muteClickSfx) {
-                AudioManager.Instance.PlayUIClick(this.gameObject);
-            }
-            
-            this.DoBounce();
         }
         
         public void OnPointerEnter(PointerEventData eventData) {
@@ -99,6 +102,8 @@ namespace KrillOrBeKrilled.UI {
         }
 
         private void OnValidate() {
+            this.SetInteractable(this._isInteractable);
+            
             if (this._targetImage != null) {
                 return;
             }
@@ -132,6 +137,10 @@ namespace KrillOrBeKrilled.UI {
         /// <param name="isInteractable"> Value to set the buttons interactable property to. </param>
         public void SetInteractable(bool isInteractable) {
             this._isInteractable = isInteractable;
+
+            if (this._disabledImage != null) {
+                this._targetImage.sprite = this._isInteractable ? this._defaultImage : this._disabledImage;
+            }
         }
         
         #endregion

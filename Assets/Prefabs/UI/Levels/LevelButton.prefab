@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5732729646170697142}
   - component: {fileID: 6696118938020510372}
   - component: {fileID: 4982857453446704174}
+  - component: {fileID: 3495122457849968615}
   m_Layer: 5
   m_Name: LevelButton
   m_TagString: Untagged
@@ -67,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 02dcc578309bc49e684748135b9ffbb4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c7d4321e4dbe24316b6001567eaa3e07, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -96,9 +97,28 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _targetImage: {fileID: 6696118938020510372}
-  _defaultImage: {fileID: 21300000, guid: ac9931d4195d548c39bd3585d3323ba4, type: 3}
-  _pressedImage: {fileID: 21300000, guid: cd03dab45e4c74d7890c1438bccf5f05, type: 3}
-  _disabledImage: {fileID: 21300000, guid: 02dcc578309bc49e684748135b9ffbb4, type: 3}
+  _defaultImage: {fileID: 21300000, guid: 62e3cf80bb31f451f8e7627ecc932586, type: 3}
+  _pressedImage: {fileID: 21300000, guid: abb88b94775af4559a9cf26724e2a873, type: 3}
+  _disabledImage: {fileID: 21300000, guid: c7d4321e4dbe24316b6001567eaa3e07, type: 3}
+--- !u!114 &3495122457849968615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902549215173571387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09a5ba77f604495cbb7ad2e80f9051ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _numberText: {fileID: 334323963138574610}
+  _completedSprite: {fileID: 21300000, guid: 94a5b1dcb4efe45f3851c1b6c56e4b05, type: 3}
+  _completedSpritePressed: {fileID: 21300000, guid: c5ebdced593304191be1f2790bbf8d1b, type: 3}
+  _completedSpriteDisabled: {fileID: 21300000, guid: 81da4f74feb9043398d8aacbf98fc184, type: 3}
+  _incompleteSprite: {fileID: 21300000, guid: ac9931d4195d548c39bd3585d3323ba4, type: 3}
+  _incompleteSpritePressed: {fileID: 21300000, guid: cd03dab45e4c74d7890c1438bccf5f05, type: 3}
+  _incompleteSpriteDisabled: {fileID: 21300000, guid: 02dcc578309bc49e684748135b9ffbb4, type: 3}
 --- !u!1 &4044083473926164754
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4618021800418070714
 RectTransform:
   m_ObjectHideFlags: 0
@@ -173,8 +193,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281144842
-  m_fontColor: {r: 0.039215688, g: 0.08627451, b: 0.1764706, a: 1}
+    rgba: 4282787093
+  m_fontColor: {r: 0.08235294, g: 0.14509805, b: 0.27450982, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

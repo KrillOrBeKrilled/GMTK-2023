@@ -1,6 +1,5 @@
 using DG.Tweening;
 using KrillOrBeKrilled.Core.Managers;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +18,6 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private Image _loadingScreen;
         [Tooltip("Used to screen wipe the scene in and out.")]
         [SerializeField] private ScreenWipeUI _screenWipe;
-        [SerializeField] private List<Toggle> _completionIndicators;
 
         private const float FadeDuration = 0.5f;
 
@@ -36,15 +34,6 @@ namespace KrillOrBeKrilled.UI {
             this._foreground
                 .DOFade(0, FadeDuration)
                 .OnComplete(() => this._foreground.gameObject.SetActive(false));
-        }
-
-        private void Start() {
-            this._completionIndicators.ForEach(indicator => indicator.isOn = false);
-
-            foreach (int completedLevelIndex in DataManager.Instance.PlayerData.CompletedLevels) {
-                // TODO: update to use a new Class for each Level button (will include the completion indicator)
-                this._completionIndicators[completedLevelIndex - 1].isOn = true;
-            }
         }
 
         #endregion

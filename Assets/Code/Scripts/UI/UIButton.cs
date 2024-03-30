@@ -124,10 +124,16 @@ namespace KrillOrBeKrilled.UI {
         /// <summary>
         /// Changes the button sprites for the default and pressed images.
         /// </summary>
-        public void SetButtonSprites(Sprite defaultImage, Sprite pressedImage) {
+        public void SetButtonSprites(Sprite defaultImage, Sprite pressedImage, Sprite disabledImage = null) {
             this._defaultImage = defaultImage;
             this._pressedImage = pressedImage;
+            this._disabledImage = disabledImage;
 
+            if (!this._isInteractable) {
+                this._targetImage.sprite = disabledImage;
+                return;
+            }
+            
             this._targetImage.sprite = this._isPressed ? this._pressedImage : this._defaultImage;
         }
 

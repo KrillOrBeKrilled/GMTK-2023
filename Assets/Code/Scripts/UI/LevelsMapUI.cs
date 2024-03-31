@@ -6,6 +6,9 @@ using UnityEngine;
 // LevelsMapUI
 //*******************************************************************************************
 namespace KrillOrBeKrilled.UI {
+  /// <summary>
+  /// Controls the display of the Levels map, level buttons, and map pages.
+  /// </summary>
   public class LevelsMapUI : MonoBehaviour {
     [SerializeField] private LevelButton _endlessLevel;
     [SerializeField] private List<LevelButton> _levels;
@@ -45,6 +48,10 @@ namespace KrillOrBeKrilled.UI {
     //========================================
     
     #region Public Methods
+    
+    /// <summary>
+    /// Displays the next map page on the UI.
+    /// </summary>
     public void SelectNextPage() {
       this._mapPages[this._mapPageIndex].SetActive(false);
       this._mapPagesBackgrounds[this._mapPageIndex].SetActive(false);
@@ -57,6 +64,9 @@ namespace KrillOrBeKrilled.UI {
       this.UpdatePageArrows();
     }
     
+    /// <summary>
+    /// Displays the previous map page on the UI.
+    /// </summary>
     public void SelectPreviousPage() {
       this._mapPages[this._mapPageIndex].SetActive(false);
       this._mapPagesBackgrounds[this._mapPageIndex].SetActive(false);
@@ -72,9 +82,20 @@ namespace KrillOrBeKrilled.UI {
     #endregion
 
 
+    //========================================
+    // Private Methods
+    //========================================
+    
+    #region Private Methods
+    
+    /// <summary>
+    /// Enables/Disables arrow buttons depending on whether it is the first or the last page.
+    /// </summary>
     private void UpdatePageArrows() {
       this._leftArrow.SetInteractable(this._mapPageIndex > 0);
       this._rightArrow.SetInteractable(this._mapPageIndex < this._mapPages.Count - 1);
     }
+    
+    #endregion
   }
 }

@@ -5,6 +5,9 @@ using UnityEngine;
 // LevelButton
 //*******************************************************************************************
 namespace KrillOrBeKrilled.UI {
+  /// <summary>
+  /// Custom button, updates the completed/incomplete sprites on the sibling UIButton component.
+  /// </summary>
   public class LevelButton : MonoBehaviour {
     [SerializeField] private TMP_Text _numberText;
     [SerializeField] private Sprite _completedSprite;
@@ -35,11 +38,20 @@ namespace KrillOrBeKrilled.UI {
     
     #region Public Methods
     
+    /// <summary>
+    /// Sets the number of the level this button corresponds to.
+    /// </summary>
+    /// <param name="index"> the number of the level. </param>
     public void SetNumber(int index) {
       this._numberText.gameObject.SetActive(true);
       this._numberText.text = $"{index}";
     }
 
+    /// <summary>
+    /// LevelButton is disabled by default. This method enables it and sets correct sprite based on
+    /// the argument provided.
+    /// </summary>
+    /// <param name="isCompleted"> Whether the player has already completed this level. </param>
     public void EnableButton(bool isCompleted) {
       this._uiButton.SetInteractable(true);
       if (isCompleted) {

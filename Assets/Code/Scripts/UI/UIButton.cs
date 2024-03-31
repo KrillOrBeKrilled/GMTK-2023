@@ -101,6 +101,10 @@ namespace KrillOrBeKrilled.UI {
             this._targetImage.sprite = this._defaultImage;
         }
 
+        
+        /// <summary>
+        /// Unity callback triggered when changes are made to the component in the editor.
+        /// </summary>
         private void OnValidate() {
             this.SetInteractable(this._isInteractable);
             
@@ -122,7 +126,7 @@ namespace KrillOrBeKrilled.UI {
         #region Public Methods
         
         /// <summary>
-        /// Changes the button sprites for the default and pressed images.
+        /// Changes the button sprites for the default and pressed images. Optionally sets disabledImage sprite. 
         /// </summary>
         public void SetButtonSprites(Sprite defaultImage, Sprite pressedImage, Sprite disabledImage = null) {
             this._defaultImage = defaultImage;
@@ -139,6 +143,7 @@ namespace KrillOrBeKrilled.UI {
 
         /// <summary>
         /// Sets this button to be interactable or un-interactable.
+        /// If un-interactable - will try to set a disabled sprite.
         /// </summary>
         /// <param name="isInteractable"> Value to set the buttons interactable property to. </param>
         public void SetInteractable(bool isInteractable) {

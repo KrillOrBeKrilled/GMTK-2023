@@ -1,6 +1,9 @@
 using TMPro;
 using UnityEngine;
 
+//*******************************************************************************************
+// LevelButton
+//*******************************************************************************************
 namespace KrillOrBeKrilled.UI {
   public class LevelButton : MonoBehaviour {
     [SerializeField] private TMP_Text _numberText;
@@ -14,10 +17,24 @@ namespace KrillOrBeKrilled.UI {
 
     private UIButton _uiButton;
 
+    //========================================
+    // Unity Methods
+    //========================================
+
+    #region Unity Methods
+    
     private void Awake() {
       this._uiButton = this.GetComponent<UIButton>();
     }
+    
+    #endregion
 
+    //========================================
+    // Public Methods
+    //========================================
+    
+    #region Public Methods
+    
     public void SetNumber(int index) {
       this._numberText.gameObject.SetActive(true);
       this._numberText.text = $"{index}";
@@ -31,5 +48,7 @@ namespace KrillOrBeKrilled.UI {
         this._uiButton.SetButtonSprites(this._incompleteSprite, this._incompleteSpritePressed, this._incompleteSpriteDisabled);
       }
     }
+    
+    #endregion
   }
 }

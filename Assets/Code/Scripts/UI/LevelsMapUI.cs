@@ -2,10 +2,25 @@ using System.Collections.Generic;
 using KrillOrBeKrilled.Core.Managers;
 using UnityEngine;
 
+//*******************************************************************************************
+// LevelsMapUI
+//*******************************************************************************************
 namespace KrillOrBeKrilled.UI {
   public class LevelsMapUI : MonoBehaviour {
     [SerializeField] private LevelButton _endlessLevel;
     [SerializeField] private List<LevelButton> _levels;
+
+    [SerializeField] private UIButton _leftArrow;
+    [SerializeField] private UIButton _rightArrow;
+    [SerializeField] private List<GameObject> _mapPagesBackgrounds;
+    [SerializeField] private List<GameObject> _mapPages;
+    private int _mapPageIndex;
+    
+    //========================================
+    // Unity Methods
+    //========================================
+
+    #region Unity Methods
     
     private void Start() {
       this._endlessLevel.EnableButton(false);
@@ -21,6 +36,45 @@ namespace KrillOrBeKrilled.UI {
         this._levels[nextLevelIndex].SetNumber(nextLevelIndex + 1);
         this._levels[nextLevelIndex].EnableButton(false);
       }
+    }
+    
+    #endregion
+    
+    //========================================
+    // Public Methods
+    //========================================
+    
+    #region Public Methods
+    public void SelectNextPage() {
+      this._mapPages[this._mapPageIndex].SetActive(false);
+      this._mapPagesBackgrounds[this._mapPageIndex].SetActive(false);
+      this._mapPageIndex = Mathf.Clamp(this._mapPageIndex + 1, 0, this._mapPages.Count);
+      this._mapPages[this._mapPageIndex].SetActive(true);
+      this._mapPagesBackgrounds[this._mapPageIndex].SetActive(true);
+
+      this._endlessLevel.gameObject.SetActive(this._mapPageIndex == 0);
+      
+      this.UpdatePageArrows();
+    }
+    
+    public void SelectPreviousPage() {
+      this._mapPages[this._mapPageIndex].SetActive(false);
+      this._mapPagesBackgrounds[this._mapPageIndex].SetActive(false);
+      this._mapPageIndex = Mathf.Clamp(this._mapPageIndex - 1, 0, this._mapPages.Count);
+      this._mapPages[this._mapPageIndex].SetActive(true);
+      this._mapPagesBackgrounds[this._mapPageIndex].SetActive(true);
+      
+      this._endlessLevel.gameObject.SetActive(this._mapPageIndex == 0);
+      
+      this.UpdatePageArrows();
+    }
+    
+    #endregion
+
+
+    private void UpdatePageArrows() {
+      this._leftArrow.SetInteractable(this._mapPageIndex > 0);
+      this._rightArrow.SetInteractable(this._mapPageIndex < this._mapPages.Count - 1);
     }
   }
 }

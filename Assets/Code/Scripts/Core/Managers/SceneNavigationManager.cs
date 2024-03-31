@@ -34,10 +34,10 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
         
         /// <summary>
-        /// Loads the "Levels" scene.
+        /// Loads the "Lobby" scene.
         /// </summary>
-        public static void LoadLevelsScene() {
-            LoadScene("Levels");
+        public static void LoadLobbyScene() {
+            LoadScene("Lobby");
         }
         
         /// <summary>

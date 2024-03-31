@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 
 //*******************************************************************************************
-// LevelsUI
+// LobbyUI
 //*******************************************************************************************
 namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// Handles the fading transitions of the Levels scene, along with loading the
     /// game scene through the <see cref="SceneNavigationManager"/>.
     /// </summary>
-    public class LevelsUI : MonoBehaviour {
+    public class LobbyUI : MonoBehaviour {
         [Tooltip("Used to fade the scene in and out.")]
         [SerializeField] private Image _foreground;
         [Tooltip("Used to cover the scene until the next level loads.")]
@@ -60,7 +60,7 @@ namespace KrillOrBeKrilled.UI {
         public void LoadMainMenu() {
             this._foreground.gameObject.SetActive(true);
             this._foreground
-                .DOFade(1, LevelsUI.FadeDuration)
+                .DOFade(1, LobbyUI.FadeDuration)
                 .OnComplete(SceneNavigationManager.LoadMainMenuScene);
         }
 

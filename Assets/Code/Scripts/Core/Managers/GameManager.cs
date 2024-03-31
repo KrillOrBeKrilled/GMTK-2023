@@ -259,7 +259,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._pauseManager.UnpauseGame();
             this._pauseManager.SetIsPausable(false);
             this.FreezeAllHeroes();
-            this.OnSceneWillChange?.Invoke(SceneNavigationManager.LoadLevelsScene);
+            this.OnSceneWillChange?.Invoke(SceneNavigationManager.LoadLobbyScene);
         }
 
         /// <summary>
@@ -273,7 +273,7 @@ namespace KrillOrBeKrilled.Core.Managers {
 
             UnityAction onSceneLoaded;
             if (string.IsNullOrEmpty(this._levelData.NextLevelName)) {
-                onSceneLoaded = SceneNavigationManager.LoadLevelsScene;
+                onSceneLoaded = SceneNavigationManager.LoadLobbyScene;
             } else {
                 onSceneLoaded = () => LevelManager.Instance.LoadLevel(this._levelData.NextLevelName);;
             }

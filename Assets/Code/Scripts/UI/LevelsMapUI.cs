@@ -92,8 +92,8 @@ namespace KrillOrBeKrilled.UI {
     /// Enables/Disables arrow buttons depending on whether it is the first or the last page.
     /// </summary>
     private void UpdatePageArrows() {
-      this._leftArrow.SetInteractable(this._mapPageIndex > 0);
-      this._rightArrow.SetInteractable(this._mapPageIndex < this._mapPages.Count - 1);
+      this._leftArrow.gameObject.SetActive(this._mapPageIndex > 0);
+      this._rightArrow.gameObject.SetActive(this._mapPageIndex < this._mapPages.Count - 1);
     }
     
     #endregion

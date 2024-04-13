@@ -13,8 +13,6 @@ namespace KrillOrBeKrilled.UI {
     /// Customized UI Button, plays animation and SFX on tap.
     /// </summary>
     /// <remarks> Requires <see cref="Image"/> component. </remarks>
-
-    [RequireComponent(typeof(Image))]
     public class UIButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IPointerEnterHandler {
         [Tooltip("Dictates whether or not the button will play SFX when clicked.")]
         [SerializeField] private bool _muteClickSfx;

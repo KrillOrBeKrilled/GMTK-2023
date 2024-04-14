@@ -13,7 +13,7 @@ namespace KrillOrBeKrilled.UI {
         [Tooltip("The button controller associated with the on-screen jump button.")]
         [SerializeField] private UIButton _attackButton;
         [Tooltip("The button controller associated with the on-screen jump button.")]
-        [SerializeField] private UIButton _jumpButton;
+        [SerializeField] private UIButtonTarget _jumpButtonTarget;
         [Tooltip("The jump image shown to indicate the jump button is not pressed.")]
         [SerializeField] private Sprite _jumpImage;
         [Tooltip("The jump image shown to indicate the jump button is pressed.")]
@@ -57,14 +57,14 @@ namespace KrillOrBeKrilled.UI {
         /// Sets jump button's sprite to a glide icon.
         /// </summary>
         private void OnPlayerFalling() {
-            this._jumpButton.SetButtonSprites(this._glideImage, this._glideHighlightedImage);
+            this._jumpButtonTarget.SetButtonSprites(this._glideImage, this._glideHighlightedImage);
         }
 
         /// <summary>
         /// Sets jump button's sprite to a jump icon.
         /// </summary>
         private void OnPlayerGrounded() {
-            this._jumpButton.SetButtonSprites(this._jumpImage, this._jumpHighlightedImage);
+            this._jumpButtonTarget.SetButtonSprites(this._jumpImage, this._jumpHighlightedImage);
         }
 
         private void OnAttackCooldownUpdated(bool isEnabled) {

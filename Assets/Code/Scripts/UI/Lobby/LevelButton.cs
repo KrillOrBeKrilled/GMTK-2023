@@ -19,6 +19,7 @@ namespace KrillOrBeKrilled.UI {
     [SerializeField] private Sprite _incompleteSpriteDisabled;
 
     private UIButton _uiButton;
+    private UIButtonTarget _uiButtonTarget;
 
     //========================================
     // Unity Methods
@@ -28,6 +29,7 @@ namespace KrillOrBeKrilled.UI {
     
     private void Awake() {
       this._uiButton = this.GetComponent<UIButton>();
+      this._uiButtonTarget = this.GetComponent<UIButtonTarget>();
     }
     
     #endregion
@@ -55,9 +57,9 @@ namespace KrillOrBeKrilled.UI {
     public void EnableButton(bool isCompleted) {
       this._uiButton.SetInteractable(true);
       if (isCompleted) {
-        this._uiButton.SetButtonSprites(this._completedSprite, this._completedSpritePressed, this._completedSpriteDisabled);
+        this._uiButtonTarget.SetButtonSprites(this._completedSprite, this._completedSpritePressed, this._completedSpriteDisabled);
       } else {
-        this._uiButton.SetButtonSprites(this._incompleteSprite, this._incompleteSpritePressed, this._incompleteSpriteDisabled);
+        this._uiButtonTarget.SetButtonSprites(this._incompleteSprite, this._incompleteSpritePressed, this._incompleteSpriteDisabled);
       }
     }
     

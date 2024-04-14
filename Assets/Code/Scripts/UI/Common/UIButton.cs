@@ -1,8 +1,7 @@
-using DG.Tweening;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using KrillOrBeKrilled.Core.Managers.Audio;
 
 //*******************************************************************************************
@@ -12,32 +11,18 @@ namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// Customized UI Button, plays animation and SFX on tap.
     /// </summary>
-    /// <remarks> Requires <see cref="Image"/> component. </remarks>
     public class UIButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IPointerEnterHandler {
         [Tooltip("Dictates whether or not the button will play SFX when clicked.")]
         [SerializeField] private bool _muteClickSfx;
-        [Tooltip("Should the button bounce on pointer down?")]
-        [SerializeField] private bool _enableBounceAnimation = true;
         [Tooltip("Is button interactable?")]
         [SerializeField] private bool _isInteractable = true;
 
         [Tooltip("Triggers when the button is pressed down and lifted.")]
         [SerializeField] private UnityEvent _onClick;
         
-        [Tooltip("Target image that will play a bounce animation and change sprite on click")]
-        [SerializeField] private Image _targetImage;
-        [Tooltip("The image shown to indicate the button is not pressed.")]
-        [SerializeField] private Sprite _defaultImage;
-        [Tooltip("The image shown to indicate the button is pressed.")]
-        [SerializeField] private Sprite _pressedImage;
-        [Tooltip("The image shown to indicate the button is disabled.")]
-        [SerializeField] private Sprite _disabledImage;
-
-        private const float ScaleUpValue = 1.05f;
-        private const float ScaleDownValue = 0.95f;
-        private const float AnimationDuration = 0.05f;
-
-        private Sequence _tweenSequence;
+        [Tooltip("UIButtonTargets that will play a bounce animation and change their sprites on click.")]
+        [SerializeField] private List<UIButtonTarget> _targetImages;
+        
         private bool _isPressed;
         private bool _isPointerOverButton;
         
@@ -56,7 +41,10 @@ namespace KrillOrBeKrilled.UI {
             }
 
             this._isPressed = false;
-            this._targetImage.sprite = this._defaultImage;
+            this._targetImages.ForEach(target => {
+                target.SetIsPressed(this._isPressed);
+                target.SetSpriteDefault();
+            });
 
             if (this._isPointerOverButton) {
                 this._onClick?.Invoke();
@@ -66,7 +54,7 @@ namespace KrillOrBeKrilled.UI {
         }
         
         public void OnPointerDown(PointerEventData eventData) {
-            this.DoBounce();
+            this._targetImages.ForEach(target => target.DoBounce());
             
             if (!this._muteClickSfx) {
                 AudioManager.Instance.PlayUIClick(this.gameObject);
@@ -78,7 +66,10 @@ namespace KrillOrBeKrilled.UI {
 
             this._isPressed = true;
             this._isPointerOverButton = true;
-            this._targetImage.sprite = this._pressedImage;
+            this._targetImages.ForEach(target => {
+                target.SetIsPressed(this._isPressed);
+                target.SetSpritePressed();
+            });
         }
         
         public void OnPointerEnter(PointerEventData eventData) {
@@ -87,7 +78,7 @@ namespace KrillOrBeKrilled.UI {
             }
 
             this._isPointerOverButton = true;
-            this._targetImage.sprite = this._pressedImage;
+            this._targetImages.ForEach(target => target.SetSpritePressed());
         }
 
         public void OnPointerExit(PointerEventData eventData) {
@@ -96,7 +87,7 @@ namespace KrillOrBeKrilled.UI {
             }
 
             this._isPointerOverButton = false;
-            this._targetImage.sprite = this._defaultImage;
+            this._targetImages.ForEach(target => target.SetSpriteDefault());
         }
 
         
@@ -105,14 +96,7 @@ namespace KrillOrBeKrilled.UI {
         /// </summary>
         private void OnValidate() {
             this.SetInteractable(this._isInteractable);
-            
-            if (this._targetImage != null) {
-                return;
-            }
-            
-            if (this.TryGetComponent(out Image image)) {
-                this._targetImage = image;
-            }
+            this._targetImages.ForEach(target => target.SetInteractable(this._isInteractable));
         }
 
         #endregion
@@ -122,22 +106,6 @@ namespace KrillOrBeKrilled.UI {
         //========================================
         
         #region Public Methods
-        
-        /// <summary>
-        /// Changes the button sprites for the default and pressed images. Optionally sets disabledImage sprite. 
-        /// </summary>
-        public void SetButtonSprites(Sprite defaultImage, Sprite pressedImage, Sprite disabledImage = null) {
-            this._defaultImage = defaultImage;
-            this._pressedImage = pressedImage;
-            this._disabledImage = disabledImage;
-
-            if (!this._isInteractable) {
-                this._targetImage.sprite = disabledImage;
-                return;
-            }
-            
-            this._targetImage.sprite = this._isPressed ? this._pressedImage : this._defaultImage;
-        }
 
         /// <summary>
         /// Sets this button to be interactable or un-interactable.
@@ -146,38 +114,7 @@ namespace KrillOrBeKrilled.UI {
         /// <param name="isInteractable"> Value to set the buttons interactable property to. </param>
         public void SetInteractable(bool isInteractable) {
             this._isInteractable = isInteractable;
-
-            if (this._disabledImage != null) {
-                this._targetImage.sprite = this._isInteractable ? this._defaultImage : this._disabledImage;
-            }
-        }
-        
-        #endregion
-        
-        //========================================
-        // Private Methods
-        //========================================
-
-        #region Private Methods
-
-        /// <summary>
-        /// Scales the button up and back down to simulate a bounce animation.
-        /// </summary>
-        private void DoBounce() {
-            if (!this._enableBounceAnimation) {
-                return;
-            }
-
-            RectTransform target = this._targetImage.rectTransform;
-            
-            this._tweenSequence?.Kill();
-            this._tweenSequence = DOTween.Sequence();
-            this._tweenSequence.Append(target.DOScale(new Vector3(ScaleUpValue, ScaleUpValue, 1f), AnimationDuration));
-            this._tweenSequence.Append(target.DOScale(new Vector3(ScaleDownValue, ScaleDownValue, 1f), AnimationDuration));
-            this._tweenSequence.Append(target.DOScale(Vector3.one, AnimationDuration));
-            this._tweenSequence.OnComplete(() => this._tweenSequence = null);
-            this._tweenSequence.SetEase(Ease.InOutSine);
-            this._tweenSequence.Play();
+            this._targetImages.ForEach(target => target.SetInteractable(isInteractable));
         }
         
         #endregion

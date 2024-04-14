@@ -2149,6 +2149,14 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 67d0b1867ff0e475ba6549f3d9597f09, type: 3}
+    - target: {fileID: 4905608895012567706, guid: 512562faf79c04c1e8a0fe6899da2d01, type: 3}
+      propertyPath: _defaultImage
+      value: 
+      objectReference: {fileID: 21300000, guid: 67d0b1867ff0e475ba6549f3d9597f09, type: 3}
+    - target: {fileID: 4905608895012567706, guid: 512562faf79c04c1e8a0fe6899da2d01, type: 3}
+      propertyPath: _pressedImage
+      value: 
+      objectReference: {fileID: 21300000, guid: e9a0859061db94b13a8650fdb10c30c8, type: 3}
     - target: {fileID: 5690695080800000168, guid: 512562faf79c04c1e8a0fe6899da2d01, type: 3}
       propertyPath: m_Name
       value: Continue
@@ -2271,6 +2279,14 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 3c0488b88a0114e16b8849b0b6ca80af, type: 3}
+    - target: {fileID: 4905608895012567706, guid: 512562faf79c04c1e8a0fe6899da2d01, type: 3}
+      propertyPath: _defaultImage
+      value: 
+      objectReference: {fileID: 21300000, guid: 3c0488b88a0114e16b8849b0b6ca80af, type: 3}
+    - target: {fileID: 4905608895012567706, guid: 512562faf79c04c1e8a0fe6899da2d01, type: 3}
+      propertyPath: _pressedImage
+      value: 
+      objectReference: {fileID: 21300000, guid: 7d807d990276e4d8484cf4660128df47, type: 3}
     - target: {fileID: 5690695080800000168, guid: 512562faf79c04c1e8a0fe6899da2d01, type: 3}
       propertyPath: m_Name
       value: RestartLevel
@@ -2377,6 +2393,14 @@ PrefabInstance:
       propertyPath: m_AspectMode
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4905608895012567706, guid: 512562faf79c04c1e8a0fe6899da2d01, type: 3}
+      propertyPath: _defaultImage
+      value: 
+      objectReference: {fileID: 21300000, guid: cd382cca56d7b4897af1241f3afcf05c, type: 3}
+    - target: {fileID: 4905608895012567706, guid: 512562faf79c04c1e8a0fe6899da2d01, type: 3}
+      propertyPath: _pressedImage
+      value: 
+      objectReference: {fileID: 21300000, guid: 5ffed6e7c19854369aac92299bb3661b, type: 3}
     - target: {fileID: 5690695080800000168, guid: 512562faf79c04c1e8a0fe6899da2d01, type: 3}
       propertyPath: m_Name
       value: Menu

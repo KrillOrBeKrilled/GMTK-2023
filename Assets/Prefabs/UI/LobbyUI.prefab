@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 3137999697101963253}
   - component: {fileID: 5251508395102061573}
   - component: {fileID: 116569808840216654}
+  - component: {fileID: 5193180129219023807}
   m_Layer: 5
   m_Name: Close Button
   m_TagString: Untagged
@@ -255,7 +256,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _muteClickSfx: 0
-  _enableBounceAnimation: 1
   _isInteractable: 1
   _onClick:
     m_PersistentCalls:
@@ -296,7 +296,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  _targetImage: {fileID: 5251508395102061573}
+  _targetImages:
+  - {fileID: 5193180129219023807}
+--- !u!114 &5193180129219023807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994032359069331362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45d6ce1ed6cc4c42b5f81c994035ce26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 5251508395102061573}
+  _isInteractable: 1
+  _enableBounceAnimation: 1
   _defaultImage: {fileID: 21300000, guid: 8c501239368a84297936c507066d9945, type: 3}
   _pressedImage: {fileID: 21300000, guid: ec2c3a47638ee4eafa47c7e2f0b4e86c, type: 3}
   _disabledImage: {fileID: 0}
@@ -502,7 +518,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _muteClickSfx: 0
-  _enableBounceAnimation: 1
   _isInteractable: 1
   _onClick:
     m_PersistentCalls:
@@ -519,10 +534,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _targetImage: {fileID: 7320116999161709743}
-  _defaultImage: {fileID: 21300000, guid: b57c880736c9741f6a5b688475be597c, type: 3}
-  _pressedImage: {fileID: 21300000, guid: 2cdf5a3d625a34e2eae7fe44b09aa18e, type: 3}
-  _disabledImage: {fileID: 21300000, guid: edd1a9c113d2a45fb9c549841a2fe6c3, type: 3}
+  _targetImages: []
 --- !u!1 &1677580120290923257
 GameObject:
   m_ObjectHideFlags: 0
@@ -1196,6 +1208,7 @@ GameObject:
   - component: {fileID: 5012005318684481014}
   - component: {fileID: 1629228354596722345}
   - component: {fileID: 319039593853508915}
+  - component: {fileID: 7357521097755447702}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -1274,6 +1287,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AspectMode: 4
   m_AspectRatio: 2.2212582
+--- !u!114 &7357521097755447702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4999397941817145529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45d6ce1ed6cc4c42b5f81c994035ce26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 1629228354596722345}
+  _isInteractable: 1
+  _enableBounceAnimation: 0
+  _defaultImage: {fileID: 21300000, guid: 89310adfd7e164173b2c0e62a2119194, type: 3}
+  _pressedImage: {fileID: 21300000, guid: 4e9a7cba21ecc4ec3b5d4a69f20b8e18, type: 3}
+  _disabledImage: {fileID: 0}
 --- !u!1 &5882237064301994761
 GameObject:
   m_ObjectHideFlags: 0
@@ -1699,8 +1730,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 878233380643536036}
-  - {fileID: 5789419804988176648}
   - {fileID: 1800842789637628741}
+  - {fileID: 5789419804988176648}
   m_Father: {fileID: 1460328125117590570}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1988,6 +2019,7 @@ GameObject:
   - component: {fileID: 4083954412700623476}
   - component: {fileID: 7614797057275607930}
   - component: {fileID: 140510655423556585}
+  - component: {fileID: 5722878327623155470}
   m_Layer: 5
   m_Name: ExitToMenu Button
   m_TagString: Untagged
@@ -2066,7 +2098,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _muteClickSfx: 0
-  _enableBounceAnimation: 1
   _isInteractable: 1
   _onClick:
     m_PersistentCalls:
@@ -2083,7 +2114,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _targetImage: {fileID: 7614797057275607930}
+  _targetImages:
+  - {fileID: 5722878327623155470}
+--- !u!114 &5722878327623155470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8192267482122157830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45d6ce1ed6cc4c42b5f81c994035ce26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 7614797057275607930}
+  _isInteractable: 1
+  _enableBounceAnimation: 1
   _defaultImage: {fileID: 21300000, guid: 76c696a167bb744cdafc2e0e689fde0e, type: 3}
   _pressedImage: {fileID: 21300000, guid: da980d212154f4e96b1a5be15d10a468, type: 3}
   _disabledImage: {fileID: 0}
@@ -2176,7 +2223,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _muteClickSfx: 0
-  _enableBounceAnimation: 1
   _isInteractable: 1
   _onClick:
     m_PersistentCalls:
@@ -2193,10 +2239,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _targetImage: {fileID: 8883780051636136963}
-  _defaultImage: {fileID: 21300000, guid: 5f53b090c86364c2da36ef97c5f56748, type: 3}
-  _pressedImage: {fileID: 21300000, guid: 505b39ab0b0724e85b70910a696f5bab, type: 3}
-  _disabledImage: {fileID: 21300000, guid: 0063fb7aa84f040e895d30cf9a9ad5f2, type: 3}
+  _targetImages: []
 --- !u!1 &8813199358977029089
 GameObject:
   m_ObjectHideFlags: 0
@@ -2286,7 +2329,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _muteClickSfx: 0
-  _enableBounceAnimation: 0
   _isInteractable: 1
   _onClick:
     m_PersistentCalls:
@@ -2327,10 +2369,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  _targetImage: {fileID: 1629228354596722345}
-  _defaultImage: {fileID: 21300000, guid: 89310adfd7e164173b2c0e62a2119194, type: 3}
-  _pressedImage: {fileID: 21300000, guid: 4e9a7cba21ecc4ec3b5d4a69f20b8e18, type: 3}
-  _disabledImage: {fileID: 0}
+  _targetImages:
+  - {fileID: 7357521097755447702}
 --- !u!1001 &165107943287502384
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3245,6 +3285,10 @@ PrefabInstance:
     - target: {fileID: 7180891597106960922, guid: 3508f96cdbaf44a3789c8bef15202262, type: 3}
       propertyPath: m_Name
       value: Achievements Label
+      objectReference: {fileID: 0}
+    - target: {fileID: 7180891597106960922, guid: 3508f96cdbaf44a3789c8bef15202262, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

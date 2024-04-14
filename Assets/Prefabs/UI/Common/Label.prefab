@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 6363348442564810874}
   - component: {fileID: 2578893477614642386}
   - component: {fileID: 8005482682073577988}
+  - component: {fileID: 2174808777806247289}
   m_Layer: 5
   m_Name: Background Image
   m_TagString: Untagged
@@ -209,6 +210,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2174808777806247289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4916044208056009923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45d6ce1ed6cc4c42b5f81c994035ce26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 8005482682073577988}
+  _isInteractable: 1
+  _enableBounceAnimation: 1
+  _defaultImage: {fileID: 21300000, guid: f86cbcbf1a1954f569fc798989c5fcec, type: 3}
+  _pressedImage: {fileID: 21300000, guid: f86cbcbf1a1954f569fc798989c5fcec, type: 3}
+  _disabledImage: {fileID: 0}
 --- !u!1 &6228505310737732156
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,6 +239,7 @@ GameObject:
   - component: {fileID: 1499820933878804737}
   - component: {fileID: 3524192037451672623}
   - component: {fileID: 7435281267762404214}
+  - component: {fileID: 106261864861148416}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -284,6 +304,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &106261864861148416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6228505310737732156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45d6ce1ed6cc4c42b5f81c994035ce26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 7435281267762404214}
+  _isInteractable: 1
+  _enableBounceAnimation: 1
+  _defaultImage: {fileID: 21300000, guid: b30f2e55bc84c45899518816e8c327ae, type: 3}
+  _pressedImage: {fileID: 21300000, guid: 1ad40a4400a6144cc947f9b854524fa3, type: 3}
+  _disabledImage: {fileID: 0}
 --- !u!1 &7180891597106960922
 GameObject:
   m_ObjectHideFlags: 0

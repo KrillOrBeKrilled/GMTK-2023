@@ -5,9 +5,8 @@ using UnityEngine.UI;
 namespace KrillOrBeKrilled.UI {
   [RequireComponent(typeof(Image))]
   public class UIButtonTarget : MonoBehaviour {
+    [Tooltip("The target image that will play bounce animation and be changed on interaction.")]
     [SerializeField] private Image _image;
-    [SerializeField] private bool _isInteractable = true;
-    
     [Tooltip("Should the button bounce on pointer down?")]
     [SerializeField] private bool _enableBounceAnimation = true;
     [Tooltip("The image shown to indicate the button is not pressed.")]
@@ -17,12 +16,17 @@ namespace KrillOrBeKrilled.UI {
     [Tooltip("The image shown to indicate the button is disabled.")]
     [SerializeField] private Sprite _disabledImage;
     
+    [HideInInspector] [SerializeField] private bool _isInteractable = true;
     private const float ScaleUpValue = 1.05f;
     private const float ScaleDownValue = 0.95f;
     private const float AnimationDuration = 0.05f;
     
     private Sequence _tweenSequence;
     private bool _isPressed;
+    
+    //========================================
+    // Unity Methods
+    //========================================
     
     /// <summary>
     /// Unity callback triggered when changes are made to the component in the editor.
@@ -32,11 +36,27 @@ namespace KrillOrBeKrilled.UI {
         this._image = image;
       }
     }
+    
+    //========================================
+    // Public Methods
+    //========================================
+    
+    #region Public Methods
 
+    /// <summary>
+    /// Sets the isPressed property. 
+    /// </summary>
+    /// <param name="isPressed"> Whether the button pressed. </param>
     public void SetIsPressed(bool isPressed) {
       this._isPressed = isPressed;
     }
     
+    /// <summary>
+    /// Sets the set of the sprites that will be applied to the target image. 
+    /// </summary>
+    /// <param name="defaultImage"> The default image - shown by default. </param>
+    /// <param name="pressedImage"> The pressed image - shown when button is interacted with. </param>
+    /// <param name="disabledImage"> The disabled image - showm when button is no interactable. </param>
     public void SetButtonSprites(Sprite defaultImage, Sprite pressedImage, Sprite disabledImage = null) {
       this._defaultImage = defaultImage;
       this._pressedImage = pressedImage;
@@ -50,11 +70,17 @@ namespace KrillOrBeKrilled.UI {
       this._image.sprite = this._isPressed ? this._pressedImage : this._defaultImage;
     }
 
-    public void SetSpriteDefault() {
+    /// <summary>
+    /// Applies the Default sprite to the target image.
+    /// </summary>
+    public void ApplySpriteDefault() {
       this._image.sprite = this._defaultImage;
     }
 
-    public void SetSpritePressed() {
+    /// <summary>
+    /// Applies the Pressed sprite to the target image.
+    /// </summary>
+    public void ApplySpritePressed() {
       this._image.sprite = this._pressedImage;
     }
     
@@ -90,5 +116,7 @@ namespace KrillOrBeKrilled.UI {
       this._tweenSequence.SetEase(Ease.InOutSine);
       this._tweenSequence.Play();
     }
+    
+    #endregion
   }
 }

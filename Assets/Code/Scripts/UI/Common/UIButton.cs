@@ -16,13 +16,12 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private bool _muteClickSfx;
         [Tooltip("Is button interactable?")]
         [SerializeField] private bool _isInteractable = true;
-
+        [Tooltip("UIButtonTargets that will play a bounce animation and change their sprites on click.")]
+        [SerializeField] private List<UIButtonTarget> _targetImages = new();
         [Tooltip("Triggers when the button is pressed down and lifted.")]
         [SerializeField] private UnityEvent _onClick;
-        
-        [Tooltip("UIButtonTargets that will play a bounce animation and change their sprites on click.")]
-        [SerializeField] private List<UIButtonTarget> _targetImages;
-        
+
+        public int TargetImageCount => this._targetImages.Count;
         private bool _isPressed;
         private bool _isPointerOverButton;
         
@@ -43,7 +42,7 @@ namespace KrillOrBeKrilled.UI {
             this._isPressed = false;
             this._targetImages.ForEach(target => {
                 target.SetIsPressed(this._isPressed);
-                target.SetSpriteDefault();
+                target.ApplySpriteDefault();
             });
 
             if (this._isPointerOverButton) {
@@ -68,7 +67,7 @@ namespace KrillOrBeKrilled.UI {
             this._isPointerOverButton = true;
             this._targetImages.ForEach(target => {
                 target.SetIsPressed(this._isPressed);
-                target.SetSpritePressed();
+                target.ApplySpritePressed();
             });
         }
         
@@ -78,7 +77,7 @@ namespace KrillOrBeKrilled.UI {
             }
 
             this._isPointerOverButton = true;
-            this._targetImages.ForEach(target => target.SetSpritePressed());
+            this._targetImages.ForEach(target => target.ApplySpritePressed());
         }
 
         public void OnPointerExit(PointerEventData eventData) {
@@ -87,7 +86,7 @@ namespace KrillOrBeKrilled.UI {
             }
 
             this._isPointerOverButton = false;
-            this._targetImages.ForEach(target => target.SetSpriteDefault());
+            this._targetImages.ForEach(target => target.ApplySpriteDefault());
         }
 
         
@@ -96,7 +95,6 @@ namespace KrillOrBeKrilled.UI {
         /// </summary>
         private void OnValidate() {
             this.SetInteractable(this._isInteractable);
-            this._targetImages.ForEach(target => target.SetInteractable(this._isInteractable));
         }
 
         #endregion
@@ -106,6 +104,14 @@ namespace KrillOrBeKrilled.UI {
         //========================================
         
         #region Public Methods
+
+        /// <summary>
+        /// Adds a given target to the targets list.
+        /// </summary>
+        /// <param name="target">The target to add. </param>
+        public void AddTarget(UIButtonTarget target) {
+            this._targetImages.Add(target);
+        }
 
         /// <summary>
         /// Sets this button to be interactable or un-interactable.

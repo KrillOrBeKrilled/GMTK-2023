@@ -3054,9 +3054,25 @@ PrefabInstance:
       propertyPath: m_text
       value: Store
       objectReference: {fileID: 0}
+    - target: {fileID: 4916044208056009923, guid: 3508f96cdbaf44a3789c8bef15202262, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7180891597106960922, guid: 3508f96cdbaf44a3789c8bef15202262, type: 3}
       propertyPath: m_Name
       value: Store Label
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435281267762404214, guid: 3508f96cdbaf44a3789c8bef15202262, type: 3}
+      propertyPath: m_Color.b
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435281267762404214, guid: 3508f96cdbaf44a3789c8bef15202262, type: 3}
+      propertyPath: m_Color.g
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435281267762404214, guid: 3508f96cdbaf44a3789c8bef15202262, type: 3}
+      propertyPath: m_Color.r
+      value: 0.5882353
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3164,6 +3180,10 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 51.25
       objectReference: {fileID: 0}
+    - target: {fileID: 4916044208056009923, guid: 3508f96cdbaf44a3789c8bef15202262, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7180891597106960922, guid: 3508f96cdbaf44a3789c8bef15202262, type: 3}
       propertyPath: m_Name
       value: Achievements Label
@@ -3171,6 +3191,18 @@ PrefabInstance:
     - target: {fileID: 7180891597106960922, guid: 3508f96cdbaf44a3789c8bef15202262, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435281267762404214, guid: 3508f96cdbaf44a3789c8bef15202262, type: 3}
+      propertyPath: m_Color.b
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435281267762404214, guid: 3508f96cdbaf44a3789c8bef15202262, type: 3}
+      propertyPath: m_Color.g
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435281267762404214, guid: 3508f96cdbaf44a3789c8bef15202262, type: 3}
+      propertyPath: m_Color.r
+      value: 0.5882353
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -257,6 +257,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _muteClickSfx: 0
   _isInteractable: 1
+  _targetImages:
+  - {fileID: 5193180129219023807}
   _onClick:
     m_PersistentCalls:
       m_Calls:
@@ -296,8 +298,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  _targetImages:
-  - {fileID: 5193180129219023807}
 --- !u!114 &5193180129219023807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,11 +311,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _image: {fileID: 5251508395102061573}
-  _isInteractable: 1
   _enableBounceAnimation: 1
   _defaultImage: {fileID: 21300000, guid: 8c501239368a84297936c507066d9945, type: 3}
   _pressedImage: {fileID: 21300000, guid: ec2c3a47638ee4eafa47c7e2f0b4e86c, type: 3}
   _disabledImage: {fileID: 0}
+  _isInteractable: 1
 --- !u!1 &1195791084198623537
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,6 +441,7 @@ GameObject:
   - component: {fileID: 7536630671164228357}
   - component: {fileID: 7320116999161709743}
   - component: {fileID: 2413740311452765977}
+  - component: {fileID: 5325157508993284577}
   m_Layer: 5
   m_Name: Arrow Left
   m_TagString: Untagged
@@ -519,6 +520,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _muteClickSfx: 0
   _isInteractable: 1
+  _targetImages:
+  - {fileID: 5325157508993284577}
   _onClick:
     m_PersistentCalls:
       m_Calls:
@@ -534,7 +537,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _targetImages: []
+--- !u!114 &5325157508993284577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570559648102198489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45d6ce1ed6cc4c42b5f81c994035ce26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 7320116999161709743}
+  _enableBounceAnimation: 1
+  _defaultImage: {fileID: 21300000, guid: b57c880736c9741f6a5b688475be597c, type: 3}
+  _pressedImage: {fileID: 21300000, guid: 2cdf5a3d625a34e2eae7fe44b09aa18e, type: 3}
+  _disabledImage: {fileID: 21300000, guid: edd1a9c113d2a45fb9c549841a2fe6c3, type: 3}
+  _isInteractable: 1
 --- !u!1 &1827850336584791133
 GameObject:
   m_ObjectHideFlags: 0
@@ -1166,11 +1186,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _image: {fileID: 1629228354596722345}
-  _isInteractable: 1
   _enableBounceAnimation: 0
   _defaultImage: {fileID: 21300000, guid: 89310adfd7e164173b2c0e62a2119194, type: 3}
   _pressedImage: {fileID: 21300000, guid: 4e9a7cba21ecc4ec3b5d4a69f20b8e18, type: 3}
   _disabledImage: {fileID: 0}
+  _isInteractable: 1
 --- !u!1 &5882237064301994761
 GameObject:
   m_ObjectHideFlags: 0
@@ -1979,6 +1999,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _muteClickSfx: 0
   _isInteractable: 1
+  _targetImages:
+  - {fileID: 5722878327623155470}
   _onClick:
     m_PersistentCalls:
       m_Calls:
@@ -1994,8 +2016,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _targetImages:
-  - {fileID: 5722878327623155470}
 --- !u!114 &5722878327623155470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2009,11 +2029,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _image: {fileID: 7614797057275607930}
-  _isInteractable: 1
   _enableBounceAnimation: 1
   _defaultImage: {fileID: 21300000, guid: 0a3b88c5de37048b3891da43e3767b72, type: 3}
   _pressedImage: {fileID: 21300000, guid: dd1fcd3dcd34e4195885b509bb141d77, type: 3}
   _disabledImage: {fileID: 0}
+  _isInteractable: 1
 --- !u!1 &8431501705889956518
 GameObject:
   m_ObjectHideFlags: 0
@@ -2026,6 +2046,7 @@ GameObject:
   - component: {fileID: 6461360102869633958}
   - component: {fileID: 8883780051636136963}
   - component: {fileID: 267706547609411140}
+  - component: {fileID: 9030219055393566311}
   m_Layer: 5
   m_Name: Arrow Right
   m_TagString: Untagged
@@ -2104,6 +2125,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _muteClickSfx: 0
   _isInteractable: 1
+  _targetImages:
+  - {fileID: 9030219055393566311}
   _onClick:
     m_PersistentCalls:
       m_Calls:
@@ -2119,7 +2142,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _targetImages: []
+--- !u!114 &9030219055393566311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8431501705889956518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45d6ce1ed6cc4c42b5f81c994035ce26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 8883780051636136963}
+  _enableBounceAnimation: 1
+  _defaultImage: {fileID: 21300000, guid: 5f53b090c86364c2da36ef97c5f56748, type: 3}
+  _pressedImage: {fileID: 21300000, guid: 505b39ab0b0724e85b70910a696f5bab, type: 3}
+  _disabledImage: {fileID: 21300000, guid: 0063fb7aa84f040e895d30cf9a9ad5f2, type: 3}
+  _isInteractable: 1
 --- !u!1 &8813199358977029089
 GameObject:
   m_ObjectHideFlags: 0
@@ -2210,6 +2250,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _muteClickSfx: 0
   _isInteractable: 1
+  _targetImages:
+  - {fileID: 7357521097755447702}
+  - {fileID: 2722453333498972910}
+  - {fileID: 4224347262403877527}
   _onClick:
     m_PersistentCalls:
       m_Calls:
@@ -2249,10 +2293,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  _targetImages:
-  - {fileID: 7357521097755447702}
-  - {fileID: 2722453333498972910}
-  - {fileID: 4224347262403877527}
 --- !u!1001 &165107943287502384
 PrefabInstance:
   m_ObjectHideFlags: 0

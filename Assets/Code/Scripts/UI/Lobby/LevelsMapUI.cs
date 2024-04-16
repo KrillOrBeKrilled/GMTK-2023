@@ -53,30 +53,14 @@ namespace KrillOrBeKrilled.UI {
     /// Displays the next map page on the UI.
     /// </summary>
     public void SelectNextPage() {
-      this._mapPages[this._mapPageIndex].SetActive(false);
-      this._mapPagesBackgrounds[this._mapPageIndex].SetActive(false);
-      this._mapPageIndex = Mathf.Clamp(this._mapPageIndex + 1, 0, this._mapPages.Count);
-      this._mapPages[this._mapPageIndex].SetActive(true);
-      this._mapPagesBackgrounds[this._mapPageIndex].SetActive(true);
-
-      this._endlessLevel.gameObject.SetActive(this._mapPageIndex == 0);
-      
-      this.UpdatePageArrows();
+      this.SelectPage(this._mapPageIndex + 1);
     }
     
     /// <summary>
     /// Displays the previous map page on the UI.
     /// </summary>
     public void SelectPreviousPage() {
-      this._mapPages[this._mapPageIndex].SetActive(false);
-      this._mapPagesBackgrounds[this._mapPageIndex].SetActive(false);
-      this._mapPageIndex = Mathf.Clamp(this._mapPageIndex - 1, 0, this._mapPages.Count);
-      this._mapPages[this._mapPageIndex].SetActive(true);
-      this._mapPagesBackgrounds[this._mapPageIndex].SetActive(true);
-      
-      this._endlessLevel.gameObject.SetActive(this._mapPageIndex == 0);
-      
-      this.UpdatePageArrows();
+      this.SelectPage(this._mapPageIndex - 1);
     }
     
     #endregion
@@ -87,6 +71,22 @@ namespace KrillOrBeKrilled.UI {
     //========================================
     
     #region Private Methods
+
+    /// <summary>
+    /// Displays the provided map page.
+    /// </summary>
+    /// <param name="pageIndex"> The map page to display. </param>
+    private void SelectPage(int pageIndex) {
+      this._mapPages[this._mapPageIndex].SetActive(false);
+      this._mapPagesBackgrounds[this._mapPageIndex].SetActive(false);
+      this._mapPageIndex = Mathf.Clamp(pageIndex, 0, this._mapPages.Count);
+      this._mapPages[this._mapPageIndex].SetActive(true);
+      this._mapPagesBackgrounds[this._mapPageIndex].SetActive(true);
+
+      this._endlessLevel.gameObject.SetActive(this._mapPageIndex == 0);
+      
+      this.UpdatePageArrows();
+    }
     
     /// <summary>
     /// Enables/Disables arrow buttons depending on whether it is the first or the last page.

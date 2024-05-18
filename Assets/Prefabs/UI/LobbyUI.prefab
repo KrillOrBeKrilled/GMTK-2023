@@ -1149,7 +1149,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 89310adfd7e164173b2c0e62a2119194, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f6148f7a0e1e744609da33dc04260dcd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1187,8 +1187,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _image: {fileID: 1629228354596722345}
   _enableBounceAnimation: 0
-  _defaultImage: {fileID: 21300000, guid: 89310adfd7e164173b2c0e62a2119194, type: 3}
-  _pressedImage: {fileID: 21300000, guid: 4e9a7cba21ecc4ec3b5d4a69f20b8e18, type: 3}
+  _defaultImage: {fileID: 21300000, guid: f6148f7a0e1e744609da33dc04260dcd, type: 3}
+  _pressedImage: {fileID: 21300000, guid: 958a62d457d5b4ee29d5b39467c9ca4f, type: 3}
   _disabledImage: {fileID: 0}
   _isInteractable: 1
 --- !u!1 &5882237064301994761

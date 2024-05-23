@@ -11,15 +11,23 @@ namespace KrillOrBeKrilled.UI {
     [FormerlySerializedAs("_actorImageRectTransform")] [SerializeField] private RectTransform _actorRectTransform;
     [SerializeField] private Animator _actorAnimator;
     [SerializeField] private List<RectTransform> _targets;
+    [SerializeField] private float _moveSpeed;
 
     private static readonly int IdleId = Animator.StringToHash("Idle");
     private static readonly int WalkId = Animator.StringToHash("Walk");
 
     private bool _doRoam = true;
     private bool _isMoving;
+
+    private RectTransform _currPos;
     private RectTransform _oldPos;
     
     private void Start() {
+      this._actorRectTransform.anchoredPosition = this._targets[0].anchoredPosition;
+      this._actorRectTransform.sizeDelta = this._targets[0].sizeDelta;
+      this._oldPos = this._targets[0];
+      this._currPos = this._oldPos;
+      
       this.StartCoroutine(this.Roam());
     }
 
@@ -41,9 +49,14 @@ namespace KrillOrBeKrilled.UI {
       RectTransform target;
       do {
         target = this._targets.GetRandomElement();
-      } while (target == this._oldPos);
+      } while (target == this._oldPos || target == this._currPos);
 
-      this._oldPos = target;
+      bool lookLeft = target.anchoredPosition.x < this._currPos.anchoredPosition.x;
+      this._actorRectTransform.localScale = new Vector3(lookLeft ? 1 : -1, 1, 1);
+      
+      this._oldPos = this._currPos;
+      this._currPos = target;
+
       Sequence sequence = DOTween.Sequence();
       sequence.Append(this._actorRectTransform.DOAnchorPos(target.anchoredPosition, 3f));
       sequence.Join(this._actorRectTransform.DOSizeDelta(target.sizeDelta, 3f));

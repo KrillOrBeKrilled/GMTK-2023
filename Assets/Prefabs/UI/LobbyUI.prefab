@@ -1283,11 +1283,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveDelay: 5
-  _actorImageRectTransform: {fileID: 4235860296575241873}
+  _actorRectTransform: {fileID: 4235860296575241873}
   _actorAnimator: {fileID: 0}
   _targets:
   - {fileID: 8181190092422397479}
-  - {fileID: 2349858549599634421}
   - {fileID: 2239643139788589167}
   - {fileID: 632869633327597588}
   - {fileID: 290969100068178281}

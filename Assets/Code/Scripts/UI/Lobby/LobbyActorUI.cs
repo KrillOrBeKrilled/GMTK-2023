@@ -15,7 +15,6 @@ namespace KrillOrBeKrilled.UI {
 
     private static readonly int IdleId = Animator.StringToHash("Idle");
     private static readonly int WalkId = Animator.StringToHash("Walk");
-    private static float MoveDuration = 3f;
     
     private bool _doRoam = true;
     private bool _isMoving;
@@ -55,14 +54,16 @@ namespace KrillOrBeKrilled.UI {
 
       bool lookLeft = target.anchoredPosition.x < this._currPos.anchoredPosition.x;
       this._actorRectTransform.localScale = new Vector3(lookLeft ? 1 : -1, 1, 1);
-      print($"Distance: {Vector2.Distance(target.anchoredPosition, this._currPos.anchoredPosition)}, speed: {Vector2.Distance(target.anchoredPosition, this._currPos.anchoredPosition) / MoveDuration}");
+      
+      float distance = Vector2.Distance(target.anchoredPosition, this._currPos.anchoredPosition);
+      float moveDuration = distance / this._moveSpeed; 
       
       this._oldPos = this._currPos;
       this._currPos = target;
-
+      
       Sequence sequence = DOTween.Sequence();
-      sequence.Append(this._actorRectTransform.DOAnchorPos(target.anchoredPosition, MoveDuration));
-      sequence.Join(this._actorRectTransform.DOSizeDelta(target.sizeDelta, MoveDuration));
+      sequence.Append(this._actorRectTransform.DOAnchorPos(target.anchoredPosition, moveDuration));
+      sequence.Join(this._actorRectTransform.DOSizeDelta(target.sizeDelta, moveDuration));
       sequence.SetEase(Ease.Linear);
       sequence.OnComplete(() => this._isMoving = false);
       sequence.Play();

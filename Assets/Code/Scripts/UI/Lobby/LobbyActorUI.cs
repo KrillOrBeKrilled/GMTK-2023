@@ -7,15 +7,16 @@ using UnityEngine.Serialization;
 
 namespace KrillOrBeKrilled.UI {
   public class LobbyActorUI : MonoBehaviour {
-    [SerializeField] private float _moveDelay = 5f;
+    [SerializeField] private Vector2 _moveDelay = new(5f, 10f);
     [FormerlySerializedAs("_actorImageRectTransform")] [SerializeField] private RectTransform _actorRectTransform;
     [SerializeField] private Animator _actorAnimator;
     [SerializeField] private List<RectTransform> _targets;
-    [SerializeField] private float _moveSpeed;
+    [SerializeField] private float _moveSpeed = 100;
 
     private static readonly int IdleId = Animator.StringToHash("Idle");
     private static readonly int WalkId = Animator.StringToHash("Walk");
-
+    private static float MoveDuration = 3f;
+    
     private bool _doRoam = true;
     private bool _isMoving;
 
@@ -35,7 +36,8 @@ namespace KrillOrBeKrilled.UI {
     private IEnumerator Roam() {
       while (this._doRoam) {
         this.StartIdle();
-        yield return new WaitForSeconds(this._moveDelay);
+        float delay = Random.Range(this._moveDelay.x, this._moveDelay.y);
+        yield return new WaitForSeconds(delay);
         
         this.StartWalk();
         this.MoveActor();
@@ -53,13 +55,14 @@ namespace KrillOrBeKrilled.UI {
 
       bool lookLeft = target.anchoredPosition.x < this._currPos.anchoredPosition.x;
       this._actorRectTransform.localScale = new Vector3(lookLeft ? 1 : -1, 1, 1);
+      print($"Distance: {Vector2.Distance(target.anchoredPosition, this._currPos.anchoredPosition)}, speed: {Vector2.Distance(target.anchoredPosition, this._currPos.anchoredPosition) / MoveDuration}");
       
       this._oldPos = this._currPos;
       this._currPos = target;
 
       Sequence sequence = DOTween.Sequence();
-      sequence.Append(this._actorRectTransform.DOAnchorPos(target.anchoredPosition, 3f));
-      sequence.Join(this._actorRectTransform.DOSizeDelta(target.sizeDelta, 3f));
+      sequence.Append(this._actorRectTransform.DOAnchorPos(target.anchoredPosition, MoveDuration));
+      sequence.Join(this._actorRectTransform.DOSizeDelta(target.sizeDelta, MoveDuration));
       sequence.SetEase(Ease.Linear);
       sequence.OnComplete(() => this._isMoving = false);
       sequence.Play();

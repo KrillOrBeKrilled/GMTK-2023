@@ -44,10 +44,12 @@ namespace KrillOrBeKrilled.UI {
       } while (target == this._oldPos);
 
       this._oldPos = target;
-      this._actorRectTransform
-          .DOAnchorPos(target.anchoredPosition, 3f)
-          .SetEase(Ease.Linear)
-          .OnComplete(() => this._isMoving = false);
+      Sequence sequence = DOTween.Sequence();
+      sequence.Append(this._actorRectTransform.DOAnchorPos(target.anchoredPosition, 3f));
+      sequence.Join(this._actorRectTransform.DOSizeDelta(target.sizeDelta, 3f));
+      sequence.SetEase(Ease.Linear);
+      sequence.OnComplete(() => this._isMoving = false);
+      sequence.Play();
     }
     
 

@@ -2053,7 +2053,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5657259521571571319
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6111,17 +6111,29 @@ PrefabInstance:
       value: Endless Level
       objectReference: {fileID: 0}
     - target: {fileID: 3495122457849968615, guid: d8e340b7a0b7149cf8cfc8dd4afdaa7c, type: 3}
+      propertyPath: _completedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b6e4cddd7cd614955954a94aa4ffe71b, type: 3}
+    - target: {fileID: 3495122457849968615, guid: d8e340b7a0b7149cf8cfc8dd4afdaa7c, type: 3}
       propertyPath: _incompleteSprite
       value: 
-      objectReference: {fileID: 21300000, guid: 62e3cf80bb31f451f8e7627ecc932586, type: 3}
+      objectReference: {fileID: 21300000, guid: b6e4cddd7cd614955954a94aa4ffe71b, type: 3}
+    - target: {fileID: 3495122457849968615, guid: d8e340b7a0b7149cf8cfc8dd4afdaa7c, type: 3}
+      propertyPath: _completedSpritePressed
+      value: 
+      objectReference: {fileID: 21300000, guid: 5bd7afa6b2f55473980a6e92f3feb6e7, type: 3}
+    - target: {fileID: 3495122457849968615, guid: d8e340b7a0b7149cf8cfc8dd4afdaa7c, type: 3}
+      propertyPath: _completedSpriteDisabled
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3495122457849968615, guid: d8e340b7a0b7149cf8cfc8dd4afdaa7c, type: 3}
       propertyPath: _incompleteSpritePressed
       value: 
-      objectReference: {fileID: 21300000, guid: abb88b94775af4559a9cf26724e2a873, type: 3}
+      objectReference: {fileID: 21300000, guid: 5bd7afa6b2f55473980a6e92f3feb6e7, type: 3}
     - target: {fileID: 3495122457849968615, guid: d8e340b7a0b7149cf8cfc8dd4afdaa7c, type: 3}
       propertyPath: _incompleteSpriteDisabled
       value: 
-      objectReference: {fileID: 21300000, guid: c7d4321e4dbe24316b6001567eaa3e07, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4982857453446704174, guid: d8e340b7a0b7149cf8cfc8dd4afdaa7c, type: 3}
       propertyPath: _defaultImage
       value: 
@@ -6166,10 +6178,26 @@ PrefabInstance:
       propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 6245056084806987122, guid: d8e340b7a0b7149cf8cfc8dd4afdaa7c, type: 3}
+      propertyPath: _defaultImage
+      value: 
+      objectReference: {fileID: 21300000, guid: b6e4cddd7cd614955954a94aa4ffe71b, type: 3}
+    - target: {fileID: 6245056084806987122, guid: d8e340b7a0b7149cf8cfc8dd4afdaa7c, type: 3}
+      propertyPath: _pressedImage
+      value: 
+      objectReference: {fileID: 21300000, guid: 5bd7afa6b2f55473980a6e92f3feb6e7, type: 3}
+    - target: {fileID: 6245056084806987122, guid: d8e340b7a0b7149cf8cfc8dd4afdaa7c, type: 3}
+      propertyPath: _disabledImage
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6245056084806987122, guid: d8e340b7a0b7149cf8cfc8dd4afdaa7c, type: 3}
+      propertyPath: _enableBounceAnimation
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6696118938020510372, guid: d8e340b7a0b7149cf8cfc8dd4afdaa7c, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: c7d4321e4dbe24316b6001567eaa3e07, type: 3}
+      objectReference: {fileID: 21300000, guid: b6e4cddd7cd614955954a94aa4ffe71b, type: 3}
     - target: {fileID: 8360548176677035695, guid: d8e340b7a0b7149cf8cfc8dd4afdaa7c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

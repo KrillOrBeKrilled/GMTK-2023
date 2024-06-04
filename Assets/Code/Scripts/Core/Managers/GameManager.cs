@@ -103,6 +103,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         public UnityEvent<UnityAction> OnSceneWillChange { get; private set; }
 
         private bool _isGameOver;
+        private Tilemap _levelTilemap;
 
         //========================================
         // Unity Methods
@@ -123,45 +124,9 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         /// <remarks> Invokes the <see cref="OnSetupComplete"/> event. </remarks>
         private IEnumerator Start() {
-            // Create a copy to avoid modifying source
-            LevelData sourceData = _testingLevelData != null ? _testingLevelData : LevelManager.Instance.GetActiveLevelData();
-            this._levelData = ScriptableObject.CreateInstance<LevelData>();
-            this._levelData.Index = sourceData.Index;
-            this._levelData.DialogueName = sourceData.DialogueName;
-            this._levelData.NextLevelName = sourceData.NextLevelName;
-            this._levelData.Type = sourceData.Type;
-            this._levelData.RespawnPositions = sourceData.RespawnPositions.ToList();
-            this._levelData.EndgameTargetPosition = sourceData.EndgameTargetPosition;
-            this._levelData.WallsTilemapPrefab = sourceData.WallsTilemapPrefab;
-            this._levelData.WavesData = new WavesData() { WavesList = sourceData.WavesData.WavesList.ToList() };
-
-            this._nextWavesDataQueue = new Queue<WaveData>(this._levelData.WavesData.WavesList);
-            this._lastWavesDataQueue = new Queue<WaveData>(this._levelData.WavesData.WavesList);
-            this._endgameTarget = Instantiate(this._endgameTargetPrefab, this._levelData.EndgameTargetPosition, 
-                Quaternion.identity, this.transform);
-
-            Tilemap levelTilemap = Instantiate(this._levelData.WallsTilemapPrefab, this._tilemapGrid);
-            this._cameraManager.SetBounds(sourceData.WallsTilemapPrefab.transform.GetComponentExactlyInChildren<Collider2D>());
-
-            foreach (Vector3 respawnPosition in this._levelData.RespawnPositions) {
-                RespawnPoint newPoint = Instantiate(this._respawnPointPrefab, respawnPosition, 
-                    Quaternion.identity, this.transform);
-                this._respawnPoints.Add(newPoint);
-            }
-
-            this._activeRespawnPoint = this._respawnPoints.First();
-            this._firstRespawnPoint = this._activeRespawnPoint;
-
-            this._cameraSwitcher.OnSwitchCameraFreeze.AddListener(this.FreezeCameraTransition);
-            this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
-            this._playerController.Player.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
-            this._playerController.Player.OnSelectedTrapChanged.AddListener(this.SelectedTrapIndexChanged);
-            this._playerController.Player.OnTrapDeployed.AddListener(this.OnTrapDeployed);
-            
-            this._playerController.Initialize(this, levelTilemap);
-            ResourceManager.Instance.Initialize(this.PlayerController.TrapController.OnConsumeResources);
-            ResourceSpawner.Instance.Initialize(this.PlayerController.transform);
-            TilemapManager.Instance.Initialize(levelTilemap, this.PlayerController.TrapController, this._playerController.Player);
+            this.CopyLevelData();
+            this.SetupLevelMap();
+            this.InitializeHelpers();
 
             // Wait for a frame so that all other scripts complete Start() method.
             yield return null;
@@ -301,6 +266,55 @@ namespace KrillOrBeKrilled.Core.Managers {
         //========================================
 
         #region Private Methods
+        
+        /// <summary>
+        /// Create a copy of the level data for use during the round.
+        /// </summary>
+        private void CopyLevelData() {
+            LevelData sourceData = this._testingLevelData != null ? this._testingLevelData : LevelManager.Instance.GetActiveLevelData();
+            this._levelData = ScriptableObject.CreateInstance<LevelData>();
+            this._levelData.Index = sourceData.Index;
+            this._levelData.DialogueName = sourceData.DialogueName;
+            this._levelData.NextLevelName = sourceData.NextLevelName;
+            this._levelData.Type = sourceData.Type;
+            this._levelData.RespawnPositions = sourceData.RespawnPositions.ToList();
+            this._levelData.EndgameTargetPosition = sourceData.EndgameTargetPosition;
+            this._levelData.WallsTilemapPrefab = sourceData.WallsTilemapPrefab;
+            this._levelData.WavesData = new WavesData() { WavesList = sourceData.WavesData.WavesList.ToList() };
+        }
+        
+        private void InitializeHelpers() {
+            this._cameraSwitcher.OnSwitchCameraFreeze.AddListener(this.FreezeCameraTransition);
+            this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
+            this._playerController.Player.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
+            this._playerController.Player.OnSelectedTrapChanged.AddListener(this.SelectedTrapIndexChanged);
+            this._playerController.Player.OnTrapDeployed.AddListener(this.OnTrapDeployed);
+            
+            this._playerController.Initialize(this, this._levelTilemap);
+            ResourceManager.Instance.Initialize(this.PlayerController.TrapController.OnConsumeResources);
+            ResourceSpawner.Instance.Initialize(this.PlayerController.transform);
+            TilemapManager.Instance.Initialize(this._levelTilemap, this.PlayerController.TrapController, this._playerController.Player);
+        }
+
+        private void SetupLevelMap() {
+            this._nextWavesDataQueue = new Queue<WaveData>(this._levelData.WavesData.WavesList);
+            this._lastWavesDataQueue = new Queue<WaveData>(this._levelData.WavesData.WavesList);
+            
+            this._endgameTarget = Instantiate(this._endgameTargetPrefab, this._levelData.EndgameTargetPosition, 
+                                              Quaternion.identity, this.transform);
+
+            this._levelTilemap = Instantiate(this._levelData.WallsTilemapPrefab, this._tilemapGrid);
+            this._cameraManager.SetBounds(this._levelData.WallsTilemapPrefab.transform.GetComponentExactlyInChildren<Collider2D>());
+
+            foreach (Vector3 respawnPosition in this._levelData.RespawnPositions) {
+                RespawnPoint newPoint = Instantiate(this._respawnPointPrefab, respawnPosition, 
+                                                    Quaternion.identity, this.transform);
+                this._respawnPoints.Add(newPoint);
+            }
+
+            this._activeRespawnPoint = this._respawnPoints.First();
+            this._firstRespawnPoint = this._activeRespawnPoint;
+        }
 
         #region Level Sequence
 

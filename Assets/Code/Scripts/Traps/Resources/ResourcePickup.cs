@@ -37,7 +37,7 @@ namespace KrillOrBeKrilled.Traps {
         private void OnTriggerStay2D(Collider2D other) {
             AcidPitTrap trap = other.gameObject.GetComponent<AcidPitTrap>();
             if (trap != null) {
-                this._spriteRenderer.color = new Color(1, 1, 1, 0.4f);
+                this._spriteRenderer.color = new Color(1, 1, 1, 0.5f);
             }
         }
         

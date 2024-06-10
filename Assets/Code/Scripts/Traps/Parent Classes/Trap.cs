@@ -52,6 +52,10 @@ namespace KrillOrBeKrilled.Traps {
         #region Unity Methods
         
         private void OnTriggerEnter2D(Collider2D other) {
+            // Ignore player for now.
+            if (other.CompareTag("Player"))
+                return;
+            
             if (other.TryGetComponent(out ITrapDamageable actor)) {
                 this.OnEnteredTrap(actor);
             }

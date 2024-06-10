@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerController: {fileID: 0}
   _pauseManager: {fileID: 0}
+  _cameraManager: {fileID: 0}
   _dialogueRunner: {fileID: 0}
   _cameraSwitcher: {fileID: 0}
   _cameraShaker: {fileID: 0}
@@ -55,6 +56,7 @@ MonoBehaviour:
   _respawnPointPrefab: {fileID: 908663684222352325, guid: 95dbd9212de398d42af1486d1b511008, type: 3}
   _endgameTargetPrefab: {fileID: 2478820807580166489, guid: 38b84a3185ecd47ec984625f684b6a6a, type: 3}
   _tilemapGrid: {fileID: 0}
+  _testingLevelData: {fileID: 0}
 --- !u!114 &7141821003299555517
 MonoBehaviour:
   m_ObjectHideFlags: 0

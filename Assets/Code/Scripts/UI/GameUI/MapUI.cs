@@ -120,7 +120,8 @@ namespace KrillOrBeKrilled.UI {
                     throw new ArgumentOutOfRangeException();
             }
 
-            Image newIcon = Instantiate(heroIconPrefab, this._heroIconsParent);
+            Image newIcon = Instantiate(heroIconPrefab, this._heroIconsParent, true);
+            newIcon.transform.SetAsFirstSibling();
             this._heroToIconDict.Add(newHero, newIcon);
         }
 

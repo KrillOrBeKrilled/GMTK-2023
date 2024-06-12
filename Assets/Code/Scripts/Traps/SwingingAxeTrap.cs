@@ -16,6 +16,8 @@ namespace KrillOrBeKrilled.Traps {
         [SerializeField] private int _damageAmount = 10;
         [SerializeField] private Animator _animator;
 
+        private bool _isArmed = false;
+
         //========================================
         // Protected Methods
         //========================================
@@ -37,12 +39,19 @@ namespace KrillOrBeKrilled.Traps {
             Destroy(this.gameObject);
         }
 
+        protected void ArmTrap() {
+            this._isArmed = true;
+        }
+
         /// <inheritdoc cref="Trap.OnEnteredTrap"/>
         /// <summary>
         /// Applies a knock back force and flat damage to the <see cref="ITrapDamageable"/> actor.
         /// </summary>
         /// <param name="actor"> The recipient of the trap's damaging effects. </param>
         protected override void OnEnteredTrap(ITrapDamageable actor) {
+            if (!this._isArmed)
+                return;
+            
             DetonateTrap();
             actor.TakeTrapDamage(this._damageAmount, this);
             actor.TrapThrowActorBack(0.5f, this._pushbackForce);

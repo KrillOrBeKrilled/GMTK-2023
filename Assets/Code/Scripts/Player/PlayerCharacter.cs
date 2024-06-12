@@ -102,6 +102,7 @@ namespace KrillOrBeKrilled.Player {
         private PlayerSoundsController _soundsController;
 
         // --------------- Bookkeeping ---------------
+        private SpriteRenderer _spriteRenderer;
         private Animator _animator;
         private readonly int _speedKey = Animator.StringToHash("speed");
         private readonly int _directionKey = Animator.StringToHash("direction");
@@ -117,6 +118,7 @@ namespace KrillOrBeKrilled.Player {
         private void Awake() {
             this.RBody = this.GetComponent<Rigidbody2D>();
             this._animator = this.GetComponent<Animator>();
+            this._spriteRenderer = this.GetComponent<SpriteRenderer>();
             this._trapController = this.GetComponent<TrapController>();
             this._soundsController = this.GetComponent<PlayerSoundsController>();
 
@@ -205,7 +207,21 @@ namespace KrillOrBeKrilled.Player {
             damageable.ThrowActorBack(5f);
         }
 
-#if UNITY_EDITOR
+        private void OnTriggerStay2D(Collider2D other) {
+            other.gameObject.TryGetComponent(out AcidPitTrap acid);
+            if (acid != null) {
+                this._spriteRenderer.color = new Color(1, 1, 1, 0.5f);
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other) {
+            other.gameObject.TryGetComponent(out AcidPitTrap acid);
+            if (acid != null) {
+                this._spriteRenderer.color = Color.white;
+            }
+        }
+
+        #if UNITY_EDITOR
         private void OnDrawGizmosSelected() {
             float halfWidth = this.GroundedCheckBoxSize.x / 2;
             float halfHeight = this.GroundedCheckBoxSize.y / 2;

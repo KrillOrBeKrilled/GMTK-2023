@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using KrillOrBeKrilled.Core.Cameras;
 using KrillOrBeKrilled.Core.Input;
@@ -32,18 +31,14 @@ namespace KrillOrBeKrilled.Core.Managers {
         [SerializeField] private PlayerController _playerController;
         [SerializeField] private PauseManager _pauseManager;
         [SerializeField] private CameraManager _cameraManager;
+        [field:SerializeField] public WaveManager WaveManager { get; private set; }
 
         [Header("Dialogue References")]
         [SerializeField] private DialogueRunner _dialogueRunner;
         [SerializeField] private CameraSwitcher _cameraSwitcher;
         [SerializeField] private CameraShaker _cameraShaker;
 
-        [Header("Heroes")]
-        [SerializeField] private Hero _defaultHeroPrefab;
-        [SerializeField] private Hero _druidHeroPrefab;
-
         [Header("Level")]
-        [SerializeField] private RespawnPoint _respawnPointPrefab;
         [SerializeField] private EndgameTarget _endgameTargetPrefab;
         [SerializeField] private Transform _tilemapGrid;
 
@@ -55,7 +50,8 @@ namespace KrillOrBeKrilled.Core.Managers {
         public PlayerCharacter Player => this._playerController.Player;
         public TrapController TrapController => this._playerController.TrapController;
 
-        public Transform LevelStart => this._firstRespawnPoint.transform;
+        public Vector3 LevelStart { get; private set; }
+    
         public Transform LevelEnd => this._endgameTarget.transform;
 
         /// The instantiated endgameTargetPrefab.
@@ -63,26 +59,8 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// The instantiated defaultHeroPrefab used for story mode dialogue sequences.
         private Hero _heroActor;
 
-        // ------------- Wave Spawning ---------------
-        /// Tracks the active heroes on the level map at any given time.
-        private readonly List<Hero> _heroes = new List<Hero>();
-
-        /// Tracks the active hero respawn points at any given time.
-        private readonly List<RespawnPoint> _respawnPoints = new List<RespawnPoint>();
-        /// Spawns a hero used for story mode dialogue sequences.
-        private RespawnPoint _firstRespawnPoint;
-        /// Spawns heroes actively throughout the level gameplay.
-        private RespawnPoint _activeRespawnPoint;
-
         /// Contains all data on the waves and hero settings to spawn per wave that constitutes a playable level.
         private LevelData _levelData;
-        private Queue<WaveData> _nextWavesDataQueue;
-        private Queue<WaveData> _lastWavesDataQueue;
-        private bool IsEndlessLevel => this._levelData != null && (this._levelData.Type == LevelData.LevelType.Endless);
-
-        private const float EndlessLevelHealthIncreaseRate = 1.5f;
-
-        private IEnumerator _waveSpawnCoroutine;
 
         // ------------- Sound Effects ---------------
         private HeroSoundsController _heroSoundsController;
@@ -97,8 +75,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         public UnityEvent<string> OnHenWon { get; private set; }
         [Tooltip("Tracks when the player loses the game.")]
         public UnityEvent<string> OnHenLost { get; private set; }
-        [Tooltip("Tracks when a hero is spawned.")]
-        public UnityEvent<Hero, bool> OnHeroSpawned { get; private set; }
+        
         [Tooltip("Tracks when a new scene should be loaded.")]
         public UnityEvent<UnityAction> OnSceneWillChange { get; private set; }
 
@@ -118,7 +95,6 @@ namespace KrillOrBeKrilled.Core.Managers {
             this.OnStartLevel = new UnityEvent();
             this.OnHenWon = new UnityEvent<string>();
             this.OnHenLost = new UnityEvent<string>();
-            this.OnHeroSpawned = new UnityEvent<Hero, bool>();
             this.OnSceneWillChange = new UnityEvent<UnityAction>();
         }
 
@@ -167,7 +143,8 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <remarks> Can be accessed as a YarnCommand. </remarks>
         [YarnCommand("spawn_hero_actor")]
         public void SpawnHeroActor() {
-            this._heroActor = this.SpawnHero(HeroData.DefaultHero, true);
+            // TODO: MOVE TO DIALOGUE MANAGER
+            // this._heroActor = this.SpawnHero(HeroData.DefaultHero, true);
         }
 
         /// <summary>
@@ -200,7 +177,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         [YarnCommand("start_level_enabled_spawn")]
         public void StartLevelWithSpawn() {
             this.StartLevelNoSpawn();
-            this.StartWaveSpawning();
+            this.WaveManager.StartWaveSpawning();
         }
 
         /// <summary>
@@ -223,7 +200,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         public void LoadMainMenu() {
             this._pauseManager.UnpauseGame();
             this._pauseManager.SetIsPausable(false);
-            this.FreezeAllHeroes();
+            this.WaveManager.FreezeAllHeroes();
             this.OnSceneWillChange?.Invoke(SceneNavigationManager.LoadLobbyScene);
         }
 
@@ -234,7 +211,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         public void LoadNextLevel() {
             this._pauseManager.UnpauseGame();
             this._pauseManager.SetIsPausable(false);
-            this.FreezeAllHeroes();
+            this.WaveManager.FreezeAllHeroes();
 
             UnityAction onSceneLoaded;
             if (string.IsNullOrEmpty(this._levelData.NextLevelName)) {
@@ -253,7 +230,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         public void ReloadThisLevel() {
             this._pauseManager.UnpauseGame();
             this._pauseManager.SetIsPausable(false);
-            this.FreezeAllHeroes();
+            this.WaveManager.FreezeAllHeroes();
             this.OnSceneWillChange?.Invoke(SceneNavigationManager.ReloadCurrentScene);
         }
 
@@ -289,6 +266,8 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._playerController.Player.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
             this._playerController.Player.OnSelectedTrapChanged.AddListener(this.SelectedTrapIndexChanged);
             this._playerController.Player.OnTrapDeployed.AddListener(this.OnTrapDeployed);
+            this.WaveManager.Initialize(this._levelData, this._heroSoundsController, this._levelTilemap);
+            this.WaveManager.OnAllWavesCleared.AddListener(() => this.HenWon("All heroes were defeated. Good job!"));
             
             this._playerController.Initialize(this, this._levelTilemap);
             ResourceManager.Instance.Initialize(this.PlayerController.TrapController.OnConsumeResources);
@@ -297,23 +276,12 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
 
         private void SetupLevelMap() {
-            this._nextWavesDataQueue = new Queue<WaveData>(this._levelData.WavesData.WavesList);
-            this._lastWavesDataQueue = new Queue<WaveData>(this._levelData.WavesData.WavesList);
-            
             this._endgameTarget = Instantiate(this._endgameTargetPrefab, this._levelData.EndgameTargetPosition, 
                                               Quaternion.identity, this.transform);
 
             this._levelTilemap = Instantiate(this._levelData.WallsTilemapPrefab, this._tilemapGrid);
             this._cameraManager.SetBounds(this._levelData.WallsTilemapPrefab.transform.GetComponentExactlyInChildren<Collider2D>());
-
-            foreach (Vector3 respawnPosition in this._levelData.RespawnPositions) {
-                RespawnPoint newPoint = Instantiate(this._respawnPointPrefab, respawnPosition, 
-                                                    Quaternion.identity, this.transform);
-                this._respawnPoints.Add(newPoint);
-            }
-
-            this._activeRespawnPoint = this._respawnPoints.First();
-            this._firstRespawnPoint = this._activeRespawnPoint;
+            this.LevelStart = this._levelData.RespawnPositions.First();
         }
 
         #region Level Sequence
@@ -366,146 +334,7 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         #endregion
 
-        #region Wave Spawning
-
-        /// <summary>
-        /// Generates a new Queue of <see cref="WaveData"/> containing identical <see cref="WaveData"/> and
-        /// <see cref="HeroData"/> to the previous Queue, but with scaled <see cref="HeroData.Health"/> values
-        /// associated with the progress in the level.
-        /// </summary>
-        /// <remarks> Invoked for the <see cref="LevelData.LevelType.Endless"/> mode only. </remarks>
-        private void GenerateNextWaves() {
-            if (this._nextWavesDataQueue.Count > 0) {
-                Debug.LogWarning("Attempted to generate next wave when current one is not empty.");
-                return;
-            }
-
-            foreach (WaveData waveData in this._lastWavesDataQueue) {
-                WaveData newWave = new WaveData() {
-                    Heroes = new List<HeroData>(),
-                    HeroSpawnDelayInSeconds = waveData.HeroSpawnDelayInSeconds,
-                    NextWaveSpawnDelayInSeconds = waveData.NextWaveSpawnDelayInSeconds
-                };
-
-                foreach (HeroData heroData in waveData.Heroes) {
-                    HeroData newHeroData = new HeroData() {
-                        Health = Mathf.FloorToInt(heroData.Health * EndlessLevelHealthIncreaseRate),
-                        Type = heroData.Type
-                    };
-
-                    newWave.Heroes.Add(newHeroData);
-                }
-
-                this._nextWavesDataQueue.Enqueue(newWave);
-            }
-
-            this._lastWavesDataQueue = new Queue<WaveData>(this._nextWavesDataQueue);
-        }
-
-        /// <summary>
-        /// Instantiates a new hero according to the <see cref="HeroData.Type"/> at the
-        /// <see cref="_activeRespawnPoint"/> and registers the hero in bookkeeping structures, event listeners,
-        /// and the game UI.
-        /// </summary>
-        /// <param name="heroData"> The data associated with the hero to spawn stored within each
-        /// <see cref="WaveData"/>. </param>
-        /// <param name="registerAsDialogueCharacter"> If the spawned hero should be registered with the dialogue system. </param>
-        /// <returns> The instantiated hero GameObject. </returns>
-        /// <remarks> Invokes the <see cref="OnHeroSpawned"/> event. </remarks>
-        private Hero SpawnHero(HeroData heroData, bool registerAsDialogueCharacter = false) {
-            var heroPrefab = this._defaultHeroPrefab;
-            if (heroData.Type == HeroData.HeroType.Druid) {
-                heroPrefab = this._druidHeroPrefab;
-            }
-
-            var newHero = Instantiate(heroPrefab, this._activeRespawnPoint.transform);
-            newHero.Initialize(heroData, this._heroSoundsController, this._playerController.TrapController.GroundTilemap);
-            newHero.OnHeroDied.AddListener(this.OnHeroDied);
-
-            this._heroes.Add(newHero);
-            this.OnHeroSpawned?.Invoke(newHero, registerAsDialogueCharacter);
-            return newHero;
-        }
-
-        /// <summary>
-        /// Parses the next <see cref="WaveData"/> to spawn all the associated heroes in intervals denoted by the
-        /// <see cref="WaveData.HeroSpawnDelayInSeconds"/>. Spawns the next wave if
-        /// <see cref="WaveData.NextWaveSpawnDelayInSeconds"/> is nonzero and nonnegative, otherwise waits until
-        /// the previous wave is defeated before spawning the next wave.
-        /// </summary>
-        /// <remarks>
-        /// The coroutine is started by <see cref="SkipDialogue"/>. If the registered <see cref="WaveData"/>
-        /// are all completed and the <see cref="LevelData.LevelType"/> is set to
-        /// <see cref="LevelData.LevelType.Endless"/>, generates new <see cref="WaveData"/> with scaled health
-        /// values. Otherwise, the wave spawner is aborted and the level is completed.
-        /// </remarks>
-        private IEnumerator SpawnNextWave() {
-            if (this._nextWavesDataQueue.Count <= 0) {
-                if (!this.IsEndlessLevel) {
-                    yield break;
-                }
-
-                this.GenerateNextWaves();
-            }
-
-            WaveData waveData = this._nextWavesDataQueue.Dequeue();
-            foreach (HeroData heroData in waveData.Heroes) {
-                this.SpawnHero(heroData);
-                yield return new WaitForSeconds(waveData.HeroSpawnDelayInSeconds);
-
-                if (this._isGameOver) {
-                    yield break;
-                }
-            }
-
-            if (waveData.NextWaveSpawnDelayInSeconds < 0) {
-                yield break;
-            }
-
-            yield return new WaitForSeconds(waveData.NextWaveSpawnDelayInSeconds);
-            if (this._isGameOver) {
-                yield break;
-            }
-
-            this._waveSpawnCoroutine = this.SpawnNextWave();
-            yield return this._waveSpawnCoroutine;
-        }
-
-        /// <summary>
-        /// Starts the <see cref="SpawnNextWave"/> coroutine to begin the enemy spawning gameplay.
-        /// </summary>
-        private void StartWaveSpawning() {
-            this._waveSpawnCoroutine = this.SpawnNextWave();
-            this.StartCoroutine(this._waveSpawnCoroutine);
-        }
-
-        #endregion
-
         #region UGSAnalytics
-
-        /// <summary>
-        /// Records analytics hero death data.
-        /// </summary>
-        /// <param name="hero"> The hero that died. </param>
-        /// <remarks> Subscribed to the <see cref="Hero.OnHeroDied"/> event. </remarks>
-        private void OnHeroDied(Hero hero) {
-            this._heroes.Remove(hero);
-
-            bool noMoreWaves = !this.IsEndlessLevel && this._nextWavesDataQueue.Count <= 0;
-            bool allHeroesDied = this._heroes.Count <= 0;
-            if (noMoreWaves && allHeroesDied) {
-                this.HenWon("All heroes were defeated. Good job!");
-            } else if (allHeroesDied) {
-                this._waveSpawnCoroutine = this.SpawnNextWave();
-                this.StartCoroutine(this._waveSpawnCoroutine);
-            }
-
-            if (UGS_Analytics.Instance is null) {
-                return;
-            }
-
-            UGS_Analytics.HeroDiedCustomEvent(hero.transform.position);
-        }
 
         /// <summary>
         /// Ends the game and records analytics player death data if the player state is <see cref="GameOverState"/>.
@@ -567,9 +396,7 @@ namespace KrillOrBeKrilled.Core.Managers {
 
             Destroy(this._playerController.gameObject);
 
-            if (this._waveSpawnCoroutine != null) {
-                this.StopCoroutine(this._waveSpawnCoroutine);
-            }
+            this.WaveManager.StopWaves();
 
             this._dialogueRunner.Stop();
         }
@@ -586,11 +413,9 @@ namespace KrillOrBeKrilled.Core.Managers {
 
             this._isGameOver = true;
 
-            if (this._waveSpawnCoroutine != null) {
-                this.StopCoroutine(this._waveSpawnCoroutine);
-            }
+            this.WaveManager.StopWaves();
 
-            this.FreezeAllHeroes();
+            this.WaveManager.FreezeAllHeroes();
             this._playerController.StopSession();
             
             this.OnHenLost?.Invoke(endgameMessage);
@@ -629,32 +454,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             this.HenLost("The Hero managed to reach his goal and do heroic things.\nHendall, you failed me!");
         }
 
-        /// <summary>
-        /// Disables movement for every hero currently active in the level.
-        /// </summary>
-        private void StopAllHeroes() {
-            foreach (var hero in this._heroes) {
-                hero.StopRunning();
-            }
-        }
-
-        /// <summary>
-        /// Freezes all heroes' actions and movement in the level.
-        /// </summary>
-        private void FreezeAllHeroes() {
-            foreach (Hero hero in this._heroes) {
-                hero.Freeze();
-            }
-        }
-
-        /// <summary>
-        /// Unfreezes all heroes' actions and movement in the level.
-        /// </summary>
-        private void UnfreezeAllHeroes() {
-            foreach (Hero hero in this._heroes) {
-                hero.Unfreeze();
-            }
-        }
+        
 
         /// <summary>
         /// Freezes the movement of all active actors within the level for a duration of time on a camera switch.
@@ -670,12 +470,12 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// </summary>
         /// <param name="freezeTime"> The duration of time to freeze movement. </param>
         private IEnumerator FreezeAllActors(float freezeTime) {
-            FreezeAllHeroes();
+            this.WaveManager.FreezeAllHeroes();
             this._playerController.Player.FreezePosition();
 
             yield return new WaitForSeconds(freezeTime);
             
-            UnfreezeAllHeroes();
+            this.WaveManager.UnfreezeAllHeroes();
             this._playerController.Player.UnfreezePosition();
         }
 

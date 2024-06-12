@@ -66,7 +66,7 @@ namespace KrillOrBeKrilled.UI {
             this._gameManager.OnSetupComplete.AddListener(this.OnGameSetupComplete);
             this._gameManager.OnHenWon.AddListener(this.OnHenWon);
             this._gameManager.OnHenLost.AddListener(this.OnHenLost);
-            this._gameManager.OnHeroSpawned.AddListener(this.OnHeroSpawned);
+            this._gameManager.WaveManager.OnHeroSpawned.AddListener(this.OnHeroSpawned);
             this._gameManager.OnSceneWillChange.AddListener(this.ScreenWipeInSceneCover);
 
             this._trapRequirementsUI.Initialize(this._gameManager.Player.OnSelectedTrapChanged);
@@ -79,7 +79,7 @@ namespace KrillOrBeKrilled.UI {
             this._skipDialogueUI.Initialize(this._gameManager.OnStartLevel, this._gameManager.SkipDialogue);
             this._mapUI.Initialize(
                 this._gameManager.PlayerController.transform,
-                this._gameManager.LevelStart.position.x,
+                this._gameManager.LevelStart.x,
                 this._gameManager.LevelEnd.position.x
             );
 

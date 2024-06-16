@@ -38,11 +38,9 @@ namespace KrillOrBeKrilled.UI {
         /// Sets up references and listeners to notify observers of the skip dialogue completion and track
         /// when the level starts.
         /// </summary>
-        /// <param name="onStartLevel"> Tracks when the level begins. </param>
         /// <param name="onSkipComplete"> Tracks when the skip dialogue timer is completed. </param>
-        public void Initialize(UnityEvent onStartLevel, UnityAction onSkipComplete) {
+        public void Initialize(UnityAction onSkipComplete) {
             this._onSkipComplete = onSkipComplete;
-            onStartLevel.AddListener(this.OnStartLevel);
         }
 
         /// <summary>
@@ -52,19 +50,11 @@ namespace KrillOrBeKrilled.UI {
             this._onSkipComplete?.Invoke();
         }
 
-        #endregion
-
-        //========================================
-        // Private Methods
-        //========================================
-
-        #region Private Methods
-
         /// <summary>
         /// Disables this GameObject.
         /// </summary>
         /// <remarks> Subscribed to the onStartLevel event provided upon <see cref="Initialize"/>. </remarks>
-        private void OnStartLevel() {
+        public void OnStartLevel() {
             this._uiButton.gameObject.SetActive(false);
         }
 

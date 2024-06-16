@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5727521076354742524}
   - component: {fileID: 5163640670575006758}
   - component: {fileID: 3111054457805188617}
+  - component: {fileID: 8075178281533060423}
   m_Layer: 5
   m_Name: SkipDialogueUI
   m_TagString: Untagged
@@ -105,6 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _muteClickSfx: 0
   _isInteractable: 1
+  _targetImages: []
   _onClick:
     m_PersistentCalls:
       m_Calls:
@@ -120,7 +122,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _targetImages: []
 --- !u!114 &3111054457805188617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,8 +135,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _image: {fileID: 5727521076354742524}
-  _isInteractable: 1
   _enableBounceAnimation: 0
   _defaultImage: {fileID: 21300000, guid: 77f597dba7bb3477a80bfdde85f245f9, type: 3}
   _pressedImage: {fileID: 21300000, guid: 48eb4e283e00d4751a0fc46b1721ce15, type: 3}
   _disabledImage: {fileID: 0}
+  _isInteractable: 1
+--- !u!114 &8075178281533060423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4522417465387182342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 153f9915aa0e4ed0a6c3da81864c356b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 8aa61a8b42d644419ae9811702e47b54, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8202442999681013308}
+        m_TargetAssemblyTypeName: KrillOrBeKrilled.UI.SkipDialogueUI, UI
+        m_MethodName: OnStartLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

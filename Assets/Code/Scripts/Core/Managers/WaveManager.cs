@@ -138,7 +138,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <param name="registerAsDialogueCharacter"> If the spawned hero should be registered with the dialogue system. </param>
         /// <returns> The instantiated hero GameObject. </returns>
         /// <remarks> Invokes the <see cref="OnHeroSpawned"/> event. </remarks>
-        private Hero SpawnHero(HeroData heroData, bool registerAsDialogueCharacter = false) {
+        public Hero SpawnHero(HeroData heroData, bool registerAsDialogueCharacter = false) {
             var heroPrefab = this._defaultHeroPrefab;
             if (heroData.Type == HeroData.HeroType.Druid) {
                 heroPrefab = this._druidHeroPrefab;

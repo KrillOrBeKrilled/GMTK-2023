@@ -56,6 +56,8 @@ MonoBehaviour:
   _endgameTargetPrefab: {fileID: 2478820807580166489, guid: 38b84a3185ecd47ec984625f684b6a6a, type: 3}
   _tilemapGrid: {fileID: 0}
   _testingLevelData: {fileID: 0}
+  _onSetupComplete: {fileID: 11400000, guid: 5f1a99dbcd4544e0185e86b57b484b94, type: 2}
+  _onStartLevel: {fileID: 11400000, guid: 8aa61a8b42d644419ae9811702e47b54, type: 2}
 --- !u!114 &7141821003299555517
 MonoBehaviour:
   m_ObjectHideFlags: 0

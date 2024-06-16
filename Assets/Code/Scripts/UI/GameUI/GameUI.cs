@@ -63,7 +63,6 @@ namespace KrillOrBeKrilled.UI {
         #region Unity Methods
 
         private void Start() {
-            this._gameManager.OnSetupComplete.AddListener(this.OnGameSetupComplete);
             this._gameManager.OnHenWon.AddListener(this.OnHenWon);
             this._gameManager.OnHenLost.AddListener(this.OnHenLost);
             this._gameManager.WaveManager.OnHeroSpawned.AddListener(this.OnHeroSpawned);
@@ -76,7 +75,7 @@ namespace KrillOrBeKrilled.UI {
                 this._gameManager.Player.SetTrap
             );
 
-            this._skipDialogueUI.Initialize(this._gameManager.OnStartLevel, this._gameManager.SkipDialogue);
+            this._skipDialogueUI.Initialize(this._gameManager.SkipDialogue);
             this._mapUI.Initialize(
                 this._gameManager.PlayerController.transform,
                 this._gameManager.LevelStart.x,
@@ -135,7 +134,7 @@ namespace KrillOrBeKrilled.UI {
         /// Plays a screen wipe-out transition effect.
         /// </summary>
         /// <remarks> Listens on the <see cref="GameManager.OnSetupComplete"/> event. </remarks>
-        private void OnGameSetupComplete() {
+        public void OnGameSetupComplete() {
             this._screenWipe.SetRandomWipeShape();
             this._loadingScreen.gameObject.SetActive(false);
             this._screenWipe.WipeOut();

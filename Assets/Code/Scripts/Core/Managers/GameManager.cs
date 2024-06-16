@@ -12,6 +12,7 @@ using KrillOrBeKrilled.Player.PlayerStates;
 using KrillOrBeKrilled.Traps;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using Yarn.Unity;
 
@@ -66,11 +67,14 @@ namespace KrillOrBeKrilled.Core.Managers {
         private HeroSoundsController _heroSoundsController;
 
         // ----------------- Events ------------------
+        [Header("Events")]
         [Tooltip("Tracks when hero and UI data are set up and this manager sets up other critical gameplay system " +
                  "references.")]
-        public UnityEvent OnSetupComplete { get; private set; }
+        [SerializeField] private GameEvent _onSetupComplete;
+        
         [Tooltip("Tracks when the main gameplay loop begins.")]
-        public UnityEvent OnStartLevel { get; private set; }
+        [SerializeField] private GameEvent _onStartLevel;
+        
         [Tooltip("Tracks when the player beats the game.")]
         public UnityEvent<string> OnHenWon { get; private set; }
         [Tooltip("Tracks when the player loses the game.")]
@@ -91,14 +95,12 @@ namespace KrillOrBeKrilled.Core.Managers {
         private void Awake() {
             TryGetComponent(out this._heroSoundsController);
 
-            this.OnSetupComplete = new UnityEvent();
-            this.OnStartLevel = new UnityEvent();
             this.OnHenWon = new UnityEvent<string>();
             this.OnHenLost = new UnityEvent<string>();
             this.OnSceneWillChange = new UnityEvent<UnityAction>();
         }
 
-        /// <remarks> Invokes the <see cref="OnSetupComplete"/> event. </remarks>
+        /// <remarks> Invokes the <see cref="_onSetupComplete"/> event. </remarks>
         private IEnumerator Start() {
             this.CopyLevelData();
             this.SetupLevelMap();
@@ -107,7 +109,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             // Wait for a frame so that all other scripts complete Start() method.
             yield return null;
             
-            this.OnSetupComplete?.Invoke();
+            this._onSetupComplete.Raise();
 
             if (this._levelData.Type == LevelData.LevelType.Story) {
                 this.StartStoryLevel();
@@ -144,7 +146,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         [YarnCommand("spawn_hero_actor")]
         public void SpawnHeroActor() {
             // TODO: MOVE TO DIALOGUE MANAGER
-            // this._heroActor = this.SpawnHero(HeroData.DefaultHero, true);
+            this._heroActor = this.WaveManager.SpawnHero(HeroData.DefaultHero, true);
         }
 
         /// <summary>
@@ -152,7 +154,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// the level when a hero actor is already spawned during dialogue.
         /// </summary>
         /// <remarks>
-        /// Invokes the <see cref="OnStartLevel"/> event. Can be accessed as a YarnCommand.
+        /// Invokes the <see cref="_onStartLevel"/> event. Can be accessed as a YarnCommand.
         /// <p> If the <see cref="PlayerController"/> refers to the <see cref="RecordingController"/>, begins the
         /// recorded input playback feature. Otherwise, begins recording the player input. </p>
         /// </remarks>
@@ -166,14 +168,14 @@ namespace KrillOrBeKrilled.Core.Managers {
 
             CoinManager.Instance.StartCoinEarning();
             ResourceSpawner.Instance.StartSpawner();
-            this.OnStartLevel?.Invoke();
+            this._onStartLevel.Raise();
         }
 
         /// <summary>
         /// Enables player controls and recording features, hero movement, and timed coin earning. To be used to start
         /// the level when no hero actors have been spawned in the dialogue.
         /// </summary>
-        /// <remarks> Invokes the <see cref="OnStartLevel"/> event. Can be accessed as a YarnCommand. </remarks>
+        /// <remarks> Invokes the <see cref="_onStartLevel"/> event. Can be accessed as a YarnCommand. </remarks>
         [YarnCommand("start_level_enabled_spawn")]
         public void StartLevelWithSpawn() {
             this.StartLevelNoSpawn();

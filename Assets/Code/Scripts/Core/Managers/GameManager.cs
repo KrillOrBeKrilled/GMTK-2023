@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Linq;
+using KrillOrBeKrilled.Common;
 using KrillOrBeKrilled.Core.Cameras;
 using KrillOrBeKrilled.Core.Input;
 using KrillOrBeKrilled.Core.UGSAnalytics;
 using KrillOrBeKrilled.Environment;
-using KrillOrBeKrilled.Extensions;
 using KrillOrBeKrilled.Heroes;
 using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Player;
@@ -267,7 +267,6 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._playerController.Player.OnSelectedTrapChanged.AddListener(this.SelectedTrapIndexChanged);
             this._playerController.Player.OnTrapDeployed.AddListener(this.OnTrapDeployed);
             this.WaveManager.Initialize(this._levelData, this._heroSoundsController, this._levelTilemap);
-            this.WaveManager.OnAllWavesCleared.AddListener(() => this.HenWon("All heroes were defeated. Good job!"));
             
             this._playerController.Initialize(this, this._levelTilemap);
             ResourceManager.Instance.Initialize(this.PlayerController.TrapController.OnConsumeResources);
@@ -426,13 +425,12 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// Disables and freezes player input and triggers the win UI. Updates the <see cref="DataManager"/> save
         /// data to reflect the completion of the current level and saves it to local storage.
         /// </summary>
-        /// <param name="message"> The message to be displayed on the win UI. </param>
         /// <remarks>
         /// Invokes the <see cref="OnHenWon"/> event.
         /// <p> If the <see cref="PlayerController"/> refers to the <see cref="RecordingController"/>, does nothing.
         /// Otherwise, stops recording the player input and creates a file for the recorded input. </p>
         /// </remarks>
-        private void HenWon(string message) {
+        public void HenWon() {
             if (this._isGameOver) {
                 return;
             }
@@ -440,7 +438,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._isGameOver = true;
             this._playerController.StopSession();
             
-            this.OnHenWon?.Invoke(message);
+            this.OnHenWon?.Invoke("All heroes were defeated. Good job!");
 
             DataManager.Instance.PlayerData.AddCompletedLevel(this._levelData.Index);
             DataManager.Instance.SaveGameData();

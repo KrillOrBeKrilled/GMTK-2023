@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using KrillOrBeKrilled.Common;
 using KrillOrBeKrilled.Environment;
 using KrillOrBeKrilled.Heroes;
 using KrillOrBeKrilled.Model;
@@ -17,8 +18,9 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         [Tooltip("Tracks when a hero is spawned.")]
         public UnityEvent<Hero, bool> OnHeroSpawned { get; private set; }
-        public UnityEvent OnAllWavesCleared { get; private set; }
-        public UnityEvent OnWaveCleared { get; private set; }
+
+        [SerializeField] private GameEvent _onAllWavesCleared;
+        [SerializeField] private GameEvent _onWaveCleared;
         
         private Queue<WaveData> _nextWavesDataQueue;
         private Queue<WaveData> _lastWavesDataQueue;
@@ -34,8 +36,6 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         /// Tracks the active hero respawn points at any given time.
         private readonly List<RespawnPoint> _respawnPoints = new();
-        /// Spawns a hero used for story mode dialogue sequences.
-        private RespawnPoint _firstRespawnPoint;
         /// Spawns heroes actively throughout the level gameplay.
         private RespawnPoint _activeRespawnPoint;
         
@@ -44,8 +44,6 @@ namespace KrillOrBeKrilled.Core.Managers {
         public void Initialize(LevelData levelData, 
                                HeroSoundsController heroSoundsController,
                                Tilemap tilemap) {
-            this.OnAllWavesCleared = new UnityEvent();
-            this.OnWaveCleared = new UnityEvent();
             this.OnHeroSpawned = new UnityEvent<Hero, bool>();
             
             this._nextWavesDataQueue = new Queue<WaveData>(levelData.WavesData.WavesList);
@@ -61,7 +59,6 @@ namespace KrillOrBeKrilled.Core.Managers {
             }
 
             this._activeRespawnPoint = this._respawnPoints.First();
-            this._firstRespawnPoint = this._activeRespawnPoint;
         }
 
         public void StopWaves() {
@@ -212,9 +209,9 @@ namespace KrillOrBeKrilled.Core.Managers {
             bool noMoreWaves = !this._isEndlessLevel && this._nextWavesDataQueue.Count <= 0;
             bool isWaveCleared = this._heroes.Count <= 0;
             if (noMoreWaves && isWaveCleared) {
-                this.OnAllWavesCleared?.Invoke();
+                this._onAllWavesCleared.Raise();
             } else if (isWaveCleared) {
-                this.OnWaveCleared?.Invoke();
+                this._onWaveCleared.Raise();
                 this._waveSpawnCoroutine = this.SpawnNextWave();
                 this.StartCoroutine(this._waveSpawnCoroutine);
             }

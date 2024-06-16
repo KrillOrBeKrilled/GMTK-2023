@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace KrillOrBeKrilled.Extensions {
+namespace KrillOrBeKrilled.Common {
   public static class ComponentExtensions {
     /// <summary>
     /// 

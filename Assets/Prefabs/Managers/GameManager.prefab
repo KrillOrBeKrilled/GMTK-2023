@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5731743819357030563}
   - component: {fileID: 2979109686049939942}
   - component: {fileID: 7141821003299555517}
+  - component: {fileID: 1264858953232445103}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -48,12 +49,10 @@ MonoBehaviour:
   _playerController: {fileID: 0}
   _pauseManager: {fileID: 0}
   _cameraManager: {fileID: 0}
+  <WaveManager>k__BackingField: {fileID: 0}
   _dialogueRunner: {fileID: 0}
   _cameraSwitcher: {fileID: 0}
   _cameraShaker: {fileID: 0}
-  _defaultHeroPrefab: {fileID: 4773728292545531315, guid: 5cad44e0579da4f3ca8158c1533c6046, type: 3}
-  _druidHeroPrefab: {fileID: 4773728292545531315, guid: e0817837b26d00b4280220edf7aed515, type: 3}
-  _respawnPointPrefab: {fileID: 908663684222352325, guid: 95dbd9212de398d42af1486d1b511008, type: 3}
   _endgameTargetPrefab: {fileID: 2478820807580166489, guid: 38b84a3185ecd47ec984625f684b6a6a, type: 3}
   _tilemapGrid: {fileID: 0}
   _testingLevelData: {fileID: 0}
@@ -109,6 +108,34 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 2157682620213624966}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1264858953232445103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2157682620213624966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 153f9915aa0e4ed0a6c3da81864c356b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 74db549dc092842e594076f699db1f87, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2979109686049939942}
+        m_TargetAssemblyTypeName: KrillOrBeKrilled.Core.Managers.GameManager, Core
+        m_MethodName: HenWon
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

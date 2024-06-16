@@ -47,6 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Confiner: {fileID: 6429788097633923986}
+  _cameraSwitcher: {fileID: 0}
+  _cameraShaker: {fileID: 0}
 --- !u!1 &945306282338630758
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,6 +662,7 @@ MonoBehaviour:
   StartCamera: {fileID: 5876022208566256647}
   EndCamera: {fileID: 6999559410536347720}
   _levelCameras: []
+  _onSwitchCameraFreeze: {fileID: 11400000, guid: 085a6620cb8634cc9881177491f906b8, type: 2}
 --- !u!114 &1696239582067070453
 MonoBehaviour:
   m_ObjectHideFlags: 0

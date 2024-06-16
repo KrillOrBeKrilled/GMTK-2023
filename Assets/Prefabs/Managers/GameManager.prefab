@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2979109686049939942}
   - component: {fileID: 7141821003299555517}
   - component: {fileID: 1264858953232445103}
+  - component: {fileID: 2711409502391303313}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -51,11 +52,11 @@ MonoBehaviour:
   _cameraManager: {fileID: 0}
   <WaveManager>k__BackingField: {fileID: 0}
   _dialogueRunner: {fileID: 0}
-  _cameraSwitcher: {fileID: 0}
-  _cameraShaker: {fileID: 0}
   _endgameTargetPrefab: {fileID: 2478820807580166489, guid: 38b84a3185ecd47ec984625f684b6a6a, type: 3}
   _tilemapGrid: {fileID: 0}
   _testingLevelData: {fileID: 0}
+  _cameraSwitcher: {fileID: 0}
+  _cameraShaker: {fileID: 0}
   _onSetupComplete: {fileID: 11400000, guid: 5f1a99dbcd4544e0185e86b57b484b94, type: 2}
   _onStartLevel: {fileID: 11400000, guid: 8aa61a8b42d644419ae9811702e47b54, type: 2}
 --- !u!114 &7141821003299555517
@@ -135,6 +136,50 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: KrillOrBeKrilled.Core.Managers.GameManager, Core
         m_MethodName: HenWon
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2711409502391303313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2157682620213624966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 650f037b016d4673acba98ac8665b0e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 085a6620cb8634cc9881177491f906b8, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2979109686049939942}
+        m_TargetAssemblyTypeName: KrillOrBeKrilled.Core.Managers.GameManager, Core
+        m_MethodName: FreezeActors
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  Event: {fileID: 11400000, guid: 085a6620cb8634cc9881177491f906b8, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2979109686049939942}
+        m_TargetAssemblyTypeName: KrillOrBeKrilled.Core.Managers.GameManager, Core
+        m_MethodName: FreezeActors
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

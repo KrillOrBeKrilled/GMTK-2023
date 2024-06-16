@@ -12,7 +12,6 @@ using KrillOrBeKrilled.Player.PlayerStates;
 using KrillOrBeKrilled.Traps;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using Yarn.Unity;
 
@@ -36,9 +35,7 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         [Header("Dialogue References")]
         [SerializeField] private DialogueRunner _dialogueRunner;
-        [SerializeField] private CameraSwitcher _cameraSwitcher;
-        [SerializeField] private CameraShaker _cameraShaker;
-
+        
         [Header("Level")]
         [SerializeField] private EndgameTarget _endgameTargetPrefab;
         [SerializeField] private Transform _tilemapGrid;
@@ -46,6 +43,9 @@ namespace KrillOrBeKrilled.Core.Managers {
         [Header("Testing")]
         [Tooltip("Assign if you want to test specific level. Important: Leave as NULL when done testing.")]
         [SerializeField] private LevelData _testingLevelData;
+        [SerializeField] private CameraSwitcher _cameraSwitcher;
+        [SerializeField] private CameraShaker _cameraShaker;
+
 
         public PlayerController PlayerController => this._playerController;
         public PlayerCharacter Player => this._playerController.Player;
@@ -129,25 +129,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         #region Public Methods
 
         #region Level Sequence
-
-        /// <summary>
-        /// Triggers the sequence to make the hero enter the level.
-        /// </summary>
-        /// <remarks> Can be accessed as a YarnCommand. </remarks>
-        [YarnCommand("enter_hero_actor")]
-        public void EnterHero() {
-            this._heroActor.EnterLevel();
-        }
-
-        /// <summary>
-        /// Spawns a new hero from the level data at the corresponding spawn point.
-        /// </summary>
-        /// <remarks> Can be accessed as a YarnCommand. </remarks>
-        [YarnCommand("spawn_hero_actor")]
-        public void SpawnHeroActor() {
-            // TODO: MOVE TO DIALOGUE MANAGER
-            this._heroActor = this.WaveManager.SpawnHero(HeroData.DefaultHero, true);
-        }
+        
 
         /// <summary>
         /// Enables player controls and recording features, hero movement, and timed coin earning. To be used to start
@@ -172,7 +154,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
 
         /// <summary>
-        /// Enables player controls and recording features, hero movement, and timed coin earning. To be used to start
+        /// Enables player controls and recording features, hero movement. To be used to start
         /// the level when no hero actors have been spawned in the dialogue.
         /// </summary>
         /// <remarks> Invokes the <see cref="_onStartLevel"/> event. Can be accessed as a YarnCommand. </remarks>
@@ -237,7 +219,26 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
 
         #endregion
+        
+        /// <summary>
+        /// Triggers the sequence to make the hero enter the level.
+        /// </summary>
+        /// <remarks> Can be accessed as a YarnCommand. </remarks>
+        [YarnCommand("enter_hero_actor")]
+        public void EnterHero() {
+            this._heroActor.EnterLevel();
+        }
 
+        /// <summary>
+        /// Spawns a new hero from the level data at the corresponding spawn point.
+        /// </summary>
+        /// <remarks> Can be accessed as a YarnCommand. </remarks>
+        [YarnCommand("spawn_hero_actor")]
+        public void SpawnHeroActor() {
+            // TODO: MOVE TO DIALOGUE MANAGER
+            this._heroActor = this.WaveManager.SpawnHero(HeroData.DefaultHero, true);
+        }
+        
         #endregion
 
         //========================================
@@ -263,7 +264,6 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
         
         private void InitializeHelpers() {
-            this._cameraSwitcher.OnSwitchCameraFreeze.AddListener(this.FreezeCameraTransition);
             this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
             this._playerController.Player.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
             this._playerController.Player.OnSelectedTrapChanged.AddListener(this.SelectedTrapIndexChanged);
@@ -460,16 +460,16 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// Freezes the movement of all active actors within the level for a duration of time on a camera switch.
         /// </summary>
         /// <param name="freezeTime"> The duration of time to freeze active actor movement. </param>
-        /// <remarks> Subscribed to the <see cref="CameraSwitcher.OnSwitchCameraFreeze"/> event. </remarks>
-        private void FreezeCameraTransition(float freezeTime) {
-            StartCoroutine(this.FreezeAllActors(freezeTime));
+        /// <remarks> Subscribed to the OnSwitchCameraFreeze GameEvent. </remarks>
+        public void FreezeActors(float freezeTime) {
+            StartCoroutine(this.FreezeAllActorsCoroutine(freezeTime));
         }
 
         /// <summary>
         /// Freezes the movement of the player and all heroes for a specified duration of time.
         /// </summary>
         /// <param name="freezeTime"> The duration of time to freeze movement. </param>
-        private IEnumerator FreezeAllActors(float freezeTime) {
+        private IEnumerator FreezeAllActorsCoroutine(float freezeTime) {
             this.WaveManager.FreezeAllHeroes();
             this._playerController.Player.FreezePosition();
 

@@ -22,7 +22,7 @@ namespace KrillOrBeKrilled.Common {
 
     public void OnEventRaised()
     {
-      Response.Invoke();
+      Response?.Invoke();
     }
   }
 }

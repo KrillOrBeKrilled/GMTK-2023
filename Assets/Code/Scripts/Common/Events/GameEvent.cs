@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KrillOrBeKrilled.Common {
-  [CreateAssetMenu(menuName = "GameEvent", fileName = "GameEvent")]  
+  [CreateAssetMenu(menuName = "Events/GameEvent", fileName = "GameEvent")]  
   public class GameEvent : ScriptableObject {
     private readonly List<GameEventListener> eventListeners = new();
 

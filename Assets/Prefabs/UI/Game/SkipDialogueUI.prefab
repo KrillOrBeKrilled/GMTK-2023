@@ -54,6 +54,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uiButton: {fileID: 5163640670575006758}
+  _onSkipDialogue: {fileID: 11400000, guid: 09599bb43e42d488baaf6648992b2624, type: 2}
 --- !u!222 &4043458271604843365
 CanvasRenderer:
   m_ObjectHideFlags: 0

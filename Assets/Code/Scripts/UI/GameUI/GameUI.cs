@@ -74,8 +74,7 @@ namespace KrillOrBeKrilled.UI {
                 this._gameManager.TrapController.Traps,
                 this._gameManager.Player.SetTrap
             );
-
-            this._skipDialogueUI.Initialize(this._gameManager.SkipDialogue);
+            
             this._mapUI.Initialize(
                 this._gameManager.PlayerController.transform,
                 this._gameManager.LevelStart.x,

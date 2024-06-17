@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Linq;
 using KrillOrBeKrilled.Common;
-using KrillOrBeKrilled.Core.Cameras;
 using KrillOrBeKrilled.Core.Input;
 using KrillOrBeKrilled.Core.UGSAnalytics;
 using KrillOrBeKrilled.Environment;
@@ -43,8 +42,6 @@ namespace KrillOrBeKrilled.Core.Managers {
         [Header("Testing")]
         [Tooltip("Assign if you want to test specific level. Important: Leave as NULL when done testing.")]
         [SerializeField] private LevelData _testingLevelData;
-        [SerializeField] private CameraSwitcher _cameraSwitcher;
-        [SerializeField] private CameraShaker _cameraShaker;
 
 
         public PlayerController PlayerController => this._playerController;
@@ -174,8 +171,6 @@ namespace KrillOrBeKrilled.Core.Managers {
                 this._dialogueRunner.Stop();
             }
 
-            this._cameraShaker.StopShake();
-            this._cameraSwitcher.ShowPlayer();
             this.StartLevelWithSpawn();
         }
 

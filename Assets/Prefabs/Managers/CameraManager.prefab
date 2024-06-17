@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 709816562069576625}
   - component: {fileID: 9138489052965128365}
+  - component: {fileID: 6643126321690619737}
   m_Layer: 11
   m_Name: CameraManager
   m_TagString: Untagged
@@ -47,8 +48,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Confiner: {fileID: 6429788097633923986}
-  _cameraSwitcher: {fileID: 0}
-  _cameraShaker: {fileID: 0}
+  _cameraSwitcher: {fileID: 756466860093554836}
+  _cameraShaker: {fileID: 1696239582067070453}
+--- !u!114 &6643126321690619737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619870473333400074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 153f9915aa0e4ed0a6c3da81864c356b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 09599bb43e42d488baaf6648992b2624, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9138489052965128365}
+        m_TargetAssemblyTypeName: KrillOrBeKrilled.Core.Managers.CameraManager, Core
+        m_MethodName: ResetCamera
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &945306282338630758
 GameObject:
   m_ObjectHideFlags: 0

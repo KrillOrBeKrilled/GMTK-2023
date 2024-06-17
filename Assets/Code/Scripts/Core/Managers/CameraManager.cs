@@ -16,7 +16,10 @@ namespace KrillOrBeKrilled.Core.Managers {
       this.Confiner.m_BoundingShape2D = newBounds;
       this.Confiner.InvalidateCache();
     }
-    
-    
+
+    public void ResetCamera() {
+      this._cameraShaker.StopShake();
+      this._cameraSwitcher.ShowPlayer();
+    }
   }
 }

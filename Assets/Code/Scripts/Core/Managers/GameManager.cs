@@ -170,7 +170,13 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <remarks> Invokes the <see cref="EventManager.HideDialogueUIEvent"/> event. </remarks>
         public void SkipDialogue() {
             EventManager.Instance.HideDialogueUIEvent?.Invoke();
-            this.StartCoroutine(this.SkipDialogueCoroutine());
+            if (this._dialogueRunner.IsDialogueRunning) {
+                this._dialogueRunner.Stop();
+            }
+
+            this._cameraShaker.StopShake();
+            this._cameraSwitcher.ShowPlayer();
+            this.StartLevelWithSpawn();
         }
 
         #endregion
@@ -286,24 +292,6 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
 
         #region Level Sequence
-
-        /// <summary>
-        /// Aborts the dialogue player if the dialogue is actively running and immediately focuses the camera
-        /// on the player before beginning the level spawners and gameplay.
-        /// </summary>
-        /// <remarks> The coroutine is started by <see cref="SkipDialogue"/>. </remarks>
-        private IEnumerator SkipDialogueCoroutine() {
-            if (this._dialogueRunner.IsDialogueRunning) {
-                this._dialogueRunner.Stop();
-            }
-
-            this._cameraShaker.StopShake();
-            this._cameraSwitcher.ShowPlayer();
-
-            // Skip a frame to ensure all scripts have initialized and called Start()
-            yield return null;
-            this.StartLevelWithSpawn();
-        }
 
         /// <summary>
         /// Skips the dialogue for the level.

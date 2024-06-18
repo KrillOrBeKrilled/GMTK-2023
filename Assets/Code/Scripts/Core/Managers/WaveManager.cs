@@ -8,6 +8,7 @@ using KrillOrBeKrilled.Model;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
+using Yarn.Unity;
 
 namespace KrillOrBeKrilled.Core.Managers {
     public class WaveManager: MonoBehaviour {
@@ -29,6 +30,8 @@ namespace KrillOrBeKrilled.Core.Managers {
         private Tilemap _levelTilemap;
         
         private IEnumerator _waveSpawnCoroutine;
+
+        private Hero _heroActor;
         
         // ------------- Wave Spawning ---------------
         /// Tracks the active heroes on the level map at any given time.
@@ -196,6 +199,24 @@ namespace KrillOrBeKrilled.Core.Managers {
         public void StartWaveSpawning() {
             this._waveSpawnCoroutine = this.SpawnNextWave();
             this.StartCoroutine(this._waveSpawnCoroutine);
+        }
+        
+        /// <summary>
+        /// Triggers the sequence to make the hero enter the level.
+        /// </summary>
+        /// <remarks> Can be accessed as a YarnCommand. </remarks>
+        [YarnCommand("enter_hero_actor")]
+        public void EnterHero() {
+            this._heroActor.EnterLevel();
+        }
+    
+        /// <summary>
+        /// Spawns a new hero from the level data at the corresponding spawn point.
+        /// </summary>
+        /// <remarks> Can be accessed as a YarnCommand. </remarks>
+        [YarnCommand("spawn_hero_actor")]
+        public void SpawnHeroActor() {
+            this._heroActor = this.SpawnHero(HeroData.DefaultHero, true);
         }
         
         /// <summary>

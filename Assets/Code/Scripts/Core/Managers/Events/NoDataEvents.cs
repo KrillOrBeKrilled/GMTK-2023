@@ -8,8 +8,4 @@ namespace KrillOrBeKrilled.Core.Managers {
   /// A callback that tracks when the game has concluded.
   /// </summary>
   public class GameOverEvent : UnityEvent {}
-
-  public class ShowDialogueUIEvent : UnityEvent {}
-
-  public class HideDialogueUIEvent : UnityEvent {}
 }

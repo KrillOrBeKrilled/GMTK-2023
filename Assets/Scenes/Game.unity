@@ -1334,6 +1334,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e403d567794f74b2cfcb7ad8e46d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1494888311 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1908327485573908648, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+  m_PrefabInstance: {fileID: 1494888309}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aee5fc7bf754eef986a4d6336f4bfb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1533325739
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2087,6 +2098,10 @@ PrefabInstance:
       propertyPath: _dialogueRunner
       value: 
       objectReference: {fileID: 3741743096520137997}
+    - target: {fileID: 2979109686049939942, guid: c3a6bf8df177a41e28b2f650f401c445, type: 3}
+      propertyPath: _dialogueManager
+      value: 
+      objectReference: {fileID: 1494888311}
     - target: {fileID: 2979109686049939942, guid: c3a6bf8df177a41e28b2f650f401c445, type: 3}
       propertyPath: _playerController
       value: 

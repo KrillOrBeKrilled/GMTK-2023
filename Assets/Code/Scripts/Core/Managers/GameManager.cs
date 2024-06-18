@@ -30,10 +30,9 @@ namespace KrillOrBeKrilled.Core.Managers {
         [SerializeField] private PlayerController _playerController;
         [SerializeField] private PauseManager _pauseManager;
         [SerializeField] private CameraManager _cameraManager;
+        [SerializeField] private DialogueManager _dialogueManager;
         [field:SerializeField] public WaveManager WaveManager { get; private set; }
-
-        [Header("Dialogue References")]
-        [SerializeField] private DialogueRunner _dialogueRunner;
+        
         
         [Header("Level")]
         [SerializeField] private EndgameTarget _endgameTargetPrefab;
@@ -54,8 +53,6 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         /// The instantiated endgameTargetPrefab.
         private EndgameTarget _endgameTarget;
-        /// The instantiated defaultHeroPrefab used for story mode dialogue sequences.
-        private Hero _heroActor;
 
         /// Contains all data on the waves and hero settings to spawn per wave that constitutes a playable level.
         private LevelData _levelData;
@@ -107,14 +104,17 @@ namespace KrillOrBeKrilled.Core.Managers {
             yield return null;
             
             this._onSetupComplete.Raise();
-
-            if (this._levelData.Type == LevelData.LevelType.Story) {
-                this.StartStoryLevel();
-            } else {
-                this.StartEndlessLevel();
-            }
-
             this._pauseManager.SetIsPausable(true);
+            
+            bool isStoryLevel = this._levelData.Type == LevelData.LevelType.Story;
+            bool shouldSkip = PlayerPrefsManager.ShouldSkipDialogue();
+            if (isStoryLevel && !shouldSkip) {
+                // TODO: REPLACE WITH STRING EVENT
+                this._dialogueManager.StartDialogue(this._levelData.DialogueName);
+            }
+            else {
+                this.StartLevel();   
+            }
         }
 
         #endregion
@@ -124,59 +124,6 @@ namespace KrillOrBeKrilled.Core.Managers {
         //========================================
 
         #region Public Methods
-
-        #region Level Sequence
-        
-
-        /// <summary>
-        /// Enables player controls and recording features, hero movement, and timed coin earning. To be used to start
-        /// the level when a hero actor is already spawned during dialogue.
-        /// </summary>
-        /// <remarks>
-        /// Invokes the <see cref="_onStartLevel"/> event. Can be accessed as a YarnCommand.
-        /// <p> If the <see cref="PlayerController"/> refers to the <see cref="RecordingController"/>, begins the
-        /// recorded input playback feature. Otherwise, begins recording the player input. </p>
-        /// </remarks>
-        [YarnCommand("start_level_disabled_spawn")]
-        public void StartLevelNoSpawn() {
-            this._playerController.StartSession();
-
-            if (this._heroActor != null) {
-                this._heroActor.StartRunning();
-            }
-
-            CoinManager.Instance.StartCoinEarning();
-            ResourceSpawner.Instance.StartSpawner();
-            this._onStartLevel.Raise();
-        }
-
-        /// <summary>
-        /// Enables player controls and recording features, hero movement. To be used to start
-        /// the level when no hero actors have been spawned in the dialogue.
-        /// </summary>
-        /// <remarks> Invokes the <see cref="_onStartLevel"/> event. Can be accessed as a YarnCommand. </remarks>
-        [YarnCommand("start_level_enabled_spawn")]
-        public void StartLevelWithSpawn() {
-            this.StartLevelNoSpawn();
-            this.WaveManager.StartWaveSpawning();
-        }
-
-        /// <summary>
-        /// Aborts the dialogue playback if the dialogue is actively running and starts the level.
-        /// </summary>
-        /// <remarks> Invokes the <see cref="EventManager.HideDialogueUIEvent"/> event. </remarks>
-        public void SkipDialogue() {
-            EventManager.Instance.HideDialogueUIEvent?.Invoke();
-            if (this._dialogueRunner.IsDialogueRunning) {
-                this._dialogueRunner.Stop();
-            }
-
-            this.StartLevelWithSpawn();
-        }
-
-        #endregion
-
-        #region Scene Management
 
         /// <summary>
         /// Disables pause controls and loads the MainMenu scene.
@@ -217,27 +164,6 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._pauseManager.SetIsPausable(false);
             this.WaveManager.FreezeAllHeroes();
             this.OnSceneWillChange?.Invoke(SceneNavigationManager.ReloadCurrentScene);
-        }
-
-        #endregion
-        
-        /// <summary>
-        /// Triggers the sequence to make the hero enter the level.
-        /// </summary>
-        /// <remarks> Can be accessed as a YarnCommand. </remarks>
-        [YarnCommand("enter_hero_actor")]
-        public void EnterHero() {
-            this._heroActor.EnterLevel();
-        }
-
-        /// <summary>
-        /// Spawns a new hero from the level data at the corresponding spawn point.
-        /// </summary>
-        /// <remarks> Can be accessed as a YarnCommand. </remarks>
-        [YarnCommand("spawn_hero_actor")]
-        public void SpawnHeroActor() {
-            // TODO: MOVE TO DIALOGUE MANAGER
-            this._heroActor = this.WaveManager.SpawnHero(HeroData.DefaultHero, true);
         }
         
         #endregion
@@ -285,39 +211,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._cameraManager.SetBounds(this._levelData.WallsTilemapPrefab.transform.GetComponentExactlyInChildren<Collider2D>());
             this.LevelStart = this._levelData.RespawnPositions.First();
         }
-
-        #region Level Sequence
-
-        /// <summary>
-        /// Skips the dialogue for the level.
-        /// </summary>
-        /// <remarks> The endless level settings will skip story dialogue by default. </remarks>
-        private void StartEndlessLevel() {
-            this.SkipDialogue();
-        }
-
-        /// <summary>
-        /// Skips the dialogue associated with the level story event if the <see cref="PlayerPrefsManager"/>
-        /// settings are enabled. Otherwise, begins playing the level dialogue.
-        /// </summary>
-        private void StartStoryLevel() {
-            if (PlayerPrefsManager.ShouldSkipDialogue()) {
-                this.SkipDialogue();
-                return;
-            }
-
-            if (!this._dialogueRunner.yarnProject.NodeNames.Contains(this._levelData.DialogueName)) {
-                Debug.LogError("Missing or Incorrect Dialogue Name, make sure provided dialogue name value is correct");
-                return;
-            }
-
-            EventManager.Instance.ShowDialogueUIEvent?.Invoke();
-            this._dialogueRunner.StartDialogue(this._levelData.DialogueName);
-            this._dialogueRunner.onDialogueComplete.AddListener(() => EventManager.Instance.HideDialogueUIEvent?.Invoke());
-        }
-
-        #endregion
-
+        
         #region UGSAnalytics
 
         /// <summary>
@@ -369,6 +263,14 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         #endregion
 
+        public void StartLevel() {
+            this._playerController.StartSession();
+            CoinManager.Instance.StartCoinEarning();
+            ResourceSpawner.Instance.StartSpawner();
+            this.WaveManager.StartWaveSpawning();
+            this._onStartLevel.Raise();
+        }
+
         /// <summary>
         /// Disables the player input and hero movement, destroying the player GameObject, and triggers the loss UI.
         /// </summary>
@@ -381,8 +283,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             Destroy(this._playerController.gameObject);
 
             this.WaveManager.StopWaves();
-
-            this._dialogueRunner.Stop();
+            this._dialogueManager.StopDialogue();
         }
 
         /// <summary>

@@ -49,6 +49,8 @@ GameObject:
   - component: {fileID: 8678547117119670258}
   - component: {fileID: 9186954324187263670}
   - component: {fileID: 8486666429347958190}
+  - component: {fileID: 7208189819917391547}
+  - component: {fileID: 1483918936017616038}
   m_Layer: 5
   m_Name: GameUI
   m_TagString: Untagged
@@ -194,6 +196,62 @@ MonoBehaviour:
       - m_Target: {fileID: 9186954324187263670}
         m_TargetAssemblyTypeName: KrillOrBeKrilled.UI.GameUI, UI
         m_MethodName: OnGameSetupComplete
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7208189819917391547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551271506664179980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 153f9915aa0e4ed0a6c3da81864c356b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 16804d1591b514f1b8f9524eb10030bf, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9186954324187263670}
+        m_TargetAssemblyTypeName: KrillOrBeKrilled.UI.GameUI, UI
+        m_MethodName: ShowDialogueUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1483918936017616038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551271506664179980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 153f9915aa0e4ed0a6c3da81864c356b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 8dd998262bb0543f6ac8823ef32f5bb6, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9186954324187263670}
+        m_TargetAssemblyTypeName: KrillOrBeKrilled.UI.GameUI, UI
+        m_MethodName: HideDialogueUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

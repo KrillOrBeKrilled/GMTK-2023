@@ -1,4 +1,4 @@
-using KrillOrBeKrilled.Core;
+using KrillOrBeKrilled.Common;
 using KrillOrBeKrilled.Core.Managers;
 using KrillOrBeKrilled.Heroes;
 using System.Collections.Generic;
@@ -85,9 +85,33 @@ namespace KrillOrBeKrilled.UI {
 
             EventManager.Instance.CoinAmountChangedEvent.AddListener(this.OnCoinsUpdated);
             EventManager.Instance.PauseToggledEvent.AddListener(this.OnPauseToggled);
-            EventManager.Instance.ShowDialogueUIEvent.AddListener(this.ShowDialogueUI);
-            EventManager.Instance.HideDialogueUIEvent.AddListener(this.HideDialogueUI);
             EventManager.Instance.ResourceAmountChangedEvent.AddListener(this.OnResourceUpdate);
+        }
+        
+        /// <summary>
+        /// Plays a screen wipe-out transition effect.
+        /// </summary>
+        /// <remarks> Listens on the <b>OnSetupComplete</b> <see cref="GameEvent"/> event. </remarks>
+        public void OnGameSetupComplete() {
+            this._screenWipe.SetRandomWipeShape();
+            this._loadingScreen.gameObject.SetActive(false);
+            this._screenWipe.WipeOut();
+        }
+        
+        public void ShowDialogueUI() {
+            foreach (GameObject hideObject in this._hideDuringDialogueUIList) {
+                hideObject.SetActive(false);
+            }
+
+            this._dialogueUI.SetActive(true);
+        }
+
+        public void HideDialogueUI() {
+            foreach (GameObject hideObject in this._hideDuringDialogueUIList) {
+                hideObject.SetActive(true);
+            }
+
+            this._dialogueUI.SetActive(false);
         }
 
         #endregion
@@ -120,23 +144,11 @@ namespace KrillOrBeKrilled.UI {
         /// <summary>
         /// Updates the text on the resource UI for a specific resource type.
         /// </summary>
-        /// <param name="type"> The resource type to be updated. </param>
-        /// <param name="amount"> The new count to display on the resource amount UI. </param>
         /// <remarks> Subscribed to the <see cref="ResourceAmountChangedEvent"/> event. </remarks>
         private void OnResourceUpdate(Dictionary<ResourceType, int> resources) {
             foreach (var resource in resources) {
                 this._resourceUI.SetAmount(resource.Key, resource.Value);
             }
-        }
-
-        /// <summary>
-        /// Plays a screen wipe-out transition effect.
-        /// </summary>
-        /// <remarks> Listens on the <see cref="GameManager.OnSetupComplete"/> event. </remarks>
-        public void OnGameSetupComplete() {
-            this._screenWipe.SetRandomWipeShape();
-            this._loadingScreen.gameObject.SetActive(false);
-            this._screenWipe.WipeOut();
         }
 
         /// <summary>
@@ -215,22 +227,6 @@ namespace KrillOrBeKrilled.UI {
         private void SetupHealthBar(Hero hero) {
             HealthBarUI newBar = Instantiate(this._healthBarUIPrefab, this._healthBarsContainer);
             newBar.Initialize(hero, (RectTransform)this.transform);
-        }
-
-        private void ShowDialogueUI() {
-            foreach (GameObject hideObject in this._hideDuringDialogueUIList) {
-                hideObject.SetActive(false);
-            }
-
-            this._dialogueUI.SetActive(true);
-        }
-
-        private void HideDialogueUI() {
-            foreach (GameObject hideObject in this._hideDuringDialogueUIList) {
-                hideObject.SetActive(true);
-            }
-
-            this._dialogueUI.SetActive(false);
         }
 
         #endregion

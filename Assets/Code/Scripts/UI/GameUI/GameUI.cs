@@ -169,32 +169,14 @@ namespace KrillOrBeKrilled.UI {
 
         /// <summary>
         /// Creates a health bar for the associated <see cref="Hero"/>, registers the hero to be represented
-        /// on the <see cref="MapUI"/>, and optionally registers the hero with the dialogue system.
+        /// on the <see cref="MapUI"/>.
         /// </summary>
         /// <param name="hero"> The newly spawned <see cref="Hero"/>. </param>
-        /// <param name="registerAsDialogueCharacter"> If the spawned hero should be registered with the dialogue system. </param>
-        private void OnHeroSpawned(Hero hero, bool registerAsDialogueCharacter) {
+        private void OnHeroSpawned(Hero hero) {
             this.SetupHealthBar(hero);
             this._mapUI.RegisterHero(hero);
-
-            if (!registerAsDialogueCharacter || !hero.TryGetComponent(out DialogueCharacter newYarnCharacter)) {
-                return;
-            }
-            
-            hero.OnHeroDied.AddListener(this.OnDialogueHeroDied);
-            DialogueUI.Instance.RegisterCharacter(newYarnCharacter);
-            DialogueUI.Instance.SetActorCharacter(newYarnCharacter);
         }
         
-        /// <summary>
-        /// Unregisters the associated <see cref="Hero"/> from the <see cref="DialogueUI">dialogue system</see>.
-        /// </summary>
-        /// <param name="hero"> The <see cref="Hero"/> that died. </param>
-        private void OnDialogueHeroDied(Hero hero) {
-            if (hero.TryGetComponent(out DialogueCharacter diedCharacter)) {
-                DialogueUI.Instance.ForgetDialogueCharacter(diedCharacter);
-            }
-        }
 
         /// <summary>
         /// Enables or disables the Pause menu UI.

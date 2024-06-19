@@ -53,7 +53,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
                 new Freeze(this.Rigidbody, this.AnimController),
                 new Stun(this.AnimController),
                 groundJumping,
-                new Run(this.Rigidbody, this.AnimController, this.MovementSpeed),
+                new Run(this.Rigidbody, this.SpriteRenderer, this.AnimController, this.MovementSpeed),
                 new Idle(this.Rigidbody, this.AnimController)
             });
 
@@ -63,6 +63,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             root.SetData("StunnedKey", this.StunnedKey);
             root.SetData("IsFrozen", false);
             root.SetData("IsMoving", true);
+            root.SetData("SpeedMultiplier", 1f);
             root.SetData("IsStunned", false);
             root.SetData("StunDuration", 0f);
             root.SetData("SpeedPenalty", 0f);

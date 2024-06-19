@@ -18,10 +18,15 @@ namespace KrillOrBeKrilled.Core.Managers {
         [SerializeField] private RespawnPoint _respawnPointPrefab;
 
         [Tooltip("Tracks when a hero is spawned.")]
-        public UnityEvent<Hero, bool> OnHeroSpawned { get; private set; }
+        public UnityEvent<Hero> OnHeroSpawned { get; private set; }
 
+        [Header("Wave Events")]
         [SerializeField] private GameEvent _onAllWavesCleared;
         [SerializeField] private GameEvent _onWaveCleared;
+
+        [Header("Actor Events")] 
+        [SerializeField] private HeroEvent _onHeroActorSpawn;
+        [SerializeField] private HeroEvent _onHeroActorDestroy;
         
         private Queue<WaveData> _nextWavesDataQueue;
         private Queue<WaveData> _lastWavesDataQueue;
@@ -47,7 +52,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         public void Initialize(LevelData levelData, 
                                HeroSoundsController heroSoundsController,
                                Tilemap tilemap) {
-            this.OnHeroSpawned = new UnityEvent<Hero, bool>();
+            this.OnHeroSpawned = new UnityEvent<Hero>();
             
             this._nextWavesDataQueue = new Queue<WaveData>(levelData.WavesData.WavesList);
             this._lastWavesDataQueue = new Queue<WaveData>(levelData.WavesData.WavesList);
@@ -137,23 +142,21 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// and the game UI.
         /// </summary>
         /// <param name="heroData"> The data associated with the hero to spawn stored within each
-        /// <see cref="WaveData"/>. </param>
-        /// <param name="registerAsDialogueCharacter"> If the spawned hero should be registered with the dialogue system. </param>
+        ///     <see cref="WaveData"/>. </param>
         /// <returns> The instantiated hero GameObject. </returns>
         /// <remarks> Invokes the <see cref="OnHeroSpawned"/> event. </remarks>
-        public Hero SpawnHero(HeroData heroData, bool registerAsDialogueCharacter = false) {
-            var heroPrefab = this._defaultHeroPrefab;
+        private void SpawnHero(HeroData heroData) {
+            Hero heroPrefab = this._defaultHeroPrefab;
             if (heroData.Type == HeroData.HeroType.Druid) {
                 heroPrefab = this._druidHeroPrefab;
             }
 
-            var newHero = Instantiate(heroPrefab, this._activeRespawnPoint.transform);
+            Hero newHero = Instantiate(heroPrefab, this._activeRespawnPoint.transform);
             newHero.Initialize(heroData, this._heroSoundsController, this._levelTilemap);
             newHero.OnHeroDied.AddListener(this.OnHeroDied);
 
             this._heroes.Add(newHero);
-            this.OnHeroSpawned?.Invoke(newHero, registerAsDialogueCharacter);
-            return newHero;
+            this.OnHeroSpawned?.Invoke(newHero);
         }
 
         /// <summary>
@@ -163,7 +166,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// the previous wave is defeated before spawning the next wave.
         /// </summary>
         /// <remarks>
-        /// The coroutine is started by <see cref="SkipDialogue"/>. If the registered <see cref="WaveData"/>
+        /// If the registered <see cref="WaveData"/>
         /// are all completed and the <see cref="LevelData.LevelType"/> is set to
         /// <see cref="LevelData.LevelType.Endless"/>, generates new <see cref="WaveData"/> with scaled health
         /// values. Otherwise, the wave spawner is aborted and the level is completed.
@@ -200,6 +203,18 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._waveSpawnCoroutine = this.SpawnNextWave();
             this.StartCoroutine(this._waveSpawnCoroutine);
         }
+    
+        /// <summary>
+        /// Spawns a new hero from the level data at the corresponding spawn point.
+        /// </summary>
+        /// <remarks> Can be accessed as a YarnCommand. </remarks>
+        [YarnCommand("spawn_hero_actor")]
+        public void SpawnHeroActor() {
+            Hero heroPrefab = this._defaultHeroPrefab;
+            this._heroActor = Instantiate(heroPrefab, this._activeRespawnPoint.transform);
+            this._heroActor.Initialize(HeroData.DefaultHero, this._heroSoundsController, this._levelTilemap);
+            this._onHeroActorSpawn.Raise(this._heroActor);
+        }
         
         /// <summary>
         /// Triggers the sequence to make the hero enter the level.
@@ -209,14 +224,15 @@ namespace KrillOrBeKrilled.Core.Managers {
         public void EnterHero() {
             this._heroActor.EnterLevel();
         }
-    
+        
         /// <summary>
-        /// Spawns a new hero from the level data at the corresponding spawn point.
+        /// Triggers the sequence to make the hero exit the level.
         /// </summary>
         /// <remarks> Can be accessed as a YarnCommand. </remarks>
-        [YarnCommand("spawn_hero_actor")]
-        public void SpawnHeroActor() {
-            this._heroActor = this.SpawnHero(HeroData.DefaultHero, true);
+        [YarnCommand("exit_hero_actor")]
+        public void ExitHero() {
+            this._onHeroActorDestroy.Raise(this._heroActor);
+            this._heroActor.ExitLevel();
         }
         
         /// <summary>

@@ -18,10 +18,13 @@ Dogan: As long as the HERO isn't here, we have all the time in the world!
 Hero: Another dungeon, another dollar.
 <<show_end CameraSwitcher>>
 Hero: The dungeon exit is just in sight!
+<<show_start CameraSwitcher>>
+Hero: Let me go tell my raid squad the way here...
+<<exit_hero_actor WaveManager>>
 <<show_player CameraSwitcher>>
 <<start_shake CameraSwitcher>>
-Dogan: He's HERE already!? I think we'll have to continue your orientation another day.
-Dogan: DO NOT let him through to the end! Use all the traps at your disposal to stop him!
+Dogan: They're HERE already!? I think we'll have to continue your orientation another day.
+Dogan: DO NOT let them through to the end! Use all the traps at your disposal to stop them!
 <<stop_shake CameraSwitcher>>
 
 ===

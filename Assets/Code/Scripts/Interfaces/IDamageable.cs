@@ -11,7 +11,8 @@ namespace KrillOrBeKrilled.Interfaces {
         public enum DamageSource {
             Trap,
             Hero,
-            Fall
+            Fall,
+            Dialogue
         }
         
         //========================================

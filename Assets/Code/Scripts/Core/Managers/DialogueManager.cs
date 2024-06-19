@@ -17,6 +17,10 @@ namespace KrillOrBeKrilled.Core.Managers {
       this._dialogueRunner.onDialogueComplete.RemoveListener(this.TriggerDialogueOver);
     }
     
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="dialogueName"></param>
     public void StartDialogue(string dialogueName) {
       if (!this._dialogueRunner.yarnProject.NodeNames.Contains(dialogueName)) {
         Debug.LogError("Missing or Incorrect Dialogue Name, make sure provided dialogue name value is correct");
@@ -27,24 +31,20 @@ namespace KrillOrBeKrilled.Core.Managers {
       this._dialogueRunner.StartDialogue(dialogueName);
     }
 
-    
-    public void StopDialogue() {
-      this._onDialogueOver.Raise();
-      this._dialogueRunner.Stop();
-    }
-    
-    private void TriggerDialogueOver() {
-      this._onDialogueOver.Raise();  
-    }
-
     /// <summary>
     /// Aborts the dialogue playback if the dialogue is actively running and starts the level.
     /// </summary>
-    /// <remarks> Invokes the <see cref="EventManager.HideDialogueUIEvent"/> event. </remarks>
-    public void SkipDialogue() {
+    public void StopDialogue() {
       if (this._dialogueRunner.IsDialogueRunning) {
         this._dialogueRunner.Stop();
       }
+    }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    private void TriggerDialogueOver() {
+      this._onDialogueOver.Raise();  
     }
   }
 }

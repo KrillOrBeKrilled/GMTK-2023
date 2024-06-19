@@ -12,7 +12,7 @@ Hendall: Terribly sorry for my turdiness.. I mean my tardiness, sir!
 <<start_shake CameraSwitcher>>
 Dogan: FRET NOT dear hentern! Our flexible work hour policy has you covered..
 <<stop_shake CameraSwitcher>>
-Dogan: As long as the HERO isn't here, we have all the time in the world!
+Dogan: As long as the HERO raid isn't here, we have all the time in the world!
 <<spawn_hero_actor WaveManager>>
 <<enter_hero_actor WaveManager>>
 Hero: Another dungeon, another dollar.

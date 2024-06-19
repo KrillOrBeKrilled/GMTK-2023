@@ -267,7 +267,7 @@ namespace KrillOrBeKrilled.Heroes {
             this._heroBrain.UpdateData("SpeedMultiplier", -1f);
             this._heroBrain.UpdateData("IsMoving", true);
 
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(2f);
 
             Destroy(this.gameObject);
         }

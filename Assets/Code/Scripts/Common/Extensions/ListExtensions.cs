@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
-namespace KrillOrBeKrilled.Extensions {
+namespace KrillOrBeKrilled.Common {
   public static class ListExtensions {
     public static T GetRandomElement<T>(this List<T> list) {
       if (list.Count <= 0)

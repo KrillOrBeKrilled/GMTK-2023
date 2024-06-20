@@ -1,6 +1,6 @@
+using KrillOrBeKrilled.Common;
 using KrillOrBeKrilled.Core.Managers;
 using UnityEngine;
-using UnityEngine.Events;
 
 //*******************************************************************************************
 // SkipDialogueUI
@@ -12,7 +12,7 @@ namespace KrillOrBeKrilled.UI {
     public class SkipDialogueUI : MonoBehaviour {
         [Tooltip("Used to skip the current dialogue event on user interaction.")]
         [SerializeField] private UIButton _uiButton;
-        private UnityAction _onSkipComplete;
+        [SerializeField] private GameEvent _onSkipDialogue;
 
         //========================================
         // Unity Methods
@@ -35,36 +35,17 @@ namespace KrillOrBeKrilled.UI {
         #region Public Methods
 
         /// <summary>
-        /// Sets up references and listeners to notify observers of the skip dialogue completion and track
-        /// when the level starts.
-        /// </summary>
-        /// <param name="onStartLevel"> Tracks when the level begins. </param>
-        /// <param name="onSkipComplete"> Tracks when the skip dialogue timer is completed. </param>
-        public void Initialize(UnityEvent onStartLevel, UnityAction onSkipComplete) {
-            this._onSkipComplete = onSkipComplete;
-            onStartLevel.AddListener(this.OnStartLevel);
-        }
-
-        /// <summary>
-        /// Invokes the method associated with completing the dialogue skipping process set upon <see cref="Initialize"/>.
+        /// Triggers referenced _onSkipDialogue <see cref="GameEvent"/>.
         /// </summary>
         public void TriggerSkip() {
-            this._onSkipComplete?.Invoke();
+            this._onSkipDialogue.Raise();
         }
-
-        #endregion
-
-        //========================================
-        // Private Methods
-        //========================================
-
-        #region Private Methods
 
         /// <summary>
         /// Disables this GameObject.
         /// </summary>
-        /// <remarks> Subscribed to the onStartLevel event provided upon <see cref="Initialize"/>. </remarks>
-        private void OnStartLevel() {
+        /// <remarks> Triggered by onStartLevel <see cref="GameEvent"/>. </remarks>
+        public void OnStartLevel() {
             this._uiButton.gameObject.SetActive(false);
         }
 

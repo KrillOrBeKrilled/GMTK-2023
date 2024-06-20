@@ -15,6 +15,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
         protected HeroSoundsController SoundsController;
         protected FieldOfView HeroSight;
         protected Rigidbody2D Rigidbody;
+        protected SpriteRenderer SpriteRenderer;
         
         protected Animator AnimController;
         protected readonly int JumpKey = Animator.StringToHash("jump");
@@ -26,6 +27,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
             HeroSight = GetComponent<FieldOfView>();
             Rigidbody = GetComponent<Rigidbody2D>();
             AnimController = GetComponent<Animator>();
+            SpriteRenderer = this.GetComponent<SpriteRenderer>();
         }
         
         protected override Node SetupTree() {

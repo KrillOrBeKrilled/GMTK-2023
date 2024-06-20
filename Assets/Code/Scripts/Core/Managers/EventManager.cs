@@ -17,10 +17,6 @@ namespace KrillOrBeKrilled.Core.Managers {
         public readonly CoinAmountChangedEvent CoinAmountChangedEvent;
         public readonly ResourceAmountChangedEvent ResourceAmountChangedEvent;
 
-        // UI Events
-        public readonly ShowDialogueUIEvent ShowDialogueUIEvent;
-        public readonly HideDialogueUIEvent HideDialogueUIEvent;
-
         private EventManager() {
             // Game Events
             this.GameOverEvent = new GameOverEvent();
@@ -29,10 +25,6 @@ namespace KrillOrBeKrilled.Core.Managers {
             // Coins & Resources
             this.CoinAmountChangedEvent = new CoinAmountChangedEvent();
             this.ResourceAmountChangedEvent = new ResourceAmountChangedEvent();
-            
-            // UI Events
-            this.ShowDialogueUIEvent = new ShowDialogueUIEvent();
-            this.HideDialogueUIEvent = new HideDialogueUIEvent();
         }
     }
 }

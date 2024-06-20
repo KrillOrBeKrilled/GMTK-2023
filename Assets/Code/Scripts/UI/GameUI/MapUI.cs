@@ -121,6 +121,7 @@ namespace KrillOrBeKrilled.UI {
             }
 
             Image newIcon = Instantiate(heroIconPrefab, this._heroIconsParent, true);
+            newIcon.rectTransform.localScale = Vector3.one;
             newIcon.transform.SetAsFirstSibling();
             this._heroToIconDict.Add(newHero, newIcon);
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using KrillOrBeKrilled.Heroes;
 using UnityEngine;
 using Yarn.Unity;
 
@@ -100,6 +101,29 @@ namespace KrillOrBeKrilled.UI {
         public void RegisterCharacter(DialogueCharacter newCharacter) {
             if (!this._allCharacters.Contains(newCharacter)) {
                 this._allCharacters.Add(newCharacter);
+            }
+        }
+
+        /// <summary>
+        /// Registers the hero with the dialogue system.
+        /// </summary>
+        /// <param name="actor">The new <see cref="Hero"/> with the dialogue system. </param>
+        public void OnHeroActorSpawn(Hero actor) {
+            if (!actor.TryGetComponent(out DialogueCharacter newYarnCharacter)) {
+                return;
+            }
+            
+            this.RegisterCharacter(newYarnCharacter);
+            this.SetActorCharacter(newYarnCharacter);
+        }
+
+        /// <summary>
+        /// Unregisters the associated <see cref="Hero"/> from the dialogue system.
+        /// </summary>
+        /// <param name="actor"> The <see cref="Hero"/> actor to unregister. </param>
+        public void OnHeroActorDestroy(Hero actor) {
+            if (actor.TryGetComponent(out DialogueCharacter diedCharacter)) {
+                DialogueUI.Instance.ForgetDialogueCharacter(diedCharacter);
             }
         }
 

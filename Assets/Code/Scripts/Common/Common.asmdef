@@ -1,7 +1,7 @@
 {
-    "name": "Extensions",
+    "name": "Common",
     "rootNamespace": "KrillOrBeKrilled",
-    "references": [],
+    "references": ["GUID:fbd1169f7467a544ea39d78b143851af"],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

@@ -9,13 +9,13 @@ Dogan: Nice work on stopping those heroes. I know... this wasn't included in the
 Dogan: Let's discuss your compensation and possible promotion.
 <<stop_shake CameraSwitcher>>
 Dogan: Hold on a second...
-<<spawn_hero_actor GameManager>>
-<<enter_hero_actor GameManager>>
+<<spawn_hero_actor WaveManager>>
+<<enter_hero_actor WaveManager>>
 Hero: I am sure the mage said to make two left turns and then to turn right.
-Hero: Oh, ahem... I HAVE ARRIVED TO CLAIM THE GOLD HIDDEN WITHIN THIS DUNGEON!
+Hero: Oh, ahem... WE HAVE ARRIVED TO CLAIM THE GOLD HIDDEN WITHIN THIS DUNGEON!
+<<exit_hero_actor WaveManager>>
 Dogan: We'll discuss your pay rate later, don't let them through!
 Hendall: Oh...
 <<show_player CameraSwitcher>>
-<<start_level_enabled_spawn GameManager>>
 
 ===

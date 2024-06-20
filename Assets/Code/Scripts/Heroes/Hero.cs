@@ -124,12 +124,13 @@ namespace KrillOrBeKrilled.Heroes {
         public int GetHealth() {
             return this.Health;
         }
-        
+
         /// <summary>
         /// Decrements the hero's health and plays associated SFX. If the health falls to zero or below,
         /// triggers the hero's death.
         /// </summary>
         /// <param name="amount"> The value to subtract from the hero's health. </param>
+        /// <param name="trap"> The trap that is dealing the damage. </param>
         /// <remarks> Invokes the <see cref="OnHealthChanged"/> event. </remarks>
         public void TakeTrapDamage(int amount, Trap trap) {
             this.Health -= amount;
@@ -185,6 +186,13 @@ namespace KrillOrBeKrilled.Heroes {
         /// </summary>
         public void EnterLevel() {
             this.StartCoroutine(this.EnterLevelAnimation());
+        }
+        
+        /// <summary>
+        /// Enables backward movement until the hero exits the level.
+        /// </summary>
+        public void ExitLevel() {
+            this.StartCoroutine(this.ExitLevelAnimation());
         }
 
         public void Initialize(HeroData heroData, HeroSoundsController soundsController, Tilemap groundTilemap) {
@@ -248,6 +256,20 @@ namespace KrillOrBeKrilled.Heroes {
             yield return new WaitForSeconds(2f);
 
             this._heroBrain.UpdateData("IsMoving", false);
+        }
+        
+        /// <summary>
+        /// Enables movement through the <see cref="HeroBT"/> in an opposite direction for a duration of time and
+        /// then destroys itself.
+        /// </summary>
+        /// <remarks> The coroutine is started by <see cref="ExitLevel"/>. </remarks>
+        private IEnumerator ExitLevelAnimation() {
+            this._heroBrain.UpdateData("SpeedMultiplier", -1f);
+            this._heroBrain.UpdateData("IsMoving", true);
+
+            yield return new WaitForSeconds(2f);
+
+            Destroy(this.gameObject);
         }
 
         /// <summary>

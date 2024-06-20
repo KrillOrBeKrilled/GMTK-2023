@@ -6,11 +6,12 @@ tags:
 Hendall: Okay... that was a handful!
 Hendall: Do I get any bonuses for these extra duties?
 Dogan: Certainly! There will be generous bonuses in form of GOLD coins!
-<<spawn_hero_actor GameManager>>
-<<enter_hero_actor GameManager>>
+<<spawn_hero_actor WaveManager>>
+<<enter_hero_actor WaveManager>>
 Hero: Did somebody say GOLD?
 <<show_player CameraSwitcher>>
 Hendall: How many of these guys do you get a day on average?!
+<<exit_hero_actor WaveManager>>
 Dogan: Hundred, maybe thousand, honestly I stopped counting a long time ago...
 Dogan: I will tell you more about Coins after you deal with these guys!
 <<start_shake CameraSwitcher>>
@@ -20,6 +21,5 @@ Dogan: You won't be disappointed!
 Developers: Thank you for playing the Henchman this far! We hope you had fun!
 Developers: If there is any feedback, or if you have suggestions on what you'd like to see in the game in the future, please let us know by filling out the feedback form on the Main Menu!
 Developers: Stay tuned for more updates in the future!
-<<start_level_enabled_spawn GameManager>>
 
 ===

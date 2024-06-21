@@ -79,6 +79,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._activeLevelData.Type = source.Type;
             this._activeLevelData.DialogueName = source.DialogueName;
             this._activeLevelData.NextLevelName = source.NextLevelName;
+            this._activeLevelData.ComicPages = source.ComicPages.ToList();
             this._activeLevelData.EndgameTargetPosition = source.EndgameTargetPosition;
             this._activeLevelData.RespawnPositions = source.RespawnPositions.ToList();
             this._activeLevelData.WallsTilemapPrefab = source.WallsTilemapPrefab;

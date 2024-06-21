@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using KrillOrBeKrilled.Heroes;
@@ -18,6 +19,7 @@ namespace KrillOrBeKrilled.UI {
     /// from <see cref="DialogueRunner"/>.
     /// </remarks>
     public class DialogueUI : DialogueViewBase {
+        [SerializeField] private ComicsUI _comicsUI;
         [SerializeField] private DialogueCharacter _playerCharacter;
         [SerializeField] private RectTransform _canvasRectTransform;
         [SerializeField] private RectTransform _safeAreaRectTransform;
@@ -31,6 +33,7 @@ namespace KrillOrBeKrilled.UI {
         private readonly List<DialogueCharacter> _allCharacters = new();
         private DialogueCharacter _speakerCharacter;
         private Camera _mainCamera;
+        private bool _isShowingComics;
 
         //========================================
         // Unity Methods
@@ -156,6 +159,15 @@ namespace KrillOrBeKrilled.UI {
             onDialogueLineFinished();
         }
 
+        [YarnCommand("show_comics")]
+        public void ShowComics() {
+            this.StartCoroutine(this.ComicsCoroutine());
+        }
+        
+        public void OnComicsComplete() {
+            this._isShowingComics = false;
+        }
+
         #endregion
 
         //========================================
@@ -163,6 +175,13 @@ namespace KrillOrBeKrilled.UI {
         //========================================
 
         #region Private Methods
+
+        private IEnumerator ComicsCoroutine() {
+            this._isShowingComics = true;
+            this._comicsUI.ShowComics();
+
+            yield return new WaitWhile(() => this._isShowingComics);
+        }
         
         /// <summary>
         /// Positions bubble on screen near the target <see cref="DialogueCharacter"/>.

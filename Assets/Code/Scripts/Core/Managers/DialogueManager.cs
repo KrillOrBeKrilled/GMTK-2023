@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using KrillOrBeKrilled.Common;
 using UnityEngine;
@@ -8,6 +9,7 @@ namespace KrillOrBeKrilled.Core.Managers {
     [SerializeField] private DialogueRunner _dialogueRunner;
     [SerializeField] private GameEvent _onDialogueStart;
     [SerializeField] private GameEvent _onDialogueOver;
+    [SerializeField] private SpriteListEvent _onLoadComics;
 
     private void OnEnable() {
       this._dialogueRunner.onDialogueComplete.AddListener(this.TriggerDialogueOver);
@@ -16,17 +18,19 @@ namespace KrillOrBeKrilled.Core.Managers {
     private void OnDisable() {
       this._dialogueRunner.onDialogueComplete.RemoveListener(this.TriggerDialogueOver);
     }
-    
+
     /// <summary>
     /// 
     /// </summary>
     /// <param name="dialogueName"></param>
-    public void StartDialogue(string dialogueName) {
+    /// <param name="comicsPages"></param>
+    public void StartDialogue(string dialogueName, List<Sprite> comicsPages) {
       if (!this._dialogueRunner.yarnProject.NodeNames.Contains(dialogueName)) {
         Debug.LogError("Missing or Incorrect Dialogue Name, make sure provided dialogue name value is correct");
         return;
       }
       
+      this._onLoadComics.Raise(comicsPages);
       this._onDialogueStart.Raise();
       this._dialogueRunner.StartDialogue(dialogueName);
     }

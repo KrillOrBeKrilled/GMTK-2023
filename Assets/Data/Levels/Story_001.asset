@@ -16,6 +16,11 @@ MonoBehaviour:
   Type: 0
   DialogueName: Level1Dialogue
   NextLevelName: Story_002
+  ComicPages:
+  - {fileID: 21300000, guid: fe8448673db2f45118ae9fbc61f948f2, type: 3}
+  - {fileID: 21300000, guid: 975d2d5a1153d422ea5880c3a128d530, type: 3}
+  - {fileID: 21300000, guid: 3e1fa334ecb9c48848565b5c41b4ab60, type: 3}
+  - {fileID: 21300000, guid: ae5e812cbc12e46f1ae9eff5a0ac4d26, type: 3}
   EndgameTargetPosition: {x: 248, y: 1.69, z: 0}
   RespawnPositions:
   - {x: -8.05, y: 1.8, z: 0}

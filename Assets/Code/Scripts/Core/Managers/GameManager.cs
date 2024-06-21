@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using KrillOrBeKrilled.Common;
 using KrillOrBeKrilled.Core.Input;
@@ -12,7 +14,7 @@ using KrillOrBeKrilled.Traps;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
-using Yarn.Unity;
+
 
 //*******************************************************************************************
 // GameManager
@@ -68,6 +70,8 @@ namespace KrillOrBeKrilled.Core.Managers {
         
         [Tooltip("Tracks when the main gameplay loop begins.")]
         [SerializeField] private GameEvent _onStartLevel;
+
+        public List<Sprite> ComicPages => this._levelData.ComicPages.AsReadOnly().ToList();
         
         [Tooltip("Tracks when the player beats the game.")]
         public UnityEvent<string> OnHenWon { get; private set; }
@@ -108,13 +112,14 @@ namespace KrillOrBeKrilled.Core.Managers {
             
             bool isStoryLevel = this._levelData.Type == LevelData.LevelType.Story;
             bool shouldSkip = PlayerPrefsManager.ShouldSkipDialogue();
-            if (isStoryLevel && !shouldSkip) {
-                // TODO: REPLACE WITH STRING EVENT
-                this._dialogueManager.StartDialogue(this._levelData.DialogueName);
+            
+            if (!isStoryLevel || shouldSkip) {
+                this.StartLevel();
+                yield break;
             }
-            else {
-                this.StartLevel();   
-            }
+            
+            // TODO: REPLACE WITH STRING EVENT
+            this._dialogueManager.StartDialogue(this._levelData.DialogueName, this.ComicPages);
         }
 
         #endregion
@@ -183,6 +188,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._levelData.Index = sourceData.Index;
             this._levelData.DialogueName = sourceData.DialogueName;
             this._levelData.NextLevelName = sourceData.NextLevelName;
+            this._levelData.ComicPages = sourceData.ComicPages.ToList();
             this._levelData.Type = sourceData.Type;
             this._levelData.RespawnPositions = sourceData.RespawnPositions.ToList();
             this._levelData.EndgameTargetPosition = sourceData.EndgameTargetPosition;

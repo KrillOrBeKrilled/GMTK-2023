@@ -7,6 +7,7 @@ namespace KrillOrBeKrilled.UI {
   public class ComicsUI : MonoBehaviour {
     [SerializeField] private Image _comicImage;
     [SerializeField] private GameObject _comicContainer;
+    [SerializeField] private GameEvent _onComicsStart;
     [SerializeField] private GameEvent _onComicsComplete;
     
     private List<Sprite> _comicSprites;
@@ -14,15 +15,14 @@ namespace KrillOrBeKrilled.UI {
 
     public void LoadComics(List<Sprite> comicSprites) {
       this._comicSprites = comicSprites;
-      this.ShowPage(0);
     }
     
     public void ShowNextPage() {
-      print("Next");
       this.ShowPage(this._comicIndex + 1);
     }
     
     public void ShowComics() {
+      this._onComicsStart.Raise();
       this._comicContainer.SetActive(true);
     }
     

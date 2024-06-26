@@ -20,7 +20,7 @@ namespace KrillOrBeKrilled.Common {
       Event.UnregisterListener(this);
     }
 
-    public virtual void OnEventRaised(T value)
+    public void OnEventRaised(T value)
     {
       Response?.Invoke(value);
     }

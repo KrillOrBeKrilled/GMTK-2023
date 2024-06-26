@@ -21,6 +21,7 @@ namespace KrillOrBeKrilled.Model {
         public LevelType Type = LevelType.Endless;
         public string DialogueName;
         public string NextLevelName;
+        public List<Sprite> ComicPages;
         public Vector3 EndgameTargetPosition = Vector3.zero;
         public List<Vector3> RespawnPositions;
         public Tilemap WallsTilemapPrefab;

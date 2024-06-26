@@ -8,7 +8,7 @@ using UnityEngine;
 namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// DialogueRunner invokes
-    /// <see cref="DialogueUI"/>, which locates the YarnCharacter that is speaking.
+    /// <see cref="StoryUI"/>, which locates the YarnCharacter that is speaking.
     /// </summary>
     /// <remarks> Put this script on your various NPC gameObjects. </remarks>
     public class DialogueCharacter : MonoBehaviour {
@@ -32,12 +32,12 @@ namespace KrillOrBeKrilled.UI {
         #region Unity Methods
 
         private void Start() {
-            if (DialogueUI.Instance is null) {
-                Debug.LogError("DialogueUI not found");
+            if (StoryUI.Instance is null) {
+                Debug.LogError("StoryUI not found");
                 return;
             }
 
-            DialogueUI.Instance.RegisterCharacter(this);
+            StoryUI.Instance.RegisterCharacter(this);
             if (this.TryGetComponent(out RectTransform rectTransform))
                 this.RectTransform = rectTransform;
 
@@ -58,8 +58,8 @@ namespace KrillOrBeKrilled.UI {
         /// Unregisters this character from the YarnCharacterView.
         /// </summary>
         private void OnDestroy() {
-            if (DialogueUI.Instance is not null) {
-                DialogueUI.Instance.ForgetDialogueCharacter(this);
+            if (StoryUI.Instance is not null) {
+                StoryUI.Instance.ForgetDialogueCharacter(this);
             }
         }
 

@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Index: 2
   Type: 0
-  DialogueName: Level2Dialogue
+  DialogueName: Dialogue002
   NextLevelName: Story_003
+  ComicPages: []
   EndgameTargetPosition: {x: 285, y: 1.69, z: 0}
   RespawnPositions:
   - {x: -8.05, y: 1.8, z: 0}

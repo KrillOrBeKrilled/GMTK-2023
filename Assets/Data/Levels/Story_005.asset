@@ -22,4 +22,36 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   WallsTilemapPrefab: {fileID: 0}
   WavesData:
-    WavesList: []
+    WavesList:
+    - Heroes:
+      - Health: 10
+        Type: 0
+      - Health: 10
+        Type: 0
+      HeroSpawnDelayInSeconds: 2
+      NextWaveSpawnDelayInSeconds: 8
+    - Heroes:
+      - Health: 17
+        Type: 0
+      - Health: 19
+        Type: 0
+      - Health: 19
+        Type: 0
+      HeroSpawnDelayInSeconds: 2
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 29
+        Type: 0
+      - Health: 29
+        Type: 0
+      HeroSpawnDelayInSeconds: 5
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 35
+        Type: 0
+      - Health: 35
+        Type: 0
+      - Health: 35
+        Type: 0
+      HeroSpawnDelayInSeconds: 6
+      NextWaveSpawnDelayInSeconds: 0

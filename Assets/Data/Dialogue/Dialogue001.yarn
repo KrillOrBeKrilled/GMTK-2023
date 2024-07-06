@@ -18,7 +18,7 @@ Dogan: As long as the HERO raid isn't here, we have all the time in the world!
 <<enter_hero_actor WaveManager>>
 Hero: Another dungeon, another dollar.
 <<show_end CameraSwitcher>>
-Hero: The dungeon exit is just in sight!
+Hero: The treasure is just in sight!
 <<show_start CameraSwitcher>>
 Hero: Let me go tell my raid squad the way here...
 <<exit_hero_actor WaveManager>>

@@ -26,7 +26,7 @@ namespace KrillOrBeKrilled.Core.Managers {
     /// <param name="comicsPages"></param>
     public void StartDialogue(string dialogueName, List<Sprite> comicsPages) {
       if (!this._dialogueRunner.yarnProject.NodeNames.Contains(dialogueName)) {
-        Debug.LogError("Missing or Incorrect Dialogue Name, make sure provided dialogue name value is correct");
+        Debug.LogError($"{dialogueName} is an incorrect Dialogue Name, make sure provided DialogueName is correct");
         return;
       }
       

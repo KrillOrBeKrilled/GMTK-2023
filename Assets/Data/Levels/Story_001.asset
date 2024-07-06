@@ -22,6 +22,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3e1fa334ecb9c48848565b5c41b4ab60, type: 3}
   - {fileID: 21300000, guid: ae5e812cbc12e46f1ae9eff5a0ac4d26, type: 3}
   EndgameTargetPosition: {x: 55, y: 0, z: 0}
+  StartCameraPosition: {x: 3, y: 4.5, z: -10}
+  EndCameraPosition: {x: 45, y: 4.5, z: -10}
   RespawnPositions:
   - {x: -15, y: 2, z: 0}
   WallsTilemapPrefab: {fileID: 5896839985468150658, guid: 933af7eee59f34bb08cc4946c44f8bf0, type: 3}

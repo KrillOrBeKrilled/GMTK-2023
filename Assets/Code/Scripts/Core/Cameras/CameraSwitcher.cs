@@ -35,6 +35,11 @@ namespace KrillOrBeKrilled.Core.Cameras {
         //========================================
         
         #region Public Methods
+
+        public void SetupCameras(Vector3 startCamPos, Vector3 endCamPos) {
+            this.StartCamera.transform.position = startCamPos;
+            this.EndCamera.transform.position = endCamPos;
+        }
         
         /// <summary>
         /// Enables only the <see cref="EndCamera"/> to transition the screen to focus on the level goal.

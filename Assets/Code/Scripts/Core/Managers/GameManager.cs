@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using KrillOrBeKrilled.Common;
 using KrillOrBeKrilled.Core.Input;
@@ -185,15 +184,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         private void CopyLevelData() {
             LevelData sourceData = this._testingLevelData != null ? this._testingLevelData : LevelManager.Instance.GetActiveLevelData();
             this._levelData = ScriptableObject.CreateInstance<LevelData>();
-            this._levelData.Index = sourceData.Index;
-            this._levelData.DialogueName = sourceData.DialogueName;
-            this._levelData.NextLevelName = sourceData.NextLevelName;
-            this._levelData.ComicPages = sourceData.ComicPages.ToList();
-            this._levelData.Type = sourceData.Type;
-            this._levelData.RespawnPositions = sourceData.RespawnPositions.ToList();
-            this._levelData.EndgameTargetPosition = sourceData.EndgameTargetPosition;
-            this._levelData.WallsTilemapPrefab = sourceData.WallsTilemapPrefab;
-            this._levelData.WavesData = new WavesData() { WavesList = sourceData.WavesData.WavesList.ToList() };
+            LevelData.CopyData(sourceData, ref this._levelData);
         }
         
         private void InitializeHelpers() {
@@ -214,6 +205,7 @@ namespace KrillOrBeKrilled.Core.Managers {
                                               Quaternion.identity, this.transform);
 
             this._levelTilemap = Instantiate(this._levelData.WallsTilemapPrefab, this._tilemapGrid);
+            this._cameraManager.SetupCameras(this._levelData.StartCameraPosition, this._levelData.EndCameraPosition);
             this._cameraManager.SetBounds(this._levelData.WallsTilemapPrefab.transform.GetComponentExactlyInChildren<Collider2D>());
             this.LevelStart = this._levelData.RespawnPositions.First();
         }

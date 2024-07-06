@@ -12,42 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e90c72ba9e4daeb0a80224c2883d32, type: 3}
   m_Name: ActiveLevelData
   m_EditorClassIdentifier: 
-  Index: 1
-  Type: 0
-  DialogueName: TutorialDialogue
-  NextLevelName: Story_002
-  EndgameTargetPosition: {x: 248, y: 1.69, z: 0}
-  RespawnPositions:
-  - {x: -8.05, y: 1.8, z: 0}
-  WallsTilemapPrefab: {fileID: 5896839985468150658, guid: 933af7eee59f34bb08cc4946c44f8bf0, type: 3}
+  Index: 0
+  Type: 1
+  DialogueName: 
+  NextLevelName: 
+  ComicPages: []
+  EndgameTargetPosition: {x: 0, y: 0, z: 0}
+  StartCameraPosition: {x: 0, y: 0, z: 0}
+  EndCameraPosition: {x: 0, y: 0, z: 0}
+  RespawnPositions: []
+  WallsTilemapPrefab: {fileID: 0}
   WavesData:
-    WavesList:
-    - Heroes:
-      - Health: 10
-        Type: 0
-      - Health: 10
-        Type: 1
-      HeroSpawnDelayInSeconds: 2
-      NextWaveSpawnDelayInSeconds: 10
-    - Heroes:
-      - Health: 15
-        Type: 0
-      - Health: 15
-        Type: 1
-      - Health: 20
-        Type: 0
-      HeroSpawnDelayInSeconds: 3
-      NextWaveSpawnDelayInSeconds: 15
-    - Heroes:
-      - Health: 25
-        Type: 0
-      - Health: 25
-        Type: 1
-      - Health: 30
-        Type: 0
-      - Health: 30
-        Type: 0
-      - Health: 40
-        Type: 0
-      HeroSpawnDelayInSeconds: 5
-      NextWaveSpawnDelayInSeconds: 15
+    WavesList: []

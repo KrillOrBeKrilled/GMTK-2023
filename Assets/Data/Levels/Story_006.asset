@@ -17,6 +17,7 @@ MonoBehaviour:
   DialogueName: Dialogue006
   NextLevelName: Story_007
   ComicPages: []
+  PlayerStartPosition: {x: 5, y: 1, z: 0}
   EndgameTargetPosition: {x: 133, y: 0, z: 0}
   StartCameraPosition: {x: 3, y: 4.5, z: -10}
   EndCameraPosition: {x: 116, y: 4.5, z: -10}

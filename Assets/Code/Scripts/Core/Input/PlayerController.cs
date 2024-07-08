@@ -68,10 +68,11 @@ namespace KrillOrBeKrilled.Core.Input {
         /// Sets up the <see cref="PlayerCharacter"/> and <see cref="TrapController"/> that make up the player
         /// representation within the game world with callbacks and delegates required for proper execution.
         /// </summary>
+        /// <param name="startPos"> The starting position player will be teleported to. </param>
         /// <param name="gameManager"> Provides major game state-related events to subscribe the entities to. </param>
         /// <param name="levelTilemap"> The tilemap forming the level ground. </param>
-        internal void Initialize(GameManager gameManager, Tilemap levelTilemap) {
-            StartCoroutine(Player.Initialize(gameManager.OnHenWon, this.GatherInput));
+        internal void Initialize(Vector3 startPos, GameManager gameManager, Tilemap levelTilemap) {
+            StartCoroutine(Player.Initialize(startPos, gameManager.OnHenWon, this.GatherInput));
             TrapController.Initialize(levelTilemap, ResourceManager.Instance.CanAffordCost);
         }
         

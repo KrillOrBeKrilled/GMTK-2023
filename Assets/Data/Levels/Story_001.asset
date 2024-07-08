@@ -21,6 +21,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 975d2d5a1153d422ea5880c3a128d530, type: 3}
   - {fileID: 21300000, guid: 3e1fa334ecb9c48848565b5c41b4ab60, type: 3}
   - {fileID: 21300000, guid: ae5e812cbc12e46f1ae9eff5a0ac4d26, type: 3}
+  PlayerStartPosition: {x: 5, y: 1, z: 0}
   EndgameTargetPosition: {x: 55, y: 0, z: 0}
   StartCameraPosition: {x: 3, y: 4.5, z: -10}
   EndCameraPosition: {x: 45, y: 4.5, z: -10}

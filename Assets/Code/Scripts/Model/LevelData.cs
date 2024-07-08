@@ -23,6 +23,7 @@ namespace KrillOrBeKrilled.Model {
         public string DialogueName;
         public string NextLevelName;
         public List<Sprite> ComicPages;
+        public Vector3 PlayerStartPosition;
         public Vector3 EndgameTargetPosition = Vector3.zero;
         public Vector3 StartCameraPosition;
         public Vector3 EndCameraPosition;
@@ -41,6 +42,7 @@ namespace KrillOrBeKrilled.Model {
             destination.NextLevelName = source.NextLevelName;
             destination.ComicPages = source.ComicPages.ToList();
             destination.Type = source.Type;
+            destination.PlayerStartPosition = source.PlayerStartPosition;
             destination.EndgameTargetPosition = source.EndgameTargetPosition;
             destination.StartCameraPosition = source.StartCameraPosition;
             destination.EndCameraPosition = source.EndCameraPosition;

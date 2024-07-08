@@ -17,10 +17,12 @@ MonoBehaviour:
   DialogueName: Dialogue010
   NextLevelName: 
   ComicPages: []
-  EndgameTargetPosition: {x: 0, y: 0, z: 0}
+  EndgameTargetPosition: {x: 223, y: 0, z: 0}
+  StartCameraPosition: {x: 3, y: 4.5, z: -10}
+  EndCameraPosition: {x: 207, y: 4.5, z: -10}
   RespawnPositions:
-  - {x: 0, y: 0, z: 0}
-  WallsTilemapPrefab: {fileID: 0}
+  - {x: -15, y: 2, z: 0}
+  WallsTilemapPrefab: {fileID: 5896839985468150658, guid: 12a8f33035d104217bf1dd5a476241cb, type: 3}
   WavesData:
     WavesList:
     - Heroes:

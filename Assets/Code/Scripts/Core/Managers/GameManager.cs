@@ -12,6 +12,7 @@ using KrillOrBeKrilled.Player.PlayerStates;
 using KrillOrBeKrilled.Traps;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 
@@ -35,8 +36,9 @@ namespace KrillOrBeKrilled.Core.Managers {
         [field:SerializeField] public WaveManager WaveManager { get; private set; }
         
         
+        [FormerlySerializedAs("_endgameTargetPrefab")]
         [Header("Level")]
-        [SerializeField] private EndgameTarget _endgameTargetPrefab;
+        [SerializeField] private Treasure _treasurePrefab;
         [SerializeField] private Transform _tilemapGrid;
 
         [Header("Testing")]
@@ -50,10 +52,10 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         public Vector3 LevelStart { get; private set; }
     
-        public Transform LevelEnd => this._endgameTarget.transform;
+        public Transform LevelEnd => this._treasure.transform;
 
         /// The instantiated endgameTargetPrefab.
-        private EndgameTarget _endgameTarget;
+        private Treasure _treasure;
 
         /// Contains all data on the waves and hero settings to spawn per wave that constitutes a playable level.
         private LevelData _levelData;
@@ -188,7 +190,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
         
         private void InitializeHelpers() {
-            this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
+            this._treasure.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
             this._playerController.Player.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
             this._playerController.Player.OnSelectedTrapChanged.AddListener(this.SelectedTrapIndexChanged);
             this._playerController.Player.OnTrapDeployed.AddListener(this.OnTrapDeployed);
@@ -201,7 +203,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
 
         private void SetupLevelMap() {
-            this._endgameTarget = Instantiate(this._endgameTargetPrefab, this._levelData.EndgameTargetPosition, 
+            this._treasure = Instantiate(this._treasurePrefab, this._levelData.EndgameTargetPosition, 
                                               Quaternion.identity, this.transform);
 
             this._levelTilemap = Instantiate(this._levelData.WallsTilemapPrefab, this._tilemapGrid);
@@ -331,7 +333,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <summary>
         /// Disables the player input and hero movement, and triggers the loss UI.
         /// </summary>
-        /// <remarks> Subscribed to the <see cref="EndgameTarget.OnHeroReachedEndgameTarget"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="Treasure.OnHeroReachedEndgameTarget"/> event. </remarks>
         private void HeroReachedLevelEnd() {
             this.HenLost("The Hero managed to reach his goal and do heroic things.\nHendall, you failed me!");
         }

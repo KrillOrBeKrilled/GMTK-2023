@@ -44,7 +44,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             string path = Path.Combine(Application.persistentDataPath, fileName);
             if (!File.Exists(path)) {
                 success = false;
-                return default(T);
+                return default;
             }
 
             string jsonData = File.ReadAllText(path);

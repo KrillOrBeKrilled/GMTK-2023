@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PlatformInfo>
-	<Platform Name="iOS" BasePlatform="iOS" Generator="2022.1.5.8242"/>
+	<Platform Name="iOS" BasePlatform="iOS" Generator="2023.1.5.8522"/>
 	<RootPaths>
-		<ProjectRoot>../../</ProjectRoot>
-		<SourceFilesRoot>../../.cache/iOS/</SourceFilesRoot>
+		<ProjectRoot>../..</ProjectRoot>
+		<SourceFilesRoot>../../.cache/iOS</SourceFilesRoot>
 		<SoundBanksRoot>.</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
 		<ExternalSourcesOutputRoot>.</ExternalSourcesOutputRoot>
@@ -28,5 +28,5 @@
 		<PrintObjectGuid>false</PrintObjectGuid>
 		<PrintObjectPath>false</PrintObjectPath>
 	</Settings>
-	<FileHash>{34376F7D-385A-95ED-BF56-7DE3EDB6E162}</FileHash>
+	<FileHash>{2A537D95-BAEE-549D-3104-78823921EBEA}</FileHash>
 </PlatformInfo>

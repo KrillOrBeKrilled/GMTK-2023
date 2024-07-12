@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}" SchemaVersion="110">
+<WwiseDocument Type="WorkUnit" ID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}" SchemaVersion="119">
 	<AudioObjects>
 		<WorkUnit Name="Default Work Unit" ID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}" PersistMode="Standalone">
 			<ChildrenList>
@@ -42,9 +42,6 @@
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EB546B91-8D58-4470-8021-567389FBC3C0}"/>
 										</Reference>
-										<Reference Name="Effect0" PluginName="Wwise Matrix Reverb" CompanyID="0" PluginID="115" PluginType="3">
-											<ObjectRef Name="Bathroom1" ID="{1969D30F-C165-45C0-B290-DE3ED07A7AA3}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
-										</Reference>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{81856265-C603-4AF0-93DD-E73657EF8752}"/>
 										</Reference>
@@ -58,6 +55,21 @@
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Effects">
+											<Reference>
+												<Local>
+													<EffectSlot Name="" ID="{D4CF4A3F-284E-4B22-90A3-C0438644449E}" ShortID="462512965">
+														<ReferenceList>
+															<Reference Name="Effect" PluginName="Wwise Matrix Reverb" CompanyID="0" PluginID="115" PluginType="3">
+																<ObjectRef Name="Bathroom1" ID="{1969D30F-C165-45C0-B290-DE3ED07A7AA3}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
 									<ActiveSourceList>
 										<ActiveSource Name="sfx_boss_dialogue" ID="{D1A6DA3E-4836-48FB-A8A9-1538BE306CE1}" Platform="Linked"/>
 									</ActiveSourceList>

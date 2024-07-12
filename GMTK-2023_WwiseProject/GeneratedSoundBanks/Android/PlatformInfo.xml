@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PlatformInfo>
-	<Platform Name="Android" BasePlatform="Android" Generator="2022.1.5.8242"/>
+	<Platform Name="Android" BasePlatform="Android" Generator="2023.1.5.8522"/>
 	<RootPaths>
-		<ProjectRoot>../../</ProjectRoot>
-		<SourceFilesRoot>../../.cache/Android/</SourceFilesRoot>
+		<ProjectRoot>../..</ProjectRoot>
+		<SourceFilesRoot>../../.cache/Android</SourceFilesRoot>
 		<SoundBanksRoot>.</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
 		<ExternalSourcesOutputRoot>.</ExternalSourcesOutputRoot>
@@ -28,5 +28,5 @@
 		<PrintObjectGuid>false</PrintObjectGuid>
 		<PrintObjectPath>false</PrintObjectPath>
 	</Settings>
-	<FileHash>{4044A146-953F-7668-708B-EEACBB09C957}</FileHash>
+	<FileHash>{4F98A67D-8239-AF31-805F-8708AEC2E7FC}</FileHash>
 </PlatformInfo>

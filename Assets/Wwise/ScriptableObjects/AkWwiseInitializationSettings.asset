@@ -15,11 +15,13 @@ MonoBehaviour:
   PlatformSettingsNameList:
   - Android
   - iOS
+  - Linux
   - Mac
   - Windows
   PlatformSettingsList:
   - {fileID: 11400000, guid: 5a0bcec1f3aa146b9b89093aa2327ddb, type: 2}
   - {fileID: 11400000, guid: 246b9668b51aa46da81e61d00a8bd052, type: 2}
+  - {fileID: 11400000, guid: 7aa068617f31a4d5ba854c3bfd40a38c, type: 2}
   - {fileID: 11400000, guid: 27909e2440feb4a6284bbb7ba1c12a3a, type: 2}
   - {fileID: 11400000, guid: 0167a8daac02c45bd8f7e5f1da45174a, type: 2}
   InvalidReferencePlatforms:
@@ -28,6 +30,7 @@ MonoBehaviour:
     m_BasePath: Audio/GeneratedSoundBanks
     m_StartupLanguage: English(US)
     m_EngineLogging: 1
+    m_DefaultScalingFactor: 1
     m_MaximumNumberOfPositioningPaths: 255
     m_CommandQueueSize: 262144
     m_SamplesPerFrame: 512
@@ -49,9 +52,9 @@ MonoBehaviour:
       m_MaxReflectionOrder: 1
       m_MaxDiffractionOrder: 4
       m_DiffractionOnReflectionsOrder: 2
+      m_MaxEmitterRoomAuxSends: 3
       m_MaxPathLength: 10000
       m_CPULimitPercentage: 0
-      m_EnableDiffractionOnReflections: 1
       m_EnableGeometricDiffractionAndTransmission: 1
       m_CalcEmitterVirtualPosition: 1
       m_LoadBalancingSpread: 1
@@ -59,6 +62,7 @@ MonoBehaviour:
     m_IOMemorySize: 2097152
     m_TargetAutoStreamBufferLengthMs: 380
     m_UseStreamCache: 0
+    m_LoadBankAsynchronously: 0
     m_MaximumPinnedBytesInCache: 4294967295
     m_EnableGameSyncPreparation: 0
     m_ContinuousPlaybackLookAhead: 1
@@ -66,11 +70,12 @@ MonoBehaviour:
     m_MaximumHardwareTimeoutMs: 1000
     m_DebugOutOfRangeCheckEnabled: 0
     m_DebugOutOfRangeLimit: 16
+    m_SuspendAudioDuringFocusLoss: 1
     m_RenderDuringFocusLoss: 0
     m_SoundBankPersistentDataPath: 
-    m_UseAsyncOpen: 0
     m_MemoryAllocationSizeLimit: 0
     m_MemoryDebugLevel: 0
+    m_MemorySpanCount: 2
   CommsSettings:
     m_PoolSize: 262144
     m_DiscoveryBroadcastPort: 24024

@@ -12,10 +12,10 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2023 Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
 *******************************************************************************/
 
-﻿#if (UNITY_IOS || UNITY_TVOS) && !UNITY_EDITOR
+﻿#if (UNITY_IOS || UNITY_TVOS || UNITY_VISIONOS) && !UNITY_EDITOR
 public partial class AkCommonUserSettings
 {
 	partial void SetSampleRate(AkPlatformInitSettings settings)
@@ -46,6 +46,7 @@ public class AkiOSSettings : AkWwiseInitializationSettings.PlatformSettings
 		SetUseGlobalPropertyValue("UserSettings.m_MainOutputSettings.m_PanningRule", false);
 		SetUseGlobalPropertyValue("UserSettings.m_MainOutputSettings.m_ChannelConfig.m_ChannelConfigType", false);
 		SetUseGlobalPropertyValue("UserSettings.m_MainOutputSettings.m_ChannelConfig.m_ChannelMask", false);
+		IgnorePropertyValue("AdvancedSettings.m_SuspendAudioDuringFocusLoss");
 		IgnorePropertyValue("AdvancedSettings.m_RenderDuringFocusLoss");
 	}
 
@@ -72,6 +73,7 @@ public class AkiOSSettings : AkWwiseInitializationSettings.PlatformSettings
 			Ambient,
 			SoloAmbient,
 			PlayAndRecord,
+			Playback
 		}
 
 		[UnityEngine.Tooltip("The IDs of the iOS audio session categories, useful for defining app-level audio behaviours such as inter-app audio mixing policies and audio routing behaviours.These IDs are functionally equivalent to the corresponding constants defined by the iOS audio session service back-end (AVAudioSession). Refer to Xcode documentation for details on the audio session categories.")]
@@ -102,13 +104,21 @@ public class AkiOSSettings : AkWwiseInitializationSettings.PlatformSettings
 
 		[UnityEngine.Tooltip("The IDs of the iOS audio session modes, used for customizing the audio session for typical app types. These IDs are functionally equivalent to the corresponding constants defined by the iOS audio session service back-end (AVAudioSession). Refer to Xcode documentation for details on the audio session category options.")]
 		public Mode m_AudioSessionMode = Mode.Default;
+		
+		[UnityEngine.Tooltip("Number of Apple Spatial Audio point sources to allocate for 3D audio use (each point source is a system audio object).")]
+		public uint NumSpatialAudioPointSources = 128;
+		
+		[UnityEngine.Tooltip("Print debug information related to audio device initialization in the system log.")]
+		public bool VerboseSystemOutput = false;
 
 		public override void CopyTo(AkPlatformInitSettings settings)
 		{
-#if (UNITY_IOS || UNITY_TVOS) && !UNITY_EDITOR
+#if (UNITY_IOS || UNITY_TVOS || UNITY_VISIONOS) && !UNITY_EDITOR
 			settings.audioSession.eCategory = (AkAudioSessionCategory)m_AudioSessionCategory;
 			settings.audioSession.eCategoryOptions = (AkAudioSessionCategoryOptions)m_AudioSessionCategoryOptions;
 			settings.audioSession.eMode = (AkAudioSessionMode)m_AudioSessionMode;
+			settings.uNumSpatialAudioPointSources = NumSpatialAudioPointSources;
+			settings.bVerboseSystemOutput = VerboseSystemOutput;
 #endif
 		}
 	}

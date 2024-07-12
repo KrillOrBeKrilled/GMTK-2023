@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{453B9C96-7C14-4911-A0F2-2473FDEB9A29}" SchemaVersion="110">
+	<SoundBanks>
+		<WorkUnit Name="Default Work Unit" ID="{453B9C96-7C14-4911-A0F2-2473FDEB9A29}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundBank Name="mus" ID="{866A05EB-C21E-43BF-9591-E888585624B0}">
+					<PropertyList>
+						<Property Name="Maximum" Type="int32">
+							<ValueList>
+								<Value>10000000</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ObjectInclusionList>
+						<ObjectRef Name="mus" ID="{959C7B8C-59F1-4E69-ADBD-63878421FEEE}" WorkUnitID="{47D6CD64-E75B-4ADC-8639-ED7E2CD07C54}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+				<SoundBank Name="sfx" ID="{F94E3523-F4FD-49C5-A84B-5F8A9FC59474}">
+					<PropertyList>
+						<Property Name="Maximum" Type="int32">
+							<ValueList>
+								<Value>10000000</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ObjectInclusionList>
+						<ObjectRef Name="sfx" ID="{1CFA7C9A-8B4F-4D4A-94B8-76F89B3E8F37}" WorkUnitID="{47D6CD64-E75B-4ADC-8639-ED7E2CD07C54}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+			</ChildrenList>
+		</WorkUnit>
+	</SoundBanks>
+</WwiseDocument>

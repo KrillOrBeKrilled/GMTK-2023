@@ -10,6 +10,7 @@ namespace KrillOrBeKrilled.Core.Managers {
 
     public void SetupCameras(Vector3 startCamPos, Vector3 endCamPos) {
       this._cameraSwitcher.SetupCameras(startCamPos, endCamPos);
+      this.ResetCamera();
     }
     
     public void SetBounds(Collider2D newBounds) {

@@ -2,13 +2,13 @@ using UnityEngine;
 using UnityEngine.Events;
 
 //*******************************************************************************************
-// EndgameTarget
+// Treasure
 //*******************************************************************************************
 namespace KrillOrBeKrilled.Environment {
     /// <summary>
     /// Ends the game when a hero triggers collisions with this GameObject.
     /// </summary>
-    public class EndgameTarget : MonoBehaviour {
+    public class Treasure : MonoBehaviour {
         [Tooltip("Tracks when the hero reaches the level goal.")]
         public UnityEvent OnHeroReachedEndgameTarget { get; private set; }
     

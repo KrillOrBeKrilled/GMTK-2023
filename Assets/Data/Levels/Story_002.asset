@@ -14,62 +14,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Index: 2
   Type: 0
-  DialogueName: Level2Dialogue
+  DialogueName: Dialogue002
   NextLevelName: Story_003
-  EndgameTargetPosition: {x: 285, y: 1.69, z: 0}
+  ComicPages: []
+  PlayerStartPosition: {x: 5, y: 1, z: 0}
+  EndgameTargetPosition: {x: 55, y: 0, z: 0}
+  StartCameraPosition: {x: 3, y: 4.5, z: -10}
+  EndCameraPosition: {x: 45, y: 4.5, z: -10}
   RespawnPositions:
-  - {x: -8.05, y: 1.8, z: 0}
-  WallsTilemapPrefab: {fileID: 3505492165959734639, guid: 53ee4fcdcebd1434c9d9772934d85434, type: 3}
+  - {x: -15, y: 2, z: 0}
+  WallsTilemapPrefab: {fileID: 5896839985468150658, guid: 4e93bb2891d1e4ac0b6f11c60107245a, type: 3}
   WavesData:
     WavesList:
     - Heroes:
       - Health: 10
         Type: 0
+      - Health: 10
+        Type: 0
+      - Health: 10
+        Type: 0
+      HeroSpawnDelayInSeconds: 2
+      NextWaveSpawnDelayInSeconds: 8
+    - Heroes:
       - Health: 15
-        Type: 1
-      - Health: 15
+        Type: 0
+      - Health: 17
+        Type: 0
+      - Health: 19
         Type: 0
       HeroSpawnDelayInSeconds: 2
-      NextWaveSpawnDelayInSeconds: 10
-    - Heroes:
-      - Health: 20
-        Type: 1
-      HeroSpawnDelayInSeconds: 2
-      NextWaveSpawnDelayInSeconds: 10
-    - Heroes:
-      - Health: 25
-        Type: 1
-      - Health: 25
-        Type: 0
-      HeroSpawnDelayInSeconds: 2
-      NextWaveSpawnDelayInSeconds: 10
-    - Heroes:
-      - Health: 25
-        Type: 1
-      - Health: 30
-        Type: 1
-      - Health: 30
-        Type: 0
-      - Health: 35
-        Type: 1
-      - Health: 35
-        Type: 0
-      HeroSpawnDelayInSeconds: 2
-      NextWaveSpawnDelayInSeconds: 10
-    - Heroes:
-      - Health: 30
-        Type: 1
-      - Health: 35
-        Type: 0
-      - Health: 40
-        Type: 0
-      - Health: 45
-        Type: 1
-      - Health: 50
-        Type: 0
-      - Health: 50
-        Type: 1
-      - Health: 50
-        Type: 0
-      HeroSpawnDelayInSeconds: 2
-      NextWaveSpawnDelayInSeconds: 10
+      NextWaveSpawnDelayInSeconds: 0

@@ -668,6 +668,7 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 7ea2bebabe0af4a0e9444341024be355, type: 2}
   decodeBank: 0
+  overrideLoadSetting: 0
   loadAsynchronous: 0
   saveDecodedBank: 0
   unloadTriggerList: 958ca0ea
@@ -1196,7 +1197,7 @@ GameObject:
   - component: {fileID: 5893419836713209594}
   - component: {fileID: 343326019523217942}
   m_Layer: 5
-  m_Name: StoryUI
+  m_Name: DialogueManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1240,6 +1241,9 @@ MonoBehaviour:
   _onDialogueStart: {fileID: 11400000, guid: 16804d1591b514f1b8f9524eb10030bf, type: 2}
   _onDialogueOver: {fileID: 11400000, guid: 8dd998262bb0543f6ac8823ef32f5bb6, type: 2}
   _onLoadComics: {fileID: 11400000, guid: c1475f579502043898af33db0476aeed, type: 2}
+  _dialogueText: {fileID: 8730803009774891128}
+  _regularFontSize: 48
+  _whisperFontSize: 40
 --- !u!114 &737810977369059273
 MonoBehaviour:
   m_ObjectHideFlags: 0

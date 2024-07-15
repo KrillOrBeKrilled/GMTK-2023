@@ -10,46 +10,64 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01e90c72ba9e4daeb0a80224c2883d32, type: 3}
-  m_Name: Story_003
+  m_Name: Story_006
   m_EditorClassIdentifier: 
-  Index: 3
+  Index: 6
   Type: 0
-  DialogueName: Dialogue003
-  NextLevelName: Story_004
+  DialogueName: Dialogue006
+  NextLevelName: Story_007
   ComicPages: []
   PlayerStartPosition: {x: 5, y: 1, z: 0}
-  EndgameTargetPosition: {x: 55, y: 0, z: 0}
+  EndgameTargetPosition: {x: 133, y: 0, z: 0}
   StartCameraPosition: {x: 3, y: 4.5, z: -10}
-  EndCameraPosition: {x: 45, y: 4.5, z: -10}
+  EndCameraPosition: {x: 116, y: 4.5, z: -10}
   RespawnPositions:
   - {x: -15, y: 2, z: 0}
-  WallsTilemapPrefab: {fileID: 5896839985468150658, guid: dac0b3d1a1340407aace3409fefa2bfe, type: 3}
+  WallsTilemapPrefab: {fileID: 5896839985468150658, guid: b26fe19c43c60487ea8060943b332553, type: 3}
   WavesData:
     WavesList:
     - Heroes:
-      - Health: 10
+      - Health: 15
         Type: 0
-      - Health: 10
+      - Health: 15
         Type: 0
-      - Health: 10
-        Type: 0
-      HeroSpawnDelayInSeconds: 2
+      HeroSpawnDelayInSeconds: 5
       NextWaveSpawnDelayInSeconds: 10
     - Heroes:
-      - Health: 15
+      - Health: 20
         Type: 0
-      - Health: 15
-        Type: 0
-      - Health: 15
-        Type: 0
-      HeroSpawnDelayInSeconds: 2
-      NextWaveSpawnDelayInSeconds: 10
-    - Heroes:
-      - Health: 19
-        Type: 0
-      - Health: 19
+      - Health: 25
         Type: 0
       - Health: 29
         Type: 0
-      HeroSpawnDelayInSeconds: 4
+      HeroSpawnDelayInSeconds: 5
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 30
+        Type: 0
+      - Health: 30
+        Type: 0
+      - Health: 39
+        Type: 0
+      HeroSpawnDelayInSeconds: 2
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 45
+        Type: 0
+      - Health: 47
+        Type: 0
+      - Health: 49
+        Type: 0
+      HeroSpawnDelayInSeconds: 10
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 50
+        Type: 0
+      - Health: 50
+        Type: 0
+      - Health: 55
+        Type: 0
+      - Health: 60
+        Type: 0
+      HeroSpawnDelayInSeconds: 8
       NextWaveSpawnDelayInSeconds: 0

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using KrillOrBeKrilled.Common;
 using KrillOrBeKrilled.Core.Input;
@@ -13,6 +12,7 @@ using KrillOrBeKrilled.Player.PlayerStates;
 using KrillOrBeKrilled.Traps;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 
@@ -36,8 +36,9 @@ namespace KrillOrBeKrilled.Core.Managers {
         [field:SerializeField] public WaveManager WaveManager { get; private set; }
         
         
+        [FormerlySerializedAs("_endgameTargetPrefab")]
         [Header("Level")]
-        [SerializeField] private EndgameTarget _endgameTargetPrefab;
+        [SerializeField] private Treasure _treasurePrefab;
         [SerializeField] private Transform _tilemapGrid;
 
         [Header("Testing")]
@@ -51,10 +52,10 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         public Vector3 LevelStart { get; private set; }
     
-        public Transform LevelEnd => this._endgameTarget.transform;
+        public Transform LevelEnd => this._treasure.transform;
 
         /// The instantiated endgameTargetPrefab.
-        private EndgameTarget _endgameTarget;
+        private Treasure _treasure;
 
         /// Contains all data on the waves and hero settings to spawn per wave that constitutes a playable level.
         private LevelData _levelData;
@@ -185,35 +186,28 @@ namespace KrillOrBeKrilled.Core.Managers {
         private void CopyLevelData() {
             LevelData sourceData = this._testingLevelData != null ? this._testingLevelData : LevelManager.Instance.GetActiveLevelData();
             this._levelData = ScriptableObject.CreateInstance<LevelData>();
-            this._levelData.Index = sourceData.Index;
-            this._levelData.DialogueName = sourceData.DialogueName;
-            this._levelData.NextLevelName = sourceData.NextLevelName;
-            this._levelData.ComicPages = sourceData.ComicPages.ToList();
-            this._levelData.Type = sourceData.Type;
-            this._levelData.RespawnPositions = sourceData.RespawnPositions.ToList();
-            this._levelData.EndgameTargetPosition = sourceData.EndgameTargetPosition;
-            this._levelData.WallsTilemapPrefab = sourceData.WallsTilemapPrefab;
-            this._levelData.WavesData = new WavesData() { WavesList = sourceData.WavesData.WavesList.ToList() };
+            LevelData.CopyData(sourceData, ref this._levelData);
         }
         
         private void InitializeHelpers() {
-            this._endgameTarget.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
+            this._treasure.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
             this._playerController.Player.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
             this._playerController.Player.OnSelectedTrapChanged.AddListener(this.SelectedTrapIndexChanged);
             this._playerController.Player.OnTrapDeployed.AddListener(this.OnTrapDeployed);
             this.WaveManager.Initialize(this._levelData, this._heroSoundsController, this._levelTilemap);
             
-            this._playerController.Initialize(this, this._levelTilemap);
+            this._playerController.Initialize(this._levelData.PlayerStartPosition, this, this._levelTilemap);
             ResourceManager.Instance.Initialize(this.PlayerController.TrapController.OnConsumeResources);
             ResourceSpawner.Instance.Initialize(this.PlayerController.transform);
             TilemapManager.Instance.Initialize(this._levelTilemap, this.PlayerController.TrapController, this._playerController.Player);
         }
 
         private void SetupLevelMap() {
-            this._endgameTarget = Instantiate(this._endgameTargetPrefab, this._levelData.EndgameTargetPosition, 
+            this._treasure = Instantiate(this._treasurePrefab, this._levelData.EndgameTargetPosition, 
                                               Quaternion.identity, this.transform);
 
             this._levelTilemap = Instantiate(this._levelData.WallsTilemapPrefab, this._tilemapGrid);
+            this._cameraManager.SetupCameras(this._levelData.StartCameraPosition, this._levelData.EndCameraPosition);
             this._cameraManager.SetBounds(this._levelData.WallsTilemapPrefab.transform.GetComponentExactlyInChildren<Collider2D>());
             this.LevelStart = this._levelData.RespawnPositions.First();
         }
@@ -339,7 +333,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <summary>
         /// Disables the player input and hero movement, and triggers the loss UI.
         /// </summary>
-        /// <remarks> Subscribed to the <see cref="EndgameTarget.OnHeroReachedEndgameTarget"/> event. </remarks>
+        /// <remarks> Subscribed to the <see cref="Treasure.OnHeroReachedEndgameTarget"/> event. </remarks>
         private void HeroReachedLevelEnd() {
             this.HenLost("The Hero managed to reach his goal and do heroic things.\nHendall, you failed me!");
         }

@@ -2843,7 +2843,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4015383505185538609, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
       propertyPath: m_Name
-      value: StoryUI
+      value: DialogueManager
       objectReference: {fileID: 0}
     - target: {fileID: 4015383505185538609, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
       propertyPath: m_IsActive

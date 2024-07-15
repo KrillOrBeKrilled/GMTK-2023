@@ -1,0 +1,15 @@
+﻿title: Dialogue004
+tags:
+---
+Dogan: Great work! The number of these heroes is getting concerning...
+Dogan: Just to let you know, the traps you placed in the previous levels were funded by donations!
+<<start_shake CameraSwitcher>>
+Dogan: Unfortunately, I hate to inform you that we have just run out of them!
+<<stop_shake CameraSwitcher>>
+Dogan: You will need to salvage resources around the dungeon and from heroes from now on!
+Hendall: Oh, holy cluck! How well is your business doing? I better don't need to worry about my pay.
+<<start_shake CameraSwitcher>>
+Dogan: We will discuss your payment details closer to the end of your probation placement!
+<<stop_shake CameraSwitcher>>
+Dogan: More heroes incoming!
+===

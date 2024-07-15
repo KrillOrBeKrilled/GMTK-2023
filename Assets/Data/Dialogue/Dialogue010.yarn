@@ -1,0 +1,28 @@
+﻿title: Dialogue010
+tags:
+---
+Dogan: This was a big raid!
+Hendall: Oh nuggets... I am so tired!
+<<start_shake CameraSwitcher>>
+Dogan: Worry not, you have proved your dedication!
+Dogan: Keep up the good work and we may increase your set of responsibilities!
+<<stop_shake CameraSwitcher>>
+Hendall: That's so cluck! Is there increase in pay as well?
+<<start_whisper DialogueManager>>
+Dogan: *whispers*
+Dogan: Accountant Dave? What are you clucking to me here? What do you mean we can't afford it?
+Dogan: But I already told about the promotion! Ugh... fine, go now and find a way for us to earn more!
+<<stop_whisper DialogueManager>>
+Dogan: Ahem... We are looking into this! Fret not there will be a market-value compensation!
+Hendall: This doesn't sound quite confident...
+<<start_shake CameraSwitcher>>
+Dogan: Oh look! More heroes are coming! 
+<<stop_shake CameraSwitcher>>
+<<start_whisper DialogueManager>>
+Dogan: *whispers*
+Dogan: Dave you better figure this one quick! I can't afford more employees quit on me!
+<<stop_whisper DialogueManager>>
+Developers: Thank you for playing the Henchman this far! We hope you had fun!
+Developers: If there is any feedback, or if you have suggestions on what you'd like to see in the game in the future, please let us know by filling out the feedback form on the Main Menu!
+Developers: Stay tuned for more updates in the future!
+===

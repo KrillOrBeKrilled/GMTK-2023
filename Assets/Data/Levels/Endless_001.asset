@@ -12,14 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e90c72ba9e4daeb0a80224c2883d32, type: 3}
   m_Name: Endless_001
   m_EditorClassIdentifier: 
-  Index: -1
+  Index: 0
   Type: 1
-  DialogueName: Level1Dialogue
+  DialogueName: 
   NextLevelName: 
-  EndgameTargetPosition: {x: 384.2, y: 1.69, z: 0}
+  ComicPages: []
+  PlayerStartPosition: {x: 5, y: 1, z: 0}
+  EndgameTargetPosition: {x: 223, y: 0, z: 0}
+  StartCameraPosition: {x: 3, y: 4.5, z: -10}
+  EndCameraPosition: {x: 207, y: 4.5, z: -10}
   RespawnPositions:
-  - {x: -8.05, y: 1.8, z: 0}
-  WallsTilemapPrefab: {fileID: 4760054945421035692, guid: 33220c6f6db6e44debb4c4c66c82566b, type: 3}
+  - {x: -15, y: 2, z: 0}
+  WallsTilemapPrefab: {fileID: 5896839985468150658, guid: 12a8f33035d104217bf1dd5a476241cb, type: 3}
   WavesData:
     WavesList:
     - Heroes:
@@ -28,6 +32,6 @@ MonoBehaviour:
       - Health: 30
         Type: 1
       - Health: 30
-        Type: 2
+        Type: 0
       HeroSpawnDelayInSeconds: 2
       NextWaveSpawnDelayInSeconds: -1

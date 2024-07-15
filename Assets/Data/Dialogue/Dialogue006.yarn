@@ -1,0 +1,18 @@
+﻿title: Dialogue006
+tags:
+---
+<<start_shake CameraSwitcher>>
+Dogan: Good to see those axes in action!
+<<stop_shake CameraSwitcher>>
+Hendall: How come those cluck-heroes are never stopping?
+Hendall: I feel like I see some of the same ones quite often...
+Dogan: They must be respawning at their hometown before they come back to give our dungeon another shot!
+Dogan: It's a battle doomed to never end!
+Dogan: Which reminds me... this section of the dungeon is much longer!
+<<show_end CameraSwitcher>>
+<<start_shake CameraSwitcher>>
+Dogan: Also, here is our new invention! Have fun with those <color=yellow>dynamite wired icicles</color>!
+<<stop_shake CameraSwitcher>>
+<<show_player CameraSwitcher>>
+Hendall: Oh-ho-ho, HEROES, you better watch your heads!
+===

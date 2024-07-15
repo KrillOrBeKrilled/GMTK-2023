@@ -403,10 +403,14 @@ namespace KrillOrBeKrilled.Player {
         /// Sets up all listeners and delegates to operate the <see cref="PlayerCharacter"/>.
         /// </summary>
         /// <remarks> Invokes the <see cref="OnSelectedTrapChanged"/> event. </remarks>
+        /// <param name="startPos"> The starting position player will be teleported to. </param>
         /// <param name="onHenWon"> An event to notify listeners when a level has been completed. </param>
         /// <param name="getControllerInput"> A delegate callback used to fetch input from the controller that
         /// possesses this player entity. </param>
-        public IEnumerator Initialize(UnityEvent<string> onHenWon, InputDelegate<float, bool, bool> getControllerInput) {
+        public IEnumerator Initialize(Vector3 startPos, 
+                                      UnityEvent<string> onHenWon, 
+                                      InputDelegate<float, bool, bool> getControllerInput) {
+            this.transform.position = startPos;
             this._gatherControllerInput = getControllerInput;
 
             onHenWon.AddListener(this.GameOver);

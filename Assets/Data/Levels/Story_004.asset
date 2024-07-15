@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01e90c72ba9e4daeb0a80224c2883d32, type: 3}
-  m_Name: Story_003
+  m_Name: Story_004
   m_EditorClassIdentifier: 
-  Index: 3
+  Index: 4
   Type: 0
-  DialogueName: Dialogue003
-  NextLevelName: Story_004
+  DialogueName: Dialogue004
+  NextLevelName: Story_005
   ComicPages: []
   PlayerStartPosition: {x: 5, y: 1, z: 0}
   EndgameTargetPosition: {x: 55, y: 0, z: 0}
@@ -23,7 +23,7 @@ MonoBehaviour:
   EndCameraPosition: {x: 45, y: 4.5, z: -10}
   RespawnPositions:
   - {x: -15, y: 2, z: 0}
-  WallsTilemapPrefab: {fileID: 5896839985468150658, guid: dac0b3d1a1340407aace3409fefa2bfe, type: 3}
+  WallsTilemapPrefab: {fileID: 5896839985468150658, guid: 933af7eee59f34bb08cc4946c44f8bf0, type: 3}
   WavesData:
     WavesList:
     - Heroes:
@@ -31,8 +31,6 @@ MonoBehaviour:
         Type: 0
       - Health: 10
         Type: 0
-      - Health: 10
-        Type: 0
       HeroSpawnDelayInSeconds: 2
       NextWaveSpawnDelayInSeconds: 10
     - Heroes:
@@ -45,11 +43,13 @@ MonoBehaviour:
       HeroSpawnDelayInSeconds: 2
       NextWaveSpawnDelayInSeconds: 10
     - Heroes:
-      - Health: 19
+      - Health: 20
         Type: 0
-      - Health: 19
+      - Health: 25
+        Type: 0
+      - Health: 27
         Type: 0
       - Health: 29
         Type: 0
-      HeroSpawnDelayInSeconds: 4
-      NextWaveSpawnDelayInSeconds: 0
+      HeroSpawnDelayInSeconds: 3
+      NextWaveSpawnDelayInSeconds: 10

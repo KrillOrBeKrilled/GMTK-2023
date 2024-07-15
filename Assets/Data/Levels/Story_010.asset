@@ -1,0 +1,184 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e90c72ba9e4daeb0a80224c2883d32, type: 3}
+  m_Name: Story_010
+  m_EditorClassIdentifier: 
+  Index: 10
+  Type: 0
+  DialogueName: Dialogue010
+  NextLevelName: 
+  ComicPages: []
+  PlayerStartPosition: {x: 5, y: 1, z: 0}
+  EndgameTargetPosition: {x: 223, y: 0, z: 0}
+  StartCameraPosition: {x: 3, y: 4.5, z: -10}
+  EndCameraPosition: {x: 207, y: 4.5, z: -10}
+  RespawnPositions:
+  - {x: -15, y: 2, z: 0}
+  WallsTilemapPrefab: {fileID: 5896839985468150658, guid: 12a8f33035d104217bf1dd5a476241cb, type: 3}
+  WavesData:
+    WavesList:
+    - Heroes:
+      - Health: 15
+        Type: 1
+      - Health: 15
+        Type: 1
+      - Health: 15
+        Type: 1
+      HeroSpawnDelayInSeconds: 4
+      NextWaveSpawnDelayInSeconds: 8
+    - Heroes:
+      - Health: 25
+        Type: 0
+      - Health: 25
+        Type: 0
+      - Health: 29
+        Type: 0
+      HeroSpawnDelayInSeconds: 4
+      NextWaveSpawnDelayInSeconds: 8
+    - Heroes:
+      - Health: 35
+        Type: 1
+      - Health: 35
+        Type: 1
+      - Health: 39
+        Type: 1
+      HeroSpawnDelayInSeconds: 4
+      NextWaveSpawnDelayInSeconds: 8
+    - Heroes:
+      - Health: 45
+        Type: 1
+      - Health: 45
+        Type: 1
+      - Health: 49
+        Type: 1
+      HeroSpawnDelayInSeconds: 5
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 55
+        Type: 0
+      - Health: 58
+        Type: 1
+      - Health: 59
+        Type: 1
+      - Health: 59
+        Type: 0
+      - Health: 60
+        Type: 0
+      HeroSpawnDelayInSeconds: 5
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 65
+        Type: 0
+      - Health: 65
+        Type: 1
+      - Health: 69
+        Type: 1
+      - Health: 69
+        Type: 1
+      - Health: 75
+        Type: 1
+      HeroSpawnDelayInSeconds: 6
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 80
+        Type: 0
+      - Health: 80
+        Type: 0
+      - Health: 80
+        Type: 0
+      - Health: 80
+        Type: 0
+      - Health: 89
+        Type: 1
+      - Health: 89
+        Type: 1
+      - Health: 89
+        Type: 1
+      - Health: 100
+        Type: 1
+      HeroSpawnDelayInSeconds: 4
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 99
+        Type: 0
+      - Health: 99
+        Type: 0
+      - Health: 99
+        Type: 0
+      - Health: 99
+        Type: 0
+      - Health: 99
+        Type: 0
+      - Health: 99
+        Type: 0
+      - Health: 99
+        Type: 0
+      - Health: 100
+        Type: 0
+      HeroSpawnDelayInSeconds: 4
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 110
+        Type: 1
+      - Health: 110
+        Type: 1
+      - Health: 110
+        Type: 1
+      - Health: 110
+        Type: 1
+      - Health: 100
+        Type: 1
+      - Health: 110
+        Type: 1
+      - Health: 115
+        Type: 1
+      - Health: 115
+        Type: 1
+      - Health: 115
+        Type: 1
+      - Health: 130
+        Type: 1
+      HeroSpawnDelayInSeconds: 4
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 130
+        Type: 0
+      - Health: 130
+        Type: 1
+      - Health: 130
+        Type: 0
+      - Health: 140
+        Type: 1
+      - Health: 140
+        Type: 0
+      - Health: 150
+        Type: 1
+      - Health: 150
+        Type: 0
+      - Health: 160
+        Type: 1
+      - Health: 160
+        Type: 0
+      - Health: 160
+        Type: 1
+      - Health: 170
+        Type: 1
+      - Health: 170
+        Type: 1
+      - Health: 170
+        Type: 1
+      - Health: 200
+        Type: 1
+      - Health: 200
+        Type: 1
+      HeroSpawnDelayInSeconds: 3
+      NextWaveSpawnDelayInSeconds: 10

@@ -35,7 +35,7 @@ namespace KrillOrBeKrilled.UI {
       }
 
       int nextLevelIndex = DataManager.Instance.PlayerData.CompletedLevels.Count;
-      if (nextLevelIndex <= this._levels.Count) {
+      if (nextLevelIndex < this._levels.Count) {
         this._levels[nextLevelIndex].SetNumber(nextLevelIndex + 1);
         this._levels[nextLevelIndex].EnableButton(false);
       }

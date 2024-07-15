@@ -1,7 +1,6 @@
-﻿title: Level3Dialogue
+﻿title: Dialogue003
 tags:
 ---
-<<stop_shake CameraSwitcher>>
 <<show_start CameraSwitcher>>
 Hendall: Okay... that was a handful!
 Hendall: Do I get any bonuses for these extra duties?
@@ -17,9 +16,5 @@ Dogan: I will tell you more about Coins after you deal with these guys!
 <<start_shake CameraSwitcher>>
 Dogan: You won't be disappointed!
 <<stop_shake CameraSwitcher>>
-
-Developers: Thank you for playing the Henchman this far! We hope you had fun!
-Developers: If there is any feedback, or if you have suggestions on what you'd like to see in the game in the future, please let us know by filling out the feedback form on the Main Menu!
-Developers: Stay tuned for more updates in the future!
-
+Dogan: Oh, by the way, there are even more pits down here! 
 ===

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KrillOrBeKrilled.Common;
+using TMPro;
 using UnityEngine;
 using Yarn.Unity;
 
@@ -10,6 +11,12 @@ namespace KrillOrBeKrilled.Core.Managers {
     [SerializeField] private GameEvent _onDialogueStart;
     [SerializeField] private GameEvent _onDialogueOver;
     [SerializeField] private SpriteListEvent _onLoadComics;
+    
+    [Header("Whisper Settings")]
+    [SerializeField] private TMP_Text _dialogueText;
+
+    [SerializeField] private int _regularFontSize;
+    [SerializeField] private int _whisperFontSize;
 
     private void OnEnable() {
       this._dialogueRunner.onDialogueComplete.AddListener(this.TriggerDialogueOver);
@@ -26,7 +33,7 @@ namespace KrillOrBeKrilled.Core.Managers {
     /// <param name="comicsPages"></param>
     public void StartDialogue(string dialogueName, List<Sprite> comicsPages) {
       if (!this._dialogueRunner.yarnProject.NodeNames.Contains(dialogueName)) {
-        Debug.LogError("Missing or Incorrect Dialogue Name, make sure provided dialogue name value is correct");
+        Debug.LogError($"{dialogueName} is an incorrect Dialogue Name, make sure provided DialogueName is correct");
         return;
       }
       
@@ -42,6 +49,16 @@ namespace KrillOrBeKrilled.Core.Managers {
       if (this._dialogueRunner.IsDialogueRunning) {
         this._dialogueRunner.Stop();
       }
+    }
+
+    [YarnCommand("start_whisper")]
+    public void StartWhisper() {
+      this._dialogueText.fontSizeMax = this._whisperFontSize;
+    }
+    
+    [YarnCommand("stop_whisper")]
+    public void StopWhisper() {
+      this._dialogueText.fontSizeMax = this._regularFontSize;
     }
     
     /// <summary>

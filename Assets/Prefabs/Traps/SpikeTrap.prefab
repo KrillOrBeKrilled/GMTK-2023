@@ -28,8 +28,8 @@ Transform:
   m_GameObject: {fileID: 4577828711679986708}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.66, y: 0.9989, z: 0}
-  m_LocalScale: {x: 2.9977548, y: 2.6150236, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 2.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -160,11 +160,9 @@ MonoBehaviour:
     IsTrapTile: 1
   - GridPosition: {x: 2, y: 0, z: 0}
     IsTrapTile: 1
-  ValidationScore: 3
   LeftSpawnOffset: {x: -0.5, y: 0.5, z: 0}
   RightSpawnOffset: {x: 1.5, y: 0.5, z: 0}
   AnimationOffset: {x: 0, y: 0.6, z: 0}
-  BuildingDuration: 3
   SliderBar: {fileID: 8689842051725396054, guid: 730a5177b6878c7479dff24b13199c1c, type: 3}
   IsCeilingTrap: 0
   _damageAmount: 10

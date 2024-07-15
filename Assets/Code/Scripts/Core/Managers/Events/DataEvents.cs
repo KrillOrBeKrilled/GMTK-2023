@@ -1,3 +1,0 @@
-namespace KrillOrBeKrilled.Core.Managers {
-
-}

@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,6 +24,8 @@ namespace KrillOrBeKrilled.Traps {
         [SerializeField] private SpriteRenderer _heatEmanating;
         [Tooltip("Holds the reference to the animated bubbles GameObject to be adjusted during trap building process.")]
         [SerializeField] private GameObject _bubbles;
+        [Tooltip("The length of time required to build the trap when the player stands idle and in range.")]
+        [SerializeField] protected float BuildingDuration;
         private Vector3 _bubblesStartPos;
         
         // -------------- Hero Effects ---------------
@@ -51,10 +54,10 @@ namespace KrillOrBeKrilled.Traps {
             SpawnPosition = spawnPosition;
             SoundsController = soundsController;
             
-            // Spawn a slider to indicate the progress on the build
-            GameObject sliderObject = Instantiate(this.SliderBar, canvas.transform);
-            sliderObject.transform.position = spawnPosition + this.AnimationOffset + Vector3.up;
-            this.BuildCompletionBar = sliderObject.GetComponent<Slider>();
+            // TODO: Reuse later for durability
+            // GameObject sliderObject = Instantiate(this.SliderBar, canvas.transform);
+            // sliderObject.transform.position = spawnPosition + this.AnimationOffset + Vector3.up;
+            // this.BuildCompletionBar = sliderObject.GetComponent<Slider>();
 
             // Trap deployment visuals
             this.transform.position = spawnPosition;
@@ -64,9 +67,10 @@ namespace KrillOrBeKrilled.Traps {
             this._acidLiquid.material.SetFloat(this._acidDepthKey, 0);
             this._heatEmanating.material.SetFloat(this._distortionRangeKey, 0);
             this._bubbles.SetActive(false);
-
-            // Initiate the build time countdown
-            this.ConstructionCompletion = 0;
+            
+            // Make construction animations
+            this.AnimateConstruction();
+            this.SoundsController.OnBuildComplete();
         }
 
         #endregion
@@ -92,13 +96,9 @@ namespace KrillOrBeKrilled.Traps {
         /// </summary>
         /// <param name="actor"> The recipient of the trap's damaging effects. </param>
         protected override void OnEnteredTrap(ITrapDamageable actor) {
-            if (!this.IsReady) {
-                return;
-            }
-            
             // Make the hero reflexively leap out of the burning acid pit
-            actor.ThrowActorForward(1f);
-            actor.ApplySpeedPenalty(0.8f);
+            actor.TrapThrowActorForward(1f);
+            actor.ApplyTrapSpeedPenalty(0.8f);
 
             if (this._intervalDamageCoroutine != null) {
                 this.StopCoroutine(this._intervalDamageCoroutine);
@@ -112,11 +112,7 @@ namespace KrillOrBeKrilled.Traps {
         /// </summary>
         /// <param name="actor"> The recipient of the trap's damaging effects. </param>
         protected override void OnExitedTrap(ITrapDamageable actor) {
-            if (!this.IsReady) {
-                return;
-            }
-
-            actor.ResetSpeedPenalty();
+            actor.ResetTrapSpeedPenalty();
 
             if (this._intervalDamageCoroutine != null)
                 this.StopCoroutine(this._intervalDamageCoroutine);
@@ -126,30 +122,28 @@ namespace KrillOrBeKrilled.Traps {
         
         #region Trap Building
 
-        /// <inheritdoc cref="Trap.BuildTrap"/>
+        /// <inheritdoc cref="Trap.AnimateConstruction"/>
         /// <summary>
         /// Overridden to create a new build animation to fill the pit with acid and heat haze, while adjusting the
         /// position of the rising bubbles.
         /// </summary>
-        protected override void BuildTrap() {
+        protected override void AnimateConstruction() {
             // Clamp the acid depth to prevent the acid from looking strange around tile edges
-            var targetDepth = Mathf.Clamp(this.ConstructionCompletion, 0, 0.8f);
+            DOVirtual.Float(0f, 0.8f, this.BuildingDuration, targetDepth => {
+                // Magic ratio to avoid making the haze too intense
+                var targetHeatHazeRange = Mathf.Clamp(targetDepth / 3.8f, 0, 1);
 
-            // Magic ratio to avoid making the haze too intense
-            var targetHeatHazeRange = Mathf.Clamp(targetDepth / 3.8f, 0, 1);
+                this._acidLiquid.material.SetFloat(this._acidDepthKey, targetDepth);
+                this._heatEmanating.material.SetFloat(this._distortionRangeKey, targetHeatHazeRange);
 
-            this._acidLiquid.material.SetFloat(this._acidDepthKey, targetDepth);
-            this._heatEmanating.material.SetFloat(this._distortionRangeKey, targetHeatHazeRange);
+                if (!this._bubbles.activeSelf && targetDepth > 0.05f) {
+                    this._bubbles.SetActive(true);
+                }
 
-            if (!this._bubbles.activeSelf && targetDepth > 0.05f) {
-                this._bubbles.SetActive(true);
-            }
-
-            this._bubbles.transform.position = new Vector3(
-                this._bubblesStartPos.x, 
-                this._bubblesStartPos.y + targetDepth * 1.8f,
-                this._bubblesStartPos.z
-            );
+                this._bubbles.transform.position = new Vector3(this._bubblesStartPos.x,
+                                                               this._bubblesStartPos.y + targetDepth * 1.8f,
+                                                               this._bubblesStartPos.z);
+            }).SetEase(Ease.InOutCubic).OnComplete(this.SetUpTrap);
         }
         
         protected override void SetUpTrap() {}
@@ -172,7 +166,7 @@ namespace KrillOrBeKrilled.Traps {
         /// <remarks> The coroutine is started and stopped by <see cref="OnEnteredTrap"/>. </remarks>
         private IEnumerator DealIntervalDamage(ITrapDamageable actor) {
             while (actor.GetHealth() > 0) {
-                actor.TakeDamage(this._damageAmount, this);
+                actor.TakeTrapDamage(this._damageAmount, this);
                 yield return this._waitForOneSecond;
             }
             

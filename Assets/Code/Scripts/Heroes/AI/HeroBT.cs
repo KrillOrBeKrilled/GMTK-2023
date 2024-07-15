@@ -15,16 +15,19 @@ namespace KrillOrBeKrilled.Heroes.AI {
         protected HeroSoundsController SoundsController;
         protected FieldOfView HeroSight;
         protected Rigidbody2D Rigidbody;
+        protected SpriteRenderer SpriteRenderer;
         
         protected Animator AnimController;
         protected readonly int JumpKey = Animator.StringToHash("jump");
         protected readonly int XSpeedKey = Animator.StringToHash("xSpeed");
         protected readonly int YSpeedKey = Animator.StringToHash("ySpeed");
+        protected readonly int StunnedKey = Animator.StringToHash("is_stunned");
         
         private void Awake() {
             HeroSight = GetComponent<FieldOfView>();
             Rigidbody = GetComponent<Rigidbody2D>();
             AnimController = GetComponent<Animator>();
+            SpriteRenderer = this.GetComponent<SpriteRenderer>();
         }
         
         protected override Node SetupTree() {

@@ -4,8 +4,6 @@ using DG.Tweening;
 using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 //*******************************************************************************************
 // Trap
@@ -26,18 +24,15 @@ namespace KrillOrBeKrilled.Traps {
         [SerializeField] protected List<TrapGridPoint> LeftGridPoints, RightGridPoints;
         [Tooltip("Adjusts trap component positions for clean animations and spawning customized for different trap sizes.")]
         [SerializeField] protected Vector3 LeftSpawnOffset, RightSpawnOffset, AnimationOffset;
-        [Tooltip("The length of time required to build the trap when the player stands idle and in range.")]
-        [SerializeField] protected float BuildingDuration;
         [Tooltip("A slider bar prefab to signify the trap build completion status.")]
         [SerializeField] protected GameObject SliderBar;
 
         public bool IsCeilingTrap;
 
         protected Vector3 SpawnPosition;
-        protected Slider BuildCompletionBar;
+        // TODO: Reuse later as a Durability bar
+        // protected Slider BuildCompletionBar;
         protected TrapSoundsController SoundsController;
-        protected float ConstructionCompletion, t;
-        protected bool IsBuilding, IsReady;
 
         private UnityAction _onDestroy;
         private Dictionary<ResourceType, int> _recipe;
@@ -55,63 +50,20 @@ namespace KrillOrBeKrilled.Traps {
         //========================================
         
         #region Unity Methods
-
-        public void Update() {
-            if (this.IsReady || !this.IsBuilding) {
-                return;
-            }
-
-            this.ConstructionCompletion = Mathf.Lerp(this.ConstructionCompletion, 1f, this.t / this.BuildingDuration);
-            this.t += Time.deltaTime;
-
-            this.BuildCompletionBar.DOValue(this.ConstructionCompletion, 0.1f);
-
-            // Make construction animations
-            BuildTrap();
-            
-            if (!(this.ConstructionCompletion >= 0.99f)) {
-                return;
-            }
-            
-            // Set up trap once the construction has completed
-            this.IsReady = true;
-            this.IsBuilding = false;
-            this.SoundsController.OnBuild(false);
-            this.SoundsController.OnBuildComplete();
-            Destroy(this.BuildCompletionBar.gameObject);
-            
-            SetUpTrap();
-        }
         
         private void OnTriggerEnter2D(Collider2D other) {
+            // Ignore player for now.
+            if (other.CompareTag("Player"))
+                return;
+            
             if (other.TryGetComponent(out ITrapDamageable actor)) {
                 this.OnEnteredTrap(actor);
             }
         }
 
-        protected virtual void OnTriggerStay2D(Collider2D other) {
-            if (IsReady) {
-                return;
-            }
-            
-            ITrapBuilder actor;
-            if (other.CompareTag("Builder Range")) {
-                actor = other.GetComponentInParent<ITrapBuilder>();
-            } else if (!other.TryGetComponent(out actor)) {
-                return;
-            }
-            
-            this.IsBuilding = actor.CanBuildTrap();
-            this.SoundsController.OnBuild(this.IsBuilding);
-        }
+        protected virtual void OnTriggerStay2D(Collider2D other) {}
 
         private void OnTriggerExit2D(Collider2D other) {
-            if (other.CompareTag("Builder Range")) {
-                this.IsBuilding = false;
-                this.SoundsController.OnBuild(this.IsBuilding);
-                return;
-            }
-
             if (other.TryGetComponent(out ITrapDamageable actor)) {
                 this.OnExitedTrap(actor);
             }
@@ -132,7 +84,7 @@ namespace KrillOrBeKrilled.Traps {
         #region ITrap Implementations
 
         public bool IsTrapReady() {
-            return IsReady;
+            return true;
         }
         
         #endregion
@@ -155,25 +107,8 @@ namespace KrillOrBeKrilled.Traps {
             SoundsController = soundsController;
             _onDestroy = onDestroy;
             
-            // Spawn a slider to indicate the progress on the build
-            GameObject sliderObject = Instantiate(this.SliderBar, canvas.transform);
-
-            var offsetDirection = IsCeilingTrap ? -1 : 1;
-            sliderObject.transform.position = spawnPosition + this.AnimationOffset + Vector3.up * offsetDirection;
-            this.BuildCompletionBar = sliderObject.GetComponent<Slider>();
-
-            // Trap deployment visuals
-            // Slide down trap and fade it into existence
-            this.transform.position = spawnPosition + Vector3.up * (offsetDirection * 3f);
-            this.transform.DOMove(spawnPosition + Vector3.up * this.AnimationOffset.y, 0.2f);
-
-            var sprite = GetComponent<SpriteRenderer>();
-            var color = sprite.color;
-            sprite.color = new Color(color.r, color.g, color.b, 0);
-            sprite.DOFade(1, 0.4f);
-
-            // Initiate the build time countdown
-            this.ConstructionCompletion = 0;
+            this.AnimateConstruction();
+            this.SoundsController.OnBuildComplete();
         }
         
         /// <summary>
@@ -244,17 +179,26 @@ namespace KrillOrBeKrilled.Traps {
         #region Trap Building
         
         /// <summary>
-        /// Applies an animation to the trap while it's being built.
+        /// Applies an animation to the trap after the moment of construction.
         /// </summary>
-        /// <remarks> Invoked every frame that the trap is being built. </remarks>
-        protected virtual void BuildTrap() {
-            // Randomly shake the trap along the x and y-axis
-            Vector3 targetPosition = new Vector3(this.SpawnPosition.x + Random.Range(-0.5f, 0.5f),
-                this.SpawnPosition.y + Random.Range(0.01f, 0.2f));
-
-            // Shake out then back
-            transform.DOMove(targetPosition, 0.05f);
-            transform.DOMove(this.SpawnPosition + Vector3.up * this.AnimationOffset.y, 0.05f);
+        protected virtual void AnimateConstruction() {
+            SpriteRenderer sprite = this.GetComponent<SpriteRenderer>();
+            Color color = sprite.color;
+            sprite.color = new Color(color.r, color.g, color.b, 0);
+            Tween fadeIn = sprite.DOFade(1, 0.65f);
+            
+            int offsetDirection = this.IsCeilingTrap ? -1 : 1;
+            this.transform.position = this.SpawnPosition + Vector3.up * (offsetDirection * 3f);
+            Tween slideIn = this.transform.DOMoveY(this.SpawnPosition.y + this.AnimationOffset.y, 0.15f);
+            Tween shakeX = this.transform.DOShakePosition(0.5f, new Vector3(0.25f, 0f, 0f), 30);
+            shakeX.SetEase(Ease.InOutCubic);
+            
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(fadeIn);
+            sequence.Join(slideIn);
+            sequence.Insert(0.14f, shakeX);
+            sequence.OnComplete(this.SetUpTrap);
+            sequence.Play();
         }
         
         /// <summary>

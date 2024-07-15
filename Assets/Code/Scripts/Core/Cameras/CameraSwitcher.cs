@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using KrillOrBeKrilled.Common;
 using UnityEngine;
 using Yarn.Unity;
 
@@ -19,12 +21,25 @@ namespace KrillOrBeKrilled.Core.Cameras {
     
         [Tooltip("The camera focused on the end position of the level.")]
         public GameObject EndCamera;
+        
+        [Tooltip("The cameras focused on specific points of interest in the level.")]
+        [SerializeField]
+        private List<GameObject> _levelCameras;
+
+        [Tooltip("Tracks when a camera transition that freezes actor movement begins.")] 
+        [SerializeField] private FloatEvent _onSwitchCameraFreeze;
+        
 
         //========================================
         // Public Methods
         //========================================
         
         #region Public Methods
+
+        public void SetupCameras(Vector3 startCamPos, Vector3 endCamPos) {
+            this.StartCamera.transform.position = startCamPos;
+            this.EndCamera.transform.position = endCamPos;
+        }
         
         /// <summary>
         /// Enables only the <see cref="EndCamera"/> to transition the screen to focus on the level goal.
@@ -55,6 +70,23 @@ namespace KrillOrBeKrilled.Core.Cameras {
             DisableAll();
             this.StartCamera.SetActive(true);
         }
+        
+        /// <summary>
+        /// Enables a level camera to transition the screen to a focal point of interest.
+        /// </summary>
+        /// <param name="levelCam"> The camera to set active. </param>
+        public void ShowLevelCamera(GameObject levelCam) {
+            DisableAll();
+            levelCam.SetActive(true);
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="freezeTime"> The camera to set active. </param>
+        public void InvokeFreezeTransition(float freezeTime) {
+            this._onSwitchCameraFreeze.Raise(freezeTime);
+        }
 
         #endregion
         
@@ -71,6 +103,10 @@ namespace KrillOrBeKrilled.Core.Cameras {
             this.PlayerCamera.SetActive(false);
             this.StartCamera.SetActive(false);
             this.EndCamera.SetActive(false);
+
+            foreach (var cam in this._levelCameras) {
+                cam.SetActive(false);
+            }
         }
         
         #endregion

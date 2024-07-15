@@ -89,8 +89,10 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// </summary>
         private void LoadPlayerData() {
             this.PlayerData = FileManager.LoadData<PlayerData>("playerData.json", out bool success);
-            if (!success)
+            bool isValid = PlayerData.IsValid(this.PlayerData);
+            if (!success || !isValid) {
                 this.PlayerData = PlayerData.Default;
+            }
         }
         
         #endregion

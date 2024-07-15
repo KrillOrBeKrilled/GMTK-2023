@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,31 +27,30 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
         
         /// <summary>
-        /// Loads the scene corresponding to the provided name.
+        /// Loads the Game scene.
         /// </summary>
-        /// <param name="levelName"> The name of a specific level scene. </param>
-        public void LoadGameLevelScene(string levelName) {
-            LoadScene(levelName);
+        public static void LoadGameLevelScene() {
+            LoadScene("Game");
         }
         
         /// <summary>
-        /// Loads the "Levels" scene.
+        /// Loads the "Lobby" scene.
         /// </summary>
-        public void LoadLevelsScene() {
-            LoadScene("Levels");
+        public static void LoadLobbyScene() {
+            LoadScene("Lobby");
         }
         
         /// <summary>
         /// Loads the "MainMenu" scene.
         /// </summary>
-        public void LoadMainMenuScene() {
+        public static void LoadMainMenuScene() {
             LoadScene("MainMenu");
         }
 
         /// <summary>
         /// Loads the current scene.
         /// </summary>
-        public void ReloadCurrentScene() {
+        public static void ReloadCurrentScene() {
             LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
@@ -67,6 +67,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// </summary>
         /// <param name="sceneIndex"> The index of the scene to load. </param>
         private static void LoadScene(int sceneIndex) {
+            DOTween.KillAll();
             SceneManager.LoadScene(sceneIndex);
         }
         
@@ -74,7 +75,9 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// Helper method for loading a scene by name.
         /// </summary>
         /// <param name="sceneName"> The name of the scene to load. </param>
-        private static void LoadScene(string sceneName) {
+        private static void LoadScene(string sceneName)
+        {
+            DOTween.KillAll();
             SceneManager.LoadScene(sceneName);
         }
 

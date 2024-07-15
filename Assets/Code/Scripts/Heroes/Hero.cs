@@ -20,14 +20,21 @@ namespace KrillOrBeKrilled.Heroes {
     /// </summary>
     public class Hero : MonoBehaviour, IDamageable, ITrapDamageable {
         private Rigidbody2D _rigidbody;
+        private Vector2 _lastVelocity;
+        
         private HeroBT _heroBrain;
         private FieldOfView _heroSight;
+        private Animator _animator;
 
         private const int CoinsEarnedOnDeath = 2;
 
         // ----------------- Health ------------------
         [Tooltip("The current health of the hero.")]
         public int Health { get; private set; }
+        
+        // ------------ Movement States --------------
+        [SerializeField] private PhysicsMaterial2D _normalMovementPhysicsMaterial;
+        [SerializeField] private PhysicsMaterial2D _stunnedPhysicsMaterial;
 
         // ----------------- Data --------------------
         public HeroData.HeroType Type { get; private set; }
@@ -55,6 +62,7 @@ namespace KrillOrBeKrilled.Heroes {
             this.TryGetComponent(out this._rigidbody);
             this.TryGetComponent(out this._heroBrain);
             this.TryGetComponent(out this._heroSight);
+            this.TryGetComponent(out this._animator);
         }
 
         #endregion
@@ -72,10 +80,11 @@ namespace KrillOrBeKrilled.Heroes {
         /// reduced to zero, broadcasts the endgame and destroys this GameObject. Otherwise, respawns
         /// the hero.
         /// </summary>
+        /// <param name="damageSource"></param>
         /// <remarks>
         /// Invokes the <see cref="OnHeroDied"/> event.
         /// </remarks>
-        public void Die() {
+        public void Die(IDamageable.DamageSource damageSource) {
             this._soundsController.OnHeroDeath();
 
             this.OnHeroDied?.Invoke(this);
@@ -90,8 +99,22 @@ namespace KrillOrBeKrilled.Heroes {
             this.OnHealthChanged?.Invoke(this.Health);
 
             if (this.Health <= 0) {
-                this.Die();
+                this.Die(IDamageable.DamageSource.Trap);
             }
+        }
+        
+        /// <summary>
+        /// Applies a force to knock back and stun the hero via the <see cref="HeroBT"/>.
+        /// </summary>
+        /// <param name="stunDuration"> The duration of time to stun the hero. </param>
+        /// <param name="throwForce"> Scales the knock back force applied to the hero. </param>
+        public void ThrowActorBack(float stunDuration, float throwForce) {
+            StartCoroutine(this.PlayStunEffects(stunDuration));
+            this._heroBrain.UpdateData("IsStunned", true);
+            this._heroBrain.UpdateData("StunDuration", stunDuration);
+
+            Vector2 explosionVector = new Vector2(-0.2f, 0f) * throwForce;
+            this._rigidbody.AddForce(explosionVector, ForceMode2D.Impulse);
         }
 
         #endregion
@@ -101,20 +124,21 @@ namespace KrillOrBeKrilled.Heroes {
         public int GetHealth() {
             return this.Health;
         }
-        
+
         /// <summary>
-        /// Decrements the hero's health, earns coins through the <see cref="CoinManager"/>,
-        /// and plays associated SFX. If the health falls to zero or below, triggers the hero death.
+        /// Decrements the hero's health and plays associated SFX. If the health falls to zero or below,
+        /// triggers the hero's death.
         /// </summary>
         /// <param name="amount"> The value to subtract from the hero's health. </param>
+        /// <param name="trap"> The trap that is dealing the damage. </param>
         /// <remarks> Invokes the <see cref="OnHealthChanged"/> event. </remarks>
-        public void TakeDamage(int amount, Trap trap) {
+        public void TakeTrapDamage(int amount, Trap trap) {
             this.Health -= amount;
             this._soundsController.OnTakeDamage();
             this.OnHealthChanged?.Invoke(this.Health);
 
             if (this.Health <= 0) {
-                this.Die();
+                this.Die(IDamageable.DamageSource.Trap);
             }
             
             // TODO: Trap reference can be used to alter the durability and other stats
@@ -125,18 +149,18 @@ namespace KrillOrBeKrilled.Heroes {
         /// </summary>
         /// <param name="penalty"> The speed penalty value to limit the hero's movement. </param>
         /// <remarks> The incremented speed penalty is clamped between [0,1] as a percentage value. </remarks>
-        public void ApplySpeedPenalty(float penalty) {
+        public void ApplyTrapSpeedPenalty(float penalty) {
             this._heroBrain.UpdateData("SpeedPenalty", Mathf.Clamp(penalty, 0f, 1f));
         }
         
         /// <summary>
         /// Resets the speed penalty to return the hero movement speed to normal via the <see cref="HeroBT"/>.
         /// </summary>
-        public void ResetSpeedPenalty() {
+        public void ResetTrapSpeedPenalty() {
             this._heroBrain.UpdateData("SpeedPenalty", 0f);
         }
         
-        public void ThrowActorForward(float throwForce) {
+        public void TrapThrowActorForward(float throwForce) {
             this._rigidbody.velocity = Vector2.zero;
             Vector2 leapVector = new Vector2(0.19f, 2f) * throwForce;
             this._rigidbody.AddForce(leapVector, ForceMode2D.Impulse);
@@ -147,7 +171,7 @@ namespace KrillOrBeKrilled.Heroes {
         /// </summary>
         /// <param name="stunDuration"> The duration of time to stun the hero. </param>
         /// <param name="throwForce"> Scales the knock back force applied to the hero. </param>
-        public void ThrowActorBack(float stunDuration, float throwForce) {
+        public void TrapThrowActorBack(float stunDuration, float throwForce) {
             this._heroBrain.UpdateData("IsStunned", true);
             this._heroBrain.UpdateData("StunDuration", stunDuration);
 
@@ -162,6 +186,13 @@ namespace KrillOrBeKrilled.Heroes {
         /// </summary>
         public void EnterLevel() {
             this.StartCoroutine(this.EnterLevelAnimation());
+        }
+        
+        /// <summary>
+        /// Enables backward movement until the hero exits the level.
+        /// </summary>
+        public void ExitLevel() {
+            this.StartCoroutine(this.ExitLevelAnimation());
         }
 
         public void Initialize(HeroData heroData, HeroSoundsController soundsController, Tilemap groundTilemap) {
@@ -192,7 +223,9 @@ namespace KrillOrBeKrilled.Heroes {
         /// Freeze this hero. No actions will be performed.
         /// </summary>
         public void Freeze() {
+            this._lastVelocity = this._rigidbody.velocity;
             this._heroBrain.UpdateData("IsFrozen", true);
+            this._animator.speed = 0.001f;
         }
 
         /// <summary>
@@ -200,6 +233,8 @@ namespace KrillOrBeKrilled.Heroes {
         /// </summary>
         public void Unfreeze() {
             this._heroBrain.UpdateData("IsFrozen", false);
+            this._rigidbody.velocity = this._lastVelocity;
+            this._animator.speed = 1f;
         }
 
         #endregion
@@ -221,6 +256,33 @@ namespace KrillOrBeKrilled.Heroes {
             yield return new WaitForSeconds(2f);
 
             this._heroBrain.UpdateData("IsMoving", false);
+        }
+        
+        /// <summary>
+        /// Enables movement through the <see cref="HeroBT"/> in an opposite direction for a duration of time and
+        /// then destroys itself.
+        /// </summary>
+        /// <remarks> The coroutine is started by <see cref="ExitLevel"/>. </remarks>
+        private IEnumerator ExitLevelAnimation() {
+            this._heroBrain.UpdateData("SpeedMultiplier", -1f);
+            this._heroBrain.UpdateData("IsMoving", true);
+
+            yield return new WaitForSeconds(2f);
+
+            Destroy(this.gameObject);
+        }
+
+        /// <summary>
+        /// Adjusts the hero physics, animations, and VFX associated with the stunned status effect and resets
+        /// them once the stun duration has passed.
+        /// </summary>
+        /// <param name="delay"> The duration of time to wait before resetting all stun status effects. </param>
+        private IEnumerator PlayStunEffects(float delay) {
+            this._rigidbody.sharedMaterial = this._stunnedPhysicsMaterial;
+            
+            yield return new WaitForSeconds(delay);
+
+            this._rigidbody.sharedMaterial = this._normalMovementPhysicsMaterial;
         }
 
         #endregion

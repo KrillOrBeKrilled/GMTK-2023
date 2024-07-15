@@ -9,19 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: d5642e9611b387940b4ee7fcfac27962
   - enabled: 1
-    path: Assets/Scenes/Levels.unity
+    path: Assets/Scenes/Lobby.unity
     guid: de1da3eaa0ab449c1bc8edf18e7476ed
   - enabled: 1
-    path: Assets/Scenes/StoryLevels/Story_001.unity
+    path: Assets/Scenes/Game.unity
     guid: 8b70157d5eb4c034cadcdcd80359d2a9
-  - enabled: 1
-    path: Assets/Scenes/StoryLevels/Story_002.unity
-    guid: 68c74a57921eda4418f49da741de59bb
-  - enabled: 1
-    path: Assets/Scenes/StoryLevels/Story_003.unity
-    guid: 6db1e4046875a8f458869abf299a7707
-  - enabled: 1
-    path: Assets/Scenes/EndlessLevels/Endless_001.unity
-    guid: 296dc978dc9368f4d88b826f7018d92f
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 030aff67cbbe34c8cb182ef32678acd3, type: 2}

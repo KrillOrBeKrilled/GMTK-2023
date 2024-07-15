@@ -1,0 +1,16 @@
+﻿title: Dialogue009
+tags:
+---
+Dogan: Still not a single sign of Bob... 
+Dogan: I hope nothing happened to him, he has been the best employee of the month for 2 years in the row!
+Hendall: Impressive, cluck-cluck!
+Dogan: Well, in the meantime, please look after this section of the dungeon.  
+<<show_end CameraSwitcher>>
+Dogan: As you see it is quite long and full of pits!
+<<show_player CameraSwitcher>>
+Hendall: Holy cluck! It will be so tiring to run and glide around it!
+Dogan: I hear from my scouts that we have a huge raid incoming!
+<<start_shake CameraSwitcher>>
+Dogan: Prepare yourself and show them a proper welcome!
+<<stop_shake CameraSwitcher>>
+===

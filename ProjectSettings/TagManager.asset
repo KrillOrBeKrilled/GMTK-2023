@@ -8,6 +8,7 @@ TagManager:
   - Hero
   - Trap
   - Builder Range
+  - Attack Range
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Distortion
   - Floor
   - Pickups
-  - 
+  - Camera
   - 
   - 
   - 
@@ -50,4 +51,10 @@ TagManager:
     locked: 0
   - name: AboveAcidHeatDistortion
     uniqueID: 3454592351
+    locked: 0
+  - name: Pickups
+    uniqueID: 3554617835
+    locked: 0
+  - name: Player
+    uniqueID: 4206044307
     locked: 0

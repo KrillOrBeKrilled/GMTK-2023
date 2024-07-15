@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e90c72ba9e4daeb0a80224c2883d32, type: 3}
+  m_Name: Camera Test Level
+  m_EditorClassIdentifier: 
+  Index: -1
+  Type: 1
+  DialogueName: 
+  NextLevelName: 
+  EndgameTargetPosition: {x: 384.2, y: 1.69, z: 0}
+  RespawnPositions:
+  - {x: -8.05, y: 1.8, z: 0}
+  WallsTilemapPrefab: {fileID: 4657129223575671632, guid: 24599d092e5024c7abc4dff40c076247, type: 3}
+  WavesData:
+    WavesList:
+    - Heroes:
+      - Health: 30
+        Type: 0
+      - Health: 30
+        Type: 1
+      - Health: 30
+        Type: 2
+      HeroSpawnDelayInSeconds: 2
+      NextWaveSpawnDelayInSeconds: -1

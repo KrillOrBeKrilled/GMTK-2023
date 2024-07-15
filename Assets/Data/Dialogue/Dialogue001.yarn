@@ -1,0 +1,34 @@
+﻿title: Dialogue001
+tags:
+---
+<<show_comics StoryUI>>
+<<show_start CameraSwitcher>>
+Hendall: CLUCK me!! I can't believe I'm late for my first day at the job!
+<<start_shake CameraSwitcher>>
+Dogan: Welcome to your first day with Dogan's Dungeon Disinfection Service my dear HENchmen!
+<<stop_shake CameraSwitcher>>
+Dogan: Oh.. It's just you...
+Hendall: Terribly sorry for my turdiness.. I mean my tardiness, sir!
+<<start_shake CameraSwitcher>>
+Dogan: FRET NOT dear hentern! Our flexible work hour policy has you covered..
+<<stop_shake CameraSwitcher>>
+Dogan: As long as the HERO raid isn't here, we have all the time in the world!
+<<spawn_hero_actor WaveManager>>
+<<enter_hero_actor WaveManager>>
+Hero: Another dungeon, another dollar.
+<<show_end CameraSwitcher>>
+Hero: The treasure is just in sight!
+<<show_start CameraSwitcher>>
+Hero: Let me go tell my raid squad the way here...
+<<exit_hero_actor WaveManager>>
+<<show_player CameraSwitcher>>
+<<start_shake CameraSwitcher>>
+Dogan: They're HERE already!? I think we'll have to continue your orientation another day.
+Dogan: DO NOT let them through to the end! Use all the traps at your disposal to stop them!
+<<stop_shake CameraSwitcher>>
+Dogan: Keep your distance from those heroes!
+Dogan: Use traps to send them off!
+Dogan: Traps cost resources! Collect them around the map or from the downed heroes!
+Dogan: PROTECT THE TREASURE!
+
+===

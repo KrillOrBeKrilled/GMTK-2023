@@ -22,7 +22,7 @@ namespace KrillOrBeKrilled.Environment {
 
         private void OnTriggerEnter2D(Collider2D other) {
             if (other.TryGetComponent(out IDamageable actor)) {
-                actor.Die();
+                actor.Die(IDamageable.DamageSource.Fall);
             }
 
             if (other.gameObject.layer == LayerMask.NameToLayer("Pickups")) {

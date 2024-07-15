@@ -74,6 +74,7 @@ MonoBehaviour:
   _icon: {fileID: 5449615488813643106}
   _amountText: {fileID: 7940109641566483652}
   _resourceIconData: {fileID: 11400000, guid: 4f28fad1e3b93488ba98b9591a499502, type: 2}
+  _resourceType: 0
 --- !u!1 &6130922052521635462
 GameObject:
   m_ObjectHideFlags: 0

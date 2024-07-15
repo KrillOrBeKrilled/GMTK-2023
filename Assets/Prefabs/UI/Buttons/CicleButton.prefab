@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2866636928859743589}
   - component: {fileID: 137226235174720253}
   - component: {fileID: 833641842296377712}
+  - component: {fileID: 4905608895012567706}
   m_Layer: 5
   m_Name: CicleButton
   m_TagString: Untagged
@@ -104,35 +105,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _muteClickSfx: 0
-  _onClickImmediate:
+  _isInteractable: 1
+  _onClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: KrillOrBeKrilled.Managers.PauseManager, Managers
-        m_MethodName: UnpauseGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _onClickComplete:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: KrillOrBeKrilled.Core.GameManager, Core
-        m_MethodName: LoadMainMenu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _defaultImage: {fileID: 21300000, guid: cd382cca56d7b4897af1241f3afcf05c, type: 3}
-  _pressedImage: {fileID: 21300000, guid: 5ffed6e7c19854369aac92299bb3661b, type: 3}
+      m_Calls: []
+  _targetImages:
+  - {fileID: 4905608895012567706}
+--- !u!114 &4905608895012567706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5690695080800000168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45d6ce1ed6cc4c42b5f81c994035ce26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 2866636928859743589}
+  _isInteractable: 1
+  _enableBounceAnimation: 1
+  _defaultImage: {fileID: 0}
+  _pressedImage: {fileID: 0}
+  _disabledImage: {fileID: 0}

@@ -4,7 +4,7 @@ using State = KrillOrBeKrilled.Player.PlayerCharacter.State;
 using UnityEngine;
 
 //*******************************************************************************************
-// JumpingState
+// GlidingState
 //*******************************************************************************************
 namespace KrillOrBeKrilled.Player.PlayerStates {
     /// <summary>

@@ -1196,6 +1196,7 @@ GameObject:
   - component: {fileID: 4302648664497566737}
   - component: {fileID: 5893419836713209594}
   - component: {fileID: 343326019523217942}
+  - component: {fileID: 1394877108922328223}
   m_Layer: 5
   m_Name: DialogueManager
   m_TagString: Untagged
@@ -1405,6 +1406,35 @@ MonoBehaviour:
       - m_Target: {fileID: 737810977369059273}
         m_TargetAssemblyTypeName: KrillOrBeKrilled.UI.DialogueUI, UI
         m_MethodName: OnComicsComplete
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1394877108922328223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4015383505185538609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 153f9915aa0e4ed0a6c3da81864c356b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 8aa61a8b42d644419ae9811702e47b54, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6178127177924265871}
+        m_TargetAssemblyTypeName: KrillOrBeKrilled.Core.Managers.DialogueManager,
+          Core
+        m_MethodName: StopDialogue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

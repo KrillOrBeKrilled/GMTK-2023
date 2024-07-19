@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e90c72ba9e4daeb0a80224c2883d32, type: 3}
   m_Name: Story_004
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   Index: 4
   Type: 0
   DialogueName: Dialogue004
@@ -24,11 +25,22 @@ MonoBehaviour:
   RespawnPositions:
   - {x: -15, y: 2, z: 0}
   WallsTilemapPrefab: {fileID: 5896839985468150658, guid: 933af7eee59f34bb08cc4946c44f8bf0, type: 3}
+=======
+  Index: 3
+  Type: 0
+  DialogueName: Level3Dialogue
+  NextLevelName: 
+  EndgameTargetPosition: {x: 384.2, y: 1.69, z: 0}
+  RespawnPositions:
+  - {x: -8.05, y: 1.8, z: 0}
+  WallsTilemapPrefab: {fileID: 4760054945421035692, guid: 33220c6f6db6e44debb4c4c66c82566b, type: 3}
+>>>>>>> Stashed changes
   WavesData:
     WavesList:
     - Heroes:
       - Health: 10
         Type: 0
+<<<<<<< Updated upstream
       - Health: 10
         Type: 0
       HeroSpawnDelayInSeconds: 2
@@ -38,11 +50,14 @@ MonoBehaviour:
         Type: 0
       - Health: 15
         Type: 0
+=======
+>>>>>>> Stashed changes
       - Health: 15
         Type: 0
       HeroSpawnDelayInSeconds: 2
       NextWaveSpawnDelayInSeconds: 10
     - Heroes:
+<<<<<<< Updated upstream
       - Health: 20
         Type: 0
       - Health: 25
@@ -52,4 +67,70 @@ MonoBehaviour:
       - Health: 29
         Type: 0
       HeroSpawnDelayInSeconds: 3
+=======
+      - Health: 25
+        Type: 0
+      - Health: 25
+        Type: 1
+      - Health: 30
+        Type: 1
+      - Health: 30
+        Type: 0
+      - Health: 30
+        Type: 0
+      - Health: 30
+        Type: 1
+      HeroSpawnDelayInSeconds: 3
+      NextWaveSpawnDelayInSeconds: 15
+    - Heroes:
+      - Health: 45
+        Type: 0
+      - Health: 45
+        Type: 2
+      - Health: 100
+        Type: 1
+      HeroSpawnDelayInSeconds: 5
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 45
+        Type: 0
+      - Health: 50
+        Type: 2
+      - Health: 50
+        Type: 1
+      - Health: 50
+        Type: 1
+      - Health: 55
+        Type: 0
+      - Health: 55
+        Type: 0
+      HeroSpawnDelayInSeconds: 5
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 60
+        Type: 0
+      - Health: 65
+        Type: 2
+      - Health: 70
+        Type: 1
+      HeroSpawnDelayInSeconds: 10
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 55
+        Type: 1
+      - Health: 60
+        Type: 0
+      - Health: 60
+        Type: 0
+      - Health: 65
+        Type: 1
+      - Health: 65
+        Type: 1
+      HeroSpawnDelayInSeconds: 10
+      NextWaveSpawnDelayInSeconds: 10
+    - Heroes:
+      - Health: 80
+        Type: 1
+      HeroSpawnDelayInSeconds: 10
+>>>>>>> Stashed changes
       NextWaveSpawnDelayInSeconds: 10

@@ -8,7 +8,6 @@ using Yarn.Unity;
 namespace KrillOrBeKrilled.Core.Managers {
   public class DialogueManager : MonoBehaviour {
     [SerializeField] private DialogueRunner _dialogueRunner;
-    [SerializeField] private GameEvent _onDialogueStart;
     [SerializeField] private GameEvent _onDialogueOver;
     [SerializeField] private SpriteListEvent _onLoadComics;
     
@@ -17,13 +16,17 @@ namespace KrillOrBeKrilled.Core.Managers {
 
     [SerializeField] private int _regularFontSize;
     [SerializeField] private int _whisperFontSize;
+    
+    [Header("Dialogue")]
+    [SerializeField] private List<GameObject> _hideDuringDialogueUIList;
+    [SerializeField] private GameObject _dialogueUI;
 
     private void OnEnable() {
-      this._dialogueRunner.onDialogueComplete.AddListener(this.TriggerDialogueOver);
+      this._dialogueRunner.onDialogueComplete.AddListener(this.OnDialogueOver);
     }
     
     private void OnDisable() {
-      this._dialogueRunner.onDialogueComplete.RemoveListener(this.TriggerDialogueOver);
+      this._dialogueRunner.onDialogueComplete.RemoveListener(this.OnDialogueOver);
     }
 
     /// <summary>
@@ -38,7 +41,7 @@ namespace KrillOrBeKrilled.Core.Managers {
       }
       
       this._onLoadComics.Raise(comicsPages);
-      this._onDialogueStart.Raise();
+      this.ShowDialogueUI();
       this._dialogueRunner.StartDialogue(dialogueName);
     }
 
@@ -46,6 +49,7 @@ namespace KrillOrBeKrilled.Core.Managers {
     /// Aborts the dialogue playback if the dialogue is actively running and starts the level.
     /// </summary>
     public void StopDialogue() {
+      this.HideDialogueUI();
       if (this._dialogueRunner.IsDialogueRunning) {
         this._dialogueRunner.Stop();
       }
@@ -60,12 +64,26 @@ namespace KrillOrBeKrilled.Core.Managers {
     public void StopWhisper() {
       this._dialogueText.fontSizeMax = this._regularFontSize;
     }
-    
-    /// <summary>
-    /// 
-    /// </summary>
-    private void TriggerDialogueOver() {
-      this._onDialogueOver.Raise();  
+
+    private void OnDialogueOver() {
+      this.HideDialogueUI();
+      this._onDialogueOver.Raise();
+    }
+
+    private void ShowDialogueUI() {
+      foreach (GameObject hideObject in this._hideDuringDialogueUIList) {
+        hideObject.SetActive(false);
+      }
+
+      this._dialogueUI.SetActive(true);
+    }
+
+    private void HideDialogueUI() {
+      foreach (GameObject hideObject in this._hideDuringDialogueUIList) {
+        hideObject.SetActive(true);
+      }
+
+      this._dialogueUI.SetActive(false);
     }
   }
 }

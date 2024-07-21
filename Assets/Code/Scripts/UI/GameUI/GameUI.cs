@@ -46,10 +46,6 @@ namespace KrillOrBeKrilled.UI {
         [Tooltip("The trap resource requirements widget displayed during gameplay.")]
         [SerializeField] private TrapRequirementsUI _trapRequirementsUI;
 
-        [Header("Dialogue")]
-        [SerializeField] private List<GameObject> _hideDuringDialogueUIList;
-        [SerializeField] private GameObject _dialogueUI;
-
         [Header("Prefabs")]
         [Tooltip("The hero health bar to instantiate upon spawning a new hero.")]
         [SerializeField] private HealthBarUI _healthBarUIPrefab;
@@ -96,22 +92,6 @@ namespace KrillOrBeKrilled.UI {
             this._screenWipe.SetRandomWipeShape();
             this._loadingScreen.gameObject.SetActive(false);
             this._screenWipe.WipeOut();
-        }
-        
-        public void ShowDialogueUI() {
-            foreach (GameObject hideObject in this._hideDuringDialogueUIList) {
-                hideObject.SetActive(false);
-            }
-
-            this._dialogueUI.SetActive(true);
-        }
-
-        public void HideDialogueUI() {
-            foreach (GameObject hideObject in this._hideDuringDialogueUIList) {
-                hideObject.SetActive(true);
-            }
-
-            this._dialogueUI.SetActive(false);
         }
 
         #endregion

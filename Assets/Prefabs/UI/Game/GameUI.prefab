@@ -139,8 +139,6 @@ GameObject:
   - component: {fileID: 8678547117119670258}
   - component: {fileID: 9186954324187263670}
   - component: {fileID: 8486666429347958190}
-  - component: {fileID: 7208189819917391547}
-  - component: {fileID: 1483918936017616038}
   - component: {fileID: 5615617146363524089}
   - component: {fileID: 6311618527938050838}
   m_Layer: 5
@@ -289,62 +287,6 @@ MonoBehaviour:
       - m_Target: {fileID: 9186954324187263670}
         m_TargetAssemblyTypeName: KrillOrBeKrilled.UI.GameUI, UI
         m_MethodName: OnGameSetupComplete
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &7208189819917391547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1551271506664179980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 153f9915aa0e4ed0a6c3da81864c356b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: {fileID: 11400000, guid: 16804d1591b514f1b8f9524eb10030bf, type: 2}
-  Response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 9186954324187263670}
-        m_TargetAssemblyTypeName: KrillOrBeKrilled.UI.GameUI, UI
-        m_MethodName: ShowDialogueUI
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1483918936017616038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1551271506664179980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 153f9915aa0e4ed0a6c3da81864c356b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: {fileID: 11400000, guid: 8dd998262bb0543f6ac8823ef32f5bb6, type: 2}
-  Response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 9186954324187263670}
-        m_TargetAssemblyTypeName: KrillOrBeKrilled.UI.GameUI, UI
-        m_MethodName: HideDialogueUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2845,26 +2787,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueManager
       objectReference: {fileID: 0}
-    - target: {fileID: 4015383505185538609, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4841172899767218539, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5239890793307243909, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
+    - target: {fileID: 6178127177924265871, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
+      propertyPath: _hideDuringDialogueUIList.Array.size
+      value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 5239890793307243909, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5239890793307243909, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 6178127177924265871, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
+      propertyPath: _hideDuringDialogueUIList.Array.data[0]
+      value: 
+      objectReference: {fileID: 6767592056505458545}
+    - target: {fileID: 6178127177924265871, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
+      propertyPath: _hideDuringDialogueUIList.Array.data[1]
+      value: 
+      objectReference: {fileID: 4121120076823406997}
+    - target: {fileID: 6178127177924265871, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
+      propertyPath: _hideDuringDialogueUIList.Array.data[2]
+      value: 
+      objectReference: {fileID: 5452993069296739330}
+    - target: {fileID: 6178127177924265871, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
+      propertyPath: _hideDuringDialogueUIList.Array.data[3]
+      value: 
+      objectReference: {fileID: 9064923852255341884}
     - target: {fileID: 8797600766857167089, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

@@ -109,6 +109,12 @@ namespace KrillOrBeKrilled.Player {
         private readonly int _groundedKey = Animator.StringToHash("is_grounded");
         private readonly int _attackKey = Animator.StringToHash("is_attacking");
 
+        // Input
+        private float _moveInput;
+        private bool _jumpPressed;
+        private bool _jumpPressedThisFrame;
+        private bool _readyToClear;
+        
         //========================================
         // Unity Methods
         //========================================
@@ -156,16 +162,34 @@ namespace KrillOrBeKrilled.Player {
             this._attackCommand = new AttackCommand(this);
         }
 
+        private void Update() {
+            // Check if should clear input
+            if (this._readyToClear) {
+                this._moveInput = 0f;
+                this._jumpPressed = false;
+                this._jumpPressedThisFrame = false;
+                this._readyToClear = false;
+            }
+            
+            if (this._isFrozen) {
+                return;
+            }
+            
+            // Read Input
+            this.GatherInput(out float moveInput, out bool jumpPressed, out bool jumpPressedThisFrame);
+            this._moveInput += moveInput;
+            this._jumpPressed = this._jumpPressed || jumpPressed;
+            this._jumpPressedThisFrame = this._jumpPressedThisFrame || jumpPressedThisFrame;
+            this._moveInput = Mathf.Clamp(this._moveInput, -1f, 1f);
+        }
+
         protected override void FixedUpdate() {
             if (this._isFrozen) {
                 return;
             }
-
-            // Read Input
-            this.GatherInput(out float moveInput, out bool jumpPressed, out bool jumpPressedThisFrame);
-
+            
             // Set animation values
-            this.SetAnimatorValues(moveInput);
+            this.SetAnimatorValues(this._moveInput);
 
             // Check Grounded
             this.UpdateGrounded();
@@ -174,11 +198,11 @@ namespace KrillOrBeKrilled.Player {
             this.UpdateFalling();
 
             // Delegate behaviour to the current state
-            this._state.Act(moveInput, jumpPressed, jumpPressedThisFrame);
+            this._state.Act(this._moveInput, this._jumpPressed, this._jumpPressedThisFrame);
 
             // If state changed => call Act method on the new state
             if (this._stateChangedThisFrame) {
-                this._state.Act(moveInput, jumpPressed, jumpPressedThisFrame);
+                this._state.Act(this._moveInput, this._jumpPressed, this._jumpPressedThisFrame);
             }
 
             // Check trap deployment eligibility
@@ -189,6 +213,7 @@ namespace KrillOrBeKrilled.Player {
 
             this._stateChangedThisFrame = false;
             base.FixedUpdate();
+            this._readyToClear = true;
         }
 
         private void OnCollisionEnter2D(Collision2D collision) {

@@ -214,6 +214,7 @@ namespace KrillOrBeKrilled.Player {
             this._stateChangedThisFrame = false;
             base.FixedUpdate();
             this._readyToClear = true;
+            this._jumpPressedThisFrame = false;
         }
 
         private void OnCollisionEnter2D(Collision2D collision) {

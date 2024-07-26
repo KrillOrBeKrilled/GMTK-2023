@@ -37,6 +37,11 @@ namespace KrillOrBeKrilled.UI {
             EventManager.Instance.ResourceAmountChangedEvent.AddListener(this.OnResourceAmountChanged);
 
             for (int i = 0; i < this._trapBarIcons.Count; i++) {
+                this._trapBarIcons[i].gameObject.SetActive(false);
+            }
+            
+            for (int i = 0; i < traps.Count; i++) {
+                this._trapBarIcons[i].gameObject.SetActive(true);
                 this._trapBarIcons[i].Initialize(traps[i], selectTrapAction);
             }
         }

@@ -261,12 +261,6 @@ MonoBehaviour:
   _controlsUI: {fileID: 755170300387895703}
   _resourceUI: {fileID: 6391279831613539885}
   _trapRequirementsUI: {fileID: 4732524151187949244}
-  _hideDuringDialogueUIList:
-  - {fileID: 6767592056505458545}
-  - {fileID: 4121120076823406997}
-  - {fileID: 9064923852255341884}
-  - {fileID: 5452993069296739330}
-  _dialogueUI: {fileID: 5555324164453801111}
   _healthBarUIPrefab: {fileID: 5468232764469143830, guid: 962e39104bcbb4854a430b5dde8d623b, type: 3}
 --- !u!114 &8486666429347958190
 MonoBehaviour:
@@ -2402,11 +2396,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6242123103412075249, guid: 4bf0f26bd052d46969693994d6b92c64, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 690
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6242123103412075249, guid: 4bf0f26bd052d46969693994d6b92c64, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6242123103412075249, guid: 4bf0f26bd052d46969693994d6b92c64, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2912,11 +2906,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f5014f919c044f09cc672691d594082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &5555324164453801111 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 206842014108095408, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
-  m_PrefabInstance: {fileID: 5748458255645118247}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7646750543786854524
 PrefabInstance:
   m_ObjectHideFlags: 0

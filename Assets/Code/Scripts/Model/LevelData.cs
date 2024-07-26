@@ -30,6 +30,7 @@ namespace KrillOrBeKrilled.Model {
         public List<Vector3> RespawnPositions;
         public Tilemap WallsTilemapPrefab;
         public List<ResourceAmount> InitialResources;
+        public List<TrapType> AllowedTraps;
         public WavesData WavesData;
 
         public enum LevelType {
@@ -50,6 +51,7 @@ namespace KrillOrBeKrilled.Model {
             destination.RespawnPositions = source.RespawnPositions.ToList();
             destination.WallsTilemapPrefab = source.WallsTilemapPrefab;
             destination.InitialResources = source.InitialResources.ToList();
+            destination.AllowedTraps = source.AllowedTraps.ToList();
             destination.WavesData = new WavesData() { WavesList = source.WavesData.WavesList.ToList() };
         }
     }

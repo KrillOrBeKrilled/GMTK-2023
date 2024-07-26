@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using KrillOrBeKrilled.Core.Managers;
 using KrillOrBeKrilled.Player;
+using KrillOrBeKrilled.Traps;
 using UnityEngine.Tilemaps;
 
 //*******************************************************************************************
@@ -70,10 +72,11 @@ namespace KrillOrBeKrilled.Core.Input {
         /// </summary>
         /// <param name="startPos"> The starting position player will be teleported to. </param>
         /// <param name="gameManager"> Provides major game state-related events to subscribe the entities to. </param>
+        /// <param name="trapPrefabs"></param>
         /// <param name="levelTilemap"> The tilemap forming the level ground. </param>
-        internal void Initialize(Vector3 startPos, GameManager gameManager, Tilemap levelTilemap) {
+        internal void Initialize(Vector3 startPos, GameManager gameManager, List<Trap> trapPrefabs, Tilemap levelTilemap) {
             StartCoroutine(Player.Initialize(startPos, gameManager.OnHenWon, this.GatherInput));
-            TrapController.Initialize(levelTilemap, ResourceManager.Instance.CanAffordCost);
+            TrapController.Initialize(trapPrefabs, levelTilemap, ResourceManager.Instance.CanAffordCost);
         }
         
         /// <summary>

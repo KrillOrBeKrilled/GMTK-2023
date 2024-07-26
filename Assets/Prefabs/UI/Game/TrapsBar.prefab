@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6242123103412075249}
   - component: {fileID: 1504524895553785631}
   - component: {fileID: 7240631439520056896}
+  - component: {fileID: 4144099678405311926}
   m_Layer: 5
   m_Name: TrapsBar
   m_TagString: Untagged
@@ -85,6 +86,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &4144099678405311926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5835620793550861179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!1 &5986833884695862097
 GameObject:
   m_ObjectHideFlags: 0

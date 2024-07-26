@@ -53,7 +53,8 @@ MonoBehaviour:
   _cameraManager: {fileID: 0}
   _dialogueManager: {fileID: 0}
   <WaveManager>k__BackingField: {fileID: 0}
-  _endgameTargetPrefab: {fileID: 2478820807580166489, guid: 38b84a3185ecd47ec984625f684b6a6a, type: 3}
+  _trapPrefabs: {fileID: 11400000, guid: cf9f967df7b584c20b6435b68b98ee33, type: 2}
+  _treasurePrefab: {fileID: 2478820807580166489, guid: 38b84a3185ecd47ec984625f684b6a6a, type: 3}
   _tilemapGrid: {fileID: 0}
   _testingLevelData: {fileID: 0}
   _onSetupComplete: {fileID: 11400000, guid: 5f1a99dbcd4544e0185e86b57b484b94, type: 2}

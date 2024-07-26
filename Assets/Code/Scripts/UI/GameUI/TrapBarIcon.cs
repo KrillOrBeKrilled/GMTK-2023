@@ -56,7 +56,7 @@ namespace KrillOrBeKrilled.UI {
         /// Adds a tint to this icon if the corresponding trap is not affordable.
         /// </summary>
         public void CheckAffordable() {
-            bool canAfford = ResourceManager.Instance.CanAffordCost(this._assignedTrap.Recipe);
+            bool canAfford = this._assignedTrap && ResourceManager.Instance.CanAffordCost(this._assignedTrap.Recipe);
             this._tint.gameObject.SetActive(!canAfford);
         }
         

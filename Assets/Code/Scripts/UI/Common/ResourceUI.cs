@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Traps;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ using UnityEngine;
 namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// Displays the player's inventory, containing the different types of resources and
-    /// the amount that the player currently has. 
+    /// the Amount that the player currently has. 
     /// </summary>
     public class ResourceUI : MonoBehaviour {
         [SerializeField] private List<ResourceAmountUI> resourceIcons;

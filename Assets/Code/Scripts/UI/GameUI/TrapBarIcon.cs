@@ -37,7 +37,7 @@ namespace KrillOrBeKrilled.UI {
         /// <summary>
         /// Sets a reference to the trap this icon represents.
         /// </summary>
-        /// <param name="trap"> The <see cref="Trap"/> associated with the trap type prefab. </param>
+        /// <param name="trap"> The <see cref="Trap"/> associated with the trap Type prefab. </param>
         /// <param name="selectTrapAction"> The callback this UI Icon invokes upon being clicked. </param>
         public void Initialize(Trap trap, UnityAction<Trap> selectTrapAction) {
             this._assignedTrap = trap;

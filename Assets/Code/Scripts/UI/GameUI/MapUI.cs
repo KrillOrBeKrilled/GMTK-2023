@@ -12,7 +12,7 @@ namespace KrillOrBeKrilled.UI {
     /// <summary>
     /// Manages the positioning of the hero and player icons on the map UI in real
     /// time. Exposes methods to register new spawned heroes and supports the
-    /// representation of multiple types of heroes with unique icons for each type.
+    /// representation of multiple types of heroes with unique icons for each Type.
     /// </summary>
     public class MapUI : MonoBehaviour {
         [Header("References")]
@@ -146,7 +146,7 @@ namespace KrillOrBeKrilled.UI {
         }
 
         /// <summary>
-        /// Updates the fill amount and color of the map UI slider according to the greatest distance percentage
+        /// Updates the fill Amount and color of the map UI slider according to the greatest distance percentage
         /// covered by the heroes.
         /// </summary>
         /// <param name="greatestHeroProgress"> The greatest distance covered by the heroes as a percentage. </param>

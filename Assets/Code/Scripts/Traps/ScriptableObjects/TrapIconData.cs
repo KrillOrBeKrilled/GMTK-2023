@@ -17,7 +17,7 @@ namespace KrillOrBeKrilled.Traps {
         /// <summary>
         /// Finds the trap icon associated with the provided <see cref="Trap"/> data.
         /// </summary>
-        /// <param name="trap"> The <see cref="Trap"/> class used to determine the trap type to find the related icon. </param>
+        /// <param name="trap"> The <see cref="Trap"/> class used to determine the trap Type to find the related icon. </param>
         /// <returns> The trap icon sprite associated with the provided trap data. </returns>
         public Sprite TrapToImage(Trap trap) {
             switch (trap) {

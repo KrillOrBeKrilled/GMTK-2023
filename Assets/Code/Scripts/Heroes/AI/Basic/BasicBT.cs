@@ -8,7 +8,7 @@ using UnityEngine;
 namespace KrillOrBeKrilled.Heroes.AI {
     /// <summary>
     /// A <see cref="HeroBT"/> subclass that performs the functionality of a basic hero
-    /// type, including nodes to handle idle, running, pit tracking, and jumping
+    /// Type, including nodes to handle idle, running, pit tracking, and jumping
     /// behaviours.
     /// </summary>
     public class BasicBT : HeroBT  {

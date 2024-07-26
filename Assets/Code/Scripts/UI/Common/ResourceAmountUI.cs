@@ -1,3 +1,4 @@
+using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Traps;
 using TMPro;
 using UnityEngine;
@@ -8,15 +9,15 @@ using UnityEngine.UI;
 //*******************************************************************************************
 namespace KrillOrBeKrilled.UI {
     /// <summary>
-    /// Manages a singular resource display, exposing methods to update the resource type
+    /// Manages a singular resource display, exposing methods to update the resource Type
     /// icon and quantity.
     /// </summary>
     public class ResourceAmountUI : MonoBehaviour {
-        [Tooltip("Displays the icon of the associated resource type.")] 
+        [Tooltip("Displays the icon of the associated resource Type.")] 
         [SerializeField] private Image _icon;
-        [Tooltip("Displays the quantity held of the associated resource type.")] 
+        [Tooltip("Displays the quantity held of the associated resource Type.")] 
         [SerializeField] private TMP_Text _amountText;
-        [Tooltip("The cumulative resource icon data used to find the icon to display for the associated resource type.")] 
+        [Tooltip("The cumulative resource icon data used to find the icon to display for the associated resource Type.")] 
         [SerializeField] private ResourceIconData _resourceIconData;
         [SerializeField] private ResourceType _resourceType;
 
@@ -38,8 +39,8 @@ namespace KrillOrBeKrilled.UI {
         /// <summary>
         /// Updates the icon and quantity display.
         /// </summary>
-        /// <param name="type"> The resource type used to find the associated icon to display. </param>
-        /// <param name="amount"> The quantity associated with the resource type to display. </param>
+        /// <param name="type"> The resource Type used to find the associated icon to display. </param>
+        /// <param name="amount"> The quantity associated with the resource Type to display. </param>
         public void SetIconAmount(ResourceType type, int amount) {
             this.gameObject.SetActive(true);
             this._icon.sprite = this._resourceIconData.TypeToImage(type);

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using KrillOrBeKrilled.Core.Managers;
 using KrillOrBeKrilled.Traps;
 using System.Collections.ObjectModel;
+using KrillOrBeKrilled.Model;
 using UnityEngine;
 using UnityEngine.Events;
 

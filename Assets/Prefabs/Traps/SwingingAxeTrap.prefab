@@ -145,10 +145,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RecipeList:
-  - type: 0
-    amount: 2
-  - type: 1
-    amount: 3
+  - Type: 0
+    Amount: 2
+  - Type: 1
+    Amount: 3
   LeftGridPoints:
   - GridPosition: {x: 0, y: 0, z: 0}
     IsTrapTile: 1
@@ -186,7 +186,6 @@ MonoBehaviour:
   LeftSpawnOffset: {x: 1.5, y: 1.5, z: 0}
   RightSpawnOffset: {x: 2.5, y: 1.5, z: 0}
   AnimationOffset: {x: -1.5, y: 1.5, z: 0}
-  BuildingDuration: 5
   SliderBar: {fileID: 8689842051725396054, guid: 730a5177b6878c7479dff24b13199c1c, type: 3}
   IsCeilingTrap: 0
   _pushbackForce: 1

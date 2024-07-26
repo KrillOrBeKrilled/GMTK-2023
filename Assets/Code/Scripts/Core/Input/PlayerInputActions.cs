@@ -31,7 +31,7 @@ namespace KrillOrBeKrilled.Core.Input
             ""actions"": [
                 {
                     ""name"": ""Move"",
-                    ""type"": ""Value"",
+                    ""Type"": ""Value"",
                     ""id"": ""9a008c45-096e-4cba-866c-c9cad56d3083"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": ""StickDeadzone"",
@@ -40,7 +40,7 @@ namespace KrillOrBeKrilled.Core.Input
                 },
                 {
                     ""name"": ""Jump"",
-                    ""type"": ""Button"",
+                    ""Type"": ""Button"",
                     ""id"": ""ce2c912f-6fb0-491f-9c68-4299edc19fb9"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -49,7 +49,7 @@ namespace KrillOrBeKrilled.Core.Input
                 },
                 {
                     ""name"": ""Place Trap"",
-                    ""type"": ""Button"",
+                    ""Type"": ""Button"",
                     ""id"": ""e1376b3a-294c-4275-a518-15da36561a08"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -58,7 +58,7 @@ namespace KrillOrBeKrilled.Core.Input
                 },
                 {
                     ""name"": ""Attack"",
-                    ""type"": ""Button"",
+                    ""Type"": ""Button"",
                     ""id"": ""7be49167-3d54-411a-b697-c25f1b2e2ae7"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -240,7 +240,7 @@ namespace KrillOrBeKrilled.Core.Input
             ""actions"": [
                 {
                     ""name"": ""Advance Dialogue"",
-                    ""type"": ""Button"",
+                    ""Type"": ""Button"",
                     ""id"": ""671b8445-8ad3-4fb0-ace6-6fea0e80a433"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",

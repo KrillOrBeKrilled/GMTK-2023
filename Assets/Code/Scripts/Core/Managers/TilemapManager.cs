@@ -215,7 +215,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
 
         /// <summary>
-        /// Searches for the tile of type <see cref="CustomGroundRuleTile"/> below the provided
+        /// Searches for the tile of Type <see cref="CustomGroundRuleTile"/> below the provided
         /// <paramref name="pos"/>.
         /// </summary>
         /// <param name="pos"> The position below which to search for the tile. </param>
@@ -249,7 +249,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// </summary>
         /// <remarks> Subscribed to the <see cref="TrapController.OnPaintTiles"/> event. </remarks>
         /// <param name="tilePositions"> A list of tile positions corresponding to a tilemap to paint. </param>
-        /// <param name="paintMode"> Specifies the operation type to be performed on the tilemap tiles. </param>
+        /// <param name="paintMode"> Specifies the operation Type to be performed on the tilemap tiles. </param>
         private void OnPaintTiles(IEnumerable<Vector3Int> tilePositions, TrapController.PaintMode paintMode) {
             switch (paintMode) {
                 case TrapController.PaintMode.FreeTile:

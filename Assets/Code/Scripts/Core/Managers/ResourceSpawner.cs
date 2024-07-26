@@ -103,7 +103,7 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         /// <summary>
         /// Populates the drop map bookkeeping structure with all the possible resource drops to be obtained from
-        /// each hero type and their summed weights to be used for later spawning randomization.
+        /// each hero Type and their summed weights to be used for later spawning randomization.
         /// </summary>
         private void InitializeDropMap() {
             _dropMap = new Dictionary<HeroData.HeroType, (List<ResourceDrop>, int)>();
@@ -135,7 +135,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
         
         /// <summary>
-        /// Chooses a resource type from the list of drops associated with this level,
+        /// Chooses a resource Type from the list of drops associated with this level,
         /// and instantiate the resource prefab at some position near the player.
         /// Each drop in the list is weighted. The higher the weight, the more likely
         /// it is to drop.
@@ -155,13 +155,13 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
 
         /// <summary>
-        /// Chooses a resource type from the list of drops associated with the dead hero,
+        /// Chooses a resource Type from the list of drops associated with the dead hero,
         /// and instantiate the resource prefab at the hero's position.
         /// Each drop in the list is weighted. The higher the weight, the more likely
         /// it is to drop.
         /// </summary>
         /// <remarks> Subscribed to the <see cref="Hero.OnHeroDeath"/> event. </remarks>
-        /// <param name="heroType"> The hero type that died. </param>
+        /// <param name="heroType"> The hero Type that died. </param>
         /// <param name="heroTransform"> The transform where the hero died. </param>
         private void SpawnHeroDrop(HeroData.HeroType heroType, Transform heroTransform) {
             if (!_dropMap.ContainsKey(heroType)) {
@@ -226,12 +226,12 @@ namespace KrillOrBeKrilled.Core.Managers {
     // ResourceDrop
     //*******************************************************************************************
     /// <summary>
-    /// Stores a particular trap material's type, its prefab, and a drop weight (higher weight
+    /// Stores a particular trap material's Type, its prefab, and a drop weight (higher weight
     /// means more likely to drop).
     /// </summary>
     [Serializable]
     public class ResourceDrop {
-        [Tooltip("The type of the dropped resource.")]
+        [Tooltip("The Type of the dropped resource.")]
         public ResourceType resourceType;
         [Tooltip("The prefab for the resource pickup.")]
         public ResourcePickup resourcePrefab;
@@ -243,11 +243,11 @@ namespace KrillOrBeKrilled.Core.Managers {
     // HeroDrop
     //*******************************************************************************************
     /// <summary>
-    /// Stores a hero type and a list of potential resource drops.
+    /// Stores a hero Type and a list of potential resource drops.
     /// </summary>
     [Serializable]
     public class HeroDrop {
-        [Tooltip("The hero type.")]
+        [Tooltip("The hero Type.")]
         public HeroData.HeroType heroType;
         [Tooltip("The list of potential resource drops.")]
         public List<ResourceDrop> drops;

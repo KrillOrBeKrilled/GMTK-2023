@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Traps;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,13 +12,11 @@ using UnityEngine.Events;
 //*******************************************************************************************
 namespace KrillOrBeKrilled.Core.Managers {
     /// <summary>
-    /// Manages the player's resource inventory. This includes displaying the amount of
+    /// Manages the player's resource inventory. This includes displaying the Amount of
     /// resources the player has, and tracking the changes as the player collects them from
     /// pickups or spends them in building traps.
     /// </summary>
     public class ResourceManager : Singleton<ResourceManager> {
-        [Tooltip("The resources present in this level and the initial amount given to the player.")]
-        [SerializeField] private List<ResourceEntry> initialInventory; 
         private Dictionary<ResourceType, int> _inventory;
         
         //========================================
@@ -25,8 +25,10 @@ namespace KrillOrBeKrilled.Core.Managers {
         
         #region Unity Methods
 
-        private void Start() {
-            StartCoroutine(DelayedInventoryInit());
+        private IEnumerator Start() {
+            // Skip a frame to wait for event listeners
+            yield return null;
+            EventManager.Instance.ResourceAmountChangedEvent.Invoke(_inventory);
             
             // Subscribe to resource collection event in ResourcePickup
             ResourcePickup.OnResourceCollected += AddResource;
@@ -44,20 +46,30 @@ namespace KrillOrBeKrilled.Core.Managers {
         //========================================
 
         #region Public Methods
-        
+
         /// <summary>
         /// Sets up subscriptions to player events required for proper execution.
         /// </summary>
+        /// <param name="initialInventory"> The resources present in this level and the initial Amount given to the player. </param>
         /// <param name="onConsumeResources"> An event encapsulating when resources are requested to be consumed. </param>
-        public void Initialize(UnityEvent<Dictionary<ResourceType, int>> onConsumeResources) {
+        public void Initialize(List<ResourceAmount> initialInventory, UnityEvent<Dictionary<ResourceType, int>> onConsumeResources) {
+            this._inventory = new Dictionary<ResourceType, int>();
+
+            foreach (ResourceType type in Enum.GetValues(typeof(ResourceType))) {
+                this._inventory[type] = 0;
+            }
+
+            foreach (ResourceAmount amount in initialInventory) {
+                this._inventory[amount.Type] = amount.Amount;
+            }
             onConsumeResources.AddListener(this.ConsumeResources);
         }
         
         /// <summary>
-        /// Increase the amount of a specific resource by a given quantity.
+        /// Increase the Amount of a specific resource by a given quantity.
         /// </summary>
-        /// <param name="type"> The type of resource to add. </param>
-        /// <param name="quantity"> The amount of the resource to add. </param>
+        /// <param name="type"> The Type of resource to add. </param>
+        /// <param name="quantity"> The Amount of the resource to add. </param>
         public void AddResource(ResourceType type, int quantity) {
             if (!_inventory.ContainsKey(type)) {
                 Debug.LogWarning("Invalid Resource Type for the current inventory.");
@@ -72,7 +84,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
 
         /// <summary>
-        /// Spends each resource by a certain amount, as specified by the costs.
+        /// Spends each resource by a certain Amount, as specified by the costs.
         /// Return false if any of the resources in the costs is not affordable.
         /// </summary>
         /// <param name="costs"> A dictionary of the resources and their costs. </param>
@@ -94,29 +106,6 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <param name="costs"> The costs being checked. </param>
         public bool CanAffordCost(Dictionary<ResourceType, int> costs) {
             return costs.All(pair => _inventory[pair.Key] >= pair.Value);
-        }
-        
-        #endregion
-        
-        //========================================
-        // Private Methods
-        //========================================
-
-        #region Private Methods
-
-        /// <summary>
-        /// A coroutine to delay the initialization of the player inventory so that the
-        /// subscribers can be set up first.
-        /// </summary>
-        private IEnumerator DelayedInventoryInit() {
-            _inventory = new Dictionary<ResourceType, int>();
-            foreach (var entry in initialInventory) {
-                _inventory.Add(entry.type, entry.amount);
-            }
-            
-            // Skip a frame to wait for event listeners
-            yield return null;
-            EventManager.Instance.ResourceAmountChangedEvent.Invoke(_inventory);
         }
         
         #endregion

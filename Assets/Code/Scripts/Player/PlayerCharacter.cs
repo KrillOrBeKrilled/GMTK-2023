@@ -6,6 +6,7 @@ using KrillOrBeKrilled.Traps;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEditor;
 using UnityEngine;
@@ -497,7 +498,7 @@ namespace KrillOrBeKrilled.Player {
         /// </summary>
         /// <param name="command"> The <see cref="ICommand"/> to be executed. </param>
         /// <remarks>
-        /// Can be extended to record each command to a list to implement redo/undo logic, especially sorted by type.
+        /// Can be extended to record each command to a list to implement redo/undo logic, especially sorted by Type.
         /// </remarks>
         internal void ExecuteCommand(ICommand command) {
             command.Execute();

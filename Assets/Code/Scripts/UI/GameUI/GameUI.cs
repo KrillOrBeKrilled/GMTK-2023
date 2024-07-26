@@ -2,6 +2,7 @@ using KrillOrBeKrilled.Common;
 using KrillOrBeKrilled.Core.Managers;
 using KrillOrBeKrilled.Heroes;
 using System.Collections.Generic;
+using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Traps;
 using TMPro;
 using UnityEngine;
@@ -122,7 +123,7 @@ namespace KrillOrBeKrilled.UI {
         }
         
         /// <summary>
-        /// Updates the text on the resource UI for a specific resource type.
+        /// Updates the text on the resource UI for a specific resource Type.
         /// </summary>
         /// <remarks> Subscribed to the <see cref="ResourceAmountChangedEvent"/> event. </remarks>
         private void OnResourceUpdate(Dictionary<ResourceType, int> resources) {

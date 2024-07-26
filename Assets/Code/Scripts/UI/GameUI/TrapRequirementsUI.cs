@@ -10,7 +10,7 @@ using UnityEngine.UI;
 //*******************************************************************************************
 namespace KrillOrBeKrilled.UI {
     /// <summary>
-    /// Manages the trap resource requirement window display, updating the trap type
+    /// Manages the trap resource requirement window display, updating the trap Type
     /// requirements upon various trap selections from each individual required
     /// <see cref="ResourceAmountUI">resource</see> to the associated trap icon.
     /// </summary>
@@ -19,11 +19,11 @@ namespace KrillOrBeKrilled.UI {
     /// types displayed.
     /// </remarks>
     public class TrapRequirementsUI : MonoBehaviour {
-        [Tooltip("Displays the icon of the selected trap type.")] 
+        [Tooltip("Displays the icon of the selected trap Type.")] 
         [SerializeField] private Image _trapIcon;
-        [Tooltip("Displays each unique resource requirement of the selected trap type.")] 
+        [Tooltip("Displays each unique resource requirement of the selected trap Type.")] 
         [SerializeField] private List<ResourceAmountUI> _trapRequirements;
-        [Tooltip("The cumulative trap icon data used to find the icon to display for the selected trap type.")] 
+        [Tooltip("The cumulative trap icon data used to find the icon to display for the selected trap Type.")] 
         [SerializeField] private TrapIconData _trapIconData;
 
         private Sequence _tweenSequence;
@@ -104,7 +104,7 @@ namespace KrillOrBeKrilled.UI {
         /// <remarks>
         /// Assumes that recipes always require 3 or less materials.
         /// </remarks>
-        /// <param name="trap"> The trap class used to determine the trap type to update the UI accordingly. </param>
+        /// <param name="trap"> The trap class used to determine the trap Type to update the UI accordingly. </param>
         private void SetTrap(Trap trap) {
             this._trapIcon.sprite = this._trapIconData.TrapToImage(trap);
 

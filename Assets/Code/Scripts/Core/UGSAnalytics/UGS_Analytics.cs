@@ -46,7 +46,7 @@ namespace KrillOrBeKrilled.Core.UGSAnalytics {
         #region Public Methods
         
         /// <summary>
-        /// Packages trap deployment type data to send to the UGS Analytics server.
+        /// Packages trap deployment Type data to send to the UGS Analytics server.
         /// </summary>
         /// <param name="trapName"> The name of the trap that has been deployed. </param>
         public static void DeployTrapCustomEvent(string trapName) {
@@ -124,7 +124,7 @@ namespace KrillOrBeKrilled.Core.UGSAnalytics {
         }
         
         /// <summary>
-        /// Packages trap selection type and cost data to send to the UGS Analytics server.
+        /// Packages trap selection Type and cost data to send to the UGS Analytics server.
         /// </summary>
         /// <param name="trapName"> The name of the trap that has been selected. </param>
         /// <param name="isAffordable"> If the selected trap cost can be afforded with the current coin balance. </param>

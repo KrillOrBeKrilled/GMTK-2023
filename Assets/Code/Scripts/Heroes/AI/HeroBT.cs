@@ -7,7 +7,7 @@ using UnityEngine;
 namespace KrillOrBeKrilled.Heroes.AI {
     /// <summary>
     /// <see cref="BehaviourTree"/> subclass used to store data pertaining to all
-    /// <see cref="HeroBT"/> type trees and expose initialization methods to
+    /// <see cref="HeroBT"/> Type trees and expose initialization methods to
     /// <see cref="Hero"/> for setup on prefab instantiation.
     /// </summary>
     [RequireComponent(typeof(FieldOfView), typeof(Rigidbody2D), typeof(Animator))]

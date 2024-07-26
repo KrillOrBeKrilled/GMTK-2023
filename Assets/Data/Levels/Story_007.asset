@@ -24,6 +24,15 @@ MonoBehaviour:
   RespawnPositions:
   - {x: -15, y: 2, z: 0}
   WallsTilemapPrefab: {fileID: 5896839985468150658, guid: b26fe19c43c60487ea8060943b332553, type: 3}
+  InitialResources:
+  - Type: 0
+    Amount: 4
+  - Type: 1
+    Amount: 3
+  - Type: 2
+    Amount: 2
+  - Type: 4
+    Amount: 1
   WavesData:
     WavesList:
     - Heroes:

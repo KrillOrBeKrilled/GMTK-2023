@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace KrillOrBeKrilled.Heroes.BehaviourTree {
     /// <summary>
     /// Represents the execution state of the node computed by evaluation.
-    /// <list type="bullet">
+    /// <list Type="bullet">
     /// <item> <b>RUNNING</b>: The node is currently running. </item>
     /// <item> <b>SUCCESS</b>: The node evaluates to "true", completing its action. </item>
     /// <item> <b>FAILURE</b>: The node evaluates to "false", forfeiting its action. </item>
@@ -24,7 +24,7 @@ namespace KrillOrBeKrilled.Heroes.BehaviourTree {
     }
     
     /// <summary>
-    /// Makes up a Behaviour Tree as units encapsulating composite type selectors, sequences, etc., decorator type
+    /// Makes up a Behaviour Tree as units encapsulating composite Type selectors, sequences, etc., decorator Type
     /// inverters, succeeders, etc., and leaves.
     /// </summary>
     public class Node {

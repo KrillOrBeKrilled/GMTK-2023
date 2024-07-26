@@ -144,8 +144,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RecipeList:
-  - type: 0
-    amount: 2
+  - Type: 0
+    Amount: 2
   LeftGridPoints:
   - GridPosition: {x: 0, y: 0, z: 0}
     IsTrapTile: 1

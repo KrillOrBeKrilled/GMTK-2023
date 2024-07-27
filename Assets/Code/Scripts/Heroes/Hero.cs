@@ -37,7 +37,7 @@ namespace KrillOrBeKrilled.Heroes {
         [SerializeField] private PhysicsMaterial2D _stunnedPhysicsMaterial;
 
         // ----------------- Data --------------------
-        public HeroData.HeroType Type { get; private set; }
+        public HeroType Type { get; private set; }
 
         // ------------- Sound Effects ---------------
         private HeroSoundsController _soundsController;
@@ -50,7 +50,7 @@ namespace KrillOrBeKrilled.Heroes {
         public UnityEvent<Hero> OnHeroDied;
 
         // This is added temporarily to deal with dependencies problem.
-        public static event Action<HeroData.HeroType, Transform> OnHeroDeath;
+        public static event Action<HeroType, Transform> OnHeroDeath;
 
         //========================================
         // Unity Methods

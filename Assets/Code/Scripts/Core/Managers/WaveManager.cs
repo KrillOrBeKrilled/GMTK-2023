@@ -147,7 +147,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <remarks> Invokes the <see cref="OnHeroSpawned"/> event. </remarks>
         private void SpawnHero(HeroData heroData) {
             Hero heroPrefab = this._defaultHeroPrefab;
-            if (heroData.Type == HeroData.HeroType.Druid) {
+            if (heroData.Type == HeroType.Druid) {
                 heroPrefab = this._druidHeroPrefab;
             }
 

@@ -43,7 +43,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         [SerializeField] private float _dropHorizontalForce;
         [SerializeField] private float _dropRotationForce;
 
-        private Dictionary<HeroData.HeroType, (List<ResourceDrop> Drops, int TotalWeight)> _dropMap;
+        private Dictionary<HeroType, (List<ResourceDrop> Drops, int TotalWeight)> _dropMap;
         private int _totalLevelDropWeight;
         private Transform _playerTransform;
         private Coroutine _levelDropCoroutine;
@@ -106,7 +106,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// each hero Type and their summed weights to be used for later spawning randomization.
         /// </summary>
         private void InitializeDropMap() {
-            _dropMap = new Dictionary<HeroData.HeroType, (List<ResourceDrop>, int)>();
+            _dropMap = new Dictionary<HeroType, (List<ResourceDrop>, int)>();
             foreach (var heroDrop in _heroDrops) {
                 int totalWeight = heroDrop.drops.Sum(d => d.weight);
                 _dropMap.Add(heroDrop.heroType, (heroDrop.drops, totalWeight));
@@ -163,7 +163,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <remarks> Subscribed to the <see cref="Hero.OnHeroDeath"/> event. </remarks>
         /// <param name="heroType"> The hero Type that died. </param>
         /// <param name="heroTransform"> The transform where the hero died. </param>
-        private void SpawnHeroDrop(HeroData.HeroType heroType, Transform heroTransform) {
+        private void SpawnHeroDrop(HeroType heroType, Transform heroTransform) {
             if (!_dropMap.ContainsKey(heroType)) {
                 Debug.LogWarning("Cannot find Hero Type in ResourceSpawner");
                 return;
@@ -248,7 +248,7 @@ namespace KrillOrBeKrilled.Core.Managers {
     [Serializable]
     public class HeroDrop {
         [Tooltip("The hero Type.")]
-        public HeroData.HeroType heroType;
+        public HeroType heroType;
         [Tooltip("The list of potential resource drops.")]
         public List<ResourceDrop> drops;
     }

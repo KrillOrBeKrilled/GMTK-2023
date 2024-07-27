@@ -17,16 +17,18 @@ namespace KrillOrBeKrilled.Model {
                  "during gameplay.")]
         public HeroType Type;
 
-        public enum HeroType {
-            Default,
-            Druid,
-            AcidResistant,
-            Armoured
-        }
+        
 
         public static HeroData DefaultHero => new HeroData() {
             Health = 10,
             Type = HeroType.Default
         };
+    }
+
+    public enum HeroType {
+        Default,
+        Druid,
+        AcidResistant,
+        Armoured
     }
 }

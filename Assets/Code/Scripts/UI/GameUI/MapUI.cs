@@ -108,12 +108,12 @@ namespace KrillOrBeKrilled.UI {
             Image heroIconPrefab;
 
             switch (newHero.Type) {
-                case HeroData.HeroType.Default:
-                case HeroData.HeroType.AcidResistant:
-                case HeroData.HeroType.Armoured:
+                case HeroType.Default:
+                case HeroType.AcidResistant:
+                case HeroType.Armoured:
                     heroIconPrefab = this._defaultHeroIconPrefab;
                     break;
-                case HeroData.HeroType.Druid:
+                case HeroType.Druid:
                     heroIconPrefab = this._druidHeroIconPrefab;
                     break;
                 default:

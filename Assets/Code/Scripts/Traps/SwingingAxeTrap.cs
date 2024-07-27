@@ -1,3 +1,4 @@
+using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEngine;
 
@@ -17,7 +18,15 @@ namespace KrillOrBeKrilled.Traps {
         [SerializeField] private Animator _animator;
 
         private bool _isArmed = false;
-
+        
+        //========================================
+        // Public Methods
+        //======================================== 
+        
+        public override TrapType GetTrapType() {
+            return TrapType.SwingingAxe;
+        }
+        
         //========================================
         // Protected Methods
         //========================================

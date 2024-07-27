@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3097dd5c76034d549674c15dd0496e29, type: 3}
+  m_Script: {fileID: 11500000, guid: d34029c0411904bbd96d84c4e3e9a1ca, type: 3}
   m_Name: TrapIconData
   m_EditorClassIdentifier: 
   _icons:
-  - TrapName: SpikeTrap
+  - TrapType: 0
     Icon: {fileID: 21300000, guid: d92c5e62087b84ea4a1d546cb0c3da01, type: 3}
-  - TrapName: SwingingAxeTrap
+  - TrapType: 1
     Icon: {fileID: 21300000, guid: d4586e751276645fa9219da567a8d663, type: 3}
-  - TrapName: IcicleTrap
+  - TrapType: 2
     Icon: {fileID: 21300000, guid: c7e0c10978a314a0e9f12d7b6751188e, type: 3}
-  - TrapName: AcidPitTrap
+  - TrapType: 3
     Icon: {fileID: 21300000, guid: 80992e2240c2245f4b7253f0d7decf43, type: 3}

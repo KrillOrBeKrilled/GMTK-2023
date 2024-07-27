@@ -27,6 +27,7 @@ MonoBehaviour:
   InitialResources:
   - Type: 0
     Amount: 4
+  AllowedTraps: 00000000
   WavesData:
     WavesList:
     - Heroes:

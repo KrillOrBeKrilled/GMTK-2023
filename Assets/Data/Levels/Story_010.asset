@@ -35,6 +35,7 @@ MonoBehaviour:
     Amount: 0
   - Type: 4
     Amount: 1
+  AllowedTraps: 00000000010000000200000003000000
   WavesData:
     WavesList:
     - Heroes:

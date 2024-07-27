@@ -1,5 +1,6 @@
 using DG.Tweening;
 using KrillOrBeKrilled.Core.Managers;
+using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Traps;
 using UnityEngine;
 using UnityEngine.Events;
@@ -19,10 +20,12 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private Image _selectionOutline;
         [Tooltip("Covers the trap icon when the trap cannot be afforded.")]
         [SerializeField] private Image _tint;
+        [SerializeField] private Image _icon;
         [Tooltip("The outline color when the associated trap is selected for deployment.")]
         [SerializeField] private Color _selectedColor;
         [Tooltip("The outline color when the associated trap is not selected for deployment.")]
         [SerializeField] private Color _defaultColor;
+        [SerializeField] private TrapIconData _trapIconData;
 
         private UnityAction<Trap> _selectTrapAction;
         private Trap _assignedTrap;
@@ -42,6 +45,7 @@ namespace KrillOrBeKrilled.UI {
         public void Initialize(Trap trap, UnityAction<Trap> selectTrapAction) {
             this._assignedTrap = trap;
             this._selectTrapAction = selectTrapAction;
+            this._icon.sprite = this._trapIconData.TrapToImage(trap.GetTrapType());
         }
 
         // /// <summary>

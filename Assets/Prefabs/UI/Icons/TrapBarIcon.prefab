@@ -140,8 +140,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _selectionOutline: {fileID: 3615845404646588170}
   _tint: {fileID: 8771416861908532250}
+  _icon: {fileID: 971724375425135701}
   _selectedColor: {r: 0.10506439, g: 1, b: 0, a: 1}
   _defaultColor: {r: 0.6509804, g: 0.4156863, b: 0.098039225, a: 1}
+  _trapIconData: {fileID: 11400000, guid: 0954333bea06540949f4562296843175, type: 2}
 --- !u!114 &3271546005117551536
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -27,7 +27,7 @@ namespace KrillOrBeKrilled.Traps {
         [SerializeField] protected Vector3 LeftSpawnOffset, RightSpawnOffset, AnimationOffset;
         [Tooltip("A slider bar prefab to signify the trap build completion status.")]
         [SerializeField] protected GameObject SliderBar;
-
+        
         public bool IsCeilingTrap;
 
         protected Vector3 SpawnPosition;
@@ -81,6 +81,8 @@ namespace KrillOrBeKrilled.Traps {
         //========================================
         
         #region Public Methods
+
+        public abstract TrapType GetTrapType();
         
         #region ITrap Implementations
 

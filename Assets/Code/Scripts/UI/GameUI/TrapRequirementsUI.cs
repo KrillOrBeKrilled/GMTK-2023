@@ -1,6 +1,7 @@
 using DG.Tweening;
 using KrillOrBeKrilled.Traps;
 using System.Collections.Generic;
+using KrillOrBeKrilled.Model;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -106,7 +107,7 @@ namespace KrillOrBeKrilled.UI {
         /// </remarks>
         /// <param name="trap"> The trap class used to determine the trap Type to update the UI accordingly. </param>
         private void SetTrap(Trap trap) {
-            this._trapIcon.sprite = this._trapIconData.TrapToImage(trap);
+            this._trapIcon.sprite = this._trapIconData.TrapToImage(trap.GetTrapType());
 
             // Reset all icons
             foreach (var icon in _trapRequirements){

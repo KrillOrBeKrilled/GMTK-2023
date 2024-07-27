@@ -1,4 +1,5 @@
 using DG.Tweening;
+using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEngine;
 
@@ -13,6 +14,14 @@ namespace KrillOrBeKrilled.Traps {
     public class SpikeTrap : Trap {
         [Tooltip("The damage to be applied to the Hero upon collision.")]
         [SerializeField] private int _damageAmount;
+        
+        //========================================
+        // Public Methods
+        //======================================== 
+        
+        public override TrapType GetTrapType() {
+            return TrapType.Spikes;
+        }
         
         //========================================
         // Protected Methods

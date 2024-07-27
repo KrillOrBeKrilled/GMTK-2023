@@ -3,6 +3,7 @@ namespace KrillOrBeKrilled.Model {
     Spikes,
     SwingingAxe,
     Icicle,
-    AcidPit
+    AcidPit,
+    Mine
   }
 }

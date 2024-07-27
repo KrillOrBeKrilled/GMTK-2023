@@ -16,8 +16,8 @@ namespace KrillOrBeKrilled.UI {
     /// management systems.
     /// </summary>
     public class TrapSelectionBar : MonoBehaviour {
-        [Tooltip("Stores each trap icon contained within the trap selection toolbar.")]
-        [SerializeField] private List<TrapBarIcon> _trapBarIcons;
+        [SerializeField] private TrapBarIcon _trapBarIconPrefab;
+        private List<TrapBarIcon> _trapBarIcons;
 
         //========================================
         // Public Methods
@@ -33,17 +33,19 @@ namespace KrillOrBeKrilled.UI {
         /// <param name="traps">A list of all traps. </param>
         /// <param name="selectTrapAction"> A callback which is invoked when a Trap Icon is clicked. </param>
         public void Initialize(UnityEvent<Trap> trapChanged, ReadOnlyCollection<Trap> traps, UnityAction<Trap> selectTrapAction) {
-            trapChanged.AddListener(this.SelectedTrapIndexChanged);
-            EventManager.Instance.ResourceAmountChangedEvent.AddListener(this.OnResourceAmountChanged);
+            for (int i = this.transform.childCount - 1; i > 0; i--) {
+                Destroy(this.transform.GetChild(i).gameObject);
+            }
 
-            for (int i = 0; i < this._trapBarIcons.Count; i++) {
-                this._trapBarIcons[i].gameObject.SetActive(false);
+            this._trapBarIcons = new List<TrapBarIcon>();
+            foreach (Trap trap in traps) {
+                TrapBarIcon newIcon = Instantiate(this._trapBarIconPrefab, this.transform);
+                newIcon.Initialize(trap, selectTrapAction);
+                this._trapBarIcons.Add(newIcon);
             }
             
-            for (int i = 0; i < traps.Count; i++) {
-                this._trapBarIcons[i].gameObject.SetActive(true);
-                this._trapBarIcons[i].Initialize(traps[i], selectTrapAction);
-            }
+            trapChanged.AddListener(this.SelectedTrapIndexChanged);
+            EventManager.Instance.ResourceAmountChangedEvent.AddListener(this.OnResourceAmountChanged);
         }
 
         #endregion

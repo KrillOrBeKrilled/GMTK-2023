@@ -26,9 +26,9 @@ namespace KrillOrBeKrilled {
       IntegerField amountField = new(amountProperty.displayName)
       {
         bindingPath = amountProperty.propertyPath,
-        style = { width = 50 }
+        style = { flexGrow = 1 }
       };
-      amountField.labelElement.style.display = DisplayStyle.None;
+      // amountField.labelElement.style.display = DisplayStyle.None;
 
       // Add the fields to the container
       container.Add(typeField);

@@ -33,6 +33,15 @@ MonoBehaviour:
     Amount: 2
   - Type: 4
     Amount: 1
+  LevelDrops:
+  - resourceType: 0
+    weight: 3
+  - resourceType: 1
+    weight: 2
+  - resourceType: 2
+    weight: 2
+  - resourceType: 4
+    weight: 1
   AllowedTraps: 000000000100000002000000
   WavesData:
     WavesList:

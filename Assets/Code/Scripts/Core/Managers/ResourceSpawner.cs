@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +23,6 @@ namespace KrillOrBeKrilled.Core.Managers {
     /// </remarks>
     public class ResourceSpawner : Singleton<ResourceSpawner> {
         [SerializeField] private ResourceDropPrefabs _dropPrefabs;
-        [Tooltip("The list of native resources on this level.")]
-        [SerializeField] private List<ResourceDrop> _levelDrops;
         [Tooltip("The region to the player's left that can spawn native resources.")]
         [SerializeField] private float _spawnLeftRadius;
         [Tooltip("The region to the player's right that can spawn native resources.")]
@@ -44,6 +41,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         [SerializeField] private float _dropHorizontalForce;
         [SerializeField] private float _dropRotationForce;
 
+        private List<ResourceDrop> _levelDrops;
         private Dictionary<HeroType, (List<ResourceDrop> Drops, int TotalWeight)> _dropMap;
         private int _totalLevelDropWeight;
         private Transform _playerTransform;
@@ -66,14 +64,16 @@ namespace KrillOrBeKrilled.Core.Managers {
         //========================================
         
         #region Public Methods
-        
+
         /// <summary>
         /// Links the resource spawner with the player transform and core game system events required for proper
         /// execution. Initializes the resource drop map probabilities according to the level and hero data.
         /// </summary>
         /// <param name="playerTransform"> The transform of the player entity representation. </param>
-        public void Initialize(Transform playerTransform) {
-            _playerTransform = playerTransform;
+        /// <param name="levelDrops"> The level drops list for the random Resource Drops. </param>
+        public void Initialize(Transform playerTransform, List<ResourceDrop> levelDrops) {
+            this._playerTransform = playerTransform;
+            this._levelDrops = levelDrops;
             if (_playerTransform == null) {
                 Debug.LogWarning("ResourceSpawner: Set Player Transform failed");
             }
@@ -153,6 +153,7 @@ namespace KrillOrBeKrilled.Core.Managers {
                 Vector3 spawnPosition = new Vector3(position.x + spawnOffset, _levelDropOffset, position.z);
                 ResourcePickup prefab = this._dropPrefabs.GetResourceDropPrefab(drop.resourceType).GetComponent<ResourcePickup>();
                 var pickup = Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
+                pickup.Initialize(new ResourcePickupData(drop.resourceType, 1));
             }
         }
 
@@ -178,9 +179,9 @@ namespace KrillOrBeKrilled.Core.Managers {
                 ResourceDrop drop = GetRandomDrop(heroDrops.Drops, heroDrops.TotalWeight);
                 ResourcePickup prefab = this._dropPrefabs.GetResourceDropPrefab(drop.resourceType).GetComponent<ResourcePickup>();
                 if (drop != null) {
-                    var pickup = Instantiate(prefab, heroTransform.position, Quaternion.identity,
-                        transform);
+                    ResourcePickup pickup = Instantiate(prefab, heroTransform.position, Quaternion.identity, transform);
                     ApplyInitialForces(pickup);
+                    pickup.Initialize(new ResourcePickupData(drop.resourceType, 1));
                 }
             }
         }

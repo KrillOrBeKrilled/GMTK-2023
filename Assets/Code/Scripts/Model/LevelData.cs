@@ -30,6 +30,8 @@ namespace KrillOrBeKrilled.Model {
         public List<Vector3> RespawnPositions;
         public Tilemap WallsTilemapPrefab;
         public List<ResourceAmount> InitialResources;
+        [Tooltip("The list of native resources on this level.")]
+        [SerializeField] public List<ResourceDrop> LevelDrops;
         public List<TrapType> AllowedTraps;
         public WavesData WavesData;
 
@@ -51,6 +53,7 @@ namespace KrillOrBeKrilled.Model {
             destination.RespawnPositions = source.RespawnPositions.ToList();
             destination.WallsTilemapPrefab = source.WallsTilemapPrefab;
             destination.InitialResources = source.InitialResources.ToList();
+            destination.LevelDrops = source.LevelDrops.ToList();
             destination.AllowedTraps = source.AllowedTraps.ToList();
             destination.WavesData = new WavesData() { WavesList = source.WavesData.WavesList.ToList() };
         }

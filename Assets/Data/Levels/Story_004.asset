@@ -27,6 +27,9 @@ MonoBehaviour:
   InitialResources:
   - Type: 0
     Amount: 2
+  LevelDrops:
+  - resourceType: 0
+    weight: 1
   AllowedTraps: 00000000
   WavesData:
     WavesList:

@@ -10,7 +10,7 @@ namespace KrillOrBeKrilled.Traps {
     /// A class to be attached to each resource pickup game object.
     /// </summary>
     public class ResourcePickup : MonoBehaviour {
-        [SerializeField] private ResourcePickupData data;
+        private ResourcePickupData _data;
         private Rigidbody2D _rigidbody2D;
         private SpriteRenderer _spriteRenderer;
         
@@ -30,7 +30,7 @@ namespace KrillOrBeKrilled.Traps {
 
         private void OnCollisionEnter2D(Collision2D other) {
             if (other.gameObject.CompareTag("Player")) {
-                OnResourceCollected?.Invoke(data.resourceType, data.quantity);
+                OnResourceCollected?.Invoke(this._data.ResourceType, this._data.Quantity);
                 Destroy(gameObject);
             }
         }
@@ -56,6 +56,10 @@ namespace KrillOrBeKrilled.Traps {
         //========================================
         
         #region Public Methods
+
+        public void Initialize(ResourcePickupData data) {
+            this._data = data;
+        }
 
         public void SetRigidBodyVelocity(Vector2 velocity) {
             _rigidbody2D.velocity = velocity;

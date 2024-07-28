@@ -17,7 +17,7 @@ namespace KrillOrBeKrilled {
       SerializedProperty typeProperty = property.FindPropertyRelative("resourceType");
       EnumField typeField = new(typeProperty.displayName) {
         bindingPath = typeProperty.propertyPath,
-        style = { flexGrow = 1, marginRight = 2}
+        style = { width = 125, marginRight = 2}
       };
       typeField.labelElement.style.display = DisplayStyle.None;
 

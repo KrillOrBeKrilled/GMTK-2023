@@ -205,7 +205,7 @@ namespace KrillOrBeKrilled.Core.Managers {
             
             this._playerController.Initialize(this._levelData.PlayerStartPosition, this, allowedTraps, this._levelTilemap);
             ResourceManager.Instance.Initialize(this._levelData.InitialResources, this.PlayerController.TrapController.OnConsumeResources);
-            ResourceSpawner.Instance.Initialize(this.PlayerController.transform);
+            ResourceSpawner.Instance.Initialize(this.PlayerController.transform, this._levelData.LevelDrops);
             TilemapManager.Instance.Initialize(this._levelTilemap, this.PlayerController.TrapController, this._playerController.Player);
         }
 

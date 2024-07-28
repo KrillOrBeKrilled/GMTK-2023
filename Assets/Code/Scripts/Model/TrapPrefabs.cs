@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KrillOrBeKrilled.Model {
-  [CreateAssetMenu(menuName = "Model/Trap/TrapPrefabs", fileName = "TrapPrefabs")]
+  [CreateAssetMenu(menuName = "Model/TrapPrefabs", fileName = "TrapPrefabs")]
   public class TrapPrefabs : ScriptableObject {
     public List<TrapPrefabEntry> Traps;
   }

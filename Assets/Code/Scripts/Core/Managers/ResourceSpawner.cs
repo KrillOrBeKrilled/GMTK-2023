@@ -223,34 +223,4 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         #endregion
     }
-    
-
-    //*******************************************************************************************
-    // ResourceDrop
-    //*******************************************************************************************
-    /// <summary>
-    /// Stores a particular trap material's Type, its prefab, and a drop weight (higher weight
-    /// means more likely to drop).
-    /// </summary>
-    [Serializable]
-    public class ResourceDrop {
-        [Tooltip("The Type of the dropped resource.")]
-        public ResourceType resourceType;
-        [Tooltip("The higher the weight, the more likely to drop.")]
-        public int weight;
-    }
-    
-    //*******************************************************************************************
-    // HeroDrop
-    //*******************************************************************************************
-    /// <summary>
-    /// Stores a hero Type and a list of potential resource drops.
-    /// </summary>
-    [Serializable]
-    public class HeroDrop {
-        [Tooltip("The hero Type.")]
-        public HeroType heroType;
-        [Tooltip("The list of potential resource drops.")]
-        public List<ResourceDrop> drops;
-    }
 }

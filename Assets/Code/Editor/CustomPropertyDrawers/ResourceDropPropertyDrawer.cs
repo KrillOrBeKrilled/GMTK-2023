@@ -4,24 +4,25 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 namespace KrillOrBeKrilled {
-  [CustomPropertyDrawer(typeof(ResourceAmount))]
-  public class ResourceAmountPropertyDrawer : PropertyDrawer {
+  [CustomPropertyDrawer(typeof(ResourceDrop))]
+  public class ResourceDropPropertyDrawer : PropertyDrawer {
     public override VisualElement CreatePropertyGUI(SerializedProperty property)
     {
       // Create the root VisualElement
-      VisualElement container = new();
-      container.style.flexDirection = FlexDirection.Row;
+      VisualElement container = new() {
+        style = { flexDirection = FlexDirection.Row }
+      };
       
       // Create the EnumField for the 'Type' property
-      SerializedProperty typeProperty = property.FindPropertyRelative("Type");
+      SerializedProperty typeProperty = property.FindPropertyRelative("resourceType");
       EnumField typeField = new(typeProperty.displayName) {
         bindingPath = typeProperty.propertyPath,
-        style = { flexGrow = 1, marginRight = 2 }
+        style = { flexGrow = 1, marginRight = 2}
       };
       typeField.labelElement.style.display = DisplayStyle.None;
 
       // Create the IntegerField for the 'Amount' property
-      SerializedProperty amountProperty = property.FindPropertyRelative("Amount");
+      SerializedProperty amountProperty = property.FindPropertyRelative("weight");
       IntegerField amountField = new(amountProperty.displayName)
       {
         bindingPath = amountProperty.propertyPath,

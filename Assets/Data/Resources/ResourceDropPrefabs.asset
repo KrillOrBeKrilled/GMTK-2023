@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a790b58d641a4d0caabd56d47715a254, type: 3}
+  m_Name: ResourceDropPrefabs
+  m_EditorClassIdentifier: 
+  _resourceDrops:
+  - Type: 0
+    Prefab: {fileID: 3969333871947158464, guid: 524f4a15c5cc440bd9a9d4bc0e319b53, type: 3}
+  - Type: 1
+    Prefab: {fileID: 4876173233123957724, guid: 002ffe11be5e9492d965b8fb1dff581f, type: 3}
+  - Type: 2
+    Prefab: {fileID: 2112607652423028341, guid: 39e72fb5e773e412d9e61a2c49411533, type: 3}
+  - Type: 3
+    Prefab: {fileID: 4980154767165092317, guid: 8ec15dabc9a3e49d0b01ad5edce4d292, type: 3}
+  - Type: 4
+    Prefab: {fileID: 2290945112431201621, guid: 99a09b95aa9034b7f917400e1c1e0971, type: 3}

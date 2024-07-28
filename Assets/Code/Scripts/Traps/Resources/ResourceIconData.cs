@@ -21,7 +21,7 @@ namespace KrillOrBeKrilled.Traps {
         /// <param name="type"> The <see cref="ResourceType"/> used to find the related icon. </param>
         /// <returns> The resource icon sprite associated with the provided resource Type data. </returns>
         public Sprite TypeToImage(ResourceType type) {
-            return this._icons.First(typeIcon => typeIcon.Type == type).Icon;
+            return this._icons.Find(typeIcon => typeIcon.Type == type).Icon;
         }
     }
 }

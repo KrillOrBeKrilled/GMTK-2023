@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d77fa86436b429a851e6fa45dbb9dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dropPrefabs: {fileID: 11400000, guid: bd805c25530e345eaa7a26f918b4ac03, type: 2}
   _levelDrops:
   - resourceType: 0
     resourcePrefab: {fileID: 1293186338797092574, guid: 524f4a15c5cc440bd9a9d4bc0e319b53, type: 3}

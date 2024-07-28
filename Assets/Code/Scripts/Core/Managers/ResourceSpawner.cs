@@ -23,6 +23,7 @@ namespace KrillOrBeKrilled.Core.Managers {
     /// See those classes towards the bottom of this script.
     /// </remarks>
     public class ResourceSpawner : Singleton<ResourceSpawner> {
+        [SerializeField] private ResourceDropPrefabs _dropPrefabs;
         [Tooltip("The list of native resources on this level.")]
         [SerializeField] private List<ResourceDrop> _levelDrops;
         [Tooltip("The region to the player's left that can spawn native resources.")]
@@ -150,7 +151,8 @@ namespace KrillOrBeKrilled.Core.Managers {
                 float spawnOffset = Random.Range(_spawnLeftRadius, _spawnRightRadius);
                 var position = _playerTransform.position;
                 Vector3 spawnPosition = new Vector3(position.x + spawnOffset, _levelDropOffset, position.z);
-                var pickup = Instantiate(drop.resourcePrefab, spawnPosition, Quaternion.identity, transform);
+                ResourcePickup prefab = this._dropPrefabs.GetResourceDropPrefab(drop.resourceType).GetComponent<ResourcePickup>();
+                var pickup = Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
             }
         }
 
@@ -174,8 +176,9 @@ namespace KrillOrBeKrilled.Core.Managers {
             int dropAmount = Random.Range(_minimumHeroDrops, _maximumHeroDrops);
             for (int i = 0; i < dropAmount; i++) {
                 ResourceDrop drop = GetRandomDrop(heroDrops.Drops, heroDrops.TotalWeight);
+                ResourcePickup prefab = this._dropPrefabs.GetResourceDropPrefab(drop.resourceType).GetComponent<ResourcePickup>();
                 if (drop != null) {
-                    var pickup = Instantiate(drop.resourcePrefab, heroTransform.position, Quaternion.identity,
+                    var pickup = Instantiate(prefab, heroTransform.position, Quaternion.identity,
                         transform);
                     ApplyInitialForces(pickup);
                 }
@@ -233,8 +236,6 @@ namespace KrillOrBeKrilled.Core.Managers {
     public class ResourceDrop {
         [Tooltip("The Type of the dropped resource.")]
         public ResourceType resourceType;
-        [Tooltip("The prefab for the resource pickup.")]
-        public ResourcePickup resourcePrefab;
         [Tooltip("The higher the weight, the more likely to drop.")]
         public int weight;
     }

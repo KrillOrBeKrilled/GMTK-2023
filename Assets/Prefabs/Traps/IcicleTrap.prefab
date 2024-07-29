@@ -219,10 +219,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RecipeList:
-  - type: 2
-    amount: 2
-  - type: 4
-    amount: 1
+  - Type: 2
+    Amount: 2
+  - Type: 4
+    Amount: 1
   LeftGridPoints:
   - GridPosition: {x: 0, y: 0, z: 0}
     IsTrapTile: 1

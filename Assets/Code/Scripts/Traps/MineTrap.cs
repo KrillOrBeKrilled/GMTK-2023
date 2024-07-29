@@ -1,3 +1,4 @@
+using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEngine;
 
@@ -13,6 +14,14 @@ namespace KrillOrBeKrilled.Traps {
         [SerializeField] private float _explosionForce = 2f;
         [Tooltip("The damage to be applied to the Hero upon collision.")]
         [SerializeField] private int _damageAmount = 10;
+        
+        //========================================
+        // Public Methods
+        //======================================== 
+        
+        public override TrapType GetTrapType() {
+            return TrapType.Mine;
+        }
         
         //========================================
         // Protected Methods

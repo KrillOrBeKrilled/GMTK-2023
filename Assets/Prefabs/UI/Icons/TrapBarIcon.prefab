@@ -140,8 +140,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _selectionOutline: {fileID: 3615845404646588170}
   _tint: {fileID: 8771416861908532250}
+  _icon: {fileID: 971724375425135701}
   _selectedColor: {r: 0.10506439, g: 1, b: 0, a: 1}
   _defaultColor: {r: 0.6509804, g: 0.4156863, b: 0.098039225, a: 1}
+  _trapIconData: {fileID: 11400000, guid: 0954333bea06540949f4562296843175, type: 2}
 --- !u!114 &3271546005117551536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,9 +158,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
   m_MinWidth: 150
-  m_MinHeight: -1
+  m_MinHeight: 150
   m_PreferredWidth: 150
-  m_PreferredHeight: -1
+  m_PreferredHeight: 150
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
@@ -206,6 +208,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _muteClickSfx: 0
   _isInteractable: 1
+  _targetImages:
+  - {fileID: 8683917809445257030}
   _onClick:
     m_PersistentCalls:
       m_Calls:
@@ -221,8 +225,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _targetImages:
-  - {fileID: 8683917809445257030}
 --- !u!114 &8683917809445257030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,11 +238,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _image: {fileID: 3615845404646588170}
-  _isInteractable: 1
   _enableBounceAnimation: 1
   _defaultImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   _pressedImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   _disabledImage: {fileID: 0}
+  _isInteractable: 1
 --- !u!1 &8289127292945717752
 GameObject:
   m_ObjectHideFlags: 0

@@ -121,7 +121,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.cinemachine": {
-      "version": "2.10.0",
+      "version": "2.10.1",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -191,7 +191,7 @@
         "com.unity.sequences": "2.0.1",
         "com.unity.formats.fbx": "4.2.1",
         "com.unity.formats.alembic": "2.3.2",
-        "com.unity.cinemachine": "2.10.0",
+        "com.unity.cinemachine": "2.10.1",
         "com.unity.recorder": "4.0.3"
       }
     },
@@ -201,7 +201,7 @@
       "source": "builtin",
       "dependencies": {
         "com.unity.ide.visualstudio": "2.0.22",
-        "com.unity.ide.rider": "3.0.28",
+        "com.unity.ide.rider": "3.0.31",
         "com.unity.ide.vscode": "1.2.5",
         "com.unity.editorcoroutines": "1.0.0",
         "com.unity.performance.profile-analyzer": "1.2.2",
@@ -231,7 +231,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
-      "version": "3.0.28",
+      "version": "3.0.31",
       "depth": 0,
       "source": "registry",
       "dependencies": {

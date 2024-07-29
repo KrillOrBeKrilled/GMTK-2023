@@ -1,3 +1,4 @@
+using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEngine;
 
@@ -44,6 +45,14 @@ namespace KrillOrBeKrilled.Traps {
         }
         
         #endregion
+        
+        //========================================
+        // Public Methods
+        //======================================== 
+        
+        public override TrapType GetTrapType() {
+            return TrapType.Icicle;
+        }
         
         //========================================
         // Protected Methods

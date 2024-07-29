@@ -361,8 +361,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RecipeList:
-  - type: 3
-    amount: 3
+  - Type: 3
+    Amount: 3
   LeftGridPoints:
   - GridPosition: {x: 0, y: 0, z: 0}
     IsTrapTile: 1

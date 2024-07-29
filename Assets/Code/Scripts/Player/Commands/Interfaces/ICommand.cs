@@ -7,7 +7,7 @@ namespace KrillOrBeKrilled.Player.Commands {
     /// </summary>
     /// <remarks>
     /// Includes getters for retrieving data and a general execute method tocexecute the
-    /// action associated with the specific type of command.
+    /// action associated with the specific Type of command.
     /// </remarks>
     public interface ICommand {
         

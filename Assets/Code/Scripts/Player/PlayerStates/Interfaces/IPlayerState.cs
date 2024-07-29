@@ -17,7 +17,7 @@ namespace KrillOrBeKrilled.Player.PlayerStates {
 
         /// <summary>
         /// Adjust the player movement speed and actions depending on the current state of the player.
-        /// <list type="bullet">
+        /// <list Type="bullet">
         /// <item> Idle: Player stands still, can transition to any other state in this state. </item>
         /// <item> Moving: Player moves in this state in a given direction along the x-axis. </item>
         /// <item> GameOver: Player has perished, thus ending the game. </item>

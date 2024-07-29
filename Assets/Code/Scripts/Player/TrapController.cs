@@ -4,6 +4,7 @@ using KrillOrBeKrilled.Tiles;
 using KrillOrBeKrilled.Traps;
 using System.Collections.ObjectModel;
 using System.Linq;
+using KrillOrBeKrilled.Model;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
@@ -25,9 +26,7 @@ namespace KrillOrBeKrilled.Player {
         // ------------- Trap Deployment -------------
         public ReadOnlyCollection<Trap> Traps;
         public Trap CurrentTrap { get; private set; }
-
-        [Tooltip("The trap prefabs to be deployed in the level.")]
-        [SerializeField] private List<Trap> _trapPrefabs;
+        
         [Tooltip("The layer in which the level walls reside in for checking for ceilings when deploying ceiling traps.")]
         [SerializeField] private LayerMask _groundLayer;
         [Tooltip("The maximum distance that the player can be from a ceiling before they can't build a ceiling trap.")]
@@ -39,12 +38,13 @@ namespace KrillOrBeKrilled.Player {
         [Tooltip("The canvas to spawn trap UI (e.g. building completion bars).")]
         [SerializeField] private Canvas _trapCanvas;
 
+        private List<Trap> _trapPrefabs;
         private List<Vector3Int> _previousTilePositions;
 
         [Tooltip("The transform data for the trap deployment position on each side of the player.")]
         [SerializeField] private Vector3 _leftDeployPosition, _rightDeployPosition;
 
-        private bool _isSelectingTileSFX, _canDeploy;
+        private bool _isSelectingTileSfx, _canDeploy;
         private Func<Dictionary<ResourceType, int>, bool> _canAffordTrap;
         public Tilemap GroundTilemap { get; private set; }
         
@@ -71,8 +71,6 @@ namespace KrillOrBeKrilled.Player {
             TryGetComponent(out this._trapSoundsController);
 
             this._previousTilePositions = new List<Vector3Int>();
-            this.Traps = this._trapPrefabs.AsReadOnly();
-            this.CurrentTrap = this._trapPrefabs.First();
             
             this.OnConsumeResources = new UnityEvent<Dictionary<ResourceType, int>>();
             this.OnPaintTiles = new UnityEvent<IEnumerable<Vector3Int>, PaintMode>();
@@ -84,11 +82,16 @@ namespace KrillOrBeKrilled.Player {
         /// Sets up the delegates required to operate the communication between the
         /// <see cref="TrapController"/> and resource management system.
         /// </summary>
+        /// <param name="trapPrefabs"></param>
         /// <param name="groundTilemap"> The tilemap forming the level ground. </param>
         /// <param name="canAffordTrap"> The delegate used to finalize the eligibility of trap placement. </param>
-        public void Initialize(Tilemap groundTilemap, Func<Dictionary<ResourceType, int>, bool> canAffordTrap) {
+        public void Initialize(List<Trap> trapPrefabs, Tilemap groundTilemap, Func<Dictionary<ResourceType, int>, bool> canAffordTrap) {
+            this._trapPrefabs = trapPrefabs;
             this.GroundTilemap = groundTilemap;
-            _canAffordTrap = canAffordTrap;
+            this._canAffordTrap = canAffordTrap;
+            
+            this.Traps = this._trapPrefabs.AsReadOnly();
+            this.CurrentTrap = this._trapPrefabs.First();
         }
 
         //========================================
@@ -162,7 +165,7 @@ namespace KrillOrBeKrilled.Player {
         /// </summary>
         internal void DisableTrapDeployment() {
             ClearTrapDeployment();
-            this._isSelectingTileSFX = false;
+            this._isSelectingTileSfx = false;
         }
 
         /// <summary>
@@ -173,7 +176,7 @@ namespace KrillOrBeKrilled.Player {
         /// <param name="direction"> The direction for the character to check trap deployment validity. </param>
         /// <remarks>
         /// Trap deployment cannot be validated when the player is flying or the selected trap does not overlap
-        /// the specified <see cref="TrapTile"/> type tiles in the correct positions. If the player is flying,
+        /// the specified <see cref="TrapTile"/> Type tiles in the correct positions. If the player is flying,
         /// the grid will not be painted.
         /// <para> The painting of the trap tilemap tiles is decided by the player direction to use the
         /// <see cref="_leftDeployPosition"/> or <see cref="_rightDeployPosition"/> as the origin, with the
@@ -211,10 +214,10 @@ namespace KrillOrBeKrilled.Player {
             // The tile changed, so flush the tint on the previous tiles and reset the collision status
             this.ClearTrapDeployment();
 
-            if (this._isSelectingTileSFX) {
+            if (this._isSelectingTileSfx) {
                 this._soundsController.OnTileSelectMove();
             } else {
-                this._isSelectingTileSFX = !this._isSelectingTileSFX;
+                this._isSelectingTileSfx = !this._isSelectingTileSfx;
             }
 
             // Get the grid placement data for the selected prefab
@@ -294,12 +297,12 @@ namespace KrillOrBeKrilled.Player {
         }
 
         /// <summary>
-        /// Helper method for comparing a tilemap tile to a target tile type.
+        /// Helper method for comparing a tilemap tile to a target tile Type.
         /// </summary>
         /// <param name="tilemap"> The tilemap used to locate the tile in question. </param>
         /// <param name="position"> The tilemap position used to locate the tile in question. </param>
-        /// <typeparam name="T"> The target tile type. </typeparam>
-        /// <returns> If the tile in question is the same type as the target type. </returns>
+        /// <typeparam name="T"> The target tile Type. </typeparam>
+        /// <returns> If the tile in question is the same Type as the target Type. </returns>
         private static bool IsTileOfType<T>(ITilemap tilemap, Vector3Int position) where T : TileBase {
             var targetTile = tilemap.GetTile(position);
             return targetTile is T;

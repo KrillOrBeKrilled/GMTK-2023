@@ -34,12 +34,12 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         /// <summary>
         /// Retrieves the data from the locally stored save file and returns the data within the specified data
-        /// class type. Reports the success or failure of this operation through the <c>out</c> parameter.
+        /// class Type. Reports the success or failure of this operation through the <c>out</c> parameter.
         /// </summary>
         /// <param name="fileName"> The name of the file to be loaded. </param>
         /// <param name="success"> Used to store data on whether or not the operation has succeeded. </param>
         /// <typeparam name="T"> Represents any data class from the <see cref="KrillOrBeKrilled.Model"/> namespace. </typeparam>
-        /// <returns> The loaded data formatted as the specified T data class type. </returns>
+        /// <returns> The loaded data formatted as the specified T data class Type. </returns>
         public static T LoadData<T>(string fileName, out bool success) {
             string path = Path.Combine(Application.persistentDataPath, fileName);
             if (!File.Exists(path)) {

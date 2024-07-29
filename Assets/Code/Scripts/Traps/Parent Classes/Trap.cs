@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using DG.Tweening;
+using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,19 +15,19 @@ namespace KrillOrBeKrilled.Traps {
     /// and collisions.
     /// </summary>
     /// <remarks>
-    /// Trap setup, detonation, and impact on the hero are specific to the type of trap,
+    /// Trap setup, detonation, and impact on the hero are specific to the Type of trap,
     /// and are left abstract to be implemented in subclasses.
     /// </remarks>
     public abstract class Trap : MonoBehaviour, ITrap {
         [Tooltip("The required resources to deploy this trap managed by the ResourceManager.")]
-        [SerializeField] protected List<ResourceEntry> RecipeList;
+        [SerializeField] protected List<ResourceAmount> RecipeList;
         [Tooltip("Grid position specifications for the space this trap requires to be successfully deployed.")]
         [SerializeField] protected List<TrapGridPoint> LeftGridPoints, RightGridPoints;
         [Tooltip("Adjusts trap component positions for clean animations and spawning customized for different trap sizes.")]
         [SerializeField] protected Vector3 LeftSpawnOffset, RightSpawnOffset, AnimationOffset;
         [Tooltip("A slider bar prefab to signify the trap build completion status.")]
         [SerializeField] protected GameObject SliderBar;
-
+        
         public bool IsCeilingTrap;
 
         protected Vector3 SpawnPosition;
@@ -80,6 +81,8 @@ namespace KrillOrBeKrilled.Traps {
         //========================================
         
         #region Public Methods
+
+        public abstract TrapType GetTrapType();
         
         #region ITrap Implementations
 
@@ -171,7 +174,7 @@ namespace KrillOrBeKrilled.Traps {
         /// Initialize the resource recipe dictionary.
         /// </summary>
         protected void InitializeRecipe() {
-            _recipe = RecipeList.ToDictionary(entry => entry.type, entry => entry.amount);
+            _recipe = RecipeList.ToDictionary(entry => entry.Type, entry => entry.Amount);
         }
         
         #endregion

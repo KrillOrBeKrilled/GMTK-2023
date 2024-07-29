@@ -29,6 +29,12 @@ namespace KrillOrBeKrilled.Model {
         public Vector3 EndCameraPosition;
         public List<Vector3> RespawnPositions;
         public Tilemap WallsTilemapPrefab;
+        public List<ResourceAmount> InitialResources;
+        [Tooltip("The list of native resources on this level.")]
+        public List<ResourceDrop> LevelDrops;
+        [Tooltip("The list of heroes and their list of resources on this level.")]
+        public List<HeroDrop> HeroDrops;
+        public List<TrapType> AllowedTraps;
         public WavesData WavesData;
 
         public enum LevelType {
@@ -48,6 +54,10 @@ namespace KrillOrBeKrilled.Model {
             destination.EndCameraPosition = source.EndCameraPosition;
             destination.RespawnPositions = source.RespawnPositions.ToList();
             destination.WallsTilemapPrefab = source.WallsTilemapPrefab;
+            destination.InitialResources = source.InitialResources.ToList();
+            destination.LevelDrops = source.LevelDrops.ToList();
+            destination.HeroDrops = source.HeroDrops.ToList();
+            destination.AllowedTraps = source.AllowedTraps.ToList();
             destination.WavesData = new WavesData() { WavesList = source.WavesData.WavesList.ToList() };
         }
     }

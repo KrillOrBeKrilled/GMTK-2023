@@ -34,6 +34,8 @@ namespace KrillOrBeKrilled.Core.Managers {
         [SerializeField] private CameraManager _cameraManager;
         [SerializeField] private DialogueManager _dialogueManager;
         [field:SerializeField] public WaveManager WaveManager { get; private set; }
+
+        [SerializeField] private TrapPrefabs _trapPrefabs;
         
         
         [FormerlySerializedAs("_endgameTargetPrefab")]
@@ -195,10 +197,15 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._playerController.Player.OnSelectedTrapChanged.AddListener(this.SelectedTrapIndexChanged);
             this._playerController.Player.OnTrapDeployed.AddListener(this.OnTrapDeployed);
             this.WaveManager.Initialize(this._levelData, this._heroSoundsController, this._levelTilemap);
+
+            List<Trap> allowedTraps = this._trapPrefabs.Traps
+                                          .Where(trapEntry => this._levelData.AllowedTraps.Contains(trapEntry.Type))
+                                          .Select(allowedEntry => allowedEntry.Prefab.GetComponent<Trap>())
+                                          .ToList();
             
-            this._playerController.Initialize(this._levelData.PlayerStartPosition, this, this._levelTilemap);
-            ResourceManager.Instance.Initialize(this.PlayerController.TrapController.OnConsumeResources);
-            ResourceSpawner.Instance.Initialize(this.PlayerController.transform);
+            this._playerController.Initialize(this._levelData.PlayerStartPosition, this, allowedTraps, this._levelTilemap);
+            ResourceManager.Instance.Initialize(this._levelData.InitialResources, this.PlayerController.TrapController.OnConsumeResources);
+            ResourceSpawner.Instance.Initialize(this.PlayerController.transform, this._levelData.LevelDrops, this._levelData.HeroDrops);
             TilemapManager.Instance.Initialize(this._levelTilemap, this.PlayerController.TrapController, this._playerController.Player);
         }
 

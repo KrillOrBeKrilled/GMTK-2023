@@ -19,7 +19,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
         private float _gravity => Physics.gravity.magnitude * _rigidbody.gravityScale;
         /// The jump angle in radians.
         private const float RadJumpAngle = 89f * Mathf.Deg2Rad;
-        /// The horizontal velocity of the hero when entering into the second jump type formula.
+        /// The horizontal velocity of the hero when entering into the second jump Type formula.
         private const float DashSpeed = 8f;
         
         /// <summary>
@@ -38,7 +38,7 @@ namespace KrillOrBeKrilled.Heroes.AI {
         
         /// <summary>
         /// Gauges the distance and elevation difference between the jump launch position and the jump target position
-        /// and chooses a jump type calculation to commence to reach the respective target successfully.
+        /// and chooses a jump Type calculation to commence to reach the respective target successfully.
         /// </summary>
         /// <remarks> The first formula to be used is for reaching higher elevations and longer distance jumps,
         /// attained by calculating the initial velocity needed to reach a target apex position. The second formula

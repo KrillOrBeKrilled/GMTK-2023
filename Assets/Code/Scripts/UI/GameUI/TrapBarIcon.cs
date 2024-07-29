@@ -1,5 +1,6 @@
 using DG.Tweening;
 using KrillOrBeKrilled.Core.Managers;
+using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Traps;
 using UnityEngine;
 using UnityEngine.Events;
@@ -19,10 +20,12 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private Image _selectionOutline;
         [Tooltip("Covers the trap icon when the trap cannot be afforded.")]
         [SerializeField] private Image _tint;
+        [SerializeField] private Image _icon;
         [Tooltip("The outline color when the associated trap is selected for deployment.")]
         [SerializeField] private Color _selectedColor;
         [Tooltip("The outline color when the associated trap is not selected for deployment.")]
         [SerializeField] private Color _defaultColor;
+        [SerializeField] private TrapIconData _trapIconData;
 
         private UnityAction<Trap> _selectTrapAction;
         private Trap _assignedTrap;
@@ -37,11 +40,12 @@ namespace KrillOrBeKrilled.UI {
         /// <summary>
         /// Sets a reference to the trap this icon represents.
         /// </summary>
-        /// <param name="trap"> The <see cref="Trap"/> associated with the trap type prefab. </param>
+        /// <param name="trap"> The <see cref="Trap"/> associated with the trap Type prefab. </param>
         /// <param name="selectTrapAction"> The callback this UI Icon invokes upon being clicked. </param>
         public void Initialize(Trap trap, UnityAction<Trap> selectTrapAction) {
             this._assignedTrap = trap;
             this._selectTrapAction = selectTrapAction;
+            this._icon.sprite = this._trapIconData.TrapToImage(trap.GetTrapType());
         }
 
         // /// <summary>
@@ -56,7 +60,7 @@ namespace KrillOrBeKrilled.UI {
         /// Adds a tint to this icon if the corresponding trap is not affordable.
         /// </summary>
         public void CheckAffordable() {
-            bool canAfford = ResourceManager.Instance.CanAffordCost(this._assignedTrap.Recipe);
+            bool canAfford = this._assignedTrap && ResourceManager.Instance.CanAffordCost(this._assignedTrap.Recipe);
             this._tint.gameObject.SetActive(!canAfford);
         }
         

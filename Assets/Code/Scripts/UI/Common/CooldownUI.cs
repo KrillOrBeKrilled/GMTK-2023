@@ -16,7 +16,7 @@ namespace KrillOrBeKrilled.UI {
         /// <summary>
         /// Updates the cooldown fill corresponding to the specified percentage.
         /// </summary>
-        /// <param name="percentage"> The fill amount to set for the cooldown overlay.  </param>
+        /// <param name="percentage"> The fill Amount to set for the cooldown overlay.  </param>
         public void OnCooldownProgressUpdated(float percentage) {
             this.OverlayImage.fillAmount = percentage;
         }

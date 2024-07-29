@@ -14,7 +14,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         [Tooltip("Repeated time interval to wait to earn coins.")]
         [SerializeField] private float _earnCoinInterval = 5f;
 
-        [Tooltip("The current amount of coins possessed to build traps.")]
+        [Tooltip("The current Amount of coins possessed to build traps.")]
         public int Coins { get; private set; }
 
         private WaitForSeconds _waitInterval;
@@ -46,7 +46,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <summary>
         /// Checks the current number of <see cref="Coins"/> against a cost and evaluates affordability.
         /// </summary>
-        /// <param name="cost"> The required amount of coins. </param>
+        /// <param name="cost"> The required Amount of coins. </param>
         /// <returns> If the current number of <see cref="Coins"/> is enough to afford the given cost. </returns>
         public bool CanAfford(int cost) {
             return this.Coins >= cost;
@@ -55,7 +55,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <summary>
         /// Decrements the current number of coins.
         /// </summary>
-        /// <param name="amount"> The number of coins to decrease the amount of <see cref="Coins"/>. </param>
+        /// <param name="amount"> The number of coins to decrease the Amount of <see cref="Coins"/>. </param>
         /// <remarks>
         /// Invokes the <see cref="CoinAmountChangedEvent"/> event. This method should only be used if
         /// <see cref="CanAfford"/> passes.
@@ -68,7 +68,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <summary>
         /// Increments the current number of coins.
         /// </summary>
-        /// <param name="amount"> The number of coins to increase the amount of <see cref="Coins"/>. </param>
+        /// <param name="amount"> The number of coins to increase the Amount of <see cref="Coins"/>. </param>
         /// <remarks> Invokes the <see cref="CoinAmountChangedEvent"/> event. </remarks>
         public void EarnCoins(int amount) {
             this.Coins += amount;

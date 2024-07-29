@@ -24,6 +24,30 @@ MonoBehaviour:
   RespawnPositions:
   - {x: -15, y: 2, z: 0}
   WallsTilemapPrefab: {fileID: 5896839985468150658, guid: dac0b3d1a1340407aace3409fefa2bfe, type: 3}
+  InitialResources:
+  - Type: 0
+    Amount: 3
+  - Type: 1
+    Amount: 3
+  LevelDrops:
+  - resourceType: 0
+    weight: 2
+  - resourceType: 1
+    weight: 1
+  HeroDrops:
+  - heroType: 0
+    drops:
+    - resourceType: 0
+      weight: 2
+    - resourceType: 1
+      weight: 1
+  - heroType: 1
+    drops:
+    - resourceType: 0
+      weight: 2
+    - resourceType: 1
+      weight: 1
+  AllowedTraps: 0000000001000000
   WavesData:
     WavesList:
     - Heroes:

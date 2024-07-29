@@ -1,5 +1,6 @@
 using System.Collections;
 using DG.Tweening;
+using KrillOrBeKrilled.Model;
 using KrillOrBeKrilled.Traps.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
@@ -44,8 +45,12 @@ namespace KrillOrBeKrilled.Traps {
         
         #region Public Methods
         
-        #region Trap Deployment
+        public override TrapType GetTrapType() {
+            return TrapType.AcidPit;
+        }
         
+        #region Trap Deployment
+
         /// <inheritdoc cref="Trap.Construct"/>
         /// <remarks> Extended to change the shader animations for the acid liquid. </remarks>
         public override void Construct(Vector3 spawnPosition, Canvas canvas, 

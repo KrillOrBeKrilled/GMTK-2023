@@ -23,6 +23,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         [Header("Wave Events")]
         [SerializeField] private GameEvent _onAllWavesCleared;
         [SerializeField] private GameEvent _onWaveCleared;
+        [SerializeField] private IntEvent _newWaveLeftCount;
 
         [Header("Actor Events")] 
         [SerializeField] private HeroEvent _onHeroActorSpawn;
@@ -180,6 +181,7 @@ namespace KrillOrBeKrilled.Core.Managers {
                 this.GenerateNextWaves();
             }
 
+            this._newWaveLeftCount.Raise(this._nextWavesDataQueue.Count);
             WaveData waveData = this._nextWavesDataQueue.Dequeue();
             foreach (HeroData heroData in waveData.Heroes) {
                 this.SpawnHero(heroData);

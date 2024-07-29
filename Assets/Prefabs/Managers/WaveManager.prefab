@@ -49,5 +49,6 @@ MonoBehaviour:
   _respawnPointPrefab: {fileID: 908663684222352325, guid: 95dbd9212de398d42af1486d1b511008, type: 3}
   _onAllWavesCleared: {fileID: 11400000, guid: 74db549dc092842e594076f699db1f87, type: 2}
   _onWaveCleared: {fileID: 11400000, guid: e254942db9f124ceaa05bbfc0028c059, type: 2}
+  _newWaveLeftCount: {fileID: 11400000, guid: bc7e0b190895e443281c3bcf01a3e39e, type: 2}
   _onHeroActorSpawn: {fileID: 11400000, guid: cb03abd90777e4730bca0331989a4cd3, type: 2}
   _onHeroActorDestroy: {fileID: 11400000, guid: 32a1e3b8335aa4a17a0e7c95661d19d4, type: 2}

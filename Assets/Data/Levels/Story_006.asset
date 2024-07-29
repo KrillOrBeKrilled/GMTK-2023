@@ -40,6 +40,27 @@ MonoBehaviour:
     weight: 2
   - resourceType: 4
     weight: 1
+  HeroDrops:
+  - heroType: 0
+    drops:
+    - resourceType: 0
+      weight: 3
+    - resourceType: 1
+      weight: 2
+    - resourceType: 2
+      weight: 2
+    - resourceType: 4
+      weight: 1
+  - heroType: 1
+    drops:
+    - resourceType: 0
+      weight: 3
+    - resourceType: 1
+      weight: 2
+    - resourceType: 2
+      weight: 2
+    - resourceType: 4
+      weight: 1
   AllowedTraps: 000000000100000002000000
   WavesData:
     WavesList:

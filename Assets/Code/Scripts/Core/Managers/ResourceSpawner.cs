@@ -169,7 +169,6 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <param name="heroTransform"> The transform where the hero died. </param>
         private void SpawnHeroDrop(HeroType heroType, Transform heroTransform) {
             if (!_dropMap.ContainsKey(heroType)) {
-                Debug.LogWarning("Cannot find Hero Type in ResourceSpawner");
                 return;
             }
 

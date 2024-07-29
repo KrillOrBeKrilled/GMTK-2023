@@ -29,8 +29,6 @@ namespace KrillOrBeKrilled.Core.Managers {
         [SerializeField] private float _spawnRightRadius;
         [Tooltip("The time interval for a native resource drop to spawn.")]
         [SerializeField] private float _spawnInterval;
-        [Tooltip("The list of heroes and their list of resources on this level.")]
-        [SerializeField] private List<HeroDrop> _heroDrops;
         [Tooltip("The minimum number of resources that one hero can potentially drop.")]
         [SerializeField] private int _minimumHeroDrops;
         [Tooltip("The maximum number of resources that one hero can potentially drop.")]
@@ -42,6 +40,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         [SerializeField] private float _dropRotationForce;
 
         private List<ResourceDrop> _levelDrops;
+        private List<HeroDrop> _heroDrops;
         private Dictionary<HeroType, (List<ResourceDrop> Drops, int TotalWeight)> _dropMap;
         private int _totalLevelDropWeight;
         private Transform _playerTransform;
@@ -71,9 +70,11 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// </summary>
         /// <param name="playerTransform"> The transform of the player entity representation. </param>
         /// <param name="levelDrops"> The level drops list for the random Resource Drops. </param>
-        public void Initialize(Transform playerTransform, List<ResourceDrop> levelDrops) {
+        /// <param name="heroDrops"> The hero drops list for heroes. </param>
+        public void Initialize(Transform playerTransform, List<ResourceDrop> levelDrops, List<HeroDrop> heroDrops) {
             this._playerTransform = playerTransform;
             this._levelDrops = levelDrops;
+            this._heroDrops = heroDrops;
             if (_playerTransform == null) {
                 Debug.LogWarning("ResourceSpawner: Set Player Transform failed");
             }

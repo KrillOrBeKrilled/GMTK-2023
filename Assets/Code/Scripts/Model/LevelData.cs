@@ -31,7 +31,9 @@ namespace KrillOrBeKrilled.Model {
         public Tilemap WallsTilemapPrefab;
         public List<ResourceAmount> InitialResources;
         [Tooltip("The list of native resources on this level.")]
-        [SerializeField] public List<ResourceDrop> LevelDrops;
+        public List<ResourceDrop> LevelDrops;
+        [Tooltip("The list of heroes and their list of resources on this level.")]
+        public List<HeroDrop> HeroDrops;
         public List<TrapType> AllowedTraps;
         public WavesData WavesData;
 
@@ -54,6 +56,7 @@ namespace KrillOrBeKrilled.Model {
             destination.WallsTilemapPrefab = source.WallsTilemapPrefab;
             destination.InitialResources = source.InitialResources.ToList();
             destination.LevelDrops = source.LevelDrops.ToList();
+            destination.HeroDrops = source.HeroDrops.ToList();
             destination.AllowedTraps = source.AllowedTraps.ToList();
             destination.WavesData = new WavesData() { WavesList = source.WavesData.WavesList.ToList() };
         }

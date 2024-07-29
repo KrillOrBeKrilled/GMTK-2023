@@ -28,8 +28,12 @@ namespace KrillOrBeKrilled {
         bindingPath = amountProperty.propertyPath,
         style = { flexGrow = 1 }
       };
-      // amountField.labelElement.style.display = DisplayStyle.None;
-
+      amountField.labelElement.style.marginRight = 5;
+      amountField.labelElement.style.paddingRight = 5;
+      amountField.labelElement.style.marginLeft = 1;
+      amountField.labelElement.style.paddingLeft = 1;
+      amountField.labelElement.style.minWidth = 0;
+      
       // Add the fields to the container
       container.Add(typeField);
       container.Add(amountField);

@@ -43,8 +43,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         // ------------- Wave Spawning ---------------
         /// Tracks the active heroes on the level map at any given time.
         private readonly List<Hero> _heroes = new();
-
-        private int _heroesLeftToSpawn;
+        private int _heroCount;
 
         /// Tracks the active hero respawn points at any given time.
         private readonly List<RespawnPoint> _respawnPoints = new();
@@ -149,7 +148,6 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <returns> The instantiated hero GameObject. </returns>
         /// <remarks> Invokes the <see cref="OnHeroSpawned"/> event. </remarks>
         private void SpawnHero(HeroData heroData) {
-            this._heroesLeftToSpawn--;
             Hero heroPrefab = this._defaultHeroPrefab;
             if (heroData.Type == HeroType.Druid) {
                 heroPrefab = this._druidHeroPrefab;
@@ -165,8 +163,7 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         /// <summary>
         /// Parses the next <see cref="WaveData"/> to spawn all the associated heroes in intervals denoted by the
-        /// <see cref="WaveData.HeroSpawnDelayInSeconds"/>. Spawns the next wave if
-        /// <see cref="WaveData.NextWaveSpawnDelayInSeconds"/> is nonzero and nonnegative, otherwise waits until
+        /// <see cref="WaveData.HeroSpawnDelayInSeconds"/>. Waits until
         /// the previous wave is defeated before spawning the next wave.
         /// </summary>
         /// <remarks>
@@ -186,10 +183,10 @@ namespace KrillOrBeKrilled.Core.Managers {
 
             this._newWaveLeftCount.Raise(this._nextWavesDataQueue.Count);
             WaveData waveData = this._nextWavesDataQueue.Dequeue();
-            this._heroesLeftToSpawn = waveData.Heroes.Count;
             
             yield return new WaitForSeconds(2f);
-            this._newHeroCount.Raise(this._heroesLeftToSpawn);
+            this._heroCount = waveData.Heroes.Count;
+            this._newHeroCount.Raise(this._heroCount);
             
             foreach (HeroData heroData in waveData.Heroes) {
                 this.SpawnHero(heroData);
@@ -243,9 +240,11 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <remarks> Subscribed to the <see cref="Hero.OnHeroDied"/> event. </remarks>
         private void OnHeroDied(Hero hero) {
             this._heroes.Remove(hero);
-            this._newHeroCount.Raise(this._heroes.Count + this._heroesLeftToSpawn);
+            this._heroCount--;
+            this._newHeroCount.Raise(this._heroCount);
+            
             bool noMoreWaves = !this._isEndlessLevel && this._nextWavesDataQueue.Count <= 0;
-            bool isWaveCleared = this._heroes.Count <= 0;
+            bool isWaveCleared = this._heroCount <= 0;
             if (noMoreWaves && isWaveCleared) {
                 this._onAllWavesCleared.Raise();
             } else if (isWaveCleared) {

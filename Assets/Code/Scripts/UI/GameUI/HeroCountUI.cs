@@ -21,6 +21,10 @@ namespace KrillOrBeKrilled.UI {
         this._countTween?.Kill();
         this._countTween = this._heroCount.DoCount(newAmount, 0.5f);
       }
-    } 
+    }
+
+    private void Awake() {
+      this._heroCount.text = "0";
+    }
   }
 }

@@ -149,6 +149,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <returns> The instantiated hero GameObject. </returns>
         /// <remarks> Invokes the <see cref="OnHeroSpawned"/> event. </remarks>
         private void SpawnHero(HeroData heroData) {
+            this._heroesLeftToSpawn--;
             Hero heroPrefab = this._defaultHeroPrefab;
             if (heroData.Type == HeroType.Druid) {
                 heroPrefab = this._druidHeroPrefab;
@@ -242,8 +243,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <remarks> Subscribed to the <see cref="Hero.OnHeroDied"/> event. </remarks>
         private void OnHeroDied(Hero hero) {
             this._heroes.Remove(hero);
-            this._heroesLeftToSpawn--;
-            this._newHeroCount.Raise(this._heroesLeftToSpawn);
+            this._newHeroCount.Raise(this._heroes.Count + this._heroesLeftToSpawn);
             bool noMoreWaves = !this._isEndlessLevel && this._nextWavesDataQueue.Count <= 0;
             bool isWaveCleared = this._heroes.Count <= 0;
             if (noMoreWaves && isWaveCleared) {

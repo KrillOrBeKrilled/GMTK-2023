@@ -12,6 +12,9 @@ using Yarn.Unity;
 
 namespace KrillOrBeKrilled.Core.Managers {
     public class WaveManager: MonoBehaviour {
+        [Tooltip("Heroes are spawned here before being teleported into the level.")]
+        [SerializeField] private Transform _safeSpawnPoint; 
+        
         [Header("Heroes")]
         [SerializeField] private Hero _defaultHeroPrefab;
         [SerializeField] private Hero _druidHeroPrefab;
@@ -43,7 +46,6 @@ namespace KrillOrBeKrilled.Core.Managers {
         // ------------- Wave Spawning ---------------
         /// Tracks the active heroes on the level map at any given time.
         private readonly List<Hero> _heroes = new();
-        private int _heroCount;
 
         /// Tracks the active hero respawn points at any given time.
         private readonly List<RespawnPoint> _respawnPoints = new();
@@ -124,7 +126,7 @@ namespace KrillOrBeKrilled.Core.Managers {
                 };
 
                 foreach (HeroData heroData in waveData.Heroes) {
-                    HeroData newHeroData = new HeroData() {
+                    HeroData newHeroData = new() {
                         Health = Mathf.FloorToInt(heroData.Health * EndlessLevelHealthIncreaseRate),
                         Type = heroData.Type
                     };
@@ -140,7 +142,7 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         /// <summary>
         /// Instantiates a new hero according to the <see cref="HeroData.Type"/> at the
-        /// <see cref="_activeRespawnPoint"/> and registers the hero in bookkeeping structures, event listeners,
+        /// <see cref="_safeSpawnPoint"/> and registers the hero in bookkeeping structures, event listeners,
         /// and the game UI.
         /// </summary>
         /// <param name="heroData"> The data associated with the hero to spawn stored within each
@@ -153,12 +155,18 @@ namespace KrillOrBeKrilled.Core.Managers {
                 heroPrefab = this._druidHeroPrefab;
             }
 
-            Hero newHero = Instantiate(heroPrefab, this._activeRespawnPoint.transform);
+            Hero newHero = Instantiate(heroPrefab, this._safeSpawnPoint.transform);
             newHero.Initialize(heroData, this._heroSoundsController, this._levelTilemap);
             newHero.OnHeroDied.AddListener(this.OnHeroDied);
 
             this._heroes.Add(newHero);
             this.OnHeroSpawned?.Invoke(newHero);
+        }
+
+        private void SendHeroToLevel(Hero hero) {
+            hero.transform.position = this._activeRespawnPoint.transform.position;
+            hero.Unfreeze();
+            hero.StartRunning();
         }
 
         /// <summary>
@@ -184,12 +192,15 @@ namespace KrillOrBeKrilled.Core.Managers {
             this._newWaveLeftCount.Raise(this._nextWavesDataQueue.Count);
             WaveData waveData = this._nextWavesDataQueue.Dequeue();
             
-            yield return new WaitForSeconds(2f);
-            this._heroCount = waveData.Heroes.Count;
-            this._newHeroCount.Raise(this._heroCount);
-            
             foreach (HeroData heroData in waveData.Heroes) {
                 this.SpawnHero(heroData);
+            }
+
+            List<Hero> heroesToSend = this._heroes.ToList();
+            yield return new WaitForSeconds(2f);
+            this._newHeroCount.Raise(heroesToSend.Count);
+            foreach (Hero hero in heroesToSend) {
+                this.SendHeroToLevel(hero);
                 yield return new WaitForSeconds(waveData.HeroSpawnDelayInSeconds);
             }
         }
@@ -240,11 +251,11 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <remarks> Subscribed to the <see cref="Hero.OnHeroDied"/> event. </remarks>
         private void OnHeroDied(Hero hero) {
             this._heroes.Remove(hero);
-            this._heroCount--;
-            this._newHeroCount.Raise(this._heroCount);
+            int heroCount = this._heroes.Count;
+            this._newHeroCount.Raise(heroCount);
             
             bool noMoreWaves = !this._isEndlessLevel && this._nextWavesDataQueue.Count <= 0;
-            bool isWaveCleared = this._heroCount <= 0;
+            bool isWaveCleared = heroCount <= 0;
             if (noMoreWaves && isWaveCleared) {
                 this._onAllWavesCleared.Raise();
             } else if (isWaveCleared) {

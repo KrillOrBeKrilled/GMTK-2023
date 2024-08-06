@@ -61,8 +61,8 @@ namespace KrillOrBeKrilled.Heroes.AI {
             root.SetData("XSpeedKey", this.XSpeedKey);
             root.SetData("YSpeedKey", this.YSpeedKey);
             root.SetData("StunnedKey", this.StunnedKey);
-            root.SetData("IsFrozen", false);
-            root.SetData("IsMoving", true);
+            root.SetData("IsFrozen", true);
+            root.SetData("IsMoving", false);
             root.SetData("SpeedMultiplier", 1f);
             root.SetData("IsStunned", false);
             root.SetData("StunDuration", 0f);

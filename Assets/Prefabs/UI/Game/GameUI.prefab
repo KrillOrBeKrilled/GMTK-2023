@@ -3506,6 +3506,18 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5239890793307243909, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5239890793307243909, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5239890793307243909, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6178127177924265871, guid: ce78c6d5e69a6410d918dddca8447dd6, type: 3}
       propertyPath: _hideDuringDialogueUIList.Array.size
       value: 4

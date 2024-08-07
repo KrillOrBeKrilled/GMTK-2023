@@ -251,9 +251,11 @@ namespace KrillOrBeKrilled.Heroes {
         /// </summary>
         /// <remarks> The coroutine is started by <see cref="EnterLevel"/>. </remarks>
         private IEnumerator EnterLevelAnimation() {
+            yield return null;
+            this._heroBrain.UpdateData("IsFrozen", false);
             this._heroBrain.UpdateData("IsMoving", true);
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(3f);
 
             this._heroBrain.UpdateData("IsMoving", false);
         }

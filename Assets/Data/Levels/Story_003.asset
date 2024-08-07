@@ -26,7 +26,9 @@ MonoBehaviour:
   WallsTilemapPrefab: {fileID: 5896839985468150658, guid: dac0b3d1a1340407aace3409fefa2bfe, type: 3}
   InitialResources:
   - Type: 0
-    Amount: 4
+    Amount: 6
+  LevelDrops: []
+  HeroDrops: []
   AllowedTraps: 00000000
   WavesData:
     WavesList:

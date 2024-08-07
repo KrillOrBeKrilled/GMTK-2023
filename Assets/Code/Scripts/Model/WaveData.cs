@@ -19,10 +19,5 @@ namespace KrillOrBeKrilled.Model {
         
         [Tooltip("Delay between spawning each hero.")]
         public float HeroSpawnDelayInSeconds;
-        
-        [Tooltip("After finishing this wave, how many seconds should we wait before spawning next one. " +
-                 "If it is negative, next wave will only be spawned once all heroes are dead. " +
-                 "Note: clearing all heroes of this wave will trigger spawning of next wave regardless of this delay.")]
-        public float NextWaveSpawnDelayInSeconds;
     }
 }

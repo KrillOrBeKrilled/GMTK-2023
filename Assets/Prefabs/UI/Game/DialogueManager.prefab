@@ -1143,6 +1143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dialogueRunner: {fileID: 5005224150685358688}
+  _onDialogueStart: {fileID: 11400000, guid: 2257e83776e1e4fc994a1430b2ea514f, type: 2}
   _onDialogueOver: {fileID: 11400000, guid: 8dd998262bb0543f6ac8823ef32f5bb6, type: 2}
   _onLoadComics: {fileID: 11400000, guid: c1475f579502043898af33db0476aeed, type: 2}
   _dialogueText: {fileID: 8730803009774891128}

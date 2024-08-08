@@ -36,6 +36,7 @@ namespace KrillOrBeKrilled.Model {
         public List<HeroDrop> HeroDrops;
         public List<TrapType> AllowedTraps;
         public WavesData WavesData;
+        public bool HideResourceUI;
 
         public enum LevelType {
             Story,
@@ -59,6 +60,7 @@ namespace KrillOrBeKrilled.Model {
             destination.HeroDrops = source.HeroDrops.ToList();
             destination.AllowedTraps = source.AllowedTraps.ToList();
             destination.WavesData = new WavesData() { WavesList = source.WavesData.WavesList.ToList() };
+            destination.HideResourceUI = source.HideResourceUI;
         }
     }
 }

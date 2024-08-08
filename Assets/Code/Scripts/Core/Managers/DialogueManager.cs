@@ -8,6 +8,7 @@ using Yarn.Unity;
 namespace KrillOrBeKrilled.Core.Managers {
   public class DialogueManager : MonoBehaviour {
     [SerializeField] private DialogueRunner _dialogueRunner;
+    [SerializeField] private GameEvent _onDialogueStart;
     [SerializeField] private GameEvent _onDialogueOver;
     [SerializeField] private SpriteListEvent _onLoadComics;
     
@@ -19,6 +20,7 @@ namespace KrillOrBeKrilled.Core.Managers {
     
     [Header("Dialogue")]
     [SerializeField] private List<GameObject> _hideDuringDialogueUIList;
+    
     [SerializeField] private GameObject _dialogueUI;
 
     private void OnEnable() {
@@ -32,14 +34,15 @@ namespace KrillOrBeKrilled.Core.Managers {
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="dialogueName"></param>
+    /// <param name="dialogueName"></param> 
     /// <param name="comicsPages"></param>
     public void StartDialogue(string dialogueName, List<Sprite> comicsPages) {
       if (!this._dialogueRunner.yarnProject.NodeNames.Contains(dialogueName)) {
-        Debug.LogError($"{dialogueName} is an incorrect Dialogue Name, make sure provided DialogueName is correct");
+        Debug.LogError($"Dialogue with name: {dialogueName} not found.");
         return;
       }
       
+      this._onDialogueStart.Raise();
       this._onLoadComics.Raise(comicsPages);
       this.ShowDialogueUI();
       this._dialogueRunner.StartDialogue(dialogueName);

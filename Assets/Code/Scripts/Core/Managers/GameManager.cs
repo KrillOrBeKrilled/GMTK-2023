@@ -86,6 +86,7 @@ namespace KrillOrBeKrilled.Core.Managers {
 
         private bool _isGameOver;
         private Tilemap _levelTilemap;
+        public bool ShouldHideResourceUI { get; private set; }
 
         //========================================
         // Unity Methods
@@ -192,6 +193,7 @@ namespace KrillOrBeKrilled.Core.Managers {
         }
         
         private void InitializeHelpers() {
+            this.ShouldHideResourceUI = this._levelData.HideResourceUI;
             this._treasure.OnHeroReachedEndgameTarget.AddListener(this.HeroReachedLevelEnd);
             this._playerController.Player.OnPlayerStateChanged.AddListener(this.OnPlayerStateChanged);
             this._playerController.Player.OnSelectedTrapChanged.AddListener(this.SelectedTrapIndexChanged);

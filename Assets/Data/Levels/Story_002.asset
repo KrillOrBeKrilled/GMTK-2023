@@ -27,6 +27,8 @@ MonoBehaviour:
   InitialResources:
   - Type: 0
     Amount: 4
+  LevelDrops: []
+  HeroDrops: []
   AllowedTraps: 00000000
   WavesData:
     WavesList:
@@ -38,7 +40,6 @@ MonoBehaviour:
       - Health: 10
         Type: 0
       HeroSpawnDelayInSeconds: 2
-      NextWaveSpawnDelayInSeconds: 8
     - Heroes:
       - Health: 15
         Type: 0
@@ -47,4 +48,4 @@ MonoBehaviour:
       - Health: 19
         Type: 0
       HeroSpawnDelayInSeconds: 2
-      NextWaveSpawnDelayInSeconds: 0
+  HideResourceUI: 1

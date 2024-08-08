@@ -44,6 +44,8 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private ControlsUI _controlsUI;
         [Tooltip("The trap resource inventory widget displayed during gameplay.")]
         [SerializeField] private ResourceUI _resourceUI;
+        [Tooltip("Resource Group to be hidden or shown.")] 
+        [SerializeField] private ResourceUIGroup _resourceUIGroup;
         [Tooltip("The trap resource requirements widget displayed during gameplay.")]
         [SerializeField] private TrapRequirementsUI _trapRequirementsUI;
 
@@ -64,6 +66,8 @@ namespace KrillOrBeKrilled.UI {
             this._gameManager.OnHenLost.AddListener(this.OnHenLost);
             this._gameManager.WaveManager.OnHeroSpawned.AddListener(this.OnHeroSpawned);
             this._gameManager.OnSceneWillChange.AddListener(this.ScreenWipeInSceneCover);
+            
+            this._resourceUIGroup.Initialize(this._gameManager.ShouldHideResourceUI);
 
             this._trapRequirementsUI.Initialize(this._gameManager.Player.OnSelectedTrapChanged);
             this._trapSelectionBar.Initialize(

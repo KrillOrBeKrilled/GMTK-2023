@@ -209,6 +209,10 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// Starts the <see cref="SpawnNextWave"/> coroutine to begin the enemy spawning gameplay.
         /// </summary>
         public void StartWaveSpawning() {
+            if (this._heroActor != null) {
+                this.ExitHeroActor();    
+            }
+            
             this._waveSpawnCoroutine = this.SpawnNextWave();
             this.StartCoroutine(this._waveSpawnCoroutine);
         }
@@ -239,9 +243,10 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// </summary>
         /// <remarks> Can be accessed as a YarnCommand. </remarks>
         [YarnCommand("exit_hero_actor")]
-        public void ExitHero() {
+        public void ExitHeroActor() {
             this._onHeroActorDestroy.Raise(this._heroActor);
             this._heroActor.ExitLevel();
+            this._heroActor = null;
         }
         
         /// <summary>

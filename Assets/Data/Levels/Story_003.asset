@@ -40,7 +40,6 @@ MonoBehaviour:
       - Health: 10
         Type: 0
       HeroSpawnDelayInSeconds: 2
-      NextWaveSpawnDelayInSeconds: 10
     - Heroes:
       - Health: 15
         Type: 0
@@ -49,7 +48,6 @@ MonoBehaviour:
       - Health: 15
         Type: 0
       HeroSpawnDelayInSeconds: 2
-      NextWaveSpawnDelayInSeconds: 10
     - Heroes:
       - Health: 19
         Type: 0
@@ -58,4 +56,4 @@ MonoBehaviour:
       - Health: 29
         Type: 0
       HeroSpawnDelayInSeconds: 4
-      NextWaveSpawnDelayInSeconds: 0
+  HideResourceUI: 1

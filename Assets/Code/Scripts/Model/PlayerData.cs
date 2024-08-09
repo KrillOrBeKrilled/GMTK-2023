@@ -4,11 +4,19 @@ using System.Collections.Generic;
 namespace KrillOrBeKrilled.Model {
     [Serializable]
     public class PlayerData {
-        public HashSet<int> CompletedLevels = new HashSet<int>();
-
+        public HashSet<int> CompletedLevels;
+        
         public static PlayerData Default => new PlayerData {
             CompletedLevels = new HashSet<int>()
         };
+
+        public PlayerData() {
+            this.CompletedLevels = new HashSet<int>();
+        }
+
+        public PlayerData(HashSet<int> completedLevels) {
+            this.CompletedLevels = new HashSet<int>(completedLevels);
+        }
 
         public static bool IsValid(PlayerData data) {
             if (data == null) return false;

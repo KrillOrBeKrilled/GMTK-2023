@@ -235,14 +235,14 @@ namespace KrillOrBeKrilled.Player {
         }
 
         private void OnTriggerStay2D(Collider2D other) {
-            other.gameObject.TryGetComponent(out AcidPitTrap acid);
+            AcidPitTrap acid = other.gameObject.GetComponentInParent<AcidPitTrap>();
             if (acid != null) {
                 this._spriteRenderer.color = new Color(1, 1, 1, 0.5f);
             }
         }
 
         private void OnTriggerExit2D(Collider2D other) {
-            other.gameObject.TryGetComponent(out AcidPitTrap acid);
+            AcidPitTrap acid = other.gameObject.GetComponentInParent<AcidPitTrap>();
             if (acid != null) {
                 this._spriteRenderer.color = Color.white;
             }

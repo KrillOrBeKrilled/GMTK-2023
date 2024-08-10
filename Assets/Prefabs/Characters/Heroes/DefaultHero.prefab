@@ -256,7 +256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterName: Hero
-  _messageBubbleOffset: {x: 0, y: 6}
+  _messageBubbleOffset: {x: 0, y: 7}
 --- !u!114 &8167547464770034347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,7 +276,6 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 7ea2bebabe0af4a0e9444341024be355, type: 2}
   decodeBank: 0
-  overrideLoadSetting: 0
   loadAsynchronous: 0
   saveDecodedBank: 0
   unloadTriggerList: 958ca0ea

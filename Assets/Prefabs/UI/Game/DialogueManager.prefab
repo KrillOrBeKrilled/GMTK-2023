@@ -552,7 +552,6 @@ GameObject:
   - component: {fileID: 3958071636483535201}
   - component: {fileID: 3785166493990198986}
   - component: {fileID: 8674578632984531034}
-  - component: {fileID: 1866786285576916541}
   m_Layer: 5
   m_Name: Name Box
   m_TagString: Untagged
@@ -567,19 +566,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3234982909004933107}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 168095507944783883}
-  m_Father: {fileID: 3922902826515373024}
+  m_Father: {fileID: 4841172899767218539}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75, y: 90}
+  m_AnchoredPosition: {x: -85, y: 200}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &6905548861170157932
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -658,26 +657,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &1866786285576916541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3234982909004933107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreLayout: 1
-  m_MinWidth: -1
-  m_MinHeight: -1
-  m_PreferredWidth: -1
-  m_PreferredHeight: -1
-  m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
-  m_LayoutPriority: 1
 --- !u!1 &3246391765632397799
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,6 +690,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3922902826515373024}
+  - {fileID: 5114440814751401789}
   m_Father: {fileID: 951892463499755600}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -816,7 +796,7 @@ RectTransform:
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5046805509170613456
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -847,15 +827,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Dialogue Text that goes on for a bit longer and longer and longer?
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4e46f9ce8a50d474cad3ab5fd386d43b, type: 2}
-  m_sharedMaterial: {fileID: -5313253438172520628, guid: 4e46f9ce8a50d474cad3ab5fd386d43b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b999f77db697649458a45ff5e9186708, type: 2}
+  m_sharedMaterial: {fileID: -5313253438172520628, guid: b999f77db697649458a45ff5e9186708, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278527567
-  m_fontColor: {r: 0.30980393, g: 0.14901961, b: 0.019607844, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1342,7 +1322,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2165364624134552350}
-  - {fileID: 5114440814751401789}
   - {fileID: 4149748509370189117}
   m_Father: {fileID: 4841172899767218539}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1726,17 +1705,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: hendall
+  m_text: HENdall
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f3589b436221b467098cdf89be49eaca, type: 2}
-  m_sharedMaterial: {fileID: -3932857539639077520, guid: f3589b436221b467098cdf89be49eaca, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b999f77db697649458a45ff5e9186708, type: 2}
+  m_sharedMaterial: {fileID: -5313253438172520628, guid: b999f77db697649458a45ff5e9186708, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283474395
-  m_fontColor: {r: 0.85882354, g: 0.6313726, b: 0.3137255, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

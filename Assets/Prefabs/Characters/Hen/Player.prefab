@@ -248,11 +248,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a91371ed6864d54990674978c9fd6b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _trapPrefabs:
-  - {fileID: 1287854126740741146, guid: 383ecc9e1b2854cfb9c8a66d9d0cdc23, type: 3}
-  - {fileID: -7424928307857937630, guid: 6294aa43aad3b4133a05bdf8d5ba4785, type: 3}
-  - {fileID: 5977390027912707009, guid: 3e2d3e77e9b5a7e4e88ff6768307a2f2, type: 3}
-  - {fileID: 8165428285875536415, guid: d45b14c51b6a245e5b0e59a5279ee973, type: 3}
   _groundLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -451,6 +446,7 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 7ea2bebabe0af4a0e9444341024be355, type: 2}
   decodeBank: 0
+  overrideLoadSetting: 0
   loadAsynchronous: 0
   saveDecodedBank: 0
   unloadTriggerList: 958ca0ea
@@ -469,4 +465,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterName: Hendall
-  _messageBubbleOffset: {x: 0, y: 8}
+  _messageBubbleOffset: {x: 0, y: 6}

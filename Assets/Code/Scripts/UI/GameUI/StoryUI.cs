@@ -194,9 +194,16 @@ namespace KrillOrBeKrilled.UI {
         /// <param name="character"> the speaker character. </param>
 
         private void PositionBubble(RectTransform bubbleRectTransform, DialogueCharacter character) {
+            bubbleRectTransform.pivot = new Vector2(0.5f, 0.5f);
+            bubbleRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            bubbleRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            
             // If Rect transform, prioritize it
             if (character.RectTransform is not null) {
                 Vector2 clampedPosition = this.ClampPositionToOnScreen(character.RectTransform.anchoredPosition);
+                bubbleRectTransform.pivot = character.RectTransform.pivot;
+                bubbleRectTransform.anchorMin = character.RectTransform.anchorMin;
+                bubbleRectTransform.anchorMax = character.RectTransform.anchorMax;
                 bubbleRectTransform.anchoredPosition = clampedPosition;
                 return;
             }
@@ -244,11 +251,11 @@ namespace KrillOrBeKrilled.UI {
 
             Rect bubbleRect = this._dialogueBubbleRect.rect;
             float bubbleHalfWidth = bubbleRect.width / 2;
-            float bubbleHeight = bubbleRect.height;
+            float bubbleHalfHeight = bubbleRect.height / 2;
             float minX = -canvasHalfWidth + bubbleHalfWidth + this._screenEdgeOffset.x;
             float maxX = -minX;
-            float minY = -canvasHalfHeight + bubbleHeight + this._screenEdgeOffset.y;
-            float maxY = canvasHalfHeight - this._screenEdgeOffset.y;
+            float minY = -canvasHalfHeight + bubbleHalfHeight + this._screenEdgeOffset.y;
+            float maxY = -minY;
 
             screenPosition.x = Mathf.Clamp(screenPosition.x, minX, maxX);
             screenPosition.y = Mathf.Clamp(screenPosition.y, minY, maxY);

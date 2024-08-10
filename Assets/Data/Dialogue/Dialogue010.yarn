@@ -20,7 +20,7 @@ Dogan: Oh look! More heroes are coming!
 <<stop_shake CameraSwitcher>>
 <<start_whisper DialogueManager>>
 Dogan: *whispers*
-Dogan: Dave you better figure this one quick! I can't afford more employees quit on me!
+Dogan: Dave you better figure this one quick! I can't afford more employees quitting on me!
 <<stop_whisper DialogueManager>>
 Developers: Thank you for playing the Henchman this far! We hope you had fun!
 Developers: If there is any feedback, or if you have suggestions on what you'd like to see in the game in the future, please let us know by filling out the feedback form on the Main Menu!

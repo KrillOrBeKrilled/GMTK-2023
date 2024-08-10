@@ -1232,8 +1232,8 @@ MonoBehaviour:
   _onDialogueOver: {fileID: 11400000, guid: 8dd998262bb0543f6ac8823ef32f5bb6, type: 2}
   _onLoadComics: {fileID: 11400000, guid: c1475f579502043898af33db0476aeed, type: 2}
   _dialogueText: {fileID: 8730803009774891128}
-  _regularFontSize: 48
-  _whisperFontSize: 40
+  _regularFontSize: 72
+  _whisperFontSize: 56
   _hideDuringDialogueUIList: []
   _dialogueUI: {fileID: 206842014108095408}
 --- !u!114 &737810977369059273
@@ -1254,7 +1254,7 @@ MonoBehaviour:
   _playerCharacter: {fileID: 0}
   _canvasRectTransform: {fileID: 0}
   _safeAreaRectTransform: {fileID: 0}
-  _screenEdgeOffset: {x: 20, y: 20}
+  _screenEdgeOffset: {x: 100, y: 100}
   _dialogueBubbleRect: {fileID: 4841172899767218539}
   _optionsBubbleRect: {fileID: 3676254165632000154}
   _soundsController: {fileID: 6461092841711091943}

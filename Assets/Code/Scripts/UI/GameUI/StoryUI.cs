@@ -194,9 +194,16 @@ namespace KrillOrBeKrilled.UI {
         /// <param name="character"> the speaker character. </param>
 
         private void PositionBubble(RectTransform bubbleRectTransform, DialogueCharacter character) {
+            bubbleRectTransform.pivot = new Vector2(0.5f, 0.5f);
+            bubbleRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            bubbleRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            
             // If Rect transform, prioritize it
             if (character.RectTransform is not null) {
                 Vector2 clampedPosition = this.ClampPositionToOnScreen(character.RectTransform.anchoredPosition);
+                bubbleRectTransform.pivot = character.RectTransform.pivot;
+                bubbleRectTransform.anchorMin = character.RectTransform.anchorMin;
+                bubbleRectTransform.anchorMax = character.RectTransform.anchorMax;
                 bubbleRectTransform.anchoredPosition = clampedPosition;
                 return;
             }

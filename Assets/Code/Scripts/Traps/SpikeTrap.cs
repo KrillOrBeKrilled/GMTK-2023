@@ -15,6 +15,10 @@ namespace KrillOrBeKrilled.Traps {
         [Tooltip("The damage to be applied to the Hero upon collision.")]
         [SerializeField] private int _damageAmount;
         
+        private bool _isArmed = false;
+        private bool _firstSetup = true;
+        
+        
         //========================================
         // Public Methods
         //======================================== 
@@ -29,11 +33,17 @@ namespace KrillOrBeKrilled.Traps {
         
         #region Protected Methods
         
+        protected void ArmTrap() {
+            this._isArmed = true;
+        }
+        
         /// <inheritdoc cref="Trap.DetonateTrap"/>
         /// <remarks> Immediately juts the spikes out when the hero walks over them. </remarks>
         protected override void DetonateTrap() {
-            this.transform.DOComplete();
-            this.transform.DOMove(this.SpawnPosition + this.AnimationOffset, 0.05f);
+            this._isArmed = false;
+            this.transform
+                .DOMove(this.SpawnPosition + this.AnimationOffset, 0.05f)
+                .OnComplete(this.SetUpTrap);
         }
 
         /// <inheritdoc cref="Trap.OnEnteredTrap"/>
@@ -42,6 +52,9 @@ namespace KrillOrBeKrilled.Traps {
         /// </summary>
         /// <param name="actor"> The recipient of the trap's damaging effects. </param>
         protected  override void OnEnteredTrap(ITrapDamageable actor) {
+            if (!this._isArmed)
+                return;
+            
             DetonateTrap();
             actor.TakeTrapDamage(this._damageAmount, this);
             actor.ApplyTrapSpeedPenalty(0.3f);
@@ -59,7 +72,13 @@ namespace KrillOrBeKrilled.Traps {
         /// Pulls the spikes into the ground in wait of the <see cref="ITrapDamageable"/> actor to walk over them.
         /// </remarks>
         protected override void SetUpTrap() {
-            transform.DOMove(this.SpawnPosition + Vector3.down * 0.2f, 1f);
+            float duration = this._firstSetup ? 1f : 4f;
+            if (this._firstSetup)
+                this._firstSetup = false;
+
+            this.transform
+                .DOMove(this.SpawnPosition + Vector3.down * 0.2f, duration)
+                .OnComplete(this.ArmTrap);
         }
         
         #endregion

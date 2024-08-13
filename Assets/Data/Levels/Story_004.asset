@@ -26,7 +26,7 @@ MonoBehaviour:
   WallsTilemapPrefab: {fileID: 5896839985468150658, guid: 933af7eee59f34bb08cc4946c44f8bf0, type: 3}
   InitialResources:
   - Type: 0
-    Amount: 2
+    Amount: 6
   LevelDrops:
   - resourceType: 0
     weight: 1
@@ -48,7 +48,6 @@ MonoBehaviour:
       - Health: 10
         Type: 0
       HeroSpawnDelayInSeconds: 2
-      NextWaveSpawnDelayInSeconds: 10
     - Heroes:
       - Health: 15
         Type: 0
@@ -57,7 +56,6 @@ MonoBehaviour:
       - Health: 15
         Type: 0
       HeroSpawnDelayInSeconds: 2
-      NextWaveSpawnDelayInSeconds: 10
     - Heroes:
       - Health: 20
         Type: 0
@@ -68,4 +66,4 @@ MonoBehaviour:
       - Health: 29
         Type: 0
       HeroSpawnDelayInSeconds: 3
-      NextWaveSpawnDelayInSeconds: 10
+  HideResourceUI: 0

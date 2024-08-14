@@ -55,6 +55,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _heroCount: {fileID: 8862297896648008689}
+  _icon: {fileID: 6186328526323141531}
+  _endlessIcon: {fileID: 21300000, guid: cd79d30b20090479797c79a893286c4d, type: 3}
+  _storyIcon: {fileID: 21300000, guid: 86b4f1599007a4d93a673463bcf77438, type: 3}
 --- !u!114 &6411986018156103521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,6 +459,7 @@ MonoBehaviour:
   _pauseUI: {fileID: 6826276897603386418}
   _endgameUI: {fileID: 2562212799117975202}
   _wavesUI: {fileID: 952751616733781977}
+  _heroCountUI: {fileID: 7888868748209373935}
   _coinsText: {fileID: 6388481312395280922}
   _trapSelectionBar: {fileID: 1130829105555904614}
   _skipDialogueUI: {fileID: 4096048085743733457}
@@ -2144,7 +2148,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cd79d30b20090479797c79a893286c4d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 86b4f1599007a4d93a673463bcf77438, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

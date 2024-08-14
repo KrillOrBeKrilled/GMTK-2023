@@ -31,6 +31,8 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private EndgameUI _endgameUI;
         [Tooltip("WavesUI")] 
         [SerializeField] private WavesUI _wavesUI;
+        [Tooltip("HeroCountUI")] 
+        [SerializeField] private HeroCountUI _heroCountUI;
         [Tooltip("The coin counter UI text displayed during gameplay.")]
         [SerializeField] private TMP_Text _coinsText;
         [Tooltip("The trap selector toolbar displayed during gameplay.")]
@@ -85,6 +87,7 @@ namespace KrillOrBeKrilled.UI {
 
             this._controlsUI.Initialize(this._gameManager.Player);
             this._wavesUI.Initialize(this._gameManager.IsEndless);
+            this._heroCountUI.Initialize(this._gameManager.IsEndless);
 
             EventManager.Instance.CoinAmountChangedEvent.AddListener(this.OnCoinsUpdated);
             EventManager.Instance.PauseToggledEvent.AddListener(this.OnPauseToggled);

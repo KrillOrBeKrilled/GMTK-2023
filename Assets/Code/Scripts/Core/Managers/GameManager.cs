@@ -53,6 +53,8 @@ namespace KrillOrBeKrilled.Core.Managers {
         public TrapController TrapController => this._playerController.TrapController;
 
         public Vector3 LevelStart { get; private set; }
+
+        public bool IsEndless => this._levelData?.Type == LevelData.LevelType.Endless;
     
         public Transform LevelEnd => this._treasure.transform;
 

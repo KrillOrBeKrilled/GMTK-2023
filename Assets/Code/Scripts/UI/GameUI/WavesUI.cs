@@ -7,9 +7,21 @@ namespace KrillOrBeKrilled.UI {
     [SerializeField] private TMP_Text _leftWavesCount;
 
     private Sequence _fadeSequence;
+    private bool _isEndless;
 
+    public void Initialize(bool isEndless) {
+      this._isEndless = isEndless;
+    }
+    
     public void UpdateWavesCount(int amount) {
-      this._leftWavesCount.text = amount == 1 ? "Last Wave!" : $"{amount} Waves Left";
+      string message;
+      if (this._isEndless) {
+        message = $"Wave {amount}";
+      } else {
+        message = amount == 1 ? "Last Wave!" : $"{amount} Waves Left";
+      }
+
+      this._leftWavesCount.text = message;
       this._leftWavesCount.gameObject.SetActive(true);
       
       this._fadeSequence?.Kill();

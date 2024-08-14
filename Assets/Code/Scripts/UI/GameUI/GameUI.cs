@@ -3,7 +3,6 @@ using KrillOrBeKrilled.Core.Managers;
 using KrillOrBeKrilled.Heroes;
 using System.Collections.Generic;
 using KrillOrBeKrilled.Model;
-using KrillOrBeKrilled.Traps;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -30,6 +29,8 @@ namespace KrillOrBeKrilled.UI {
         [SerializeField] private GameObject _pauseUI;
         [Tooltip("Game Over menu UI.")]
         [SerializeField] private EndgameUI _endgameUI;
+        [Tooltip("WavesUI")] 
+        [SerializeField] private WavesUI _wavesUI;
         [Tooltip("The coin counter UI text displayed during gameplay.")]
         [SerializeField] private TMP_Text _coinsText;
         [Tooltip("The trap selector toolbar displayed during gameplay.")]
@@ -83,6 +84,7 @@ namespace KrillOrBeKrilled.UI {
             );
 
             this._controlsUI.Initialize(this._gameManager.Player);
+            this._wavesUI.Initialize(this._gameManager.IsEndless);
 
             EventManager.Instance.CoinAmountChangedEvent.AddListener(this.OnCoinsUpdated);
             EventManager.Instance.PauseToggledEvent.AddListener(this.OnPauseToggled);

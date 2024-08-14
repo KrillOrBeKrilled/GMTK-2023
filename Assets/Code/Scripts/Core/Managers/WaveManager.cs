@@ -42,6 +42,8 @@ namespace KrillOrBeKrilled.Core.Managers {
         private IEnumerator _waveSpawnCoroutine;
 
         private Hero _heroActor;
+        private int _totalHeroesEliminated = 0;
+        private int _totalWavesCount = 0;
         
         // ------------- Wave Spawning ---------------
         /// Tracks the active heroes on the level map at any given time.
@@ -118,7 +120,7 @@ namespace KrillOrBeKrilled.Core.Managers {
                 Debug.LogWarning("Attempted to generate next wave when current one is not empty.");
                 return;
             }
-
+            
             foreach (WaveData waveData in this._lastWavesDataQueue) {
                 WaveData newWave = new() {
                     Heroes = new List<HeroData>(),
@@ -189,7 +191,8 @@ namespace KrillOrBeKrilled.Core.Managers {
                 this.GenerateNextWaves();
             }
 
-            this._newWaveLeftCount.Raise(this._nextWavesDataQueue.Count);
+            this._totalWavesCount++;
+            this._newWaveLeftCount.Raise(this._isEndlessLevel ? this._totalWavesCount : this._nextWavesDataQueue.Count);
             WaveData waveData = this._nextWavesDataQueue.Dequeue();
             
             foreach (HeroData heroData in waveData.Heroes) {
@@ -198,7 +201,8 @@ namespace KrillOrBeKrilled.Core.Managers {
 
             List<Hero> heroesToSend = this._heroes.ToList();
             yield return new WaitForSeconds(2f);
-            this._newHeroCount.Raise(heroesToSend.Count);
+            int count = this._isEndlessLevel ? this._totalHeroesEliminated : heroesToSend.Count; 
+            this._newHeroCount.Raise(count);
             foreach (Hero hero in heroesToSend) {
                 this.SendHeroToLevel(hero);
                 yield return new WaitForSeconds(waveData.HeroSpawnDelayInSeconds);
@@ -255,12 +259,13 @@ namespace KrillOrBeKrilled.Core.Managers {
         /// <param name="hero"> The hero that died. </param>
         /// <remarks> Subscribed to the <see cref="Hero.OnHeroDied"/> event. </remarks>
         private void OnHeroDied(Hero hero) {
+            this._totalHeroesEliminated++;
             this._heroes.Remove(hero);
-            int heroCount = this._heroes.Count;
+            int heroCount = this._isEndlessLevel ? this._totalHeroesEliminated : this._heroes.Count;
             this._newHeroCount.Raise(heroCount);
             
             bool noMoreWaves = !this._isEndlessLevel && this._nextWavesDataQueue.Count <= 0;
-            bool isWaveCleared = heroCount <= 0;
+            bool isWaveCleared = this._heroes.Count <= 0;
             if (noMoreWaves && isWaveCleared) {
                 this._onAllWavesCleared.Raise();
             } else if (isWaveCleared) {

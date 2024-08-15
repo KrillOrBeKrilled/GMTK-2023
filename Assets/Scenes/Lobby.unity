@@ -1088,10 +1088,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4444959878412091724, guid: 9fa6f7f0d2e674ed4a488320cb08d097, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 8233c269799144a2a858d8dfe8190d01, type: 2}
     - target: {fileID: 5675881517238782138, guid: 9fa6f7f0d2e674ed4a488320cb08d097, type: 3}
       propertyPath: _actorAnimator
       value: 

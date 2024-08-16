@@ -352,7 +352,7 @@
 				<Event Id="3907100140" Name="Stop_sfx_hen_build" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="712897226" Type="User" Language="SFX" Hash="{70F4336D-C15E-C8E6-189E-BC64B95E5DBB}">
+		<SoundBank Id="712897226" Type="User" Language="SFX" Hash="{43C16491-F900-0C8B-B0BC-ECF59CF9063A}">
 			<ShortName>mus</ShortName>
 			<Path>mus.bnk</Path>
 			<Media>
@@ -380,6 +380,10 @@
 					<ShortName>mus_120bpm_percussionGlockenspiel.wav</ShortName>
 					<CachePath>SFX/mus_120bpm_percussionGlockenspiel_56CEF360.wem</CachePath>
 				</File>
+				<File Id="256932728" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Hub-Room_83bpm4-4_L57M-P1M_CSharpMixolydian V2.wav</ShortName>
+					<CachePath>SFX/Hub-Room_83bpm4-4_L57M-P1M_CSharpMixolydian V2_56CEF360.wem</CachePath>
+				</File>
 				<File Id="287733718" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>mus_120bpm_woodwinds.wav</ShortName>
 					<CachePath>SFX/mus_120bpm_woodwinds_56CEF360.wem</CachePath>
@@ -402,8 +406,14 @@
 				</File>
 			</Media>
 			<Events>
-				<Event Id="1353136246" Name="Mute_mus" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-				<Event Id="2557561967" Name="Play_mus" DurationType="Infinite">
+				<Event Id="2615668020" Name="Mute_mus_hubRoom_83bpm" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="4153374043" Name="Mute_mus_lvl1_120bpm" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="701933605" Name="Play_mus_hubRoom_83bpm" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="256932728"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2616591478" Name="Play_mus_lvl1_120bpm" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="7169072"/>
 						<MediaRef Id="69287756"/>
@@ -418,11 +428,13 @@
 						<MediaRef Id="995036463"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="837844525" Name="Stop_mus" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-				<Event Id="96364987" Name="UnMute_mus" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="3390944011" Name="Stop_mus_hubRoom_83bpm" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="2613850128" Name="Stop_mus_lvl1_120bpm" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="4155538521" Name="UnMute_mus_hubRoom_83bpm" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="3514606898" Name="UnMute_mus_lvl1_120bpm" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{B30DFBB9-66C3-6977-509A-5C20A7A593A7}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{94CA9DDC-AA09-1FB0-1CDC-A877B6AA4345}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -432,9 +444,15 @@
 				</AudioDevices>
 			</Plugins>
 			<Busses>
+				<Bus Id="393239870" Name="SFX"/>
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
+				<Bus Id="3991942870" Name="Music"/>
 			</Busses>
+			<GameParameters>
+				<GameParameter Id="988953028" Name="SFXVolume"/>
+				<GameParameter Id="2346531308" Name="MusicVolume"/>
+			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{0FB5EA15-FE0B-647C-F0A9-31CF52BEB30D}</FileHash>
+	<FileHash>{8EBC96C8-7747-9F29-FD77-5661478CD46E}</FileHash>
 </SoundBanksInfo>

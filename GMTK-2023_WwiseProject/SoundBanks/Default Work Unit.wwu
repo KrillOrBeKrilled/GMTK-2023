@@ -12,7 +12,7 @@
 						</Property>
 					</PropertyList>
 					<ObjectInclusionList>
-						<ObjectRef Name="mus" ID="{959C7B8C-59F1-4E69-ADBD-63878421FEEE}" WorkUnitID="{47D6CD64-E75B-4ADC-8639-ED7E2CD07C54}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="mus_events" ID="{959C7B8C-59F1-4E69-ADBD-63878421FEEE}" WorkUnitID="{47D6CD64-E75B-4ADC-8639-ED7E2CD07C54}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>
@@ -26,7 +26,7 @@
 						</Property>
 					</PropertyList>
 					<ObjectInclusionList>
-						<ObjectRef Name="sfx" ID="{1CFA7C9A-8B4F-4D4A-94B8-76F89B3E8F37}" WorkUnitID="{47D6CD64-E75B-4ADC-8639-ED7E2CD07C54}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="sfx_events" ID="{1CFA7C9A-8B4F-4D4A-94B8-76F89B3E8F37}" WorkUnitID="{47D6CD64-E75B-4ADC-8639-ED7E2CD07C54}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

@@ -3,64 +3,125 @@
 	<Events>
 		<WorkUnit Name="Default Work Unit" ID="{47D6CD64-E75B-4ADC-8639-ED7E2CD07C54}" PersistMode="Standalone">
 			<ChildrenList>
-				<Folder Name="mus" ID="{959C7B8C-59F1-4E69-ADBD-63878421FEEE}" ShortID="73701500">
+				<Folder Name="mus_events" ID="{959C7B8C-59F1-4E69-ADBD-63878421FEEE}" ShortID="73701500">
 					<ChildrenList>
-						<Event Name="Mute_mus" ID="{8A179BB8-990B-4FAD-AB0E-C136B0F4C563}">
+						<Folder Name="mus_lvl1_120bpm" ID="{FB705BA8-B4AF-4A8E-96B4-B73E3D45F4E0}" ShortID="846265967">
 							<ChildrenList>
-								<Action Name="" ID="{96FBEAF2-06BD-489E-A5E8-4ACBAF176FA0}" ShortID="717131445">
-									<PropertyList>
-										<Property Name="ActionType" Type="int16" Value="4"/>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="mus" ID="{A3F87E86-CFF7-4CC1-B220-9F7E4D095790}" WorkUnitID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
+								<Event Name="Mute_mus_lvl1_120bpm" ID="{8A179BB8-990B-4FAD-AB0E-C136B0F4C563}">
+									<ChildrenList>
+										<Action Name="" ID="{96FBEAF2-06BD-489E-A5E8-4ACBAF176FA0}" ShortID="717131445">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="4"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="mus_lvl1_120bpm" ID="{A3F87E86-CFF7-4CC1-B220-9F7E4D095790}" WorkUnitID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_mus_lvl1_120bpm" ID="{7A4C6031-63D2-4A54-ACB1-7B3CFA6B1D14}">
+									<ChildrenList>
+										<Action Name="" ID="{BF05106A-8923-4CD3-AEFD-A83D1D16D6CB}" ShortID="572851558">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="mus_lvl1_120bpm" ID="{A3F87E86-CFF7-4CC1-B220-9F7E4D095790}" WorkUnitID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="UnMute_mus_lvl1_120bpm" ID="{3867A781-000E-4E7C-98CD-CA96E7C8AC4F}">
+									<ChildrenList>
+										<Action Name="" ID="{D835B190-4FB3-48AE-8FC5-932BE3FA0EE6}" ShortID="76053089">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="5"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="mus_lvl1_120bpm" ID="{A3F87E86-CFF7-4CC1-B220-9F7E4D095790}" WorkUnitID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Stop_mus_lvl1_120bpm" ID="{CE092D2B-6954-496D-ACDE-62228C989916}">
+									<ChildrenList>
+										<Action Name="" ID="{B1AFBA7C-EA68-4208-AD25-73BE5BF7FDAA}" ShortID="792231258">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="mus_lvl1_120bpm" ID="{A3F87E86-CFF7-4CC1-B220-9F7E4D095790}" WorkUnitID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
 							</ChildrenList>
-						</Event>
-						<Event Name="Play_mus" ID="{7A4C6031-63D2-4A54-ACB1-7B3CFA6B1D14}">
+						</Folder>
+						<Folder Name="mus_hubRoom_83bpm" ID="{18D7CB54-EB54-4DF2-A7E9-422602CE8F67}" ShortID="728631394">
 							<ChildrenList>
-								<Action Name="" ID="{BF05106A-8923-4CD3-AEFD-A83D1D16D6CB}" ShortID="572851558">
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="mus" ID="{A3F87E86-CFF7-4CC1-B220-9F7E4D095790}" WorkUnitID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
+								<Event Name="Mute_mus_hubRoom_83bpm" ID="{DD72408C-8C5A-4669-8BED-EEBCC14E47E0}">
+									<ChildrenList>
+										<Action Name="" ID="{A8A6DFC6-4A74-491F-90B2-4DDCCD4F280D}" ShortID="185303490">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="4"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="mus_hubRoom_83bpm" ID="{1C8078E3-F5BF-4E68-AB7E-FA13C03C94D2}" WorkUnitID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_mus_hubRoom_83bpm" ID="{546BD151-AEE8-4DA4-A3EE-7DD0C3372A88}">
+									<ChildrenList>
+										<Action Name="" ID="{0A50E198-922E-4A0C-A0AB-92F350625EE0}" ShortID="895083882">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="mus_hubRoom_83bpm" ID="{1C8078E3-F5BF-4E68-AB7E-FA13C03C94D2}" WorkUnitID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="UnMute_mus_hubRoom_83bpm" ID="{54F80696-F6C2-487A-AF8E-5D5F1B367BBA}">
+									<ChildrenList>
+										<Action Name="" ID="{18D872F2-00B2-4D9E-8D37-1100F3307902}" ShortID="487419212">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="5"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="mus_hubRoom_83bpm" ID="{1C8078E3-F5BF-4E68-AB7E-FA13C03C94D2}" WorkUnitID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Stop_mus_hubRoom_83bpm" ID="{CA3FB521-43C4-4A9D-8A5D-2ABD08D37C0D}">
+									<ChildrenList>
+										<Action Name="" ID="{061E8F88-70F3-463F-B7A0-12B6BD52ABEA}" ShortID="916274654">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="mus_hubRoom_83bpm" ID="{1C8078E3-F5BF-4E68-AB7E-FA13C03C94D2}" WorkUnitID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
 							</ChildrenList>
-						</Event>
-						<Event Name="UnMute_mus" ID="{3867A781-000E-4E7C-98CD-CA96E7C8AC4F}">
-							<ChildrenList>
-								<Action Name="" ID="{D835B190-4FB3-48AE-8FC5-932BE3FA0EE6}" ShortID="76053089">
-									<PropertyList>
-										<Property Name="ActionType" Type="int16" Value="5"/>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="mus" ID="{A3F87E86-CFF7-4CC1-B220-9F7E4D095790}" WorkUnitID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
-							</ChildrenList>
-						</Event>
-						<Event Name="Stop_mus" ID="{CE092D2B-6954-496D-ACDE-62228C989916}">
-							<ChildrenList>
-								<Action Name="" ID="{B1AFBA7C-EA68-4208-AD25-73BE5BF7FDAA}" ShortID="792231258">
-									<PropertyList>
-										<Property Name="ActionType" Type="int16" Value="2"/>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="mus" ID="{A3F87E86-CFF7-4CC1-B220-9F7E4D095790}" WorkUnitID="{F41025C7-DBEC-4F12-92FC-E63B04A4CA89}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
-							</ChildrenList>
-						</Event>
+						</Folder>
 					</ChildrenList>
 				</Folder>
-				<Folder Name="sfx" ID="{1CFA7C9A-8B4F-4D4A-94B8-76F89B3E8F37}" ShortID="576049611">
+				<Folder Name="sfx_events" ID="{1CFA7C9A-8B4F-4D4A-94B8-76F89B3E8F37}" ShortID="576049611">
 					<ChildrenList>
 						<Event Name="Play_sfx_boss_dialogue" ID="{F90AAB29-4DC8-4341-ADB4-B9DEB2C4A37D}">
 							<ChildrenList>

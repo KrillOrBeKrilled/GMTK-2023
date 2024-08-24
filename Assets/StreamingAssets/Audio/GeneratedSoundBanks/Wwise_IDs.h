@@ -13,8 +13,10 @@ namespace AK
 {
     namespace EVENTS
     {
-        static const AkUniqueID MUTE_MUS = 1353136246U;
-        static const AkUniqueID PLAY_MUS = 2557561967U;
+        static const AkUniqueID MUTE_MUS_HUBROOM_83BPM = 2615668020U;
+        static const AkUniqueID MUTE_MUS_LVL1_120BPM = 4153374043U;
+        static const AkUniqueID PLAY_MUS_HUBROOM_83BPM = 701933605U;
+        static const AkUniqueID PLAY_MUS_LVL1_120BPM = 2616591478U;
         static const AkUniqueID PLAY_SFX_BOSS_DIALOGUE = 1109489390U;
         static const AkUniqueID PLAY_SFX_HEN_BUILD = 2092053050U;
         static const AkUniqueID PLAY_SFX_HEN_BUILDCOMPLETE = 4293832567U;
@@ -31,10 +33,18 @@ namespace AK
         static const AkUniqueID PLAY_SFX_UI_TILESELECT_CONFIRM = 1309749098U;
         static const AkUniqueID PLAY_SFX_UI_TILESELECT_MOVE = 874347577U;
         static const AkUniqueID PLAY_SFX_UI_UNPAUSE = 3056227168U;
-        static const AkUniqueID STOP_MUS = 837844525U;
+        static const AkUniqueID STOP_MUS_HUBROOM_83BPM = 3390944011U;
+        static const AkUniqueID STOP_MUS_LVL1_120BPM = 2613850128U;
         static const AkUniqueID STOP_SFX_HEN_BUILD = 3907100140U;
-        static const AkUniqueID UNMUTE_MUS = 96364987U;
+        static const AkUniqueID UNMUTE_MUS_HUBROOM_83BPM = 4155538521U;
+        static const AkUniqueID UNMUTE_MUS_LVL1_120BPM = 3514606898U;
     } // namespace EVENTS
+
+    namespace GAME_PARAMETERS
+    {
+        static const AkUniqueID MUSICVOLUME = 2346531308U;
+        static const AkUniqueID SFXVOLUME = 988953028U;
+    } // namespace GAME_PARAMETERS
 
     namespace BANKS
     {
@@ -46,6 +56,8 @@ namespace AK
     namespace BUSSES
     {
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
+        static const AkUniqueID MUSIC = 3991942870U;
+        static const AkUniqueID SFX = 393239870U;
     } // namespace BUSSES
 
     namespace AUDIO_DEVICES

@@ -3,7 +3,7 @@
 	<AudioObjects>
 		<WorkUnit Name="Default Work Unit" ID="{2AC52525-1A86-45A3-A9B4-B33AC918E3A2}" PersistMode="Standalone">
 			<ChildrenList>
-				<Folder Name="sfx" ID="{9C79976F-015B-48BD-813D-34A6E8543033}" ShortID="901092734">
+				<Folder Name="sfx_audio" ID="{9C79976F-015B-48BD-813D-34A6E8543033}" ShortID="901092734">
 					<ChildrenList>
 						<Folder Name="boss" ID="{59979418-3E47-4E69-94D0-932D740E1B51}" ShortID="171280056">
 							<ChildrenList>

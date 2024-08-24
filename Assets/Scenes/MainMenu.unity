@@ -997,10 +997,6 @@ PrefabInstance:
       value: Jukebox
       objectReference: {fileID: 0}
     - target: {fileID: 9205272913204058801, guid: 60868c8087115482caf415e0d192231d, type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9205272913204058801, guid: 60868c8087115482caf415e0d192231d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 748.1592
       objectReference: {fileID: 0}

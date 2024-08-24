@@ -75,6 +75,7 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 248436b2931044b21a89384c7e07d83f, type: 2}
   decodeBank: 0
+  overrideLoadSetting: 0
   loadAsynchronous: 0
   saveDecodedBank: 0
   unloadTriggerList: 
@@ -108,3 +109,38 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 344f593a9d5ae47b5a3418055546391d, type: 2}
+  _sceneEvents:
+  - Type: 0
+    PlayEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 7f745c4ef2d03408a96bc90d1a81540b, type: 2}
+    PauseEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: ed77cfba17efc454592e1206427d49c3, type: 2}
+    UnpauseEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: d4cebb03120824204a97eeb7adb1255f, type: 2}
+    StopEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 7d30a61a9915e4da79f52470caa2d00a, type: 2}
+  - Type: 1
+    PlayEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 98f5633e890ad47a88ed31b005229da4, type: 2}
+    PauseEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: ed9fb31f178065340a2b5a7c88f96500, type: 2}
+    UnpauseEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: edca420616c97104185a2f07bce5a9ba, type: 2}
+    StopEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 344f593a9d5ae47b5a3418055546391d, type: 2}

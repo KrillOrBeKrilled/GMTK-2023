@@ -1,19 +1,24 @@
 Event	ID	Name			Wwise Object Path	Notes
-	96364987	UnMute_mus			\Default Work Unit\mus\UnMute_mus	
-	837844525	Stop_mus			\Default Work Unit\mus\Stop_mus	
-	1353136246	Mute_mus			\Default Work Unit\mus\Mute_mus	
-	2557561967	Play_mus			\Default Work Unit\mus\Play_mus	
+	701933605	Play_mus_hubRoom_83bpm			\Default Work Unit\mus\mus_hubRoom_83bpm\Play_mus_hubRoom_83bpm	
+	2613850128	Stop_mus_lvl1_120bpm			\Default Work Unit\mus\mus_lvl1_120bpm\Stop_mus_lvl1_120bpm	
+	2615668020	Mute_mus_hubRoom_83bpm			\Default Work Unit\mus\mus_hubRoom_83bpm\Mute_mus_hubRoom_83bpm	
+	2616591478	Play_mus_lvl1_120bpm			\Default Work Unit\mus\mus_lvl1_120bpm\Play_mus_lvl1_120bpm	
+	3390944011	Stop_mus_hubRoom_83bpm			\Default Work Unit\mus\mus_hubRoom_83bpm\Stop_mus_hubRoom_83bpm	
+	3514606898	UnMute_mus_lvl1_120bpm			\Default Work Unit\mus\mus_lvl1_120bpm\UnMute_mus_lvl1_120bpm	
+	4153374043	Mute_mus_lvl1_120bpm			\Default Work Unit\mus\mus_lvl1_120bpm\Mute_mus_lvl1_120bpm	
+	4155538521	UnMute_mus_hubRoom_83bpm			\Default Work Unit\mus\mus_hubRoom_83bpm\UnMute_mus_hubRoom_83bpm	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	7169072	mus_120bpm_percussionUnpitched	Y:\Code\Unity\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_percussionUnpitched_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus\mus_120bpm\mus_120bpm_percussionUnpitched		344164
-	69287756	mus_120bpm_bass	Y:\Code\Unity\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_bass_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus\mus_120bpm\mus_120bpm_bass		245902
-	98969881	mus_120bpm_percussionCrashCymbal	Y:\Code\Unity\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_percussionCrashCymbal_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus\mus_120bpm\mus_120bpm_percussionCrashCymbal		103692
-	157936423	mus_120bpm_bassTrombone	Y:\Code\Unity\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_bassTrombone_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus\mus_120bpm\mus_120bpm_bassTrombone		279215
-	229884536	mus_120bpm_percussionGlockenspiel	Y:\Code\Unity\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_percussionXylophone_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus\mus_120bpm\mus_120bpm_percussionGlockenspiel		285217
-	241994922	mus_120bpm_percussionGlockenspiel	Y:\Code\Unity\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_percussionGlockenspiel_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus\mus_120bpm\mus_120bpm_percussionGlockenspiel		325599
-	287733718	mus_120bpm_woodwinds	Y:\Code\Unity\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_woodwinds_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus\mus_120bpm\mus_120bpm_woodwinds		280630
-	573338594	mus_120bpm_percussionBassDrum	Y:\Code\Unity\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_percussionBassDrum_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus\mus_120bpm\mus_120bpm_percussionBassDrum		155066
-	812626785	mus_120bpm_strings	Y:\Code\Unity\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_strings_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus\mus_120bpm\mus_120bpm_strings		273591
-	946355814	mus_120bpm_percussionGlockenspiel	Y:\Code\Unity\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_silence_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus\mus_120bpm\mus_120bpm_percussionGlockenspiel		2580
-	995036463	mus_120bpm_percussionCowbell	Y:\Code\Unity\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_percussionCowbell_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus\mus_120bpm\mus_120bpm_percussionCowbell		145981
+	7169072	mus_lvl1_120bpm_percussionUnpitched	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_percussionUnpitched_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus_lvl1_120bpm\mus_lvl1_120bpm\mus_lvl1_120bpm_percussionUnpitched		344164
+	69287756	mus_lvl1_120bpm_bass	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_bass_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus_lvl1_120bpm\mus_lvl1_120bpm\mus_lvl1_120bpm_bass		245902
+	98969881	mus_lvl1_120bpm_percussionCrashCymbal	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_percussionCrashCymbal_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus_lvl1_120bpm\mus_lvl1_120bpm\mus_lvl1_120bpm_percussionCrashCymbal		103692
+	157936423	mus_lvl1_120bpm_bassTrombone	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_bassTrombone_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus_lvl1_120bpm\mus_lvl1_120bpm\mus_lvl1_120bpm_bassTrombone		279215
+	229884536	mus_lvl1_120bpm_percussionGlockenspiel	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_percussionXylophone_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus_lvl1_120bpm\mus_lvl1_120bpm\mus_lvl1_120bpm_percussionGlockenspiel		285217
+	241994922	mus_lvl1_120bpm_percussionGlockenspiel	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_percussionGlockenspiel_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus_lvl1_120bpm\mus_lvl1_120bpm\mus_lvl1_120bpm_percussionGlockenspiel		325599
+	256932728	mus_hubRoom_83bpm4-4_L57M-P1M_CSharpMixolydian V2	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\Hub-Room_83bpm4-4_L57M-P1M_CSharpMixolydian V2_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus_hubRoom_83bpm\mus_hubRoom_83bpm4-4_L57M-P1M_CSharpMixolydian V2\mus_hubRoom_83bpm4-4_L57M-P1M_CSharpMixolydian V2		3154519
+	287733718	mus_lvl1_120bpm_woodwinds	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_woodwinds_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus_lvl1_120bpm\mus_lvl1_120bpm\mus_lvl1_120bpm_woodwinds		280630
+	573338594	mus_lvl1_120bpm_percussionBassDrum	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_percussionBassDrum_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus_lvl1_120bpm\mus_lvl1_120bpm\mus_lvl1_120bpm_percussionBassDrum		155066
+	812626785	mus_lvl1_120bpm_strings	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_strings_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus_lvl1_120bpm\mus_lvl1_120bpm\mus_lvl1_120bpm_strings		273591
+	946355814	mus_lvl1_120bpm_percussionGlockenspiel	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_silence_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus_lvl1_120bpm\mus_lvl1_120bpm\mus_lvl1_120bpm_percussionGlockenspiel		2580
+	995036463	mus_lvl1_120bpm_percussionCowbell	Y:\GMTK-2023\GMTK-2023_WwiseProject\.cache\Mac\SFX\mus_120bpm_percussionCowbell_56CEF360.wem		\Interactive Music Hierarchy\Default Work Unit\mus_lvl1_120bpm\mus_lvl1_120bpm\mus_lvl1_120bpm_percussionCowbell		145981
 

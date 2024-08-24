@@ -1,4 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 //*******************************************************************************************
 // Jukebox
@@ -11,10 +15,25 @@ namespace KrillOrBeKrilled.Core.Managers.Audio {
     /// </summary>
     /// <remarks> The GameObject associated with this class will persist through scene loads. </remarks>
     public class Jukebox : Singleton<Jukebox> {
-        [SerializeField] private AK.Wwise.Event PlayMusicEvent, PauseMusicEvent, UnpauseMusicEvent, StopMusicEvent;
+        [Serializable]
+        public struct SceneEvents {
+            public JukeboxSceneType Type;
+            public AK.Wwise.Event PlayEvent;
+            public AK.Wwise.Event PauseEvent;
+            public AK.Wwise.Event UnpauseEvent;
+            public AK.Wwise.Event StopEvent;
+        }
+
+        public enum JukeboxSceneType {
+            Lobby,
+            Game
+        }
+        
+        [SerializeField] private List<SceneEvents> _sceneEvents;
 
         public static bool IsLoaded;
         private bool _isMusicMuted;
+        private JukeboxSceneType _activeSceneType;
 
         //========================================
         // Unity Methods
@@ -24,7 +43,7 @@ namespace KrillOrBeKrilled.Core.Managers.Audio {
         
         private new void Awake() {
             base.Awake();
-
+            
             if (!IsLoaded) {
                 DontDestroyOnLoad(this.gameObject);
                 this._isMusicMuted = PlayerPrefsManager.IsMusicMuted();
@@ -32,7 +51,15 @@ namespace KrillOrBeKrilled.Core.Managers.Audio {
             }
             IsLoaded = true;
         }
-        
+
+        private void OnEnable() {
+            SceneManager.activeSceneChanged += this.OnActiveSceneChanged;
+        }
+
+        private void OnDisable() {
+            SceneManager.activeSceneChanged -= this.OnActiveSceneChanged;
+        }
+
         #endregion
         
         //========================================
@@ -46,7 +73,8 @@ namespace KrillOrBeKrilled.Core.Managers.Audio {
         /// </summary>
         public void PlayMusic() {
             if (!this._isMusicMuted) {
-                this.PlayMusicEvent.Post(this.gameObject);
+                SceneEvents events = this._sceneEvents.First(sceneEvent => sceneEvent.Type == this._activeSceneType);
+                events.PlayEvent.Post(this.gameObject);
             }
         }
         
@@ -54,7 +82,8 @@ namespace KrillOrBeKrilled.Core.Managers.Audio {
         /// Stops the main game music.
         /// </summary>
         public void StopMusic() {
-            this.StopMusicEvent.Post(this.gameObject);
+            SceneEvents events = this._sceneEvents.First(sceneEvent => sceneEvent.Type == this._activeSceneType);
+            events.StopEvent.Post(this.gameObject);
         }
         
         #endregion
@@ -69,7 +98,8 @@ namespace KrillOrBeKrilled.Core.Managers.Audio {
         /// Pauses the main game music.
         /// </summary>
         internal void PauseMusic() {
-            this.PauseMusicEvent.Post(this.gameObject);
+            SceneEvents events = this._sceneEvents.First(sceneEvent => sceneEvent.Type == this._activeSceneType);
+            events.PauseEvent.Post(this.gameObject);
         }
         
         /// <summary>
@@ -87,9 +117,37 @@ namespace KrillOrBeKrilled.Core.Managers.Audio {
         /// Plays the main game music, leaving off from when it was paused.
         /// </summary>
         internal void UnpauseMusic() {
-            this.UnpauseMusicEvent.Post(this.gameObject);
+            SceneEvents events = this._sceneEvents.First(sceneEvent => sceneEvent.Type == this._activeSceneType);
+            events.UnpauseEvent.Post(this.gameObject);
         }
         
+        #endregion
+
+        #region Private Methods
+
+        private void OnActiveSceneChanged(Scene current, Scene next) {
+            JukeboxSceneType newType;
+            switch (next.name) {
+                case "MainMenu":
+                case "Lobby":
+                    newType = JukeboxSceneType.Lobby;
+                    break;
+                case "Game":
+                default:
+                    newType = JukeboxSceneType.Game;
+                    break;
+            }
+
+            if (newType != this._activeSceneType) {
+                this.StopMusic();
+                this._activeSceneType = newType;
+                this.PlayMusic();
+            }
+            else {
+                this._activeSceneType = newType;
+            }
+        }
+
         #endregion
     }
 }

@@ -46,6 +46,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8338413947154904028}
   - component: {fileID: 8821844132515808487}
+  - component: {fileID: 1449796808083669230}
   m_Layer: 5
   m_Name: MapUI
   m_TagString: Untagged
@@ -93,6 +94,26 @@ MonoBehaviour:
   _dangerColor: {r: 1, g: 1, b: 1, a: 1}
   _defaultHeroIconPrefab: {fileID: 7330574631618793490, guid: aceb761f58da0407999bb72ed0081c4e, type: 3}
   _druidHeroIconPrefab: {fileID: 7330574631618793490, guid: 47b17a082927745f8ae57b5ebe938ad6, type: 3}
+--- !u!114 &1449796808083669230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4109173421939875674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 600
+  m_PreferredHeight: -1
+  m_FlexibleWidth: 1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &4383665517641810351
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,7 +404,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 575, y: 0}
+  m_AnchoredPosition: {x: 101.74, y: 0}
   m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5202972713067359727

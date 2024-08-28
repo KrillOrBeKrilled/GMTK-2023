@@ -504,10 +504,6 @@ PrefabInstance:
       value: LevelManager
       objectReference: {fileID: 0}
     - target: {fileID: 7654004726934912598, guid: a31beaebd1d80461ebcfef2b9e7c33c3, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7654004726934912598, guid: a31beaebd1d80461ebcfef2b9e7c33c3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -789,10 +785,6 @@ PrefabInstance:
       value: AudioManager
       objectReference: {fileID: 0}
     - target: {fileID: 1460326686942577565, guid: 76a21a83a44e4764d8e8ad4d6a982d91, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1460326686942577565, guid: 76a21a83a44e4764d8e8ad4d6a982d91, type: 3}
       propertyPath: m_LocalPosition.x
       value: 748.1592
       objectReference: {fileID: 0}
@@ -973,10 +965,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5875254235222845158, guid: de54a6e5beff8412bbb821e2c52c1a6a, type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5875254235222845158, guid: de54a6e5beff8412bbb821e2c52c1a6a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1145,33 +1133,13 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4444959878412091724, guid: 9fa6f7f0d2e674ed4a488320cb08d097, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 8233c269799144a2a858d8dfe8190d01, type: 2}
     - target: {fileID: 5675881517238782138, guid: 9fa6f7f0d2e674ed4a488320cb08d097, type: 3}
       propertyPath: _actorAnimator
       value: 
       objectReference: {fileID: 1654365970}
-    - target: {fileID: 5789419804988176648, guid: 9fa6f7f0d2e674ed4a488320cb08d097, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5882237064301994761, guid: 9fa6f7f0d2e674ed4a488320cb08d097, type: 3}
       propertyPath: m_Name
       value: LevelsUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 7341780149671936855, guid: 9fa6f7f0d2e674ed4a488320cb08d097, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7341780149671936855, guid: 9fa6f7f0d2e674ed4a488320cb08d097, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7341780149671936855, guid: 9fa6f7f0d2e674ed4a488320cb08d097, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8181190092422397479, guid: 9fa6f7f0d2e674ed4a488320cb08d097, type: 3}
       propertyPath: m_SizeDelta.x

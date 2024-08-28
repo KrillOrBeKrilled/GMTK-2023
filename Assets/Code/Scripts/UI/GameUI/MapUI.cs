@@ -1,6 +1,7 @@
 using KrillOrBeKrilled.Heroes;
 using KrillOrBeKrilled.Model;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -53,8 +54,9 @@ namespace KrillOrBeKrilled.UI {
 
         #region Unity Methods
 
-        private void Start() {
+        private IEnumerator Start() {
             this._progressSlider.value = 0f;
+            yield return null;
             this._sliderLength = ((RectTransform)this._progressSlider.transform).rect.width - IconPositionPadding * 2;
         }
 

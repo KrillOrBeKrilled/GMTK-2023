@@ -23,8 +23,12 @@ namespace KrillOrBeKrilled.UI {
     private RectTransform _oldPos;
     
     private void Start() {
-      this._actorRectTransform.anchoredPosition = this._targets[0].anchoredPosition;
-      this._actorRectTransform.sizeDelta = this._targets[0].sizeDelta;
+      this._actorRectTransform.anchorMin = this._targets[0].anchorMin;
+      this._actorRectTransform.anchorMax = this._targets[0].anchorMax;
+      this._actorRectTransform.offsetMin = Vector2.zero;
+      this._actorRectTransform.offsetMax = Vector2.zero;
+      this._actorRectTransform.anchoredPosition = Vector2.zero;
+      
       this._oldPos = this._targets[0];
       this._currPos = this._oldPos;
       
@@ -52,18 +56,19 @@ namespace KrillOrBeKrilled.UI {
         target = this._targets.GetRandomElement();
       } while (target == this._oldPos || target == this._currPos);
 
-      bool lookLeft = target.anchoredPosition.x < this._currPos.anchoredPosition.x;
+      bool lookLeft = target.localPosition.x < this._currPos.localPosition.x;
       this._actorRectTransform.localScale = new Vector3(lookLeft ? 1 : -1, 1, 1);
       
-      float distance = Vector2.Distance(target.anchoredPosition, this._currPos.anchoredPosition);
+      float distance = Vector2.Distance(target.localPosition, this._currPos.localPosition);
       float moveDuration = distance / this._moveSpeed; 
+
       
       this._oldPos = this._currPos;
       this._currPos = target;
       
       Sequence sequence = DOTween.Sequence();
-      sequence.Append(this._actorRectTransform.DOAnchorPos(target.anchoredPosition, moveDuration));
-      sequence.Join(this._actorRectTransform.DOSizeDelta(target.sizeDelta, moveDuration));
+      sequence.Append(this._actorRectTransform.DOAnchorMin(target.anchorMin, moveDuration));
+      sequence.Join(this._actorRectTransform.DOAnchorMax(target.anchorMax, moveDuration));
       sequence.SetEase(Ease.Linear);
       sequence.OnComplete(() => this._isMoving = false);
       sequence.Play();

@@ -1141,18 +1141,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelsUI
       objectReference: {fileID: 0}
-    - target: {fileID: 7341780149671936855, guid: 9fa6f7f0d2e674ed4a488320cb08d097, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7341780149671936855, guid: 9fa6f7f0d2e674ed4a488320cb08d097, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7341780149671936855, guid: 9fa6f7f0d2e674ed4a488320cb08d097, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8181190092422397479, guid: 9fa6f7f0d2e674ed4a488320cb08d097, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0

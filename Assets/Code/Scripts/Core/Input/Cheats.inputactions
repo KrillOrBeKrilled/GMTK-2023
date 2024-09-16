@@ -11,7 +11,7 @@
                     "id": "5e76120c-c03a-420a-b8b0-e52212648234",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold(duration=3),MultiTap(tapCount=3)",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -20,7 +20,7 @@
                     "id": "d3cba411-2336-43e0-9df3-a0eceb209a1f",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold(duration=3),MultiTap(tapCount=4)",
+                    "interactions": "",
                     "initialStateCheck": false
                 }
             ],
@@ -28,7 +28,7 @@
                 {
                     "name": "",
                     "id": "7d4a0359-2476-4d3d-b46b-ae2294230e87",
-                    "path": "<Touchscreen>/touch*/Press",
+                    "path": "<Touchscreen>/touch3/tap",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -38,8 +38,8 @@
                 },
                 {
                     "name": "",
-                    "id": "9e4ac325-0d82-45ec-af59-a447ee653054",
-                    "path": "<Touchscreen>/touch*/Press",
+                    "id": "4dd3bf6f-fc60-4fe0-a42b-362d4116cb7d",
+                    "path": "<Touchscreen>/touch4/tap",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

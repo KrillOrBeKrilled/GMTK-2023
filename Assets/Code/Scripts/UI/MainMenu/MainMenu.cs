@@ -1,3 +1,4 @@
+using System;
 using KrillOrBeKrilled.Core.Managers;
 using DG.Tweening;
 using UnityEngine;
@@ -15,6 +16,8 @@ namespace KrillOrBeKrilled.UI {
         [Tooltip("Used to fade the scene in and out.")]
         [SerializeField] private Image _foreground;
 
+        [SerializeField] private RectTransform _background;
+
         private const float FadeDuration = 0.5f;
         private const string FormURL = "https://forms.gle/jjx4hbcQJiN9eDLk9";
 
@@ -31,6 +34,10 @@ namespace KrillOrBeKrilled.UI {
                 .OnComplete(() => this._foreground.gameObject.SetActive(false));
         }
 
+        private void Start() {
+            UnlockAllLevels();
+        }
+
         #endregion
 
         //========================================
@@ -40,12 +47,14 @@ namespace KrillOrBeKrilled.UI {
         #region Public Methods
 
         public void ResetData() {
-            ((RectTransform)this.transform).DOShakeScale(1f);
+            print("Reset");
+            this._background.DOShakeAnchorPos(0.5f, 20f, 20);
             DataManager.Instance.PlayerData.CompletedLevels.Clear();
         }
 
         public void UnlockAllLevels() {
-            ((RectTransform)this.transform).DOShakeScale(1f);
+            print("Unlock");
+            this._background.DOShakeAnchorPos(0.5f, 20f, 20);
             for (int i = 0; i < 10; i++) {
                 DataManager.Instance.PlayerData.AddCompletedLevel(i);   
             }

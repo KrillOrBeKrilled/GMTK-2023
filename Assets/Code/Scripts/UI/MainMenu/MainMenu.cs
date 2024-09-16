@@ -39,6 +39,18 @@ namespace KrillOrBeKrilled.UI {
 
         #region Public Methods
 
+        public void ResetData() {
+            ((RectTransform)this.transform).DOShakeScale(1f);
+            DataManager.Instance.PlayerData.CompletedLevels.Clear();
+        }
+
+        public void UnlockAllLevels() {
+            ((RectTransform)this.transform).DOShakeScale(1f);
+            for (int i = 0; i < 10; i++) {
+                DataManager.Instance.PlayerData.AddCompletedLevel(i);   
+            }
+        }
+        
         /// <summary>
         /// Fades in the screen and loads the Levels scene upon completion.
         /// </summary>

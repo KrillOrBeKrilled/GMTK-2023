@@ -1,0 +1,54 @@
+{
+    "name": "Cheats",
+    "maps": [
+        {
+            "name": "UI",
+            "id": "f99f3259-b430-4745-a5f6-a7ba032e44e0",
+            "actions": [
+                {
+                    "name": "TripleHold",
+                    "type": "Button",
+                    "id": "5e76120c-c03a-420a-b8b0-e52212648234",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(duration=3),MultiTap(tapCount=3)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "QuadHold",
+                    "type": "Button",
+                    "id": "d3cba411-2336-43e0-9df3-a0eceb209a1f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(duration=3),MultiTap(tapCount=4)",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7d4a0359-2476-4d3d-b46b-ae2294230e87",
+                    "path": "<Touchscreen>/touch*/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TripleHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9e4ac325-0d82-45ec-af59-a447ee653054",
+                    "path": "<Touchscreen>/touch*/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QuadHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

@@ -1136,9 +1136,37 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5178958481642101051, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5178958481642101051, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5178958481642101051, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 777455261}
+    - target: {fileID: 5178958481642101051, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5178958481642101051, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadNextLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5178958481642101051, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KrillOrBeKrilled.Core.Managers.GameManager, Core
+      objectReference: {fileID: 0}
+    - target: {fileID: 5178958481642101051, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246875922086717947, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -30.00003
+      objectReference: {fileID: 0}
     - target: {fileID: 5589971725627477804, guid: 3bdd6877a72ba455d9aa025f9414ea41, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
